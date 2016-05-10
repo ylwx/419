@@ -1,0 +1,2393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Approve">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillingID" Type="int" />
+          <Property Name="FlowMark" Type="int" />
+          <Property Name="Phase" Type="int" />
+          <Property Name="Task" Type="nvarchar" MaxLength="50" />
+          <Property Name="Accept" Type="int" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="PersonID" Type="int" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Arrangement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkDate" Type="datetime" />
+          <Property Name="TugID" Type="int" />
+          <Property Name="SortNo" Type="int" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BaseTreeItems">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="FatherID" Type="int" />
+          <Property Name="CNName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ENName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SType" Type="nvarchar" MaxLength="50" />
+          <Property Name="SortNum" Type="int" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Billing">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="BillingType" Type="int" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeID" Type="int" />
+          <Property Name="CreditContent" Type="nvarchar(max)" />
+          <Property Name="CreditAmount" Type="float" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BillingItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillingID" Type="int" />
+          <Property Name="ItemID" Type="int" />
+          <Property Name="UnitPrice" Type="float" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="50" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BillingItemTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillingTemplateID" Type="int" />
+          <Property Name="ItemID" Type="int" />
+          <Property Name="UnitPrice" Type="float" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="50" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BillingTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="BillingTemplateType" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeID" Type="int" />
+          <Property Name="TemplateCreditContent" Type="nvarchar(max)" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="MailCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CustomerShip">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="ShipTypeID" Type="int" />
+          <Property Name="CNName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ENName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DeadWeight" Type="int" />
+          <Property Name="Length" Type="int" />
+          <Property Name="Width" Type="nvarchar" MaxLength="50" />
+          <Property Name="TEUS" Type="int" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CustomField">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="FormulaStr" Type="nvarchar" MaxLength="10" />
+          <Property Name="CType" Type="nvarchar" MaxLength="50" />
+          <Property Name="SortCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FileInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RelateID" Type="int" />
+          <Property Name="PaperCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="PaperName" Type="nvarchar" MaxLength="200" />
+          <Property Name="OrigenName" Type="nvarchar(max)" />
+          <Property Name="NewName" Type="nvarchar(max)" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="RelateTypeID" Type="int" />
+          <Property Name="Version" Type="int" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Flow">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillingID" Type="int" />
+          <Property Name="MarkID" Type="int" />
+          <Property Name="Phase" Type="int" />
+          <Property Name="Task" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlowUserID" Type="int" />
+          <Property Name="StDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="State" Type="int" />
+          <Property Name="Sign" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FunctionModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModuleCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModuleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LogProcess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RelateID" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="IP" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsGuest" Type="bit" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrdTime" Type="datetime" />
+          <Property Name="WorkTime" Type="datetime" />
+          <Property Name="EstimatedCompletionTime" Type="datetime" />
+          <Property Name="ShipID" Type="int" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Linkman" Type="nvarchar" MaxLength="50" />
+          <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkPlace" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkStateID" Type="int" />
+          <Property Name="BigTugNum" Type="int" />
+          <Property Name="MiddleTugNum" Type="int" />
+          <Property Name="SmallTugNum" Type="int" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dept" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RoleMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Page" Type="nvarchar" MaxLength="50" />
+          <Property Name="Menu" Type="nvarchar" MaxLength="50" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Visible" Type="bit" />
+          <Property Name="IsAdmin" Type="bit" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RoleModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="ModuleID" Type="int" />
+          <Property Name="IsAdmin" Type="bit" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Scheduler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="TugID" Type="int" />
+          <Property Name="JobStateID" Type="int" />
+          <Property Name="InformCaptainTime" Type="datetime" />
+          <Property Name="CaptainConfirmTime" Type="datetime" />
+          <Property Name="DepartBaseTime" Type="datetime" />
+          <Property Name="ArrivalShipSideTime" Type="datetime" />
+          <Property Name="WorkCommencedTime" Type="datetime" />
+          <Property Name="WorkCompletedTime" Type="datetime" />
+          <Property Name="ArrivalBaseTime" Type="datetime" />
+          <Property Name="RopeUsed" Type="bit" />
+          <Property Name="RopeNum" Type="int" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TugInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Power" Type="nvarchar" MaxLength="50" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="Speed" Type="nvarchar" MaxLength="50" />
+          <Property Name="Length" Type="nvarchar" MaxLength="50" />
+          <Property Name="Width" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserInfor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pwd" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsGuest" Type="bit" />
+          <Property Name="LanUserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lan" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dept" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sec" Type="nvarchar" MaxLength="50" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="AddUserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="int" />
+          <Property Name="LogIP" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UsersRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="IsAdmin" Type="bit" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="AddUserID" Type="int" />
+          <Property Name="LastUpDate" Type="datetime" />
+          <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="datetime" />
+          <Property Name="UserDefinedCol10" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Arrangement_TugInfor">
+          <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
+          <End Role="Arrangement" Type="Self.Arrangement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TugInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Arrangement">
+              <PropertyRef Name="TugID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Billing_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Billing_Order">
+          <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingItem_Billing">
+          <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
+          <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Billing">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillingItem">
+              <PropertyRef Name="BillingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingItem_CustomerField">
+          <End Role="CustomField" Type="Self.CustomField" Multiplicity="0..1" />
+          <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomField">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillingItem">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingItemTemplate_BillingTemplate">
+          <End Role="BillingTemplate" Type="Self.BillingTemplate" Multiplicity="0..1" />
+          <End Role="BillingItemTemplate" Type="Self.BillingItemTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillingTemplate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillingItemTemplate">
+              <PropertyRef Name="BillingTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerShip_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="CustomerShip" Type="Self.CustomerShip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerShip">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_Menu_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="RoleMenu" Type="Self.RoleMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleMenu">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_Module_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="RoleModule" Type="Self.RoleModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleModule">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scheduler_Order">
+          <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Scheduler">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scheduler_TugInfor">
+          <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
+          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TugInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Scheduler">
+              <PropertyRef Name="TugID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UsersRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role_User_Infor">
+          <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
+          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Approve" EntityType="Self.Approve" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Arrangement" EntityType="Self.Arrangement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BaseTreeItems" EntityType="Self.BaseTreeItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Billing" EntityType="Self.Billing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BillingItem" EntityType="Self.BillingItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BillingItemTemplate" EntityType="Self.BillingItemTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BillingTemplate" EntityType="Self.BillingTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerShip" EntityType="Self.CustomerShip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomField" EntityType="Self.CustomField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileInfor" EntityType="Self.FileInfor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Flow" EntityType="Self.Flow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FunctionModule" EntityType="Self.FunctionModule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogProcess" EntityType="Self.LogProcess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderInfor" EntityType="Self.OrderInfor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleMenu" EntityType="Self.RoleMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleModule" EntityType="Self.RoleModule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Scheduler" EntityType="Self.Scheduler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TugInfor" EntityType="Self.TugInfor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfor" EntityType="Self.UserInfor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersRole" EntityType="Self.UsersRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
+            <End Role="TugInfor" EntitySet="TugInfor" />
+            <End Role="Arrangement" EntitySet="Arrangement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Billing_Customer" Association="Self.FK_Billing_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Billing_Order" Association="Self.FK_Billing_Order">
+            <End Role="OrderInfor" EntitySet="OrderInfor" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItem_Billing" Association="Self.FK_BillingItem_Billing">
+            <End Role="Billing" EntitySet="Billing" />
+            <End Role="BillingItem" EntitySet="BillingItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItem_CustomerField" Association="Self.FK_BillingItem_CustomerField">
+            <End Role="CustomField" EntitySet="CustomField" />
+            <End Role="BillingItem" EntitySet="BillingItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Self.FK_BillingItemTemplate_BillingTemplate">
+            <End Role="BillingTemplate" EntitySet="BillingTemplate" />
+            <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerShip_Customer" Association="Self.FK_CustomerShip_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerShip" EntitySet="CustomerShip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Menu_Role" Association="Self.FK_Role_Menu_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleMenu" EntitySet="RoleMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Module_Role" Association="Self.FK_Role_Module_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleModule" EntitySet="RoleModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scheduler_Order" Association="Self.FK_Scheduler_Order">
+            <End Role="OrderInfor" EntitySet="OrderInfor" />
+            <End Role="Scheduler" EntitySet="Scheduler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scheduler_TugInfor" Association="Self.FK_Scheduler_TugInfor">
+            <End Role="TugInfor" EntitySet="TugInfor" />
+            <End Role="Scheduler" EntitySet="Scheduler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_Role" Association="Self.FK_Users_Role_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
+            <End Role="UserInfor" EntitySet="UserInfor" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Approve">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillingID" Type="Int32" />
+          <Property Name="FlowMark" Type="Int32" />
+          <Property Name="Phase" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Accept" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PersonID" Type="Int32" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Arrangement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkDate" Type="DateTime" Precision="3" />
+          <Property Name="TugID" Type="Int32" />
+          <Property Name="SortNo" Type="Int32" />
+          <Property Name="TeamName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TugInfor" Relationship="Self.FK_Arrangement_TugInfor" FromRole="Arrangement" ToRole="TugInfor" />
+        </EntityType>
+        <EntityType Name="BaseTreeItems">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FatherID" Type="Int32" />
+          <Property Name="CNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ENName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortNum" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Billing">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="BillingType" Type="Int32" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeID" Type="Int32" />
+          <Property Name="CreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreditAmount" Type="Double" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Billing_Customer" FromRole="Billing" ToRole="Customer" />
+          <NavigationProperty Name="OrderInfor" Relationship="Self.FK_Billing_Order" FromRole="Billing" ToRole="OrderInfor" />
+          <NavigationProperty Name="BillingItem" Relationship="Self.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
+        </EntityType>
+        <EntityType Name="BillingItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillingID" Type="Int32" />
+          <Property Name="ItemID" Type="Int32" />
+          <Property Name="UnitPrice" Type="Double" />
+          <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Billing" Relationship="Self.FK_BillingItem_Billing" FromRole="BillingItem" ToRole="Billing" />
+          <NavigationProperty Name="CustomField" Relationship="Self.FK_BillingItem_CustomerField" FromRole="BillingItem" ToRole="CustomField" />
+        </EntityType>
+        <EntityType Name="BillingItemTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillingTemplateID" Type="Int32" />
+          <Property Name="ItemID" Type="Int32" />
+          <Property Name="UnitPrice" Type="Double" />
+          <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillingTemplate" Relationship="Self.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingItemTemplate" ToRole="BillingTemplate" />
+        </EntityType>
+        <EntityType Name="BillingTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="BillingTemplateType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeID" Type="Int32" />
+          <Property Name="TemplateCreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillingItemTemplate" Relationship="Self.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingTemplate" ToRole="BillingItemTemplate" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="ContactPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MailCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Billing" Relationship="Self.FK_Billing_Customer" FromRole="Customer" ToRole="Billing" />
+          <NavigationProperty Name="CustomerShip" Relationship="Self.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
+        </EntityType>
+        <EntityType Name="CustomerShip">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="ShipTypeID" Type="Int32" />
+          <Property Name="CNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ENName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeadWeight" Type="Int32" />
+          <Property Name="Length" Type="Int32" />
+          <Property Name="Width" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TEUS" Type="Int32" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerShip_Customer" FromRole="CustomerShip" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="CustomField">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FormulaStr" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BillingItem" Relationship="Self.FK_BillingItem_CustomerField" FromRole="CustomField" ToRole="BillingItem" />
+        </EntityType>
+        <EntityType Name="FileInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RelateID" Type="Int32" />
+          <Property Name="PaperCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PaperName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="OrigenName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RelateTypeID" Type="Int32" />
+          <Property Name="Version" Type="Int32" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Flow">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillingID" Type="Int32" />
+          <Property Name="MarkID" Type="Int32" />
+          <Property Name="Phase" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlowUserID" Type="Int32" />
+          <Property Name="StDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="Sign" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="FunctionModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModuleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="LogProcess">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RelateID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="IP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OrderInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsGuest" Type="Boolean" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrdTime" Type="DateTime" Precision="3" />
+          <Property Name="WorkTime" Type="DateTime" Precision="3" />
+          <Property Name="EstimatedCompletionTime" Type="DateTime" Precision="3" />
+          <Property Name="ShipID" Type="Int32" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Linkman" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkPlace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkStateID" Type="Int32" />
+          <Property Name="BigTugNum" Type="Int32" />
+          <Property Name="MiddleTugNum" Type="Int32" />
+          <Property Name="SmallTugNum" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Billing" Relationship="Self.FK_Billing_Order" FromRole="OrderInfor" ToRole="Billing" />
+          <NavigationProperty Name="Scheduler" Relationship="Self.FK_Scheduler_Order" FromRole="OrderInfor" ToRole="Scheduler" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RoleMenu" Relationship="Self.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
+          <NavigationProperty Name="RoleModule" Relationship="Self.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
+          <NavigationProperty Name="UsersRole" Relationship="Self.FK_Users_Role_Role" FromRole="Role" ToRole="UsersRole" />
+        </EntityType>
+        <EntityType Name="RoleMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Page" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Menu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Visible" Type="Boolean" />
+          <Property Name="IsAdmin" Type="Boolean" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Role_Menu_Role" FromRole="RoleMenu" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="RoleModule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="ModuleID" Type="Int32" />
+          <Property Name="IsAdmin" Type="Boolean" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Role_Module_Role" FromRole="RoleModule" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Scheduler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="TugID" Type="Int32" />
+          <Property Name="JobStateID" Type="Int32" />
+          <Property Name="InformCaptainTime" Type="DateTime" Precision="3" />
+          <Property Name="CaptainConfirmTime" Type="DateTime" Precision="3" />
+          <Property Name="DepartBaseTime" Type="DateTime" Precision="3" />
+          <Property Name="ArrivalShipSideTime" Type="DateTime" Precision="3" />
+          <Property Name="WorkCommencedTime" Type="DateTime" Precision="3" />
+          <Property Name="WorkCompletedTime" Type="DateTime" Precision="3" />
+          <Property Name="ArrivalBaseTime" Type="DateTime" Precision="3" />
+          <Property Name="RopeUsed" Type="Boolean" />
+          <Property Name="RopeNum" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="OrderInfor" Relationship="Self.FK_Scheduler_Order" FromRole="Scheduler" ToRole="OrderInfor" />
+          <NavigationProperty Name="TugInfor" Relationship="Self.FK_Scheduler_TugInfor" FromRole="Scheduler" ToRole="TugInfor" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TugInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Power" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Speed" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Length" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Width" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Arrangement" Relationship="Self.FK_Arrangement_TugInfor" FromRole="TugInfor" ToRole="Arrangement" />
+          <NavigationProperty Name="Scheduler" Relationship="Self.FK_Scheduler_TugInfor" FromRole="TugInfor" ToRole="Scheduler" />
+        </EntityType>
+        <EntityType Name="UserInfor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsGuest" Type="Boolean" />
+          <Property Name="LanUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="AddUserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="LogIP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UsersRole" Relationship="Self.FK_Users_Role_User_Infor" FromRole="UserInfor" ToRole="UsersRole" />
+        </EntityType>
+        <EntityType Name="UsersRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="IsAdmin" Type="Boolean" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="AddUserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="DateTime" Precision="3" />
+          <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
+          <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Users_Role_Role" FromRole="UsersRole" ToRole="Role" />
+          <NavigationProperty Name="UserInfor" Relationship="Self.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
+        </EntityType>
+        <Association Name="FK_Arrangement_TugInfor">
+          <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
+          <End Role="Arrangement" Type="Self.Arrangement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TugInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Arrangement">
+              <PropertyRef Name="TugID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Billing_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Billing_Order">
+          <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Billing">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingItem_Billing">
+          <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
+          <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Billing">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillingItem">
+              <PropertyRef Name="BillingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingItem_CustomerField">
+          <End Role="CustomField" Type="Self.CustomField" Multiplicity="0..1" />
+          <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomField">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillingItem">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BillingItemTemplate_BillingTemplate">
+          <End Role="BillingTemplate" Type="Self.BillingTemplate" Multiplicity="0..1" />
+          <End Role="BillingItemTemplate" Type="Self.BillingItemTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillingTemplate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BillingItemTemplate">
+              <PropertyRef Name="BillingTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerShip_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="CustomerShip" Type="Self.CustomerShip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomerShip">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scheduler_Order">
+          <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Scheduler">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_Menu_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="RoleMenu" Type="Self.RoleMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleMenu">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_Module_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="RoleModule" Type="Self.RoleModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleModule">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UsersRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scheduler_TugInfor">
+          <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
+          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TugInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Scheduler">
+              <PropertyRef Name="TugID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role_User_Infor">
+          <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
+          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TugDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Approve" EntityType="Self.Approve" />
+          <EntitySet Name="Arrangement" EntityType="Self.Arrangement" />
+          <EntitySet Name="BaseTreeItems" EntityType="Self.BaseTreeItems" />
+          <EntitySet Name="Billing" EntityType="Self.Billing" />
+          <EntitySet Name="BillingItem" EntityType="Self.BillingItem" />
+          <EntitySet Name="BillingItemTemplate" EntityType="Self.BillingItemTemplate" />
+          <EntitySet Name="BillingTemplate" EntityType="Self.BillingTemplate" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="CustomerShip" EntityType="Self.CustomerShip" />
+          <EntitySet Name="CustomField" EntityType="Self.CustomField" />
+          <EntitySet Name="FileInfor" EntityType="Self.FileInfor" />
+          <EntitySet Name="Flow" EntityType="Self.Flow" />
+          <EntitySet Name="FunctionModule" EntityType="Self.FunctionModule" />
+          <EntitySet Name="LogProcess" EntityType="Self.LogProcess" />
+          <EntitySet Name="OrderInfor" EntityType="Self.OrderInfor" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="RoleMenu" EntityType="Self.RoleMenu" />
+          <EntitySet Name="RoleModule" EntityType="Self.RoleModule" />
+          <EntitySet Name="Scheduler" EntityType="Self.Scheduler" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TugInfor" EntityType="Self.TugInfor" />
+          <EntitySet Name="UserInfor" EntityType="Self.UserInfor" />
+          <EntitySet Name="UsersRole" EntityType="Self.UsersRole" />
+          <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
+            <End Role="TugInfor" EntitySet="TugInfor" />
+            <End Role="Arrangement" EntitySet="Arrangement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Billing_Customer" Association="Self.FK_Billing_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Billing_Order" Association="Self.FK_Billing_Order">
+            <End Role="OrderInfor" EntitySet="OrderInfor" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItem_Billing" Association="Self.FK_BillingItem_Billing">
+            <End Role="Billing" EntitySet="Billing" />
+            <End Role="BillingItem" EntitySet="BillingItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItem_CustomerField" Association="Self.FK_BillingItem_CustomerField">
+            <End Role="CustomField" EntitySet="CustomField" />
+            <End Role="BillingItem" EntitySet="BillingItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Self.FK_BillingItemTemplate_BillingTemplate">
+            <End Role="BillingTemplate" EntitySet="BillingTemplate" />
+            <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerShip_Customer" Association="Self.FK_CustomerShip_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerShip" EntitySet="CustomerShip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scheduler_Order" Association="Self.FK_Scheduler_Order">
+            <End Role="OrderInfor" EntitySet="OrderInfor" />
+            <End Role="Scheduler" EntitySet="Scheduler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Menu_Role" Association="Self.FK_Role_Menu_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleMenu" EntitySet="RoleMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Module_Role" Association="Self.FK_Role_Module_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleModule" EntitySet="RoleModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_Role" Association="Self.FK_Users_Role_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scheduler_TugInfor" Association="Self.FK_Scheduler_TugInfor">
+            <End Role="TugInfor" EntitySet="TugInfor" />
+            <End Role="Scheduler" EntitySet="Scheduler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
+            <End Role="UserInfor" EntitySet="UserInfor" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="TugDataEntities">
+          <EntitySetMapping Name="Approve">
+            <EntityTypeMapping TypeName="Model.Approve">
+              <MappingFragment StoreEntitySet="Approve">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="FlowMark" ColumnName="FlowMark" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="Accept" ColumnName="Accept" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Arrangement">
+            <EntityTypeMapping TypeName="Model.Arrangement">
+              <MappingFragment StoreEntitySet="Arrangement">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="SortNo" ColumnName="SortNo" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BaseTreeItems">
+            <EntityTypeMapping TypeName="Model.BaseTreeItems">
+              <MappingFragment StoreEntitySet="BaseTreeItems">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InCode" ColumnName="InCode" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="CNName" ColumnName="CNName" />
+                <ScalarProperty Name="ENName" ColumnName="ENName" />
+                <ScalarProperty Name="SType" ColumnName="SType" />
+                <ScalarProperty Name="SortNum" ColumnName="SortNum" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Billing">
+            <EntityTypeMapping TypeName="Model.Billing">
+              <MappingFragment StoreEntitySet="Billing">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillingItem">
+            <EntityTypeMapping TypeName="Model.BillingItem">
+              <MappingFragment StoreEntitySet="BillingItem">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillingItemTemplate">
+            <EntityTypeMapping TypeName="Model.BillingItemTemplate">
+              <MappingFragment StoreEntitySet="BillingItemTemplate">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillingTemplate">
+            <EntityTypeMapping TypeName="Model.BillingTemplate">
+              <MappingFragment StoreEntitySet="BillingTemplate">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="BillingTemplateType" ColumnName="BillingTemplateType" />
+                <ScalarProperty Name="BillingTemplateCode" ColumnName="BillingTemplateCode" />
+                <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="TemplateCreditContent" ColumnName="TemplateCreditContent" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="Model.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MailCode" ColumnName="MailCode" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerShip">
+            <EntityTypeMapping TypeName="Model.CustomerShip">
+              <MappingFragment StoreEntitySet="CustomerShip">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ShipTypeID" ColumnName="ShipTypeID" />
+                <ScalarProperty Name="CNName" ColumnName="CNName" />
+                <ScalarProperty Name="ENName" ColumnName="ENName" />
+                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
+                <ScalarProperty Name="DeadWeight" ColumnName="DeadWeight" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomField">
+            <EntityTypeMapping TypeName="Model.CustomField">
+              <MappingFragment StoreEntitySet="CustomField">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomName" ColumnName="CustomName" />
+                <ScalarProperty Name="CustomValue" ColumnName="CustomValue" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FormulaStr" ColumnName="FormulaStr" />
+                <ScalarProperty Name="CType" ColumnName="CType" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileInfor">
+            <EntityTypeMapping TypeName="Model.FileInfor">
+              <MappingFragment StoreEntitySet="FileInfor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RelateID" ColumnName="RelateID" />
+                <ScalarProperty Name="PaperCode" ColumnName="PaperCode" />
+                <ScalarProperty Name="PaperName" ColumnName="PaperName" />
+                <ScalarProperty Name="OrigenName" ColumnName="OrigenName" />
+                <ScalarProperty Name="NewName" ColumnName="NewName" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="RelateTypeID" ColumnName="RelateTypeID" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Flow">
+            <EntityTypeMapping TypeName="Model.Flow">
+              <MappingFragment StoreEntitySet="Flow">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="StDate" ColumnName="StDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Sign" ColumnName="Sign" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FunctionModule">
+            <EntityTypeMapping TypeName="Model.FunctionModule">
+              <MappingFragment StoreEntitySet="FunctionModule">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ModuleCode" ColumnName="ModuleCode" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogProcess">
+            <EntityTypeMapping TypeName="Model.LogProcess">
+              <MappingFragment StoreEntitySet="LogProcess">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RelateID" ColumnName="RelateID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderInfor">
+            <EntityTypeMapping TypeName="Model.OrderInfor">
+              <MappingFragment StoreEntitySet="OrderInfor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="OrdTime" ColumnName="OrdTime" />
+                <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
+                <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
+                <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Linkman" ColumnName="Linkman" />
+                <ScalarProperty Name="LinkPhone" ColumnName="LinkPhone" />
+                <ScalarProperty Name="LinkEmail" ColumnName="LinkEmail" />
+                <ScalarProperty Name="WorkPlace" ColumnName="WorkPlace" />
+                <ScalarProperty Name="WorkStateID" ColumnName="WorkStateID" />
+                <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
+                <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
+                <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="Model.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleMenu">
+            <EntityTypeMapping TypeName="Model.RoleMenu">
+              <MappingFragment StoreEntitySet="RoleMenu">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleModule">
+            <EntityTypeMapping TypeName="Model.RoleModule">
+              <MappingFragment StoreEntitySet="RoleModule">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Scheduler">
+            <EntityTypeMapping TypeName="Model.Scheduler">
+              <MappingFragment StoreEntitySet="Scheduler">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
+                <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
+                <ScalarProperty Name="CaptainConfirmTime" ColumnName="CaptainConfirmTime" />
+                <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
+                <ScalarProperty Name="ArrivalShipSideTime" ColumnName="ArrivalShipSideTime" />
+                <ScalarProperty Name="WorkCommencedTime" ColumnName="WorkCommencedTime" />
+                <ScalarProperty Name="WorkCompletedTime" ColumnName="WorkCompletedTime" />
+                <ScalarProperty Name="ArrivalBaseTime" ColumnName="ArrivalBaseTime" />
+                <ScalarProperty Name="RopeUsed" ColumnName="RopeUsed" />
+                <ScalarProperty Name="RopeNum" ColumnName="RopeNum" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TugInfor">
+            <EntityTypeMapping TypeName="Model.TugInfor">
+              <MappingFragment StoreEntitySet="TugInfor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfor">
+            <EntityTypeMapping TypeName="Model.UserInfor">
+              <MappingFragment StoreEntitySet="UserInfor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
+                <ScalarProperty Name="LanUserName" ColumnName="LanUserName" />
+                <ScalarProperty Name="Lan" ColumnName="Lan" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Sec" ColumnName="Sec" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LogIP" ColumnName="LogIP" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersRole">
+            <EntityTypeMapping TypeName="Model.UsersRole">
+              <MappingFragment StoreEntitySet="UsersRole">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
