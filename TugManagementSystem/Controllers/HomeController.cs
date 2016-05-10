@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using TugDataModel;
+
 namespace TugManagementSystem.Controllers
 {
     public class HomeController : Controller
@@ -12,7 +14,10 @@ namespace TugManagementSystem.Controllers
         {
             ViewBag.Title = "Home Page";
 
-            return View();
+            TugDataModel.OrderInfor order = new OrderInfor();
+            order.Code = "123";
+
+            return View(order);
         }
     }
 }
