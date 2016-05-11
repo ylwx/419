@@ -97,6 +97,7 @@
             url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
             mtype: "GET",
             datatype: "jsonp",
+            editurl: 'clientArray',
             colModel: tableConfig.columns,
         //    [
         //{ label: 'OrderID', name: 'OrderID', key: true, width: 75 },
@@ -112,6 +113,61 @@
             autowidth: true,
             pager: "#jqGridPager"
         });
+
+
+        //$('#jqGrid').navGrid('#jqGridPager', { edit: true, add: true, del: true, search: false, refresh: false, view: false, position: "left", cloneToTop: false },
+        //    {
+        //        editCaption: "The Edit Dialog",
+        //        recreateForm: true,
+        //        checkOnUpdate: true,
+        //        checkOnSubmit: true,
+        //        closeAfterEdit: true,
+        //        url: '/api/values/1',
+        //        bSubmit: '提交',
+        //        bCancel:'取消',
+        //        mtype : 'GET',
+        //        errorTextFormat: function (data) {
+        //            return 'Error: ' + data.responseText
+        //        }
+        //    },
+        //    {},
+        //    {});
+
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, search: false, refresh: false, view: false});
+        $('#jqGrid').inlineNav('#jqGridPager', {
+            edit: true, add: true, del: true, cancel: true,
+            
+            addParams: {
+                keys: true,
+                
+                oneditfunc: function (rowid) {
+                    alert("new row with rowid=" + rowid + " is added.");
+                },
+                aftersavefunc: function (rowid, response) {
+                    alert("new row with rowid=" + rowid + " are add saving.");
+                    //$("#grid_id").trigger("reloadGrid");
+                    return true;
+                }
+            },
+
+            editParams: {
+                keys: true,
+                url: '/api/values/1',
+                mtype:'GET',
+                oneditfunc: function (rowid) {
+                    alert("row with rowid=" + rowid + " are editing.");
+                },
+                aftersavefunc: function (rowid, response) {
+                    alert("row with rowid=" + rowid + " are edit saving.");
+                    //$("#grid_id").trigger("reloadGrid");
+                    return true;
+                },
+                successfunc: function () {
+                    alert(1);
+                }
+            }
+        });
     });
 
     function GetTableConfig() {
@@ -119,7 +175,7 @@
             columns: [
                 { label: "订单号", name: "OrderID", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: "客户ID", name: "CustomerID", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: true },
-                { label: "订单日期", name: "OrderDate", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: "订单日期", name: "OrderDate", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: "货运", name: "Freight", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: "船名", name: "ShipName", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false }
 

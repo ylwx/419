@@ -18,6 +18,7 @@ namespace TugManagementSystem.Controllers
         // GET api/values/5
         public string Get(int id)
         {
+            int i = id;
             return "value";
         }
 
