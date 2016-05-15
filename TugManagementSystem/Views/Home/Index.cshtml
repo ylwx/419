@@ -110,8 +110,85 @@
             height: 250,
             rowNum: 20,
             autowidth: true,
+            editurl: '@Url.Action("AddEdit", "Home")',
             pager: "#jqGridPager"
         });
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false }
+            @*{},
+            {},
+            {
+                bSubmit: '删除',
+                reloadAfterSubmit : true,
+                url: '@Url.Action("Delete", "Home")'
+            }*@
+            ).navButtonAdd('#jqGridPager', {
+                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                onClickButton: function () {
+                    var gr = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    if (gr != null) {
+                        if (confirm('delete?')) {
+                            var d = new Date();
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: '@Url.Action("Delete", "Home")',
+                                    data: {'oper':'delete', 'id':gr},//"oper=delete&id=" + gr,
+                                    dataType : 'json',
+                                    success: function (result) {
+                                        alert(JSON.stringify(result));
+                                        //jQuery("#jqGrid").trigger("reloadGrid");
+                                        jQuery("#jqGrid").jqGrid('delRowData', gr);
+                                    },
+
+                                }
+                                );
+                        }
+                    }
+                    else
+                    {
+                        alert('选中一行');
+                    }
+                },
+                position : "first"
+            });
+
+        $('#jqGrid').inlineNav('#jqGridPager',
+            {
+                edit: true,
+                add: true,
+                del: true,
+                cancel: true,
+                editParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            alert(val.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    url: null, //'/api/values',
+                    mtype: 'POST'
+                },
+
+                addParams: {
+                    keys: true,
+                    //oneditfunc: function (rowid) {
+                    //    alert(rowid);
+                    //},
+                    //aftersavefunc: function (rowid, xhr) {
+                    //    alert(rowid);
+                    //},
+                    extraparam: {},
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            alert(val.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    }
+                }
+            });
+
     });
 
     function GetTableConfig() {
