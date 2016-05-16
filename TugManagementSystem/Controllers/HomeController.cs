@@ -19,5 +19,30 @@ namespace TugManagementSystem.Controllers
 
             return View(order);
         }
+
+        public ActionResult AddEdit()
+        {
+            var f = Request.Form;
+            TugDataModel.OrderInfor o = new OrderInfor();
+
+            if (Request.Form["oper"].Equals("add"))
+            {
+                o.Code = "123";
+                Response.Write(o);
+            }
+            else if (Request.Form["oper"].Equals("edit"))
+            {
+                o.Code = "456";
+            }
+            return Json(o);
+        }
+
+        public ActionResult Delete()
+        {
+            var f = Request.Form;
+            TugDataModel.OrderInfor o = new OrderInfor();
+            o.Code = "789";
+            return Json(o);
+        }
     }
 }
