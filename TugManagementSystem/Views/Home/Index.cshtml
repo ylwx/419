@@ -94,9 +94,10 @@
         }
 
         $("#jqGrid").jqGrid({
-            url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+            //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+            url:'@Url.Action("GetData", "Home")',
             mtype: "GET",
-            datatype: "jsonp",
+            datatype: "json",
             colModel: tableConfig.columns,
         //    [
         //{ label: 'OrderID', name: 'OrderID', key: true, width: 75 },
@@ -112,9 +113,11 @@
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "Home")',
             pager: "#jqGridPager"
+
+            
         });
 
-        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false }
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: true, view: false, search: false }
             @*{},
             {},
             {
