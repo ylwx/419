@@ -112,12 +112,14 @@
             rowNum: 20,
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "Home")',
-            pager: "#jqGridPager"
-
+            pager: "#jqGridPager",
+            loadonce : true
             
         });
 
-        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: true, view: false, search: false }
+        $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false }
             @*{},
             {},
             {
@@ -197,7 +199,7 @@
     function GetTableConfig() {
         tableConfig = {
             columns: [
-                { label: "订单号", name: "OrderID", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: "订单号", name: "OrderID", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false, searchoptions: {sopt:["ge", "le"]} },
                 { label: "客户ID", name: "CustomerID", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: true },
                 { label: "订单日期", name: "OrderDate", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: "货运", name: "Freight", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
