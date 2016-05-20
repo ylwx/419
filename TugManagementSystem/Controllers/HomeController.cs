@@ -10,9 +10,12 @@ namespace TugManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string lan, int? id)
         {
+            var p = Request.Params;
+            var q = Request.RawUrl; ;
             ViewBag.Title = "Home Page";
+            ViewBag.Language = lan;
 
             TugDataModel.OrderInfor order = new OrderInfor();
             order.Code = "123";
