@@ -8,14 +8,17 @@ using TugDataModel;
 
 namespace TugManagementSystem.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index(string lan, int? id)
         {
+            lan = this.Internationalization();
+
             var p = Request.Params;
             var q = Request.RawUrl; ;
             ViewBag.Title = "Home Page";
             ViewBag.Language = lan;
+            ViewBag.Controller = "Home";
 
             TugDataModel.OrderInfor order = new OrderInfor();
             order.Code = "123";
@@ -25,6 +28,8 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult GetData(bool _search, string sidx, string sord, int page, int rows)
         {
+            this.Internationalization();
+
             try
             {
                 using(TugDataEntities db = new TugDataEntities())
@@ -51,6 +56,8 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult AddEdit()
         {
+            this.Internationalization();
+
             var f = Request.Form;
 
             #region Add
@@ -125,6 +132,8 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult Delete()
         {
+            this.Internationalization();
+
             try
             {
                 var f = Request.Form;

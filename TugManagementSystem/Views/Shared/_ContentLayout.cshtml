@@ -38,8 +38,23 @@
     <!-- JqGrid -->
     <script type="text/javascript" src="~/Resources/JqGrid/js/jquery-1.11.0.min.js"></script>
     <!-- We support more than 40 localizations -->
+
+    @{
+        if (ViewBag.Language == "zh-CN")
+        {
+            <script type="text/javascript" src="~/Resources/JqGrid/js/i18n/grid.locale-cn.js"></script>
+        }
+        else if (ViewBag.Language == "en-US")
+        {
+            <script type="text/javascript" src="~/Resources/JqGrid/js/i18n/grid.locale-en.js"></script>
+        }
+        else
+        {
+            <script type="text/javascript" src="~/Resources/JqGrid/js/i18n/grid.locale-tw.js"></script>
+        }
+    }
     @*<script type="text/javascript" src="~/Resources/JqGrid/js/i18n/grid.locale-en.js"></script>*@
-    <script type="text/javascript" src="~/Resources/JqGrid/js/i18n/grid.locale-tw.js"></script>
+    @*<script type="text/javascript" src="~/Resources/JqGrid/js/i18n/grid.locale-tw.js"></script>*@
     @*<script type="text/javascript" src="~/Resources/JqGrid/js/i18n/grid.locale-cn.js"></script>*@
     <!-- This is the Javascript file of jqGrid -->
     <script type="text/javascript" src="~/Resources/JqGrid/js/jquery.jqGrid.min.js"></script>
@@ -55,7 +70,7 @@
     <!-- AngularJS -->
     <script src="~/Resources/AngularJS/angular-1.0.1.min.js"></script>
 
-    
+
     <!-- 自定义JS文件 -->
     <script type="text/javascript" src="~/Resources/Custom/JS/jsscript.js"></script>
 
@@ -89,13 +104,13 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-cog"></i>
-                        <span class="name">語言</span>
+                        <span class="name">@Resources.Language.Lan</span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="~/Home/Index/tw">繁體中文</a></li>
-                        <li><a href="~/Home/Index/en">English</a></li>   
-                        <li><a href="~/Home/Index/cn">简体中文</a></li>
+                        <li><a id="lan_tw" href="~/Base/SetLanguage/zh-HK">繁體中文</a></li>
+                        <li><a id="lan_en" href="~/Base/SetLanguage/en-US">English</a></li>
+                        <li><a id="lan_cn" href="~/Base/SetLanguage/zh-CN">简体中文</a></li>
                     </ul>
                 </li>
             </ul>
@@ -431,6 +446,17 @@
                             <li class="current"><a class="" href="blank_page.html"><span class="sub-menu-text">Blank Page</span></a></li>
                         </ul>
                     </li>
+
+                    <li id="menu4" class="has-sub">
+                        <a href="javascript:;" class="">
+                            <i class="fa fa-list fa-fw"></i> <span class="menu-text">@Resources.Language.Order</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a class="" href="~/OrderManage/Index/tw"><span class="sub-menu-text">@Resources.Language.OrderManage</span></a></li>
+                        </ul>
+                    </li>
+
                 </ul>
                 <!-- /SIDEBAR MENU -->
             </div>
@@ -491,10 +517,9 @@
 
             $("li.current").removeClass("current");
             $(menu_id).children("ul.sub").children("li").eq(submenu_index).addClass("current");
-            
+
         });
 
-        
     </script>
 
 </body>
