@@ -27,23 +27,14 @@ namespace TugManagementSystem.Controllers
 
             try
             {
-                using (TugDataEntities db = new TugDataEntities())
-                {
-                    List <OrderInfor> orders = db.OrderInfor.Select(u => u).OrderBy(u => u.ID).ToList<OrderInfor>();
-                    int totalRecordNum = orders.Count;
-                    int pageSize = 30;
-                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+                TugDataEntities db = new TugDataEntities();
+                List<OrderInfor> orders = db.OrderInfor.Select(u => u).OrderBy(u => u.ID).ToList<OrderInfor>();
+                int totalRecordNum = orders.Count;
+                int pageSize = 30;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    //for (int i = 0; i < 30; i++)
-                    //{
-                    //    var o = new { OrderID = (i + 1).ToString(), CustomerID = (i + 1).ToString(), OrderDate = DateTime.Now.Date.ToString(), Freight = (i + 1).ToString(), ShipName = (i + 1).ToString() };
-                    //    list.Add(o);
-                    //}
-
-
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
-                    return Json(jsonData, JsonRequestBehavior.AllowGet);
-                }
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -63,19 +54,17 @@ namespace TugManagementSystem.Controllers
             {
                 try
                 {
-                    using (TugDataEntities db = new TugDataEntities())
+                    TugDataEntities db = new TugDataEntities();
+                    if (null == db.OrderInfor.Where(u => u.Code == "123").FirstOrDefault())
                     {
-                        if (null == db.OrderInfor.Where(u => u.Code == "123").FirstOrDefault())
-                        {
-                            TugDataModel.OrderInfor o = new OrderInfor();
-                            o.Code = "123";
+                        TugDataModel.OrderInfor o = new OrderInfor();
+                        o.Code = "123";
 
-                            o = db.OrderInfor.Add(o);
-                            db.SaveChanges();
-                            Response.Write(o);
-                            return Json(o);
+                        o = db.OrderInfor.Add(o);
+                        db.SaveChanges();
+                        Response.Write(o);
+                        return Json(o);
 
-                        }
                     }
                 }
                 catch (Exception)
@@ -103,16 +92,14 @@ namespace TugManagementSystem.Controllers
                         }
                         else
                         {
-                            using (System.Transactions.TransactionScope transaction = new System.Transactions.TransactionScope())
-                            {
-                                aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == 1);
-                                aOrder.Code = "456";
+                            System.Transactions.TransactionScope transaction = new System.Transactions.TransactionScope();
+                            aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == 1);
+                            aOrder.Code = "456";
 
-                                db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
+                            db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
 
-                                transaction.Complete();
-                            }
+                            transaction.Complete();
 
                             return Json(new { code = 2, message = "修改成功！" });
                         }
@@ -136,19 +123,18 @@ namespace TugManagementSystem.Controllers
             try
             {
                 var f = Request.Form;
-                using (TugDataEntities db = new TugDataEntities())
+
+                TugDataEntities db = new TugDataEntities();
+                OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == 1);
+                if (aOrder != null)
                 {
-                    OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == 1);
-                    if (aOrder != null)
-                    {
-                        db.OrderInfor.Remove(aOrder);
-                        db.SaveChanges();
-                        return Json(new { code = 1, message = "删除成功！" });
-                    }
-                    else
-                    {
-                        return Json(new { code = 2, message = "无效基地，删除失败！" });
-                    }
+                    db.OrderInfor.Remove(aOrder);
+                    db.SaveChanges();
+                    return Json(new { code = 1, message = "删除成功！" });
+                }
+                else
+                {
+                    return Json(new { code = 2, message = "无效基地，删除失败！" });
                 }
             }
             catch (Exception)
