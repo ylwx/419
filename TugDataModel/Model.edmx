@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Approve">
           <Key>
             <PropertyRef Name="ID" />
@@ -641,7 +641,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Billing_Order">
+        <Association Name="FK_Billing_OrderInfor">
           <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
           <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
           <ReferentialConstraint>
@@ -725,7 +725,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Scheduler_Order">
+        <Association Name="FK_Scheduler_OrderInfor">
           <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
           <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
           <ReferentialConstraint>
@@ -805,7 +805,7 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
-          <AssociationSet Name="FK_Billing_Order" Association="Self.FK_Billing_Order">
+          <AssociationSet Name="FK_Billing_OrderInfor" Association="Self.FK_Billing_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
             <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
@@ -833,7 +833,7 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleModule" EntitySet="RoleModule" />
           </AssociationSet>
-          <AssociationSet Name="FK_Scheduler_Order" Association="Self.FK_Scheduler_Order">
+          <AssociationSet Name="FK_Scheduler_OrderInfor" Association="Self.FK_Scheduler_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
             <End Role="Scheduler" EntitySet="Scheduler" />
           </AssociationSet>
@@ -850,11 +850,87 @@
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TugDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Approve" EntityType="Model.Approve" />
+          <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
+          <EntitySet Name="BaseTreeItems" EntityType="Model.BaseTreeItems" />
+          <EntitySet Name="Billing" EntityType="Model.Billing" />
+          <EntitySet Name="BillingItem" EntityType="Model.BillingItem" />
+          <EntitySet Name="BillingItemTemplate" EntityType="Model.BillingItemTemplate" />
+          <EntitySet Name="BillingTemplate" EntityType="Model.BillingTemplate" />
+          <EntitySet Name="Customer" EntityType="Model.Customer" />
+          <EntitySet Name="CustomerShip" EntityType="Model.CustomerShip" />
+          <EntitySet Name="CustomField" EntityType="Model.CustomField" />
+          <EntitySet Name="FileInfor" EntityType="Model.FileInfor" />
+          <EntitySet Name="Flow" EntityType="Model.Flow" />
+          <EntitySet Name="FunctionModule" EntityType="Model.FunctionModule" />
+          <EntitySet Name="LogProcess" EntityType="Model.LogProcess" />
+          <EntitySet Name="OrderInfor" EntityType="Model.OrderInfor" />
+          <EntitySet Name="Role" EntityType="Model.Role" />
+          <EntitySet Name="RoleMenu" EntityType="Model.RoleMenu" />
+          <EntitySet Name="RoleModule" EntityType="Model.RoleModule" />
+          <EntitySet Name="Scheduler" EntityType="Model.Scheduler" />
+          <EntitySet Name="sysdiagrams" EntityType="Model.sysdiagrams" />
+          <EntitySet Name="TugInfor" EntityType="Model.TugInfor" />
+          <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
+          <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
+          <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
+            <End Role="TugInfor" EntitySet="TugInfor" />
+            <End Role="Arrangement" EntitySet="Arrangement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Billing_Customer" Association="Model.FK_Billing_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Billing_OrderInfor" Association="Model.FK_Billing_OrderInfor">
+            <End Role="OrderInfor" EntitySet="OrderInfor" />
+            <End Role="Billing" EntitySet="Billing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItem_Billing" Association="Model.FK_BillingItem_Billing">
+            <End Role="Billing" EntitySet="Billing" />
+            <End Role="BillingItem" EntitySet="BillingItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItem_CustomerField" Association="Model.FK_BillingItem_CustomerField">
+            <End Role="CustomField" EntitySet="CustomField" />
+            <End Role="BillingItem" EntitySet="BillingItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Model.FK_BillingItemTemplate_BillingTemplate">
+            <End Role="BillingTemplate" EntitySet="BillingTemplate" />
+            <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerShip_Customer" Association="Model.FK_CustomerShip_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerShip" EntitySet="CustomerShip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scheduler_OrderInfor" Association="Model.FK_Scheduler_OrderInfor">
+            <End Role="OrderInfor" EntitySet="OrderInfor" />
+            <End Role="Scheduler" EntitySet="Scheduler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Menu_Role" Association="Model.FK_Role_Menu_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleMenu" EntitySet="RoleMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_Module_Role" Association="Model.FK_Role_Module_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleModule" EntitySet="RoleModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_Role" Association="Model.FK_Users_Role_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scheduler_TugInfor" Association="Model.FK_Scheduler_TugInfor">
+            <End Role="TugInfor" EntitySet="TugInfor" />
+            <End Role="Scheduler" EntitySet="Scheduler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_User_Infor" Association="Model.FK_Users_Role_User_Infor">
+            <End Role="UserInfor" EntitySet="UserInfor" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Approve">
           <Key>
             <PropertyRef Name="ID" />
@@ -897,7 +973,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="TugInfor" Relationship="Self.FK_Arrangement_TugInfor" FromRole="Arrangement" ToRole="TugInfor" />
+          <NavigationProperty Name="TugInfor" Relationship="Model.FK_Arrangement_TugInfor" FromRole="Arrangement" ToRole="TugInfor" />
         </EntityType>
         <EntityType Name="BaseTreeItems">
           <Key>
@@ -954,9 +1030,9 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Billing_Customer" FromRole="Billing" ToRole="Customer" />
-          <NavigationProperty Name="OrderInfor" Relationship="Self.FK_Billing_Order" FromRole="Billing" ToRole="OrderInfor" />
-          <NavigationProperty Name="BillingItem" Relationship="Self.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
+          <NavigationProperty Name="Customer" Relationship="Model.FK_Billing_Customer" FromRole="Billing" ToRole="Customer" />
+          <NavigationProperty Name="OrderInfor" Relationship="Model.FK_Billing_OrderInfor" FromRole="Billing" ToRole="OrderInfor" />
+          <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
         </EntityType>
         <EntityType Name="BillingItem">
           <Key>
@@ -982,8 +1058,8 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Billing" Relationship="Self.FK_BillingItem_Billing" FromRole="BillingItem" ToRole="Billing" />
-          <NavigationProperty Name="CustomField" Relationship="Self.FK_BillingItem_CustomerField" FromRole="BillingItem" ToRole="CustomField" />
+          <NavigationProperty Name="Billing" Relationship="Model.FK_BillingItem_Billing" FromRole="BillingItem" ToRole="Billing" />
+          <NavigationProperty Name="CustomField" Relationship="Model.FK_BillingItem_CustomerField" FromRole="BillingItem" ToRole="CustomField" />
         </EntityType>
         <EntityType Name="BillingItemTemplate">
           <Key>
@@ -1009,7 +1085,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="BillingTemplate" Relationship="Self.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingItemTemplate" ToRole="BillingTemplate" />
+          <NavigationProperty Name="BillingTemplate" Relationship="Model.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingItemTemplate" ToRole="BillingTemplate" />
         </EntityType>
         <EntityType Name="BillingTemplate">
           <Key>
@@ -1037,7 +1113,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="BillingItemTemplate" Relationship="Self.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingTemplate" ToRole="BillingItemTemplate" />
+          <NavigationProperty Name="BillingItemTemplate" Relationship="Model.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingTemplate" ToRole="BillingItemTemplate" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -1070,8 +1146,8 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Billing" Relationship="Self.FK_Billing_Customer" FromRole="Customer" ToRole="Billing" />
-          <NavigationProperty Name="CustomerShip" Relationship="Self.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
+          <NavigationProperty Name="Billing" Relationship="Model.FK_Billing_Customer" FromRole="Customer" ToRole="Billing" />
+          <NavigationProperty Name="CustomerShip" Relationship="Model.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
         </EntityType>
         <EntityType Name="CustomerShip">
           <Key>
@@ -1103,7 +1179,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerShip_Customer" FromRole="CustomerShip" ToRole="Customer" />
+          <NavigationProperty Name="Customer" Relationship="Model.FK_CustomerShip_Customer" FromRole="CustomerShip" ToRole="Customer" />
         </EntityType>
         <EntityType Name="CustomField">
           <Key>
@@ -1131,7 +1207,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="BillingItem" Relationship="Self.FK_BillingItem_CustomerField" FromRole="CustomField" ToRole="BillingItem" />
+          <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_CustomerField" FromRole="CustomField" ToRole="BillingItem" />
         </EntityType>
         <EntityType Name="FileInfor">
           <Key>
@@ -1272,8 +1348,8 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Billing" Relationship="Self.FK_Billing_Order" FromRole="OrderInfor" ToRole="Billing" />
-          <NavigationProperty Name="Scheduler" Relationship="Self.FK_Scheduler_Order" FromRole="OrderInfor" ToRole="Scheduler" />
+          <NavigationProperty Name="Billing" Relationship="Model.FK_Billing_OrderInfor" FromRole="OrderInfor" ToRole="Billing" />
+          <NavigationProperty Name="Scheduler" Relationship="Model.FK_Scheduler_OrderInfor" FromRole="OrderInfor" ToRole="Scheduler" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -1298,9 +1374,9 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="RoleMenu" Relationship="Self.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
-          <NavigationProperty Name="RoleModule" Relationship="Self.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
-          <NavigationProperty Name="UsersRole" Relationship="Self.FK_Users_Role_Role" FromRole="Role" ToRole="UsersRole" />
+          <NavigationProperty Name="RoleMenu" Relationship="Model.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
+          <NavigationProperty Name="RoleModule" Relationship="Model.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
+          <NavigationProperty Name="UsersRole" Relationship="Model.FK_Users_Role_Role" FromRole="Role" ToRole="UsersRole" />
         </EntityType>
         <EntityType Name="RoleMenu">
           <Key>
@@ -1325,7 +1401,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_Role_Menu_Role" FromRole="RoleMenu" ToRole="Role" />
+          <NavigationProperty Name="Role" Relationship="Model.FK_Role_Menu_Role" FromRole="RoleMenu" ToRole="Role" />
         </EntityType>
         <EntityType Name="RoleModule">
           <Key>
@@ -1351,7 +1427,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_Role_Module_Role" FromRole="RoleModule" ToRole="Role" />
+          <NavigationProperty Name="Role" Relationship="Model.FK_Role_Module_Role" FromRole="RoleModule" ToRole="Role" />
         </EntityType>
         <EntityType Name="Scheduler">
           <Key>
@@ -1385,14 +1461,14 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OrderInfor" Relationship="Self.FK_Scheduler_Order" FromRole="Scheduler" ToRole="OrderInfor" />
-          <NavigationProperty Name="TugInfor" Relationship="Self.FK_Scheduler_TugInfor" FromRole="Scheduler" ToRole="TugInfor" />
+          <NavigationProperty Name="OrderInfor" Relationship="Model.FK_Scheduler_OrderInfor" FromRole="Scheduler" ToRole="OrderInfor" />
+          <NavigationProperty Name="TugInfor" Relationship="Model.FK_Scheduler_TugInfor" FromRole="Scheduler" ToRole="TugInfor" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -1427,8 +1503,8 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Arrangement" Relationship="Self.FK_Arrangement_TugInfor" FromRole="TugInfor" ToRole="Arrangement" />
-          <NavigationProperty Name="Scheduler" Relationship="Self.FK_Scheduler_TugInfor" FromRole="TugInfor" ToRole="Scheduler" />
+          <NavigationProperty Name="Arrangement" Relationship="Model.FK_Arrangement_TugInfor" FromRole="TugInfor" ToRole="Arrangement" />
+          <NavigationProperty Name="Scheduler" Relationship="Model.FK_Scheduler_TugInfor" FromRole="TugInfor" ToRole="Scheduler" />
         </EntityType>
         <EntityType Name="UserInfor">
           <Key>
@@ -1465,7 +1541,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UsersRole" Relationship="Self.FK_Users_Role_User_Infor" FromRole="UserInfor" ToRole="UsersRole" />
+          <NavigationProperty Name="UsersRole" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UserInfor" ToRole="UsersRole" />
         </EntityType>
         <EntityType Name="UsersRole">
           <Key>
@@ -1490,12 +1566,12 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="DateTime" Precision="3" />
           <Property Name="UserDefinedCol10" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_Users_Role_Role" FromRole="UsersRole" ToRole="Role" />
-          <NavigationProperty Name="UserInfor" Relationship="Self.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
+          <NavigationProperty Name="Role" Relationship="Model.FK_Users_Role_Role" FromRole="UsersRole" ToRole="Role" />
+          <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
-          <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
-          <End Role="Arrangement" Type="Self.Arrangement" Multiplicity="*" />
+          <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
+          <End Type="Model.Arrangement" Role="Arrangement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TugInfor">
               <PropertyRef Name="ID" />
@@ -1506,8 +1582,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Billing_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+          <End Type="Model.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="Model.Billing" Role="Billing" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="ID" />
@@ -1517,9 +1593,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Billing_Order">
-          <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
-          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
+        <Association Name="FK_Billing_OrderInfor">
+          <End Type="Model.OrderInfor" Role="OrderInfor" Multiplicity="0..1" />
+          <End Type="Model.Billing" Role="Billing" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderInfor">
               <PropertyRef Name="ID" />
@@ -1530,8 +1606,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BillingItem_Billing">
-          <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
-          <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
+          <End Type="Model.Billing" Role="Billing" Multiplicity="0..1" />
+          <End Type="Model.BillingItem" Role="BillingItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Billing">
               <PropertyRef Name="ID" />
@@ -1542,8 +1618,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BillingItem_CustomerField">
-          <End Role="CustomField" Type="Self.CustomField" Multiplicity="0..1" />
-          <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
+          <End Type="Model.CustomField" Role="CustomField" Multiplicity="0..1" />
+          <End Type="Model.BillingItem" Role="BillingItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CustomField">
               <PropertyRef Name="ID" />
@@ -1554,8 +1630,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BillingItemTemplate_BillingTemplate">
-          <End Role="BillingTemplate" Type="Self.BillingTemplate" Multiplicity="0..1" />
-          <End Role="BillingItemTemplate" Type="Self.BillingItemTemplate" Multiplicity="*" />
+          <End Type="Model.BillingTemplate" Role="BillingTemplate" Multiplicity="0..1" />
+          <End Type="Model.BillingItemTemplate" Role="BillingItemTemplate" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="BillingTemplate">
               <PropertyRef Name="ID" />
@@ -1566,8 +1642,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomerShip_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="CustomerShip" Type="Self.CustomerShip" Multiplicity="*" />
+          <End Type="Model.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="Model.CustomerShip" Role="CustomerShip" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="ID" />
@@ -1577,9 +1653,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Scheduler_Order">
-          <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
-          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
+        <Association Name="FK_Scheduler_OrderInfor">
+          <End Type="Model.OrderInfor" Role="OrderInfor" Multiplicity="0..1" />
+          <End Type="Model.Scheduler" Role="Scheduler" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderInfor">
               <PropertyRef Name="ID" />
@@ -1590,8 +1666,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Role_Menu_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
-          <End Role="RoleMenu" Type="Self.RoleMenu" Multiplicity="*" />
+          <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="Model.RoleMenu" Role="RoleMenu" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="ID" />
@@ -1602,8 +1678,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Role_Module_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
-          <End Role="RoleModule" Type="Self.RoleModule" Multiplicity="*" />
+          <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="Model.RoleModule" Role="RoleModule" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="ID" />
@@ -1614,8 +1690,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Role_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
-          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
+          <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="Model.UsersRole" Role="UsersRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="ID" />
@@ -1626,8 +1702,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Scheduler_TugInfor">
-          <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
-          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
+          <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
+          <End Type="Model.Scheduler" Role="Scheduler" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TugInfor">
               <PropertyRef Name="ID" />
@@ -1638,8 +1714,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Role_User_Infor">
-          <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
-          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
+          <End Type="Model.UserInfor" Role="UserInfor" Multiplicity="0..1" />
+          <End Type="Model.UsersRole" Role="UsersRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserInfor">
               <PropertyRef Name="Id" />
@@ -1649,84 +1725,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="TugDataEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Approve" EntityType="Self.Approve" />
-          <EntitySet Name="Arrangement" EntityType="Self.Arrangement" />
-          <EntitySet Name="BaseTreeItems" EntityType="Self.BaseTreeItems" />
-          <EntitySet Name="Billing" EntityType="Self.Billing" />
-          <EntitySet Name="BillingItem" EntityType="Self.BillingItem" />
-          <EntitySet Name="BillingItemTemplate" EntityType="Self.BillingItemTemplate" />
-          <EntitySet Name="BillingTemplate" EntityType="Self.BillingTemplate" />
-          <EntitySet Name="Customer" EntityType="Self.Customer" />
-          <EntitySet Name="CustomerShip" EntityType="Self.CustomerShip" />
-          <EntitySet Name="CustomField" EntityType="Self.CustomField" />
-          <EntitySet Name="FileInfor" EntityType="Self.FileInfor" />
-          <EntitySet Name="Flow" EntityType="Self.Flow" />
-          <EntitySet Name="FunctionModule" EntityType="Self.FunctionModule" />
-          <EntitySet Name="LogProcess" EntityType="Self.LogProcess" />
-          <EntitySet Name="OrderInfor" EntityType="Self.OrderInfor" />
-          <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="RoleMenu" EntityType="Self.RoleMenu" />
-          <EntitySet Name="RoleModule" EntityType="Self.RoleModule" />
-          <EntitySet Name="Scheduler" EntityType="Self.Scheduler" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TugInfor" EntityType="Self.TugInfor" />
-          <EntitySet Name="UserInfor" EntityType="Self.UserInfor" />
-          <EntitySet Name="UsersRole" EntityType="Self.UsersRole" />
-          <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
-            <End Role="TugInfor" EntitySet="TugInfor" />
-            <End Role="Arrangement" EntitySet="Arrangement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Billing_Customer" Association="Self.FK_Billing_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Billing" EntitySet="Billing" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Billing_Order" Association="Self.FK_Billing_Order">
-            <End Role="OrderInfor" EntitySet="OrderInfor" />
-            <End Role="Billing" EntitySet="Billing" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BillingItem_Billing" Association="Self.FK_BillingItem_Billing">
-            <End Role="Billing" EntitySet="Billing" />
-            <End Role="BillingItem" EntitySet="BillingItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BillingItem_CustomerField" Association="Self.FK_BillingItem_CustomerField">
-            <End Role="CustomField" EntitySet="CustomField" />
-            <End Role="BillingItem" EntitySet="BillingItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Self.FK_BillingItemTemplate_BillingTemplate">
-            <End Role="BillingTemplate" EntitySet="BillingTemplate" />
-            <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomerShip_Customer" Association="Self.FK_CustomerShip_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="CustomerShip" EntitySet="CustomerShip" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Scheduler_Order" Association="Self.FK_Scheduler_Order">
-            <End Role="OrderInfor" EntitySet="OrderInfor" />
-            <End Role="Scheduler" EntitySet="Scheduler" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Role_Menu_Role" Association="Self.FK_Role_Menu_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="RoleMenu" EntitySet="RoleMenu" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Role_Module_Role" Association="Self.FK_Role_Module_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="RoleModule" EntitySet="RoleModule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Role_Role" Association="Self.FK_Users_Role_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="UsersRole" EntitySet="UsersRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Scheduler_TugInfor" Association="Self.FK_Scheduler_TugInfor">
-            <End Role="TugInfor" EntitySet="TugInfor" />
-            <End Role="Scheduler" EntitySet="Scheduler" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
-            <End Role="UserInfor" EntitySet="UserInfor" />
-            <End Role="UsersRole" EntitySet="UsersRole" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1735,635 +1734,635 @@
           <EntitySetMapping Name="Approve">
             <EntityTypeMapping TypeName="Model.Approve">
               <MappingFragment StoreEntitySet="Approve">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
-                <ScalarProperty Name="FlowMark" ColumnName="FlowMark" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="Task" ColumnName="Task" />
-                <ScalarProperty Name="Accept" ColumnName="Accept" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Accept" ColumnName="Accept" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="FlowMark" ColumnName="FlowMark" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Arrangement">
             <EntityTypeMapping TypeName="Model.Arrangement">
               <MappingFragment StoreEntitySet="Arrangement">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
-                <ScalarProperty Name="TugID" ColumnName="TugID" />
-                <ScalarProperty Name="SortNo" ColumnName="SortNo" />
-                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="SortNo" ColumnName="SortNo" />
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BaseTreeItems">
             <EntityTypeMapping TypeName="Model.BaseTreeItems">
               <MappingFragment StoreEntitySet="BaseTreeItems">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="InCode" ColumnName="InCode" />
-                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
-                <ScalarProperty Name="CNName" ColumnName="CNName" />
-                <ScalarProperty Name="ENName" ColumnName="ENName" />
-                <ScalarProperty Name="SType" ColumnName="SType" />
-                <ScalarProperty Name="SortNum" ColumnName="SortNum" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="SortNum" ColumnName="SortNum" />
+                <ScalarProperty Name="SType" ColumnName="SType" />
+                <ScalarProperty Name="ENName" ColumnName="ENName" />
+                <ScalarProperty Name="CNName" ColumnName="CNName" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="InCode" ColumnName="InCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Billing">
             <EntityTypeMapping TypeName="Model.Billing">
               <MappingFragment StoreEntitySet="Billing">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="BillingType" ColumnName="BillingType" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
-                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
-                <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
-                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BillingItem">
             <EntityTypeMapping TypeName="Model.BillingItem">
               <MappingFragment StoreEntitySet="BillingItem">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
-                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BillingItemTemplate">
             <EntityTypeMapping TypeName="Model.BillingItemTemplate">
               <MappingFragment StoreEntitySet="BillingItemTemplate">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
-                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BillingTemplate">
             <EntityTypeMapping TypeName="Model.BillingTemplate">
               <MappingFragment StoreEntitySet="BillingTemplate">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="BillingTemplateType" ColumnName="BillingTemplateType" />
-                <ScalarProperty Name="BillingTemplateCode" ColumnName="BillingTemplateCode" />
-                <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
-                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
-                <ScalarProperty Name="TemplateCreditContent" ColumnName="TemplateCreditContent" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TemplateCreditContent" ColumnName="TemplateCreditContent" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
+                <ScalarProperty Name="BillingTemplateCode" ColumnName="BillingTemplateCode" />
+                <ScalarProperty Name="BillingTemplateType" ColumnName="BillingTemplateType" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="Model.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CnName" ColumnName="CnName" />
-                <ScalarProperty Name="EnName" ColumnName="EnName" />
-                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="MailCode" ColumnName="MailCode" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="MailCode" ColumnName="MailCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomerShip">
             <EntityTypeMapping TypeName="Model.CustomerShip">
               <MappingFragment StoreEntitySet="CustomerShip">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="ShipTypeID" ColumnName="ShipTypeID" />
-                <ScalarProperty Name="CNName" ColumnName="CNName" />
-                <ScalarProperty Name="ENName" ColumnName="ENName" />
-                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
-                <ScalarProperty Name="DeadWeight" ColumnName="DeadWeight" />
-                <ScalarProperty Name="Length" ColumnName="Length" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
-                <ScalarProperty Name="Class" ColumnName="Class" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="DeadWeight" ColumnName="DeadWeight" />
+                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
+                <ScalarProperty Name="ENName" ColumnName="ENName" />
+                <ScalarProperty Name="CNName" ColumnName="CNName" />
+                <ScalarProperty Name="ShipTypeID" ColumnName="ShipTypeID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomField">
             <EntityTypeMapping TypeName="Model.CustomField">
               <MappingFragment StoreEntitySet="CustomField">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CustomName" ColumnName="CustomName" />
-                <ScalarProperty Name="CustomValue" ColumnName="CustomValue" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="FormulaStr" ColumnName="FormulaStr" />
-                <ScalarProperty Name="CType" ColumnName="CType" />
-                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="CType" ColumnName="CType" />
+                <ScalarProperty Name="FormulaStr" ColumnName="FormulaStr" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CustomValue" ColumnName="CustomValue" />
+                <ScalarProperty Name="CustomName" ColumnName="CustomName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FileInfor">
             <EntityTypeMapping TypeName="Model.FileInfor">
               <MappingFragment StoreEntitySet="FileInfor">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RelateID" ColumnName="RelateID" />
-                <ScalarProperty Name="PaperCode" ColumnName="PaperCode" />
-                <ScalarProperty Name="PaperName" ColumnName="PaperName" />
-                <ScalarProperty Name="OrigenName" ColumnName="OrigenName" />
-                <ScalarProperty Name="NewName" ColumnName="NewName" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="RelateTypeID" ColumnName="RelateTypeID" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="RelateTypeID" ColumnName="RelateTypeID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="NewName" ColumnName="NewName" />
+                <ScalarProperty Name="OrigenName" ColumnName="OrigenName" />
+                <ScalarProperty Name="PaperName" ColumnName="PaperName" />
+                <ScalarProperty Name="PaperCode" ColumnName="PaperCode" />
+                <ScalarProperty Name="RelateID" ColumnName="RelateID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Flow">
             <EntityTypeMapping TypeName="Model.Flow">
               <MappingFragment StoreEntitySet="Flow">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
-                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="Task" ColumnName="Task" />
-                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
-                <ScalarProperty Name="StDate" ColumnName="StDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Sign" ColumnName="Sign" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="Sign" ColumnName="Sign" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StDate" ColumnName="StDate" />
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FunctionModule">
             <EntityTypeMapping TypeName="Model.FunctionModule">
               <MappingFragment StoreEntitySet="FunctionModule">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ModuleCode" ColumnName="ModuleCode" />
-                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="ModuleCode" ColumnName="ModuleCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LogProcess">
             <EntityTypeMapping TypeName="Model.LogProcess">
               <MappingFragment StoreEntitySet="LogProcess">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RelateID" ColumnName="RelateID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="IP" ColumnName="IP" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RelateID" ColumnName="RelateID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderInfor">
             <EntityTypeMapping TypeName="Model.OrderInfor">
               <MappingFragment StoreEntitySet="OrderInfor">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="OrdTime" ColumnName="OrdTime" />
-                <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
-                <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
-                <ScalarProperty Name="ShipID" ColumnName="ShipID" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="Linkman" ColumnName="Linkman" />
-                <ScalarProperty Name="LinkPhone" ColumnName="LinkPhone" />
-                <ScalarProperty Name="LinkEmail" ColumnName="LinkEmail" />
-                <ScalarProperty Name="WorkPlace" ColumnName="WorkPlace" />
-                <ScalarProperty Name="WorkStateID" ColumnName="WorkStateID" />
-                <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
-                <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
-                <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
+                <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
+                <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
+                <ScalarProperty Name="WorkStateID" ColumnName="WorkStateID" />
+                <ScalarProperty Name="WorkPlace" ColumnName="WorkPlace" />
+                <ScalarProperty Name="LinkEmail" ColumnName="LinkEmail" />
+                <ScalarProperty Name="LinkPhone" ColumnName="LinkPhone" />
+                <ScalarProperty Name="Linkman" ColumnName="Linkman" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+                <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
+                <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
+                <ScalarProperty Name="OrdTime" ColumnName="OrdTime" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Role">
             <EntityTypeMapping TypeName="Model.Role">
               <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="Dept" ColumnName="Dept" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoleMenu">
             <EntityTypeMapping TypeName="Model.RoleMenu">
               <MappingFragment StoreEntitySet="RoleMenu">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Page" ColumnName="Page" />
-                <ScalarProperty Name="Menu" ColumnName="Menu" />
-                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
-                <ScalarProperty Name="Visible" ColumnName="Visible" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoleModule">
             <EntityTypeMapping TypeName="Model.RoleModule">
               <MappingFragment StoreEntitySet="RoleModule">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Scheduler">
             <EntityTypeMapping TypeName="Model.Scheduler">
               <MappingFragment StoreEntitySet="Scheduler">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="TugID" ColumnName="TugID" />
-                <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
-                <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
-                <ScalarProperty Name="CaptainConfirmTime" ColumnName="CaptainConfirmTime" />
-                <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
-                <ScalarProperty Name="ArrivalShipSideTime" ColumnName="ArrivalShipSideTime" />
-                <ScalarProperty Name="WorkCommencedTime" ColumnName="WorkCommencedTime" />
-                <ScalarProperty Name="WorkCompletedTime" ColumnName="WorkCompletedTime" />
-                <ScalarProperty Name="ArrivalBaseTime" ColumnName="ArrivalBaseTime" />
-                <ScalarProperty Name="RopeUsed" ColumnName="RopeUsed" />
-                <ScalarProperty Name="RopeNum" ColumnName="RopeNum" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="RopeNum" ColumnName="RopeNum" />
+                <ScalarProperty Name="RopeUsed" ColumnName="RopeUsed" />
+                <ScalarProperty Name="ArrivalBaseTime" ColumnName="ArrivalBaseTime" />
+                <ScalarProperty Name="WorkCompletedTime" ColumnName="WorkCompletedTime" />
+                <ScalarProperty Name="WorkCommencedTime" ColumnName="WorkCommencedTime" />
+                <ScalarProperty Name="ArrivalShipSideTime" ColumnName="ArrivalShipSideTime" />
+                <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
+                <ScalarProperty Name="CaptainConfirmTime" ColumnName="CaptainConfirmTime" />
+                <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
+                <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="Model.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TugInfor">
             <EntityTypeMapping TypeName="Model.TugInfor">
               <MappingFragment StoreEntitySet="TugInfor">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CnName" ColumnName="CnName" />
-                <ScalarProperty Name="EnName" ColumnName="EnName" />
-                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
-                <ScalarProperty Name="Power" ColumnName="Power" />
-                <ScalarProperty Name="Class" ColumnName="Class" />
-                <ScalarProperty Name="Speed" ColumnName="Speed" />
-                <ScalarProperty Name="Length" ColumnName="Length" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
+                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserInfor">
             <EntityTypeMapping TypeName="Model.UserInfor">
               <MappingFragment StoreEntitySet="UserInfor">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
-                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
-                <ScalarProperty Name="LanUserName" ColumnName="LanUserName" />
-                <ScalarProperty Name="Lan" ColumnName="Lan" />
-                <ScalarProperty Name="Dept" ColumnName="Dept" />
-                <ScalarProperty Name="Sec" ColumnName="Sec" />
-                <ScalarProperty Name="CnName" ColumnName="CnName" />
-                <ScalarProperty Name="EnName" ColumnName="EnName" />
-                <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
-                <ScalarProperty Name="Sex" ColumnName="Sex" />
-                <ScalarProperty Name="Tel" ColumnName="Tel" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="LogIP" ColumnName="LogIP" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LogIP" ColumnName="LogIP" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="Sec" ColumnName="Sec" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Lan" ColumnName="Lan" />
+                <ScalarProperty Name="LanUserName" ColumnName="LanUserName" />
+                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UsersRole">
             <EntityTypeMapping TypeName="Model.UsersRole">
               <MappingFragment StoreEntitySet="UsersRole">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
-                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
-                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
-                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
-                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
-                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
-                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
-                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
-                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2382,7 +2381,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
       </DesignerInfoPropertySet>

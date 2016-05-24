@@ -32,33 +32,35 @@
                                     @Resources.Language.OrderManage
                                 </li>
                             </ul>
+
                             <!-- /BREADCRUMBS -->
-                            <div class="clearfix">
+                            @*<div class="clearfix">
                                 <h3 class="content-title pull-left">Grid Test</h3>
                             </div>
-                            <div class="description">Table</div>
+                            <div class="description">Table</div>*@
+
                         </div>
                     </div>
                 </div>
-                <!-- /PAGE HEADER -->
 
-                <div class="row">
+                <!-- /PAGE HEADER -->
+                @*<div class="row">
                     <div class="col-md-12">
                         <div class="box border orange">
-                            @*<div class="box-title">
+                            <div class="box-title">
 
-                                </div>*@
+                            </div>
                             <div class="box-body">
                                 <div>
                                     <ul>
-                                        @*<li>@Model.Code</li>*@
+                                        <li>@Model.Code</li>
                                     </ul>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                </div>
+                </div>*@
 
                 <!-- SAMPLE -->
                 <div class="row">
@@ -66,7 +68,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>jqGird Example</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.OrderManage</h4>
                             </div>
                             <div class="box-body">
                                 <table id="jqGrid"></table>
@@ -82,3 +84,141 @@
         </div>
     </div>
 </div>
+
+
+
+<script type="text/javascript">
+    var tableConfig = null;
+
+    $(document).ready(function () {
+
+        if (tableConfig == null) {
+            GetTableConfig();
+        }
+
+        $("#jqGrid").jqGrid({
+            //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+            url: '@Url.Action("GetData", "OrderManage")',
+            mtype: "GET",
+            datatype: "json",
+            colModel: tableConfig.columns,
+            viewrecords: true,
+            width: 780,
+            height: 250,
+            rowNum: 20,
+            autowidth: true,
+            editurl: '@Url.Action("AddEdit", "OrderManage")',
+            pager: "#jqGridPager",
+            loadonce: true
+
+        });
+
+        $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false }
+            ).navButtonAdd('#jqGridPager', {
+                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                onClickButton: function () {
+                    var gr = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    if (gr != null) {
+                        if (confirm('delete?')) {
+                            var d = new Date();
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: '@Url.Action("Delete", "OrderManage")',
+                                    data: { 'oper': 'delete', 'id': gr },//"oper=delete&id=" + gr,
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        alert(JSON.stringify(result));
+                                        jQuery("#jqGrid").jqGrid('delRowData', gr);
+                                    },
+
+                                }
+                                );
+                        }
+                    }
+                    else {
+                        alert('选中一行');
+                    }
+                },
+                position: "first"
+            });
+
+        $('#jqGrid').inlineNav('#jqGridPager',
+            {
+                edit: true,
+                add: true,
+                del: true,
+                cancel: true,
+                editParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            alert(val.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    url: null, //'/api/values',
+                    mtype: 'POST'
+                },
+
+                addParams: {
+                    keys: true,
+                    extraparam: {},
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            alert(val.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    }
+                }
+            });
+
+    });
+
+    function GetTableConfig() {
+        tableConfig = {
+            columns: [
+                
+                { label: '@Resources.Language.OrderInfor_ID', name: "ID", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false, searchoptions: { sopt: ["ge", "le"] } },
+                { label: '@Resources.Language.OrderInfor_Code', name: "Code", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_CustomerID', name: "CustomerID", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_CustomerName', name: "CustomerName", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_OrdTime', name: "OrdTime", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_WorkTime', name: "WorkTime", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_ShipID', name: "ShipID", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_ShipName', name: "ShipName", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_Linkman', name: "Linkman", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_LinkPhone', name: "LinkPhone", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_LinkEmail', name: "LinkEmail", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_WorkPlace', name: "WorkPlace", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_SmallTugNum', name: "SmallTugNum", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_Remark', name: "Remark", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_OwnerID', name: "OwnerID", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_CreateDate', name: "CreateDate", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_UserID', name: "UserID", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_LastUpDate', name: "LastUpDate", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol1', name: "UserDefinedCol1", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol2', name: "UserDefinedCol2", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol3', name: "UserDefinedCol3", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol4', name: "UserDefinedCol4", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol5', name: "UserDefinedCol5", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol6', name: "UserDefinedCol6", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol7', name: "UserDefinedCol7", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol8', name: "UserDefinedCol8", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol9', name: "UserDefinedCol9", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: '@Resources.Language.OrderInfor_UserDefinedCol10', name: "UserDefinedCol10", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
+                { label: 'Billing', name: "Billing", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: 'Scheduler', name: "Scheduler", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false }
+
+            ]
+        };
+    }
+
+</script>
