@@ -181,7 +181,7 @@
         tableConfig = {
             columns: [
                 
-                { label: '@Resources.Language.OrderInfor_ID', name: "ID", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_ID', name: "ID", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: true },
                 { label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 75, editable: false, edittype: "text", editrules: { required: true }, hidden: false, searchoptions: { sopt: ["ge", "le"] } },
                 { label: '@Resources.Language.OrderInfor_Code', name: "Code", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_CustomerID', name: "CustomerID", width: 150, editable: false, edittype: "text", editrules: { required: true }, hidden: true },
@@ -193,7 +193,7 @@
                 { label: '@Resources.Language.OrderInfor_ShipName', name: "ShipName", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_Linkman', name: "Linkman", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_LinkPhone', name: "LinkPhone", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
-                { label: '@Resources.Language.OrderInfor_LinkEmail', name: "LinkEmail", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                { label: '@Resources.Language.OrderInfor_LinkEmail', name: "LinkEmail", width: 150, editable: true, edittype: "text", editrules: { required: true, email:true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_WorkPlace', name: "WorkPlace", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
@@ -201,9 +201,34 @@
                 { label: '@Resources.Language.OrderInfor_SmallTugNum', name: "SmallTugNum", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_Remark', name: "Remark", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
                 { label: '@Resources.Language.OrderInfor_OwnerID', name: "OwnerID", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
-                { label: '@Resources.Language.OrderInfor_CreateDate', name: "CreateDate", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                {
+                    label: '@Resources.Language.OrderInfor_CreateDate', name: "CreateDate", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false,
+                    formatter: 'date',
+                    formatoptions: { srcformat: 'yy/mm/dd HH:MM:ss', newformat: 'yy/mm/dd HH:MM:ss' },
+                    //datefmt: 'yy/mm/dd HH:MM:ss',
+                    //sorttype : 'date',
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                id: 'orderCreateDate_datePicker',
+                                timeFormat: 'HH:MM:ss',
+                                dateFormat: 'yy/mm/dd',
+                                showOn : 'focus'
+                            });
+
+                            
+                        }
+                    }
+                },
                 { label: '@Resources.Language.OrderInfor_UserID', name: "UserID", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
-                { label: '@Resources.Language.OrderInfor_LastUpDate', name: "LastUpDate", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false },
+                {
+                    label: '@Resources.Language.OrderInfor_LastUpDate', name: "LastUpDate", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: false,
+                    editoptions: {
+                        dataInit: function (element) {
+                            //$(element).timepicker({});
+                        }
+                    }
+                },
                 { label: '@Resources.Language.OrderInfor_UserDefinedCol1', name: "UserDefinedCol1", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
                 { label: '@Resources.Language.OrderInfor_UserDefinedCol2', name: "UserDefinedCol2", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
                 { label: '@Resources.Language.OrderInfor_UserDefinedCol3', name: "UserDefinedCol3", width: 150, editable: true, edittype: "text", editrules: { required: true }, hidden: true },
