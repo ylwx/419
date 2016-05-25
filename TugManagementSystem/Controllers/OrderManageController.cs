@@ -146,5 +146,33 @@ namespace TugManagementSystem.Controllers
 
         }
 
+
+        public ActionResult GetCustomer(string term)
+        {
+
+            List<object> source = new List<object>();
+            source.Add(new { CustomerID = "123", ShipName = "abc" });
+            source.Add(new { CustomerID = "234", ShipName = "cde" });
+            source.Add(new { CustomerID = "345", ShipName = "efg" });
+            source.Add(new { CustomerID = "456", ShipName = "ghi" });
+            
+            var p = Request.Params;
+
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    var o = new { CustomerID = (i + 1).ToString(), ShipName = (i + 1).ToString() };
+            //    list.Add(o);
+            //}
+            
+
+            List<object> list = new List<object>();
+
+            list.Add(source[0]);
+            list.Add(source[1]);
+
+            var jsonData = new { list = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
