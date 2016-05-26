@@ -109,7 +109,7 @@
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "OrderManage")',
             pager: "#jqGridPager",
-            loadonce: true,
+            //loadonce: true,
             rowList: ['10', '20', '30'],
             rownumbers: true,
             shrinkToFit:false
@@ -132,7 +132,7 @@
                                     data: { 'oper': 'delete', 'id': gr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
-                                        alert(JSON.stringify(result));
+
                                         jQuery("#jqGrid").jqGrid('delRowData', gr);
                                     },
 
@@ -157,8 +157,10 @@
                     keys: true,
                     successfunc: function (val) {
                         if (val.responseText != "") {
-                            alert(val.responseText);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            alert(1);
+
+                            //$(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+
                         }
                     },
                     url: null, //'/api/values',
@@ -168,12 +170,14 @@
                 addParams: {
                     keys: true,
                     extraparam: {},
-                    successfunc: function (val) {
-                        if (val.responseText != "") {
-                            alert(val.responseText);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                        }
-                    }
+                    //successfunc: function (val) {
+                    //    alert(2);
+
+                    //    if (val.responseText != "") {
+
+                    //        //$(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    //    }
+                    //}
                 }
             });
 
@@ -239,10 +243,9 @@
                                         });
                                     },
                                     select: function (event, ui) {
-                                        //alert(ui.item.value);
                                     },
                                     change: function (event, ui) {
-                                        //alert(ui.item.value);
+
                                         var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
 
                                         if (ui.item != null) {
@@ -317,10 +320,10 @@
                                         });
                                     },
                                     select: function (event, ui) {
-                                        //alert(ui.item.value);
+
                                     },
                                     change: function (event, ui) {
-                                        //alert(ui.item.value);
+  
                                         var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
 
                                         if (ui.item != null) {

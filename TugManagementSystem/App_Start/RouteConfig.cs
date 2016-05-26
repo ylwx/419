@@ -18,7 +18,7 @@ namespace TugManagementSystem
                 //url: "{controller}/{action}/{id}",
                 //defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
                 url: "{controller}/{action}/{lan}/{id}",
-                defaults: new { controller = "Home", action = "Index", lan = "zh-HK", id = UrlParameter.Optional }
+                defaults: new { controller = "OrderManage", action = "Index", lan = "zh-HK", id = UrlParameter.Optional }
             );
         }
     }

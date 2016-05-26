@@ -54,11 +54,14 @@ namespace TugManagementSystem.Controllers
             {
                 try
                 {
+
+                    int m = TugBusinessLogic.Utils.MaxOrderInforId();
+
                     string i = f["CustomerID"];
                     string j = f["ShipID"];
                     
                     TugDataEntities db = new TugDataEntities();
-                    if (null == db.OrderInfor.Where(u => u.Code == "123").FirstOrDefault())
+                    if (null == db.OrderInfor.Where(u => u.Code == "").FirstOrDefault())
                     {
                         TugDataModel.OrderInfor o = new OrderInfor();
                         o.Code = "123";
@@ -85,28 +88,29 @@ namespace TugManagementSystem.Controllers
             {
                 try
                 {
-                    using (TugDataEntities db = new TugDataEntities())
+                    TugDataEntities db = new TugDataEntities();
+
+                    
+                    OrderInfor aOrder = db.OrderInfor.Where(u => u.Code == "123").FirstOrDefault();
+
+                    if (aOrder != null && aOrder.ID != 1 && aOrder.Code.Equals(""))
                     {
-                        OrderInfor aOrder = db.OrderInfor.Where(u => u.Code == "123").FirstOrDefault();
-
-                        if (aOrder != null && aOrder.ID != 1 && aOrder.Code.Equals("123"))
-                        {
-                            return Json(new { code = 1, message = "订单名称已存在，请重新输入！" });
-                        }
-                        else
-                        {
-                            System.Transactions.TransactionScope transaction = new System.Transactions.TransactionScope();
-                            aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == 1);
-                            aOrder.Code = "456";
-
-                            db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
-                            db.SaveChanges();
-
-                            transaction.Complete();
-
-                            return Json(new { code = 2, message = "修改成功！" });
-                        }
+                        return Json(new { code = 1, message = "订单名称已存在，请重新输入！" });
                     }
+                    else
+                    {
+                        System.Transactions.TransactionScope transaction = new System.Transactions.TransactionScope();
+                        aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == aOrder.ID);
+                        aOrder.Code = "456";
+
+                        db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        transaction.Complete();
+
+                        return Json(new { code = 2, message = "修改成功！" });
+                    }
+
                 }
                 catch (Exception)
                 {
