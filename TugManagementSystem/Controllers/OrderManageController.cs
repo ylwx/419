@@ -54,6 +54,9 @@ namespace TugManagementSystem.Controllers
             {
                 try
                 {
+                    string i = f["CustomerID"];
+                    string j = f["ShipID"];
+                    
                     TugDataEntities db = new TugDataEntities();
                     if (null == db.OrderInfor.Where(u => u.Code == "123").FirstOrDefault())
                     {
