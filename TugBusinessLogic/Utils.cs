@@ -15,7 +15,7 @@ namespace TugBusinessLogic
 
             TugDataEntities db = new TugDataEntities();
 
-            List<int> list = db.OrderInfor.OrderByDescending(u => u.ID).Select(u => u.ID).ToList();
+            List<int> list = db.OrderInfor.OrderByDescending(u => u.IDX).Select(u => u.IDX).ToList();
 
             if (list != null && list.Count > 0)
                 if (list != null)
@@ -27,13 +27,14 @@ namespace TugBusinessLogic
         /// 获取最大活动编号
         /// </summary>
         /// <returns></returns>
-        //public string MaxNumberGet(string msg)
+        //static public string MaxNumberGet(string msg)
         //{
-
+        //    TugDataEntities db = new TugDataEntities();
+            
         //    acc.BeginTransaction();
         //    try
         //    {
-        //        return msg + (MaxId + 1).ToString("000000");
+        //        return msg + (MaxOrderInforId() + 1).ToString("000000");
         //    }
         //    catch
         //    {
@@ -44,6 +45,7 @@ namespace TugBusinessLogic
         //    {
         //        acc.CloseSession();
         //    }
+           
         //}
     }
 }

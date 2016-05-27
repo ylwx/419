@@ -20,17 +20,17 @@ namespace TugDataModel
             this.Scheduler = new HashSet<Scheduler>();
         }
     
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<bool> IsGuest { get; set; }
         public string Code { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
-        public Nullable<System.DateTime> OrdTime { get; set; }
-        public Nullable<System.DateTime> WorkTime { get; set; }
-        public Nullable<System.DateTime> EstimatedCompletionTime { get; set; }
+        public Nullable<System.TimeSpan> OrdTime { get; set; }
+        public Nullable<System.TimeSpan> WorkTime { get; set; }
+        public Nullable<System.TimeSpan> EstimatedCompletionTime { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
-        public string Linkman { get; set; }
+        public string LinkMan { get; set; }
         public string LinkPhone { get; set; }
         public string LinkEmail { get; set; }
         public string WorkPlace { get; set; }

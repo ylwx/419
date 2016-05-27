@@ -25,20 +25,25 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
+
+
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                List<OrderInfor> orders = db.OrderInfor.Select(u => u).OrderBy(u => u.ID).ToList<OrderInfor>();
+                List<OrderInfor> orders = db.OrderInfor.Select(u => u).ToList<OrderInfor>();
                 int totalRecordNum = orders.Count;
-                int pageSize = 30;
+                int pageSize = rows;
                 int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
+                List<OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<OrderInfor>();
+
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
-                return Json(new { code = 3, message = "出现异常，修改失败！" });
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
 
@@ -68,7 +73,7 @@ namespace TugManagementSystem.Controllers
 
                         o = db.OrderInfor.Add(o);
                         db.SaveChanges();
-                        Response.Write(o);
+                        //Response.Write(o);
                         return Json(o);
 
                     }
@@ -90,36 +95,83 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    
-                    OrderInfor aOrder = db.OrderInfor.Where(u => u.Code == "123").FirstOrDefault();
+                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    if (aOrder != null && aOrder.ID != 1 && aOrder.Code.Equals(""))
+                    if (aOrder == null)
                     {
-                        return Json(new { code = 1, message = "订单名称已存在，请重新输入！" });
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
                     else
                     {
-                        System.Transactions.TransactionScope transaction = new System.Transactions.TransactionScope();
-                        aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == aOrder.ID);
-                        aOrder.Code = "456";
+                        aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
+                        aOrder.Code = (TugBusinessLogic.Utils.MaxOrderInforId() + 1).ToString();
+
+                        aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
+                        aOrder.CustomerName = Request.Form["CustomerName"];
+                        aOrder.EstimatedCompletionTime = TimeSpan.Parse(Request.Form["EstimatedCompletionTime"]);
+                        aOrder.LastUpDate = DateTime.Now;
+                        aOrder.LinkEmail = Request.Form["LinkEmail"];
+                        aOrder.LinkMan = Request.Form["LinkMan"];
+
+                        aOrder.LinkPhone = Request.Form["LinkPhone"];
+                        aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
+                        aOrder.OrdTime = TimeSpan.Parse(Request.Form["OrdTime"]);
+                        aOrder.Remark = Request.Form["Remark"];
+                        aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"]);
+                        aOrder.ShipName = Request.Form["ShipName"];
+                        aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
+                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        if(Request.Form["UserDefinedCol5"] == "")
+                            aOrder.UserDefinedCol5 = null;
+                        else
+                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        if (Request.Form["UserDefinedCol6"] == "")
+                            aOrder.UserDefinedCol6 = null;
+                        else
+                            aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        if (Request.Form["UserDefinedCol7"] == "")
+                            aOrder.UserDefinedCol7 = null;
+                        else
+                            aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        if (Request.Form["UserDefinedCol8"] == "")
+                            aOrder.UserDefinedCol8 = null;
+                        else
+                            aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        if (Request.Form["UserDefinedCol9"] == "")
+                            aOrder.UserDefinedCol9 = null;
+                        else
+                            aOrder.UserDefinedCol9 = Convert.ToDateTime(Request.Form["UserDefinedCol9"]);
+
+                        if (Request.Form["UserDefinedCol10"] == "")
+                            aOrder.UserDefinedCol10 = null;
+                        else
+                            aOrder.UserDefinedCol10 = Convert.ToDateTime(Request.Form["UserDefinedCol10"]);
 
                         db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
-                        transaction.Complete();
-
-                        return Json(new { code = 2, message = "修改成功！" });
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
 
                 }
-                catch (Exception)
+                catch (Exception exp)
                 {
-                    return Json(new { code = 3, message = "出现异常，修改失败！" });
+                    
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
                 }
             }
             #endregion
 
-            return Json(new { });
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE});
         }
 
 
@@ -131,24 +183,24 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
+                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+
                 TugDataEntities db = new TugDataEntities();
-                OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.ID == 1);
+                OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);
                 if (aOrder != null)
                 {
                     db.OrderInfor.Remove(aOrder);
                     db.SaveChanges();
-                    return Json(new { code = 1, message = "删除成功！" });
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
                 else
                 {
-                    return Json(new { code = 2, message = "无效基地，删除失败！" });
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                 }
             }
             catch (Exception)
             {
-                //throw e.InnerException;
-                //return Json("删除失败！" + e.InnerException.Message);
-                return Json(new { code = 3, message = "该基地与业务有关联，请先删除关联业务，再删除此基地！" });
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
 
         }

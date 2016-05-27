@@ -20,7 +20,7 @@ namespace TugDataModel
             this.Scheduler = new HashSet<Scheduler>();
         }
     
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public string Code { get; set; }
         public string CnName { get; set; }
         public string EnName { get; set; }

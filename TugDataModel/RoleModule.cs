@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class RoleModule
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> RoleID { get; set; }
         public Nullable<int> ModuleID { get; set; }
         public Nullable<bool> IsAdmin { get; set; }

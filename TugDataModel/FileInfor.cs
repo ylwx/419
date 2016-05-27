@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class FileInfor
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> RelateID { get; set; }
         public string PaperCode { get; set; }
         public string PaperName { get; set; }

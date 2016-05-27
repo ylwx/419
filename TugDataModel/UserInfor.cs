@@ -19,7 +19,7 @@ namespace TugDataModel
             this.UsersRole = new HashSet<UsersRole>();
         }
     
-        public int Id { get; set; }
+        public int IDX { get; set; }
         public string UserName { get; set; }
         public string Pwd { get; set; }
         public Nullable<bool> IsGuest { get; set; }

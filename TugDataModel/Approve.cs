@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class Approve
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> BillingID { get; set; }
         public Nullable<int> FlowMark { get; set; }
         public Nullable<int> Phase { get; set; }

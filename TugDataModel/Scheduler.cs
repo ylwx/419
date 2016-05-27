@@ -14,17 +14,17 @@ namespace TugDataModel
     
     public partial class Scheduler
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
         public Nullable<int> TugID { get; set; }
         public Nullable<int> JobStateID { get; set; }
-        public Nullable<System.DateTime> InformCaptainTime { get; set; }
-        public Nullable<System.DateTime> CaptainConfirmTime { get; set; }
-        public Nullable<System.DateTime> DepartBaseTime { get; set; }
-        public Nullable<System.DateTime> ArrivalShipSideTime { get; set; }
-        public Nullable<System.DateTime> WorkCommencedTime { get; set; }
-        public Nullable<System.DateTime> WorkCompletedTime { get; set; }
-        public Nullable<System.DateTime> ArrivalBaseTime { get; set; }
+        public Nullable<System.TimeSpan> InformCaptainTime { get; set; }
+        public Nullable<System.TimeSpan> CaptainConfirmTime { get; set; }
+        public Nullable<System.TimeSpan> DepartBaseTime { get; set; }
+        public Nullable<System.TimeSpan> ArrivalShipSideTime { get; set; }
+        public Nullable<System.TimeSpan> WorkCommencedTime { get; set; }
+        public Nullable<System.TimeSpan> WorkCompletedTime { get; set; }
+        public Nullable<System.TimeSpan> ArrivalBaseTime { get; set; }
         public Nullable<bool> RopeUsed { get; set; }
         public Nullable<int> RopeNum { get; set; }
         public string Remark { get; set; }

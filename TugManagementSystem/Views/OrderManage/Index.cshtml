@@ -105,7 +105,7 @@
             viewrecords: true,
             //width: 780,
             height: 400,
-            rowNum: 30,
+            rowNum: 10,
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "OrderManage")',
             pager: "#jqGridPager",
@@ -121,19 +121,20 @@
             ).navButtonAdd('#jqGridPager', {
                 caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
                 onClickButton: function () {
-                    var gr = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    if (gr != null) {
-                        if (confirm('delete?')) {
+                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                    if (rowid != null) {
+                        if (confirm('确定要删除所选的记录吗?')) {
                             var d = new Date();
                             $.ajax(
                                 {
                                     type: "post",
                                     url: '@Url.Action("Delete", "OrderManage")',
-                                    data: { 'oper': 'delete', 'id': gr },//"oper=delete&id=" + gr,
+                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
-
-                                        jQuery("#jqGrid").jqGrid('delRowData', gr);
+                                        alert(result);
+                                        jQuery("#jqGrid").jqGrid('delRowData', rowid);
                                     },
 
                                 }
@@ -157,10 +158,9 @@
                     keys: true,
                     successfunc: function (val) {
                         if (val.responseText != "") {
-                            alert(1);
-
-                            //$(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     },
                     url: null, //'/api/values',
@@ -188,7 +188,7 @@
             columns: [
 
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_ID', name: "ID", width: 100, editable: false, edittype: "text",
+                    align: 'center', label: '@Resources.Language.OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true
                 },
                 {
@@ -349,7 +349,7 @@
 
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_Linkman', name: "Linkman", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false
                 },
                 {
@@ -370,15 +370,24 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 75, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 75, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_SmallTugNum', name: "SmallTugNum", width: 75, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_Remark', name: "Remark", width: 300, editable: true, edittype: "textarea",

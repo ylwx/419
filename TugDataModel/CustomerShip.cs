@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class CustomerShip
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public Nullable<int> ShipTypeID { get; set; }
         public string CNName { get; set; }

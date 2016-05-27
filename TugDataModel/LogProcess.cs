@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class LogProcess
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> RelateID { get; set; }
         public string Description { get; set; }
         public Nullable<int> TypeID { get; set; }

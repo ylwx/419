@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class BillingItem
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> BillingID { get; set; }
         public Nullable<int> ItemID { get; set; }
         public Nullable<double> UnitPrice { get; set; }

@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class RoleMenu
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public string Page { get; set; }
         public string Menu { get; set; }
         public string MenuName { get; set; }

@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class Arrangement
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<System.DateTime> WorkDate { get; set; }
         public Nullable<int> TugID { get; set; }
         public Nullable<int> SortNo { get; set; }

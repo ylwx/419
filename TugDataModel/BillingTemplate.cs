@@ -19,7 +19,7 @@ namespace TugDataModel
             this.BillingItemTemplate = new HashSet<BillingItemTemplate>();
         }
     
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string BillingTemplateType { get; set; }
         public string BillingTemplateCode { get; set; }

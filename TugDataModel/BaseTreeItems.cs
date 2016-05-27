@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class BaseTreeItems
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public string InCode { get; set; }
         public Nullable<int> FatherID { get; set; }
         public string CNName { get; set; }

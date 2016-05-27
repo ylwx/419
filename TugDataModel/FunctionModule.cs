@@ -14,7 +14,7 @@ namespace TugDataModel
     
     public partial class FunctionModule
     {
-        public int ID { get; set; }
+        public int IDX { get; set; }
         public string ModuleCode { get; set; }
         public string ModuleName { get; set; }
         public string System { get; set; }

@@ -144,9 +144,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 訂單ID 的本地化字符串。
         /// </summary>
-        internal static string OrderInfor_ID {
+        internal static string OrderInfor_IDX {
             get {
-                return ResourceManager.GetString("OrderInfor_ID", resourceCulture);
+                return ResourceManager.GetString("OrderInfor_IDX", resourceCulture);
             }
         }
         
@@ -180,9 +180,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 聯繫人名稱 的本地化字符串。
         /// </summary>
-        internal static string OrderInfor_Linkman {
+        internal static string OrderInfor_LinkMan {
             get {
-                return ResourceManager.GetString("OrderInfor_Linkman", resourceCulture);
+                return ResourceManager.GetString("OrderInfor_LinkMan", resourceCulture);
             }
         }
         
