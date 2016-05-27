@@ -27,7 +27,7 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol6 { get; set; }
         public Nullable<int> UserDefinedCol7 { get; set; }
         public Nullable<int> UserDefinedCol8 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol9 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol10 { get; set; }
+        public string UserDefinedCol9 { get; set; }
+        public string UserDefinedCol10 { get; set; }
     }
 }

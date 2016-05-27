@@ -133,8 +133,9 @@
                                     data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
-                                        alert(result);
-                                        jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                        alert(result.message);
+                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                                     },
 
                                 }
@@ -170,14 +171,18 @@
                 addParams: {
                     keys: true,
                     extraparam: {},
-                    //successfunc: function (val) {
-                    //    alert(2);
-
-                    //    if (val.responseText != "") {
-
-                    //        //$(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    //    }
-                    //}
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            //var ret = $.parseJSON(val.responseText);
+                            //alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    errorfunc : function(rowid, xhr)
+                    {
+                        alert(xhr.responseText);
+                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
                 }
             });
 
@@ -201,7 +206,7 @@
                     align: 'center', label: '@Resources.Language.OrderInfor_Code', name: "Code", width: 200, editable: false, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {
-                        defaultValue: function () { return Date().toString(); }
+                        //defaultValue: function () { return Date().toString(); }
                     },
                     searchoptions: { sopt: ["cn"] }
                 },
@@ -366,7 +371,10 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    editrules: { required: true, integer:true }, hidden: false,
+                    editoptions: {
+                        defaultValue: -1
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 75, editable: true, edittype: "text",
@@ -405,14 +413,14 @@
                     label: '@Resources.Language.OrderInfor_CreateDate', name: "CreateDate", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, date:true }, hidden: false,
                     //formatter: 'date',
-                    //formatoptions: { srcformat: 'yyyy/mm/dd', newformat: 'yyyy/mm/dd' },
-                    datefmt: 'yyyy/mm/dd',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
                     sorttype : 'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
                                 //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy/mm/dd',
+                                dateFormat: 'yy-mm-dd',
                                 showOn: 'focus'
                             });
 
@@ -429,13 +437,13 @@
                     label: '@Resources.Language.OrderInfor_LastUpDate', name: "LastUpDate", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, date: true }, hidden: false,
                     //formatter: 'date',
-                    datefmt: 'yyyy/mm/dd',
+                    datefmt: 'yyyy-mm-dd',
                     sorttype:'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
                                 //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy/mm/dd',
+                                dateFormat: 'yy-mm-dd',
                                 showOn: 'focus'
                             });
                         }
@@ -476,12 +484,12 @@
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date:true }, hidden: true,
-                    datefmt: 'yyyy/mm/dd',
+                    datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
-                                dateFormat: 'yy/mm/dd',
+                                dateFormat: 'yy-mm-dd',
                                 showOn: 'focus'
                             });
                         }
@@ -490,12 +498,12 @@
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date: true }, hidden: true,
-                    datefmt: 'yyyy/mm/dd',
+                    datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
-                                dateFormat: 'yy/mm/dd',
+                                dateFormat: 'yy-mm-dd',
                                 showOn: 'focus'
                             });
                         }

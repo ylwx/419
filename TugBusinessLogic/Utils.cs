@@ -10,7 +10,7 @@ namespace TugBusinessLogic
 {
     public class Utils
     {
-        static public int MaxOrderInforId()
+        static private int MaxOrderInforId()
         {
 
             TugDataEntities db = new TugDataEntities();
@@ -27,25 +27,27 @@ namespace TugBusinessLogic
         /// 获取最大活动编号
         /// </summary>
         /// <returns></returns>
-        //static public string MaxNumberGet(string msg)
-        //{
-        //    TugDataEntities db = new TugDataEntities();
-            
-        //    acc.BeginTransaction();
-        //    try
-        //    {
-        //        return msg + (MaxOrderInforId() + 1).ToString("000000");
-        //    }
-        //    catch
-        //    {
-        //        acc.RollBack();
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        acc.CloseSession();
-        //    }
-           
-        //}
+        static public string GetOrderSequenceNo(string msg = "")
+        {
+            string ret = "";
+            using (TugDataEntities db = new TugDataEntities())
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        ret = msg + (MaxOrderInforId() + 1).ToString("000000");
+
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                    }
+                }
+            }
+
+            return ret;
+        }
     }
 }

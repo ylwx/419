@@ -30,9 +30,9 @@ namespace TugDataModel
         public Nullable<double> CreditAmount { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
-        public Nullable<System.DateTime> LastUpDate { get; set; }
+        public string LastUpDate { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }
         public string UserDefinedCol3 { get; set; }
@@ -41,8 +41,8 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol6 { get; set; }
         public Nullable<int> UserDefinedCol7 { get; set; }
         public Nullable<int> UserDefinedCol8 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol9 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol10 { get; set; }
+        public string UserDefinedCol9 { get; set; }
+        public string UserDefinedCol10 { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual OrderInfor OrderInfor { get; set; }

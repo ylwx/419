@@ -26,12 +26,14 @@ namespace TugManagementSystem.Controllers
             this.Internationalization();
 
 
+            string s = Request.QueryString[6];
 
             try
             {
                 TugDataEntities db = new TugDataEntities();
                 List<OrderInfor> orders = db.OrderInfor.Select(u => u).ToList<OrderInfor>();
                 int totalRecordNum = orders.Count;
+                if (totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
                 int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
@@ -52,36 +54,78 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            var f = Request.Form;
-
             #region Add
             if (Request.Form["oper"].Equals("add"))
             {
                 try
-                {
-
-                    int m = TugBusinessLogic.Utils.MaxOrderInforId();
-
-                    string i = f["CustomerID"];
-                    string j = f["ShipID"];
-                    
+                {                    
                     TugDataEntities db = new TugDataEntities();
-                    if (null == db.OrderInfor.Where(u => u.Code == "").FirstOrDefault())
                     {
-                        TugDataModel.OrderInfor o = new OrderInfor();
-                        o.Code = "123";
+                        TugDataModel.OrderInfor aOrder = new OrderInfor();
 
-                        o = db.OrderInfor.Add(o);
+                        aOrder.Code = TugBusinessLogic.Utils.GetOrderSequenceNo();
+
+                        aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
+                        aOrder.CustomerName = Request.Form["CustomerName"];
+                        aOrder.OrdTime = Request.Form["OrdTime"];
+                        aOrder.WorkTime = Request.Form["WorkTime"];
+                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"];
+
+                        aOrder.IsGuest = Request.Form["IsGuest"].ToLower();
+                        aOrder.LinkMan = Request.Form["LinkMan"];
+                        aOrder.LinkPhone = Request.Form["LinkPhone"];
+                        aOrder.LinkEmail = Request.Form["LinkEmail"];
+
+
+                        if (Request.Form["BigTugNum"] != "")
+                            aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
+                        if (Request.Form["MiddleTugNum"] != "")
+                        aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
+                        if (Request.Form["SmallTugNum"] != "")
+                        aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
+
+                        aOrder.OwnerID = -1;
+                        aOrder.Remark = Request.Form["Remark"];
+                        aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"]);
+                        aOrder.ShipName = Request.Form["ShipName"];
+                        aOrder.UserID = -1;
+                        aOrder.WorkPlace = Request.Form["WorkPlace"];
+                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
+
+                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        if (Request.Form["UserDefinedCol5"] != "")
+                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        if (Request.Form["UserDefinedCol6"] != "")
+                            aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        if (Request.Form["UserDefinedCol7"] != "")
+                            aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        if (Request.Form["UserDefinedCol8"] != "")
+                            aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                        aOrder = db.OrderInfor.Add(aOrder);
                         db.SaveChanges();
-                        //Response.Write(o);
-                        return Json(o);
+                        
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
 
                     }
                 }
                 catch (Exception)
                 {
-                    var ret = new { code = 4, message = "出现异常，新增失败！" };
-                    Response.Write(ret);
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE};
+                    Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
                     return Json(ret);
                 }
 
@@ -104,23 +148,27 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
-                        aOrder.Code = (TugBusinessLogic.Utils.MaxOrderInforId() + 1).ToString();
-
                         aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
                         aOrder.CustomerName = Request.Form["CustomerName"];
-                        aOrder.EstimatedCompletionTime = TimeSpan.Parse(Request.Form["EstimatedCompletionTime"]);
-                        aOrder.LastUpDate = DateTime.Now;
-                        aOrder.LinkEmail = Request.Form["LinkEmail"];
+                        aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        
                         aOrder.LinkMan = Request.Form["LinkMan"];
-
                         aOrder.LinkPhone = Request.Form["LinkPhone"];
-                        aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
-                        aOrder.OrdTime = TimeSpan.Parse(Request.Form["OrdTime"]);
-                        aOrder.Remark = Request.Form["Remark"];
+                        aOrder.LinkEmail = Request.Form["LinkEmail"];
+
+                        aOrder.OrdTime = Request.Form["OrdTime"];
+                        aOrder.WorkTime = Request.Form["WorkTime"];
+                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"];
+
                         aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"]);
                         aOrder.ShipName = Request.Form["ShipName"];
+                        aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
+                        aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
                         aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
+                        aOrder.WorkPlace = Request.Form["WorkPlace"];
+                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
+                        aOrder.Remark = Request.Form["Remark"];
+                        
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -146,15 +194,8 @@ namespace TugManagementSystem.Controllers
                         else
                             aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        if (Request.Form["UserDefinedCol9"] == "")
-                            aOrder.UserDefinedCol9 = null;
-                        else
-                            aOrder.UserDefinedCol9 = Convert.ToDateTime(Request.Form["UserDefinedCol9"]);
-
-                        if (Request.Form["UserDefinedCol10"] == "")
-                            aOrder.UserDefinedCol10 = null;
-                        else
-                            aOrder.UserDefinedCol10 = Convert.ToDateTime(Request.Form["UserDefinedCol10"]);
+                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
                         db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
@@ -216,13 +257,6 @@ namespace TugManagementSystem.Controllers
             source.Add(new { CustomerID = "456", ShipName = "ghi" });
             
             var p = Request.Params;
-
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    var o = new { CustomerID = (i + 1).ToString(), ShipName = (i + 1).ToString() };
-            //    list.Add(o);
-            //}
-            
 
             List<object> list = new List<object>();
 

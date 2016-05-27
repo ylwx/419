@@ -18,8 +18,8 @@ namespace TugDataModel
         public string Page { get; set; }
         public string Menu { get; set; }
         public string MenuName { get; set; }
-        public Nullable<bool> Visible { get; set; }
-        public Nullable<bool> IsAdmin { get; set; }
+        public string Visible { get; set; }
+        public string IsAdmin { get; set; }
         public Nullable<int> RoleID { get; set; }
         public string Remark { get; set; }
         public string System { get; set; }
@@ -31,8 +31,8 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol6 { get; set; }
         public Nullable<int> UserDefinedCol7 { get; set; }
         public Nullable<int> UserDefinedCol8 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol9 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol10 { get; set; }
+        public string UserDefinedCol9 { get; set; }
+        public string UserDefinedCol10 { get; set; }
     
         public virtual Role Role { get; set; }
     }

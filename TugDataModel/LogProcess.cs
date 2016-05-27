@@ -19,9 +19,10 @@ namespace TugDataModel
         public string Description { get; set; }
         public Nullable<int> TypeID { get; set; }
         public Nullable<int> OwnerID { get; set; }
+        public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string IP { get; set; }
-        public Nullable<System.DateTime> LastUpDate { get; set; }
+        public string LastUpDate { get; set; }
         public string System { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }

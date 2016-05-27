@@ -24,8 +24,8 @@ namespace TugDataModel
         public Nullable<int> PersonID { get; set; }
         public string System { get; set; }
         public Nullable<int> OwnerID { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
-        public Nullable<System.DateTime> LastUpDate { get; set; }
+        public string LastUpDate { get; set; }
     }
 }

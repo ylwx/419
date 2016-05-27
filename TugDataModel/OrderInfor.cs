@@ -21,13 +21,13 @@ namespace TugDataModel
         }
     
         public int IDX { get; set; }
-        public Nullable<bool> IsGuest { get; set; }
+        public string IsGuest { get; set; }
         public string Code { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
-        public Nullable<System.TimeSpan> OrdTime { get; set; }
-        public Nullable<System.TimeSpan> WorkTime { get; set; }
-        public Nullable<System.TimeSpan> EstimatedCompletionTime { get; set; }
+        public string OrdTime { get; set; }
+        public string WorkTime { get; set; }
+        public string EstimatedCompletionTime { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
         public string LinkMan { get; set; }
@@ -35,14 +35,15 @@ namespace TugDataModel
         public string LinkEmail { get; set; }
         public string WorkPlace { get; set; }
         public Nullable<int> WorkStateID { get; set; }
+        public string WorkStateName { get; set; }
         public Nullable<int> BigTugNum { get; set; }
         public Nullable<int> MiddleTugNum { get; set; }
         public Nullable<int> SmallTugNum { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
-        public Nullable<System.DateTime> LastUpDate { get; set; }
+        public string LastUpDate { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }
         public string UserDefinedCol3 { get; set; }
@@ -51,8 +52,8 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol6 { get; set; }
         public Nullable<int> UserDefinedCol7 { get; set; }
         public Nullable<int> UserDefinedCol8 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol9 { get; set; }
-        public Nullable<System.DateTime> UserDefinedCol10 { get; set; }
+        public string UserDefinedCol9 { get; set; }
+        public string UserDefinedCol10 { get; set; }
     
         public virtual ICollection<Billing> Billing { get; set; }
         public virtual ICollection<Scheduler> Scheduler { get; set; }
