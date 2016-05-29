@@ -26,7 +26,7 @@ namespace TugManagementSystem.Controllers
             this.Internationalization();
 
 
-            string s = Request.QueryString[6];
+            //string s = Request.QueryString[6];
 
             try
             {
@@ -49,16 +49,45 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        public ActionResult GetDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+
+            //string s = Request.QueryString[6];
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<OrderInfor> orders = db.OrderInfor.Select(u => u).ToList<OrderInfor>();
+                int totalRecordNum = orders.Count;
+                if (totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                //List<OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<OrderInfor>();
+
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
 
         public ActionResult AddEdit()
         {
             this.Internationalization();
 
+
             #region Add
             if (Request.Form["oper"].Equals("add"))
             {
                 try
-                {                    
+                {
                     TugDataEntities db = new TugDataEntities();
                     {
                         TugDataModel.OrderInfor aOrder = new OrderInfor();
@@ -81,9 +110,9 @@ namespace TugManagementSystem.Controllers
                         if (Request.Form["BigTugNum"] != "")
                             aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
                         if (Request.Form["MiddleTugNum"] != "")
-                        aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
+                            aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
                         if (Request.Form["SmallTugNum"] != "")
-                        aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
+                            aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
 
                         aOrder.OwnerID = -1;
                         aOrder.Remark = Request.Form["Remark"];
@@ -115,17 +144,16 @@ namespace TugManagementSystem.Controllers
 
                         aOrder = db.OrderInfor.Add(aOrder);
                         db.SaveChanges();
-                        
-                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
-                        Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                        return Json(ret);
 
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
                     }
                 }
                 catch (Exception)
                 {
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE};
-                    Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
                     return Json(ret);
                 }
 
@@ -133,7 +161,7 @@ namespace TugManagementSystem.Controllers
             #endregion
 
             #region Edit
-            else if (Request.Form["oper"].Equals("edit"))
+            if (Request.Form["oper"].Equals("edit"))
             {
                 try
                 {
@@ -162,8 +190,11 @@ namespace TugManagementSystem.Controllers
 
                         aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"]);
                         aOrder.ShipName = Request.Form["ShipName"];
+                        if (Request.Form["BigTugNum"] != "")
                         aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
+                        if (Request.Form["MiddleTugNum"] != "")
                         aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
+                        if (Request.Form["SmallTugNum"] != "")
                         aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
                         aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
@@ -174,24 +205,16 @@ namespace TugManagementSystem.Controllers
                         aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
                         aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
-                        if(Request.Form["UserDefinedCol5"] == "")
-                            aOrder.UserDefinedCol5 = null;
-                        else
+                        if(Request.Form["UserDefinedCol5"] != "")
                             aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
-                        if (Request.Form["UserDefinedCol6"] == "")
-                            aOrder.UserDefinedCol6 = null;
-                        else
+                        if (Request.Form["UserDefinedCol6"] != "")
                             aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
-                        if (Request.Form["UserDefinedCol7"] == "")
-                            aOrder.UserDefinedCol7 = null;
-                        else
+                        if (Request.Form["UserDefinedCol7"] != "")
                             aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
-                        if (Request.Form["UserDefinedCol8"] == "")
-                            aOrder.UserDefinedCol8 = null;
-                        else
+                        if (Request.Form["UserDefinedCol8"] != "")
                             aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
                         aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"];

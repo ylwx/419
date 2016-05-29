@@ -98,7 +98,7 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetData", "OrderManage")',
+            url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -109,7 +109,7 @@
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "OrderManage")',
             pager: "#jqGridPager",
-            //loadonce: true,
+            loadonce: true,
             rowList: ['10', '20', '30'],
             rownumbers: true,
             shrinkToFit:false
@@ -117,8 +117,30 @@
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
-        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false }
-            ).navButtonAdd('#jqGridPager', {
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+            .navButtonAdd('#jqGridPager', {
+                caption: "", title: "刷新", buttonicon: "ui-icon-refresh", 
+                onClickButton: function () {
+                    //alert("haha");
+                    @*$.ajax(
+                        {
+                            type: "get",
+                            url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
+                            dataType: 'json',
+                            type: 'get',
+                            data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
+                            success: function (result) {
+                               
+                                $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            },
+                        }
+                        );*@
+
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#jqGridPager', {
                 caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
                 onClickButton: function () {
                     var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
@@ -146,8 +168,9 @@
                         alert('选中一行');
                     }
                 },
-                position: "first"
+                position: "last"
             });
+            
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
@@ -170,11 +193,10 @@
 
                 addParams: {
                     keys: true,
-                    extraparam: {},
                     successfunc: function (val) {
                         if (val.responseText != "") {
-                            //var ret = $.parseJSON(val.responseText);
-                            //alert(ret.message);
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     },
