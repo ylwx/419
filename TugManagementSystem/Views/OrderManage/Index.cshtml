@@ -112,12 +112,22 @@
             loadonce: true,
             rowList: ['10', '20', '30'],
             rownumbers: true,
-            shrinkToFit:false
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            colMenu : true          //列菜单
         });
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+            .navButtonAdd('#jqGridPager', {
+                caption: "",
+                title: "",
+                buttonicon: "",
+                onClickButton: function () {
+                    jQuery("#jqGrid").jqGrid('columnChooser');
+                }
+            })
             .navButtonAdd('#jqGridPager', {
                 caption: "", title: "刷新", buttonicon: "ui-icon-refresh", 
                 onClickButton: function () {
@@ -208,6 +218,9 @@
                 }
             });
 
+
+        //最后调用，冻结列
+        //$("#jqGrid").jqGrid("setFrozenColumns");
     });
 
     function GetTableConfig() {
@@ -216,11 +229,11 @@
 
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    editrules: { required: false }, hidden: true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
-                    editrules: { required: true },
+                    editrules: { required: true },colmenu:false,
                     hidden: false,
                     searchoptions: { sopt: ["ge", "le"] }
                 },
@@ -243,6 +256,7 @@
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_CustomerName', name: "CustomerName", width: 150, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: true, columns: false, filtering: false, seraching: true, grouping: true, freeze: false },
                     editoptions: {
                         dataInit: function (element) {
                             window.setTimeout(function () {
