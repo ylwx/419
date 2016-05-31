@@ -367,11 +367,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 工作狀態 的本地化字符串。
+        ///   查找类似 工作狀態ID 的本地化字符串。
         /// </summary>
         internal static string OrderInfor_WorkStateID {
             get {
                 return ResourceManager.GetString("OrderInfor_WorkStateID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作狀態 的本地化字符串。
+        /// </summary>
+        internal static string OrderInfor_WorkStateName {
+            get {
+                return ResourceManager.GetString("OrderInfor_WorkStateName", resourceCulture);
             }
         }
         

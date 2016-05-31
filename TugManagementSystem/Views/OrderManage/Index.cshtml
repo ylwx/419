@@ -120,14 +120,7 @@
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-            .navButtonAdd('#jqGridPager', {
-                caption: "",
-                title: "",
-                buttonicon: "",
-                onClickButton: function () {
-                    jQuery("#jqGrid").jqGrid('columnChooser');
-                }
-            })
+            
             .navButtonAdd('#jqGridPager', {
                 caption: "", title: "刷新", buttonicon: "ui-icon-refresh", 
                 onClickButton: function () {
@@ -413,6 +406,33 @@
                     }
                 },
                 {
+                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "select",
+                    editrules: { required: true}, hidden: false,
+                    editoptions: {
+                        //dataUrl:"",
+                        //defaultValue: 'Intime'
+                        value: "1:One;2:Two",
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
+
+                                    if (rowid != null) {
+                                        var workStateId_id = rowid + "_WorkStateID";
+                                        $('#' + workStateId_id).val($(this).val());
+                                    }
+                                    else {
+                                        var shipId_id = rowid + "_WorkStateID";
+                                        $('#' + workStateId_id).val(-1);
+                                    }
+                                    
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
                     align: 'center', label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 75, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
@@ -459,8 +479,16 @@
                                 dateFormat: 'yy-mm-dd',
                                 showOn: 'focus'
                             });
+                        }
+                    },
 
-
+                    searchoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
                         }
                     }
                 },
@@ -476,6 +504,15 @@
                     datefmt: 'yyyy-mm-dd',
                     sorttype:'date',
                     editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    },
+                    searchoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
                                 //id: 'orderCreateDate_datePicker',
