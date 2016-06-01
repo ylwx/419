@@ -2171,5 +2171,120 @@ namespace TugBusinessLogic.Module
 
             return orders;
         }
+
+
+
+        /// <summary>
+        /// 获取拖轮一日的时间安排状态
+        /// </summary>
+        /// <param name="tugId">拖轮ID</param>
+        /// <param name="tugEx">拖轮对象</param>
+        /// <param name="workDate">指定日期</param>
+        /// <returns></returns>
+        static public TugEx GetTugSchedulerBusyState(int tugId, TugEx tugEx, string workDate)
+        {
+            TugDataEntities db = new TugDataEntities();
+            //string now = DateTime.Now.ToString("yyyy-MM-dd");
+
+            List<V_OrderScheduler> schedulers = db.V_OrderScheduler.Where(u => u.TugID == tugId && u.WorkDate == workDate)
+                .Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
+
+            //schedulers[0].DepartBaseTime;
+            //schedulers[0].ArrivalBaseTime;
+            if(schedulers != null)
+            {
+                foreach (V_OrderScheduler item in schedulers)
+                {
+                    tugEx = SetTugBusyState(item.DepartBaseTime.Trim(), item.ArrivalBaseTime.Trim(), tugEx);
+                    //tugEx = SetTugBusyState("00:20", "00:30", tugEx);
+                }
+            }
+
+            return tugEx;
+        }
+
+        static private TugEx SetTugBusyState(string startTime, string endTime, TugEx tugEx)
+        {
+            string[] _TimeInterval = {
+                                         
+                                         "00:30","01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30","06:00", 
+                                         "06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00", 
+                                         "12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", 
+                                         "18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30","24:00"
+                                     };
+
+            int[] _OriginCells = {
+                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                                 };
+
+
+            string s = _TimeInterval.First(u => u.CompareTo(startTime) > 0);
+            string e = _TimeInterval.First(u => u.CompareTo(endTime) >= 0);
+
+            int startIndex = _TimeInterval.ToList().IndexOf(s);
+            int endIndex = _TimeInterval.ToList().IndexOf(e);
+
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                if (_OriginCells[i] == 0) _OriginCells[i] = 1;
+            }
+
+            if (_OriginCells[0] == 1) tugEx.Cell0 = _OriginCells[0];
+            if (_OriginCells[1] == 1) tugEx.Cell1 = _OriginCells[1];
+            if (_OriginCells[2] == 1) tugEx.Cell2 = _OriginCells[2];
+            if (_OriginCells[3] == 1) tugEx.Cell3 = _OriginCells[3];
+            if (_OriginCells[4] == 1) tugEx.Cell4 = _OriginCells[4];
+            if (_OriginCells[5] == 1) tugEx.Cell5 = _OriginCells[5];
+            if (_OriginCells[6] == 1) tugEx.Cell6 = _OriginCells[6];
+            if (_OriginCells[7] == 1) tugEx.Cell7 = _OriginCells[7];
+            if (_OriginCells[8] == 1) tugEx.Cell8 = _OriginCells[8];
+            if (_OriginCells[9] == 1) tugEx.Cell9 = _OriginCells[9];
+            if (_OriginCells[10] == 1) tugEx.Cell10 = _OriginCells[10];
+            if (_OriginCells[11] == 1) tugEx.Cell11 = _OriginCells[11];
+
+            if (_OriginCells[12] == 1) tugEx.Cell12 = _OriginCells[12];
+            if (_OriginCells[13] == 1) tugEx.Cell13 = _OriginCells[13];
+            if (_OriginCells[14] == 1) tugEx.Cell14 = _OriginCells[14];
+            if (_OriginCells[15] == 1) tugEx.Cell15 = _OriginCells[15];
+            if (_OriginCells[16] == 1) tugEx.Cell16 = _OriginCells[16];
+            if (_OriginCells[17] == 1) tugEx.Cell17 = _OriginCells[17];
+            if (_OriginCells[18] == 1) tugEx.Cell18 = _OriginCells[18];
+            if (_OriginCells[19] == 1) tugEx.Cell19 = _OriginCells[19];
+            if (_OriginCells[20] == 1) tugEx.Cell20 = _OriginCells[20];
+            if (_OriginCells[21] == 1) tugEx.Cell21 = _OriginCells[21];
+            if (_OriginCells[22] == 1) tugEx.Cell22 = _OriginCells[22];
+            if (_OriginCells[23] == 1) tugEx.Cell23 = _OriginCells[23];
+
+            if (_OriginCells[24] == 1) tugEx.Cell24 = _OriginCells[24];
+            if (_OriginCells[25] == 1) tugEx.Cell25 = _OriginCells[25];
+            if (_OriginCells[26] == 1) tugEx.Cell26 = _OriginCells[26];
+            if (_OriginCells[27] == 1) tugEx.Cell27 = _OriginCells[27];
+            if (_OriginCells[28] == 1) tugEx.Cell28 = _OriginCells[28];
+            if (_OriginCells[29] == 1) tugEx.Cell29 = _OriginCells[29];
+            if (_OriginCells[30] == 1) tugEx.Cell30 = _OriginCells[30];
+            if (_OriginCells[31] == 1) tugEx.Cell31 = _OriginCells[31];
+            if (_OriginCells[32] == 1) tugEx.Cell32 = _OriginCells[32];
+            if (_OriginCells[33] == 1) tugEx.Cell33 = _OriginCells[33];
+            if (_OriginCells[34] == 1) tugEx.Cell34 = _OriginCells[34];
+            if (_OriginCells[35] == 1) tugEx.Cell35 = _OriginCells[35];
+
+            if (_OriginCells[36] == 1) tugEx.Cell36 = _OriginCells[36];
+            if (_OriginCells[37] == 1) tugEx.Cell37 = _OriginCells[37];
+            if (_OriginCells[38] == 1) tugEx.Cell38 = _OriginCells[38];
+            if (_OriginCells[39] == 1) tugEx.Cell39 = _OriginCells[39];
+            if (_OriginCells[40] == 1) tugEx.Cell40 = _OriginCells[40];
+            if (_OriginCells[41] == 1) tugEx.Cell41 = _OriginCells[41];
+            if (_OriginCells[42] == 1) tugEx.Cell42 = _OriginCells[42];
+            if (_OriginCells[43] == 1) tugEx.Cell43 = _OriginCells[43];
+            if (_OriginCells[44] == 1) tugEx.Cell44 = _OriginCells[44];
+            if (_OriginCells[45] == 1) tugEx.Cell45 = _OriginCells[45];
+            if (_OriginCells[46] == 1) tugEx.Cell46 = _OriginCells[46];
+            if (_OriginCells[47] == 1) tugEx.Cell47 = _OriginCells[47];
+
+            return tugEx;
+        }
     }
 }

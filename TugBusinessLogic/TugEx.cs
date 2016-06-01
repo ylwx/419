@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TugManagementSystem.MyClass
+namespace TugBusinessLogic
 {
     public class TugEx
     {

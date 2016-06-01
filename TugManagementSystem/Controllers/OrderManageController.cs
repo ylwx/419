@@ -643,6 +643,7 @@ namespace TugManagementSystem.Controllers
                 else
                 {
                     string now = DateTime.Now.ToString("yyyy-MM-dd");
+
                     List<V_OrderScheduler> schedulers = db.V_OrderScheduler.Where(u => u.TugID == tugId && u.WorkDate == now)
                         .Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
                     //List<V_OrderScheduler> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduler(sidx, sord, orderId);
@@ -667,7 +668,7 @@ namespace TugManagementSystem.Controllers
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
             }

@@ -30,10 +30,12 @@
                                         搜索:
                                     </label>
                                     <input id="search_cells" type="search" class="control-group" placeholder="输入拖轮名称"/>
-
+                                    
                                     <table id="jqGrid2" style="padding:inherit"></table>
                                     <div id="jqGridPager2"></div>
-                                    <div id="cur_operate_chid_grid" hidden="hidden" ></div>
+                                    <div id="cur_operate_chid_grid" hidden></div>
+
+                                    
                                 </div>
                             </div>
                             <!-- /BOX -->
@@ -253,6 +255,7 @@
                     }
                 })
 
+        modalDialogGridInit();
 
         //最后调用，冻结列
         //$("#jqGrid").jqGrid("setFrozenColumns");
@@ -366,6 +369,7 @@
                                 type: 'focus',
                                 fn: function (e) {
                                     g_cur_subGridId = '#' + childGridID;
+                                    g_cur_parentGridRowId = parentRowKey;
                                     $('#table-modal').modal()
                                 }
                             }
@@ -388,6 +392,8 @@
                                 type: 'focus',
                                 fn: function (e) {
                                     g_cur_subGridId = '#' + childGridID;
+                                    g_cur_parentGridRowId = parentRowKey;
+
                                     $('#table-modal').modal()
                                 }
                             }
@@ -412,6 +418,7 @@
                                 type: 'focus',
                                 fn: function (e) {
                                     g_cur_subGridId = '#' + childGridID;
+                                    g_cur_parentGridRowId = parentRowKey;
                                     $('#table-modal').modal()
                                 }
                             }
@@ -459,49 +466,154 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_InformCaptainTime', name: "InformCaptainTime", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
+                            if (ret == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":不是正确的时间格式(hh:mm)"];
+                            }
+                            if (ret[1] >= 24 || ret[3] >= 60) {
+                                //alert(column + ":输入的时间无效");
+                                return [false, column + ":输入的时间无效"];
+                            }
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_CaptainConfirmTime', name: "CaptainConfirmTime", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
+                            if (ret == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":不是正确的时间格式(hh:mm)"];
+                            }
+                            if (ret[1] >= 24 || ret[3] >= 60) {
+                                //alert(column + ":输入的时间无效");
+                                return [false, column + ":输入的时间无效"];
+                            }
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_DepartBaseTime', name: "DepartBaseTime", width: 80, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
+                            if (ret == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":不是正确的时间格式(hh:mm)"];
+                            }
+                            if (ret[1] >= 24 || ret[3] >= 60) {
+                                //alert(column + ":输入的时间无效");
+                                return [false, column + ":输入的时间无效"];
+                            }
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalShipSideTime', name: "ArrivalShipSideTime", width: 80, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
+                            if (ret == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":不是正确的时间格式(hh:mm)"];
+                            }
+                            if (ret[1] >= 24 || ret[3] >= 60) {
+                                //alert(column + ":输入的时间无效");
+                                return [false, column + ":输入的时间无效"];
+                            }
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCommencedTime', name: "WorkCommencedTime", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
+                            if (ret == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":不是正确的时间格式(hh:mm)"];
+                            }
+                            if (ret[1] >= 24 || ret[3] >= 60) {
+                                //alert(column + ":输入的时间无效");
+                                return [false, column + ":输入的时间无效"];
+                            }
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCompletedTime', name: "WorkCompletedTime", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
+                            if (ret == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":不是正确的时间格式(hh:mm)"];
+                            }
+                            if (ret[1] >= 24 || ret[3] >= 60) {
+                                //alert(column + ":输入的时间无效");
+                                return [false, column + ":输入的时间无效"];
+                            }
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalBaseTime', name: "ArrivalBaseTime", width: 80, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
+                            if (ret == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":不是正确的时间格式(hh:mm)"];
+                            }
+                            if (ret[1] >= 24 || ret[3] >= 60) {
+                                //alert(column + ":输入的时间无效");
+                                return [false, column + ":输入的时间无效"];
+                            }
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
@@ -1119,17 +1231,88 @@
 
 
     var g_cur_subGridId = '';
+    var g_cur_parentGridRowId;
 
 
     $('#table-modal').on('show.bs.modal', function (e) {
+
+        //alert(g_cur_parentGridRowId)
+        $("#search_cells").val("");
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+        $('#cur_operate_chid_grid').text(g_cur_subGridId);
+        //alert(dr.WorkDate);
+        
+        $('#jqGrid2').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + dr.WorkDate,
+                }).trigger('reloadGrid');
+
+        $("#jqGrid2").jqGrid('setCaption', '<' + dr.WorkDate + '>日拖轮调度状态' );
+        //$('#jqGrid2').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+    });
+
+    $('#table-modal').on('shown.bs.modal', function (e) {
+        var invoker = $(e.relatedTarget);
+
+    });
+    $('#table-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hide");
+    });
+    $('#table-modal').on('hidden.bs.modal', function () {
+        //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
+        $(this).removeData("bs.modal");
+        //alert("hidden");
+    });
+
+    function chooseTug() {
+
+        var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
+        //alert(rowid);
+        if (rowid != null) {
+            var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
+
+            var curChildGridId = $('#cur_operate_chid_grid').text();
+            //alert(curChildGridId);
+            var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
+
+            if (childRowid != null) {
+
+                var tugID_id = childRowid + "_TugID";
+                $('#' + tugID_id).val(dr.TugID);
+
+                var cnName_id = childRowid + "_CnName";
+                $('#' + cnName_id).val(dr.CnName);
+                //jQuery('' + curChildGridId).setCell(childRowid, 'CnName', dr.CnName);
+
+                var enName_id = childRowid + "_EnName";
+                $('#' + enName_id).val(dr.EnName);
+                //jQuery('' + curChildGridId).setCell(childRowid, 'EnName', dr.EnName);
+
+                var simpleName_id = childRowid + "_SimpleName";
+                $('#' + simpleName_id).val(dr.SimpleName);
+                //jQuery('' + curChildGridId).setCell(childRowid, 'SimpleName', dr.SimpleName);
+
+            }
+        }
+    }
+
+
+
+
+
+    function modalDialogGridInit() {
         //alert("show");
 
-        var w = 50;
+        var w = 80;
+        
 
         $("#jqGrid2").jqGrid({
-            url: '@Url.Action("GetTugEx", "TugInfor")',
+            url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + new Date().Format("yyyy-MM-dd"),
             mtype: "GET",
             datatype: "json",
+            caption : '拖轮调度状态',
             colModel: [
 
                 {
@@ -1164,154 +1347,154 @@
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '00:30', name: "Cell0", width: w, search: false
+                    align: 'center', label: '00:00-00:30', name: "Cell0", width: w, search: false
                 },
                 {
-                    align: 'center', label: '01:00', name: "Cell1", width: w, search: false
+                    align: 'center', label: '00:30-01:00', name: "Cell1", width: w, search: false
                 },
                 {
-                    align: 'center', label: '01:30', name: "Cell2", width: w, search: false
+                    align: 'center', label: '01:00-01:30', name: "Cell2", width: w, search: false
                 },
                 {
-                    align: 'center', label: '02:00', name: "Cell3", width: w, search: false
+                    align: 'center', label: '01:30-02:00', name: "Cell3", width: w, search: false
                 },
                 {
-                    align: 'center', label: '02:30', name: "Cell4", width: w, search: false
+                    align: 'center', label: '02:00-02:30', name: "Cell4", width: w, search: false
                 },
                 {
-                    align: 'center', label: '03:00', name: "Cell5", width: w, search: false
+                    align: 'center', label: '02:30-03:00', name: "Cell5", width: w, search: false
                 },
                 {
-                    align: 'center', label: '03:30', name: "Cell6", width: w, search: false
+                    align: 'center', label: '03:00-03:30', name: "Cell6", width: w, search: false
                 },
                 {
-                    align: 'center', label: '04:00', name: "Cell7", width: w, search: false
+                    align: 'center', label: '03:30-04:00', name: "Cell7", width: w, search: false
                 },
                 {
-                    align: 'center', label: '04:30', name: "Cell8", width: w, search: false
+                    align: 'center', label: '04:00-04:30', name: "Cell8", width: w, search: false
                 },
                 {
-                    align: 'center', label: '05:00', name: "Cell9", width: w, search: false
+                    align: 'center', label: '04:30-05:00', name: "Cell9", width: w, search: false
                 },
                 {
-                    align: 'center', label: '05:30', name: "Cell10", width: w, search: false
-                },
-
-
-                {
-                    align: 'center', label: '06:00', name: "Cell11", width: w, search: false
-                },
-                {
-                    align: 'center', label: '06:30', name: "Cell12", width: w, search: false
-                },
-                {
-                    align: 'center', label: '07:00', name: "Cell13", width: w, search: false
-                },
-                {
-                    align: 'center', label: '07:30', name: "Cell14", width: w, search: false
-                },
-                {
-                    align: 'center', label: '08:00', name: "Cell15", width: w, search: false
-                },
-                {
-                    align: 'center', label: '08:30', name: "Cell16", width: w, search: false
-                },
-                {
-                    align: 'center', label: '09:00', name: "Cell17", width: w, search: false
-                },
-                {
-                    align: 'center', label: '09:30', name: "Cell18", width: w, search: false
-                },
-                {
-                    align: 'center', label: '10:00', name: "Cell19", width: w, search: false
-                },
-                {
-                    align: 'center', label: '10:30', name: "Cell20", width: w, search: false
-                },
-                {
-                    align: 'center', label: '11:00', name: "Cell21", width: w, search: false
-                },
-                {
-                    align: 'center', label: '11:30', name: "Cell22", width: w, search: false
+                    align: 'center', label: '05:00-05:30', name: "Cell10", width: w, search: false
                 },
 
 
                 {
-                    align: 'center', label: '12:00', name: "Cell23", width: w, search: false
+                    align: 'center', label: '05:30-06:00', name: "Cell11", width: w, search: false
                 },
                 {
-                    align: 'center', label: '12:30', name: "Cell24", width: w, search: false
+                    align: 'center', label: '06:00-06:30', name: "Cell12", width: w, search: false
                 },
                 {
-                    align: 'center', label: '13:00', name: "Cell25", width: w, search: false
+                    align: 'center', label: '06:30-07:00', name: "Cell13", width: w, search: false
                 },
                 {
-                    align: 'center', label: '13:30', name: "Cell26", width: w, search: false
+                    align: 'center', label: '07:00-07:30', name: "Cell14", width: w, search: false
                 },
                 {
-                    align: 'center', label: '14:00', name: "Cell27", width: w, search: false
+                    align: 'center', label: '07:30-08:00', name: "Cell15", width: w, search: false
                 },
                 {
-                    align: 'center', label: '14:30', name: "Cell28", width: w, search: false
+                    align: 'center', label: '08:00-08:30', name: "Cell16", width: w, search: false
                 },
                 {
-                    align: 'center', label: '15:00', name: "Cell29", width: w, search: false
+                    align: 'center', label: '08:30-09:00', name: "Cell17", width: w, search: false
                 },
                 {
-                    align: 'center', label: '15:30', name: "Cell30", width: w, search: false
+                    align: 'center', label: '09:00-09:30', name: "Cell18", width: w, search: false
                 },
                 {
-                    align: 'center', label: '16.00', name: "Cell31", width: w, search: false
+                    align: 'center', label: '09:30-10:00', name: "Cell19", width: w, search: false
                 },
                 {
-                    align: 'center', label: '16:30', name: "Cell32", width: w, search: false
+                    align: 'center', label: '10:00-10:30', name: "Cell20", width: w, search: false
                 },
                 {
-                    align: 'center', label: '17:00', name: "Cell33", width: w, search: false
+                    align: 'center', label: '10:30-11:00', name: "Cell21", width: w, search: false
                 },
                 {
-                    align: 'center', label: '17:30', name: "Cell34", width: w, search: false
+                    align: 'center', label: '11:00-11:30', name: "Cell22", width: w, search: false
                 },
 
 
                 {
-                    align: 'center', label: '18:00', name: "Cell35", width: w, search: false
+                    align: 'center', label: '11:30-12:00', name: "Cell23", width: w, search: false
                 },
                 {
-                    align: 'center', label: '18:30', name: "Cell36", width: w, search: false
+                    align: 'center', label: '12:00-12:30', name: "Cell24", width: w, search: false
                 },
                 {
-                    align: 'center', label: '19:00', name: "Cell37", width: w, search: false
+                    align: 'center', label: '12:30-13:00', name: "Cell25", width: w, search: false
                 },
                 {
-                    align: 'center', label: '19:30', name: "Cell38", width: w, search: false
+                    align: 'center', label: '13:00-13:30', name: "Cell26", width: w, search: false
                 },
                 {
-                    align: 'center', label: '20:00', name: "Cell39", width: w, search: false
+                    align: 'center', label: '13:30-14:00', name: "Cell27", width: w, search: false
                 },
                 {
-                    align: 'center', label: '20:30', name: "Cell40", width: w, search: false
+                    align: 'center', label: '14:00-14:30', name: "Cell28", width: w, search: false
                 },
                 {
-                    align: 'center', label: '21:00', name: "Cell41", width: w, search: false
+                    align: 'center', label: '14:30-15:00', name: "Cell29", width: w, search: false
                 },
                 {
-                    align: 'center', label: '21:30', name: "Cell42", width: w, search: false
+                    align: 'center', label: '15:00-15:30', name: "Cell30", width: w, search: false
                 },
                 {
-                    align: 'center', label: '22:00', name: "Cell43", width: w, search: false
+                    align: 'center', label: '15:30-16.00', name: "Cell31", width: w, search: false
                 },
                 {
-                    align: 'center', label: '22:30', name: "Cell44", width: w, search: false
+                    align: 'center', label: '16.00-16:30', name: "Cell32", width: w, search: false
                 },
                 {
-                    align: 'center', label: '23:00', name: "Cell45", width: w, search: false
+                    align: 'center', label: '16:30-17:00', name: "Cell33", width: w, search: false
                 },
                 {
-                    align: 'center', label: '23:30', name: "Cell46", width: w, search: false
+                    align: 'center', label: '17:00-17:30', name: "Cell34", width: w, search: false
+                },
+
+
+                {
+                    align: 'center', label: '17:30-18:00', name: "Cell35", width: w, search: false
                 },
                 {
-                    align: 'center', label: '24:00', name: "Cell47", width: w, search: false
+                    align: 'center', label: '18:00-18:30', name: "Cell36", width: w, search: false
+                },
+                {
+                    align: 'center', label: '18:30-19:00', name: "Cell37", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:00-19:30', name: "Cell38", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:30-20:00', name: "Cell39", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20:00-20:30', name: "Cell40", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20：30-21:00', name: "Cell41", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:00-21:30', name: "Cell42", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:30-22:00', name: "Cell43", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:00-22:30', name: "Cell44", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:30-23:00', name: "Cell45", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:00-23:30', name: "Cell46", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:30-23:59', name: "Cell47", width: w, search: false
                 },
 
             ],
@@ -1371,55 +1554,25 @@
             }, 0);
         });
 
-        var invoker = $(e.relatedTarget);
-        $('#cur_operate_chid_grid').text(g_cur_subGridId);
+        //var invoker = $(e.relatedTarget);
+        
 
+        
+        
         //最后调用，冻结列
         //$("#jqGrid2").jqGrid("setFrozenColumns");
-    });
-    $('#table-modal').on('shown.bs.modal', function (e) {
-        var invoker = $(e.relatedTarget);
-
-    });
-    $('#table-modal').on('hide.bs.modal', function () {
-
-        //alert("hide");
-    });
-    $('#table-modal').on('hidden.bs.modal', function () {
-
-        $(this).removeData("bs.modal");
-        //alert("hidden");
-    });
-
-    function chooseTug() {
-
-        var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
-        if (rowid != null) {
-            var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
-
-            var curChildGridId = $('#cur_operate_chid_grid').text();
-            var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
-
-            if (childRowid != null) {
-
-                var tugID_id = childRowid + "_TugID";
-                $('#' + tugID_id).val(dr.IDX);
-
-                var cnName_id = childRowid + "_CnName";
-                $('#' + cnName_id).val(dr.CnName);
-                //jQuery('' + curChildGridId).setCell(childRowid, 'CnName', dr.CnName);
-
-                var enName_id = childRowid + "_EnName";
-                $('#' + enName_id).val(dr.EnName);
-                //jQuery('' + curChildGridId).setCell(childRowid, 'EnName', dr.EnName);
-
-                var simpleName_id = childRowid + "_SimpleName";
-                $('#' + simpleName_id).val(dr.SimpleName);
-                //jQuery('' + curChildGridId).setCell(childRowid, 'SimpleName', dr.SimpleName);
-
-            }
-        }
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1435,22 +1588,6 @@
 
         var childGridURL = '@Url.Action("GetTugRelatedOrders", "OrderManage")' + "?tugId=" + dr.TugID;
 
-        //var str_services = "";
-        //var serviceNatureIds = dr.ServiceNatureIDS.split("/");
-        //var serviceNatureNames = dr.ServiceNatureNames.split("/");
-        //for (var i = 0; i < serviceNatureIds.length; ++i) {
-        //    str_services += serviceNatureIds[i] + "~" + serviceNatureNames[i] + ":" + serviceNatureNames[i] + ";"
-        //}
-        //if (serviceNatureIds.length > 0) str_services = str_services.substr(0, str_services.length - 1);
-
-
-        //alert(childGridURL);
-
-        // send the parent row primary key to the server so that we know which grid to show
-        //var childGridURL = parentRowKey + ".json";
-
-        //childGridURL = childGridURL + "&parentRowID=" + encodeURIComponent(parentRowKey)
-
         // add a table and pager HTML elements to the parent grid row - we will render the child grid here
         $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
 
@@ -1463,7 +1600,7 @@
             editurl: null,
             colModel: [
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 100
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, hidden:true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 90            
@@ -1472,7 +1609,7 @@
                     align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "Code", width: 100,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, hidden:true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120, 
@@ -1490,16 +1627,97 @@
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100, 
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, hidden: true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 260,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, hidden: true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, 
+                },
+
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, hidden: true,
+
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, hidden: true,
+
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 120,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100,
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100,             
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, hidden:true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, hidden: true,
                 },
             ],
 
@@ -1511,11 +1729,11 @@
             shrinkToFit: false,     //指定各列宽度
             pager: "#" + childGridPagerID,
             grouping: true,
-            caption: '服务订单',
+            caption: '已安排此拖轮的订单',
             groupingView: {
-                groupField: ["IDX"],
+                groupField: ["Code"],
                 groupColumnShow: [true],
-                groupText: ['@Resources.Language.V_OrderScheduler_OrderID' + ": <b>{0}</b>"],
+                groupText: ['@Resources.Language.V_OrderInfor_Code' + ": <b>{0}</b>"],
                 groupOrder: ["asc"],
                 groupSummary: [false],
                 groupCollapse: false

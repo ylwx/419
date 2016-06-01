@@ -212,7 +212,7 @@ namespace TugManagementSystem.Controllers
 
 
         #region written by lg
-        public ActionResult GetTugEx(bool _search, string sidx, string sord, int page, int rows)
+        public ActionResult GetTugEx(bool _search, string sidx, string sord, int page, int rows, string workDate)
         {
             this.Internationalization();
 
@@ -220,72 +220,6 @@ namespace TugManagementSystem.Controllers
             {
                 TugDataEntities db = new TugDataEntities();
                 List<TugInfor> TugInfors = db.TugInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<TugInfor>();
-                List<TugManagementSystem.MyClass.TugEx> lst = new List<MyClass.TugEx>();
-                foreach (TugInfor tug in TugInfors)
-                {
-                    MyClass.TugEx o = new MyClass.TugEx();
-                    o.TugID = tug.IDX;
-                    o.CnName = tug.CnName;
-                    o.EnName = tug.EnName;
-                    o.SimpleName = tug.SimpleName;
-                    o.Code = tug.Code;
-
-                    o.Cell0 = 0;
-                    o.Cell1 = 0;
-                    o.Cell2 = 0;
-                    o.Cell3 = 0;
-                    o.Cell4 = 0;
-                    o.Cell5 = 1;
-                    o.Cell6 = 0;
-                    o.Cell7 = 0;
-                    o.Cell8 = 0;
-                    o.Cell9 = 0;
-                    o.Cell10 = 0;
-                    o.Cell11 = 0;
-
-
-                    o.Cell12 = 0;
-                    o.Cell13 = 0;
-                    o.Cell14 = 0;
-                    o.Cell15 = 0;
-                    o.Cell16 = 0;
-                    o.Cell17 = 0;
-                    o.Cell18 = 0;
-                    o.Cell19 = 0;
-                    o.Cell20 = 0;
-                    o.Cell21 = 0;
-                    o.Cell22 = 0;
-                    o.Cell23 = 0;
-
-
-                    o.Cell24 = 0;
-                    o.Cell25 = 0;
-                    o.Cell26 = 0;
-                    o.Cell27 = 0;
-                    o.Cell28 = 0;
-                    o.Cell29 = 0;
-                    o.Cell30 = 0;
-                    o.Cell31 = 0;
-                    o.Cell32 = 0;
-                    o.Cell33 = 0;
-                    o.Cell34 = 0;
-                    o.Cell35 = 0;
-
-                    o.Cell36 = 0;
-                    o.Cell37 = 0;
-                    o.Cell38 = 0;
-                    o.Cell39 = 0;
-                    o.Cell40 = 0;
-                    o.Cell41 = 0;
-                    o.Cell42 = 0;
-                    o.Cell43 = 0;
-                    o.Cell44 = 0;
-                    o.Cell45 = 0;
-                    o.Cell46 = 0;
-                    o.Cell47 = 0;
-
-                    lst.Add(o);
-                }
 
                 int totalRecordNum = TugInfors.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -293,6 +227,28 @@ namespace TugManagementSystem.Controllers
                 int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
                 //List<TugInfor> page_TugInfors = TugInfors.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<TugInfor>();
+
+
+                List<TugBusinessLogic.TugEx> lst = new List<TugBusinessLogic.TugEx>();
+
+                if (TugInfors != null)
+                {
+                    foreach (TugInfor tug in TugInfors)
+                    {
+                        TugBusinessLogic.TugEx o = new TugBusinessLogic.TugEx();
+                        o.TugID = tug.IDX;
+                        o.CnName = tug.CnName;
+                        o.EnName = tug.EnName;
+                        o.SimpleName = tug.SimpleName;
+                        o.Code = tug.Code;
+
+                        o = TugBusinessLogic.Module.OrderLogic.GetTugSchedulerBusyState(tug.IDX, o, workDate);
+
+                        lst.Add(o);
+                    }
+                }
+
+                
 
                 var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = lst };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
