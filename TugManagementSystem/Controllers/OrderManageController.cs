@@ -627,6 +627,51 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        public ActionResult GetTugRelatedOrders(bool _search, string sidx, string sord, int page, int rows, int tugId)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string s = Request.QueryString["filters"];
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    string now = DateTime.Now.ToString("yyyy-MM-dd");
+                    List<V_OrderScheduler> schedulers = db.V_OrderScheduler.Where(u => u.TugID == tugId && u.WorkDate == now)
+                        .Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
+                    //List<V_OrderScheduler> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduler(sidx, sord, orderId);
+
+                    List<V_OrderInfor> orders = new List<V_OrderInfor>();
+
+                    if (schedulers != null)
+                    {
+                        foreach (V_OrderScheduler item in schedulers)
+                        {
+                            orders.AddRange(db.V_OrderInfor.Where(u => u.IDX == item.OrderID).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>());
+                        };
+                    }
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    //List<V_OrderScheduler> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderScheduler>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion 订单调度页面Action
     }
 }
