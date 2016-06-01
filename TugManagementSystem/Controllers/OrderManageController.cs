@@ -121,7 +121,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.UserID = -1;
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
                         aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateName"]); //Convert.ToInt32(Request.Form["WorkStateID"]);
-                        aOrder.WorkStateName = Request.Form["WorkStateName"];
+                        aOrder.WorkStateName = Request.Form["WorkStateID"];
 
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -199,7 +199,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
                         aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateName"]);//Convert.ToInt32(Request.Form["WorkStateID"]);
-                        aOrder.WorkStateName = Request.Form["WorkStateName"];
+                        aOrder.WorkStateName = Request.Form["WorkStateID"];
                         aOrder.Remark = Request.Form["Remark"];
                         
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];

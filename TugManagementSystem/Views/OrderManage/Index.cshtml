@@ -399,22 +399,31 @@
                     editrules: { required: true }, hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "select",
+                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
+                        defaultValue:"未审核"
+                    }
+                    
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "select",
+                    editrules: { required: true}, hidden: false,
+                    editoptions: {
+
                         dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
                         //value: "-1:;1:One;2:Two",
                         dataEvents: [
                             {
                                 type: 'change',
                                 fn: function (e) {
-                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-                                    var workStateName_id = rowid + "_WorkStateName";
-                                    if (rowid != null) {                                  
-                                        $('#' + workStateName_id).val($(this).find("option:selected").text());
+                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行   
+                                    if (rowid != null) {
+                                        var workStateID_id = rowid + "_WorkStateID";
+                                        $('#' + workStateID_id).val($(this).find("option:selected").text());
                                     }
                                     else {
-                                        $('#' + workStateName_id).val("");
+                                        $('#' + workStateID_id).val("");
                                     }
 
                                 }
@@ -423,40 +432,21 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true}, hidden: false,
-                    editoptions: {
-                        defaultValue: function () {
-                            var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                            //alert("1:" + rowid);
-                            if (rowid != null) {
-                                var workStateID_id = rowid + "_WorkStateID";
-                                return $('#' + workStateID_id).find("option:selected").text();
-                            }
-                            else {
-                                return "0jk398";
-                            }
-
-                        }
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 75, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 75, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_SmallTugNum', name: "SmallTugNum", width: 75, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
