@@ -120,7 +120,8 @@ namespace TugManagementSystem.Controllers
                         aOrder.ShipName = Request.Form["ShipName"];
                         aOrder.UserID = -1;
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
-                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
+                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateName"]); //Convert.ToInt32(Request.Form["WorkStateID"]);
+                        aOrder.WorkStateName = Request.Form["WorkStateName"];
 
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -197,7 +198,8 @@ namespace TugManagementSystem.Controllers
                         if (Request.Form["SmallTugNum"] != "")
                         aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
-                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
+                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateName"]);//Convert.ToInt32(Request.Form["WorkStateID"]);
+                        aOrder.WorkStateName = Request.Form["WorkStateName"];
                         aOrder.Remark = Request.Form["Remark"];
                         
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
@@ -288,6 +290,21 @@ namespace TugManagementSystem.Controllers
 
             var jsonData = new { list = list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public string GetCustomField(string CustomName)
+        {
+            string[] query = { "未审核","已确认", "备货中", "已发货", "已完成"};
+
+            string s = "<select>";
+            for(int i = 0; i < query.Length; i++)
+            {
+                s += string.Format("<option value={0}>{1}</option>", i+1, query[i]);
+            }
+            s += "</select>";
+
+            return s;
         }
 
     }

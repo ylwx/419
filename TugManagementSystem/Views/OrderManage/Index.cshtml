@@ -399,37 +399,46 @@
                     editrules: { required: true }, hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, integer:true }, hidden: false,
+                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "select",
+                    editrules: { required: true }, hidden: false,
                     editoptions: {
-                        defaultValue: -1
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "select",
-                    editrules: { required: true}, hidden: false,
-                    editoptions: {
-                        //dataUrl:"",
-                        //defaultValue: 'Intime'
-                        value: "1:One;2:Two",
+                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
+                        //value: "-1:;1:One;2:Two",
                         dataEvents: [
                             {
                                 type: 'change',
                                 fn: function (e) {
                                     var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                    if (rowid != null) {
-                                        var workStateId_id = rowid + "_WorkStateID";
-                                        $('#' + workStateId_id).val($(this).val());
+                                    var workStateName_id = rowid + "_WorkStateName";
+                                    if (rowid != null) {                                  
+                                        $('#' + workStateName_id).val($(this).find("option:selected").text());
                                     }
                                     else {
-                                        var shipId_id = rowid + "_WorkStateID";
-                                        $('#' + workStateId_id).val(-1);
+                                        $('#' + workStateName_id).val("");
                                     }
-                                    
+
                                 }
                             }
                         ]
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true}, hidden: false,
+                    editoptions: {
+                        defaultValue: function () {
+                            var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
+
+                            //alert("1:" + rowid);
+                            if (rowid != null) {
+                                var workStateID_id = rowid + "_WorkStateID";
+                                return $('#' + workStateID_id).find("option:selected").text();
+                            }
+                            else {
+                                return "0jk398";
+                            }
+
+                        }
                     }
                 },
                 {
