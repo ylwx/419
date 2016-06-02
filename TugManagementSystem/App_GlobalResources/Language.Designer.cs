@@ -259,96 +259,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 自定義字段1 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol1 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段10 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol10 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol10", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段2 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol2 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段3 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol3 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段4 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol4 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段5 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol5 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段6 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol6 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段7 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol7 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol7", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段8 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol8 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 自定義字段9 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_UserDefinedCol9 {
-            get {
-                return ResourceManager.GetString("OrderInfor_UserDefinedCol9", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 用戶 的本地化字符串。
         /// </summary>
         internal static string OrderInfor_UserID {
@@ -399,6 +309,105 @@ namespace Resources {
         internal static string OrderManage {
             get {
                 return ResourceManager.GetString("OrderManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 訂單調度 的本地化字符串。
+        /// </summary>
+        internal static string OrderScheduling {
+            get {
+                return ResourceManager.GetString("OrderScheduling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段1 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol1 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段10 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol10 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段2 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol2 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段3 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol3 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段4 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol4 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段5 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol5 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段6 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol6 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段7 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol7 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段8 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol8 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自定義字段9 的本地化字符串。
+        /// </summary>
+        internal static string UserDefinedCol9 {
+            get {
+                return ResourceManager.GetString("UserDefinedCol9", resourceCulture);
             }
         }
     }

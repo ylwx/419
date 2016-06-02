@@ -36,7 +36,7 @@ namespace TugBusinessLogic
                 {
                     try
                     {
-                        ret = msg + (MaxOrderInforId() + 1).ToString("000000");
+                        ret = msg + "T" + (MaxOrderInforId() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
 
                         dbContextTransaction.Commit();
                     }

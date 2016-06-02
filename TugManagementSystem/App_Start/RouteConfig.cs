@@ -15,10 +15,12 @@ namespace TugManagementSystem
 
             routes.MapRoute(
                 name: "Default",
+
                 //url: "{controller}/{action}/{id}",
-                //defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                //defaults: new { controller = "OrderManage", action = "OrderManage", id = UrlParameter.Optional }
+
                 url: "{controller}/{action}/{lan}/{id}",
-                defaults: new { controller = "OrderManage", action = "Index", lan = "zh-HK", id = UrlParameter.Optional }
+                defaults: new { controller = "OrderManage", action = "OrderManage", lan = "zh-HK", id = UrlParameter.Optional }
             );
         }
     }

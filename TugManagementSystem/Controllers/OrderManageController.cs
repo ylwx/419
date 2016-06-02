@@ -9,18 +9,29 @@ namespace TugManagementSystem.Controllers
 {
     public class OrderManageController : BaseController
     {
+        #region 页面Action
         // GET: OrderManage
-        public ActionResult Index(string lan, int? id)
+        public ActionResult OrderManage(string lan, int? id)
         {
             lan = this.Internationalization();
-
             ViewBag.Language = lan;
-            ViewBag.Controller = "OrderManage";
 
             return View();
         }
 
 
+        //GET: OrderScheduling
+        public ActionResult OrderScheduling(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            return View();
+        }
+        #endregion
+
+
+        #region 订单管理页面Action
         public ActionResult GetData(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
@@ -59,7 +70,7 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                List<OrderInfor> orders = db.OrderInfor.Select(u => u).ToList<OrderInfor>();
+                List<OrderInfor> orders = db.OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<OrderInfor>();
                 int totalRecordNum = orders.Count;
                 if (totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
@@ -306,6 +317,12 @@ namespace TugManagementSystem.Controllers
 
             return s;
         }
+
+        #endregion
+
+
+        #region 订单调度页面Action
+        #endregion
 
     }
 }
