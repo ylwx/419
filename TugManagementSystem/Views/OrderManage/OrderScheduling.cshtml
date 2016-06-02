@@ -1,12 +1,12 @@
-﻿
-@{
-    ViewBag.Title = "OrderManage";
+﻿@{
+    ViewBag.Title = "OrderScheduling";
     ViewBag.MenuId = "menu4";
-    ViewBag.SubMenuIndex = 0;
-    Layout = "~/Views/Shared/_ContentLayout.cshtml"; 
+    ViewBag.SubMenuIndex = 1;
+    Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
 
-@model TugDataModel.OrderInfor
+@model TugDataModel.Scheduler
+
 
 <div id="main-content">
     <div class="container">
@@ -23,21 +23,21 @@
                             <ul class="breadcrumb">
                                 <li>
                                     <i class="fa fa-home"></i>
-                                    <a href="#">@Resources.Language.HomePage</a>                                    
+                                    <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.Order</a>                                    
+                                    <a href="#">@Resources.Language.Order</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.OrderManage
+                                    @Resources.Language.OrderScheduling
                                 </li>
                             </ul>
 
                             <!-- /BREADCRUMBS -->
                             @*<div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>*@
+                                    <h3 class="content-title pull-left">Grid Test</h3>
+                                </div>
+                                <div class="description">Table</div>*@
 
                         </div>
                     </div>
@@ -45,22 +45,22 @@
 
                 <!-- /PAGE HEADER -->
                 @*<div class="row">
-                    <div class="col-md-12">
-                        <div class="box border orange">
-                            <div class="box-title">
+                        <div class="col-md-12">
+                            <div class="box border orange">
+                                <div class="box-title">
 
-                            </div>
-                            <div class="box-body">
-                                <div>
-                                    <ul>
-                                        <li>@Model.Code</li>
-                                    </ul>
                                 </div>
-                            </div>
+                                <div class="box-body">
+                                    <div>
+                                        <ul>
+                                            <li>@Model.Code</li>
+                                        </ul>
+                                    </div>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                </div>*@
+                    </div>*@
 
                 <!-- SAMPLE -->
                 <div class="row">
@@ -68,7 +68,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.OrderManage</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.OrderScheduling</h4>
                             </div>
                             <div class="box-body">
                                 <table id="jqGrid"></table>
@@ -120,9 +120,9 @@
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-            
+
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "刷新", buttonicon: "ui-icon-refresh", 
+                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
                 onClickButton: function () {
                     //alert("haha");
                     @*$.ajax(
@@ -133,7 +133,7 @@
                             type: 'get',
                             data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
                             success: function (result) {
-                               
+
                                 $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                             },
                         }
@@ -173,7 +173,7 @@
                 },
                 position: "last"
             });
-            
+
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
@@ -270,7 +270,7 @@
                                                     };
                                                 }));
                                             },
-                                            
+
                                             error: function (model, response, options) {
                                                 response([]);
                                             }
@@ -302,7 +302,7 @@
                         }
 
                     }
-                    
+
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_OrdTime', name: "OrdTime", width: 100, editable: true, edittype: "text",
@@ -357,7 +357,7 @@
 
                                     },
                                     change: function (event, ui) {
-  
+
                                         var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
 
                                         if (ui.item != null) {
@@ -404,20 +404,20 @@
                     editoptions: {
                         defaultValue:"未审核"
                     }
-                    
+
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "select",
                     editrules: { required: true}, hidden: false,
                     editoptions: {
-                        //multiple: true,
+                        multiple: true,
                         dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
                         //value: "-1:;1:One;2:Two",
                         dataEvents: [
                             {
                                 type: 'change',
                                 fn: function (e) {
-                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行   
+                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                                     if (rowid != null) {
                                         var workStateID_id = rowid + "_WorkStateID";
                                         $('#' + workStateID_id).val($(this).find("option:selected").text());
@@ -429,12 +429,7 @@
                                 }
                             }
                         ]
-                    },
-
-                    @*stype:"select",
-                    searchoptions: {
-                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
-                    }*@
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
@@ -594,3 +589,5 @@
     }
 
 </script>
+
+

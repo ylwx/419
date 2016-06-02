@@ -306,7 +306,7 @@ namespace TugManagementSystem.Controllers
 
         public string GetCustomField(string CustomName)
         {
-            string[] query = { "未审核","已确认", "备货中", "已发货", "已完成"};
+            string[] query = { "未排船","已排船", "未完工", "已完工"};
 
             string s = "<select>";
             for(int i = 0; i < query.Length; i++)
