@@ -33,58 +33,6 @@ namespace TugManagementSystem.Controllers
 
         #region 订单管理页面Action
 
-        public ActionResult GetData(bool _search, string sidx, string sord, int page, int rows)
-        {
-            this.Internationalization();
-
-            //string s = Request.QueryString[6];
-
-            try
-            {
-                TugDataEntities db = new TugDataEntities();
-                List<OrderInfor> orders = db.OrderInfor.Select(u => u).ToList<OrderInfor>();
-                int totalRecordNum = orders.Count;
-                if (totalRecordNum % rows == 0) page -= 1;
-                int pageSize = rows;
-                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-
-                List<OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<OrderInfor>();
-
-                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-            }
-        }
-
-        public ActionResult GetDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
-        {
-            this.Internationalization();
-
-            //string s = Request.QueryString[6];
-
-            try
-            {
-                TugDataEntities db = new TugDataEntities();
-                List<OrderInfor> orders = db.OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<OrderInfor>();
-                int totalRecordNum = orders.Count;
-                if (totalRecordNum % rows == 0) page -= 1;
-                int pageSize = rows;
-                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-
-                //List<OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<OrderInfor>();
-
-                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-            }
-        }
-
         public ActionResult AddEdit()
         {
             this.Internationalization();
@@ -306,6 +254,58 @@ namespace TugManagementSystem.Controllers
             s += "</select>";
 
             return s;
+        }
+
+        public ActionResult GetData(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            //string s = Request.QueryString[6];
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<OrderInfor> orders = db.OrderInfor.Select(u => u).ToList<OrderInfor>();
+                int totalRecordNum = orders.Count;
+                if (totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                List<OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<OrderInfor>();
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
+        public ActionResult GetDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            //string s = Request.QueryString[6];
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<OrderInfor> orders = db.OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<OrderInfor>();
+                int totalRecordNum = orders.Count;
+                if (totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                //List<OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<OrderInfor>();
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
         }
 
         #endregion 订单管理页面Action
