@@ -1,13 +1,10 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "OrderManage";
-    ViewBag.MenuId = "menu4";
+    ViewBag.MenuId = "menu5";
     ViewBag.SubMenuIndex = 0;
-    Layout = "~/Views/Shared/_ContentLayout.cshtml"; 
+    Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
-
 @model TugDataModel.OrderInfor
-
 <div id="main-content">
     <div class="container">
         <div class="row">
@@ -15,7 +12,6 @@
                 <!-- PAGE HEADER-->
                 <div class="row">
                     <div class="col-sm-12">
-
                         <div class="page-header">
                             <!-- STYLER -->
                             <!-- /STYLER -->
@@ -23,45 +19,39 @@
                             <ul class="breadcrumb">
                                 <li>
                                     <i class="fa fa-home"></i>
-                                    <a href="#">@Resources.Language.HomePage</a>                                    
+                                    <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.Order</a>                                    
+                                    <a href="#">@Resources.Language.Order</a>
                                 </li>
                                 <li>
                                     @Resources.Language.OrderManage
                                 </li>
                             </ul>
-
                             <!-- /BREADCRUMBS -->
-                            @*<div class="clearfix">
+                            <div class="clearfix">
                                 <h3 class="content-title pull-left">Grid Test</h3>
                             </div>
-                            <div class="description">Table</div>*@
-
+                            <div class="description">Table</div>
                         </div>
                     </div>
                 </div>
-
                 <!-- /PAGE HEADER -->
                 @*<div class="row">
-                    <div class="col-md-12">
-                        <div class="box border orange">
-                            <div class="box-title">
-
-                            </div>
-                            <div class="box-body">
-                                <div>
-                                    <ul>
-                                        <li>@Model.Code</li>
-                                    </ul>
+                        <div class="col-md-12">
+                            <div class="box border orange">
+                                <div class="box-title">
+                                </div>
+                                <div class="box-body">
+                                    <div>
+                                        <ul>
+                                            <li>@Model.Code</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
-                    </div>
-                </div>*@
-
+                    </div>*@
                 <!-- SAMPLE -->
                 <div class="row">
                     <div class="col-md-12">
@@ -79,13 +69,10 @@
                     </div>
                 </div>
                 <!-- /SAMPLE -->
-
             </div>
         </div>
     </div>
 </div>
-
-
 
 <script type="text/javascript">
     var tableConfig = null;
@@ -114,15 +101,15 @@
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
             sortable: true,          //列可移动
-            colMenu : true          //列菜单
+            colMenu: true          //列菜单
         });
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-            
+
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "刷新", buttonicon: "ui-icon-refresh", 
+                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
                 onClickButton: function () {
                     //alert("haha");
                     @*$.ajax(
@@ -133,7 +120,7 @@
                             type: 'get',
                             data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
                             success: function (result) {
-                               
+
                                 $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                             },
                         }
@@ -173,7 +160,6 @@
                 },
                 position: "last"
             });
-            
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
@@ -203,14 +189,12 @@
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     },
-                    errorfunc : function(rowid, xhr)
-                    {
+                    errorfunc: function (rowid, xhr) {
                         alert(xhr.responseText);
                         $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
                 }
             });
-
 
         //最后调用，冻结列
         //$("#jqGrid").jqGrid("setFrozenColumns");
@@ -226,7 +210,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
-                    editrules: { required: true },colmenu:false,
+                    editrules: { required: true }, colmenu: false,
                     hidden: false,
                     searchoptions: { sopt: ["ge", "le"] }
                 },
@@ -264,13 +248,13 @@
                                             success: function (data) {
                                                 response($.map(data.list, function (item) {
                                                     return {
-                                                        id : item.CustomerID,
+                                                        id: item.CustomerID,
                                                         label: item.ShipName,
                                                         value: item.ShipName
                                                     };
                                                 }));
                                             },
-                                            
+
                                             error: function (model, response, options) {
                                                 response([]);
                                             }
@@ -302,7 +286,7 @@
                         }
 
                     }
-                    
+
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_OrdTime', name: "OrdTime", width: 100, editable: true, edittype: "text",
@@ -357,7 +341,7 @@
 
                                     },
                                     change: function (event, ui) {
-  
+
                                         var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
 
                                         if (ui.item != null) {
@@ -402,13 +386,13 @@
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
-                        defaultValue:"未审核"
+                        defaultValue: "未审核"
                     }
-                    
+
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "select",
-                    editrules: { required: true}, hidden: false,
+                    editrules: { required: true }, hidden: false,
                     editoptions: {
                         //multiple: true,
                         dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
@@ -417,7 +401,7 @@
                             {
                                 type: 'change',
                                 fn: function (e) {
-                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行   
+                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                                     if (rowid != null) {
                                         var workStateID_id = rowid + "_WorkStateID";
                                         $('#' + workStateID_id).val($(this).find("option:selected").text());
@@ -466,11 +450,11 @@
                 {
                     align: 'center',
                     label: '@Resources.Language.OrderInfor_CreateDate', name: "CreateDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, date:true }, hidden: false,
+                    editrules: { required: true, date: true }, hidden: false,
                     //formatter: 'date',
                     //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
                     datefmt: 'yyyy-mm-dd',
-                    sorttype : 'date',
+                    sorttype: 'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
@@ -501,7 +485,7 @@
                     editrules: { required: true, date: true }, hidden: false,
                     //formatter: 'date',
                     datefmt: 'yyyy-mm-dd',
-                    sorttype:'date',
+                    sorttype: 'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
@@ -555,7 +539,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date:true }, hidden: true,
+                    editrules: { required: false, date: true }, hidden: true,
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
                     editoptions: {
@@ -587,5 +571,4 @@
             ]
         };
     }
-
 </script>
