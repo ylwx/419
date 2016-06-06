@@ -61,6 +61,69 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 排班 的本地化字符串。
+        /// </summary>
+        internal static string Arrangement {
+            get {
+                return ResourceManager.GetString("Arrangement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 排版管理 的本地化字符串。
+        /// </summary>
+        internal static string ArrangementManagement {
+            get {
+                return ResourceManager.GetString("ArrangementManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 排班ID 的本地化字符串。
+        /// </summary>
+        internal static string Arrangement_IDX {
+            get {
+                return ResourceManager.GetString("Arrangement_IDX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 排序號 的本地化字符串。
+        /// </summary>
+        internal static string Arrangement_SortNo {
+            get {
+                return ResourceManager.GetString("Arrangement_SortNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 班次 的本地化字符串。
+        /// </summary>
+        internal static string Arrangement_TeamName {
+            get {
+                return ResourceManager.GetString("Arrangement_TeamName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪ID 的本地化字符串。
+        /// </summary>
+        internal static string Arrangement_TugID {
+            get {
+                return ResourceManager.GetString("Arrangement_TugID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作日期 的本地化字符串。
+        /// </summary>
+        internal static string Arrangement_WorkDate {
+            get {
+                return ResourceManager.GetString("Arrangement_WorkDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 創建時間 的本地化字符串。
         /// </summary>
         internal static string CreateDate {
@@ -588,6 +651,114 @@ namespace Resources {
         internal static string Remark {
             get {
                 return ResourceManager.GetString("Remark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor {
+            get {
+                return ResourceManager.GetString("TugInfor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪管理 的本地化字符串。
+        /// </summary>
+        internal static string TugInforManage {
+            get {
+                return ResourceManager.GetString("TugInforManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 船級社 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_Class {
+            get {
+                return ResourceManager.GetString("TugInfor_Class", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 中文名稱 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_CnName {
+            get {
+                return ResourceManager.GetString("TugInfor_CnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪編號 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_Code {
+            get {
+                return ResourceManager.GetString("TugInfor_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 英文名稱 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_EnName {
+            get {
+                return ResourceManager.GetString("TugInfor_EnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪ID 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_IDX {
+            get {
+                return ResourceManager.GetString("TugInfor_IDX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 長度 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_Length {
+            get {
+                return ResourceManager.GetString("TugInfor_Length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 動力 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_Power {
+            get {
+                return ResourceManager.GetString("TugInfor_Power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 簡寫 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_SimpleName {
+            get {
+                return ResourceManager.GetString("TugInfor_SimpleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 航速 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_Speed {
+            get {
+                return ResourceManager.GetString("TugInfor_Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 寬度 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_Width {
+            get {
+                return ResourceManager.GetString("TugInfor_Width", resourceCulture);
             }
         }
         
