@@ -4,9 +4,7 @@
     ViewBag.SubMenuIndex = 1;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
-
 @model TugDataModel.Scheduler
-
 
 <div id="main-content">
     <div class="container">
@@ -15,7 +13,6 @@
                 <!-- PAGE HEADER-->
                 <div class="row">
                     <div class="col-sm-12">
-
                         <div class="page-header">
                             <!-- STYLER -->
                             <!-- /STYLER -->
@@ -32,23 +29,19 @@
                                     @Resources.Language.OrderScheduling
                                 </li>
                             </ul>
-
                             <!-- /BREADCRUMBS -->
                             @*<div class="clearfix">
                                     <h3 class="content-title pull-left">Grid Test</h3>
                                 </div>
                                 <div class="description">Table</div>*@
-
                         </div>
                     </div>
                 </div>
-
                 <!-- /PAGE HEADER -->
                 @*<div class="row">
                         <div class="col-md-12">
                             <div class="box border orange">
                                 <div class="box-title">
-
                                 </div>
                                 <div class="box-body">
                                     <div>
@@ -57,11 +50,9 @@
                                         </ul>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>*@
-
                 <!-- SAMPLE -->
                 <div class="row">
                     <div class="col-md-12">
@@ -79,13 +70,10 @@
                     </div>
                 </div>
                 <!-- /SAMPLE -->
-
             </div>
         </div>
     </div>
 </div>
-
-
 
 <script type="text/javascript">
     var tableConfig = null;
@@ -114,7 +102,7 @@
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
             sortable: true,          //列可移动
-            colMenu : true          //列菜单
+            colMenu: true          //列菜单
         });
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
@@ -174,7 +162,6 @@
                 position: "last"
             });
 
-
         $('#jqGrid').inlineNav('#jqGridPager',
             {
                 edit: true,
@@ -203,14 +190,12 @@
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     },
-                    errorfunc : function(rowid, xhr)
-                    {
+                    errorfunc: function (rowid, xhr) {
                         alert(xhr.responseText);
                         $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
                 }
             });
-
 
         //最后调用，冻结列
         //$("#jqGrid").jqGrid("setFrozenColumns");
@@ -226,7 +211,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
-                    editrules: { required: true },colmenu:false,
+                    editrules: { required: true }, colmenu: false,
                     hidden: false,
                     searchoptions: { sopt: ["ge", "le"] }
                 },
@@ -264,7 +249,7 @@
                                             success: function (data) {
                                                 response($.map(data.list, function (item) {
                                                     return {
-                                                        id : item.CustomerID,
+                                                        id: item.CustomerID,
                                                         label: item.ShipName,
                                                         value: item.ShipName
                                                     };
@@ -402,13 +387,13 @@
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
-                        defaultValue:"未审核"
+                        defaultValue: "未审核"
                     }
 
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "select",
-                    editrules: { required: true}, hidden: false,
+                    editrules: { required: true }, hidden: false,
                     editoptions: {
                         multiple: true,
                         dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
@@ -453,11 +438,11 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_Remark', name: "Remark", width: 300, editable: true, edittype: "textarea",
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 300, editable: true, edittype: "textarea",
                     editrules: { required: false }, hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                     editoptions: {
                         defaultValue: -1
@@ -465,12 +450,12 @@
                 },
                 {
                     align: 'center',
-                    label: '@Resources.Language.OrderInfor_CreateDate', name: "CreateDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, date:true }, hidden: false,
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: false,
                     //formatter: 'date',
                     //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
                     datefmt: 'yyyy-mm-dd',
-                    sorttype : 'date',
+                    sorttype: 'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
@@ -492,16 +477,16 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true
                 },
                 {
                     align: 'center',
-                    label: '@Resources.Language.OrderInfor_LastUpDate', name: "LastUpDate", width: 100, editable: true, edittype: "text",
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, date: true }, hidden: false,
                     //formatter: 'date',
                     datefmt: 'yyyy-mm-dd',
-                    sorttype:'date',
+                    sorttype: 'date',
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
@@ -555,7 +540,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date:true }, hidden: true,
+                    editrules: { required: false, date: true }, hidden: true,
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
                     editoptions: {
@@ -587,7 +572,4 @@
             ]
         };
     }
-
 </script>
-
-
