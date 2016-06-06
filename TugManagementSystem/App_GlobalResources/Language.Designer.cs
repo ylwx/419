@@ -88,6 +88,114 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 客戶船 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip {
+            get {
+                return ResourceManager.GetString("CustomerShip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客戶船管理 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShipManage {
+            get {
+                return ResourceManager.GetString("CustomerShipManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 船級社 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_Class {
+            get {
+                return ResourceManager.GetString("CustomerShip_Class", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 中文名 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_CnName {
+            get {
+                return ResourceManager.GetString("CustomerShip_CnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客戶ID 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_CustomerID {
+            get {
+                return ResourceManager.GetString("CustomerShip_CustomerID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 載重噸 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_DeadWeight {
+            get {
+                return ResourceManager.GetString("CustomerShip_DeadWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 英文名 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_EnName {
+            get {
+                return ResourceManager.GetString("CustomerShip_EnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 長 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_Length {
+            get {
+                return ResourceManager.GetString("CustomerShip_Length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 船型ID 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_ShipTypeID {
+            get {
+                return ResourceManager.GetString("CustomerShip_ShipTypeID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 簡寫 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_SimpleName {
+            get {
+                return ResourceManager.GetString("CustomerShip_SimpleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 箱 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_TEUS {
+            get {
+                return ResourceManager.GetString("CustomerShip_TEUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 寬 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_Width {
+            get {
+                return ResourceManager.GetString("CustomerShip_Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 地址 的本地化字符串。
         /// </summary>
         internal static string Customer_Address {

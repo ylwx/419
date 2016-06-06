@@ -17,12 +17,12 @@ namespace TugDataModel
         public int IDX { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public Nullable<int> ShipTypeID { get; set; }
-        public string CNName { get; set; }
-        public string ENName { get; set; }
+        public string CnName { get; set; }
+        public string EnName { get; set; }
         public string SimpleName { get; set; }
         public Nullable<int> DeadWeight { get; set; }
         public Nullable<int> Length { get; set; }
-        public string Width { get; set; }
+        public Nullable<int> Width { get; set; }
         public Nullable<int> TEUS { get; set; }
         public string Class { get; set; }
         public string Remark { get; set; }
