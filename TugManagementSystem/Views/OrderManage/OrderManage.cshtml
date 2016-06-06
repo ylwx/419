@@ -85,7 +85,7 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
+            url: '@Url.Action("GetData", "OrderManage")',
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -96,7 +96,7 @@
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "OrderManage")',
             pager: "#jqGridPager",
-            loadonce: true,
+            //loadonce: true,
             rowList: ['10', '20', '30'],
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
@@ -183,6 +183,9 @@
                 addParams: {
                     keys: true,
                     successfunc: function (val) {
+                        alert(val);
+                        alert(val.responseText);
+
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
                             alert(ret.message);
@@ -386,7 +389,7 @@
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
-                        defaultValue: "未审核"
+                        defaultValue: "0"
                     }
 
                 },
@@ -395,7 +398,7 @@
                     editrules: { required: true }, hidden: false,
                     editoptions: {
                         //multiple: true,
-                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
+                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "OrderInfor.WorkStateName" })',
                         //value: "-1:;1:One;2:Two",
                         dataEvents: [
                             {
@@ -404,7 +407,8 @@
                                     var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                                     if (rowid != null) {
                                         var workStateID_id = rowid + "_WorkStateID";
-                                        $('#' + workStateID_id).val($(this).find("option:selected").text());
+                                        $('#' + workStateID_id).val($(this).val().split(":")[0]);
+                                        //$('#' + workStateID_id).val($(this).find("option:selected").text());
                                     }
                                     else {
                                         $('#' + workStateID_id).val("");
@@ -556,6 +560,7 @@
                         }
                     }
                 },
+
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date: true }, hidden: true,

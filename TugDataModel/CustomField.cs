@@ -22,6 +22,7 @@ namespace TugDataModel
         public int IDX { get; set; }
         public string CustomName { get; set; }
         public string CustomValue { get; set; }
+        public string CustomLabel { get; set; }
         public string Description { get; set; }
         public string FormulaStr { get; set; }
         public string CType { get; set; }
