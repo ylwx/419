@@ -390,6 +390,14 @@
                     editrules: { required: true }, hidden: false
                 },
                 {
+                    align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 200, editable: true, edittype: "custom",
+                    editrules: { required: true }, hidden: false,
+                    editoptions: {
+                        custom_value: getServiceNatureElementValue,
+                        custom_element: createServiceNatureEditElement
+                    }
+                },
+                {
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
@@ -450,7 +458,7 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 300, editable: true, edittype: "textarea",
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
                     editrules: { required: false }, hidden: false
                 },
                 {
@@ -584,5 +592,102 @@
 
             ]
         };
+    }
+
+
+    function createServiceNatureEditElement(value, editOptions) {
+        if (value == "") {
+            var span = $("<span />");
+            var label1 = $("<span />", { html: "泊码头" });
+            var radio1 = $("<input>", { type: "checkbox", value: "1", name: "service1", id: "one", /*checked: value == 1*/ });
+            var label2 = $("<span />", { html: "进坞" });
+            var radio2 = $("<input>", { type: "checkbox", value: "2", name: "service2", id: "two", /*checked: value == 2*/ });
+            var label3 = $("<span />", { html: "护航" });
+            var radio3 = $("<input>", { type: "checkbox", value: "3", name: "service3", id: "three",/*checked: value == 3*/ });
+            var label4 = $("<span />", { html: "守护" });
+            var radio4 = $("<input>", { type: "checkbox", value: "4", name: "service4", id: "four", /*checked: value == 4 */ });
+            var br = $("<br/>");
+            var label5 = $("<span />", { html: "离码头" });
+            var radio5 = $("<input>", { type: "checkbox", value: "5", name: "service5", id: "five", /*checked: value == 5*/ });
+            var label6 = $("<span />", { html: "出坞" });
+            var radio6 = $("<input>", { type: "checkbox", value: "6", name: "service6", id: "six", /*checked: value == 6*/ });
+            var label7 = $("<span />", { html: "拖带" });
+            var radio7 = $("<input>", { type: "checkbox", value: "7", name: "service7", id: "seven", /*checked: value == 7*/ });
+            var label8 = $("<span />", { html: "其他" });
+            var radio8 = $("<input>", { type: "checkbox", value: "8", name: "service8", id: "eight", /*checked: value == 8*/ });
+
+            span.append(label1).append(radio1).append(label2).append(radio2).append(label3).append(radio3)
+                .append(label4).append(radio4).append(br).append(label5).append(radio5)
+                .append(label6).append(radio6).append(label7).append(radio7).append(label8).append(radio8);
+
+            return span;
+        }
+        else
+        {
+            var list = value.split("/");
+            if (list.length > 2) {
+
+                var span = $("<span />");
+
+                var flags = new Array(false, false, false, false, false, false, false, false);
+                for (var i = 1; i < list.length - 1; ++i) {
+                    for (var j = 0; j < flags.length; j++) {
+                        if (list[i] == j + 1)
+                            flags[j] = true;
+                    }
+                }
+
+                //for (var jj = 0; jj < 8; jj++)
+                //    alert(flags[jj]);
+
+                var label1 = $("<span />", { html: "泊码头" });
+                var radio1 = $("<input>", { type: "checkbox", value: "1", name: "service1", id: "one", checked: flags[0] });
+                var label2 = $("<span />", { html: "进坞" });
+                var radio2 = $("<input>", { type: "checkbox", value: "2", name: "service2", id: "two", checked: flags[1] });
+                var label3 = $("<span />", { html: "护航" });
+                var radio3 = $("<input>", { type: "checkbox", value: "3", name: "service3", id: "three", checked: flags[2] });
+                var label4 = $("<span />", { html: "守护" });
+                var radio4 = $("<input>", { type: "checkbox", value: "4", name: "service4", id: "four", checked: flags[3] });
+                var br = $("<br/>");
+                var label5 = $("<span />", { html: "离码头" });
+                var radio5 = $("<input>", { type: "checkbox", value: "5", name: "service5", id: "five", checked: flags[4] });
+                var label6 = $("<span />", { html: "出坞" });
+                var radio6 = $("<input>", { type: "checkbox", value: "6", name: "service6", id: "six", checked: flags[5] });
+                var label7 = $("<span />", { html: "拖带" });
+                var radio7 = $("<input>", { type: "checkbox", value: "7", name: "service7", id: "seven", checked: flags[6] });
+                var label8 = $("<span />", { html: "其他" });
+                var radio8 = $("<input>", { type: "checkbox", value: "8", name: "service8", id: "eight", checked: flags[7] });
+
+                span.append(label1).append(radio1).append(label2).append(radio2).append(label3).append(radio3)
+                    .append(label4).append(radio4).append(br).append(label5).append(radio5)
+                    .append(label6).append(radio6).append(label7).append(radio7).append(label8).append(radio8);
+
+                return span;
+            }
+        }
+    }
+
+    // The javascript executed specified by JQGridColumn.EditTypeCustomGetValue when EditType = EditType.Custom
+    // One parameter passed - the custom element created in JQGridColumn.EditTypeCustomCreateElement
+    function getServiceNatureElementValue(elem, oper, value) {
+        if (oper === "set") {
+        }
+
+        if (oper === "get") {
+            var checkboxes = $(elem).find("input:checkbox:checked");
+            var str_values = "/";
+            var str_labels = "/";
+            for (var i = 0; i < checkboxes.length; ++i)
+            {
+                str_values += $(checkboxes[i]).val() + "/";
+            }
+
+            for (var i = 0; i < checkboxes.length; ++i) {
+                str_labels += $(checkboxes[i]).prev('span').html() + "/";
+            }
+            //return $(elem).find("input:checkbox:checked").val();
+            alert(str_labels);
+            return str_values;
+        }
     }
 </script>
