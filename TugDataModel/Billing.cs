@@ -29,6 +29,7 @@ namespace TugDataModel
         public string CreditContent { get; set; }
         public Nullable<double> CreditAmount { get; set; }
         public string Remark { get; set; }
+        public string Month { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }

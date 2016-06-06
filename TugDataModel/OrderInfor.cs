@@ -34,6 +34,7 @@ namespace TugDataModel
         public string LinkPhone { get; set; }
         public string LinkEmail { get; set; }
         public string WorkPlace { get; set; }
+        public string ServiceNatureIDS { get; set; }
         public Nullable<int> WorkStateID { get; set; }
         public string WorkStateName { get; set; }
         public Nullable<int> BigTugNum { get; set; }
