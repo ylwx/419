@@ -60,7 +60,7 @@
                             <div class="box-title">
                                 <h4><i class="fa fa-bars"></i>@Resources.Language.OrderManage</h4>
                             </div>
-                            <div class="box-body">
+                            <div id="jqGridContainerBox" class="box-body">
                                 <table id="jqGrid"></table>
                                 <div id="jqGridPager"></div>
                             </div>
@@ -73,7 +73,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     var tableConfig = null;
 
@@ -91,7 +90,7 @@
             colModel: tableConfig.columns,
             viewrecords: true,
             //width: 780,
-            height: 400,
+            height: 350,
             rowNum: 10,
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "OrderManage")',
@@ -105,6 +104,11 @@
         });
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+
+        $('#jqGridContainerBox').resize(function () {
+            var width = $('#jqGridContainerBox').width();
+            $("#jqGrid").setGridWidth(width);
+        });
 
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
