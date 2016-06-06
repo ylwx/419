@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "客户基本信息";
-    ViewBag.MenuId = "menu2";
-    ViewBag.SubMenuIndex = 0;
+    ViewBag.Title = "排班信息";
+    ViewBag.MenuId = "menu4";
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
+
 <div id="main-content">
     <div class="container">
         <div class="row">
@@ -21,17 +21,18 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.Customer</a>
+                                    <a href="#">@Resources.Language.Arrangement</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.CustomerManage
+                                    @Resources.Language.ArrangementManagement
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
-                            <div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>
+                            @*<div class="clearfix">
+                                            <h3 class="content-title pull-left">Grid Test</h3>
+                                        </div>
+                                        <div class="description">Table
+                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -57,7 +58,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.CustomerManage</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.ArrangementManagement</h4>
                             </div>
                             <div class="box-body">
                                 <table id="jqGrid"></table>
@@ -83,7 +84,7 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+            url: '@Url.Action("GetDataForLoadOnce", "Arrangement")',
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -92,7 +93,7 @@
             height: 300,
             rowNum: 10,
             autowidth: true,
-            editurl: '@Url.Action("AddEdit", "Customer")',
+            editurl: '@Url.Action("AddEdit", "Arrangement")',
             pager: "#jqGridPager",
             loadonce: true,
             rowList: ['10', '20', '30'],
@@ -113,7 +114,7 @@
                     @*$.ajax(
                         {
                             type: "get",
-                            url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+                            url: '@Url.Action("GetDataForLoadOnce", "Arrangement")',
                             dataType: 'json',
                             type: 'get',
                             data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
@@ -139,7 +140,7 @@
                             $.ajax(
                                 {
                                     type: "post",
-                                    url: '@Url.Action("Delete", "Customer")',
+                                    url: '@Url.Action("Delete", "Arrangement")',
                                     data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
@@ -203,73 +204,45 @@
             columns: [
 
                 {
-                    align: 'center', label: '@Resources.Language.Customer_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_Code', name: "Code", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, colmenu: false,
-                    hidden: false,
-                    searchoptions: { sopt: ["cn"] }
-                    //searchoptions: { sopt: ["ge", "le"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false,
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_TypeID', name: "TypeID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true },
-                    hidden: true,
+                    align: 'center',
+                    label: '@Resources.Language.Arrangement_WorkDate', name: "WorkDate", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
                     editoptions: {
-                        defaultValue: -1
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    },
+
+                    searchoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_ContactPerson', name: "ContactPerson", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
+                    align: 'center', label: '@Resources.Language.Arrangement_TugID', name: "TugID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true },
+                    hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_Telephone', name: "Telephone", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
+                    align: 'center', label: '@Resources.Language.Arrangement_SortNo', name: "SortNo", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true },
+                    hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_Fax', name: "Fax", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_Email', name: "Email", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_Address', name: "Address", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_MailCode', name: "MailCode", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.Arrangement_TeamName', name: "TeamName", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }

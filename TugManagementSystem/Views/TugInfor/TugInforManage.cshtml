@@ -1,9 +1,10 @@
 ﻿@{
-    ViewBag.Title = "客户基本信息";
-    ViewBag.MenuId = "menu2";
+    ViewBag.Title = "拖轮信息";
+    ViewBag.MenuId = "menu3";
     ViewBag.SubMenuIndex = 0;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
+
 <div id="main-content">
     <div class="container">
         <div class="row">
@@ -21,17 +22,18 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.Customer</a>
+                                    <a href="#">@Resources.Language.TugInfor</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.CustomerManage
+                                    @Resources.Language.TugInforManage
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
-                            <div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>
+                            @*<div class="clearfix">
+                                            <h3 class="content-title pull-left">Grid Test</h3>
+                                        </div>
+                                        <div class="description">Table
+                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -57,7 +59,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.CustomerManage</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.TugInforManage</h4>
                             </div>
                             <div class="box-body">
                                 <table id="jqGrid"></table>
@@ -83,7 +85,7 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+            url: '@Url.Action("GetDataForLoadOnce", "TugInfor")',
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -92,7 +94,7 @@
             height: 300,
             rowNum: 10,
             autowidth: true,
-            editurl: '@Url.Action("AddEdit", "Customer")',
+            editurl: '@Url.Action("AddEdit", "TugInfor")',
             pager: "#jqGridPager",
             loadonce: true,
             rowList: ['10', '20', '30'],
@@ -113,7 +115,7 @@
                     @*$.ajax(
                         {
                             type: "get",
-                            url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+                            url: '@Url.Action("GetDataForLoadOnce", "TugInfor")',
                             dataType: 'json',
                             type: 'get',
                             data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
@@ -139,7 +141,7 @@
                             $.ajax(
                                 {
                                     type: "post",
-                                    url: '@Url.Action("Delete", "Customer")',
+                                    url: '@Url.Action("Delete", "TugInfor")',
                                     data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
@@ -203,73 +205,59 @@
             columns: [
 
                 {
-                    align: 'center', label: '@Resources.Language.Customer_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_Code', name: "Code", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_Code', name: "Code", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, colmenu: false,
                     hidden: false,
                     searchoptions: { sopt: ["cn"] }
                     //searchoptions: { sopt: ["ge", "le"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_TypeID', name: "TypeID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true },
-                    hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_ContactPerson', name: "ContactPerson", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_Power', name: "Power", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_Telephone', name: "Telephone", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_Class', name: "Class", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_Fax', name: "Fax", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_Speed', name: "Speed", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_Email', name: "Email", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_Length', name: "Length", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_Address', name: "Address", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Customer_MailCode', name: "MailCode", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_Width', name: "Width", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
