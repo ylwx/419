@@ -168,6 +168,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.ShipName = Request.Form["ShipName"];
                         aOrder.UserID = -1;
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
+                        aOrder.ServiceNatureIDS = Request.Form["ServiceNatureIDS"];
                         aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
                         aOrder.WorkStateName = Request.Form["WorkStateName"].Split(':')[1];
 
@@ -247,6 +248,7 @@ namespace TugManagementSystem.Controllers
                         if (Request.Form["SmallTugNum"] != "")
                             aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
+                        aOrder.ServiceNatureIDS = Request.Form["ServiceNatureIDS"];
                         aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
                         aOrder.WorkStateName = Request.Form["WorkStateName"].Split(':')[1];
                         aOrder.Remark = Request.Form["Remark"];
