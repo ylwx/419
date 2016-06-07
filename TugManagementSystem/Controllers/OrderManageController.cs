@@ -381,5 +381,41 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 订单管理页面Action
+
+        #region 订单调度页面Action
+        public ActionResult GetOrderSubSchedulerData(bool _search, string sidx, string sord, int page, int rows, int orderId)
+        {
+
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string s = Request.QueryString["filters"];
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                }
+                else
+                {
+                    List<V_OrderScheduler> orders = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
+                    int totalRecordNum = orders.Count;
+                    if (totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderScheduler> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderScheduler>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+        #endregion
     }
 }

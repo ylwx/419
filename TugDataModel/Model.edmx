@@ -496,8 +496,11 @@
           </Key>
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="ServiceNatureValue" Type="int" />
+          <Property Name="ServiceNatureName" Type="nvarchar" MaxLength="50" />
           <Property Name="TugID" Type="int" />
           <Property Name="JobStateID" Type="int" />
+          <Property Name="JobStateName" Type="nvarchar" MaxLength="50" />
           <Property Name="InformCaptainTime" Type="nvarchar" MaxLength="50" />
           <Property Name="CaptainConfirmTime" Type="nvarchar" MaxLength="50" />
           <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
@@ -612,6 +615,47 @@
           <Property Name="AddUserID" Type="int" />
           <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
           <Property Name="System" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_OrderScheduler">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="ServiceNatureValue" Type="int" />
+          <Property Name="ServiceNatureName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TugID" Type="int" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="JobStateID" Type="int" />
+          <Property Name="JobStateName" Type="nvarchar" MaxLength="50" />
+          <Property Name="InformCaptainTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="CaptainConfirmTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ArrivalShipSideTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkCommencedTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkCompletedTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="RopeUsed" Type="nvarchar" MaxLength="50" />
+          <Property Name="RopeNum" Type="int" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
@@ -803,6 +847,44 @@
           <EntitySet Name="TugInfor" EntityType="Self.TugInfor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfor" EntityType="Self.UserInfor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersRole" EntityType="Self.UsersRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_OrderScheduler].[IDX] AS [IDX], 
+    [V_OrderScheduler].[OrderID] AS [OrderID], 
+    [V_OrderScheduler].[ServiceNatureValue] AS [ServiceNatureValue], 
+    [V_OrderScheduler].[ServiceNatureName] AS [ServiceNatureName], 
+    [V_OrderScheduler].[TugID] AS [TugID], 
+    [V_OrderScheduler].[CnName] AS [CnName], 
+    [V_OrderScheduler].[EnName] AS [EnName], 
+    [V_OrderScheduler].[SimpleName] AS [SimpleName], 
+    [V_OrderScheduler].[JobStateID] AS [JobStateID], 
+    [V_OrderScheduler].[JobStateName] AS [JobStateName], 
+    [V_OrderScheduler].[InformCaptainTime] AS [InformCaptainTime], 
+    [V_OrderScheduler].[CaptainConfirmTime] AS [CaptainConfirmTime], 
+    [V_OrderScheduler].[DepartBaseTime] AS [DepartBaseTime], 
+    [V_OrderScheduler].[ArrivalShipSideTime] AS [ArrivalShipSideTime], 
+    [V_OrderScheduler].[WorkCommencedTime] AS [WorkCommencedTime], 
+    [V_OrderScheduler].[WorkCompletedTime] AS [WorkCompletedTime], 
+    [V_OrderScheduler].[ArrivalBaseTime] AS [ArrivalBaseTime], 
+    [V_OrderScheduler].[RopeUsed] AS [RopeUsed], 
+    [V_OrderScheduler].[RopeNum] AS [RopeNum], 
+    [V_OrderScheduler].[Remark] AS [Remark], 
+    [V_OrderScheduler].[OwnerID] AS [OwnerID], 
+    [V_OrderScheduler].[UserID] AS [UserID], 
+    [V_OrderScheduler].[CreateDate] AS [CreateDate], 
+    [V_OrderScheduler].[LastUpDate] AS [LastUpDate], 
+    [V_OrderScheduler].[UserDefinedCol1] AS [UserDefinedCol1], 
+    [V_OrderScheduler].[UserDefinedCol2] AS [UserDefinedCol2], 
+    [V_OrderScheduler].[UserDefinedCol3] AS [UserDefinedCol3], 
+    [V_OrderScheduler].[UserDefinedCol4] AS [UserDefinedCol4], 
+    [V_OrderScheduler].[UserDefinedCol5] AS [UserDefinedCol5], 
+    [V_OrderScheduler].[UserDefinedCol6] AS [UserDefinedCol6], 
+    [V_OrderScheduler].[UserDefinedCol7] AS [UserDefinedCol7], 
+    [V_OrderScheduler].[UserDefinedCol8] AS [UserDefinedCol8], 
+    [V_OrderScheduler].[UserDefinedCol9] AS [UserDefinedCol9], 
+    [V_OrderScheduler].[UserDefinedCol10] AS [UserDefinedCol10]
+    FROM [dbo].[V_OrderScheduler] AS [V_OrderScheduler]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
@@ -884,6 +966,7 @@
           <EntitySet Name="TugInfor" EntityType="Model.TugInfor" />
           <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
           <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
+          <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
@@ -1447,8 +1530,11 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="ServiceNatureValue" Type="Int32" />
+          <Property Name="ServiceNatureName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugID" Type="Int32" />
           <Property Name="JobStateID" Type="Int32" />
+          <Property Name="JobStateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InformCaptainTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CaptainConfirmTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DepartBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1580,6 +1666,45 @@
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Role" Relationship="Model.FK_Users_Role_Role" FromRole="UsersRole" ToRole="Role" />
           <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
+        </EntityType>
+        <EntityType Name="V_OrderScheduler">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="ServiceNatureValue" Type="Int32" />
+          <Property Name="ServiceNatureName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TugID" Type="Int32" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JobStateID" Type="Int32" />
+          <Property Name="JobStateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InformCaptainTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CaptainConfirmTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalShipSideTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkCommencedTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkCompletedTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RopeUsed" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RopeNum" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
           <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
@@ -2273,8 +2398,11 @@
                 <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
                 <ScalarProperty Name="CaptainConfirmTime" ColumnName="CaptainConfirmTime" />
                 <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
+                <ScalarProperty Name="JobStateName" ColumnName="JobStateName" />
                 <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="ServiceNatureName" ColumnName="ServiceNatureName" />
+                <ScalarProperty Name="ServiceNatureValue" ColumnName="ServiceNatureValue" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
@@ -2380,6 +2508,46 @@
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_OrderScheduler">
+            <EntityTypeMapping TypeName="Model.V_OrderScheduler">
+              <MappingFragment StoreEntitySet="V_OrderScheduler">
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="RopeNum" ColumnName="RopeNum" />
+                <ScalarProperty Name="RopeUsed" ColumnName="RopeUsed" />
+                <ScalarProperty Name="ArrivalBaseTime" ColumnName="ArrivalBaseTime" />
+                <ScalarProperty Name="WorkCompletedTime" ColumnName="WorkCompletedTime" />
+                <ScalarProperty Name="WorkCommencedTime" ColumnName="WorkCommencedTime" />
+                <ScalarProperty Name="ArrivalShipSideTime" ColumnName="ArrivalShipSideTime" />
+                <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
+                <ScalarProperty Name="CaptainConfirmTime" ColumnName="CaptainConfirmTime" />
+                <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
+                <ScalarProperty Name="JobStateName" ColumnName="JobStateName" />
+                <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
+                <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="ServiceNatureName" ColumnName="ServiceNatureName" />
+                <ScalarProperty Name="ServiceNatureValue" ColumnName="ServiceNatureValue" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -90,13 +90,13 @@
             colModel: tableConfig.columns,
             viewrecords: true,
             //width: 780,
-            height: 350,
-            rowNum: 10,
+            height: '100%', //350,
+            rowNum: 30,
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "OrderManage")',
             pager: "#jqGridPager",
             //loadonce: true,
-            rowList: ['10', '20', '30'],
+            rowList: ['30', '50', '80', '100'],
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
             sortable: true,          //列可移动
@@ -474,6 +474,10 @@
                     }
                 },
                 {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
                     align: 'center',
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
                     editrules: { required: false, date: true }, hidden: false,
@@ -500,10 +504,6 @@
                             });
                         }
                     }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
                 },
                 {
                     align: 'center',

@@ -48,5 +48,6 @@ namespace TugDataModel
         public virtual DbSet<TugInfor> TugInfor { get; set; }
         public virtual DbSet<UserInfor> UserInfor { get; set; }
         public virtual DbSet<UsersRole> UsersRole { get; set; }
+        public virtual DbSet<V_OrderScheduler> V_OrderScheduler { get; set; }
     }
 }
