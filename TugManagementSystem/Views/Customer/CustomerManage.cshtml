@@ -4,6 +4,7 @@
     ViewBag.SubMenuIndex = 0;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
+@model TugDataModel.Customer
 <div id="main-content">
     <div class="container">
         <div class="row">
@@ -89,7 +90,7 @@
             colModel: tableConfig.columns,
             viewrecords: true,
             //width: 780,
-            height: 300,
+            height: $(window).height() - 300,//300,
             rowNum: 10,
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "Customer")',
@@ -203,7 +204,7 @@
             columns: [
 
                 {
-                    align: 'center', label: '@Resources.Language.Customer_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.Customer_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text", key:true,
                     editrules: { required: false }, hidden: true,
                 },
                 {
@@ -403,8 +404,8 @@
                         }
                     }
                 },
-                { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
-                { align: 'center', label: 'CustomerShip', name: "CustomerShip", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
+                    { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
+                    { align: 'center', label: 'CustomerShip', name: "CustomerShip", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
 
             ]
         };
