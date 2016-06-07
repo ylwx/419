@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using TugManagementSystem.MyClass;
 
 namespace TugManagementSystem.Controllers
 {
@@ -46,6 +48,18 @@ namespace TugManagementSystem.Controllers
             Response.Cookies.Add(lanCookie);
             //刷新当前页面
             return Redirect(Request.UrlReferrer.ToString());
+        }
+
+
+        protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
+        {
+            return new JsonNetResult
+            {
+                Data = data,
+                ContentType = contentType,
+                ContentEncoding = contentEncoding,
+                JsonRequestBehavior = behavior
+            };
         }
     }
 }

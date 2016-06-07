@@ -190,6 +190,8 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
+
+                //db.Configuration.ProxyCreationEnabled = false;
                 List<Customer> customers = db.Customer.Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
                 int totalRecordNum = customers.Count;
                 if (totalRecordNum % rows == 0) page -= 1;
