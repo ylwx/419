@@ -133,6 +133,15 @@
 
         var childGridURL = '@Url.Action("GetOrderSubSchedulerData", "OrderManage")' + "?orderId=" + dr.IDX;
 
+        var str_services = "";
+        var serviceNatureIds = dr.ServiceNatureIDS.split("/");
+        var serviceNatureNames = dr.ServiceNatureNames.split("/");
+        for (var i = 0; i < serviceNatureIds.length; ++i) {
+            str_services += serviceNatureIds[i] + ":" + serviceNatureNames[i] + ";"
+        }
+        if (serviceNatureIds.length > 0) str_services = str_services.substr(0, str_services.length - 1);
+        
+
         //alert(childGridURL);
 
         // send the parent row primary key to the server so that we know which grid to show
@@ -157,14 +166,17 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_OrderID', name: "OrderID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
+                    editrules: { required: false }, hidden: false,
+                    editoptions: {
+                        defaultValue: dr.IDX
+                    }
                 },
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureValue', name: "ServiceNatureValue", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: true,
+                    editrules: { required: true }, hidden: false,
                     editoptions: {
-                        defaultValue: "0"
+                        defaultValue: serviceNatureIds[0]
                     }
 
                 },
@@ -172,7 +184,8 @@
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureName', name: "ServiceNatureName", width: 100, editable: true, edittype: "select",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
-                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "OrderInfor.WorkStateName" })',
+                        //dataUrl: '@Url.Action("GetCustomField", "OrderManage")' + "orderId=" + dr.IDX,
+                        value: str_services,
                         dataEvents: [
                             {
                                 type: 'change',
@@ -180,7 +193,7 @@
                                     var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                                     if (rowid != null) {
                                         var serviceNatureValue_id = rowid + "_ServiceNatureValue";
-                                        $('#' + serviceNatureValue_id).val($(this).val().split(":")[0]);
+                                        $('#' + serviceNatureValue_id).val($(this).val());
                                         //$('#' + workStateID_id).val($(this).find("option:selected").text());
                                     }
                                 }
@@ -191,7 +204,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_TugID', name: "TugID", width: 100, editable: true, edittype: "text",
-                    hidden: true,
+                    hidden: false,
                     editrules: { required: true, integer: true }
                 },
                 {
@@ -236,6 +249,11 @@
 
                                             //jQuery("#jqGrid").setCell(rowid, 'ShipID', ui.item.id);
                                         }
+                                        else {
+                                            var tugID_id = rowid + "_TugID";
+                                            $('#' + tugID_id).val("");
+                                        }
+
 
                                         //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
                                     },

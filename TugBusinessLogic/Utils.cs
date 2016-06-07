@@ -55,13 +55,19 @@ namespace TugBusinessLogic
             Dictionary<string, string> dic = new Dictionary<string, string>();
 
             List<string> lst = content.Split('/').ToList();
-            string s_values = "/", s_labels = "/";
-            if (lst != null && lst.Count > 2)
+            string s_values = "", s_labels = "";
+            if (lst != null && lst.Count > 0)
             {
-                for (int i = 1; i < lst.Count - 1; i++)
+                for (int i = 0; i < lst.Count; i++)
                 {
                     s_values += lst[i].Split(':')[0] + "/";
                     s_labels += lst[i].Split(':')[1] + "/";
+                }
+
+                if(lst.Count>0)
+                {
+                    s_values = s_values.Substring(0, s_values.Length - 1);
+                    s_labels = s_labels.Substring(0, s_labels.Length - 1);
                 }
             }
 
