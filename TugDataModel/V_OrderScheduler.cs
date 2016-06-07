@@ -12,13 +12,16 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Scheduler
+    public partial class V_OrderScheduler
     {
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
         public Nullable<int> ServiceNatureValue { get; set; }
         public string ServiceNatureName { get; set; }
         public Nullable<int> TugID { get; set; }
+        public string CnName { get; set; }
+        public string EnName { get; set; }
+        public string SimpleName { get; set; }
         public Nullable<int> JobStateID { get; set; }
         public string JobStateName { get; set; }
         public string InformCaptainTime { get; set; }
@@ -32,8 +35,8 @@ namespace TugDataModel
         public Nullable<int> RopeNum { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
-        public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
+        public string CreateDate { get; set; }
         public string LastUpDate { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }
@@ -45,8 +48,5 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
-    
-        public virtual OrderInfor OrderInfor { get; set; }
-        public virtual TugInfor TugInfor { get; set; }
     }
 }

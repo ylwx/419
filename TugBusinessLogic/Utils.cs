@@ -49,5 +49,26 @@ namespace TugBusinessLogic
 
             return ret;
         }
+
+        static public Dictionary<string, string> GetServices(string content)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            List<string> lst = content.Split('/').ToList();
+            string s_values = "/", s_labels = "/";
+            if (lst != null && lst.Count > 2)
+            {
+                for (int i = 1; i < lst.Count - 1; i++)
+                {
+                    s_values += lst[i].Split(':')[0] + "/";
+                    s_labels += lst[i].Split(':')[1] + "/";
+                }
+            }
+
+            dic.Add("values", s_values);
+            dic.Add("labels", s_labels);
+
+            return dic;
+        }
     }
 }

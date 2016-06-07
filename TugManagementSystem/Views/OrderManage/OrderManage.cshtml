@@ -90,13 +90,13 @@
             colModel: tableConfig.columns,
             viewrecords: true,
             //width: 780,
-            height: 350,
-            rowNum: 10,
+            height: '100%', //350,
+            rowNum: 30,
             autowidth: true,
             editurl: '@Url.Action("AddEdit", "OrderManage")',
             pager: "#jqGridPager",
             //loadonce: true,
-            rowList: ['10', '20', '30'],
+            rowList: ['30', '50', '80', '100'],
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
             sortable: true,          //列可移动
@@ -187,9 +187,6 @@
                 addParams: {
                     keys: true,
                     successfunc: function (val) {
-                        alert(val);
-                        alert(val.responseText);
-
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
                             alert(ret.message);
@@ -218,6 +215,7 @@
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
                     editrules: { required: true }, colmenu: false,
+                    editoptions: { value:"游客:员工" },  //yes:游客， no:员工
                     hidden: false,
                     searchoptions: { sopt: ["ge", "le"] }
                 },
@@ -390,7 +388,14 @@
                     editrules: { required: true }, hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 200, editable: true, edittype: "custom",
+                    align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: true,
+                    editoptions: {
+                        defaultValue : "/"
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 200, editable: true, edittype: "custom",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
                         custom_value: getServiceNatureElementValue,
@@ -399,7 +404,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false,
+                    editrules: { required: true }, hidden: true,
                     editoptions: {
                         defaultValue: "0"
                     }
@@ -469,9 +474,13 @@
                     }
                 },
                 {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
                     align: 'center',
-                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, date: true }, hidden: false,
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
                     //formatter: 'date',
                     //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
                     datefmt: 'yyyy-mm-dd',
@@ -497,13 +506,9 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
-                },
-                {
                     align: 'center',
-                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, date: true }, hidden: false,
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
                     //formatter: 'date',
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
@@ -596,29 +601,29 @@
 
 
     function createServiceNatureEditElement(value, editOptions) {
-        if (value == "") {
+        if (value == "" || value == "/") {
             var span = $("<span />");
-            var label1 = $("<span />", { html: "泊码头" });
-            var radio1 = $("<input>", { type: "checkbox", value: "1", name: "service1", id: "one", /*checked: value == 1*/ });
-            var label2 = $("<span />", { html: "进坞" });
-            var radio2 = $("<input>", { type: "checkbox", value: "2", name: "service2", id: "two", /*checked: value == 2*/ });
-            var label3 = $("<span />", { html: "护航" });
-            var radio3 = $("<input>", { type: "checkbox", value: "3", name: "service3", id: "three",/*checked: value == 3*/ });
-            var label4 = $("<span />", { html: "守护" });
-            var radio4 = $("<input>", { type: "checkbox", value: "4", name: "service4", id: "four", /*checked: value == 4 */ });
+            var label0 = $("<span />", { html: "泊码头" });
+            var checkbox0 = $("<input>", { type: "checkbox", value: "0:泊码头", name: "service0" });
+            var label1 = $("<span />", { html: "进坞" });
+            var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1"});
+            var label2 = $("<span />", { html: "护航" });
+            var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2" });
+            var label3 = $("<span />", { html: "守护" });
+            var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3" });
             var br = $("<br/>");
-            var label5 = $("<span />", { html: "离码头" });
-            var radio5 = $("<input>", { type: "checkbox", value: "5", name: "service5", id: "five", /*checked: value == 5*/ });
-            var label6 = $("<span />", { html: "出坞" });
-            var radio6 = $("<input>", { type: "checkbox", value: "6", name: "service6", id: "six", /*checked: value == 6*/ });
-            var label7 = $("<span />", { html: "拖带" });
-            var radio7 = $("<input>", { type: "checkbox", value: "7", name: "service7", id: "seven", /*checked: value == 7*/ });
-            var label8 = $("<span />", { html: "其他" });
-            var radio8 = $("<input>", { type: "checkbox", value: "8", name: "service8", id: "eight", /*checked: value == 8*/ });
+            var label4 = $("<span />", { html: "离码头" });
+            var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4" });
+            var label5 = $("<span />", { html: "出坞" });
+            var checkbox5 = $("<input>", { type: "checkbox", value: "5:出坞", name: "service5" });
+            var label6 = $("<span />", { html: "拖带" });
+            var checkbox6 = $("<input>", { type: "checkbox", value: "6:拖带", name: "service6" });
+            var label7 = $("<span />", { html: "其他" });
+            var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7"});
 
-            span.append(label1).append(radio1).append(label2).append(radio2).append(label3).append(radio3)
-                .append(label4).append(radio4).append(br).append(label5).append(radio5)
-                .append(label6).append(radio6).append(label7).append(radio7).append(label8).append(radio8);
+            span.append(label0).append(checkbox0).append(label1).append(checkbox1).append(label2).append(checkbox2)
+                .append(label3).append(checkbox3).append(br).append(label4).append(checkbox4)
+                .append(label5).append(checkbox5).append(label6).append(checkbox6).append(label7).append(checkbox7);
 
             return span;
         }
@@ -629,38 +634,36 @@
 
                 var span = $("<span />");
 
+                var labels = new Array("泊码头", "进坞", "护航", "守护", "离码头", "出坞", "拖带", "其他");
                 var flags = new Array(false, false, false, false, false, false, false, false);
                 for (var i = 1; i < list.length - 1; ++i) {
                     for (var j = 0; j < flags.length; j++) {
-                        if (list[i] == j + 1)
+                        if (list[i] == labels[j])
                             flags[j] = true;
                     }
                 }
 
-                //for (var jj = 0; jj < 8; jj++)
-                //    alert(flags[jj]);
-
-                var label1 = $("<span />", { html: "泊码头" });
-                var radio1 = $("<input>", { type: "checkbox", value: "1", name: "service1", id: "one", checked: flags[0] });
-                var label2 = $("<span />", { html: "进坞" });
-                var radio2 = $("<input>", { type: "checkbox", value: "2", name: "service2", id: "two", checked: flags[1] });
-                var label3 = $("<span />", { html: "护航" });
-                var radio3 = $("<input>", { type: "checkbox", value: "3", name: "service3", id: "three", checked: flags[2] });
-                var label4 = $("<span />", { html: "守护" });
-                var radio4 = $("<input>", { type: "checkbox", value: "4", name: "service4", id: "four", checked: flags[3] });
+                var label0 = $("<span />", { html: "泊码头" });
+                var checkbox0 = $("<input>", { type: "checkbox", value: "0:泊码头", name: "service0", checked: flags[0] });
+                var label1 = $("<span />", { html: "进坞" });
+                var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1", checked: flags[1] });
+                var label2 = $("<span />", { html: "护航" });
+                var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2", checked: flags[2] });
+                var label3 = $("<span />", { html: "守护" });
+                var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3", checked: flags[3] });
                 var br = $("<br/>");
-                var label5 = $("<span />", { html: "离码头" });
-                var radio5 = $("<input>", { type: "checkbox", value: "5", name: "service5", id: "five", checked: flags[4] });
-                var label6 = $("<span />", { html: "出坞" });
-                var radio6 = $("<input>", { type: "checkbox", value: "6", name: "service6", id: "six", checked: flags[5] });
-                var label7 = $("<span />", { html: "拖带" });
-                var radio7 = $("<input>", { type: "checkbox", value: "7", name: "service7", id: "seven", checked: flags[6] });
-                var label8 = $("<span />", { html: "其他" });
-                var radio8 = $("<input>", { type: "checkbox", value: "8", name: "service8", id: "eight", checked: flags[7] });
+                var label4 = $("<span />", { html: "离码头" });
+                var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4",checked: flags[4] });
+                var label5 = $("<span />", { html: "出坞" });
+                var checkbox5 = $("<input>", { type: "checkbox", value: "5:出坞", name: "service5", checked: flags[5] });
+                var label6 = $("<span />", { html: "拖带" });
+                var checkbox6 = $("<input>", { type: "checkbox", value: "6:拖带", name: "service6", checked: flags[6] });
+                var label7 = $("<span />", { html: "其他" });
+                var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7", checked: flags[7] });
 
-                span.append(label1).append(radio1).append(label2).append(radio2).append(label3).append(radio3)
-                    .append(label4).append(radio4).append(br).append(label5).append(radio5)
-                    .append(label6).append(radio6).append(label7).append(radio7).append(label8).append(radio8);
+                span.append(label0).append(checkbox0).append(label1).append(checkbox1).append(label2).append(checkbox2).append(label3).append(checkbox3)
+                    .append(br).append(label4).append(checkbox4).append(label5).append(checkbox5)
+                    .append(label6).append(checkbox6).append(label7).append(checkbox7);
 
                 return span;
             }
@@ -676,17 +679,18 @@
         if (oper === "get") {
             var checkboxes = $(elem).find("input:checkbox:checked");
             var str_values = "/";
-            var str_labels = "/";
+            //var str_labels = "/";
             for (var i = 0; i < checkboxes.length; ++i)
             {
                 str_values += $(checkboxes[i]).val() + "/";
             }
 
-            for (var i = 0; i < checkboxes.length; ++i) {
-                str_labels += $(checkboxes[i]).prev('span').html() + "/";
-            }
+            //for (var i = 0; i < checkboxes.length; ++i) {
+            //    str_labels += $(checkboxes[i]).prev('span').html() + "/";
+            //}
             //return $(elem).find("input:checkbox:checked").val();
-            alert(str_labels);
+
+            //alert(str_values);
             return str_values;
         }
     }
