@@ -416,6 +416,37 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
+        public ActionResult GetTugsByCnName(string value)
+        {
+
+            TugDataEntities db = new TugDataEntities();
+            List<TugInfor> source = db.TugInfor.Where(u => u.CnName.Contains(value))
+                .OrderBy(u => u.CnName).ToList<TugInfor>();
+
+            var jsonData = new { list = source };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetTugsByEnName(string value)
+        {
+
+            TugDataEntities db = new TugDataEntities();
+            List<TugInfor> source = db.TugInfor.Where(u => u.EnName.Contains(value))
+                .OrderBy(u => u.CnName).ToList<TugInfor>();
+
+            var jsonData = new { list = source };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetTugsBySimpleName(string value)
+        {
+
+            TugDataEntities db = new TugDataEntities();
+            List<TugInfor> source = db.TugInfor.Where(u => u.SimpleName.Contains(value))
+                .OrderBy(u => u.CnName).ToList<TugInfor>();
+
+            var jsonData = new { list = source };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }
