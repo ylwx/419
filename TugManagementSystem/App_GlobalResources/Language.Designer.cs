@@ -1022,5 +1022,23 @@ namespace Resources {
                 return ResourceManager.GetString("V_OrderScheduler_WorkCompletedTime", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 中文名 的本地化字符串。
+        /// </summary>
+        internal static string V_Users_CnName {
+            get {
+                return ResourceManager.GetString("V_Users_CnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用戶名 的本地化字符串。
+        /// </summary>
+        internal static string V_Users_UserName {
+            get {
+                return ResourceManager.GetString("V_Users_UserName", resourceCulture);
+            }
+        }
     }
 }

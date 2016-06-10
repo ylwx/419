@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Approve">
           <Key>
             <PropertyRef Name="IDX" />
@@ -55,6 +55,8 @@
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="InCode" Type="nvarchar" MaxLength="50" />
           <Property Name="FatherID" Type="int" />
+          <Property Name="LevelValue" Type="int" />
+          <Property Name="IsLeaf" Type="nvarchar" MaxLength="50" />
           <Property Name="CNName" Type="nvarchar" MaxLength="50" />
           <Property Name="ENName" Type="nvarchar" MaxLength="100" />
           <Property Name="SType" Type="nvarchar" MaxLength="50" />
@@ -627,6 +629,19 @@
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_BaseTreeItems”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BaseTreeItems">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FatherID" Type="int" />
+          <Property Name="LevelValue" Type="int" />
+          <Property Name="CNName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsLeaf" Type="nvarchar" MaxLength="50" />
+          <Property Name="InCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_OrderScheduler">
           <Key>
@@ -666,6 +681,22 @@
           <Property Name="UserDefinedCol8" Type="int" />
           <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Users">
+          <Key>
+            <PropertyRef Name="IDX" />
+            <PropertyRef Name="TreeID" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TreeID" Type="int" Nullable="false" />
+          <Property Name="TreeCNName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FatherID" Type="int" />
+          <Property Name="InCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
           <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
@@ -799,18 +830,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_Role_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
-          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="UsersRole">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Users_Role_User_Infor">
           <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
           <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
@@ -847,6 +866,16 @@
           <EntitySet Name="TugInfor" EntityType="Self.TugInfor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfor" EntityType="Self.UserInfor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersRole" EntityType="Self.UsersRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_BaseTreeItems" EntityType="Self.V_BaseTreeItems" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BaseTreeItems].[IDX] AS [IDX], 
+    [V_BaseTreeItems].[FatherID] AS [FatherID], 
+    [V_BaseTreeItems].[LevelValue] AS [LevelValue], 
+    [V_BaseTreeItems].[CNName] AS [CNName], 
+    [V_BaseTreeItems].[IsLeaf] AS [IsLeaf], 
+    [V_BaseTreeItems].[InCode] AS [InCode]
+    FROM [dbo].[V_BaseTreeItems] AS [V_BaseTreeItems]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_OrderScheduler].[IDX] AS [IDX], 
@@ -884,6 +913,18 @@
     [V_OrderScheduler].[UserDefinedCol9] AS [UserDefinedCol9], 
     [V_OrderScheduler].[UserDefinedCol10] AS [UserDefinedCol10]
     FROM [dbo].[V_OrderScheduler] AS [V_OrderScheduler]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Users" EntityType="Self.V_Users" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Users].[IDX] AS [IDX], 
+    [V_Users].[UserName] AS [UserName], 
+    [V_Users].[IsGuest] AS [IsGuest], 
+    [V_Users].[CnName] AS [CnName], 
+    [V_Users].[TreeID] AS [TreeID], 
+    [V_Users].[TreeCNName] AS [TreeCNName], 
+    [V_Users].[FatherID] AS [FatherID], 
+    [V_Users].[InCode] AS [InCode]
+    FROM [dbo].[V_Users] AS [V_Users]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
@@ -929,10 +970,6 @@
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Scheduler" EntitySet="Scheduler" />
           </AssociationSet>
-          <AssociationSet Name="FK_Users_Role_Role" Association="Self.FK_Users_Role_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="UsersRole" EntitySet="UsersRole" />
-          </AssociationSet>
           <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
@@ -966,7 +1003,9 @@
           <EntitySet Name="TugInfor" EntityType="Model.TugInfor" />
           <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
           <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
+          <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
+          <EntitySet Name="V_Users" EntityType="Model.V_Users" />
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
@@ -1006,10 +1045,6 @@
           <AssociationSet Name="FK_Role_Module_Role" Association="Model.FK_Role_Module_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleModule" EntitySet="RoleModule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Role_Role" Association="Model.FK_Users_Role_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
           <AssociationSet Name="FK_Scheduler_TugInfor" Association="Model.FK_Scheduler_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
@@ -1071,6 +1106,8 @@
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FatherID" Type="Int32" />
+          <Property Name="LevelValue" Type="Int32" />
+          <Property Name="IsLeaf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ENName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1471,7 +1508,6 @@
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RoleMenu" Relationship="Model.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
           <NavigationProperty Name="RoleModule" Relationship="Model.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
-          <NavigationProperty Name="UsersRole" Relationship="Model.FK_Users_Role_Role" FromRole="Role" ToRole="UsersRole" />
         </EntityType>
         <EntityType Name="RoleMenu">
           <Key>
@@ -1664,8 +1700,18 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Role" Relationship="Model.FK_Users_Role_Role" FromRole="UsersRole" ToRole="Role" />
           <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
+        </EntityType>
+        <EntityType Name="V_BaseTreeItems">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FatherID" Type="Int32" />
+          <Property Name="LevelValue" Type="Int32" />
+          <Property Name="CNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsLeaf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderScheduler">
           <Key>
@@ -1705,6 +1751,20 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_Users">
+          <Key>
+            <PropertyRef Name="IDX" />
+            <PropertyRef Name="TreeID" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TreeID" Type="Int32" Nullable="false" />
+          <Property Name="TreeCNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FatherID" Type="Int32" />
+          <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
           <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
@@ -1826,18 +1886,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_Role_Role">
-          <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
-          <End Type="Model.UsersRole" Role="UsersRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="UsersRole">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Scheduler_TugInfor">
           <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
           <End Type="Model.Scheduler" Role="Scheduler" Multiplicity="*" />
@@ -1935,6 +1983,8 @@
                 <ScalarProperty Name="SType" ColumnName="SType" />
                 <ScalarProperty Name="ENName" ColumnName="ENName" />
                 <ScalarProperty Name="CNName" ColumnName="CNName" />
+                <ScalarProperty Name="IsLeaf" ColumnName="IsLeaf" />
+                <ScalarProperty Name="LevelValue" ColumnName="LevelValue" />
                 <ScalarProperty Name="FatherID" ColumnName="FatherID" />
                 <ScalarProperty Name="InCode" ColumnName="InCode" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
@@ -2512,6 +2562,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_BaseTreeItems">
+            <EntityTypeMapping TypeName="Model.V_BaseTreeItems">
+              <MappingFragment StoreEntitySet="V_BaseTreeItems">
+                <ScalarProperty Name="InCode" ColumnName="InCode" />
+                <ScalarProperty Name="IsLeaf" ColumnName="IsLeaf" />
+                <ScalarProperty Name="CNName" ColumnName="CNName" />
+                <ScalarProperty Name="LevelValue" ColumnName="LevelValue" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_OrderScheduler">
             <EntityTypeMapping TypeName="Model.V_OrderScheduler">
               <MappingFragment StoreEntitySet="V_OrderScheduler">
@@ -2548,6 +2610,20 @@
                 <ScalarProperty Name="ServiceNatureName" ColumnName="ServiceNatureName" />
                 <ScalarProperty Name="ServiceNatureValue" ColumnName="ServiceNatureValue" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Users">
+            <EntityTypeMapping TypeName="Model.V_Users">
+              <MappingFragment StoreEntitySet="V_Users">
+                <ScalarProperty Name="InCode" ColumnName="InCode" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="TreeCNName" ColumnName="TreeCNName" />
+                <ScalarProperty Name="TreeID" ColumnName="TreeID" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>

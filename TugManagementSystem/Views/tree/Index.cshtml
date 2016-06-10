@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <!-- The jQuery library is a prerequisite for all jqSuite products -->
+    <script type="text/ecmascript" src="~/Resources/JqGrid/js/jquery-1.11.0.min.js"></script>
+    <!-- This is the Javascript file of jqGrid -->
+    <script type="text/ecmascript" src="~/Resources/JqGrid/js/jquery.jqGrid.min.js"></script>
+    <!-- This is the localization file of the grid controlling messages, labels, etc.
+    <!-- We support more than 40 localizations -->
+    <script type="text/ecmascript" src="~/Resources/JqGrid/js/i18n/grid.locale-en.js"></script>
+    <!-- A link to a jQuery UI ThemeRoller theme, more than 22 built-in and many more custom -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Resources/jquery-ui-1.11.4.custom/jquery-ui.css" />
+    <!-- The link to the CSS that the grid needs -->
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Resources/JqGrid/css/ui.jqgrid.css" />
+</head>
+<body>
+    <table id="tree"></table>
+    <div id="pager"></div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            jQuery('#tree').jqGrid({
+                "url": "/tree/GetDataForLoadOnce",
+                "datatype": "json",
+                "colModel": [
+					{
+					    "name": "emp_id",
+					    "index": "emp_id",
+					    "sorttype": "int",
+					    "key": true,
+					    "hidden": true
+					},
+                    {
+                        "name": "name",
+                        "index": "name",
+                        "sorttype": "string",
+                        "label": "Employee",
+                        "width": 170
+                    },
+                    //{
+                    //    "name": "salary",
+                    //    "index": "salary",
+                    //    "sorttype": "numeric",
+                    //    "label": "Salary",
+                    //    "align": "right",
+                    //    "width": 90
+                    //},
+                    {
+                        "name": "fatherid",
+                        "hidden": true
+                    }
+                ],
+                "width": "780",
+                "hoverrows": false,
+                "viewrecords": false,
+                "gridview": true,
+                "height": "auto",
+                "sortname": "emp_id",
+                "scrollrows": true,
+
+                "treeGrid": true,
+                "ExpandColumn": "name",
+                "treedatatype": "json",
+                "treeGridModel": "adjacency",
+                "loadonce": true,
+                "rowNum": 100,
+                "treeReader": {
+                    "parent_id_field": "fatherid",
+                    "level_field": "level",
+                    "leaf_field": "isLeaf",
+                    "expanded_field": "expanded",
+                    "loaded": "loaded",
+                    "icon_field": "icon"
+                },
+                "pager": "#pager"
+            });
+        });
+    </script>
+</body>
+</html>
