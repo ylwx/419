@@ -862,6 +862,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 選擇拖輪 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_ChooseTug {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_ChooseTug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 拖輪中文名 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_CnName {
@@ -961,7 +970,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 服務內容 的本地化字符串。
+        ///   查找类似 服務內容數值 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_ServiceNatureValue {
             get {

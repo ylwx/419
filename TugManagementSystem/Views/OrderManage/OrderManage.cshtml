@@ -104,6 +104,7 @@
         });
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
         $('#jqGridContainerBox').resize(function () {
             var width = $('#jqGridContainerBox').width();
@@ -630,13 +631,13 @@
         else
         {
             var list = value.split("/");
-            if (list.length > 2) {
+            if (list.length > 0) {
 
                 var span = $("<span />");
 
                 var labels = new Array("泊码头", "进坞", "护航", "守护", "离码头", "出坞", "拖带", "其他");
                 var flags = new Array(false, false, false, false, false, false, false, false);
-                for (var i = 1; i < list.length - 1; ++i) {
+                for (var i = 0; i < list.length; ++i) {
                     for (var j = 0; j < flags.length; j++) {
                         if (list[i] == labels[j])
                             flags[j] = true;
@@ -678,11 +679,15 @@
 
         if (oper === "get") {
             var checkboxes = $(elem).find("input:checkbox:checked");
-            var str_values = "/";
+            var str_values = "";
             //var str_labels = "/";
             for (var i = 0; i < checkboxes.length; ++i)
             {
                 str_values += $(checkboxes[i]).val() + "/";
+            }
+            if (checkboxes.length > 0)
+            {
+                str_values = str_values.substr(0, str_values.length - 1);
             }
 
             //for (var i = 0; i < checkboxes.length; ++i) {
