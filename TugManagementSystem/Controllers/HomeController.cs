@@ -83,7 +83,7 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = "sfdssfdsfds！" });
+                    return Json(new { code = Resources.Common.SUCCESS_CODE });
                 }
             }
             catch (Exception)
