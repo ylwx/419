@@ -80,9 +80,6 @@ namespace TugManagementSystem.Controllers
                 if (user != null)
                 {
                     return Json(new { code = Resources.Common.ERROR_CODE, message = "您输入的用户名已被占用！" });
-
-                    //ViewBag.Message = "您输入的用户名已被占用！";
-                    // return View();
                 }
                 else
                 {
