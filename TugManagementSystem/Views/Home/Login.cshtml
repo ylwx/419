@@ -111,6 +111,7 @@
                             <h2 class="bigintro">Register</h2>
                             <div class="divide-40 ">
                                 <p style="color:red; text-align:center"><strong> @ViewBag.Message</strong></p>
+                                <input type="text" id="tip" name="tip" /><br />
                             </div>
                             <form role="form" name="form2" action="/Home/SaveNewUser" method="post" id="SaveNewUserForm" onsubmit="return Check()">
                                 <div class="form-group">
@@ -196,17 +197,19 @@
             }
             else {
                 var tmpUser = document.getElementById("UserName").value;
-                //alert(tmpUser);
                 $.ajax(
                    {
                        type: "post",
-                       url: '@Url.Action("IsValidUser", "Home")',
-                       data: { 'us': tmpUser },
-                       dataType: 'json',
+                       url: '@Url.Action("SaveNewUser", "Home")',
+                       //data: "{}",
+                       //data: "{ us: tmpUser }",
+                       //dataType: 'json',
                        success: function (result) {
-                           alert(result.message);
+                           //alert("0000000000000");
+                           $("#tip").val(result);
+                           alert();
                            return true;
-                       },
+                       }
 
                    }
 );
@@ -223,7 +226,7 @@
             //    return false;
             //}
             //else { return true; }
-        }
+        };
     </script>
     <script type="text/javascript">
         function swapScreen(id) {

@@ -115,6 +115,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 0 的本地化字符串。
+        /// </summary>
+        internal static string Information_CODE {
+            get {
+                return ResourceManager.GetString("Information_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您输入的用户名已被占用 的本地化字符串。
+        /// </summary>
+        internal static string Information_MESSAGE {
+            get {
+                return ResourceManager.GetString("Information_MESSAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 1 的本地化字符串。
         /// </summary>
         internal static string SUCCESS_CODE {
