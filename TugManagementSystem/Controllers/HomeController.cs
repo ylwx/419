@@ -96,29 +96,26 @@ namespace TugManagementSystem.Controllers
         public ActionResult SaveNewUser()
         {
             string tmpUser = Request.Form["UserName"].ToString();
-            string tmpCnUserName = Request.Form["CnName"].ToString();
             TugDataEntities db = new TugDataEntities();
             UserInfor newUser = new UserInfor();
             System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == tmpUser;
             UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
-            //if (user != null)
-            //{
-            ViewBag.Message = "您输入的用户名已被占用！";
-            return Content("您输入的用户名已被占用！");
-            //return Json(new { code = Resources.Common.Information_CODE, message = Resources.Common.Information_MESSAGE });
-            //return Json(new { code = 0, message = "您输入的用户名已被占用！" });
-            //}
-            //else
-            //{
-            //    newUser.CnName = Request.Form["CnName"].ToString();
-            //    newUser.UserName = Request.Form["UserName"].ToString();
-            //    newUser.Email = Request.Form["Email"].ToString();
-            //    newUser.Pwd = Request.Form["Pwd"].ToString();
-            //    newUser = db.UserInfor.Add(newUser);
-            //    db.SaveChanges();
-            //    FormsAuthentication.SetAuthCookie(tmpUser, false);
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (user != null)
+            {
+                return Json(new { code = Resources.Common.Information_CODE, message = Resources.Common.Information_MESSAGE });
+            }
+            else
+            {
+                newUser.CnName = Request.Form["CnName"].ToString();
+                newUser.UserName = Request.Form["UserName"].ToString();
+                newUser.Email = Request.Form["Email"].ToString();
+                newUser.Pwd = Request.Form["Pwd"].ToString();
+                newUser = db.UserInfor.Add(newUser);
+                db.SaveChanges();
+                FormsAuthentication.SetAuthCookie(tmpUser, false);
+                //return Redirect("/Home/Index");
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //[Authorize]
