@@ -215,5 +215,16 @@ namespace TugManagementSystem.Controllers
         {
             return View();
         }
+
+
+        #region 计费方案 Written By lg
+
+        public ActionResult BillingScheme(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+        #endregion
     }
 }
