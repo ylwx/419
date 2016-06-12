@@ -29,13 +29,15 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult SavePwd()
         {
+            string pwd = Request.Form["Pwd"].ToString();
+            string newpwd = Request.Form["newPwd"].ToString();
             TugDataEntities db = new TugDataEntities();
             UserInfor newUser = new UserInfor();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name && u.Pwd == Request.Form["Pwd"].ToString();
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name && u.Pwd == pwd;
             UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
             if (user != null)
             {
-                user.Pwd = Request.Form["Pwd2"].ToString();
+                user.Pwd = newpwd;
                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 ViewBag.Message = "新密码已生效，请重新登陆！";
@@ -43,11 +45,8 @@ namespace TugManagementSystem.Controllers
             }
             else
             {
-                ViewBag.Message = "原密码不正确，请重新输入！";
-                return View();
+                return Json(new { code = 5, message = "原密码不正确，请重新输入！" });
             }
-
-            //Console.WriteLine(User.Identity.Name);
         }
 
         public ActionResult Login(string userName, string password)
