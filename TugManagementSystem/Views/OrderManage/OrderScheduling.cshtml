@@ -28,7 +28,7 @@
                                 <div class="box-body">
                                     <table id="jqGrid2"></table>
                                     <div id="jqGridPager2"></div>
-                                    <div id="cur_operate_chid_grid" hidden="hidden"></div>
+                                    <div id="cur_operate_chid_grid" hidden="hidden" ></div>
                                 </div>
                             </div>
                             <!-- /BOX -->
@@ -190,7 +190,7 @@
         var serviceNatureIds = dr.ServiceNatureIDS.split("/");
         var serviceNatureNames = dr.ServiceNatureNames.split("/");
         for (var i = 0; i < serviceNatureIds.length; ++i) {
-            str_services += serviceNatureIds[i] + ":" + serviceNatureNames[i] + ";"
+            str_services += serviceNatureIds[i] + "-" + serviceNatureNames[i] + ":" + serviceNatureNames[i] + ";"
         }
         if (serviceNatureIds.length > 0) str_services = str_services.substr(0, str_services.length - 1);
 
@@ -211,7 +211,7 @@
             datatype: "json",
             //page: 1,
             viewrecords: true,
-            editurl: '@Url.Action("AddEdit", "OrderManage")',
+            editurl: '@Url.Action("AddEditScheduler", "OrderManage")',
             colModel: [
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
@@ -227,7 +227,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureValue', name: "ServiceNatureValue", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: true,
+                    editrules: { required: true }, hidden: false,
                     editoptions: {
                         defaultValue: serviceNatureIds[0]
                     }
@@ -262,293 +262,72 @@
                     editoptions: { defaultValue: -1 }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_CnName', name: "CnName", width: 150, editable: false, edittype: "text",
-                    editrules: { required: true }, hidden: false,
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_CnName', name: "CnName", width: 150, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false,
                     editoptions: {
                         dataInit: function (element) {
-                            window.setTimeout(function () {
-                                $(element).autocomplete({
-                                    id: 'AutoComplete',
-                                    source: function (request, response) {
-                                        this.xhr = $.ajax({
-                                            url: '@Url.Action("GetTugsByCnName", "OrderManage")' + "?value=" + $(element).val(),
-                                            data: request,
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            success: function (data) {
-                                                response($.map(data.list, function (item) {
-                                                    return {
-                                                        id: item.IDX,
-                                                        label: item.CnName,
-                                                        value: item.CnName,
-                                                        en_name: item.EnName,
-                                                        simple_name: item.SimpleName
-                                                    };
-                                                }));
-                                            },
+                        },
 
-                                            error: function (model, response, options) {
-                                                response([]);
-                                            }
-                                        });
-                                    },
-                                    select: function (event, ui) {
-                                        var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(ui.item.id);
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val(ui.item.en_name);
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val(ui.item.simple_name);
-                                        }
-                                        else {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(-1);
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val("");
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val("");
-                                        }
-                                    },
-                                    change: function (event, ui) {
-
-                                        var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(ui.item.id);
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val(ui.item.en_name);
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val(ui.item.simple_name);
-                                        }
-                                        else {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(-1);
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val("");
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val("");
-                                        }
-
-
-                                        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                                    },
-                                    autoFocus: false
-                                });
-                            }, 100);
-                        }
+                        dataEvents: [
+                            {
+                                type: 'focus',
+                                fn: function (e) {
+                                    g_cur_subGridId = '#' + childGridID;
+                                    $('#table-modal').modal()
+                                }
+                            }
+                        ]
 
                     }
 
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_EnName', name: "EnName", width: 100, editable: false, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {
                         dataInit: function (element) {
-                            window.setTimeout(function () {
-                                $(element).autocomplete({
-                                    id: 'AutoComplete',
-                                    source: function (request, response) {
-                                        this.xhr = $.ajax({
-                                            url: '@Url.Action("GetTugsByEnName", "OrderManage")' + "?value=" + $(element).val(),
-                                            data: request,
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            success: function (data) {
-                                                response($.map(data.list, function (item) {
-                                                    return {
-                                                        id: item.IDX,
-                                                        label: item.EnName,
-                                                        value: item.EnName,
-                                                        cn_name: item.CnName,
-                                                        simple_name: item.SimpleName
-                                                    };
-                                                }));
-                                            },
+                            
+                        },
 
-                                            error: function (model, response, options) {
-                                                response([]);
-                                            }
-                                        });
-                                    },
-                                    select: function (event, ui) {
-                                        var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(ui.item.id);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val(ui.item.cn_name);
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val(ui.item.simple_name);
-                                        }
-                                        else {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(-1);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val("");
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val("");
-                                        }
-                                    },
-                                    change: function (event, ui) {
-
-                                        var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(ui.item.id);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val(ui.item.cn_name);
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val(ui.item.simple_name);
-                                        }
-                                        else {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(-1);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val("");
-
-                                            var simpleName_id = rowid + "_SimpleName";
-                                            $('#' + simpleName_id).val("");
-                                        }
-
-
-                                        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                                    },
-                                    autoFocus: false
-                                });
-                            }, 100);
-                        }
+                        dataEvents: [
+                            {
+                                type: 'focus',
+                                fn: function (e) {
+                                    g_cur_subGridId = '#' + childGridID;
+                                    $('#table-modal').modal()
+                                }
+                            }
+                        ]
 
                     }
                 },
+                
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_SimpleName', name: "SimpleName", width: 100, editable: false, edittype: "text",
-                    editrules: { required: false }, hidden: false,
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ChooseTug', name: "SimpleName", width: 100, editable: true, edittype: 'text',
+                    editrules: { required: false, edithidden:true }, hidden: false,
                     editoptions: {
-                        dataInit: function (element) {
-                            window.setTimeout(function () {
-                                $(element).autocomplete({
-                                    id: 'AutoComplete',
-                                    source: function (request, response) {
-                                        this.xhr = $.ajax({
-                                            url: '@Url.Action("GetTugsBySimpleName", "OrderManage")' + "?value=" + $(element).val(),
-                                            data: request,
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            success: function (data) {
-                                                response($.map(data.list, function (item) {
-                                                    return {
-                                                        id: item.IDX,
-                                                        label: item.SimpleName,
-                                                        value: item.SimpleName,
-                                                        cn_name: item.CnName,
-                                                        en_name: item.EnName
-                                                    };
-                                                }));
-                                            },
-
-                                            error: function (model, response, options) {
-                                                response([]);
-                                            }
-                                        });
-                                    },
-                                    select: function (event, ui) {
-                                        var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(ui.item.id);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val(ui.item.cn_name);
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val(ui.item.en_name);
-                                        }
-                                        else {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(-1);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val("");
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val("");
-                                        }
-                                    },
-                                    change: function (event, ui) {
-
-                                        var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(ui.item.id);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val(ui.item.cn_name);
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val(ui.item.en_name);
-                                        }
-                                        else {
-                                            var tugID_id = rowid + "_TugID";
-                                            $('#' + tugID_id).val(-1);
-
-                                            var cnName_id = rowid + "_CnName";
-                                            $('#' + cnName_id).val("");
-
-                                            var enName_id = rowid + "_EnName";
-                                            $('#' + enName_id).val("");
-                                        }
-
-
-                                        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                                    },
-                                    autoFocus: false
-                                });
-                            }, 100);
-                        }
-
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ChooseTug', name: "ChooseTug", width: 100, editable: true, edittype: 'custom',
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {
-                        custom_value: function (elem, oper, value){},
+                        @*custom_value: function (elem, oper, value){},
                         custom_element: function (value, editOptions) {
                             //var url = '@Url.Action("ChooseTugs", "TugInfor")';
                             //var a = $("<a href='#box-config' data-toggle='modal'>选择拖轮<i class='fa fa-ellipsis-h'></i></a>");        
-                            var a = $("<a href='#" + childGridID + "' data-target='#table-modal' data-toggle='modal' class='btn btn-xs btn-success' data-user='1'>" + '@Resources.Language.V_OrderScheduler_ChooseTug' + "...</a>");
+                            var a = $("<a href='#" + childGridID + "' data-target='#table-modal' data-toggle='modal' class='btn btn-xs btn-success' value = '1'>" + '@Resources.Language.V_OrderScheduler_ChooseTug' + "...</a>");
                             return a;
-                        }
+                    }*@
+                        dataEvents: [
+                            {
+                                type: 'focus',
+                                fn: function (e) {
+                                    g_cur_subGridId = '#' + childGridID;
+                                    $('#table-modal').modal()
+                                }
+                            }
+                        ]
                     }                   
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateID', name: "JobStateID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: true,
+                    editrules: { required: true }, hidden: false,
                     editoptions: {
                         defaultValue: "0"
                     }
@@ -611,6 +390,13 @@
                     }
                 },
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCompletedTime', name: "WorkCompletedTime", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true, time: true }, hidden: false,
+                    editoptions: {
+                        defaultValue: '1:00'
+                    }
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalBaseTime', name: "ArrivalBaseTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
@@ -654,7 +440,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
-                    editrules: { required: true }, hidden: false
+                    editrules: { required: false }, hidden: false
                 },
                 {
                     align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
@@ -798,13 +584,71 @@
                 groupOrder: ["asc"],
                 groupSummary: [false],
                 groupCollapse: false
-            }
+            },
+
+
+            //gridComplete: function () {
+            //    alert(1);
+            //}
         });
 
         $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
 
         //subGridPager
         $('#' + childGridID).navGrid('#' + childGridPagerID, { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+        .navButtonAdd('#' + childGridPagerID, {
+            caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+            onClickButton: function () {
+                //alert("haha");
+                @*$.ajax(
+                    {
+                        type: "get",
+                        url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
+                        dataType: 'json',
+                        type: 'get',
+                        data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
+                        success: function (result) {
+
+                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        },
+                    }
+                    );*@
+
+                $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+            }
+        })
+            .navSeparatorAdd("#" + childGridPagerID, { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#' + childGridPagerID, {
+                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                onClickButton: function () {
+                    var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
+                    var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
+                    if (rowid != null) {
+                        if (confirm('确定要删除所选的记录吗?')) {
+                            var d = new Date();
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: '@Url.Action("DeleteScheduler", "OrderManage")',
+                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        alert(result.message);
+                                        //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
+                                        $('#'+childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                    },
+
+                                }
+                                );
+                        }
+                    }
+                    else {
+                        alert('选中一行');
+                    }
+                },
+                position: "last"
+            });
+
 
         $('#' + childGridID).inlineNav('#' + childGridPagerID,
             {
@@ -1073,6 +917,8 @@
             return [true, ""];
     }
 
+    var g_cur_subGridId = '';
+
 
     $('#table-modal').on('show.bs.modal', function (e) {
         //alert("show");
@@ -1296,7 +1142,7 @@
         $('#model-dlg').width($('#jqGrid2').width() + 45);
 
         var invoker = $(e.relatedTarget);
-        $('#cur_operate_chid_grid').text(invoker.attr('href'));
+        $('#cur_operate_chid_grid').text(g_cur_subGridId);
     });
     $('#table-modal').on('shown.bs.modal', function (e) {
         var invoker = $(e.relatedTarget);
@@ -1326,17 +1172,17 @@
                 var tugID_id = childRowid + "_TugID";
                 $('#' + tugID_id).val(dr.IDX);
                 
-                //var cnName_id = childRowid + "_CnName";
-                //$('#' + cnName_id).val(dr.CnName);
-                jQuery('' + curChildGridId).setCell(childRowid, 'CnName', dr.CnName);
+                var cnName_id = childRowid + "_CnName";
+                $('#' + cnName_id).val(dr.CnName);
+                //jQuery('' + curChildGridId).setCell(childRowid, 'CnName', dr.CnName);
 
-                //var enName_id = childRowid + "_EnName";
-                //$('#' + enName_id).val(dr.EnName);
-                jQuery('' + curChildGridId).setCell(childRowid, 'EnName', dr.EnName);
+                var enName_id = childRowid + "_EnName";
+                $('#' + enName_id).val(dr.EnName);
+                //jQuery('' + curChildGridId).setCell(childRowid, 'EnName', dr.EnName);
 
-                //var simpleName_id = childRowid + "_SimpleName";
-                //$('#' + simpleName_id).val(dr.SimpleName);
-                jQuery('' + curChildGridId).setCell(childRowid, 'SimpleName', dr.SimpleName);
+                var simpleName_id = childRowid + "_SimpleName";
+                $('#' + simpleName_id).val(dr.SimpleName);
+                //jQuery('' + curChildGridId).setCell(childRowid, 'SimpleName', dr.SimpleName);
                
             }        
         }

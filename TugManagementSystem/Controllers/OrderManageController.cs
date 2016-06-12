@@ -79,7 +79,7 @@ namespace TugManagementSystem.Controllers
                 if (_search == true)
                 {
                     string s = Request.QueryString["filters"];
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -395,7 +395,7 @@ namespace TugManagementSystem.Controllers
                 if (_search == true)
                 {
                     string s = Request.QueryString["filters"];
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -413,7 +413,7 @@ namespace TugManagementSystem.Controllers
             }
             catch (Exception)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -446,6 +446,196 @@ namespace TugManagementSystem.Controllers
 
             var jsonData = new { list = source };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddEditScheduler()
+        {
+            this.Internationalization();
+
+            #region Add
+            if (Request.Form["oper"].Equals("add"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        TugDataModel.Scheduler aScheduler = new Scheduler();
+                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"];
+                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"];
+                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"];
+                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"];
+                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"];
+                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"];
+                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"];
+
+                        aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"]); ;
+                        aScheduler.JobStateName = Request.Form["JobStateName"].Split(':')[1];
+
+                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"]);
+                        aScheduler.OwnerID = -1;
+                        aScheduler.UserID = -1;
+                        aScheduler.Remark = Request.Form["Remark"]; ;
+                        
+                        aScheduler.RopeUsed = Request.Form["RopeUsed"];
+                        if (aScheduler.RopeUsed.Equals("是"))
+                            aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"]);
+                        else
+                            aScheduler.RopeNum = 0;
+
+                        aScheduler.ServiceNatureName = Request.Form["ServiceNatureName"].Split('-')[1];
+                        aScheduler.ServiceNatureValue = Convert.ToInt32(Request.Form["ServiceNatureName"].Split('-')[0]);
+                        aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
+                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+
+
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        if (Request.Form["UserDefinedCol5"] != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        if (Request.Form["UserDefinedCol6"] != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        if (Request.Form["UserDefinedCol7"] != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        if (Request.Form["UserDefinedCol8"] != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+
+                        aScheduler = db.Scheduler.Add(aScheduler);
+                        db.SaveChanges();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
+                    }
+                }
+                catch (Exception)
+                {
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            #endregion
+
+            #region Edit
+            if (Request.Form["oper"].Equals("edit"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+
+                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    Scheduler aScheduler = db.Scheduler.Where(u => u.IDX == idx).FirstOrDefault();
+
+                    if (aScheduler == null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                    else
+                    {
+                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"];
+                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"];
+                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"];
+                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"];
+                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"];
+                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"];
+                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"];
+
+                        aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"]); ;
+                        aScheduler.JobStateName = Request.Form["JobStateName"].Split(':')[1];
+
+                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"]);
+                        aScheduler.OwnerID = -1;
+                        aScheduler.UserID = -1;
+                        aScheduler.Remark = Request.Form["Remark"]; ;
+
+                        aScheduler.RopeUsed = Request.Form["RopeUsed"];
+                        if (aScheduler.RopeUsed.Equals("是"))
+                            aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"]);
+                        else
+                            aScheduler.RopeNum = 0;
+
+                        aScheduler.ServiceNatureName = Request.Form["ServiceNatureName"].Split('-')[1];
+                        aScheduler.ServiceNatureValue = Convert.ToInt32(Request.Form["ServiceNatureName"].Split('-')[0]);
+                                                
+                        aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
+                        aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+
+
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        if (Request.Form["UserDefinedCol5"] != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        if (Request.Form["UserDefinedCol6"] != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        if (Request.Form["UserDefinedCol7"] != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        if (Request.Form["UserDefinedCol8"] != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                        db.Entry(aScheduler).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                }
+                catch (Exception exp)
+                {
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
+            }
+            #endregion
+
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
+        public ActionResult DeleteScheduler()
+        {
+            this.Internationalization();
+
+            try
+            {
+                var f = Request.Form;
+
+                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+
+                TugDataEntities db = new TugDataEntities();
+                Scheduler aScheduler = db.Scheduler.FirstOrDefault(u => u.IDX == idx);
+                if (aScheduler != null)
+                {
+                    db.Scheduler.Remove(aScheduler);
+                    db.SaveChanges();
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+                else
+                {
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
         }
         #endregion
     }
