@@ -12,13 +12,6 @@ namespace TugManagementSystem.Controllers
     public class HomeController : BaseController
     {
         [HttpGet]
-        public ActionResult Login(string lan, int? id)
-        {
-            lan = this.Internationalization();
-            return View();
-        }
-
-        [HttpGet]
         [Authorize]
         public ActionResult ChangePwd(string lan, int? id)
         {
@@ -27,45 +20,21 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
-        public ActionResult SavePwd()
+        //[Authorize]
+        public ActionResult Index(string lan, int? id)
         {
-            TugDataEntities db = new TugDataEntities();
-            UserInfor newUser = new UserInfor();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name && u.Pwd == Request.Form["Pwd"].ToString();
-            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
-            if (user != null)
-            {
-                user.Pwd = Request.Form["Pwd2"].ToString();
-                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                ViewBag.Message = "新密码已生效，请重新登陆！";
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                ViewBag.Message = "原密码不正确，请重新输入！";
-                return View();
-            }
+            lan = this.Internationalization();
 
-            //Console.WriteLine(User.Identity.Name);
-        }
+            var p = Request.Params;
+            var q = Request.RawUrl;
+            ViewBag.Title = "Home Page";
+            ViewBag.Language = lan;
+            ViewBag.Controller = "Home";
+            Console.WriteLine(User.Identity.Name);
+            TugDataModel.OrderInfor order = new OrderInfor();
+            order.Code = "123";
 
-        public ActionResult Login(string userName, string password)
-        {
-            TugDataEntities db = new TugDataEntities();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == userName && u.Pwd == password;
-            //List<UserInfor> users = db.UserInfor.Where(exp).Select(u => u).ToList<UserInfor>();
-            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
-            if (user != null)
-            {
-                FormsAuthentication.SetAuthCookie(user.UserName, false);
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ViewBag.Message = "用户名或密码错误，登录失败！";
-                return View();
-            }
+            return View();
         }
 
         public ActionResult IsValidUser(string tmpUser)
@@ -93,13 +62,38 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult SaveNewUser()
+        [HttpGet]
+        public ActionResult Login(string lan, int? id)
         {
-            string tmpUser = Request.Form["UserName"].ToString();
-            string tmpCnUserName = Request.Form["CnName"].ToString();
+            lan = this.Internationalization();
+            return View();
+        }
+
+        public ActionResult Login(string userName, string password)
+        {
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == userName && u.Pwd == password;
+            //List<UserInfor> users = db.UserInfor.Where(exp).Select(u => u).ToList<UserInfor>();
+            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
+            if (user != null)
+            {
+                FormsAuthentication.SetAuthCookie(user.UserName, false);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.Message = "用户名或密码错误，登录失败！";
+                return View();
+            }
+        }
+
+        public ActionResult SaveNewUser(string UserName)
+        {
+            //string tmpUser = Request.Form["UserName"].ToString();
+            //string tmpCnUserName = Request.Form["CnName"].ToString();
             TugDataEntities db = new TugDataEntities();
             UserInfor newUser = new UserInfor();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == tmpUser;
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == UserName;
             UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
             //if (user != null)
             //{
@@ -121,21 +115,27 @@ namespace TugManagementSystem.Controllers
             //}
         }
 
-        //[Authorize]
-        public ActionResult Index(string lan, int? id)
+        public ActionResult SavePwd()
         {
-            lan = this.Internationalization();
+            TugDataEntities db = new TugDataEntities();
+            UserInfor newUser = new UserInfor();
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name && u.Pwd == Request.Form["Pwd"].ToString();
+            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
+            if (user != null)
+            {
+                user.Pwd = Request.Form["Pwd2"].ToString();
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                ViewBag.Message = "新密码已生效，请重新登陆！";
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                ViewBag.Message = "原密码不正确，请重新输入！";
+                return View();
+            }
 
-            var p = Request.Params;
-            var q = Request.RawUrl;
-            ViewBag.Title = "Home Page";
-            ViewBag.Language = lan;
-            ViewBag.Controller = "Home";
-            Console.WriteLine(User.Identity.Name);
-            TugDataModel.OrderInfor order = new OrderInfor();
-            order.Code = "123";
-
-            return View();
+            //Console.WriteLine(User.Identity.Name);
         }
     }
 }

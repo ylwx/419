@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width" />
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />
     <!-- 最新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="~/Resources/Frame/bootstrap-dist/css/bootstrap.min.css">
 
@@ -23,14 +23,15 @@
     <!-- This is the localization file of the grid controlling messages, labels, etc.
     <!-- We support more than 40 localizations -->
     <script type="text/ecmascript" src="~/Resources/JqGrid/js/i18n/grid.locale-en.js"></script>
-    <!-- A link to a jQuery UI ThemeRoller theme, more than 22 built-in and many more custom -->
-    <link rel="stylesheet" type="text/css" media="screen" href="../../css/jquery-ui.css" />
     <!-- The link to the CSS that the grid needs -->
     <link rel="stylesheet" type="text/css" media="screen" href="~/Resources/JqGrid/css/ui.jqgrid.css" />
 
     <!-- A link to a jQuery UI ThemeRoller theme, more than 22 built-in and many more custom -->
     <link rel="stylesheet" type="text/css" media="screen" href="~/Resources/jquery-ui-1.11.4.custom/jquery-ui.css" />
 
+    <link rel="stylesheet" type="text/css" href="~/Resources/Frame/css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="~/Resources/Frame/css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="~/Resources/Frame/css/responsive.css">
     <title>CreateFlow</title>
     <script src='你的js文件名'></script>
 </head>
@@ -80,29 +81,48 @@
                 </div>
                 @*</form>
                     <form class="navbar-form navbar-right">*@
-                <div class="form-group">
-                    <input type="text" class="form-control col-lg-2" placeholder="人员">
-                </div>
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>查找</button>
             </form>
         </div><!-- /.navbar-collapse -->
     </nav>
-    <div class="separator"></div>
-    <div class="row" style="width:100%;  margin-left: auto;margin-right: auto;">
-        <div style="width:23%; float:left; ">
-            <table id="tree"></table>
-            <div id="pager"></div>
-        </div>
-        <div style="width:77%; float:left; ">
-            <table id="jqGrid"></table>
-            <div id="jqGridPager"></div>
-        </div>
-        <div id="selection">
-            InCode:<span id="InCode"></span><br />
-            CNName: <span id="CNName"></span>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BOX -->
+            <div class="box border green">
+                <div class="box-title">
+                    <h4><i class="fa fa-envelope"></i>创建流程</h4>
+                    <div class="tools hidden-xs">
+                        <a href="#box-config" data-toggle="modal" class="config">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                        <a href="javascript:;" class="reload">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                        <a href="javascript:;" class="collapse">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a href="javascript:;" class="remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <form>
+                            <div style="float:left">
+                                <table id="tree"></table>
+                                <div id="pager"></div>
+                            </div>
+                            <div style="float:left;margin-left:10px;">
+                                <table id="jqGrid"></table>
+                                <div id="jqGridPager"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- /BOX -->
         </div>
     </div>
-    <div class="separator"></div>
 </body>
 </html>
 <script type="text/javascript">
@@ -120,14 +140,14 @@
                     "index": "IDX",
                     "sorttype": "int",
                     "key": true,
-                    "hidden": true
+                    "hidden": false
                 },
 
                 {
                     "name": "CNName",
                     "index": "CNName",
                     "sorttype": "string",
-                    "label": "CNName",
+                    "label": "组织结构",
                     "editable": true,
                     "width": 50
                 },
@@ -137,29 +157,30 @@
                     "sorttype": "string",
                     "label": "InCode",
                     "editable": true,
+                    "hidden": true,
                     "width": 50
                 },
                 {
                     "name": "FatherID",
                     "hidden": true
                 },
+                //{
+                //    "name": "IsLeaf",
+                //    "editable": true,
+                //    "hidden": true
+                //},
                 {
-                    "name": "IsLeaf",
+                    "name": "LevelValue",
                     "editable": true,
                     "hidden": true
-                },
-            {
-                "name": "LevelValue",
-                "editable": true,
-                "hidden": true
-            }
+                }
             ],
-            "width": "300",
+            "width": 300,
             "hoverrows": false,
             "viewrecords": false,
             "gridview": true,
-            "height": "auto",
-            "sortname": "CNName",
+            "height": 335,//"auto",
+            "sortname": "IDX",
             "scrollrows": true,
 
             "treeGrid": true,
@@ -176,35 +197,29 @@
                 "loaded": "loaded",
                 "icon_field": "icon"
             },
-            "treeIcons": {
-                "plus": "ui-icon-circlesmall-plus",
-                "minus": "ui-icon-circlesmall-minus",
-                "leaf": "ui-icon-document"
-            },
+            //"treeIcons": {
+            //    "plus": "ui-icon-circlesmall-plus",
+            //    "minus": "ui-icon-circlesmall-minus",
+            //    "leaf": "ui-icon-document"
+            //},
             "sortorder": "asc",
             "pager": "#pager",
             "onSelectRow": function (rowid) {
-                if (rowid) {
+                if (rowid != null) {
                     var dr = $('#tree').jqGrid('getRowData', rowid);
-                    alert(dr.IsLeaf);
-                    if (dr.IsLeaf === 'true') {
-                        $("#InCode").html(dr.InCode);
-                        $("#CNName").html(dr.CNName);
-                        $.ajax(
-                            {
-                                type: "post",
-                                url: '@Url.Action("LoadUsersFilter", "Flow")',
-                                data: { 'data': dr },
-                                dataType: 'json',
-                                success: function (result) {
-                                    alert(result.message);
-                                    //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                },
-
-                            }
-                            );
-                    }
+                    //alert(dr.IsLeaf);
+                    //if (dr.IsLeaf === 'true') {
+                    id = dr.IDX;
+                    incode = dr.InCode;
+                    level = dr.LevelValue;
+                    //$("#InCode").html(dr.InCode);
+                    //$("#CNName").html(dr.CNName);
+                    $('#jqGrid').jqGrid('setGridParam', { mtype: 'POST', datatype: 'json', url: '@(Url.Action("LoadUsersFilter", "Flow"))?incode=' + incode }).trigger('reloadGrid');
+                    //}
                 }
+                //else {
+                //    alert('选中一行');
+                //}
             },
         });
         //设置treegrid的导航
@@ -238,7 +253,7 @@
             datatype: "json",
             colModel: tableConfig.columns,
             viewrecords: true,
-            width: 500,
+            //width: 500,
             height: 300,//$(window).height() - 300,//300,
             rowNum: 10,
             //autowidth: true,

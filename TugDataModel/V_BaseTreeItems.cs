@@ -11,8 +11,8 @@ namespace TugDataModel
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class V_BaseTreeItems
+
+    public partial class V_BaseTreeItems 
     {
         public int IDX { get; set; }
         public Nullable<int> FatherID { get; set; }
@@ -20,5 +20,20 @@ namespace TugDataModel
         public string CNName { get; set; }
         public string IsLeaf { get; set; }
         public string InCode { get; set; }
+
+        private string _expanded = "true";
+        private string _loaded = "true";
+
+        public string expanded
+        {
+            get { return _expanded; }
+            set { _expanded = value; }
+        }
+
+        public string loaded
+        {
+            get { return _loaded; }
+            set { _loaded = value; }
+        }
     }
 }
