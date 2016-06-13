@@ -34,6 +34,7 @@ namespace TugDataModel
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
     
+        public virtual Role Role { get; set; }
         public virtual UserInfor UserInfor { get; set; }
     }
 }

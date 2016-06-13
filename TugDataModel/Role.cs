@@ -18,6 +18,7 @@ namespace TugDataModel
         {
             this.RoleMenu = new HashSet<RoleMenu>();
             this.RoleModule = new HashSet<RoleModule>();
+            this.UsersRole = new HashSet<UsersRole>();
         }
     
         public int IDX { get; set; }
@@ -42,5 +43,6 @@ namespace TugDataModel
     
         public virtual ICollection<RoleMenu> RoleMenu { get; set; }
         public virtual ICollection<RoleModule> RoleModule { get; set; }
+        public virtual ICollection<UsersRole> UsersRole { get; set; }
     }
 }

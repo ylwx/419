@@ -84,134 +84,140 @@
 <script type="text/javascript">
     var tableConfig = null;
 
-    $(document).ready(function () {
+    $(document).ready(Init);
 
-        if (tableConfig == null) {
-            GetTableConfig();
+    function Init() {
+        {
+
+            if (tableConfig == null) {
+                GetTableConfig();
+            }
+
+            $("#jqGrid").jqGrid({
+                //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+                url: '@Url.Action("GetData", "OrderManage")',
+                mtype: "GET",
+                datatype: "json",
+                colModel: tableConfig.columns,
+                viewrecords: true,
+                //width: 780,
+                height: '100%', //350,
+                rowNum: 30,
+                autowidth: true,
+                editurl: '@Url.Action("AddEdit", "OrderManage")',
+                pager: "#jqGridPager",
+                //loadonce: true,
+                rowList: ['30', '50', '80', '100'],
+                rownumbers: true,
+                shrinkToFit: false,     //指定各列宽度
+                sortable: true,          //列可移动
+                colMenu: true          //列菜单
+            });
+
+            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+            $('#jqGridContainerBox').resize(function () {
+                var width = $('#jqGridContainerBox').width();
+                $("#jqGrid").setGridWidth(width);
+            });
+
+            $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    onClickButton: function () {
+                        //alert("haha");
+                        @*$.ajax(
+                            {
+                                type: "get",
+                                url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
+                                dataType: 'json',
+                                type: 'get',
+                                data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
+                                success: function (result) {
+
+                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                },
+                            }
+                            );*@
+
+                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                })
+                .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                        if (rowid != null) {
+                            if (confirm('确定要删除所选的记录吗?')) {
+                                var d = new Date();
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("Delete", "OrderManage")',
+                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
+
+                                    }
+                                    );
+                            }
+                        }
+                        else {
+                            alert('选中一行');
+                        }
+                    },
+                    position: "last"
+                });
+
+            $('#jqGrid').inlineNav('#jqGridPager',
+                {
+                    edit: true,
+                    add: true,
+                    del: true,
+                    cancel: true,
+                    editParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            }
+                        },
+                        url: null, //'/api/values',
+                        mtype: 'POST'
+                    },
+
+                    addParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            }
+                        },
+                        errorfunc: function (rowid, xhr) {
+                            alert(xhr.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    }
+                });
+
+            //最后调用，冻结列
+            //$("#jqGrid").jqGrid("setFrozenColumns");
         }
+    }
 
-        $("#jqGrid").jqGrid({
-            //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetData", "OrderManage")',
-            mtype: "GET",
-            datatype: "json",
-            colModel: tableConfig.columns,
-            viewrecords: true,
-            //width: 780,
-            height: '100%', //350,
-            rowNum: 30,
-            autowidth: true,
-            editurl: '@Url.Action("AddEdit", "OrderManage")',
-            pager: "#jqGridPager",
-            //loadonce: true,
-            rowList: ['30', '50', '80', '100'],
-            rownumbers: true,
-            shrinkToFit: false,     //指定各列宽度
-            sortable: true,          //列可移动
-            colMenu: true          //列菜单
-        });
 
-        $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
-        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
-
-        $('#jqGridContainerBox').resize(function () {
-            var width = $('#jqGridContainerBox').width();
-            $("#jqGrid").setGridWidth(width);
-        });
-
-        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-
-            .navButtonAdd('#jqGridPager', {
-                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
-                onClickButton: function () {
-                    //alert("haha");
-                    @*$.ajax(
-                        {
-                            type: "get",
-                            url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
-                            dataType: 'json',
-                            type: 'get',
-                            data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
-                            success: function (result) {
-
-                                $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            },
-                        }
-                        );*@
-
-                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                }
-            })
-            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
-            .navButtonAdd('#jqGridPager', {
-                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
-                onClickButton: function () {
-                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                    if (rowid != null) {
-                        if (confirm('确定要删除所选的记录吗?')) {
-                            var d = new Date();
-                            $.ajax(
-                                {
-                                    type: "post",
-                                    url: '@Url.Action("Delete", "OrderManage")',
-                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        alert(result.message);
-                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    },
-
-                                }
-                                );
-                        }
-                    }
-                    else {
-                        alert('选中一行');
-                    }
-                },
-                position: "last"
-            });
-
-        $('#jqGrid').inlineNav('#jqGridPager',
-            {
-                edit: true,
-                add: true,
-                del: true,
-                cancel: true,
-                editParams: {
-                    keys: true,
-                    successfunc: function (val) {
-                        if (val.responseText != "") {
-                            var ret = $.parseJSON(val.responseText);
-                            alert(ret.message);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                        }
-                    },
-                    url: null, //'/api/values',
-                    mtype: 'POST'
-                },
-
-                addParams: {
-                    keys: true,
-                    successfunc: function (val) {
-                        if (val.responseText != "") {
-                            var ret = $.parseJSON(val.responseText);
-                            alert(ret.message);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                        }
-                    },
-                    errorfunc: function (rowid, xhr) {
-                        alert(xhr.responseText);
-                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    }
-                }
-            });
-
-        //最后调用，冻结列
-        //$("#jqGrid").jqGrid("setFrozenColumns");
-    });
 
     function GetTableConfig() {
         tableConfig = {

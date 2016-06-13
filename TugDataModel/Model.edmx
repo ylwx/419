@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Approve">
           <Key>
             <PropertyRef Name="IDX" />
@@ -163,7 +163,7 @@
           </Key>
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerID" Type="int" />
-          <Property Name="BillingTemplateType" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateTypeID" Type="int" />
           <Property Name="BillingTemplateCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeID" Type="int" />
@@ -642,6 +642,69 @@
           <Property Name="InCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_BillingItemTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BillingItemTemplate">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="BillingTemplateID" Type="int" />
+          <Property Name="ItemID" Type="int" />
+          <Property Name="ItemValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="ItemLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="UnitPrice" Type="float" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="50" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="TypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="TypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_BillingTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BillingTemplate">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="BillingTemplateTypeID" Type="int" />
+          <Property Name="BillingTemplateTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeID" Type="int" />
+          <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="TemplateCreditContent" Type="nvarchar(max)" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_OrderScheduler">
           <Key>
@@ -830,6 +893,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Role_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="IDX" />
+            </Principal>
+            <Dependent Role="UsersRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Role_User_Infor">
           <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
           <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
@@ -875,6 +950,63 @@
     [V_BaseTreeItems].[IsLeaf] AS [IsLeaf], 
     [V_BaseTreeItems].[InCode] AS [InCode]
     FROM [dbo].[V_BaseTreeItems] AS [V_BaseTreeItems]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_BillingItemTemplate" EntityType="Self.V_BillingItemTemplate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BillingItemTemplate].[IDX] AS [IDX], 
+    [V_BillingItemTemplate].[BillingTemplateID] AS [BillingTemplateID], 
+    [V_BillingItemTemplate].[ItemID] AS [ItemID], 
+    [V_BillingItemTemplate].[ItemValue] AS [ItemValue], 
+    [V_BillingItemTemplate].[ItemLabel] AS [ItemLabel], 
+    [V_BillingItemTemplate].[UnitPrice] AS [UnitPrice], 
+    [V_BillingItemTemplate].[Currency] AS [Currency], 
+    [V_BillingItemTemplate].[TypeID] AS [TypeID], 
+    [V_BillingItemTemplate].[TypeValue] AS [TypeValue], 
+    [V_BillingItemTemplate].[TypeLabel] AS [TypeLabel], 
+    [V_BillingItemTemplate].[OwnerID] AS [OwnerID], 
+    [V_BillingItemTemplate].[CreateDate] AS [CreateDate], 
+    [V_BillingItemTemplate].[UserID] AS [UserID], 
+    [V_BillingItemTemplate].[LastUpDate] AS [LastUpDate], 
+    [V_BillingItemTemplate].[UserDefinedCol1] AS [UserDefinedCol1], 
+    [V_BillingItemTemplate].[UserDefinedCol2] AS [UserDefinedCol2], 
+    [V_BillingItemTemplate].[UserDefinedCol3] AS [UserDefinedCol3], 
+    [V_BillingItemTemplate].[UserDefinedCol4] AS [UserDefinedCol4], 
+    [V_BillingItemTemplate].[UserDefinedCol5] AS [UserDefinedCol5], 
+    [V_BillingItemTemplate].[UserDefinedCol6] AS [UserDefinedCol6], 
+    [V_BillingItemTemplate].[UserDefinedCol7] AS [UserDefinedCol7], 
+    [V_BillingItemTemplate].[UserDefinedCol8] AS [UserDefinedCol8], 
+    [V_BillingItemTemplate].[UserDefinedCol9] AS [UserDefinedCol9], 
+    [V_BillingItemTemplate].[UserDefinedCol10] AS [UserDefinedCol10]
+    FROM [dbo].[V_BillingItemTemplate] AS [V_BillingItemTemplate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_BillingTemplate" EntityType="Self.V_BillingTemplate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BillingTemplate].[IDX] AS [IDX], 
+    [V_BillingTemplate].[BillingTemplateTypeID] AS [BillingTemplateTypeID], 
+    [V_BillingTemplate].[BillingTemplateTypeValue] AS [BillingTemplateTypeValue], 
+    [V_BillingTemplate].[BillingTemplateTypeLabel] AS [BillingTemplateTypeLabel], 
+    [V_BillingTemplate].[BillingTemplateCode] AS [BillingTemplateCode], 
+    [V_BillingTemplate].[BillingTemplateName] AS [BillingTemplateName], 
+    [V_BillingTemplate].[TimeTypeID] AS [TimeTypeID], 
+    [V_BillingTemplate].[TimeTypeValue] AS [TimeTypeValue], 
+    [V_BillingTemplate].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_BillingTemplate].[TemplateCreditContent] AS [TemplateCreditContent], 
+    [V_BillingTemplate].[Remark] AS [Remark], 
+    [V_BillingTemplate].[OwnerID] AS [OwnerID], 
+    [V_BillingTemplate].[CreateDate] AS [CreateDate], 
+    [V_BillingTemplate].[UserID] AS [UserID], 
+    [V_BillingTemplate].[LastUpDate] AS [LastUpDate], 
+    [V_BillingTemplate].[UserDefinedCol1] AS [UserDefinedCol1], 
+    [V_BillingTemplate].[UserDefinedCol2] AS [UserDefinedCol2], 
+    [V_BillingTemplate].[UserDefinedCol3] AS [UserDefinedCol3], 
+    [V_BillingTemplate].[UserDefinedCol4] AS [UserDefinedCol4], 
+    [V_BillingTemplate].[UserDefinedCol5] AS [UserDefinedCol5], 
+    [V_BillingTemplate].[UserDefinedCol6] AS [UserDefinedCol6], 
+    [V_BillingTemplate].[UserDefinedCol7] AS [UserDefinedCol7], 
+    [V_BillingTemplate].[UserDefinedCol8] AS [UserDefinedCol8], 
+    [V_BillingTemplate].[UserDefinedCol9] AS [UserDefinedCol9], 
+    [V_BillingTemplate].[UserDefinedCol10] AS [UserDefinedCol10]
+    FROM [dbo].[V_BillingTemplate] AS [V_BillingTemplate]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -970,6 +1102,10 @@
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Scheduler" EntitySet="Scheduler" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_Role" Association="Self.FK_Users_Role_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
@@ -1004,6 +1140,8 @@
           <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
           <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
           <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
+          <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
+          <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
           <EntitySet Name="V_Users" EntityType="Model.V_Users" />
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
@@ -1045,6 +1183,10 @@
           <AssociationSet Name="FK_Role_Module_Role" Association="Model.FK_Role_Module_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleModule" EntitySet="RoleModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role_Role" Association="Model.FK_Users_Role_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
           <AssociationSet Name="FK_Scheduler_TugInfor" Association="Model.FK_Scheduler_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
@@ -1220,7 +1362,7 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerID" Type="Int32" />
-          <Property Name="BillingTemplateType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateTypeID" Type="Int32" />
           <Property Name="BillingTemplateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeID" Type="Int32" />
@@ -1508,6 +1650,7 @@
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RoleMenu" Relationship="Model.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
           <NavigationProperty Name="RoleModule" Relationship="Model.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
+          <NavigationProperty Name="UsersRole" Relationship="Model.FK_Users_Role_Role" FromRole="Role" ToRole="UsersRole" />
         </EntityType>
         <EntityType Name="RoleMenu">
           <Key>
@@ -1700,6 +1843,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Role" Relationship="Model.FK_Users_Role_Role" FromRole="UsersRole" ToRole="Role" />
           <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
         </EntityType>
         <EntityType Name="V_BaseTreeItems">
@@ -1712,6 +1856,65 @@
           <Property Name="CNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsLeaf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_BillingItemTemplate">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="BillingTemplateID" Type="Int32" />
+          <Property Name="ItemID" Type="Int32" />
+          <Property Name="ItemValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ItemLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Double" />
+          <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="TypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_BillingTemplate">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="BillingTemplateTypeID" Type="Int32" />
+          <Property Name="BillingTemplateTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeID" Type="Int32" />
+          <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateCreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderScheduler">
           <Key>
@@ -1882,6 +2085,18 @@
               <PropertyRef Name="IDX" />
             </Principal>
             <Dependent Role="RoleModule">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role_Role">
+          <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="Model.UsersRole" Role="UsersRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="IDX" />
+            </Principal>
+            <Dependent Role="UsersRole">
               <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2096,7 +2311,7 @@
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
                 <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
                 <ScalarProperty Name="BillingTemplateCode" ColumnName="BillingTemplateCode" />
-                <ScalarProperty Name="BillingTemplateType" ColumnName="BillingTemplateType" />
+                <ScalarProperty Name="BillingTemplateTypeID" ColumnName="BillingTemplateTypeID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
@@ -2570,6 +2785,67 @@
                 <ScalarProperty Name="CNName" ColumnName="CNName" />
                 <ScalarProperty Name="LevelValue" ColumnName="LevelValue" />
                 <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BillingItemTemplate">
+            <EntityTypeMapping TypeName="Model.V_BillingItemTemplate">
+              <MappingFragment StoreEntitySet="V_BillingItemTemplate">
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="TypeLabel" ColumnName="TypeLabel" />
+                <ScalarProperty Name="TypeValue" ColumnName="TypeValue" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ItemLabel" ColumnName="ItemLabel" />
+                <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BillingTemplate">
+            <EntityTypeMapping TypeName="Model.V_BillingTemplate">
+              <MappingFragment StoreEntitySet="V_BillingTemplate">
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TemplateCreditContent" ColumnName="TemplateCreditContent" />
+                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
+                <ScalarProperty Name="BillingTemplateCode" ColumnName="BillingTemplateCode" />
+                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+                <ScalarProperty Name="BillingTemplateTypeValue" ColumnName="BillingTemplateTypeValue" />
+                <ScalarProperty Name="BillingTemplateTypeID" ColumnName="BillingTemplateTypeID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>
