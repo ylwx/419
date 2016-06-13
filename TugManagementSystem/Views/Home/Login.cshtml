@@ -27,6 +27,7 @@
     <!-- FONTS -->
     <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
     <script>
+
         function ResetForm() {
             document.getUserById('TxtUserName').value = "";
             document.getUserById('TxtPwd').value = "";
@@ -101,44 +102,44 @@
                         <div class="login-box-plain">
                             <h2 class="bigintro">Register</h2>
                             <div class="divide-40 "></div>
+                            <form role="form" name="form2" action="/Home/SaveNewUser" method="post" onsubmit="return Check();">
+                                <div class="form-group">
+                                    <label for="UserName">Username</label>
+                                    <i class="fa fa-user"></i>
+                                    <input type="text" class="form-control" name="UserName" id="UserName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="CnName">Chinesename</label>
+                                    <i class="fa fa-user"></i>
+                                    <input type="text" class="form-control" name="CnName" id="CnName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Email">Email address</label>
+                                    <i class="fa fa-envelope"></i>
+                                    <input type="email" class="form-control" name="Email" id="Email">
+                                </div>
 
-                            <div class="form-group">
-                                <label for="UserName">Username</label>
-                                <i class="fa fa-user"></i>
-                                <input type="text" class="form-control" name="UserName" id="UserName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="CnName">Chinesename</label>
-                                <i class="fa fa-user"></i>
-                                <input type="text" class="form-control" name="CnName" id="CnName">
-                            </div>
-                            <div class="form-group">
-                                <label for="Email">Email address</label>
-                                <i class="fa fa-envelope"></i>
-                                <input type="email" class="form-control" name="Email" id="Email">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="Pwd">Password</label>
-                                <i class="fa fa-lock"></i>
-                                <input type="password" class="form-control" name="Pwd" id="Pwd" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Pwd2">Repeat Password</label>
-                                <i class="fa fa-check-square-o"></i>
-                                <input type="password" class="form-control" name="Pwd2" id="Pwd2">
-                            </div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-success" value="Sign Up" onclick="return Check();">Sign Up</button>
-                            </div>
-
+                                <div class="form-group">
+                                    <label for="Pwd">Password</label>
+                                    <i class="fa fa-lock"></i>
+                                    <input type="password" class="form-control" name="Pwd" id="Pwd" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Pwd2">Repeat Password</label>
+                                    <i class="fa fa-check-square-o"></i>
+                                    <input type="password" class="form-control" name="Pwd2" id="Pwd2">
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-success" value="Sign Up">Sign Up</button>
+                                    @*<button type="button" class="btn btn-success" value="Sign Up" onclick="Check();">Sign Up</button>*@
+                                </div>
+                            </form>
                             <div class="login-helpers">
                                 <a href="#" onclick="swapScreen('login');return false;"> Back to Login</a> <br>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </section>
         <!--/REGISTER -->
@@ -180,18 +181,22 @@
                 $.ajax(
                    {
                        type: "post",
-                       url: '@Url.Action("SaveNewUser", "Home")',
+                       url: "/Home/SaveNewUser",
                        data: { UserName: UserName, CnName: CnName, Email: Email, Pwd: Pwd },
                        dataType: 'json',
                        success: function (result) {
-                           //$("#tip").val(result.message);
+                           console.log(result)
                            alert(result.message);
-                           return true;
+                       },
+                       error: function (result) {
+                           console.log(result)
+                           alert(result.responseJSON.message);
+                           location.href = '/Home/Index'
                        }
 
                    }
 );
-                //return true;
+                return false;
             }
             //if (pwd1.length != 6) {
             //    alert("密码的合法长度为6个字符");
