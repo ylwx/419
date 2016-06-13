@@ -67,8 +67,16 @@
                         </div>
                         <!-- /BOX -->
                     </div>
+
                 </div>
                 <!-- /SAMPLE -->
+
+                <div class="footer-tools">
+                    <span class="go-top">
+                        <i class="fa fa-chevron-up"></i> Top
+                    </span>
+                </div>
+
             </div>
         </div>
     </div>
@@ -76,134 +84,140 @@
 <script type="text/javascript">
     var tableConfig = null;
 
-    $(document).ready(function () {
+    $(document).ready(Init);
 
-        if (tableConfig == null) {
-            GetTableConfig();
+    function Init() {
+        {
+
+            if (tableConfig == null) {
+                GetTableConfig();
+            }
+
+            $("#jqGrid").jqGrid({
+                //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+                url: '@Url.Action("GetData", "OrderManage")',
+                mtype: "GET",
+                datatype: "json",
+                colModel: tableConfig.columns,
+                viewrecords: true,
+                //width: 780,
+                height: '100%', //350,
+                rowNum: 30,
+                autowidth: true,
+                editurl: '@Url.Action("AddEdit", "OrderManage")',
+                pager: "#jqGridPager",
+                //loadonce: true,
+                rowList: ['30', '50', '80', '100'],
+                rownumbers: true,
+                shrinkToFit: false,     //指定各列宽度
+                sortable: true,          //列可移动
+                colMenu: true          //列菜单
+            });
+
+            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+            $('#jqGridContainerBox').resize(function () {
+                var width = $('#jqGridContainerBox').width();
+                $("#jqGrid").setGridWidth(width);
+            });
+
+            $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    onClickButton: function () {
+                        //alert("haha");
+                        @*$.ajax(
+                            {
+                                type: "get",
+                                url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
+                                dataType: 'json',
+                                type: 'get',
+                                data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
+                                success: function (result) {
+
+                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                },
+                            }
+                            );*@
+
+                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                })
+                .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                        if (rowid != null) {
+                            if (confirm('确定要删除所选的记录吗?')) {
+                                var d = new Date();
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("Delete", "OrderManage")',
+                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
+
+                                    }
+                                    );
+                            }
+                        }
+                        else {
+                            alert('选中一行');
+                        }
+                    },
+                    position: "last"
+                });
+
+            $('#jqGrid').inlineNav('#jqGridPager',
+                {
+                    edit: true,
+                    add: true,
+                    del: true,
+                    cancel: true,
+                    editParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            }
+                        },
+                        url: null, //'/api/values',
+                        mtype: 'POST'
+                    },
+
+                    addParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            }
+                        },
+                        errorfunc: function (rowid, xhr) {
+                            alert(xhr.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    }
+                });
+
+            //最后调用，冻结列
+            //$("#jqGrid").jqGrid("setFrozenColumns");
         }
+    }
 
-        $("#jqGrid").jqGrid({
-            //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetData", "OrderManage")',
-            mtype: "GET",
-            datatype: "json",
-            colModel: tableConfig.columns,
-            viewrecords: true,
-            //width: 780,
-            height: '100%', //350,
-            rowNum: 5,
-            autowidth: true,
-            editurl: '@Url.Action("AddEdit", "OrderManage")',
-            pager: "#jqGridPager",
-            //loadonce: true,
-            rowList: ['5', '50', '80', '100'],
-            rownumbers: true,
-            shrinkToFit: false,     //指定各列宽度
-            sortable: true,          //列可移动
-            colMenu: true          //列菜单
-        });
 
-        $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
-        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
-
-        $('#jqGridContainerBox').resize(function () {
-            var width = $('#jqGridContainerBox').width();
-            $("#jqGrid").setGridWidth(width);
-        });
-
-        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-
-            .navButtonAdd('#jqGridPager', {
-                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
-                onClickButton: function () {
-                    //alert("haha");
-                    @*$.ajax(
-                        {
-                            type: "get",
-                            url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
-                            dataType: 'json',
-                            type: 'get',
-                            data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
-                            success: function (result) {
-
-                                $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            },
-                        }
-                        );*@
-
-                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                }
-            })
-            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
-            .navButtonAdd('#jqGridPager', {
-                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
-                onClickButton: function () {
-                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                    if (rowid != null) {
-                        if (confirm('确定要删除所选的记录吗?')) {
-                            var d = new Date();
-                            $.ajax(
-                                {
-                                    type: "post",
-                                    url: '@Url.Action("Delete", "OrderManage")',
-                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        alert(result.message);
-                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    },
-
-                                }
-                                );
-                        }
-                    }
-                    else {
-                        alert('选中一行');
-                    }
-                },
-                position: "last"
-            });
-
-        $('#jqGrid').inlineNav('#jqGridPager',
-            {
-                edit: true,
-                add: true,
-                del: true,
-                cancel: true,
-                editParams: {
-                    keys: true,
-                    successfunc: function (val) {
-                        if (val.responseText != "") {
-                            var ret = $.parseJSON(val.responseText);
-                            alert(ret.message);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                        }
-                    },
-                    url: null, //'/api/values',
-                    mtype: 'POST'
-                },
-
-                addParams: {
-                    keys: true,
-                    successfunc: function (val) {
-                        if (val.responseText != "") {
-                            var ret = $.parseJSON(val.responseText);
-                            alert(ret.message);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                        }
-                    },
-                    errorfunc: function (rowid, xhr) {
-                        alert(xhr.responseText);
-                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    }
-                }
-            });
-
-        //最后调用，冻结列
-        //$("#jqGrid").jqGrid("setFrozenColumns");
-    });
 
     function GetTableConfig() {
         tableConfig = {
@@ -216,7 +230,7 @@
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
                     editrules: { required: true }, colmenu: false,
-                    editoptions: { value: "游客:员工" },  //yes:游客， no:员工
+                    editoptions: { value:"游客:员工" },  //yes:游客， no:员工
                     hidden: false,
                     searchoptions: { sopt: ["ge", "le"] }
                 },
@@ -392,7 +406,7 @@
                     align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: true,
                     editoptions: {
-                        defaultValue: "/"
+                        defaultValue : "/"
                     }
                 },
                 {
@@ -600,18 +614,19 @@
         };
     }
 
+
     function createServiceNatureEditElement(value, editOptions) {
         if (value == "" || value == "/") {
             var span = $("<span />");
             var label0 = $("<span />", { html: "泊码头" });
             var checkbox0 = $("<input>", { type: "checkbox", value: "0:泊码头", name: "service0" });
             var label1 = $("<span />", { html: "进坞" });
-            var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1" });
+            var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1"});
             var label2 = $("<span />", { html: "护航" });
             var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2" });
             var label3 = $("<span />", { html: "守护" });
             var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3" });
-            var br = $("<br />");
+            var br = $("<br/>");
             var label4 = $("<span />", { html: "离码头" });
             var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4" });
             var label5 = $("<span />", { html: "出坞" });
@@ -619,7 +634,7 @@
             var label6 = $("<span />", { html: "拖带" });
             var checkbox6 = $("<input>", { type: "checkbox", value: "6:拖带", name: "service6" });
             var label7 = $("<span />", { html: "其他" });
-            var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7" });
+            var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7"});
 
             span.append(label0).append(checkbox0).append(label1).append(checkbox1).append(label2).append(checkbox2)
                 .append(label3).append(checkbox3).append(br).append(label4).append(checkbox4)
@@ -627,7 +642,8 @@
 
             return span;
         }
-        else {
+        else
+        {
             var list = value.split("/");
             if (list.length > 0) {
 
@@ -650,9 +666,9 @@
                 var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2", checked: flags[2] });
                 var label3 = $("<span />", { html: "守护" });
                 var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3", checked: flags[3] });
-                var br = $("<br />");
+                var br = $("<br/>");
                 var label4 = $("<span />", { html: "离码头" });
-                var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4", checked: flags[4] });
+                var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4",checked: flags[4] });
                 var label5 = $("<span />", { html: "出坞" });
                 var checkbox5 = $("<input>", { type: "checkbox", value: "5:出坞", name: "service5", checked: flags[5] });
                 var label6 = $("<span />", { html: "拖带" });
@@ -679,10 +695,12 @@
             var checkboxes = $(elem).find("input:checkbox:checked");
             var str_values = "";
             //var str_labels = "/";
-            for (var i = 0; i < checkboxes.length; ++i) {
+            for (var i = 0; i < checkboxes.length; ++i)
+            {
                 str_values += $(checkboxes[i]).val() + "/";
             }
-            if (checkboxes.length > 0) {
+            if (checkboxes.length > 0)
+            {
                 str_values = str_values.substr(0, str_values.length - 1);
             }
 

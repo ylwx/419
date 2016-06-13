@@ -11,8 +11,8 @@ namespace TugDataModel
 {
     using System;
     using System.Collections.Generic;
-
-    public partial class BaseTreeItems 
+    
+    public partial class BaseTreeItems
     {
         public int IDX { get; set; }
         public string InCode { get; set; }

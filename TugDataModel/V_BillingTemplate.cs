@@ -12,19 +12,17 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class BillingTemplate
+    public partial class V_BillingTemplate
     {
-        public BillingTemplate()
-        {
-            this.BillingItemTemplate = new HashSet<BillingItemTemplate>();
-        }
-    
         public int IDX { get; set; }
-        public Nullable<int> CustomerID { get; set; }
         public Nullable<int> BillingTemplateTypeID { get; set; }
+        public string BillingTemplateTypeValue { get; set; }
+        public string BillingTemplateTypeLabel { get; set; }
         public string BillingTemplateCode { get; set; }
         public string BillingTemplateName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
+        public string TimeTypeValue { get; set; }
+        public string TimeTypeLabel { get; set; }
         public string TemplateCreditContent { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
@@ -41,7 +39,5 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
-    
-        public virtual ICollection<BillingItemTemplate> BillingItemTemplate { get; set; }
     }
 }
