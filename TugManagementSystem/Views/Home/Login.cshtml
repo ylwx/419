@@ -1,26 +1,22 @@
 ﻿@using TugDataModel
 @model TugDataModel.UserInfor
-
 @{
     ViewBag.Title = "Login";
     ViewBag.MenuId = "menu3";
     ViewBag.SubMenuIndex = 0;
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>TugManagementSystem | Login</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- STYLESHEETS --><!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
     <link rel="stylesheet" type="text/css" href="~/Resources/css/cloud-admin.css">
-
     <link href="~/Resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- DATE RANGE PICKER -->
     <link rel="stylesheet" type="text/css" href="~/Resources/js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
@@ -30,8 +26,8 @@
     <link rel="stylesheet" type="text/css" href="~/Resources/css/animatecss/animate.min.css" />
     <!-- FONTS -->
     <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
-
     <script>
+
         function ResetForm() {
             document.getUserById('TxtUserName').value = "";
             document.getUserById('TxtPwd').value = "";
@@ -39,7 +35,6 @@
         }
     </script>
 </head>
-
 <body class="login">
     <!-- PAGE -->
     <section id="page">
@@ -67,11 +62,9 @@
                             <img src="~/Resources/img/TUG1.png" alt="招商集团-拖轮管理中心" width="50" height="50" class="center-block">
                             <h2 class="bigintro">Sign In</h2>
                             <div class="divide-20"></div>
-
                             <div class="divide-40 ">
                                 <p style="color:red; text-align:center"><strong> @ViewBag.Message</strong></p>
                             </div>
-
                             <form role="form" name="form1" method="post">
                                 <div class="form-group">
                                     <label for="userName1">UserName</label>
@@ -89,7 +82,6 @@
                                     <button type="submit" class="btn btn-danger">Submit</button>
                                 </div>
                             </form>
-
                             <div class="login-helpers">
                                 Don't have an account with us? <a href="#" onclick="swapScreen('register');return false;">
                                     Register
@@ -109,11 +101,8 @@
                     <div class="col-md-4 col-md-offset-4">
                         <div class="login-box-plain">
                             <h2 class="bigintro">Register</h2>
-                            <div class="divide-40 ">
-                                <p style="color:red; text-align:center"><strong> @ViewBag.Message</strong></p>
-                                <input type="text" id="tip" name="tip" /><br />
-                            </div>
-                            <form role="form" name="form2" action="/Home/SaveNewUser" method="post" id="SaveNewUserForm" onsubmit="return Check()">
+                            <div class="divide-40 "></div>
+                            <form role="form" name="form2" action="/Home/SaveNewUser" method="post" onsubmit="return Check();">
                                 <div class="form-group">
                                     <label for="UserName">Username</label>
                                     <i class="fa fa-user"></i>
@@ -129,15 +118,7 @@
                                     <i class="fa fa-envelope"></i>
                                     <input type="email" class="form-control" name="Email" id="Email">
                                 </div>
-                                @*<div class="form-group">
-                                        <label for="Dept">Department </label>
-                                        <select name="Dept" class="form-control" required>
-                                            <option value="diaodu">调度室</option>
-                                            <option value="guanli">管理室</option>
-                                            <option value="caiwu">财务室</option>
-                                            <option value="chuanzhang">船长室</option>
-                                        </select>
-                                    </div>*@
+
                                 <div class="form-group">
                                     <label for="Pwd">Password</label>
                                     <i class="fa fa-lock"></i>
@@ -149,11 +130,10 @@
                                     <input type="password" class="form-control" name="Pwd2" id="Pwd2">
                                 </div>
                                 <div class="form-actions">
-                                    @*<label class="checkbox"> <input type="checkbox" class="uniform" value=""> I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>*@
-                                    <button type="submit" class="btn btn-success" value="Save NewUser" onclick="return Check();">Sign Up</button>
+                                    <button type="submit" class="btn btn-success" value="Sign Up">Sign Up</button>
+                                    @*<button type="button" class="btn btn-success" value="Sign Up" onclick="Check();">Sign Up</button>*@
                                 </div>
                             </form>
-
                             <div class="login-helpers">
                                 <a href="#" onclick="swapScreen('login');return false;"> Back to Login</a> <br>
                             </div>
@@ -173,10 +153,8 @@
     <script src="~/Resources/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
     <!-- BOOTSTRAP -->
     <script src="~/Resources/bootstrap-dist/js/bootstrap.min.js"></script>
-
     <!-- UNIFORM -->
     <script type="text/javascript" src="~/Resources/js/uniform/jquery.uniform.min.js"></script>
-
     <!-- CUSTOM SCRIPT -->
     <script src="~/Resources/js/script.js"></script>
     <script>
@@ -196,24 +174,29 @@
                 return false;
             }
             else {
-                var tmpUser = document.getElementById("UserName").value;
+                var UserName = document.getElementById("UserName").value;
+                var CnName = document.getElementById("CnName").value;
+                var Email = document.getElementById("Email").value;
+                var Pwd = document.getElementById("Pwd").value;
                 $.ajax(
                    {
                        type: "post",
-                       url: '@Url.Action("SaveNewUser", "Home")',
-                       //data: "{}",
-                       //data: "{ us: tmpUser }",
-                       //dataType: 'json',
+                       url: "/Home/SaveNewUser",
+                       data: { UserName: UserName, CnName: CnName, Email: Email, Pwd: Pwd },
+                       dataType: 'json',
                        success: function (result) {
-                           //alert("0000000000000");
-                           $("#tip").val(result);
-                           alert();
-                           return true;
+                           console.log(result)
+                           alert(result.message);
+                       },
+                       error: function (result) {
+                           console.log(result)
+                           alert(result.responseJSON.message);
+                           location.href = '/Home/Index'
                        }
 
                    }
 );
-                //return true;
+                return false;
             }
             //if (pwd1.length != 6) {
             //    alert("密码的合法长度为6个字符");
