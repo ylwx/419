@@ -9,6 +9,7 @@ namespace TugManagementSystem.Controllers
 {
     public class CustomerController : BaseController
     {
+        private static int _DefaultPageSie = 10;
         public ActionResult AddEdit()
         {
             this.Internationalization();
@@ -215,5 +216,70 @@ namespace TugManagementSystem.Controllers
         {
             return View();
         }
+
+
+        #region 计费方案 Written By lg
+
+        public ActionResult BillingScheme(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            int totalRecordNum, totalPageNum;
+            List<Customer> list = GetCustomers(1, _DefaultPageSie, out totalRecordNum, out totalPageNum);
+            ViewBag.TotalPageNum = totalPageNum;
+            ViewBag.CurPage = 1;
+
+            return View(list);
+        }
+
+        [HttpGet]
+        public ActionResult GetCustomers(int curPage, string queryName="")
+        {
+            ViewBag.Language = this.Internationalization();
+
+            int totalRecordNum, totalPageNum;
+            List<Customer> list = GetCustomers(curPage, _DefaultPageSie, out totalRecordNum, out totalPageNum, queryName);
+            ViewBag.TotalPageNum = totalPageNum;
+            ViewBag.CurPage = curPage;
+            ViewBag.QueryName = queryName;
+
+            return View("BillingScheme", list);
+        }
+
+
+        public List<Customer> GetCustomers(int curPage, int pageSize, out int totalRecordNum, out int totalPageNum, string queryName = "")
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                List<Customer> customers = null;
+                if (queryName == "")
+                {
+                    customers = db.Customer.Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                }
+                else
+                {
+                    customers = db.Customer.Where(u=>u.CnName.Contains(queryName) || u.EnName.Contains(queryName) || u.SimpleName.Contains(queryName))
+                        .Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                }
+
+                totalRecordNum = customers.Count;
+                //if (totalRecordNum % pageSize == 0) page -= 1;
+                //int pageSize = rows;
+                totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                List<Customer> page_customers = customers.Skip((curPage - 1) * pageSize).Take(pageSize).ToList<Customer>();
+                return page_customers;
+
+            }
+            catch (Exception)
+            {
+                totalRecordNum = totalPageNum = 0;
+                return null;
+            }
+        }
+        #endregion
     }
 }
