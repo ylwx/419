@@ -27,13 +27,13 @@ namespace TugManagementSystem.Controllers
                 ////List<TugInfor> page_trees = trees.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<TugInfor>();
 
                 List<object> source = new List<object>();
-                source.Add(new { emp_id = "10", name = "中国", fatherid = System.DBNull.Value, level = 0, isLeaf = "false", loaded = true, expanded = true });
-                source.Add(new { emp_id = "11", name = "上海", fatherid = "10", level = 1, isLeaf = "false", loaded = true, expanded = true });
-                source.Add(new { emp_id = "12", name = "浦东", fatherid = "11", level = 2, isLeaf = "true", loaded = true, expanded = true });
-                source.Add(new { emp_id = "13", name = "徐汇", fatherid = "11", level = 2, isLeaf = "true", loaded = true, expanded = true });
-                source.Add(new { emp_id = "14", name = "北京", fatherid = "10", level = 1, isLeaf = "false", loaded = true, expanded = true });
-                source.Add(new { emp_id = "15", name = "海淀", fatherid = "14", level = 2, isLeaf = "true", loaded = true, expanded = true });
-                source.Add(new { emp_id = "16", name = "通州", fatherid = "14", level = 2, isLeaf = "true", loaded = true, expanded = true });
+                source.Add(new { IDX = 10, CNName = "中国", FatherID = System.DBNull.Value, LevelValue = 0, IsLeaf = "false", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 11, CNName = "上海", FatherID = 10, LevelValue = 1, IsLeaf = "false", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 12, CNName = "浦东", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 13, CNName = "徐汇", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 14, CNName = "北京", FatherID = 10, LevelValue = 1, IsLeaf = "false", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 15, CNName = "海淀", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 16, CNName = "通州", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
 
                 List<object> list = new List<object>();
 
@@ -50,9 +50,9 @@ namespace TugManagementSystem.Controllers
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
 
                 //       var aa={
-                //{"emp_id":"13","name":"Donna","salary":"800.00","boss_id":"12","level":2,"isLeaf":"true","loaded":"true","expanded":"true"},
-                //{"emp_id":"14","name":"Eddie","salary":"700.00","boss_id":"12","level":2,"isLeaf":"true","loaded":"true","expanded":"true"},
-                //{"emp_id":"15","name":"Fred","salary":"600.00","boss_id":"12","level":2,"isLeaf":"true","loaded":"true","expanded":"true"}
+                //{"IDX":"13","name":"Donna","salary":"800.00","boss_id":"12","level":2,"isLeaf":"true","loaded":"true","expanded":"true"},
+                //{"IDX":"14","name":"Eddie","salary":"700.00","boss_id":"12","level":2,"isLeaf":"true","loaded":"true","expanded":"true"},
+                //{"IDX":"15","name":"Fred","salary":"600.00","boss_id":"12","level":2,"isLeaf":"true","loaded":"true","expanded":"true"}
                 //    };
             }
             catch (Exception)

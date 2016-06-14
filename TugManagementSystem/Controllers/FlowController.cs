@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using TugBusinessLogic.Module;
 using TugDataModel;
 
 namespace TugManagementSystem.Controllers
@@ -12,6 +13,9 @@ namespace TugManagementSystem.Controllers
     {
         public ActionResult AddEdit()
         {
+            string newcode;
+            int level;
+
             this.Internationalization();
 
             #region Add
@@ -21,13 +25,29 @@ namespace TugManagementSystem.Controllers
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
+                    var fatherid = Request.Form["FatherID"];
+
+                    if (fatherid == "")
+                    {
+                        newcode = NewInCode("O");
+                        level = 0;
+                    }
+                    else
+                    {
+                        int curid = Util.toint(fatherid);
+                        BaseTreeItems curobj;
+                        curobj = db.BaseTreeItems.Where(u => u.IDX == curid).FirstOrDefault();
+                        string curincode = curobj.InCode;
+                        level = Util.toint(curobj.LevelValue) + 1;
+                        newcode = NewInCode(curincode);
+                    }
                     {
                         TugDataModel.BaseTreeItems obj = new BaseTreeItems();
 
-                        obj.InCode = "";
-                        //obj.FatherID = System.DBNull.Value;
-                        obj.LevelValue = 0;
-                        obj.IsLeaf = "false";
+                        obj.InCode = newcode;
+                        if (fatherid != "") obj.FatherID = Util.toint(fatherid);
+                        obj.LevelValue = level;
+                        obj.IsLeaf = "true";
                         obj.CNName = Request.Form["CNName"];
                         obj.ENName = "";
                         obj.SType = "Organizion";
@@ -58,6 +78,17 @@ namespace TugManagementSystem.Controllers
 
                         obj = db.BaseTreeItems.Add(obj);
                         db.SaveChanges();
+
+                        //将父节点的isleaf设为false
+                        if (fatherid != "")
+                        {
+                            int fid = Util.toint(fatherid);
+                            BaseTreeItems fobj = db.BaseTreeItems.Where(u => u.IDX == fid).FirstOrDefault();
+                            fobj.IsLeaf = "false";
+                            db.Entry(fobj).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
 
                         //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
@@ -165,7 +196,7 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
 
                 //db.Configuration.ProxyCreationEnabled = false;
-                List<V_BaseTreeItems> objs = db.V_BaseTreeItems.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BaseTreeItems>();
+                List<V_BaseTreeItems> objs = db.V_BaseTreeItems.Select(u => u).OrderBy(u => u.IDX).ToList<V_BaseTreeItems>();
                 int totalRecordNum = objs.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
@@ -214,7 +245,8 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                string incode = Request.Form["data[InCode]"]; //"001002001"; //
+                //string incode = "001002001";
+                string incode = Request["incode"]; //"001002001"; //
                 Console.WriteLine(incode);
 
                 List<V_Users> objs = db.V_Users.Where(u => u.InCode.StartsWith(incode)).OrderByDescending(u => u.IDX).ToList<V_Users>();
@@ -233,6 +265,31 @@ namespace TugManagementSystem.Controllers
             {
                 throw;
             }
+        }
+
+        private string NewInCode(string curInCode)
+        {
+            //获取结构树的已有筛选数据
+            int SectionLen = 3;
+            string error = null;
+            string NewInCode;
+            TugDataEntities db = new TugDataEntities();
+            BaseTreeItems obj = new BaseTreeItems();
+            System.Linq.Expressions.Expression<Func<BaseTreeItems, bool>> expression = u => u.InCode.StartsWith(curInCode) && u.InCode.Length == curInCode.Length + SectionLen;
+            List<BaseTreeItems> objs = db.BaseTreeItems.Where(expression).OrderByDescending(u => u.IDX).ToList<BaseTreeItems>();
+            if (objs.Count == 0)
+            {
+                NewInCode = curInCode + string.Format("{0:D" + SectionLen + "}", 1);
+            }
+            else
+            {
+                string No;
+                string maxInCode;
+                maxInCode = objs.First().InCode.ToString();
+                No = maxInCode.Substring(maxInCode.Length - SectionLen);
+                NewInCode = curInCode + string.Format("{0:D" + SectionLen + "}", Convert.ToInt32(No) + 1);
+            }
+            return NewInCode;
         }
     }
 }
