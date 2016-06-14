@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using TugBusinessLogic.Module;
 using TugDataModel;
 
 namespace TugManagementSystem.Controllers
@@ -12,6 +13,9 @@ namespace TugManagementSystem.Controllers
     {
         public ActionResult AddEdit()
         {
+            string newcode;
+            int level;
+
             this.Internationalization();
 
             #region Add
@@ -22,22 +26,28 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     var fatherid = Request.Form["FatherID"];
+
                     if (fatherid == "")
                     {
-                        string newcode = NewInCode("");
+                        newcode = NewInCode("O");
+                        level = 0;
                     }
                     else
                     {
-                        //string curincode
-                        string newcode = NewInCode("");
+                        int curid = Util.toint(fatherid);
+                        BaseTreeItems curobj;
+                        curobj = db.BaseTreeItems.Where(u => u.IDX == curid).FirstOrDefault();
+                        string curincode = curobj.InCode;
+                        level = Util.toint(curobj.LevelValue) + 1;
+                        newcode = NewInCode(curincode);
                     }
                     {
                         TugDataModel.BaseTreeItems obj = new BaseTreeItems();
 
-                        obj.InCode = "";
-                        //obj.FatherID = System.DBNull.Value;
-                        obj.LevelValue = 0;
-                        obj.IsLeaf = "false";
+                        obj.InCode = newcode;
+                        if (fatherid != "") obj.FatherID = Util.toint(fatherid);
+                        obj.LevelValue = level;
+                        obj.IsLeaf = "true";
                         obj.CNName = Request.Form["CNName"];
                         obj.ENName = "";
                         obj.SType = "Organizion";
@@ -68,6 +78,17 @@ namespace TugManagementSystem.Controllers
 
                         obj = db.BaseTreeItems.Add(obj);
                         db.SaveChanges();
+
+                        //将父节点的isleaf设为false
+                        if (fatherid != "")
+                        {
+                            int fid = Util.toint(fatherid);
+                            BaseTreeItems fobj = db.BaseTreeItems.Where(u => u.IDX == fid).FirstOrDefault();
+                            fobj.IsLeaf = "false";
+                            db.Entry(fobj).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
 
                         //Response.Write(@Resources.Common.SUCCESS_MESSAGE);

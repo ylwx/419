@@ -20,7 +20,6 @@ namespace TugDataModel
         public string CNName { get; set; }
         public string IsLeaf { get; set; }
         public string InCode { get; set; }
-
         private string _expanded = "true";
         private string _loaded = "true";
 
