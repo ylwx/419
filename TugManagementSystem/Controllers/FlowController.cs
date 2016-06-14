@@ -167,7 +167,7 @@ namespace TugManagementSystem.Controllers
                 //db.Configuration.ProxyCreationEnabled = false;
                 List<V_BaseTreeItems> objs = db.V_BaseTreeItems.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BaseTreeItems>();
                 int totalRecordNum = objs.Count;
-                if (totalRecordNum % rows == 0) page -= 1;
+                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
                 int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
@@ -219,7 +219,7 @@ namespace TugManagementSystem.Controllers
 
                 List<V_Users> objs = db.V_Users.Where(u => u.InCode.StartsWith(incode)).OrderByDescending(u => u.IDX).ToList<V_Users>();
                 int totalRecordNum = objs.Count;
-                //if (totalRecordNum % rows == 0) page -= 1;
+                //if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 //int pageSize = rows;
                 //int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 

@@ -679,6 +679,7 @@
             <PropertyRef Name="IDX" />
           </Key>
           <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
           <Property Name="BillingTemplateTypeID" Type="int" />
           <Property Name="BillingTemplateTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTemplateTypeLabel" Type="nvarchar" MaxLength="50" />
@@ -893,18 +894,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_Role_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
-          <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="UsersRole">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Users_Role_User_Infor">
           <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
           <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
@@ -982,6 +971,7 @@
           <EntitySet Name="V_BillingTemplate" EntityType="Self.V_BillingTemplate" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_BillingTemplate].[IDX] AS [IDX], 
+    [V_BillingTemplate].[CustomerID] AS [CustomerID], 
     [V_BillingTemplate].[BillingTemplateTypeID] AS [BillingTemplateTypeID], 
     [V_BillingTemplate].[BillingTemplateTypeValue] AS [BillingTemplateTypeValue], 
     [V_BillingTemplate].[BillingTemplateTypeLabel] AS [BillingTemplateTypeLabel], 
@@ -1102,10 +1092,6 @@
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Scheduler" EntitySet="Scheduler" />
           </AssociationSet>
-          <AssociationSet Name="FK_Users_Role_Role" Association="Self.FK_Users_Role_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="UsersRole" EntitySet="UsersRole" />
-          </AssociationSet>
           <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
@@ -1183,10 +1169,6 @@
           <AssociationSet Name="FK_Role_Module_Role" Association="Model.FK_Role_Module_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleModule" EntitySet="RoleModule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Role_Role" Association="Model.FK_Users_Role_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
           <AssociationSet Name="FK_Scheduler_TugInfor" Association="Model.FK_Scheduler_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
@@ -1650,7 +1632,6 @@
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RoleMenu" Relationship="Model.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
           <NavigationProperty Name="RoleModule" Relationship="Model.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
-          <NavigationProperty Name="UsersRole" Relationship="Model.FK_Users_Role_Role" FromRole="Role" ToRole="UsersRole" />
         </EntityType>
         <EntityType Name="RoleMenu">
           <Key>
@@ -1843,7 +1824,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Role" Relationship="Model.FK_Users_Role_Role" FromRole="UsersRole" ToRole="Role" />
           <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
         </EntityType>
         <EntityType Name="V_BaseTreeItems">
@@ -1891,6 +1871,7 @@
             <PropertyRef Name="IDX" />
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" />
           <Property Name="BillingTemplateTypeID" Type="Int32" />
           <Property Name="BillingTemplateTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTemplateTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2085,18 +2066,6 @@
               <PropertyRef Name="IDX" />
             </Principal>
             <Dependent Role="RoleModule">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Role_Role">
-          <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
-          <End Type="Model.UsersRole" Role="UsersRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="UsersRole">
               <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2846,6 +2815,7 @@
                 <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
                 <ScalarProperty Name="BillingTemplateTypeValue" ColumnName="BillingTemplateTypeValue" />
                 <ScalarProperty Name="BillingTemplateTypeID" ColumnName="BillingTemplateTypeID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>

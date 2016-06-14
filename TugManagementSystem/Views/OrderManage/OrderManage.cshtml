@@ -67,20 +67,18 @@
                         </div>
                         <!-- /BOX -->
                     </div>
-
                 </div>
                 <!-- /SAMPLE -->
-
                 <div class="footer-tools">
                     <span class="go-top">
                         <i class="fa fa-chevron-up"></i> Top
                     </span>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     var tableConfig = null;
 
@@ -217,8 +215,6 @@
         }
     }
 
-
-
     function GetTableConfig() {
         tableConfig = {
             columns: [
@@ -230,7 +226,7 @@
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
                     editrules: { required: true }, colmenu: false,
-                    editoptions: { value:"游客:员工" },  //yes:游客， no:员工
+                    editoptions: { value: "游客:员工" },  //yes:游客， no:员工
                     hidden: false,
                     searchoptions: { sopt: ["ge", "le"] }
                 },
@@ -406,7 +402,7 @@
                     align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: true,
                     editoptions: {
-                        defaultValue : "/"
+                        defaultValue: "/"
                     }
                 },
                 {
@@ -419,9 +415,9 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: true,
+                    editrules: { required: true, custom_func: validateTugID, custom: true }, hidden: true,
                     editoptions: {
-                        defaultValue: "0"
+                        defaultValue: -1
                     }
 
                 },
@@ -430,7 +426,7 @@
                     editrules: { required: true }, hidden: false,
                     editoptions: {
                         //multiple: true,
-                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "OrderInfor.WorkStateName" })',
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateName" })',
                         //value: "-1:;1:One;2:Two",
                         dataEvents: [
                             {
@@ -439,13 +435,9 @@
                                     var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                                     if (rowid != null) {
                                         var workStateID_id = rowid + "_WorkStateID";
-                                        $('#' + workStateID_id).val($(this).val().split(":")[0]);
+                                        $('#' + workStateID_id).val($(this).val().split("~")[1]);
                                         //$('#' + workStateID_id).val($(this).find("option:selected").text());
                                     }
-                                    else {
-                                        $('#' + workStateID_id).val("");
-                                    }
-
                                 }
                             }
                         ]
@@ -453,7 +445,7 @@
 
                     @*stype:"select",
                     searchoptions: {
-                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "1"})',
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "1"})',
                     }*@
                 },
                 {
@@ -614,19 +606,18 @@
         };
     }
 
-
     function createServiceNatureEditElement(value, editOptions) {
         if (value == "" || value == "/") {
             var span = $("<span />");
             var label0 = $("<span />", { html: "泊码头" });
             var checkbox0 = $("<input>", { type: "checkbox", value: "0:泊码头", name: "service0" });
             var label1 = $("<span />", { html: "进坞" });
-            var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1"});
+            var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1" });
             var label2 = $("<span />", { html: "护航" });
             var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2" });
             var label3 = $("<span />", { html: "守护" });
             var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3" });
-            var br = $("<br/>");
+            var br = $("<br />");
             var label4 = $("<span />", { html: "离码头" });
             var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4" });
             var label5 = $("<span />", { html: "出坞" });
@@ -634,7 +625,7 @@
             var label6 = $("<span />", { html: "拖带" });
             var checkbox6 = $("<input>", { type: "checkbox", value: "6:拖带", name: "service6" });
             var label7 = $("<span />", { html: "其他" });
-            var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7"});
+            var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7" });
 
             span.append(label0).append(checkbox0).append(label1).append(checkbox1).append(label2).append(checkbox2)
                 .append(label3).append(checkbox3).append(br).append(label4).append(checkbox4)
@@ -642,8 +633,7 @@
 
             return span;
         }
-        else
-        {
+        else {
             var list = value.split("/");
             if (list.length > 0) {
 
@@ -666,9 +656,9 @@
                 var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2", checked: flags[2] });
                 var label3 = $("<span />", { html: "守护" });
                 var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3", checked: flags[3] });
-                var br = $("<br/>");
+                var br = $("<br />");
                 var label4 = $("<span />", { html: "离码头" });
-                var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4",checked: flags[4] });
+                var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4", checked: flags[4] });
                 var label5 = $("<span />", { html: "出坞" });
                 var checkbox5 = $("<input>", { type: "checkbox", value: "5:出坞", name: "service5", checked: flags[5] });
                 var label6 = $("<span />", { html: "拖带" });
@@ -695,12 +685,10 @@
             var checkboxes = $(elem).find("input:checkbox:checked");
             var str_values = "";
             //var str_labels = "/";
-            for (var i = 0; i < checkboxes.length; ++i)
-            {
+            for (var i = 0; i < checkboxes.length; ++i) {
                 str_values += $(checkboxes[i]).val() + "/";
             }
-            if (checkboxes.length > 0)
-            {
+            if (checkboxes.length > 0) {
                 str_values = str_values.substr(0, str_values.length - 1);
             }
 
@@ -712,5 +700,14 @@
             //alert(str_values);
             return str_values;
         }
+    }
+
+
+    function validateTugID(value, column) {
+        var re = /^[1-9]+[0-9]*]*$/;  //判断输入是否是正整数
+        if (!re.test(value))
+            return [false, "请选择一个拖轮"];
+        else
+            return [true, ""];
     }
 </script>

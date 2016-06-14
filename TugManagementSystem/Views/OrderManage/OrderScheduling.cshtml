@@ -244,7 +244,6 @@
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureName', name: "ServiceNatureName", width: 100, editable: true, edittype: "select",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
-                        //dataUrl: '@Url.Action("GetCustomField", "OrderManage")' + "orderId=" + dr.IDX,
                         value: str_services,
                         dataEvents: [
                             {
@@ -344,7 +343,7 @@
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateName', name: "JobStateName", width: 100, editable: true, edittype: "select",
                     editrules: { required: true }, hidden: false,
                     editoptions: {
-                        dataUrl: '@Url.Action("GetCustomField", "OrderManage", new { CustomName = "OrderInfor.WorkStateName" })',
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateName" })',
                         dataEvents: [
                             {
                                 type: 'change',
@@ -352,7 +351,7 @@
                                     var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                                     if (rowid != null) {
                                         var jobStateID_id = rowid + "_JobStateID";
-                                        $('#' + jobStateID_id).val($(this).val().split(":")[0]);
+                                        $('#' + jobStateID_id).val($(this).val().split("~")[1]);
                                         //$('#' + workStateID_id).val($(this).find("option:selected").text());
                                     }
                                 }

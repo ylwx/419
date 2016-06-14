@@ -15,6 +15,7 @@ namespace TugDataModel
     public partial class V_BillingTemplate
     {
         public int IDX { get; set; }
+        public Nullable<int> CustomerID { get; set; }
         public Nullable<int> BillingTemplateTypeID { get; set; }
         public string BillingTemplateTypeValue { get; set; }
         public string BillingTemplateTypeLabel { get; set; }

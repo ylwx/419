@@ -16,7 +16,6 @@ namespace TugManagementSystem.Controllers
             lan = this.Internationalization();
             ViewBag.Language = lan;
 
-
             //TugDataEntities db = new TugDataEntities();
 
             //for (int i = 0; i < 10000; i++)
@@ -45,11 +44,9 @@ namespace TugManagementSystem.Controllers
             //    aOrder.WorkStateID = 0;
             //    aOrder.WorkStateName = "未排船";
 
-
             //    aOrder = db.OrderInfor.Add(aOrder);
             //    db.SaveChanges();
             //}
-
 
             return View();
         }
@@ -71,7 +68,6 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            
             try
             {
                 TugDataEntities db = new TugDataEntities();
@@ -85,7 +81,7 @@ namespace TugManagementSystem.Controllers
                 {
                     List<OrderInfor> orders = db.OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<OrderInfor>();
                     int totalRecordNum = orders.Count;
-                    if (totalRecordNum % rows == 0) page -= 1;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
@@ -112,7 +108,7 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
                 List<OrderInfor> orders = db.OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<OrderInfor>();
                 int totalRecordNum = orders.Count;
-                if (totalRecordNum % rows == 0) page -= 1;
+                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
                 int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
@@ -173,9 +169,8 @@ namespace TugManagementSystem.Controllers
                         aOrder.ServiceNatureIDS = dic["values"];
                         aOrder.ServiceNatureNames = dic["labels"];
 
-
                         aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
-                        aOrder.WorkStateName = Request.Form["WorkStateName"].Split(':')[1];
+                        aOrder.WorkStateName = Request.Form["WorkStateName"].Split('~')[2];
 
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -254,13 +249,12 @@ namespace TugManagementSystem.Controllers
                             aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
                         aOrder.WorkPlace = Request.Form["WorkPlace"];
 
-
                         Dictionary<string, string> dic = TugBusinessLogic.Utils.GetServices(Request.Form["ServiceNatureNames"]);
                         aOrder.ServiceNatureIDS = dic["values"];
                         aOrder.ServiceNatureNames = dic["labels"];
 
                         aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
-                        aOrder.WorkStateName = Request.Form["WorkStateName"].Split(':')[1];
+                        aOrder.WorkStateName = Request.Form["WorkStateName"].Split('~')[2];
                         aOrder.Remark = Request.Form["Remark"];
 
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
@@ -348,44 +342,39 @@ namespace TugManagementSystem.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public string GetCustomField(string CustomName)
-        {
-            string[] query = { "未排船", "已排船", "未完工", "已完工" };
+        //public string GetCustomField(string CustomName)
+        //{
+        //    string s = string.Empty;
 
-            string s = string.Empty;
+        //    try
+        //    {
+        //        TugDataEntities db = new TugDataEntities();
+        //        List<CustomField> list = db.CustomField.Where(u => u.CustomName == CustomName).OrderBy(u => u.CustomValue).ToList<CustomField>();
+        //        if (list != null && list.Count > 0)
+        //        {
+        //            s += "<select>";
+        //            foreach (CustomField item in list)
+        //            {
+        //                s += string.Format("<option value={0}>{1}</option>", item.CustomValue + ":" + item.CustomLabel, item.CustomLabel);
+        //            }
 
-            try
-            {
-                TugDataEntities db = new TugDataEntities();
-                List<CustomField> list = db.CustomField.Where(u => u.CustomName == CustomName).OrderBy(u => u.CustomValue).ToList<CustomField>();
-                if (list != null && list.Count > 0)
-                {
-                    s += "<select>";
-                    foreach (CustomField item in list)
-                    {
-                        s += string.Format("<option value={0}>{1}</option>", item.CustomValue + ":" + item.CustomLabel, item.CustomLabel);
-                    }
-                    s += "</select>";
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+        //            s += "</select>";
+        //        }
+        //    }
 
-            //for(int i = 0; i < query.Length; i++)
-            //{
-            //    s += string.Format("<option value={0}>{1}</option>", (i+1).ToString() + ":" + query[i], query[i]);
-            //}
+        //    catch (Exception ex)
+        //    {
+        //    }
 
-            return s;
-        }
+        //    return s;
+        //}
 
         #endregion 订单管理页面Action
 
         #region 订单调度页面Action
+
         public ActionResult GetOrderSubSchedulerData(bool _search, string sidx, string sord, int page, int rows, int orderId)
         {
-
             this.Internationalization();
 
             try
@@ -401,7 +390,7 @@ namespace TugManagementSystem.Controllers
                 {
                     List<V_OrderScheduler> orders = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
                     int totalRecordNum = orders.Count;
-                    if (totalRecordNum % rows == 0) page -= 1;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
@@ -419,7 +408,6 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult GetTugsByCnName(string value)
         {
-
             TugDataEntities db = new TugDataEntities();
             List<TugInfor> source = db.TugInfor.Where(u => u.CnName.Contains(value))
                 .OrderBy(u => u.CnName).ToList<TugInfor>();
@@ -427,9 +415,9 @@ namespace TugManagementSystem.Controllers
             var jsonData = new { list = source };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult GetTugsByEnName(string value)
         {
-
             TugDataEntities db = new TugDataEntities();
             List<TugInfor> source = db.TugInfor.Where(u => u.EnName.Contains(value))
                 .OrderBy(u => u.CnName).ToList<TugInfor>();
@@ -437,9 +425,9 @@ namespace TugManagementSystem.Controllers
             var jsonData = new { list = source };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult GetTugsBySimpleName(string value)
         {
-
             TugDataEntities db = new TugDataEntities();
             List<TugInfor> source = db.TugInfor.Where(u => u.SimpleName.Contains(value))
                 .OrderBy(u => u.CnName).ToList<TugInfor>();
@@ -453,6 +441,7 @@ namespace TugManagementSystem.Controllers
             this.Internationalization();
 
             #region Add
+
             if (Request.Form["oper"].Equals("add"))
             {
                 try
@@ -469,13 +458,13 @@ namespace TugManagementSystem.Controllers
                         aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"];
 
                         aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"]); ;
-                        aScheduler.JobStateName = Request.Form["JobStateName"].Split(':')[1];
+                        aScheduler.JobStateName = Request.Form["JobStateName"].Split('~')[2];
 
                         aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"]);
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = -1;
                         aScheduler.Remark = Request.Form["Remark"]; ;
-                        
+
                         aScheduler.RopeUsed = Request.Form["RopeUsed"];
                         if (aScheduler.RopeUsed.Equals("是"))
                             aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"]);
@@ -486,8 +475,6 @@ namespace TugManagementSystem.Controllers
                         aScheduler.ServiceNatureValue = Convert.ToInt32(Request.Form["ServiceNatureName"].Split('-')[0]);
                         aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
                         aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
-
-
 
                         aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -509,7 +496,6 @@ namespace TugManagementSystem.Controllers
                         aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-
                         aScheduler = db.Scheduler.Add(aScheduler);
                         db.SaveChanges();
 
@@ -525,9 +511,11 @@ namespace TugManagementSystem.Controllers
                     return Json(ret);
                 }
             }
-            #endregion
+
+            #endregion Add
 
             #region Edit
+
             if (Request.Form["oper"].Equals("edit"))
             {
                 try
@@ -565,13 +553,11 @@ namespace TugManagementSystem.Controllers
                         else
                             aScheduler.RopeNum = 0;
 
-                        aScheduler.ServiceNatureName = Request.Form["ServiceNatureName"].Split('-')[1];
+                        aScheduler.ServiceNatureName = Request.Form["ServiceNatureName"].Split('~')[2];
                         aScheduler.ServiceNatureValue = Convert.ToInt32(Request.Form["ServiceNatureName"].Split('-')[0]);
-                                                
+
                         aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
                         aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
-
-
 
                         aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -604,7 +590,8 @@ namespace TugManagementSystem.Controllers
                     return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
                 }
             }
-            #endregion
+
+            #endregion Edit
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
@@ -637,6 +624,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-        #endregion
+
+        #endregion 订单调度页面Action
     }
 }
