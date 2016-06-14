@@ -20,10 +20,24 @@ namespace TugManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult UserInfor(string lan, int? id)
         {
             lan = this.Internationalization();
-            return View();
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name;
+            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
+            UserInfor curUser = new UserInfor();
+            curUser.UserName = user.UserName;
+            curUser.CnName = user.CnName;
+            curUser.EnName = user.EnName;
+            curUser.Dept = user.Dept;
+            curUser.Sec = user.Sec;
+            curUser.Sex = user.Sex;
+            curUser.WorkNumber = user.WorkNumber;
+            curUser.Tel = user.Tel;
+            curUser.Email = user.Email;
+            return View(curUser);
         }
 
         [HttpGet]
