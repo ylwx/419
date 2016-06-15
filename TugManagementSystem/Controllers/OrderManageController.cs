@@ -30,7 +30,17 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+        //GET: JobInformation
+        public ActionResult JobInformation(string lan, int? id) 
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            return View();
+        }
         #endregion 页面Action
+
+
 
         #region 订单管理页面Action
 
@@ -353,6 +363,8 @@ namespace TugManagementSystem.Controllers
 
         #endregion 订单管理页面Action
 
+
+
         #region 订单调度页面Action
 
         public ActionResult GetOrderSubSchedulerData(bool _search, string sidx, string sord, int page, int rows, int orderId)
@@ -440,7 +452,6 @@ namespace TugManagementSystem.Controllers
                         aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"];
 
                         aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"]); ;
-                        aScheduler.JobStateName = Request.Form["JobStateName"].Split('~')[2];
 
                         aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"]);
                         aScheduler.OwnerID = -1;
@@ -453,8 +464,7 @@ namespace TugManagementSystem.Controllers
                         else
                             aScheduler.RopeNum = 0;
 
-                        aScheduler.ServiceNatureName = Request.Form["ServiceNatureName"].Split('-')[1];
-                        aScheduler.ServiceNatureValue = Convert.ToInt32(Request.Form["ServiceNatureName"].Split('-')[0]);
+                        aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Split('~')[0]);
                         aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
                         aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
 
@@ -522,7 +532,6 @@ namespace TugManagementSystem.Controllers
                         aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"];
 
                         aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"]); ;
-                        aScheduler.JobStateName = Request.Form["JobStateName"].Split(':')[1];
 
                         aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"]);
                         aScheduler.OwnerID = -1;
@@ -535,8 +544,7 @@ namespace TugManagementSystem.Controllers
                         else
                             aScheduler.RopeNum = 0;
 
-                        aScheduler.ServiceNatureName = Request.Form["ServiceNatureName"].Split('~')[2];
-                        aScheduler.ServiceNatureValue = Convert.ToInt32(Request.Form["ServiceNatureName"].Split('-')[0]);
+                        aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Split('~')[0]);
 
                         aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
                         aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -608,5 +616,12 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 订单调度页面Action
+
+
+
+        #region 作业信息页面Action
+        
+        #endregion
+
     }
 }

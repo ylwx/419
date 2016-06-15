@@ -403,6 +403,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 作業信息 的本地化字符串。
+        /// </summary>
+        internal static string JobInformation {
+            get {
+                return ResourceManager.GetString("JobInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 語言 的本地化字符串。
         /// </summary>
         internal static string Lan {
@@ -1152,9 +1161,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 調圖作業狀態 的本地化字符串。
         /// </summary>
-        internal static string V_OrderScheduler_JobStateName {
+        internal static string V_OrderScheduler_JobStateLabel {
             get {
-                return ResourceManager.GetString("V_OrderScheduler_JobStateName", resourceCulture);
+                return ResourceManager.GetString("V_OrderScheduler_JobStateLabel", resourceCulture);
             }
         }
         
@@ -1186,20 +1195,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 服務內容 的本地化字符串。
+        ///   查找类似 服務內容ID 的本地化字符串。
         /// </summary>
-        internal static string V_OrderScheduler_ServiceNatureName {
+        internal static string V_OrderScheduler_ServiceNatureID {
             get {
-                return ResourceManager.GetString("V_OrderScheduler_ServiceNatureName", resourceCulture);
+                return ResourceManager.GetString("V_OrderScheduler_ServiceNatureID", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 服務內容數值 的本地化字符串。
+        ///   查找类似 服務內容 的本地化字符串。
         /// </summary>
-        internal static string V_OrderScheduler_ServiceNatureValue {
+        internal static string V_OrderScheduler_ServiceNatureLabel {
             get {
-                return ResourceManager.GetString("V_OrderScheduler_ServiceNatureValue", resourceCulture);
+                return ResourceManager.GetString("V_OrderScheduler_ServiceNatureLabel", resourceCulture);
             }
         }
         
