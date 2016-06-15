@@ -22,5 +22,25 @@ namespace TugDataModel
         public string TreeCNName { get; set; }
         public Nullable<int> FatherID { get; set; }
         public string InCode { get; set; }
+        public string Pwd { get; set; }
+        public string LanUserName { get; set; }
+        public string Lan { get; set; }
+        public string Dept { get; set; }
+        public string Sec { get; set; }
+        public string EnName { get; set; }
+        public string WorkNumber { get; set; }
+        public string Sex { get; set; }
+        public string Tel { get; set; }
+        public string Email { get; set; }
+        public string UserDefinedCol1 { get; set; }
+        public string UserDefinedCol2 { get; set; }
+        public string UserDefinedCol3 { get; set; }
+        public string UserDefinedCol4 { get; set; }
+        public Nullable<double> UserDefinedCol5 { get; set; }
+        public Nullable<int> UserDefinedCol6 { get; set; }
+        public Nullable<int> UserDefinedCol7 { get; set; }
+        public Nullable<int> UserDefinedCol8 { get; set; }
+        public string UserDefinedCol9 { get; set; }
+        public string UserDefinedCol10 { get; set; }
     }
 }

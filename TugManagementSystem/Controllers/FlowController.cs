@@ -171,11 +171,201 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
-        public ActionResult CreateFlow(string lan, int? id)
+        public ActionResult AddFlow(string lan, int? id)  //复杂版，显示组织结构，人员
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
             return View();
+        }
+
+        public ActionResult CreateFlow(string lan, int? id) //只是流程节点的管理
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+
+        public ActionResult FlowAddEdit()
+        {
+            this.Internationalization();
+
+            #region Add
+
+            if (Request.Form["oper"].Equals("add"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        TugDataModel.Flow obj = new Flow();
+
+                        obj.BillingID = -1;
+                        obj.MarkID = -1;
+                        obj.Phase = -1;
+                        obj.Task = Request.Form["Task"];
+                        obj.FlowUserID = Util.toint(Request.Form["FlowUserID"]);
+                        obj.StDate = Request.Form["StDate"];
+                        obj.EndDate = Request.Form["EndDate"];
+                        obj.System = "Billing";
+                        obj.OwnerID = -1;
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.UserID = -1;
+                        obj.State = -1;
+                        obj.Sign = "";
+                        //obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        //obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        //obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        //obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        //if (Request.Form["UserDefinedCol5"] != "")
+                        //    obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        //if (Request.Form["UserDefinedCol6"] != "")
+                        //    obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        //if (Request.Form["UserDefinedCol7"] != "")
+                        //    obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        //if (Request.Form["UserDefinedCol8"] != "")
+                        //    obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        //obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        //obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                        obj = db.Flow.Add(obj);
+                        db.SaveChanges();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
+                    }
+                }
+                catch (Exception)
+                {
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret);
+                }
+            }
+
+            #endregion Add
+
+            #region Edit
+
+            if (Request.Form["oper"].Equals("edit"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+
+                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    Flow obj = db.Flow.Where(u => u.IDX == idx).FirstOrDefault();
+
+                    if (obj == null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                    else
+                    {
+                        obj.BillingID = -1;
+                        obj.MarkID = -1;
+                        obj.Phase = -1;
+                        obj.Task = Request.Form["Task"];
+                        obj.FlowUserID = Util.toint(Request.Form["FlowUserID"]);
+                        obj.StDate = Request.Form["StDate"];
+                        obj.EndDate = Request.Form["EndDate"];
+                        obj.System = "Billing";
+                        obj.OwnerID = -1;
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.UserID = -1;
+                        obj.State = -1;
+                        obj.Sign = "";
+                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        if (Request.Form["UserDefinedCol5"] != "")
+                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        if (Request.Form["UserDefinedCol6"] != "")
+                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        if (Request.Form["UserDefinedCol7"] != "")
+                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        if (Request.Form["UserDefinedCol8"] != "")
+                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                }
+                catch (Exception exp)
+                {
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
+            }
+
+            #endregion Edit
+
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
+        public ActionResult FlowDelete()
+        {
+            this.Internationalization();
+
+            try
+            {
+                var f = Request.Form;
+
+                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+
+                TugDataEntities db = new TugDataEntities();
+                Flow obj = db.Flow.FirstOrDefault(u => u.IDX == idx);
+                if (obj != null)
+                {
+                    db.Flow.Remove(obj);
+                    db.SaveChanges();
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+                else
+                {
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
+        public ActionResult GetUser(string term)
+        {
+            List<object> source = new List<object>();
+            source.Add(new { FlowUserID = "123", CnName = "张三" });
+            source.Add(new { FlowUserID = "234", CnName = "李四" });
+            source.Add(new { FlowUserID = "345", CnName = "王五" });
+            source.Add(new { FlowUserID = "456", CnName = "赵六" });
+
+            var p = Request.Params;
+
+            List<object> list = new List<object>();
+
+            list.Add(source[0]);
+            list.Add(source[1]);
+            list.Add(source[2]);
+            list.Add(source[3]);
+
+            var jsonData = new { list = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
         //
@@ -183,6 +373,32 @@ namespace TugManagementSystem.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult LoadFlow(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                //db.Configuration.ProxyCreationEnabled = false;
+                List<V_Flow> objs = db.V_Flow.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_Flow>();
+                int totalRecordNum = objs.Count;
+                if (totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                //List<V_Flow> page_objs = objs.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<V_Flow>();
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
         }
 
         public JsonResult LoadOrganizationOnce(bool _search, string sidx, string sord, int page, int rows)

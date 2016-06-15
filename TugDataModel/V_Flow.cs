@@ -12,13 +12,17 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_BaseTreeItems
+    public partial class V_Flow
     {
         public int IDX { get; set; }
-        public Nullable<int> FatherID { get; set; }
-        public Nullable<int> LevelValue { get; set; }
-        public string CNName { get; set; }
-        public string IsLeaf { get; set; }
-        public string InCode { get; set; }
+        public Nullable<int> BillingID { get; set; }
+        public string Task { get; set; }
+        public Nullable<int> FlowUserID { get; set; }
+        public string StDate { get; set; }
+        public string EndDate { get; set; }
+        public string UserName { get; set; }
+        public string CnName { get; set; }
+        public Nullable<int> MarkID { get; set; }
+        public Nullable<int> Phase { get; set; }
     }
 }
