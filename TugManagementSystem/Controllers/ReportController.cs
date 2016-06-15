@@ -28,8 +28,17 @@ namespace TugManagementSystem.Controllers
             webReport.Height = 800; // set height
             //webReport.Report.RegisterData(dataSet, "AppData"); // data binding
             webReport.ReportFile = this.Server.MapPath("~/Report/orderlist.frx");  // load the report from the file
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            //this.WebReport1.Report.Load(stream); //从内存加载模板到report中
+            //Report_DataRegister(webReport.Report);
             ViewBag.WebReport = webReport; // send object to the View
             return View();
+
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            //this.WebReport1.Report.Load(stream); //从内存加载模板到report中
+            //this.Report_DataRegister(this.WebReport1.Report);
+            //var reportPage = (FastReport.ReportPage)(this.WebReport1.Report.Pages[0]);
+            //this.WebReport1.Prepare();
         }
 
         private void Report_DataRegister(FastReport.Report FReport)
@@ -37,9 +46,7 @@ namespace TugManagementSystem.Controllers
             string strWhereHead = string.Empty; string strWhereDetail = string.Empty;
             DataTable dtHead = null; DataTable dtDetail = null;
             strWhereHead = string.Format(" ID = {0}", 1);
-            strWhereDetail = string.Format(" NDT_ApplyHeadID = {0}", 1);
-            strWhereDetail += string.Format(" And (ItemParentID < 1 or ItemParentID is null)", 1);
-            strWhereDetail += " Order by PartNo, JointNo";
+            strWhereDetail = string.Format(" IDX > {0}", 1);
             foreach (DataSourceBase item in FReport.Dictionary.DataSources)
             {
                 if (item.Alias.ToLower().Contains("head"))
