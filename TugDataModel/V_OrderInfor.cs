@@ -12,31 +12,34 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_OrderScheduler
+    public partial class V_OrderInfor
     {
         public int IDX { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ServiceNatureID { get; set; }
-        public string ServiceNatureLabel { get; set; }
-        public Nullable<int> TugID { get; set; }
-        public string CnName { get; set; }
-        public string EnName { get; set; }
-        public string SimpleName { get; set; }
-        public Nullable<int> JobStateID { get; set; }
-        public string JobStateLabel { get; set; }
-        public string InformCaptainTime { get; set; }
-        public string CaptainConfirmTime { get; set; }
-        public string DepartBaseTime { get; set; }
-        public string ArrivalShipSideTime { get; set; }
-        public string WorkCommencedTime { get; set; }
-        public string WorkCompletedTime { get; set; }
-        public string ArrivalBaseTime { get; set; }
-        public string RopeUsed { get; set; }
-        public Nullable<int> RopeNum { get; set; }
+        public string IsGuest { get; set; }
+        public string Code { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string OrdTime { get; set; }
+        public string WorkTime { get; set; }
+        public string EstimatedCompletionTime { get; set; }
+        public Nullable<int> ShipID { get; set; }
+        public string ShipName { get; set; }
+        public string LinkMan { get; set; }
+        public string LinkPhone { get; set; }
+        public string LinkEmail { get; set; }
+        public string WorkPlace { get; set; }
+        public string ServiceNatureIDS { get; set; }
+        public string ServiceNatureNames { get; set; }
+        public Nullable<int> WorkStateID { get; set; }
+        public string WorkStateValue { get; set; }
+        public string WorkStateLabel { get; set; }
+        public Nullable<int> BigTugNum { get; set; }
+        public Nullable<int> MiddleTugNum { get; set; }
+        public Nullable<int> SmallTugNum { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
-        public Nullable<int> UserID { get; set; }
         public string CreateDate { get; set; }
+        public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }

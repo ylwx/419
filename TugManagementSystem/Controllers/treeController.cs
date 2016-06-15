@@ -20,7 +20,7 @@ namespace TugManagementSystem.Controllers
                 //TugDataEntities db = new TugDataEntities();
                 //List<BaseTreeItems> trees = db.BaseTreeItems.Select(u => u).OrderByDescending(u => u.IDX).ToList<BaseTreeItems>();
                 //int totalRecordNum = trees.Count;
-                //if (totalRecordNum % rows == 0) page -= 1;
+                //if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 //int pageSize = rows;
                 //int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 

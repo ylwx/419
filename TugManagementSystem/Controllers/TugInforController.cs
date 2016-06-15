@@ -181,7 +181,7 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
                 List<TugInfor> TugInfors = db.TugInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<TugInfor>();
                 int totalRecordNum = TugInfors.Count;
-                if (totalRecordNum % rows == 0) page -= 1;
+                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
                 int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 

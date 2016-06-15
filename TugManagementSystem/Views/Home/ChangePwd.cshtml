@@ -71,7 +71,8 @@
                             <div class="divide-40 ">
                                 <p style="color:red; text-align:center"><strong> @ViewBag.Message</strong></p>
                             </div>
-                            <form role="form" name="form1" method="post" onsubmit="return Check();">
+
+                            <form role="form" name="form1" method="post" action="/Home/SavePwd">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">原密码</label>
                                     <i class="fa fa-lock"></i>
@@ -88,7 +89,7 @@
                                     <input type="password" name="Pwd" id="Pwd2" class="form-control" required>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn btn-success">确 定</button>
+                                    <button type="submit" class="btn btn-danger" onclick="return Check();">确 定</button>
                                 </div>
                             </form>
                         </div>
@@ -131,28 +132,18 @@
                 return false;
             }
             else {
-                var Pwd = document.getElementById("Pwd").value;
-                var newPwd = document.getElementById("Pwd1").value;
                 $.ajax(
                     {
                         type: "post",
-                        url: "/Home/SavePwd",
-                        data: { Pwd: Pwd, newPwd: newPwd },
-                        dataType: 'json',
+                        url: '@Url.Action("SavePwd", "Home")',
+
                         success: function (result) {
-                            console.log(result)
                             alert(result.message);
-                            location.href = '/Home/Login'
+                            return true;
                         },
-                        error: function (result) {
-                            console.log(result)
-                            alert(result.responseJSON.message);
-                            //$("#txt1").val(res.responseJSON.message);
-                        }
 
                     }
 );
-                return false;
                 //alert("密码修改成功！");
 
             }
