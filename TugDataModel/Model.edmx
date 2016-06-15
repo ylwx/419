@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Approve">
           <Key>
             <PropertyRef Name="IDX" />
@@ -703,6 +703,23 @@
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_Flow”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Flow">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="BillingID" Type="int" />
+          <Property Name="Task" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlowUserID" Type="int" />
+          <Property Name="StDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="EndDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MarkID" Type="int" />
+          <Property Name="Phase" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_OrderInfor”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_OrderInfor">
           <Key>
@@ -802,6 +819,26 @@
           <Property Name="TreeCNName" Type="nvarchar" MaxLength="50" />
           <Property Name="FatherID" Type="int" />
           <Property Name="InCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pwd" Type="nvarchar" MaxLength="50" />
+          <Property Name="LanUserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lan" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dept" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sec" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
           <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
@@ -1039,6 +1076,20 @@
     [V_BillingTemplate].[UserDefinedCol10] AS [UserDefinedCol10]
     FROM [dbo].[V_BillingTemplate] AS [V_BillingTemplate]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_Flow" EntityType="Self.V_Flow" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Flow].[IDX] AS [IDX], 
+    [V_Flow].[BillingID] AS [BillingID], 
+    [V_Flow].[Task] AS [Task], 
+    [V_Flow].[FlowUserID] AS [FlowUserID], 
+    [V_Flow].[StDate] AS [StDate], 
+    [V_Flow].[EndDate] AS [EndDate], 
+    [V_Flow].[UserName] AS [UserName], 
+    [V_Flow].[CnName] AS [CnName], 
+    [V_Flow].[MarkID] AS [MarkID], 
+    [V_Flow].[Phase] AS [Phase]
+    FROM [dbo].[V_Flow] AS [V_Flow]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_OrderInfor" EntityType="Self.V_OrderInfor" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_OrderInfor].[IDX] AS [IDX], 
@@ -1127,7 +1178,27 @@
     [V_Users].[TreeID] AS [TreeID], 
     [V_Users].[TreeCNName] AS [TreeCNName], 
     [V_Users].[FatherID] AS [FatherID], 
-    [V_Users].[InCode] AS [InCode]
+    [V_Users].[InCode] AS [InCode], 
+    [V_Users].[Pwd] AS [Pwd], 
+    [V_Users].[LanUserName] AS [LanUserName], 
+    [V_Users].[Lan] AS [Lan], 
+    [V_Users].[Dept] AS [Dept], 
+    [V_Users].[Sec] AS [Sec], 
+    [V_Users].[EnName] AS [EnName], 
+    [V_Users].[WorkNumber] AS [WorkNumber], 
+    [V_Users].[Sex] AS [Sex], 
+    [V_Users].[Tel] AS [Tel], 
+    [V_Users].[Email] AS [Email], 
+    [V_Users].[UserDefinedCol1] AS [UserDefinedCol1], 
+    [V_Users].[UserDefinedCol2] AS [UserDefinedCol2], 
+    [V_Users].[UserDefinedCol3] AS [UserDefinedCol3], 
+    [V_Users].[UserDefinedCol4] AS [UserDefinedCol4], 
+    [V_Users].[UserDefinedCol5] AS [UserDefinedCol5], 
+    [V_Users].[UserDefinedCol6] AS [UserDefinedCol6], 
+    [V_Users].[UserDefinedCol7] AS [UserDefinedCol7], 
+    [V_Users].[UserDefinedCol8] AS [UserDefinedCol8], 
+    [V_Users].[UserDefinedCol9] AS [UserDefinedCol9], 
+    [V_Users].[UserDefinedCol10] AS [UserDefinedCol10]
     FROM [dbo].[V_Users] AS [V_Users]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
@@ -1210,6 +1281,7 @@
           <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
           <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
           <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
+          <EntitySet Name="V_Flow" EntityType="Model.V_Flow" />
           <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
           <EntitySet Name="V_Users" EntityType="Model.V_Users" />
@@ -1977,6 +2049,21 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="V_Flow">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="BillingID" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlowUserID" Type="Int32" />
+          <Property Name="StDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EndDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MarkID" Type="Int32" />
+          <Property Name="Phase" Type="Int32" />
+        </EntityType>
         <EntityType Name="V_OrderInfor">
           <Key>
             <PropertyRef Name="IDX" />
@@ -2071,6 +2158,26 @@
           <Property Name="TreeCNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FatherID" Type="Int32" />
           <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LanUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
           <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
@@ -2939,6 +3046,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_Flow">
+            <EntityTypeMapping TypeName="Model.V_Flow">
+              <MappingFragment StoreEntitySet="V_Flow">
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StDate" ColumnName="StDate" />
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_OrderInfor">
             <EntityTypeMapping TypeName="Model.V_OrderInfor">
               <MappingFragment StoreEntitySet="V_OrderInfor">
@@ -3025,6 +3148,26 @@
           <EntitySetMapping Name="V_Users">
             <EntityTypeMapping TypeName="Model.V_Users">
               <MappingFragment StoreEntitySet="V_Users">
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
+                <ScalarProperty Name="Sec" ColumnName="Sec" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Lan" ColumnName="Lan" />
+                <ScalarProperty Name="LanUserName" ColumnName="LanUserName" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
                 <ScalarProperty Name="InCode" ColumnName="InCode" />
                 <ScalarProperty Name="FatherID" ColumnName="FatherID" />
                 <ScalarProperty Name="TreeCNName" ColumnName="TreeCNName" />
