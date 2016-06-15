@@ -49,32 +49,49 @@ namespace TugBusinessLogic
             return ret;
         }
 
-        static public Dictionary<string, string> GetServices(string content)
+        static public Dictionary<string, string> ResolveServices(string content)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
 
             List<string> lst = content.Split('/').ToList();
-            string s_values = "", s_labels = "";
+            string s_ids = "", s_values = "", s_labels = "";
             if (lst != null && lst.Count > 0)
             {
                 for (int i = 0; i < lst.Count; i++)
                 {
-                    s_values += lst[i].Split(':')[0] + "/";
-                    s_labels += lst[i].Split(':')[1] + "/";
+                    s_ids += lst[i].Split('~')[0] + "/";
+                    s_values += lst[i].Split('~')[1] + "/";
+                    s_labels += lst[i].Split('~')[2] + "/";
                 }
 
                 if (lst.Count > 0)
                 {
+                    s_ids = s_ids.Substring(0, s_ids.Length - 1);
                     s_values = s_values.Substring(0, s_values.Length - 1);
                     s_labels = s_labels.Substring(0, s_labels.Length - 1);
                 }
             }
 
+            dic.Add("ids", s_ids);
             dic.Add("values", s_values);
             dic.Add("labels", s_labels);
 
             return dic;
         }
+
+
+        /// <summary>
+        /// 获得拖轮的服务项
+        /// </summary>
+        /// <returns></returns>
+        static public List<CustomField> GetServices()
+        {
+            List<CustomField> list = new List<CustomField>();
+            TugDataEntities db = new TugDataEntities();
+            list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID").OrderBy(u => u.CustomValue).ToList<CustomField>();
+            return list;
+        }
+        
 
         /// <summary>
         /// 获取自定义字段

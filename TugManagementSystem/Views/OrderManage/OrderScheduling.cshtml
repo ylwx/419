@@ -364,49 +364,49 @@
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_InformCaptainTime', name: "InformCaptainTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
-                        defaultValue: '1:00'
+                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_CaptainConfirmTime', name: "CaptainConfirmTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
-                        defaultValue: '1:00'
+                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_DepartBaseTime', name: "DepartBaseTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
-                        defaultValue: '1:00'
+                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalShipSideTime', name: "ArrivalShipSideTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
-                        defaultValue: '1:00'
+                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCommencedTime', name: "WorkCommencedTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
-                        defaultValue: '1:00'
+                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCompletedTime', name: "WorkCompletedTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
-                        defaultValue: '1:00'
+                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalBaseTime', name: "ArrivalBaseTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
-                        defaultValue: '1:00'
+                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
                 {
@@ -699,135 +699,109 @@
             columns: [
 
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                     hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
-                    editrules: { required: true }, colmenu: false,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "checkbox",
+                    colmenu: false,
                     hidden: false,
                     searchoptions: { sopt: ["ge", "le"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_Code', name: "Code", width: 200, editable: false, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {
-                        //defaultValue: function () { return Date().toString(); }
-                    },
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "Code", width: 200, editable: false, edittype: "text",
+                    hidden: false,
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, integer: true },
-                    hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
+                    hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_CustomerName', name: "CustomerName", width: 150, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 150, editable: true, edittype: "text",
+                    hidden: false,
                     coloptions: { sorting: true, columns: false, filtering: false, seraching: true, grouping: true, freeze: false },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_OrdTime', name: "OrdTime", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdTime', name: "OrdTime", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkTime', name: "WorkTime", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkTime', name: "WorkTime", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 100,
-                    editable: true, edittype: "text", editrules: { required: true, time: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 100,
+                    editable: true, edittype: "text", hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
-                    hidden: true,
-                    editrules: { required: true, integer: true },
-                    editoptions: {
-                        defaultValue: -1
-                    }
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
+                    hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_ShipName', name: "ShipName", width: 150, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 150, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, email: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkPlace', name: "WorkPlace", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: true,
-                    editoptions: {
-                        defaultValue: "/"
-                    }
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
+                    hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 200, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 200, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: true,
-                    editoptions: {
-                        defaultValue: "0"
-                    }
-
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
+                    hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_WorkStateName', name: "WorkStateName", width: 100, editable: true, edittype: "select",
-                    editrules: { required: true }, hidden: false
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, editable: true, edittype: "text",
+                    hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
-                    editoptions: {
-                        defaultValue: 0
-                    }
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
-                    editoptions: {
-                        defaultValue: 0
-                    }
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
-                    editoptions: {
-                        defaultValue: 0
-                    }
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
+                    hidden: false
                 },
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
-                    editrules: { required: false }, hidden: false
+                    hidden: false
                 },
                 {
                     align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
+                    hidden: true
                 },
                 {
                     align: 'center',
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: false,
+                    hidden: false,
                     //formatter: 'date',
                     //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
                     datefmt: 'yyyy-mm-dd',
@@ -844,12 +818,12 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center',
                     label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: false,
+                    hidden: false,
                     //formatter: 'date',
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
@@ -865,51 +839,51 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, number: true }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
+                    hidden: true,
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date'
                 },
 
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
+                    hidden: true,
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date'
                 },
-                { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
-                { align: 'center', label: 'Scheduler', name: "Scheduler", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
+                { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", hidden: true },
+                { align: 'center', label: 'Scheduler', name: "Scheduler", width: 100, editable: true, edittype: "text",hidden: true }
 
             ]
         };

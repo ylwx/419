@@ -430,195 +430,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 大拖輪數量 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_BigTugNum {
-            get {
-                return ResourceManager.GetString("OrderInfor_BigTugNum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 訂單編號 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_Code {
-            get {
-                return ResourceManager.GetString("OrderInfor_Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 下單人ID 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_CustomerID {
-            get {
-                return ResourceManager.GetString("OrderInfor_CustomerID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 下單人名稱 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_CustomerName {
-            get {
-                return ResourceManager.GetString("OrderInfor_CustomerName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 預估完成時間 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_EstimatedCompletionTime {
-            get {
-                return ResourceManager.GetString("OrderInfor_EstimatedCompletionTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 訂單ID 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_IDX {
-            get {
-                return ResourceManager.GetString("OrderInfor_IDX", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 下單人身份 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_IsGuest {
-            get {
-                return ResourceManager.GetString("OrderInfor_IsGuest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 聯繫人電子郵件 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_LinkEmail {
-            get {
-                return ResourceManager.GetString("OrderInfor_LinkEmail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 聯繫人名稱 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_LinkMan {
-            get {
-                return ResourceManager.GetString("OrderInfor_LinkMan", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 聯繫人電話 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_LinkPhone {
-            get {
-                return ResourceManager.GetString("OrderInfor_LinkPhone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 中拖輪數量 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_MiddleTugNum {
-            get {
-                return ResourceManager.GetString("OrderInfor_MiddleTugNum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 下單時間 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_OrdTime {
-            get {
-                return ResourceManager.GetString("OrderInfor_OrdTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 服務內容ID 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_ServiceNatureIDS {
-            get {
-                return ResourceManager.GetString("OrderInfor_ServiceNatureIDS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 服務內容名稱 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_ServiceNatureNames {
-            get {
-                return ResourceManager.GetString("OrderInfor_ServiceNatureNames", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 被拖船ID 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_ShipID {
-            get {
-                return ResourceManager.GetString("OrderInfor_ShipID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 被拖船名稱 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_ShipName {
-            get {
-                return ResourceManager.GetString("OrderInfor_ShipName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 小拖輪數量 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_SmallTugNum {
-            get {
-                return ResourceManager.GetString("OrderInfor_SmallTugNum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 工作地點 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_WorkPlace {
-            get {
-                return ResourceManager.GetString("OrderInfor_WorkPlace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 工作狀態ID 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_WorkStateID {
-            get {
-                return ResourceManager.GetString("OrderInfor_WorkStateID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 工作狀態 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_WorkStateName {
-            get {
-                return ResourceManager.GetString("OrderInfor_WorkStateName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 工作時間 的本地化字符串。
-        /// </summary>
-        internal static string OrderInfor_WorkTime {
-            get {
-                return ResourceManager.GetString("OrderInfor_WorkTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 訂單管理 的本地化字符串。
         /// </summary>
         internal static string OrderManage {
@@ -1047,6 +858,204 @@ namespace Resources {
         internal static string V_BillingTemplate_TimeTypeValue {
             get {
                 return ResourceManager.GetString("V_BillingTemplate_TimeTypeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 大拖輪數量 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_BigTugNum {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_BigTugNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 訂單編號 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_Code {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下單人ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_CustomerID {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_CustomerID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下單人名稱 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_CustomerName {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_CustomerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 預估完成時間 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_EstimatedCompletionTime {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_EstimatedCompletionTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 訂單ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_IDX {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_IDX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否遊客下單 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_IsGuest {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_IsGuest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 聯繫人電子郵件 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_LinkEmail {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_LinkEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 聯繫人名稱 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_LinkMan {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_LinkMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 聯繫人電話 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_LinkPhone {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_LinkPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 中拖輪數量 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_MiddleTugNum {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_MiddleTugNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下單時間 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_OrdTime {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_OrdTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服務內容ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_ServiceNatureIDS {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_ServiceNatureIDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服務內容名稱 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_ServiceNatureNames {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_ServiceNatureNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 被拖船ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_ShipID {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_ShipID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 被拖船名稱 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_ShipName {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_ShipName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 小拖輪數量 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_SmallTugNum {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_SmallTugNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作地點 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_WorkPlace {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_WorkPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作狀態ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_WorkStateID {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_WorkStateID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作狀態 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_WorkStateLabel {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_WorkStateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作狀態值 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_WorkStateValue {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_WorkStateValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作時間 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_WorkTime {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_WorkTime", resourceCulture);
             }
         }
         

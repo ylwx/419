@@ -12,14 +12,8 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderInfor
+    public partial class V_OrderInfor
     {
-        public OrderInfor()
-        {
-            this.Billing = new HashSet<Billing>();
-            this.Scheduler = new HashSet<Scheduler>();
-        }
-    
         public int IDX { get; set; }
         public string IsGuest { get; set; }
         public string Code { get; set; }
@@ -37,6 +31,8 @@ namespace TugDataModel
         public string ServiceNatureIDS { get; set; }
         public string ServiceNatureNames { get; set; }
         public Nullable<int> WorkStateID { get; set; }
+        public string WorkStateValue { get; set; }
+        public string WorkStateLabel { get; set; }
         public Nullable<int> BigTugNum { get; set; }
         public Nullable<int> MiddleTugNum { get; set; }
         public Nullable<int> SmallTugNum { get; set; }
@@ -55,8 +51,5 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
-    
-        public virtual ICollection<Billing> Billing { get; set; }
-        public virtual ICollection<Scheduler> Scheduler { get; set; }
     }
 }
