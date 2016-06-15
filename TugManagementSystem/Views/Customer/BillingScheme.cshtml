@@ -23,10 +23,10 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.Order</a>
+                                    <a href="#">@Resources.Language.CustomerInformation</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.OrderManage
+                                    @Resources.Language.CustomerBillingScheme
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
@@ -44,7 +44,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.OrderManage</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.CustomerBillingScheme</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
                                 <div class="row">
@@ -66,7 +66,7 @@
                                                         @{
                                                             for (int i = 0; i < Model.Count; i++)
                                                             {
-                                                        <li class="clearfix" onclick="loadCustomerBillScheme('@Model[i].IDX', '@Model[i].CnName')">
+                                                        <li class="clearfix" onclick="loadCustomerBillScheme($(this), '@Model[i].IDX', '@Model[i].CnName')">
                                                             <div class="pull-left">
                                                                 @if (i % 2 == 0)
                                                                         {
@@ -127,7 +127,7 @@
                                                     @{
                                                         if (Model.Count > 0)
                                                         {
-                                                    <span>@Model[0].IDX</span>
+                                                    <span hidden>@Model[0].IDX</span>
                                                     <span>@Model[0].CnName</span>
                                                         }
                                                         else
@@ -171,7 +171,7 @@
         }
 
         $("#jqGrid").jqGrid({
-            url: '@Url.Action("GetCustomerBillSchemes", "Customer")',
+            url: '@Url.Action("GetCustomerBillSchemes", "Customer")' + '?custId=' + $('.panel-title span:first').html(),
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -179,7 +179,7 @@
             height: '100%',
             rowNum: 30,
             autowidth: true,
-            editurl: '@Url.Action("AddEditCustomerBillScheme", "Customer")',
+            editurl: '@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + $('.panel-title span:first').html(),
             pager: "#jqGridPager",
             //loadonce: true,
             rowList: ['30', '50', '80', '100'],
@@ -971,9 +971,22 @@
             return [true, ""];
     }
 
-    function loadCustomerBillScheme(customer_id, customer_cnName) {
+    function loadCustomerBillScheme(self, customer_id, customer_cnName) {
         $('.panel-title span:first').html(customer_id);
         $('.panel-title span:last').html(customer_cnName);
+       
+        $('li.clearfix').removeAttr('style');
+        $(self).css('background-color', 'ButtonHighlight');
+
+        //alert(customer_id);
+        $('#jqGrid').jqGrid('setGridParam',
+            {
+                datatype: 'json',
+                url: '@Url.Action("GetCustomerBillSchemes", "Customer")' + '?custId=' + $('.panel-title span:first').html(),
+            }).trigger('reloadGrid');
+
+        //alert('@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + customer_id );
+        $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + customer_id });
     }
 
     function searchCustomer(text) {

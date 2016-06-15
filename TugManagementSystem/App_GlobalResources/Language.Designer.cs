@@ -151,6 +151,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 計費方案 的本地化字符串。
+        /// </summary>
+        internal static string CustomerBillingScheme {
+            get {
+                return ResourceManager.GetString("CustomerBillingScheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客戶信息 的本地化字符串。
+        /// </summary>
+        internal static string CustomerInformation {
+            get {
+                return ResourceManager.GetString("CustomerInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 客戶管理 的本地化字符串。
         /// </summary>
         internal static string CustomerManage {

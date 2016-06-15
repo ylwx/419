@@ -9,7 +9,7 @@ namespace TugManagementSystem.Controllers
 {
     public class CustomerController : BaseController
     {
-        private static int _DefaultPageSie = 10;
+        private static int _DefaultPageSie = 7;
 
         public ActionResult AddEdit()
         {
@@ -280,7 +280,7 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetCustomerBillSchemes(bool _search, string sidx, string sord, int page, int rows)
+        public ActionResult GetCustomerBillSchemes(bool _search, string sidx, string sord, int page, int rows, int custId)
         {
             this.Internationalization();
 
@@ -295,7 +295,7 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    List<V_BillingTemplate> orders = db.V_BillingTemplate.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingTemplate>();
+                    List<V_BillingTemplate> orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingTemplate>();
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
@@ -313,7 +313,7 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult AddEditCustomerBillScheme(string customerId)
+        public ActionResult AddEditCustomerBillScheme(int custId)
         {
             //this.Internationalization();
 
@@ -333,7 +333,7 @@ namespace TugManagementSystem.Controllers
                         
                         cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
 
-                        cstmer.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
+                        cstmer.CustomerID = custId; // Convert.ToInt32(customerId);
                         cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"];
                         cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"]);
 
