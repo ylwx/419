@@ -113,6 +113,30 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        public ActionResult UpdateUserInfor()
+        {
+            string tmpUser = Request.Form["UserName"].ToString();
+            TugDataEntities db = new TugDataEntities();
+            UserInfor newUser = new UserInfor();
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == tmpUser;
+            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
+            if (user != null)  //更新用户信息
+            {
+                newUser.CnName = Request.Form["CnName"].ToString();
+                newUser.EnName = Request.Form["EnName"].ToString();
+                newUser.Email = Request.Form["Email"].ToString();
+                newUser.Tel = Request.Form["Tel"].ToString();
+                newUser.Sex = Request.Form["Sex"].ToString();
+                newUser = db.UserInfor.Add(newUser);
+                db.SaveChanges();
+                return Json(new { message = "个人信息已更新！" });
+            }
+            else   //失败
+            {
+                return Json(new { message = "未找到当前用户信息！" });
+            }
+        }
+
         //[Authorize]
         public ActionResult Index(string lan, int? id)
         {
