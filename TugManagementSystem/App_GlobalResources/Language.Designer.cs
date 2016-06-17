@@ -511,6 +511,132 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 組織結構 的本地化字符串。
+        /// </summary>
+        internal static string Organization {
+            get {
+                return ResourceManager.GetString("Organization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 組織結構管理 的本地化字符串。
+        /// </summary>
+        internal static string OrganizationManage {
+            get {
+                return ResourceManager.GetString("OrganizationManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 中文名 的本地化字符串。
+        /// </summary>
+        internal static string Org_CnName {
+            get {
+                return ResourceManager.GetString("Org_CnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 部門 的本地化字符串。
+        /// </summary>
+        internal static string Org_Dept {
+            get {
+                return ResourceManager.GetString("Org_Dept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 電郵 的本地化字符串。
+        /// </summary>
+        internal static string Org_Email {
+            get {
+                return ResourceManager.GetString("Org_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 英文名 的本地化字符串。
+        /// </summary>
+        internal static string Org_EnName {
+            get {
+                return ResourceManager.GetString("Org_EnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 域 的本地化字符串。
+        /// </summary>
+        internal static string Org_Lan {
+            get {
+                return ResourceManager.GetString("Org_Lan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 域用戶名 的本地化字符串。
+        /// </summary>
+        internal static string Org_LanUserName {
+            get {
+                return ResourceManager.GetString("Org_LanUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密碼 的本地化字符串。
+        /// </summary>
+        internal static string Org_Pwd {
+            get {
+                return ResourceManager.GetString("Org_Pwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 科室 的本地化字符串。
+        /// </summary>
+        internal static string Org_Sec {
+            get {
+                return ResourceManager.GetString("Org_Sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 性別 的本地化字符串。
+        /// </summary>
+        internal static string Org_Sex {
+            get {
+                return ResourceManager.GetString("Org_Sex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 電話 的本地化字符串。
+        /// </summary>
+        internal static string Org_Tel {
+            get {
+                return ResourceManager.GetString("Org_Tel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用戶名 的本地化字符串。
+        /// </summary>
+        internal static string Org_UserName {
+            get {
+                return ResourceManager.GetString("Org_UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工號 的本地化字符串。
+        /// </summary>
+        internal static string Org_WorkNumber {
+            get {
+                return ResourceManager.GetString("Org_WorkNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 角色 的本地化字符串。
         /// </summary>
         internal static string OwnerID {
