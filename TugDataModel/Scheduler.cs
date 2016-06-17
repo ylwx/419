@@ -16,11 +16,9 @@ namespace TugDataModel
     {
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ServiceNatureValue { get; set; }
-        public string ServiceNatureName { get; set; }
+        public Nullable<int> ServiceNatureID { get; set; }
         public Nullable<int> TugID { get; set; }
         public Nullable<int> JobStateID { get; set; }
-        public string JobStateName { get; set; }
         public string InformCaptainTime { get; set; }
         public string CaptainConfirmTime { get; set; }
         public string DepartBaseTime { get; set; }

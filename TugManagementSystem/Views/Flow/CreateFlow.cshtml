@@ -116,6 +116,10 @@
                                 <table id="jqGrid"></table>
                                 <div id="jqGridPager"></div>
                             </div>
+                            <div style="float:left;margin-left:10px;">
+                                <table id="jqGrid2"></table>
+                                <div id="jqGridPager2"></div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -140,7 +144,7 @@
                     "index": "IDX",
                     "sorttype": "int",
                     "key": true,
-                    "hidden": false
+                    "hidden": true
                 },
 
                 {
@@ -176,11 +180,13 @@
                 }
             ],
             "width": 300,
+            //"caption": "组织结构",
+            "mtype": "POST",
             "hoverrows": false,
             "viewrecords": false,
             "gridview": true,
             "height": 335,//"auto",
-            "sortname": "IDX",
+            "sortname": "CNName",
             "scrollrows": true,
 
             "treeGrid": true,
@@ -241,7 +247,7 @@
         );
         jQuery('#tree').jqGrid('bindKeys');
 
-        //设置jqgrid
+        //设置人员jqgrid
         if (tableConfig == null) {
             GetTableConfig();
         }
@@ -257,7 +263,7 @@
             height: 300,//$(window).height() - 300,//300,
             rowNum: 10,
             //autowidth: true,
-            //editurl: '@Url.Action("", "")',
+            editurl: '@Url.Action("UserAddEdit", "Flow")',
             pager: "#jqGridPager",
             loadonce: true,
             rowList: ['10', '20', '30'],
@@ -360,12 +366,10 @@
             });
 
     });
-
-    //设置jqgrid表头
+    //设置人员jqgrid表头
     function GetTableConfig() {
         tableConfig = {
             columns: [
-
                 {
                     align: 'center', label: 'IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text", key: true,
                     editrules: { required: false }, hidden: true,
@@ -406,6 +410,210 @@
                 editrules: { required: false },
                 hidden: true,
             }
+            ]
+        };
+    }
+
+    var tableConfig2 = null;
+    //设置流程grid
+    $(document).ready(function () {
+
+        if (tableConfig2 == null) {
+            GetTableConfig2();
+        }
+
+        $("#jqGrid2").jqGrid({
+            url: '@Url.Action("LoadFlow", "Flow")',
+            mtype: "GET",
+            datatype: "json",
+            colModel: tableConfig2.columns,
+            viewrecords: true,
+            width: 700,
+            height: $(window).height() - 300,//300,
+            rowNum: 5,
+            //autowidth: true,
+            editurl: '@Url.Action("FlowAddEdit", "Flow")',
+            pager: "#jqGridPager2",
+            loadonce: true,
+            rowList: ['5', '10', '15'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            colMenu: true          //列菜单
+        });
+
+        $('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+
+        $('#jqGrid2').navGrid('#jqGridPager2', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+            .navButtonAdd('#jqGridPager2', {
+                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                onClickButton: function () {
+                    //alert("haha");
+                    @*$.ajax(
+                        {
+                            type: "get",
+                            url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+                            dataType: 'json',
+                            type: 'get',
+                            data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
+                            success: function (result) {
+
+                                $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            },
+                        }
+                        );*@
+
+                    $('#jqGrid2').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navSeparatorAdd("#jqGridPager2", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#jqGridPager2', {
+                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                onClickButton: function () {
+                    var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
+                    var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
+                    if (rowid != null) {
+                        if (confirm('确定要删除所选的记录吗?')) {
+                            var d = new Date();
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: '@Url.Action("Delete", "Customer")',
+                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        alert(result.message);
+                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                        $('#jqGrid2').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                    },
+
+                                }
+                                );
+                        }
+                    }
+                    else {
+                        alert('选中一行');
+                    }
+                },
+                position: "last"
+            });
+
+        $('#jqGrid2').inlineNav('#jqGridPager2',
+            {
+                edit: true,
+                add: true,
+                del: true,
+                cancel: true,
+                editParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    url: null, //'/api/values',
+                    mtype: 'POST'
+                },
+
+                addParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    errorfunc: function (rowid, xhr) {
+                        alert(xhr.responseText);
+                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                }
+            });
+
+        //最后调用，冻结列
+        //$("#jqGrid2").jqGrid("setFrozenColumns");
+    });
+
+    //设置流程节点jqgrid表头
+    function GetTableConfig2() {
+        tableConfig2 = {
+            columns: [
+                {
+                    align: 'center', label: 'IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text", key: true,
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: "任务", name: "Task", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, colmenu: false,
+                    hidden: false,
+                    searchoptions: { sopt: ["cn"] }
+                    //searchoptions: { sopt: ["ge", "le"] }
+                },
+                {
+                    align: 'center', label: 'FlowUserID', name: "FlowUserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: "人员", name: "CnName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false,
+                    editoptions: {},
+                },
+                {
+                    align: 'center', label: "开始日期", name: "StDate", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    }
+                },
+                {
+                    align: 'center', label: "结束日期", name: "EndDate", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    }
+                }
+                //{
+                //    align: 'center', label: '开始日期', name: "StDate", width: 100, editable: true, edittype: "text",
+                //    editrules: { required: false, date: true }, hidden: false,
+                //    datefmt: 'yyyy-mm-dd',
+                //    sorttype: 'date',
+                //    editoptions: {
+                //        dataInit: function (element) {
+                //            $(element).datepicker({
+                //                dateFormat: 'yy-mm-dd',
+                //                showOn: 'focus'
+                //            });
+                //        }
+                //    }
+                //},
+                //{
+                //    align: 'center', label: '开始日期', name: "EndDate", width: 100, editable: true, edittype: "text",
+                //    editrules: { required: false, date: true }, hidden: false,
+                //    datefmt: 'yyyy-mm-dd',
+                //    sorttype: 'date',
+                //    editoptions: {
+                //        dataInit: function (element) {
+                //            $(element).datepicker({
+                //                dateFormat: 'yy-mm-dd',
+                //                showOn: 'focus'
+                //            });
+                //        }
+                //    }
+                //}
             ]
         };
     }

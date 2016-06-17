@@ -11,7 +11,6 @@ namespace TugManagementSystem.Controllers
 {
     public class BaseController : Controller
     {
-
         public string Internationalization()
         {
             if (Request.Cookies["SelectedLanguage"] != null)
@@ -50,6 +49,10 @@ namespace TugManagementSystem.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
+        public string GetCustomField(string CustomName)
+        {
+            return TugBusinessLogic.Utils.GetCustomField(CustomName);
+        }
 
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {

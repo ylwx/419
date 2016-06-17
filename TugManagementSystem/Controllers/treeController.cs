@@ -20,7 +20,7 @@ namespace TugManagementSystem.Controllers
                 //TugDataEntities db = new TugDataEntities();
                 //List<BaseTreeItems> trees = db.BaseTreeItems.Select(u => u).OrderByDescending(u => u.IDX).ToList<BaseTreeItems>();
                 //int totalRecordNum = trees.Count;
-                //if (totalRecordNum % rows == 0) page -= 1;
+                //if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 //int pageSize = rows;
                 //int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
@@ -32,8 +32,8 @@ namespace TugManagementSystem.Controllers
                 source.Add(new { IDX = 12, CNName = "浦东", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
                 source.Add(new { IDX = 13, CNName = "徐汇", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
                 source.Add(new { IDX = 14, CNName = "北京", FatherID = 10, LevelValue = 1, IsLeaf = "false", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 15, CNName = "海淀", FatherID = 14, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 16, CNName = "通州", FatherID = 14, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 15, CNName = "海淀", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 16, CNName = "通州", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
 
                 List<object> list = new List<object>();
 

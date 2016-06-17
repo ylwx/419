@@ -16,14 +16,14 @@ namespace TugDataModel
     {
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ServiceNatureValue { get; set; }
-        public string ServiceNatureName { get; set; }
+        public Nullable<int> ServiceNatureID { get; set; }
+        public string ServiceNatureLabel { get; set; }
         public Nullable<int> TugID { get; set; }
         public string CnName { get; set; }
         public string EnName { get; set; }
         public string SimpleName { get; set; }
         public Nullable<int> JobStateID { get; set; }
-        public string JobStateName { get; set; }
+        public string JobStateLabel { get; set; }
         public string InformCaptainTime { get; set; }
         public string CaptainConfirmTime { get; set; }
         public string DepartBaseTime { get; set; }

@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/css/responsive.css">
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/font-awesome/css/font-awesome.min.css">
     <!-- FONTS -->
-    <link rel='stylesheet' type='text/css' href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700'>
+    @*<link rel='stylesheet' type='text/css' href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700'>*@
     <!-- JQUERY UI-->
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/js/jquery-ui-1.10.3.custom/css/custom-theme/jquery-ui-1.10.3.custom.min.css" />
     <!-- DATE RANGE PICKER -->
@@ -25,10 +25,12 @@
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/js/hubspot-messenger/css/messenger-theme-flat.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/js/hubspot-messenger/css/messenger-theme-future.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/js/hubspot-messenger/css/messenger-theme-ice.min.css" />
+
     <!-- ANIMATE -->
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/css/animatecss/animate.min.css" />
     <!-- SLIDENAV -->
     <link rel="stylesheet" type="text/css" href="~/Resources/Frame/js/slidernav/slidernav.css" />
+
     <!-- JqGrid -->
     <script type="text/javascript" src="~/Resources/JqGrid/js/jquery-1.11.0.min.js"></script>
     <!-- We support more than 40 localizations -->
@@ -408,19 +410,33 @@
                             <span class="selected"></span>
                         </a>
                         <ul class="sub">
-                            <li><a class="" href="#"><span class="sub-menu-text">组织结构</span></a></li>
-                            <li><a class="" href="#"><span class="sub-menu-text">权限</span></a></li>
+                            <li><a class="" href="~/Organization/OrgManage"><span class="sub-menu-text">组织结构</span></a></li>
+                            <li>
+                            <li class="has-sub-sub">
+                                <a href="javascript:;" class="">
+                                    <span class="sub-menu-text">权限</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-sub">
+                                    <li><a class="" href="~/Permit/RoleManage"><span class="sub-sub-menu-text">角色定义</span></a></li>
+                                    <li><a class="" href="~/Permit/ModuleManage"><span class="sub-sub-menu-text">模块定义</span></a></li>
+                                    <li><a class="" href="~/Permit/RoleUserManage"><span class="sub-sub-menu-text">角色用户</span></a></li>
+                                    <li><a class="" href="~/Permit/RoleModuleManage"><span class="sub-sub-menu-text">角色模块</span></a></li>
+                                    <li><a class="" href="~/Permit/RoleMenuManage"><span class="sub-sub-menu-text">角色菜单</span></a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
+
                     <li id="menu2" class="has-sub">
                         <a href="javascript:;" class="">
-                            <i class="fa fa-list fa-fw"></i> <span class="menu-text">客户信息</span>
+                            <i class="fa fa-list fa-fw"></i> <span class="menu-text">@Resources.Language.CustomerInformation</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
-                            <li><a class="" href="~/Customer/CustomerManage"><span class="sub-menu-text">客户信息</span></a></li>
-                            <li><a class="" href="~/CustomerShip/CustomerShipManage"><span class="sub-menu-text">客户船</span></a></li>
-                            <li><a class="" href="~/Customer/BillingScheme"><span class="sub-menu-text">计费方案</span></a></li>
+                            <li><a class="" href="~/Customer/CustomerManage"><span class="sub-menu-text">@Resources.Language.Customer</span></a></li>
+                            <li><a class="" href="~/CustomerShip/CustomerShipManage"><span class="sub-menu-text">@Resources.Language.CustomerShip</span></a></li>
+                            <li><a class="" href="~/Customer/BillingScheme"><span class="sub-menu-text">@Resources.Language.CustomerBillingScheme</span></a></li>
                         </ul>
                     </li>
                     <li id="menu3" class="has-sub">
@@ -451,7 +467,7 @@
                         <ul class="sub">
                             <li><a class="" href="~/OrderManage/OrderManage"><span class="sub-menu-text">@Resources.Language.OrderManage</span></a></li>
                             <li><a class="" href="~/OrderManage/OrderScheduling"><span class="sub-menu-text">@Resources.Language.OrderScheduling</span></a></li>
-                            <li><a class="" href="#"><span class="sub-menu-text">作业信息</span></a></li>
+                            <li><a class="" href="~/OrderManage/JobInformation"><span class="sub-menu-text">@Resources.Language.JobInformation</span></a></li>
                         </ul>
                     </li>
                     <li id="menu6" class="has-sub">
@@ -461,7 +477,7 @@
                         </a>
                         <ul class="sub">
                             <li><a class="" href="#"><span class="sub-menu-text">生成发票</span></a></li>
-                            <li><a class="" href="#"><span class="sub-menu-text">提交审核</span></a></li>
+                            <li><a class="" href="~/Flow/AddFlow"><span class="sub-menu-text">提交审核</span></a></li>
                         </ul>
                     </li>
                     <li id="menu7" class="has-sub">
@@ -513,6 +529,8 @@
     <!-- CUSTOM SCRIPT -->
     <script type="text/javascript" src="~/Resources/Frame/js/script.js"></script>
     <script type="text/javascript" src="~/Resources/JS/jquery.ba-resize.js"></script>
+    <script type="text/javascript" src="~/Resources/JS/extend.js"></script>
+
     <script>
 
         jQuery(document).ready(function () {
