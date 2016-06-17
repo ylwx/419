@@ -172,12 +172,12 @@
                 colModel: tableConfig.columns,
                 viewrecords: true,
                 height: '100%',
-                rowNum: 30,
+                rowNum: 20,
                 autowidth: true,
                 editurl: '@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + $('.panel-title span:first').html(),
                 pager: "#jqGridPager",
                 //loadonce: true,
-                rowList: ['30', '50', '80', '100'],
+                rowList: ['20', '30', '50', '80', '100'],
                 rownumbers: true,
                 shrinkToFit: false,     //指定各列宽度
                 sortable: true,          //列可移动
@@ -204,7 +204,36 @@
 
             });
 
-            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            $('#jqGrid').jqGrid('filterToolbar', {
+                searchResult: true, searchOperators: true,
+                beforeSearch: function () {
+
+                    var util = new Util();    
+
+                    //日期
+                    if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
+                        ret = ret && util.isDate('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+                    if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
+                        ret = ret && util.isDate('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
+                    //自定义字段
+                    if ($("#gs_UserDefinedCol5").val() != null && $("#gs_UserDefinedCol5").val() != "")
+                        ret = ret && util.isValidFloat('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol5").val());
+                    if ($("#gs_UserDefinedCol6").val() != null && $("#gs_UserDefinedCol6").val() != "")
+                        ret = ret && util.isValidinteger('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol6").val());
+                    if ($("#gs_UserDefinedCol7").val() != null && $("#gs_UserDefinedCol7").val() != "")
+                        ret = ret && util.isValidinteger('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol7").val());
+                    if ($("#gs_UserDefinedCol8").val() != null && $("#gs_UserDefinedCol8").val() != "")
+                        ret = ret && util.isValidinteger('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol8").val());
+                    if ($("#gs_UserDefinedCol9").val() != null && $("#gs_UserDefinedCol9").val() != "")
+                        ret = ret && util.isDate('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol9").val());
+                    if ($("#gs_UserDefinedCol10").val() != null && $("#gs_UserDefinedCol10").val() != "")
+                        ret = ret && util.isDate('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol10").val());
+
+                    //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                    return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+                }
+            });
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
             $('#contact-card').resize(function () {
@@ -213,13 +242,20 @@
             });
 
             $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-
-                    .navButtonAdd('#jqGridPager', {
+                .navButtonAdd('#jqGridPager', {
                         caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
                         onClickButton: function () {
                             $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     })
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+                    onClickButton: function () {
+                        var grid = $('#jqGrid')[0];
+                        grid.clearToolbar();
+                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                })
                     .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
                     .navButtonAdd('#jqGridPager', {
                         caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
@@ -764,16 +800,14 @@
                         hidden: true,
                         editoptions: {
                             defaultValue: -1
-                        },
-                        searchoptions: { sopt: ["ge", "le"] }
+                        }
                     },
                     {
                         align: 'center', label: '@Resources.Language.V_BillingTemplate_BillingTemplateTypeValue', name: "BillingTemplateTypeValue", width: 100, editable: true, edittype: "text",
                         editrules: { required: true, custom_func: validateTugID, custom: true }, hidden: true,
                         editoptions: {
                             defaultValue: -1
-                        },
-                        searchoptions: { sopt: ["cn"] }
+                        }
                     },
                     {
                         align: 'center', label: '@Resources.Language.V_BillingTemplate_BillingTemplateTypeLabel', name: "BillingTemplateTypeLabel", width: 110, editable: true, edittype: "select",
@@ -799,16 +833,24 @@
                                     }
                                 }
                             ]
+                        },
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        stype: "select",
+                        searchoptions: {
+                            dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.BillingTemplateType" })',
                         }
                     },
                     {
                         align: 'center', label: '@Resources.Language.V_BillingTemplate_BillingTemplateCode', name: "BillingTemplateCode", width: 100, editable: true, edittype: "text",
                         editrules: { required: false }, hidden: false,
-                        coloptions: { sorting: true, columns: false, filtering: false, seraching: true, grouping: true, freeze: false },
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
                     {
                         align: 'center', label: '@Resources.Language.V_BillingTemplate_BillingTemplateName', name: "BillingTemplateName", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: false
+                        editrules: { required: false }, hidden: false,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
                     {
                         align: 'center', label: '@Resources.Language.V_BillingTemplate_TimeTypeID', name: "TimeTypeID", width: 100, editable: true, edittype: "text",
@@ -847,16 +889,26 @@
                                     }
                                 }
                             ]
+                        },
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        stype: "select",
+                        searchoptions: {
+                            dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
                         }
                     },
                     {
-                        align: 'center', label: '@Resources.Language.V_BillingTemplate_TemplateCreditContent', name: "TemplateCreditContent", width: 150, editable: true, edittype: "textarea",
-                        editrules: { required: false }, hidden: false
+                        align: 'center', label: '@Resources.Language.V_BillingTemplate_TemplateCreditContent', name: "TemplateCreditContent",
+                        width: 150, editable: true, edittype: "textarea",
+                        editrules: { required: false }, hidden: false,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
 
                     {
                         align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
-                        editrules: { required: false }, hidden: false
+                        editrules: { required: false }, hidden: false,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
                     {
                         align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
@@ -867,20 +919,35 @@
                     },
                     {
                         align: 'center',
-                        label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
+                        label: '@Resources.Language.CreateDate', name: "CreateDate", width: 150, editable: false, edittype: "text",
                         editrules: { required: false, date: true }, hidden: false,
                         //formatter: 'date',
                         //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
                         datefmt: 'yyyy-mm-dd',
                         sorttype: 'date',
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                         searchoptions: {
+                            sopt: ["eq", "lt", "le", "gt", "ge"],
+
                             dataInit: function (element) {
                                 $(element).datepicker({
                                     //id: 'orderCreateDate_datePicker',
                                     dateFormat: 'yy-mm-dd',
                                     showOn: 'focus'
                                 });
-                            }
+                            },
+
+                            dataEvents: [
+                                {
+
+                                    type: 'change',
+                                    fn: function (e) {
+                                        var grid = $('#jqGrid')[0];
+                                        grid.triggerToolbar();
+
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
@@ -892,65 +959,142 @@
                     },
                     {
                         align: 'center',
-                        label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
+                        label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 150, editable: false, edittype: "text",
                         editrules: { required: false, date: true }, hidden: false,
                         //formatter: 'date',
                         datefmt: 'yyyy-mm-dd',
                         sorttype: 'date',
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                         searchoptions: {
+                            sopt: ["eq", "lt", "le", "gt", "ge"],
+
                             dataInit: function (element) {
                                 $(element).datepicker({
                                     //id: 'orderCreateDate_datePicker',
                                     dateFormat: 'yy-mm-dd',
                                     showOn: 'focus'
                                 });
-                            }
+                            },
+
+                            dataEvents: [
+                                {
+
+                                    type: 'change',
+                                    fn: function (e) {
+                                        var grid = $('#jqGrid')[0];
+                                        grid.triggerToolbar();
+
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
+                        editrules: { required: false }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
+                        editrules: { required: false }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
+                        editrules: { required: false }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
+                        editrules: { required: false }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, number: true }, hidden: true
+                        editrules: { required: false, number: true }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, integer: true }, hidden: true
+                        editrules: { required: false, integer: true }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, integer: true }, hidden: true
+                        editrules: { required: false, integer: true }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, integer: true }, hidden: true
+                        editrules: { required: false, integer: true }, hidden: true,
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                     },
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
                         editrules: { required: false, date: true }, hidden: true,
                         datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date'
+                        sorttype: 'date',
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: {
+                            sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                            dataInit: function (element) {
+                                $(element).datepicker({
+                                    //id: 'orderCreateDate_datePicker',
+                                    dateFormat: 'yy-mm-dd',
+                                    showOn: 'focus'
+                                });
+                            },
+
+                            dataEvents: [
+                                {
+                                    type: 'change',
+                                    fn: function (e) {
+                                        var grid = $('#jqGrid')[0];
+                                        grid.triggerToolbar();
+
+                                    }
+                                }
+                            ]
+                        }
                     },
 
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
                         editrules: { required: false, date: true }, hidden: true,
                         datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date'
+                        sorttype: 'date',
+                        coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                        searchoptions: {
+                            sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                            dataInit: function (element) {
+                                $(element).datepicker({
+                                    //id: 'orderCreateDate_datePicker',
+                                    dateFormat: 'yy-mm-dd',
+                                    showOn: 'focus'
+                                });
+                            },
+
+                            dataEvents: [
+                                {
+                                    type: 'change',
+                                    fn: function (e) {
+                                        var grid = $('#jqGrid')[0];
+                                        grid.triggerToolbar();
+
+                                    }
+                                }
+                            ]
+                        }
                     },
 
                 ]

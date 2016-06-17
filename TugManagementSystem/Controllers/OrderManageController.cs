@@ -395,7 +395,8 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    List<V_OrderScheduler> orders = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
+                    //List<V_OrderScheduler> orders = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
+                    List<V_OrderScheduler> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduler(sidx, sord);
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;

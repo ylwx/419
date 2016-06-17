@@ -1,25 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using TugDataModel;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace TugBusinessLogic.Module
 {
-    public class OrderLogic
+    public class CustomerLogic
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="searchOptions">搜索选项，格式如下</param>
         /// <returns></returns>
-        static public List<TugDataModel.V_OrderInfor> SearchForOrderMange(string orderField, string orderMethod, string searchOptions)
+        static public List<TugDataModel.V_BillingTemplate> SearchForCustomerBillingTemplate(string orderField, string orderMethod, string searchOptions)
         {
-            List<V_OrderInfor> orders = null;
+            List<V_BillingTemplate> orders = null;
             try
             {
                 //searchOptions的Json字符串格式
@@ -35,13 +34,13 @@ namespace TugBusinessLogic.Module
                 //}
 
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
+                orders = db.V_BillingTemplate.Select(u => u).ToList<V_BillingTemplate>();
 
                 JObject jsonSearchOption = (JObject)JsonConvert.DeserializeObject(searchOptions);
                 string groupOp = (string)jsonSearchOption["groupOp"];
                 JArray rules = (JArray)jsonSearchOption["rules"];
 
-                
+
                 if (rules != null)
                 {
                     foreach (JObject item in rules)
@@ -53,15 +52,16 @@ namespace TugBusinessLogic.Module
                         #region 根据各自段条件进行搜索
                         switch (field)
                         {
-                            #region IsGuest
-                            case "IsGuest":
+                            #region BillingTemplateTypeLabel
+                            case "BillingTemplateTypeLabel":
                                 {
-                                    switch(op)
+                                    switch (op)
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                if(data != "全部")
-                                                    orders = orders.Where(u => u.IsGuest == data).ToList();
+                                                int billingTemplateTypeID = Convert.ToInt32(data.Split('~')[0]);
+                                                if (billingTemplateTypeID != -1)
+                                                    orders = orders.Where(u => u.BillingTemplateTypeID == billingTemplateTypeID).ToList();
                                             }
                                             break;
                                         default:
@@ -71,29 +71,29 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
-                            #region Code
-                            case "Code":
+                            #region BillingTemplateCode
+                            case "BillingTemplateCode":
                                 {
                                     switch (op)
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                orders = orders.Where(u => u.Code.ToLower().CompareTo(data.ToLower()) == 0).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateCode.ToLower().CompareTo(data.ToLower()) == 0).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                orders = orders.Where(u => u.Code.ToLower().StartsWith(data.ToLower())).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateCode.ToLower().StartsWith(data.ToLower())).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                orders = orders.Where(u => u.Code.ToLower().EndsWith(data.ToLower())).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateCode.ToLower().EndsWith(data.ToLower())).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                orders = orders.Where(u => u.Code.ToLower().Contains(data.ToLower())).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateCode.ToLower().Contains(data.ToLower())).ToList();
                                             }
                                             break;
                                         default:
@@ -103,29 +103,29 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
-                            #region CustomerName
-                            case "CustomerName":
+                            #region BillingTemplateName
+                            case "BillingTemplateName":
                                 {
                                     switch (op)
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                orders = orders.Where(u => u.CustomerName.ToLower().CompareTo(data.ToLower()) == 0).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateName.ToLower().CompareTo(data.ToLower()) == 0).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                orders = orders.Where(u => u.CustomerName.ToLower().StartsWith(data.ToLower())).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateName.ToLower().StartsWith(data.ToLower())).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                orders = orders.Where(u => u.CustomerName.ToLower().EndsWith(data.ToLower())).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateName.ToLower().EndsWith(data.ToLower())).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                orders = orders.Where(u => u.CustomerName.ToLower().Contains(data.ToLower())).ToList();
+                                                orders = orders.Where(u => u.BillingTemplateName.ToLower().Contains(data.ToLower())).ToList();
                                             }
                                             break;
                                         default:
@@ -135,322 +135,19 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
-                            #region OrdTime
-                            case "OrdTime":
+                            #region TimeTypeLabel
+                            case "TimeTypeLabel":
                                 {
                                     switch (op)
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                orders = orders.Where(u => u.OrdTime == data).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LT:
-                                            {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == -1).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LE:
-                                            {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == -1 || u.OrdTime.CompareTo(data) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GT:
-                                            {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == 1).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == 1 || u.OrdTime.CompareTo(data) == 0).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region WorkTime
-                            case "WorkTime":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.WorkTime == data).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LT:
-                                            {
-                                                orders = orders.Where(u => u.WorkTime.CompareTo(data) == -1).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LE:
-                                            {
-                                                orders = orders.Where(u => u.WorkTime.CompareTo(data) == -1 || u.WorkTime.CompareTo(data) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GT:
-                                            {
-                                                orders = orders.Where(u => u.WorkTime.CompareTo(data) == 1).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.WorkTime.CompareTo(data) == 1 || u.WorkTime.CompareTo(data) == 0).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region EstimatedCompletionTime
-                            case "EstimatedCompletionTime":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.EstimatedCompletionTime == data).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LT:
-                                            {
-                                                orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data) == -1).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LE:
-                                            {
-                                                orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data) == -1 || u.EstimatedCompletionTime.CompareTo(data) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GT:
-                                            {
-                                                orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data) == 1).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data) == 1 || u.EstimatedCompletionTime.CompareTo(data) == 0).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region ShipName
-                            case "ShipName":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.ShipName.ToLower().CompareTo(data.ToLower()) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_BW:
-                                            {
-                                                orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_EW:
-                                            {
-                                                orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_CN:
-                                            {
-                                                orders = orders.Where(u => u.ShipName.ToLower().Contains(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region LinkMan
-                            case "LinkMan":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.LinkMan.ToLower().CompareTo(data.ToLower()) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_BW:
-                                            {
-                                                orders = orders.Where(u => u.LinkMan.ToLower().StartsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_EW:
-                                            {
-                                                orders = orders.Where(u => u.LinkMan.ToLower().EndsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_CN:
-                                            {
-                                                orders = orders.Where(u => u.LinkMan.ToLower().Contains(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region LinkPhone
-                            case "LinkPhone":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.LinkPhone.ToLower().CompareTo(data.ToLower()) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_BW:
-                                            {
-                                                orders = orders.Where(u => u.LinkPhone.ToLower().StartsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_EW:
-                                            {
-                                                orders = orders.Where(u => u.LinkPhone.ToLower().EndsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_CN:
-                                            {
-                                                orders = orders.Where(u => u.LinkPhone.ToLower().Contains(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region LinkEmail
-                            case "LinkEmail":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.LinkEmail.ToLower().CompareTo(data.ToLower()) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_BW:
-                                            {
-                                                orders = orders.Where(u => u.LinkEmail.ToLower().StartsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_EW:
-                                            {
-                                                orders = orders.Where(u => u.LinkEmail.ToLower().EndsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_CN:
-                                            {
-                                                orders = orders.Where(u => u.LinkEmail.ToLower().Contains(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region WorkPlace
-                            case "WorkPlace":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.WorkPlace.ToLower().CompareTo(data.ToLower()) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_BW:
-                                            {
-                                                orders = orders.Where(u => u.WorkPlace.ToLower().StartsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_EW:
-                                            {
-                                                orders = orders.Where(u => u.WorkPlace.ToLower().EndsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_CN:
-                                            {
-                                                orders = orders.Where(u => u.WorkPlace.ToLower().Contains(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region ServiceNatureNames
-                            case "ServiceNatureNames":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.ServiceNatureNames.ToLower().CompareTo(data.ToLower()) == 0).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_BW:
-                                            {
-                                                orders = orders.Where(u => u.ServiceNatureNames.ToLower().StartsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_EW:
-                                            {
-                                                orders = orders.Where(u => u.ServiceNatureNames.ToLower().EndsWith(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_CN:
-                                            {
-                                                orders = orders.Where(u => u.ServiceNatureNames.ToLower().Contains(data.ToLower())).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region WorkStateLabel
-                            case "WorkStateLabel":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                int workStateId = Convert.ToInt32(data.Split('~')[0]);
-                                                if (workStateId != -1)
+                                                int timeTypeID = Convert.ToInt32(data.Split('~')[0]);
+                                                if (timeTypeID != -1)
                                                 {
-                                                    orders = orders.Where(u => u.WorkStateID == workStateId).ToList();
+                                                    orders = orders.Where(u => u.TimeTypeID == timeTypeID).ToList();
                                                 }
-                                                
+
                                             }
                                             break;
 
@@ -460,109 +157,30 @@ namespace TugBusinessLogic.Module
                                 }
                                 break;
                             #endregion
-
-                            #region BigTugNum
-                            case "BigTugNum":
+                          
+                            #region TemplateCreditContent
+                            case "TemplateCreditContent":
                                 {
                                     switch (op)
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                orders = orders.Where(u => u.BigTugNum == Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.TemplateCreditContent.ToLower().CompareTo(data.ToLower()) == 0).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_LT:
+                                        case ConstValue.ComparisonOperator_BW:
                                             {
-                                                orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.TemplateCreditContent.ToLower().StartsWith(data.ToLower())).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_LE:
+                                        case ConstValue.ComparisonOperator_EW:
                                             {
-                                                orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data) || u.BigTugNum == Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.TemplateCreditContent.ToLower().EndsWith(data.ToLower())).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_GT:
+                                        case ConstValue.ComparisonOperator_CN:
                                             {
-                                                orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data) || u.BigTugNum == Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region MiddleTugNum
-                            case "MiddleTugNum":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.MiddleTugNum == Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LT:
-                                            {
-                                                orders = orders.Where(u => u.MiddleTugNum < Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LE:
-                                            {
-                                                orders = orders.Where(u => u.MiddleTugNum < Convert.ToInt32(data) || u.MiddleTugNum == Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GT:
-                                            {
-                                                orders = orders.Where(u => u.MiddleTugNum > Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.MiddleTugNum > Convert.ToInt32(data) || u.MiddleTugNum == Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                                break;
-                            #endregion
-
-                            #region SmallTugNum
-                            case "SmallTugNum":
-                                {
-                                    switch (op)
-                                    {
-                                        case ConstValue.ComparisonOperator_EQ:
-                                            {
-                                                orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LT:
-                                            {
-                                                orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_LE:
-                                            {
-                                                orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data) || u.SmallTugNum == Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GT:
-                                            {
-                                                orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data) || u.SmallTugNum == Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.TemplateCreditContent.ToLower().Contains(data.ToLower())).ToList();
                                             }
                                             break;
                                         default:
@@ -639,7 +257,7 @@ namespace TugBusinessLogic.Module
                                             break;
                                     }
                                 }
-                                break;                            
+                                break;
                             #endregion
 
                             #region LastUpDate
@@ -1048,134 +666,49 @@ namespace TugBusinessLogic.Module
                                         orders = orders.OrderByDescending(u => u.IDX).ToList();
                                 }
                                 break;
-                            case "IsGuest":
+                            case "BillingTemplateTypeLabel":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.IsGuest).ToList();
+                                        orders = orders.OrderBy(u => u.BillingTemplateTypeLabel).ToList();
                                     else
-                                        orders = orders.OrderByDescending(u => u.IsGuest).ToList();
+                                        orders = orders.OrderByDescending(u => u.BillingTemplateTypeLabel).ToList();
                                 }
                                 break;
-                            case "Code":
+                            case "BillingTemplateCode":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.Code).ToList();
+                                        orders = orders.OrderBy(u => u.BillingTemplateCode).ToList();
                                     else
-                                        orders = orders.OrderByDescending(u => u.Code).ToList();
+                                        orders = orders.OrderByDescending(u => u.BillingTemplateCode).ToList();
                                 }
                                 break;
-                            case "CustomerName":
+                            case "BillingTemplateName":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.CustomerName).ToList();
+                                        orders = orders.OrderBy(u => u.BillingTemplateName).ToList();
                                     else
-                                        orders = orders.OrderByDescending(u => u.CustomerName).ToList();
+                                        orders = orders.OrderByDescending(u => u.BillingTemplateName).ToList();
                                 }
                                 break;
-                            case "OrdTime":
+                            
+                            case "TimeTypeLabel":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.OrdTime).ToList();
+                                        orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
                                     else
-                                        orders = orders.OrderByDescending(u => u.OrdTime).ToList();
+                                        orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
                                 }
                                 break;
-                            case "WorkTime":
+                            case "TemplateCreditContent":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.WorkTime).ToList();
+                                        orders = orders.OrderBy(u => u.TemplateCreditContent).ToList();
                                     else
-                                        orders = orders.OrderByDescending(u => u.WorkTime).ToList();
+                                        orders = orders.OrderByDescending(u => u.TemplateCreditContent).ToList();
                                 }
                                 break;
-                            case "EstimatedCompletionTime":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.EstimatedCompletionTime).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
-                                }
-                                break;
-                            case "ShipName":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.ShipName).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.ShipName).ToList();
-                                }
-                                break;
-                            case "LinkMan":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.LinkMan).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.LinkMan).ToList();
-                                }
-                                break;
-                            case "LinkPhone":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.LinkPhone).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.LinkPhone).ToList();
-                                }
-                                break;
-                            case "LinkEmail":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.LinkEmail).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.LinkEmail).ToList();
-                                }
-                                break;
-                            case "WorkPlace":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.WorkPlace).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.WorkPlace).ToList();
-                                }
-                                break;
-                            case "ServiceNatureNames":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.ServiceNatureNames).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
-                                }
-                                break;
-                            case "WorkStateLabel":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.WorkStateLabel).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.WorkStateLabel).ToList();
-                                }
-                                break;
-                            case "BigTugNum":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.BigTugNum).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.BigTugNum).ToList();
-                                }
-                                break;
-                            case "MiddleTugNum":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.MiddleTugNum).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.MiddleTugNum).ToList();
-                                }
-                                break;
-                            case "SmallTugNum":
-                                {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.SmallTugNum).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.SmallTugNum).ToList();
-                                }
-                                break;
+
+                            
                             case "Remark":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
@@ -1306,7 +839,7 @@ namespace TugBusinessLogic.Module
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -1319,154 +852,69 @@ namespace TugBusinessLogic.Module
         /// <param name="orderField">排序字段</param>
         /// <param name="orderMethod">排序方式asc升序；desc降序</param>
         /// <returns></returns>
-        static public List<TugDataModel.V_OrderInfor> LoadDataForOrderManage(string orderField, string orderMethod)
+        static public List<TugDataModel.V_BillingTemplate> LoadDataForCustomerBillingTemplate(string orderField, string orderMethod)
         {
-            List<V_OrderInfor> orders = null;
+            List<V_BillingTemplate> orders = null;
 
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
+                orders = db.V_BillingTemplate.Select(u => u).ToList<V_BillingTemplate>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
                 {
                     case "":
                         {
-                            if(orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.ToLower().Equals("asc"))
                                 orders = orders.OrderBy(u => u.IDX).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
-                    case "IsGuest":
+                    case "BillingTemplateTypeLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.IsGuest).ToList();
+                                orders = orders.OrderBy(u => u.BillingTemplateTypeLabel).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.IsGuest).ToList();
+                                orders = orders.OrderByDescending(u => u.BillingTemplateTypeLabel).ToList();
                         }
                         break;
-                    case "Code":
+                    case "BillingTemplateCode":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.Code).ToList();
+                                orders = orders.OrderBy(u => u.BillingTemplateCode).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.Code).ToList();
+                                orders = orders.OrderByDescending(u => u.BillingTemplateCode).ToList();
                         }
                         break;
-                    case "CustomerName":
+                    case "BillingTemplateName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.CustomerName).ToList();
+                                orders = orders.OrderBy(u => u.BillingTemplateName).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.CustomerName).ToList();
+                                orders = orders.OrderByDescending(u => u.BillingTemplateName).ToList();
                         }
                         break;
-                    case "OrdTime":
+
+                    case "TimeTypeLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.OrdTime).ToList();
+                                orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.OrdTime).ToList();
+                                orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
                         }
                         break;
-                    case "WorkTime":
+                    case "TemplateCreditContent":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkTime).ToList();
+                                orders = orders.OrderBy(u => u.TemplateCreditContent).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.WorkTime).ToList();
+                                orders = orders.OrderByDescending(u => u.TemplateCreditContent).ToList();
                         }
                         break;
-                    case "EstimatedCompletionTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.EstimatedCompletionTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
-                        }
-                        break;
-                    case "ShipName":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.ShipName).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.ShipName).ToList();
-                        }
-                        break;
-                    case "LinkMan":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.LinkMan).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.LinkMan).ToList();
-                        }
-                        break;
-                    case "LinkPhone":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.LinkPhone).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.LinkPhone).ToList();
-                        }
-                        break;
-                    case "LinkEmail":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.LinkEmail).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.LinkEmail).ToList();
-                        }
-                        break;
-                    case "WorkPlace":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkPlace).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkPlace).ToList();
-                        }
-                        break;
-                    case "ServiceNatureNames":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.ServiceNatureNames).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
-                        }
-                        break;
-                    case "WorkStateLabel":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkStateLabel).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkStateLabel).ToList();
-                        }
-                        break;
-                    case "BigTugNum":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.BigTugNum).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.BigTugNum).ToList();
-                        }
-                        break;
-                    case "MiddleTugNum":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.MiddleTugNum).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.MiddleTugNum).ToList();
-                        }
-                        break;
-                    case "SmallTugNum":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.SmallTugNum).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.SmallTugNum).ToList();
-                        }
-                        break;
+
+
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1577,7 +1025,7 @@ namespace TugBusinessLogic.Module
 
                 #endregion
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -1586,24 +1034,21 @@ namespace TugBusinessLogic.Module
         }
 
 
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="orderField">排序字段</param>
         /// <param name="orderMethod">排序方式asc升序；desc降序</param>
         /// <returns></returns>
-        static public List<TugDataModel.V_OrderScheduler> LoadDataForOrderScheduler(string orderField, string orderMethod)
+        static public List<TugDataModel.V_BillingItemTemplate> LoadDataForCustomerBillingItemTemplate(string orderField, string orderMethod)
         {
-            List<V_OrderScheduler> orders = null;
+            List<V_BillingItemTemplate> orders = null;
 
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_OrderScheduler.Select(u => u).ToList<V_OrderScheduler>();
+                orders = db.V_BillingItemTemplate.Select(u => u).ToList<V_BillingItemTemplate>();
 
-                orderField = orderField.Split(',')[1];
-                orderField = orderField.Trim();
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
                 {
@@ -1615,127 +1060,40 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
-                    case "ServiceNatureLabel":
+                    case "ItemLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.ServiceNatureLabel).ToList();
+                                orders = orders.OrderBy(u => u.ItemLabel).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.ServiceNatureLabel).ToList();
+                                orders = orders.OrderByDescending(u => u.ItemLabel).ToList();
                         }
                         break;
-                    case "CnName":
+                    case "UnitPrice":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.CnName).ToList();
+                                orders = orders.OrderBy(u => u.UnitPrice).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.CnName).ToList();
+                                orders = orders.OrderByDescending(u => u.UnitPrice).ToList();
                         }
                         break;
-                    case "EnName":
+                    case "Currency":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.EnName).ToList();
+                                orders = orders.OrderBy(u => u.Currency).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.EnName).ToList();
+                                orders = orders.OrderByDescending(u => u.Currency).ToList();
                         }
                         break;
-                    case "SimpleName":
+
+                    case "TypeLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.SimpleName).ToList();
+                                orders = orders.OrderBy(u => u.TypeLabel).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.SimpleName).ToList();
+                                orders = orders.OrderByDescending(u => u.TypeLabel).ToList();
                         }
                         break;
-                    case "JobStateLabel":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.JobStateLabel).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.JobStateLabel).ToList();
-                        }
-                        break;
-                    case "InformCaptainTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.InformCaptainTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.InformCaptainTime).ToList();
-                        }
-                        break;
-                    case "CaptainConfirmTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.CaptainConfirmTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.CaptainConfirmTime).ToList();
-                        }
-                        break;
-                    case "DepartBaseTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.DepartBaseTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.DepartBaseTime).ToList();
-                        }
-                        break;
-                    case "ArrivalShipSideTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.ArrivalShipSideTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.ArrivalShipSideTime).ToList();
-                        }
-                        break;
-                    case "WorkCommencedTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkCommencedTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkCommencedTime).ToList();
-                        }
-                        break;
-                    case "WorkCompletedTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkCompletedTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkCompletedTime).ToList();
-                        }
-                        break;
-                    case "ArrivalBaseTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.ArrivalBaseTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.ArrivalBaseTime).ToList();
-                        }
-                        break;
-                    case "RopeUsed":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.RopeUsed).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.RopeUsed).ToList();
-                        }
-                        break;
-                    case "RopeNum":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.RopeNum).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.RopeNum).ToList();
-                        }
-                        break;
-                    
-                    case "Remark":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.Remark).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.Remark).ToList();
-                        }
-                        break;
+
                     case "CreateDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
