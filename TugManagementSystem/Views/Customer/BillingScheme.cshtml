@@ -4,7 +4,7 @@
     ViewBag.MenuId = "menu2";
     ViewBag.SubMenuIndex = 2;
 }
-@model List<tugdatamodel.customer>
+@model List<TugDataModel.Customer>
     <div id="main-content">
         <div class="container">
             <div class="row">
@@ -54,8 +54,9 @@
                                                     <div @*class="scroller"*@ data-height="600px" data-always-visible="1" data-rail-visible="1">
                                                         <div class="padding-bottom-20">
                                                             <div class="input-group">
-                                                                <input id="searchCustomer" type="text" class="form-control" placeholder="请输入客户名称" value="@ViewBag.QueryName">
+                                                                <input id="searchCustomer" type="text" class="form-control" placeholder="请输入客户名称" value="@ViewBag.QueryName" onkeypress="return onKeyPress(event)">
                                                                 <span class="input-group-btn">
+                                                                    <button class="btn btn-danger" type="button" onclick="clearCustomer()">清除</button>
                                                                     <button class="btn btn-primary" type="button" onclick="searchCustomer($('#searchCustomer').val())">搜索</button>
                                                                 </span>
                                                             </div>
@@ -999,6 +1000,39 @@
                     },
                 }
                 );
+        }
+
+        function clearCustomer() {
+            $('#searchCustomer').val("");
+            var curPage = 1;
+            $.ajax(
+                {
+                    type: "get",
+                    url: '@Url.Action("GetCustomers", "Customer")',
+                    dataType: 'html',
+                    type: 'get',
+                    data: { 'curPage': curPage, 'queryName': "" },
+                    success: function (result) {
+                        $("body").html(result);
+                    },
+                }
+                );
+
+        }
+
+        function onKeyPress(e) {
+            var keyCode = null;
+
+            if (e.which)
+                keyCode = e.which;
+            else if (e.keyCode)
+                keyCode = e.keyCode;
+
+            if (keyCode == 13) {
+                searchCustomer($('#searchCustomer').val());
+                return false;
+            }
+            return true;
         }
 
         function getCustomers(pageIndex) {

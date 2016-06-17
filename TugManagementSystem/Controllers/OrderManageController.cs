@@ -54,9 +54,9 @@ namespace TugManagementSystem.Controllers
 
                 if (_search == true)
                 {
-                    string s = Request.QueryString["filters"];
+                    string searchOption = Request.QueryString["filters"];
                     //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
-                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.SearchForOrderMange(s);
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.SearchForOrderMange(sidx, sord, searchOption);
 
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
