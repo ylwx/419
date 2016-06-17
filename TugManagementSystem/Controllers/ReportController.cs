@@ -3,6 +3,7 @@ using FastReport.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -27,18 +28,20 @@ namespace TugManagementSystem.Controllers
             webReport.Width = 600;  // set width
             webReport.Height = 800; // set height
             //webReport.Report.RegisterData(dataSet, "AppData"); // data binding
-            webReport.ReportFile = this.Server.MapPath("~/Report/orderlist.frx");  // load the report from the file
-            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
-            //this.WebReport1.Report.Load(stream); //从内存加载模板到report中
+            // webReport.ReportFile = this.Server.MapPath("~/Report/orderlist.frx");  // load the report from the file
+            //webReport.ReportFile = this.Server.MapPath("~/Report/test.frx");
             //Report_DataRegister(webReport.Report);
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(@"D:\WDoc\SRC\SHIPWAY\419\419\TugManagementSystem\Report\orderlist.frx", FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            Report_DataRegister(webReport.Report);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
             ViewBag.WebReport = webReport; // send object to the View
             return View();
-
-            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
-            //this.WebReport1.Report.Load(stream); //从内存加载模板到report中
-            //this.Report_DataRegister(this.WebReport1.Report);
-            //var reportPage = (FastReport.ReportPage)(this.WebReport1.Report.Pages[0]);
-            //this.WebReport1.Prepare();
         }
 
         private void Report_DataRegister(FastReport.Report FReport)
@@ -60,7 +63,9 @@ namespace TugManagementSystem.Controllers
                     dtDetail = SqlHelper.GetDataTableData(item.Name, strWhereDetail);
                 }
             }
-            FReport.RegisterData(dtHead, dtHead.TableName);
+            //FReport.RegisterData(dtHead, dtHead.TableName);
+
+            dtDetail = SqlHelper.GetDataTableData("OrderInfor", "IDX>1");
             FReport.RegisterData(dtDetail, dtDetail.TableName);
         }
 

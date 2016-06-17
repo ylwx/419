@@ -17,7 +17,6 @@ namespace TugDataModel
         public TugInfor()
         {
             this.Arrangement = new HashSet<Arrangement>();
-            this.Scheduler = new HashSet<Scheduler>();
         }
     
         public int IDX { get; set; }
@@ -47,6 +46,5 @@ namespace TugDataModel
         public string UserDefinedCol10 { get; set; }
     
         public virtual ICollection<Arrangement> Arrangement { get; set; }
-        public virtual ICollection<Scheduler> Scheduler { get; set; }
     }
 }

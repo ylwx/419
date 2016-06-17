@@ -805,6 +805,22 @@
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_RoleUser”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_RoleUser">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Users">
           <Key>
@@ -945,30 +961,6 @@
             </Principal>
             <Dependent Role="RoleModule">
               <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Scheduler_OrderInfor">
-          <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
-          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderInfor">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Scheduler">
-              <PropertyRef Name="OrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Scheduler_TugInfor">
-          <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
-          <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TugInfor">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Scheduler">
-              <PropertyRef Name="TugID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1169,6 +1161,18 @@
     [V_OrderScheduler].[UserDefinedCol10] AS [UserDefinedCol10]
     FROM [dbo].[V_OrderScheduler] AS [V_OrderScheduler]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_RoleUser" EntityType="Self.V_RoleUser" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_RoleUser].[RoleID] AS [RoleID], 
+    [V_RoleUser].[RoleName] AS [RoleName], 
+    [V_RoleUser].[UserID] AS [UserID], 
+    [V_RoleUser].[UserName] AS [UserName], 
+    [V_RoleUser].[CnName] AS [CnName], 
+    [V_RoleUser].[WorkNumber] AS [WorkNumber], 
+    [V_RoleUser].[Tel] AS [Tel], 
+    [V_RoleUser].[Email] AS [Email]
+    FROM [dbo].[V_RoleUser] AS [V_RoleUser]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_Users" EntityType="Self.V_Users" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Users].[IDX] AS [IDX], 
@@ -1237,14 +1241,6 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleModule" EntitySet="RoleModule" />
           </AssociationSet>
-          <AssociationSet Name="FK_Scheduler_OrderInfor" Association="Self.FK_Scheduler_OrderInfor">
-            <End Role="OrderInfor" EntitySet="OrderInfor" />
-            <End Role="Scheduler" EntitySet="Scheduler" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Scheduler_TugInfor" Association="Self.FK_Scheduler_TugInfor">
-            <End Role="TugInfor" EntitySet="TugInfor" />
-            <End Role="Scheduler" EntitySet="Scheduler" />
-          </AssociationSet>
           <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
@@ -1284,6 +1280,7 @@
           <EntitySet Name="V_Flow" EntityType="Model.V_Flow" />
           <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
+          <EntitySet Name="V_RoleUser" EntityType="Model.V_RoleUser" />
           <EntitySet Name="V_Users" EntityType="Model.V_Users" />
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
@@ -1313,10 +1310,6 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="CustomerShip" EntitySet="CustomerShip" />
           </AssociationSet>
-          <AssociationSet Name="FK_Scheduler_OrderInfor" Association="Model.FK_Scheduler_OrderInfor">
-            <End Role="OrderInfor" EntitySet="OrderInfor" />
-            <End Role="Scheduler" EntitySet="Scheduler" />
-          </AssociationSet>
           <AssociationSet Name="FK_Role_Menu_Role" Association="Model.FK_Role_Menu_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleMenu" EntitySet="RoleMenu" />
@@ -1324,10 +1317,6 @@
           <AssociationSet Name="FK_Role_Module_Role" Association="Model.FK_Role_Module_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleModule" EntitySet="RoleModule" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Scheduler_TugInfor" Association="Model.FK_Scheduler_TugInfor">
-            <End Role="TugInfor" EntitySet="TugInfor" />
-            <End Role="Scheduler" EntitySet="Scheduler" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Role_User_Infor" Association="Model.FK_Users_Role_User_Infor">
             <End Role="UserInfor" EntitySet="UserInfor" />
@@ -1759,7 +1748,6 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Billing" Relationship="Model.FK_Billing_OrderInfor" FromRole="OrderInfor" ToRole="Billing" />
-          <NavigationProperty Name="Scheduler" Relationship="Model.FK_Scheduler_OrderInfor" FromRole="OrderInfor" ToRole="Scheduler" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -1871,8 +1859,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderInfor" Relationship="Model.FK_Scheduler_OrderInfor" FromRole="Scheduler" ToRole="OrderInfor" />
-          <NavigationProperty Name="TugInfor" Relationship="Model.FK_Scheduler_TugInfor" FromRole="Scheduler" ToRole="TugInfor" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -1914,7 +1900,6 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Arrangement" Relationship="Model.FK_Arrangement_TugInfor" FromRole="TugInfor" ToRole="Arrangement" />
-          <NavigationProperty Name="Scheduler" Relationship="Model.FK_Scheduler_TugInfor" FromRole="TugInfor" ToRole="Scheduler" />
         </EntityType>
         <EntityType Name="UserInfor">
           <Key>
@@ -2145,6 +2130,20 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="V_RoleUser">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="V_Users">
           <Key>
             <PropertyRef Name="IDX" />
@@ -2263,18 +2262,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Scheduler_OrderInfor">
-          <End Type="Model.OrderInfor" Role="OrderInfor" Multiplicity="0..1" />
-          <End Type="Model.Scheduler" Role="Scheduler" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderInfor">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Scheduler">
-              <PropertyRef Name="OrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Role_Menu_Role">
           <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
           <End Type="Model.RoleMenu" Role="RoleMenu" Multiplicity="*" />
@@ -2296,18 +2283,6 @@
             </Principal>
             <Dependent Role="RoleModule">
               <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Scheduler_TugInfor">
-          <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
-          <End Type="Model.Scheduler" Role="Scheduler" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TugInfor">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Scheduler">
-              <PropertyRef Name="TugID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3142,6 +3117,20 @@
                 <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_RoleUser">
+            <EntityTypeMapping TypeName="Model.V_RoleUser">
+              <MappingFragment StoreEntitySet="V_RoleUser">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
