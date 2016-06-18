@@ -130,7 +130,57 @@
                 colMenu: true          //列菜单
             });
 
-            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            $('#jqGrid').jqGrid('filterToolbar',
+                {
+                    searchResult: true, searchOperators: true,
+                    beforeSearch: function () {
+                        //alert(1);
+                        //alert($("#gs_Code").val());
+                        var util = new Util();
+
+                        //时间
+                        var ret = true;
+                        if ($("#gs_OrdTime").val() != null && $("#gs_OrdTime").val() != "")
+                            ret = ret && util.isTime('@Resources.Language.V_OrderInfor_OrdTime', $("#gs_OrdTime").val());
+                        if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
+                            ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
+                        if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
+                            ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());
+
+                        //日期
+                        if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
+                            ret = ret && util.isDate('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+                        if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
+                            ret = ret && util.isDate('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
+
+                        if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
+                            ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
+                        if ($("#gs_MiddleTugNum").val() != null && $("#gs_MiddleTugNum").val() != "")
+                            ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());
+                        if ($("#gs_SmallTugNum").val() != null && $("#gs_SmallTugNum").val() != "")
+                            ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_SmallTugNum', $("#gs_SmallTugNum").val());
+
+                        //自定义字段
+                        if ($("#gs_UserDefinedCol5").val() != null && $("#gs_UserDefinedCol5").val() != "")
+                            ret = ret && util.isValidFloat('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol5").val());
+                        if ($("#gs_UserDefinedCol6").val() != null && $("#gs_UserDefinedCol6").val() != "")
+                            ret = ret && util.isValidinteger('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol6").val());
+                        if ($("#gs_UserDefinedCol7").val() != null && $("#gs_UserDefinedCol7").val() != "")
+                            ret = ret && util.isValidinteger('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol7").val());
+                        if ($("#gs_UserDefinedCol8").val() != null && $("#gs_UserDefinedCol8").val() != "")
+                            ret = ret && util.isValidinteger('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol8").val());
+                        if ($("#gs_UserDefinedCol9").val() != null && $("#gs_UserDefinedCol9").val() != "")
+                            ret = ret && util.isDate('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol9").val());
+                        if ($("#gs_UserDefinedCol10").val() != null && $("#gs_UserDefinedCol10").val() != "")
+                            ret = ret && util.isDate('@Resources.Language.UserDefinedCol5', $("#gs_UserDefinedCol10").val());
+
+                        //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                        return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+                    }
+                });
+
+
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
             $('#jqGridContainerBox').resize(function () {
@@ -236,7 +286,8 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 90, editable: true, edittype: "checkbox",
-                    editrules: { required: true }, colmenu: false,
+                    editrules: { required: true }, /*colmenu: false,*/
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: { value: "是:否" },  //yes:是， no:否
                     hidden: false,
                     stype: 'select',
@@ -244,17 +295,17 @@
                     searchoptions: {
                         //sopt: ["ge", "le"],
                         value: "全部:全部;是:是;否:否",
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    //alert(e);
-                                    var grid = $('#jqGrid')[0];
-                                    grid.triggerToolbar();
+                        //dataEvents: [
+                        //    {
+                        //        type: 'change',
+                        //        fn: function (e) {
+                        //            //alert(e);
+                        //            var grid = $('#jqGrid')[0];
+                        //            grid.triggerToolbar();
 
-                                }
-                            }
-                        ]
+                        //        }
+                        //    }
+                        //]
                     }
                 },
                 {
@@ -263,7 +314,8 @@
                     editoptions: {
                         //defaultValue: function () { return Date().toString(); }
                     },
-                    searchoptions: { sopt: ["cn"] }
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
@@ -276,7 +328,8 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    coloptions: { sorting: true, columns: false, filtering: false, seraching: true, grouping: true, freeze: false },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     editoptions: {
                         dataInit: function (element) {
                             window.setTimeout(function () {
@@ -336,21 +389,27 @@
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
-                    }
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkTime', name: "WorkTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
-                    }
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 100,
                     editable: true, edittype: "text", editrules: { required: true, time: true }, hidden: false,
                     editoptions: {
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
-                    }
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
@@ -363,6 +422,8 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     editoptions: {
                         dataInit: function (element) {
                             window.setTimeout(function () {
@@ -420,19 +481,27 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, email: true }, hidden: false
+                    editrules: { required: false, email: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false
+                    editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
@@ -444,6 +513,8 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 260, editable: true, edittype: "custom",
                     editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     editoptions: {
                         custom_value: getServiceNatureElementValue,
                         custom_element: createServiceNatureEditElement
@@ -466,12 +537,13 @@
 
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 100, editable: true, edittype: "select",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 120, editable: true, edittype: "select",
                     editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: {
                         //multiple: true,
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID" })',
-                        //value: "-1:;1:One;2:Two",
+                        //value: "-1:请选择;1:One;2:Two",
                         dataEvents: [
                             {
                                 type: 'change',
@@ -489,35 +561,43 @@
                         ]
                     },
 
-                    @*stype:"select",
+                    stype: "select",
                     searchoptions: {
-                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "1"})',
-                    }*@
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
-                    }
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
-                    }
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
-                    }
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
-                    editrules: { required: false }, hidden: false
+                    editrules: { required: false }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
@@ -534,6 +614,8 @@
                     align: 'center',
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
                     editrules: { required: false, date: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    //searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     //formatter: 'date',
                     //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
                     datefmt: 'yyyy-mm-dd',
@@ -549,6 +631,8 @@
                     },
 
                     searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
                         dataInit: function (element) {
                             $(element).datepicker({
                                 //id: 'orderCreateDate_datePicker',
@@ -573,6 +657,8 @@
                     align: 'center',
                     label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
                     editrules: { required: false, date: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    //searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     //formatter: 'date',
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
@@ -586,6 +672,8 @@
                         }
                     },
                     searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
                         dataInit: function (element) {
                             $(element).datepicker({
                                 //id: 'orderCreateDate_datePicker',
@@ -608,41 +696,58 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, number: true }, hidden: true
+                    editrules: { required: false, number: true }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    editrules: { required: false, integer: true }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    editrules: { required: false, integer: true }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    editrules: { required: false, integer: true }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date: true }, hidden: true,
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
@@ -650,6 +755,28 @@
                                 showOn: 'focus'
                             });
                         }
+                    },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
                     }
                 },
 
@@ -658,6 +785,7 @@
                     editrules: { required: false, date: true }, hidden: true,
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datepicker({
@@ -665,6 +793,28 @@
                                 showOn: 'focus'
                             });
                         }
+                    },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
                     }
                 },
                 { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },

@@ -290,12 +290,24 @@ namespace TugManagementSystem.Controllers
 
                 if (_search == true)
                 {
-                    string s = Request.QueryString["filters"];
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_BillingTemplate> orders = TugBusinessLogic.Module.CustomerLogic.SearchForCustomerBillingTemplate(sidx, sord, searchOption);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_BillingTemplate> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_BillingTemplate>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    List<V_BillingTemplate> orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingTemplate>();
+                    //List<V_BillingTemplate> orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingTemplate>();
+                    List<V_BillingTemplate> orders = TugBusinessLogic.Module.CustomerLogic.LoadDataForCustomerBillingTemplate(sidx, sord);
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
@@ -488,7 +500,8 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    List<V_BillingItemTemplate> orders = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingItemTemplate>();
+                    //List<V_BillingItemTemplate> orders = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingItemTemplate>();
+                    List<V_BillingItemTemplate> orders = TugBusinessLogic.Module.CustomerLogic.LoadDataForCustomerBillingItemTemplate(sidx, sord);
                     int totalRecordNum = orders.Count;
                     
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
