@@ -805,11 +805,44 @@
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_RoleMenu">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="Page" Type="nvarchar" MaxLength="50" />
+          <Property Name="Menu" Type="nvarchar" MaxLength="50" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Visible" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsAdmin" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_RoleModule”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_RoleModule">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="IDX" />
+            <PropertyRef Name="ModuleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="ModuleCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModuleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModuleID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_RoleUser”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_RoleUser">
           <Key>
             <PropertyRef Name="RoleID" />
             <PropertyRef Name="UserID" />
+            <PropertyRef Name="IDX" />
           </Key>
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
@@ -819,6 +852,7 @@
           <Property Name="WorkNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Tel" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDX" Type="int" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1161,6 +1195,29 @@
     [V_OrderScheduler].[UserDefinedCol10] AS [UserDefinedCol10]
     FROM [dbo].[V_OrderScheduler] AS [V_OrderScheduler]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_RoleMenu].[RoleID] AS [RoleID], 
+    [V_RoleMenu].[RoleName] AS [RoleName], 
+    [V_RoleMenu].[IDX] AS [IDX], 
+    [V_RoleMenu].[Page] AS [Page], 
+    [V_RoleMenu].[Menu] AS [Menu], 
+    [V_RoleMenu].[MenuName] AS [MenuName], 
+    [V_RoleMenu].[Visible] AS [Visible], 
+    [V_RoleMenu].[IsAdmin] AS [IsAdmin], 
+    [V_RoleMenu].[Remark] AS [Remark]
+    FROM [dbo].[V_RoleMenu] AS [V_RoleMenu]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_RoleModule" EntityType="Self.V_RoleModule" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_RoleModule].[RoleID] AS [RoleID], 
+    [V_RoleModule].[RoleName] AS [RoleName], 
+    [V_RoleModule].[IDX] AS [IDX], 
+    [V_RoleModule].[ModuleCode] AS [ModuleCode], 
+    [V_RoleModule].[ModuleName] AS [ModuleName], 
+    [V_RoleModule].[ModuleID] AS [ModuleID]
+    FROM [dbo].[V_RoleModule] AS [V_RoleModule]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_RoleUser" EntityType="Self.V_RoleUser" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_RoleUser].[RoleID] AS [RoleID], 
@@ -1170,7 +1227,8 @@
     [V_RoleUser].[CnName] AS [CnName], 
     [V_RoleUser].[WorkNumber] AS [WorkNumber], 
     [V_RoleUser].[Tel] AS [Tel], 
-    [V_RoleUser].[Email] AS [Email]
+    [V_RoleUser].[Email] AS [Email], 
+    [V_RoleUser].[IDX] AS [IDX]
     FROM [dbo].[V_RoleUser] AS [V_RoleUser]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Users" EntityType="Self.V_Users" store:Type="Views" store:Schema="dbo">
@@ -1251,6 +1309,8 @@
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TugDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="V_Flow" EntityType="Model.V_Flow" />
+          <EntitySet Name="V_RoleUser" EntityType="Model.V_RoleUser" />
           <EntitySet Name="Approve" EntityType="Model.Approve" />
           <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
           <EntitySet Name="BaseTreeItems" EntityType="Model.BaseTreeItems" />
@@ -1277,10 +1337,10 @@
           <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
           <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
           <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
-          <EntitySet Name="V_Flow" EntityType="Model.V_Flow" />
           <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
-          <EntitySet Name="V_RoleUser" EntityType="Model.V_RoleUser" />
+          <EntitySet Name="V_RoleMenu" EntityType="Model.V_RoleMenu" />
+          <EntitySet Name="V_RoleModule" EntityType="Model.V_RoleModule" />
           <EntitySet Name="V_Users" EntityType="Model.V_Users" />
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
@@ -1322,7 +1382,38 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
+        <EntityType Name="V_Flow">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="BillingID" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlowUserID" Type="Int32" />
+          <Property Name="StDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EndDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MarkID" Type="Int32" />
+          <Property Name="Phase" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_RoleUser">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Approve">
           <Key>
             <PropertyRef Name="IDX" />
@@ -2034,21 +2125,6 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="V_Flow">
-          <Key>
-            <PropertyRef Name="IDX" />
-          </Key>
-          <Property Name="IDX" Type="Int32" Nullable="false" />
-          <Property Name="BillingID" Type="Int32" />
-          <Property Name="Task" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FlowUserID" Type="Int32" />
-          <Property Name="StDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EndDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MarkID" Type="Int32" />
-          <Property Name="Phase" Type="Int32" />
-        </EntityType>
         <EntityType Name="V_OrderInfor">
           <Key>
             <PropertyRef Name="IDX" />
@@ -2130,19 +2206,33 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="V_RoleUser">
+        <EntityType Name="V_RoleMenu">
           <Key>
             <PropertyRef Name="RoleID" />
-            <PropertyRef Name="UserID" />
+            <PropertyRef Name="IDX" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="WorkNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="Page" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Menu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Visible" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_RoleModule">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="IDX" />
+            <PropertyRef Name="ModuleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="ModuleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="V_Users">
           <Key>
@@ -2304,6 +2394,37 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="TugDataEntities">
+          <EntitySetMapping Name="V_Flow">
+            <EntityTypeMapping TypeName="Model.V_Flow">
+              <MappingFragment StoreEntitySet="V_Flow">
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StDate" ColumnName="StDate" />
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_RoleUser">
+            <EntityTypeMapping TypeName="Model.V_RoleUser">
+              <MappingFragment StoreEntitySet="V_RoleUser">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Approve">
             <EntityTypeMapping TypeName="Model.Approve">
               <MappingFragment StoreEntitySet="Approve">
@@ -3021,22 +3142,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="V_Flow">
-            <EntityTypeMapping TypeName="Model.V_Flow">
-              <MappingFragment StoreEntitySet="V_Flow">
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
-                <ScalarProperty Name="CnName" ColumnName="CnName" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StDate" ColumnName="StDate" />
-                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
-                <ScalarProperty Name="Task" ColumnName="Task" />
-                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="V_OrderInfor">
             <EntityTypeMapping TypeName="Model.V_OrderInfor">
               <MappingFragment StoreEntitySet="V_OrderInfor">
@@ -3120,15 +3225,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="V_RoleUser">
-            <EntityTypeMapping TypeName="Model.V_RoleUser">
-              <MappingFragment StoreEntitySet="V_RoleUser">
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Tel" ColumnName="Tel" />
-                <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
-                <ScalarProperty Name="CnName" ColumnName="CnName" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <EntitySetMapping Name="V_RoleMenu">
+            <EntityTypeMapping TypeName="Model.V_RoleMenu">
+              <MappingFragment StoreEntitySet="V_RoleMenu">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_RoleModule">
+            <EntityTypeMapping TypeName="Model.V_RoleModule">
+              <MappingFragment StoreEntitySet="V_RoleModule">
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="ModuleCode" ColumnName="ModuleCode" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
@@ -3168,7 +3286,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

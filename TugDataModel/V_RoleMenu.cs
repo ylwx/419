@@ -12,16 +12,16 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_RoleUser
+    public partial class V_RoleMenu
     {
         public int RoleID { get; set; }
         public string RoleName { get; set; }
-        public int UserID { get; set; }
-        public string UserName { get; set; }
-        public string CnName { get; set; }
-        public string WorkNumber { get; set; }
-        public string Tel { get; set; }
-        public string Email { get; set; }
         public int IDX { get; set; }
+        public string Page { get; set; }
+        public string Menu { get; set; }
+        public string MenuName { get; set; }
+        public string Visible { get; set; }
+        public string IsAdmin { get; set; }
+        public string Remark { get; set; }
     }
 }

@@ -4,6 +4,7 @@
     ViewBag.SubMenuIndex = 1;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
+
 <div id="main-content">
 
     <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
@@ -110,135 +111,7 @@
 <script type="text/javascript">
     var tableConfig = null;
     //设置流程grid
-    $(document).ready(Init);
-    function Init() {
-        {
-            if (tableConfig == null) {
-                GetTableConfig();
-            }
-
-            $("#jqGrid").jqGrid({
-                url: '@Url.Action("LoadFlow", "Flow")',
-                mtype: "GET",
-                datatype: "json",
-                colModel: tableConfig.columns,
-                viewrecords: true,
-                //width: 700,
-                height: 300, //$(window).height() - 300,//300,
-                rowNum: 5,
-                autowidth: true,
-                editurl: '@Url.Action("FlowAddEdit", "Flow")',
-                pager: "#jqGridPager",
-                loadonce: true,
-                rowList: ['5', '10', '15'],
-                rownumbers: true,
-                shrinkToFit: false,     //指定各列宽度
-                sortable: true,          //列可移动
-                colMenu: true          //列菜单
-            });
-
-            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
-            $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
-
-            $('#jqGridContainerBox').resize(function () {
-                var width = $('#jqGridContainerBox').width();
-                $("#jqGrid").setGridWidth(width);
-            });
-
-            $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-
-                .navButtonAdd('#jqGridPager', {
-                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
-                    onClickButton: function () {
-                        //alert("haha");
-                        @*$.ajax(
-                            {
-                                type: "get",
-                                url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
-                                dataType: 'json',
-                                type: 'get',
-                                data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
-                                success: function (result) {
-
-                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                },
-                            }
-                            );*@
-
-                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    }
-                })
-                .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
-                .navButtonAdd('#jqGridPager', {
-                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
-                    onClickButton: function () {
-                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                        if (rowid != null) {
-                            if (confirm('确定要删除所选的记录吗?')) {
-                                var d = new Date();
-                                $.ajax(
-                                    {
-                                        type: "post",
-                                        url: '@Url.Action("Delete", "OrderManage")',
-                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
-                                        dataType: 'json',
-                                        success: function (result) {
-                                            alert(result.message);
-                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                        },
-
-                                    }
-                                    );
-                            }
-                        }
-                        else {
-                            alert('选中一行');
-                        }
-                    },
-                    position: "last"
-                });
-
-            $('#jqGrid').inlineNav('#jqGridPager',
-                {
-                    edit: true,
-                    add: true,
-                    del: true,
-                    cancel: true,
-                    editParams: {
-                        keys: true,
-                        successfunc: function (val) {
-                            if (val.responseText != "") {
-                                var ret = $.parseJSON(val.responseText);
-                                alert(ret.message);
-                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            }
-                        },
-                        url: null, //'/api/values',
-                        mtype: 'POST'
-                    },
-
-                    addParams: {
-                        keys: true,
-                        successfunc: function (val) {
-                            if (val.responseText != "") {
-                                var ret = $.parseJSON(val.responseText);
-                                alert(ret.message);
-                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            }
-                        },
-                        errorfunc: function (rowid, xhr) {
-                            alert(xhr.responseText);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                        }
-                    }
-                });
-
-            //最后调用，冻结列
-            //$("#jqGrid").jqGrid("setFrozenColumns");
-        }
-    }
+    $(document).ready(function () { });
 
     //设置流程节点jqgrid表头
     function GetTableConfig() {
@@ -276,6 +149,7 @@
                                         type: 'GET',
                                         dataType: 'json',
                                         success: function (data) {
+                                            //alert(data);
                                             response($.map(data.list, function (item) {
                                                 //alert(item.CnName);
                                                 return {
@@ -372,4 +246,133 @@
             ]
         };
     }
+    //选择人员的modal框
+    $('#table-modal').on('show.bs.modal', function (e) {
+        {
+            if (tableConfig == null) {
+                GetTableConfig();
+            }
+
+            $("#jqGrid").jqGrid({
+                url: '@Url.Action("LoadFlow", "Flow")',
+                mtype: "GET",
+                datatype: "json",
+                colModel: tableConfig.columns,
+                viewrecords: true,
+                //width: 700,
+                height: 300, //$(window).height() - 300,//300,
+                rowNum: 5,
+                autowidth: true,
+                editurl: '@Url.Action("FlowAddEdit", "Flow")',
+                pager: "#jqGridPager",
+                loadonce: true,
+                rowList: ['5', '10', '15'],
+                rownumbers: true,
+                shrinkToFit: false,     //指定各列宽度
+                sortable: true,          //列可移动
+                colMenu: true          //列菜单
+            });
+
+            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+            $('#jqGridContainerBox').resize(function () {
+                var width = $('#jqGridContainerBox').width();
+                $("#jqGrid").setGridWidth(width);
+            });
+
+            $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    onClickButton: function () {
+                        //alert("haha");
+                        @*$.ajax(
+                                {
+                                    type: "get",
+                                    url: '@Url.Action("GetDataForLoadOnce", "OrderManage")',
+                                    dataType: 'json',
+                                    type: 'get',
+                                    data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
+                                    success: function (result) {
+
+                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                    },
+                                }
+                                );*@
+
+                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                })
+                .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                        if (rowid != null) {
+                            if (confirm('确定要删除所选的记录吗?')) {
+                                var d = new Date();
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("Delete", "OrderManage")',
+                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
+
+                                    }
+                                    );
+                            }
+                        }
+                        else {
+                            alert('选中一行');
+                        }
+                    },
+                    position: "last"
+                });
+
+            $('#jqGrid').inlineNav('#jqGridPager',
+                {
+                    edit: true,
+                    add: true,
+                    del: true,
+                    cancel: true,
+                    editParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            }
+                        },
+                        url: null, //'/api/values',
+                        mtype: 'POST'
+                    },
+
+                    addParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            }
+                        },
+                        errorfunc: function (rowid, xhr) {
+                            alert(xhr.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    }
+                });
+
+            //最后调用，冻结列
+            //$("#jqGrid").jqGrid("setFrozenColumns");
+        }
+    });
 </script>
