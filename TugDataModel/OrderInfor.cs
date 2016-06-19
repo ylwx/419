@@ -24,21 +24,21 @@ namespace TugDataModel
         public string Code { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
-        public string OrdTime { get; set; }
+        public string WorkDate { get; set; }
         public string WorkTime { get; set; }
         public string EstimatedCompletionTime { get; set; }
-        public Nullable<int> ShipID { get; set; }
-        public string ShipName { get; set; }
-        public string LinkMan { get; set; }
-        public string LinkPhone { get; set; }
-        public string LinkEmail { get; set; }
         public string WorkPlace { get; set; }
         public string ServiceNatureIDS { get; set; }
         public string ServiceNatureNames { get; set; }
-        public Nullable<int> WorkStateID { get; set; }
+        public Nullable<int> ShipID { get; set; }
+        public string ShipName { get; set; }
         public Nullable<int> BigTugNum { get; set; }
         public Nullable<int> MiddleTugNum { get; set; }
         public Nullable<int> SmallTugNum { get; set; }
+        public string LinkMan { get; set; }
+        public string LinkPhone { get; set; }
+        public string LinkEmail { get; set; }
+        public Nullable<int> WorkStateID { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }

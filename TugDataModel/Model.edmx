@@ -92,6 +92,9 @@
           <Property Name="CreditAmount" Type="float" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="TaskID" Type="int" />
+          <Property Name="Phase" Type="int" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="50" />
           <Property Name="OwnerID" Type="int" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
           <Property Name="UserID" Type="int" />
@@ -387,21 +390,21 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
-          <Property Name="OrdTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
-          <Property Name="ShipID" Type="int" />
-          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
-          <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
-          <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
-          <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkPlace" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNatureIDS" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNatureNames" Type="nvarchar" MaxLength="50" />
-          <Property Name="WorkStateID" Type="int" />
+          <Property Name="ShipID" Type="int" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
           <Property Name="BigTugNum" Type="int" />
           <Property Name="MiddleTugNum" Type="int" />
           <Property Name="SmallTugNum" Type="int" />
+          <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
+          <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkStateID" Type="int" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="OwnerID" Type="int" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
@@ -720,6 +723,26 @@
           <Property Name="Phase" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_NeedApproveBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_NeedApproveBilling">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="BillingType" Type="int" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreditContent" Type="nvarchar(max)" />
+          <Property Name="CreditAmount" Type="float" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" />
+          <Property Name="Phase" Type="int" />
+          <Property Name="FlowUserID" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_OrderInfor”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_OrderInfor">
           <Key>
@@ -730,7 +753,6 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
-          <Property Name="OrdTime" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
           <Property Name="ShipID" Type="int" />
@@ -762,6 +784,7 @@
           <Property Name="UserDefinedCol8" Type="int" />
           <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1116,6 +1139,23 @@
     [V_Flow].[Phase] AS [Phase]
     FROM [dbo].[V_Flow] AS [V_Flow]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_NeedApproveBilling" EntityType="Self.V_NeedApproveBilling" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_NeedApproveBilling].[BillingType] AS [BillingType], 
+    [V_NeedApproveBilling].[BillingCode] AS [BillingCode], 
+    [V_NeedApproveBilling].[BillingName] AS [BillingName], 
+    [V_NeedApproveBilling].[CreditContent] AS [CreditContent], 
+    [V_NeedApproveBilling].[CreditAmount] AS [CreditAmount], 
+    [V_NeedApproveBilling].[Remark] AS [Remark], 
+    [V_NeedApproveBilling].[Month] AS [Month], 
+    [V_NeedApproveBilling].[CreateDate] AS [CreateDate], 
+    [V_NeedApproveBilling].[LastUpDate] AS [LastUpDate], 
+    [V_NeedApproveBilling].[IDX] AS [IDX], 
+    [V_NeedApproveBilling].[TaskID] AS [TaskID], 
+    [V_NeedApproveBilling].[Phase] AS [Phase], 
+    [V_NeedApproveBilling].[FlowUserID] AS [FlowUserID]
+    FROM [dbo].[V_NeedApproveBilling] AS [V_NeedApproveBilling]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_OrderInfor" EntityType="Self.V_OrderInfor" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_OrderInfor].[IDX] AS [IDX], 
@@ -1123,7 +1163,6 @@
     [V_OrderInfor].[Code] AS [Code], 
     [V_OrderInfor].[CustomerID] AS [CustomerID], 
     [V_OrderInfor].[CustomerName] AS [CustomerName], 
-    [V_OrderInfor].[OrdTime] AS [OrdTime], 
     [V_OrderInfor].[WorkTime] AS [WorkTime], 
     [V_OrderInfor].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
     [V_OrderInfor].[ShipID] AS [ShipID], 
@@ -1154,7 +1193,8 @@
     [V_OrderInfor].[UserDefinedCol7] AS [UserDefinedCol7], 
     [V_OrderInfor].[UserDefinedCol8] AS [UserDefinedCol8], 
     [V_OrderInfor].[UserDefinedCol9] AS [UserDefinedCol9], 
-    [V_OrderInfor].[UserDefinedCol10] AS [UserDefinedCol10]
+    [V_OrderInfor].[UserDefinedCol10] AS [UserDefinedCol10], 
+    [V_OrderInfor].[WorkDate] AS [WorkDate]
     FROM [dbo].[V_OrderInfor] AS [V_OrderInfor]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" store:Type="Views" store:Schema="dbo">
@@ -1337,6 +1377,7 @@
           <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
           <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
           <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
+          <EntitySet Name="V_NeedApproveBilling" EntityType="Model.V_NeedApproveBilling" />
           <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
           <EntitySet Name="V_RoleMenu" EntityType="Model.V_RoleMenu" />
@@ -1502,6 +1543,9 @@
           <Property Name="CreditAmount" Type="Double" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskID" Type="Int32" />
+          <Property Name="Phase" Type="Int32" />
+          <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" />
@@ -1808,21 +1852,21 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OrdTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ShipID" Type="Int32" />
-          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkPlace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNatureIDS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNatureNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="WorkStateID" Type="Int32" />
+          <Property Name="ShipID" Type="Int32" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BigTugNum" Type="Int32" />
           <Property Name="MiddleTugNum" Type="Int32" />
           <Property Name="SmallTugNum" Type="Int32" />
+          <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkStateID" Type="Int32" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2125,6 +2169,24 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="V_NeedApproveBilling">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="BillingType" Type="Int32" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreditAmount" Type="Double" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" />
+          <Property Name="Phase" Type="Int32" />
+          <Property Name="FlowUserID" Type="Int32" />
+        </EntityType>
         <EntityType Name="V_OrderInfor">
           <Key>
             <PropertyRef Name="IDX" />
@@ -2134,7 +2196,6 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OrdTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ShipID" Type="Int32" />
@@ -2166,6 +2227,7 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderScheduler">
           <Key>
@@ -2517,6 +2579,9 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
@@ -2830,21 +2895,21 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
-                <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
-                <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
                 <ScalarProperty Name="WorkStateID" ColumnName="WorkStateID" />
-                <ScalarProperty Name="ServiceNatureNames" ColumnName="ServiceNatureNames" />
-                <ScalarProperty Name="ServiceNatureIDS" ColumnName="ServiceNatureIDS" />
-                <ScalarProperty Name="WorkPlace" ColumnName="WorkPlace" />
                 <ScalarProperty Name="LinkEmail" ColumnName="LinkEmail" />
                 <ScalarProperty Name="LinkPhone" ColumnName="LinkPhone" />
                 <ScalarProperty Name="LinkMan" ColumnName="LinkMan" />
+                <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
+                <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
+                <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
                 <ScalarProperty Name="ShipName" ColumnName="ShipName" />
                 <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+                <ScalarProperty Name="ServiceNatureNames" ColumnName="ServiceNatureNames" />
+                <ScalarProperty Name="ServiceNatureIDS" ColumnName="ServiceNatureIDS" />
+                <ScalarProperty Name="WorkPlace" ColumnName="WorkPlace" />
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
-                <ScalarProperty Name="OrdTime" ColumnName="OrdTime" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -3142,9 +3207,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_NeedApproveBilling">
+            <EntityTypeMapping TypeName="Model.V_NeedApproveBilling">
+              <MappingFragment StoreEntitySet="V_NeedApproveBilling">
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
+                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_OrderInfor">
             <EntityTypeMapping TypeName="Model.V_OrderInfor">
               <MappingFragment StoreEntitySet="V_OrderInfor">
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
                 <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
@@ -3176,7 +3261,6 @@
                 <ScalarProperty Name="ShipID" ColumnName="ShipID" />
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
-                <ScalarProperty Name="OrdTime" ColumnName="OrdTime" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
