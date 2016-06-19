@@ -127,7 +127,6 @@
 
 
 
-
 <script type="text/javascript">
     var tableConfig = null;
 
@@ -177,14 +176,15 @@
 
                 //时间
                 var ret = true;
-                if ($("#gs_OrdTime").val() != null && $("#gs_OrdTime").val() != "")
-                    ret = ret && util.isTime('@Resources.Language.V_OrderInfor_OrdTime', $("#gs_OrdTime").val());
+
                 if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
                 if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());
 
                 //日期
+                if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
+                    ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                     ret = ret && util.isDate('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
@@ -388,7 +388,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ChooseTug', name: "SimpleName", width: 100, editable: true, edittype: 'text',
-                    editrules: { required: false, edithidden: true }, hidden: false,
+                    editrules: { required: false, edithidden:true }, hidden: false,
                     editoptions: {
                         @*custom_value: function (elem, oper, value){},
                         custom_element: function (value, editOptions) {
@@ -499,14 +499,14 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeUsed', name: "RopeUsed", width: 100, editable: true, edittype: "checkbox",
                     editrules: { required: true }, colmenu: false,
-                    editoptions: { value: "是:否" },  //yes:是， no:否
+                    editoptions: { value: "是:否"},  //yes:是， no:否
                     hidden: false
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeNum', name: "RopeNum", width: 100, editable: true, edittype: "text",
                     editrules: {
                         required: false,
-                        custom_func: function (value, column) {
+                        custom_func: function(value, column) {
 
                             var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                             if (rowid != null) {
@@ -670,7 +670,7 @@
             shrinkToFit: false,     //指定各列宽度
             pager: "#" + childGridPagerID,
             grouping: true,
-            caption: '调度拖轮',
+            caption : '调度拖轮',
             groupingView: {
                 groupField: ["ServiceNatureLabel"],
                 groupColumnShow: [true],
@@ -715,7 +715,7 @@
                                     success: function (result) {
                                         alert(result.message);
                                         //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
-                                        $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        $('#'+childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                                     },
 
                                 }
@@ -773,7 +773,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
-                    hidden: true,
+                     hidden: true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: true, edittype: "checkbox",
@@ -815,7 +815,7 @@
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdTime', name: "OrdTime", width: 90, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 90, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
@@ -831,34 +831,6 @@
                     editable: true, edittype: "text", hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100, editable: true, edittype: "text",
@@ -877,20 +849,14 @@
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
                     hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
                     hidden: false,
-                    stype: "select",
-                    searchoptions: {
-                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
-                    }
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
@@ -910,6 +876,42 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    stype: "select",
+                    searchoptions: {
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
+                    }
+                },
+
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
                     hidden: false,
@@ -1095,7 +1097,7 @@
                     }
                 },
                 { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", hidden: true },
-                { align: 'center', label: 'Scheduler', name: "Scheduler", width: 100, editable: true, edittype: "text", hidden: true }
+                { align: 'center', label: 'Scheduler', name: "Scheduler", width: 100, editable: true, edittype: "text",hidden: true }
 
             ]
         };

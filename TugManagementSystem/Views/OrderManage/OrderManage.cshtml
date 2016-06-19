@@ -138,16 +138,16 @@
                         //alert($("#gs_Code").val());
                         var util = new Util();
 
-                        //时间
                         var ret = true;
-                        if ($("#gs_OrdTime").val() != null && $("#gs_OrdTime").val() != "")
-                            ret = ret && util.isTime('@Resources.Language.V_OrderInfor_OrdTime', $("#gs_OrdTime").val());
+                        //时间
                         if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
                             ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
                         if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
                             ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());
 
                         //日期
+                        if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
+                            ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());
                         if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                             ret = ret && util.isDate('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                         if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
@@ -385,13 +385,41 @@
 
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdTime', name: "OrdTime", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true, time: true }, hidden: false,
-                    editoptions: {
-                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
-                    },
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: false,
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkTime', name: "WorkTime", width: 100, editable: true, edittype: "text",
@@ -410,6 +438,29 @@
                     },
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: true,
+                    editoptions: {
+                        defaultValue: "/"
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 260, editable: true, edittype: "custom",
+                    editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                    editoptions: {
+                        custom_value: getServiceNatureElementValue,
+                        custom_element: createServiceNatureEditElement
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
@@ -480,6 +531,33 @@
 
                 },
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -497,29 +575,8 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: true,
-                    editoptions: {
-                        defaultValue: "/"
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 260, editable: true, edittype: "custom",
-                    editrules: { required: true }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                    editoptions: {
-                        custom_value: getServiceNatureElementValue,
-                        custom_element: createServiceNatureEditElement
-                    }
-                },
+                
+                
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, custom_func: validateTugID, custom: true }, hidden: true,
@@ -566,33 +623,7 @@
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
                     }
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
-                    editoptions: {
-                        defaultValue: 0
-                    },
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
-                    editoptions: {
-                        defaultValue: 0
-                    },
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
-                    editoptions: {
-                        defaultValue: 0
-                    },
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
-                },
+                
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
                     editrules: { required: false }, hidden: false,

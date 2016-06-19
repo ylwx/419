@@ -135,34 +135,34 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
-                            #region OrdTime
-                            case "OrdTime":
+                            #region WorkDate
+                            case "WorkDate":
                                 {
                                     switch (op)
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                orders = orders.Where(u => u.OrdTime == data).ToList();
+                                                orders = orders.Where(u => u.WorkDate == data).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_LT:
                                             {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == -1).ToList();
+                                                orders = orders.Where(u => u.WorkDate.CompareTo(data) == -1).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_LE:
                                             {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == -1 || u.OrdTime.CompareTo(data) == 0).ToList();
+                                                orders = orders.Where(u => u.WorkDate.CompareTo(data) == -1 || u.WorkDate.CompareTo(data) == 0).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GT:
                                             {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == 1).ToList();
+                                                orders = orders.Where(u => u.WorkDate.CompareTo(data) == 1).ToList();
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GE:
                                             {
-                                                orders = orders.Where(u => u.OrdTime.CompareTo(data) == 1 || u.OrdTime.CompareTo(data) == 0).ToList();
+                                                orders = orders.Where(u => u.WorkDate.CompareTo(data) == 1 || u.WorkDate.CompareTo(data) == 0).ToList();
                                             }
                                             break;
                                         default:
@@ -1075,9 +1075,9 @@ namespace TugBusinessLogic.Module
                             case "OrdTime":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.OrdTime).ToList();
+                                        orders = orders.OrderBy(u => u.WorkDate).ToList();
                                     else
-                                        orders = orders.OrderByDescending(u => u.OrdTime).ToList();
+                                        orders = orders.OrderByDescending(u => u.WorkDate).ToList();
                                 }
                                 break;
                             case "WorkTime":
@@ -1366,9 +1366,9 @@ namespace TugBusinessLogic.Module
                     case "OrdTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.OrdTime).ToList();
+                                orders = orders.OrderBy(u => u.WorkDate).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.OrdTime).ToList();
+                                orders = orders.OrderByDescending(u => u.WorkDate).ToList();
                         }
                         break;
                     case "WorkTime":

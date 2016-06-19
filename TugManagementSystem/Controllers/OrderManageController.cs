@@ -135,7 +135,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
                         aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
                         aOrder.CustomerName = Request.Form["CustomerName"];
-                        aOrder.OrdTime = Request.Form["OrdTime"];
+                        aOrder.WorkDate = Request.Form["WorkDate"];
                         aOrder.WorkTime = Request.Form["WorkTime"];
                         aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"];
 
@@ -228,7 +228,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.LinkPhone = Request.Form["LinkPhone"];
                         aOrder.LinkEmail = Request.Form["LinkEmail"];
 
-                        aOrder.OrdTime = Request.Form["OrdTime"];
+                        aOrder.WorkDate = Request.Form["WorkDate"];
                         aOrder.WorkTime = Request.Form["WorkTime"];
                         aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"];
 

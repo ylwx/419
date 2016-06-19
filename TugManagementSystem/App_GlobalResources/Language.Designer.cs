@@ -1294,15 +1294,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 下單時間 的本地化字符串。
-        /// </summary>
-        internal static string V_OrderInfor_OrdTime {
-            get {
-                return ResourceManager.GetString("V_OrderInfor_OrdTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 服務內容ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_ServiceNatureIDS {
@@ -1344,6 +1335,15 @@ namespace Resources {
         internal static string V_OrderInfor_SmallTugNum {
             get {
                 return ResourceManager.GetString("V_OrderInfor_SmallTugNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作日期 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_WorkDate {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_WorkDate", resourceCulture);
             }
         }
         
