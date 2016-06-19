@@ -180,14 +180,15 @@
 
                 //时间
                 var ret = true;
-                if ($("#gs_OrdTime").val() != null && $("#gs_OrdTime").val() != "")
-                    ret = ret && util.isTime('@Resources.Language.V_OrderInfor_OrdTime', $("#gs_OrdTime").val());
+
                 if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
                 if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());
 
                 //日期
+                if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
+                    ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                     ret = ret && util.isDate('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
@@ -818,7 +819,7 @@
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdTime', name: "OrdTime", width: 90, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 90, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
@@ -834,34 +835,6 @@
                     editable: true, edittype: "text", hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100, editable: true, edittype: "text",
@@ -880,20 +853,14 @@
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
                     hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
                     hidden: false,
-                    stype: "select",
-                    searchoptions: {
-                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
-                    }
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
@@ -913,6 +880,42 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    stype: "select",
+                    searchoptions: {
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
+                    }
+                },
+                
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
                     hidden: false,

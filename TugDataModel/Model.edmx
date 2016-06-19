@@ -753,6 +753,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
           <Property Name="ShipID" Type="int" />
@@ -784,7 +785,6 @@
           <Property Name="UserDefinedCol8" Type="int" />
           <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
-          <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1163,6 +1163,7 @@
     [V_OrderInfor].[Code] AS [Code], 
     [V_OrderInfor].[CustomerID] AS [CustomerID], 
     [V_OrderInfor].[CustomerName] AS [CustomerName], 
+    [V_OrderInfor].[WorkDate] AS [WorkDate], 
     [V_OrderInfor].[WorkTime] AS [WorkTime], 
     [V_OrderInfor].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
     [V_OrderInfor].[ShipID] AS [ShipID], 
@@ -1193,8 +1194,7 @@
     [V_OrderInfor].[UserDefinedCol7] AS [UserDefinedCol7], 
     [V_OrderInfor].[UserDefinedCol8] AS [UserDefinedCol8], 
     [V_OrderInfor].[UserDefinedCol9] AS [UserDefinedCol9], 
-    [V_OrderInfor].[UserDefinedCol10] AS [UserDefinedCol10], 
-    [V_OrderInfor].[WorkDate] AS [WorkDate]
+    [V_OrderInfor].[UserDefinedCol10] AS [UserDefinedCol10]
     FROM [dbo].[V_OrderInfor] AS [V_OrderInfor]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" store:Type="Views" store:Schema="dbo">
@@ -2196,6 +2196,7 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ShipID" Type="Int32" />
@@ -2227,7 +2228,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderScheduler">
           <Key>
@@ -3229,7 +3229,6 @@
           <EntitySetMapping Name="V_OrderInfor">
             <EntityTypeMapping TypeName="Model.V_OrderInfor">
               <MappingFragment StoreEntitySet="V_OrderInfor">
-                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
                 <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
@@ -3261,6 +3260,7 @@
                 <ScalarProperty Name="ShipID" ColumnName="ShipID" />
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />

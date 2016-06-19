@@ -19,6 +19,7 @@ namespace TugDataModel
         public string Code { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
+        public string WorkDate { get; set; }
         public string WorkTime { get; set; }
         public string EstimatedCompletionTime { get; set; }
         public Nullable<int> ShipID { get; set; }
@@ -50,6 +51,5 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
-        public string WorkDate { get; set; }
     }
 }
