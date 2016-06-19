@@ -31,16 +31,15 @@ namespace TugManagementSystem.Controllers
         }
 
         //GET: JobInformation
-        public ActionResult JobInformation(string lan, int? id) 
+        public ActionResult JobInformation(string lan, int? id)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
 
             return View();
         }
+
         #endregion 页面Action
-
-
 
         #region 订单管理页面Action
 
@@ -345,7 +344,6 @@ namespace TugManagementSystem.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-
         //public string GetCustomField(string CustomName)
         //{
         //    string s = string.Empty;
@@ -374,8 +372,6 @@ namespace TugManagementSystem.Controllers
         //}
 
         #endregion 订单管理页面Action
-
-
 
         #region 订单调度页面Action
 
@@ -628,12 +624,5 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 订单调度页面Action
-
-
-
-        #region 作业信息页面Action
-        
-        #endregion
-
     }
 }
