@@ -4,9 +4,43 @@
     ViewBag.MenuId = "menu1";
     ViewBag.SubMenuIndex = 1;
 }
-@Model List<tugdatamodel.role>
+@model List<TugDataModel.Role>
 
     <div id="main-content">
+        <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+        <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div id="model-dlg" class="modal-dialog" style="width:1200px">
+                <div class="modal-content modal-table">
+                    @*<div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">拖轮选择</h4>
+                        </div>*@
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- BOX -->
+                                <div class="box border orange">
+                                    <div class="box-title">
+                                        <h4><i class="fa fa-bars"></i>选择人员</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <table id="jqGrid2"></table>
+                                        <div id="jqGridPager2"></div>
+                                        @*<div id="cur_operate_chid_grid" hidden="hidden"></div>*@
+                                    </div>
+                                </div>
+                                <!-- /BOX -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseUser()">选择</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
+
         <div class="container">
             <div class="row">
                 <div id="content" class="col-lg-12">
@@ -111,14 +145,14 @@
                                                                 if (i + 1 == ViewBag.CurPage)
                                                                 {
                                                                     <li class='active'>
-                                                                        @*<a href='@Url.Action("GetRoles", "Role", new { curPage = i + 1 })'>@(i + 1)</a>*@
+                                                                        @*<a href='@Url.Action("GetRoles", "Permit", new { curPage = i + 1 })'>@(i + 1)</a>*@
                                                                         <a href='#' onclick='getRoles("@i")'>@(i + 1)</a>
                                                                     </li>
                                                                 }
                                                                 else
                                                                 {
                                                                     <li class=''>
-                                                                        @*<a href='@Url.Action("GetRoles", "Role", new { curPage = i + 1 })'>@(i + 1)</a>*@
+                                                                        @*<a href='@Url.Action("GetRoles", "Permit", new { curPage = i + 1 })'>@(i + 1)</a>*@
                                                                         <a href='#' onclick='getRoles("@i")'>@(i + 1)</a>
                                                                     </li>
                                                                 }
@@ -264,7 +298,7 @@
 
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
-                    edit: true,
+                    edit: false,
                     add: true,
                     del: true,
                     cancel: true,
@@ -325,36 +359,51 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_Users_UserName', name: "UserName", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.Org_UserName', name: "UserName", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, colmenu: false,
                     hidden: false,
+                    searchoptions: { sopt: ["cn"] },
                     editoptions: {
-                    },
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_Users_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false,
-                    editoptions: {
-                    },
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.v_', name: "WorkNumber", width: 110, editable: true, edittype: "select",
-                    editrules: { required: false },
-                    hidden: false,
-                    editoptions: {
+                        dataInit: function (element) { },
+                        dataEvents: [
+                            {
+                                type: 'focus',
+                                fn: function (e) {
+                                    //alert("OK");
+                                    //g_cur_subGridId = '#' + childGridID;
+                                    $('#table-modal').modal()
+                                }
+                            }
+                        ]
                     }
                 },
-                {
-                    align: 'center', label: 'Tel', name: "Tel", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: true, columns: false, filtering: false, seraching: true, grouping: true, freeze: false },
-                },
-                {
-                    align: 'center', label: 'Email', name: "Email", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false
-                }
+        {
+            align: 'center', label: '@Resources.Language.Org_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
+            editrules: { required: true }, hidden: false,
+            editoptions: {
+            },
+            searchoptions: { sopt: ["cn"] }
+        },
+        {
+            align: 'center', label: '@Resources.Language.Org_WorkNumber', name: "WorkNumber", width: 110, editable: true, edittype: "text",
+            editrules: { required: false },
+            hidden: false,
+            editoptions: {
+            }
+        },
+        {
+            align: 'center', label: '@Resources.Language.Org_Tel', name: "Tel", width: 100, editable: true, edittype: "text",
+            editrules: { required: false }, hidden: false,
+            coloptions: { sorting: true, columns: false, filtering: false, seraching: true, grouping: true, freeze: false },
+        },
+        {
+            align: 'center', label: '@Resources.Language.Org_Email', name: "Email", width: 100, editable: true, edittype: "text",
+            editrules: { required: false }, hidden: false
+        },
+        {
+            align: 'center', label: 'IDX', name: "IDX", width: 100, editable: true, edittype: "text",
+            editrules: { required: false }, hidden: true,
+        }
                 ]
             };
         }
@@ -370,7 +419,7 @@
             $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("GetRowUsers", "Role")' + '?rolId=' + $('.panel-title span:first').html(),
+                    url: '@Url.Action("GetRowUsers", "Permit")' + '?rolId=' + $('.panel-title span:first').html(),
                 }).trigger('reloadGrid');
 
             //alert('@Url.Action("AddEditRowUser", "Permit")' + '?rolId=' + Role_id );
@@ -411,6 +460,271 @@
                         $("body").html(result);
                     },
                 }
-                );
+                    );
+        }
+
+        //选择人员的modal框
+        $('#table-modal').on('show.bs.modal', function (e) {
+            //alert("show");
+
+            $("#jqGrid2").jqGrid({
+                url: '@Url.Action("UserGetDataForLoadOnce", "Organization")',
+                mtype: "GET",
+                datatype: "json",
+                colModel: [
+                {
+                    align: 'center', label: 'IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text", key: true,
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Org_UserName', name: "UserName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, colmenu: false,
+                    hidden: false,
+                    searchoptions: { sopt: ["cn"] }
+                    //searchoptions: { sopt: ["ge", "le"] }
+                },
+            {
+                align: 'center', label: '@Resources.Language.Org_Pwd', name: "Pwd", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: false,
+                //searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: 'IsGuest', name: "IsGuest", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: true,
+                //searchoptions: { sopt: ["cn"] },
+                editoptions: {
+                    defaultValue: "false"
+                }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_LanUserName', name: "LanUserName", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: true,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_Lan', name: "Lan", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: true,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_Dept', name: "Dept", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: true,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_Sec', name: "Sec", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: true,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: false,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: false,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_WorkNumber', name: "WorkNumber", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: false,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_Sex', name: "Sex", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: false,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_Tel', name: "Tel", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: false,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.Org_Email', name: "Email", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, colmenu: false,
+                hidden: false,
+                searchoptions: { sopt: ["cn"] }
+                //searchoptions: { sopt: ["ge", "le"] }
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
+                editrules: { required: false, number: true }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
+                editrules: { required: false, integer: true }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
+                editrules: { required: false, integer: true }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
+                editrules: { required: false, integer: true }, hidden: true
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
+                editrules: { required: false, date: true }, hidden: true,
+                datefmt: 'yyyy-mm-dd',
+                sorttype: 'date',
+                editoptions: {
+                    dataInit: function (element) {
+                        $(element).datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            showOn: 'focus'
+                        });
+                    }
+                }
+            },
+            {
+                align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
+                editrules: { required: false, date: true }, hidden: true,
+                datefmt: 'yyyy-mm-dd',
+                sorttype: 'date',
+                editoptions: {
+                    dataInit: function (element) {
+                        $(element).datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            showOn: 'focus'
+                        });
+                    }
+                }
+            },
+
+            {
+                align: 'center', label: 'TreeID', name: "TreeID", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, hidden: true,
+                editoptions: {},
+            },
+            {
+                align: 'center', label: 'TreeCNName', name: "TreeCNName", width: 100, editable: true, edittype: "text",
+                editrules: { required: false },
+                hidden: true,
+            },
+            {
+                align: 'center', label: 'FatherID', name: "FatherID", width: 100, editable: true, edittype: "text",
+                editrules: { required: false }, hidden: true,
+                editoptions: {},
+            },
+        {
+            align: 'center', label: 'InCode', name: "InCode", width: 100, editable: true, edittype: "text",
+            editrules: { required: false },
+            hidden: true,
+        }
+                ],
+                viewrecords: true,
+                //width: 780,
+                height: 300,
+                rowNum: 10,
+                autowidth: true,
+                editurl: '@Url.Action("", "")',
+                pager: "#jqGridPager2",
+                loadonce: true,
+                rowList: ['10', '20', '30'],
+                rownumbers: true,
+                shrinkToFit: true,     //指定各列宽度
+                sortable: true,          //列可移动
+                colMenu: true          //列菜单
+            });
+
+            $('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+
+            $('#jqGrid2').navGrid('#jqGridPager2', { edit: false, add: false, del: false, refresh: false, view: false, search: false });
+
+            $('#model-dlg').width($('#jqGrid2').width() + 45);
+
+            var invoker = $(e.relatedTarget);
+            //$('#cur_operate_chid_grid').text(g_cur_subGridId);
+        });
+        $('#table-modal').on('shown.bs.modal', function (e) {
+            var invoker = $(e.relatedTarget);
+
+        });
+        $('#table-modal').on('hide.bs.modal', function () {
+
+            //alert("hide");
+        });
+        $('#table-modal').on('hidden.bs.modal', function () {
+
+            $(this).removeData("bs.modal");
+            //alert("hidden");
+        });
+
+        function chooseUser() {
+
+            var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
+            if (rowid != null) {
+                var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
+
+                //var curChildGridId = $('#cur_operate_chid_grid').text();
+                //var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
+
+                var Rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');
+                if (Rowid != null) {
+
+                    var UserID_id = Rowid + "_UserID";
+                    $('#' + UserID_id).val(dr.IDX);
+
+                    var UserName_id = Rowid + "_UserName";
+                    $('#' + UserName_id).val(dr.UserName);
+                    //jQuery('' + curChildGridId).setCell(Rowid, 'CnName', dr.CnName);
+
+                    var CnName_id = Rowid + "_CnName";
+                    $('#' + CnName_id).val(dr.CnName);
+                    //jQuery('' + curChildGridId).setCell(Rowid, 'EnName', dr.EnName);
+
+                    var WorkNumber_id = Rowid + "_WorkNumber";
+                    $('#' + WorkNumber_id).val(dr.WorkNumber);
+                    //jQuery('' + curChildGridId).setCell(Rowid, 'SimpleName', dr.SimpleName);
+
+                    var Tel_id = Rowid + "_Tel";
+                    $('#' + Tel_id).val(dr.Tel);
+                    //jQuery('' + curChildGridId).setCell(Rowid, 'SimpleName', dr.SimpleName);
+
+                    var Email_id = Rowid + "_Email";
+                    $('#' + Email_id).val(dr.Email);
+                    //jQuery('' + curChildGridId).setCell(Rowid, 'SimpleName', dr.SimpleName);
+                }
+            }
         }
     </script>

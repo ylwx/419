@@ -502,6 +502,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 是否管理員 的本地化字符串。
+        /// </summary>
+        internal static string IsAdmin {
+            get {
+                return ResourceManager.GetString("IsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 作業信息 的本地化字符串。
         /// </summary>
         internal static string JobInformation {
@@ -768,6 +777,78 @@ namespace Resources {
         internal static string RoleManage {
             get {
                 return ResourceManager.GetString("RoleManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色菜單 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu {
+            get {
+                return ResourceManager.GetString("RoleMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色菜單關聯 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenuManage {
+            get {
+                return ResourceManager.GetString("RoleMenuManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜單ID 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_Menu {
+            get {
+                return ResourceManager.GetString("RoleMenu_Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜單名 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_MenuName {
+            get {
+                return ResourceManager.GetString("RoleMenu_MenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 頁面 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_Page {
+            get {
+                return ResourceManager.GetString("RoleMenu_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否可見 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_Visible {
+            get {
+                return ResourceManager.GetString("RoleMenu_Visible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色模塊 的本地化字符串。
+        /// </summary>
+        internal static string RoleModule {
+            get {
+                return ResourceManager.GetString("RoleModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色模塊管理 的本地化字符串。
+        /// </summary>
+        internal static string RoleModuleManage {
+            get {
+                return ResourceManager.GetString("RoleModuleManage", resourceCulture);
             }
         }
         
@@ -1492,15 +1573,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 下單時間 的本地化字符串。
-        /// </summary>
-        internal static string V_OrderInfor_OrdTime {
-            get {
-                return ResourceManager.GetString("V_OrderInfor_OrdTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 服務內容ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_ServiceNatureIDS {
@@ -1542,6 +1614,15 @@ namespace Resources {
         internal static string V_OrderInfor_SmallTugNum {
             get {
                 return ResourceManager.GetString("V_OrderInfor_SmallTugNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作日期 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_WorkDate {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_WorkDate", resourceCulture);
             }
         }
         
