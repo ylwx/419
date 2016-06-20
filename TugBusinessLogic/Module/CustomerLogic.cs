@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TugDataModel;
@@ -39,6 +40,10 @@ namespace TugBusinessLogic.Module
                 JObject jsonSearchOption = (JObject)JsonConvert.DeserializeObject(searchOptions);
                 string groupOp = (string)jsonSearchOption["groupOp"];
                 JArray rules = (JArray)jsonSearchOption["rules"];
+
+
+                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                //ParameterExpression parameter = Expression.Parameter(typeof(V_OrderInfor));
 
 
                 if (rules != null)

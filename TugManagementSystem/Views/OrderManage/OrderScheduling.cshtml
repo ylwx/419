@@ -26,7 +26,12 @@
                                     <h4><i class="fa fa-bars"></i>拖轮选择</h4>
                                 </div>
                                 <div class="box-body">
-                                    <table id="jqGrid2"></table>
+                                    <label for="search_cells">
+                                        搜索:
+                                    </label>
+                                    <input id="search_cells" type="search" class="control-group" placeholder="输入拖轮名称"/>
+
+                                    <table id="jqGrid2" style="padding:inherit"></table>
                                     <div id="jqGridPager2"></div>
                                     <div id="cur_operate_chid_grid" hidden="hidden" ></div>
                                 </div>
@@ -38,6 +43,7 @@
 
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>
                 </div>
             </div>
@@ -1118,226 +1124,251 @@
     $('#table-modal').on('show.bs.modal', function (e) {
         //alert("show");
 
+        var w = 50;
+
         $("#jqGrid2").jqGrid({
-            url: '@Url.Action("GetDataForLoadOnce", "TugInfor")',
+            url: '@Url.Action("GetTugEx", "TugInfor")',
             mtype: "GET",
             datatype: "json",
             colModel: [
 
                 {
-                    align: 'center', label: '@Resources.Language.TugInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
+                    align: 'center', label: '@Resources.Language.TugInfor_IDX', index: "TugID", name: "TugID", width: 100,
+                    editable: true, edittype: "text", editrules: { required: false }, hidden: true, frozen: true,
+                    search:false
                 },
                 {
                     align: 'center', label: '@Resources.Language.TugInfor_Code', name: "Code", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, colmenu: false,
-                    hidden: false,
-                    searchoptions: { sopt: ["cn"] }
-                    //searchoptions: { sopt: ["ge", "le"] }
+                    hidden: true,
+                    search:false,
+                    frozen: true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.TugInfor_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false,
+                    editrules: { required: true }, hidden: false,frozen:true,
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.TugInfor_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
+                    editrules: { required: false }, hidden: true,
+                    search:false,
                     editoptions: {},
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.TugInfor_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Power', name: "Power", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Class', name: "Class", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Speed', name: "Speed", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Length', name: "Length", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Width', name: "Width", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 150, editable: true, edittype: "textarea",
-                    editrules: { required: false }, hidden: false
-                },
-                {
-                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
+                    search:false,
+                    editoptions: {},
+                    searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center',
-                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    //formatter: 'date',
-                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    },
+                    align: 'center', label: '00:30', name: "Cell0", width: w, search: false
+                },
+                {
+                    align: 'center', label: '01:00', name: "Cell1", width: w, search: false
+                },
+                {
+                    align: 'center', label: '01:30', name: "Cell2", width: w, search: false
+                },
+                {
+                    align: 'center', label: '02:00', name: "Cell3", width: w, search: false
+                },
+                {
+                    align: 'center', label: '02:30', name: "Cell4", width: w, search: false
+                },
+                {
+                    align: 'center', label: '03:00', name: "Cell5", width: w, search: false
+                },
+                {
+                    align: 'center', label: '03:30', name: "Cell6", width: w, search: false
+                },
+                {
+                    align: 'center', label: '04:00', name: "Cell7", width: w, search: false
+                },
+                {
+                    align: 'center', label: '04:30', name: "Cell8", width: w, search: false
+                },
+                {
+                    align: 'center', label: '05:00', name: "Cell9", width: w, search: false
+                },
+                {
+                    align: 'center', label: '05:30', name: "Cell10", width: w, search: false
+                },
 
-                    searchoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
+
+                {
+                    align: 'center', label: '06:00', name: "Cell11", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    align: 'center', label: '06:30', name: "Cell12", width: w, search: false
                 },
                 {
-                    align: 'center',
-                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    //formatter: 'date',
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    },
-                    searchoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
+                    align: 'center', label: '07:00', name: "Cell13", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    align: 'center', label: '07:30', name: "Cell14", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    align: 'center', label: '08:00', name: "Cell15", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    align: 'center', label: '08:30', name: "Cell16", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
+                    align: 'center', label: '09:00', name: "Cell17", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, number: true }, hidden: true
+                    align: 'center', label: '09:30', name: "Cell18", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    align: 'center', label: '10:00', name: "Cell19", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    align: 'center', label: '10:30', name: "Cell20", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
+                    align: 'center', label: '11:00', name: "Cell21", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
+                    align: 'center', label: '11:30', name: "Cell22", width: w, search: false
+                },
+
+
+                {
+                    align: 'center', label: '12:00', name: "Cell23", width: w, search: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
+                    align: 'center', label: '12:30', name: "Cell24", width: w, search: false
                 },
-                { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
-                { align: 'center', label: 'CustomerShip', name: "CustomerShip", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
+                {
+                    align: 'center', label: '13:00', name: "Cell25", width: w, search: false
+                },
+                {
+                    align: 'center', label: '13:30', name: "Cell26", width: w, search: false
+                },
+                {
+                    align: 'center', label: '14:00', name: "Cell27", width: w, search: false
+                },
+                {
+                    align: 'center', label: '14:30', name: "Cell28", width: w, search: false
+                },
+                {
+                    align: 'center', label: '15:00', name: "Cell29", width: w, search: false
+                },
+                {
+                    align: 'center', label: '15:30', name: "Cell30", width: w, search: false
+                },
+                {
+                    align: 'center', label: '16.00', name: "Cell31", width: w, search: false
+                },
+                {
+                    align: 'center', label: '16:30', name: "Cell32", width: w, search: false
+                },
+                {
+                    align: 'center', label: '17:00', name: "Cell33", width: w, search: false
+                },
+                {
+                    align: 'center', label: '17:30', name: "Cell34", width: w, search: false
+                },
+
+
+                {
+                    align: 'center', label: '18:00', name: "Cell35", width: w, search: false
+                },
+                {
+                    align: 'center', label: '18:30', name: "Cell36", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:00', name: "Cell37", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:30', name: "Cell38", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20:00', name: "Cell39", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20:30', name: "Cell40", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:00', name: "Cell41", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:30', name: "Cell42", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:00', name: "Cell43", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:30', name: "Cell44", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:00', name: "Cell45", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:30', name: "Cell46", width: w, search: false
+                },
+                {
+                    align: 'center', label: '24:00', name: "Cell47", width: w, search: false
+                },
 
             ],
             viewrecords: true,
-            //width: 780,
-            height: 300,
-            rowNum: 10,
-            autowidth: true,
+            width: $('#model-dlg').width() - 25,//780,
+            height: '100%',
+            rowNum: 15,
+            //autowidth: true,
             editurl: '@Url.Action("AddEdit", "TugInfor")',
             pager: "#jqGridPager2",
             loadonce: true,
-            rowList: ['10', '20', '30'],
+            rowList: ['15', '20','25', '30'],
             rownumbers: true,
-            shrinkToFit: true,     //指定各列宽度
-            sortable: true,          //列可移动
-            colMenu: true          //列菜单
+            shrinkToFit: false,     //指定各列宽度
+            //sortable: true,          //列可移动
+            //colMenu: true          //列菜单
+
+            loadComplete: function () {
+                // 设定背景色              
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var val = $(this).getCell(ids[i], 'CnName');
+                    $(this).setCell(ids[i], 'CnName', val, { background: 'lightyellow' });
+
+                    for (var j = 0; j < 48; j++) {
+                        var col_name = "Cell" + j.toString();
+
+                        val = $(this).getCell(ids[i], col_name);
+                        var bkcolor = '#00CC00'; //"#FFFFFF";
+                        if (val == 1) bkcolor = '#D90000';//"#00CC00";
+                        $(this).setCell(ids[i], col_name, ' ', { background: bkcolor });
+                    }
+                };
+            }
         });
 
-        $('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+        //$('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
         $('#jqGrid2').navGrid('#jqGridPager2', { edit: false, add: false, del: false, refresh: false, view: false, search: false });
           
-        $('#model-dlg').width($('#jqGrid2').width() + 45);
+        //$('#model-dlg').width($('#jqGrid2').width() + 40);
+
+        var timer;
+        $("#search_cells").on("keyup", function () {
+            var self = this;
+            if (timer) { clearTimeout(timer); }
+            timer = setTimeout(function () {
+                //timer = null;
+                $("#jqGrid2").jqGrid('filterInput', self.value);
+            }, 0);
+        });
 
         var invoker = $(e.relatedTarget);
         $('#cur_operate_chid_grid').text(g_cur_subGridId);
+
+        //最后调用，冻结列
+        //$("#jqGrid2").jqGrid("setFrozenColumns");
     });
     $('#table-modal').on('shown.bs.modal', function (e) {
         var invoker = $(e.relatedTarget);
@@ -1382,5 +1413,6 @@
             }        
         }        
     }
+
 
 </script>
