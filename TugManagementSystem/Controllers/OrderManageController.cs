@@ -133,55 +133,55 @@ namespace TugManagementSystem.Controllers
 
                         aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
                         aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
-                        aOrder.CustomerName = Request.Form["CustomerName"];
-                        aOrder.WorkDate = Request.Form["WorkDate"];
-                        aOrder.WorkTime = Request.Form["WorkTime"];
-                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"];
+                        aOrder.CustomerName = Request.Form["CustomerName"].Trim();
+                        aOrder.WorkDate = Request.Form["WorkDate"].Trim();
+                        aOrder.WorkTime = Request.Form["WorkTime"].Trim();
+                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
 
-                        aOrder.IsGuest = Request.Form["IsGuest"];
-                        aOrder.LinkMan = Request.Form["LinkMan"];
-                        aOrder.LinkPhone = Request.Form["LinkPhone"];
-                        aOrder.LinkEmail = Request.Form["LinkEmail"];
+                        aOrder.IsGuest = Request.Form["IsGuest"].Trim();
+                        aOrder.LinkMan = Request.Form["LinkMan"].Trim();
+                        aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
+                        aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
 
-                        if (Request.Form["BigTugNum"] != "")
-                            aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
-                        if (Request.Form["MiddleTugNum"] != "")
-                            aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
-                        if (Request.Form["SmallTugNum"] != "")
-                            aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
+                        if (Request.Form["BigTugNum"].Trim() != "")
+                            aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"].Trim());
+                        if (Request.Form["MiddleTugNum"].Trim() != "")
+                            aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"].Trim());
+                        if (Request.Form["SmallTugNum"].Trim() != "")
+                            aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"].Trim());
 
                         aOrder.OwnerID = -1;
-                        aOrder.Remark = Request.Form["Remark"];
-                        aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"]);
-                        aOrder.ShipName = Request.Form["ShipName"];
+                        aOrder.Remark = Request.Form["Remark"].Trim();
+                        aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"].Trim());
+                        aOrder.ShipName = Request.Form["ShipName"].Trim();
                         aOrder.UserID = -1;
-                        aOrder.WorkPlace = Request.Form["WorkPlace"];
+                        aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
 
-                        Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"]);
+                        Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
                         aOrder.ServiceNatureIDS = dic["ids"];
                         aOrder.ServiceNatureNames = dic["labels"];
 
-                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
+                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
 
-                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         aOrder = db.OrderInfor.Add(aOrder);
                         db.SaveChanges();
@@ -209,7 +209,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Convert.ToInt32(Request.Form["IDX"].Trim());
                     OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (aOrder == null)
@@ -218,55 +218,55 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
-                        aOrder.CustomerName = Request.Form["CustomerName"];
+                        aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"].Trim());
+                        aOrder.CustomerName = Request.Form["CustomerName"].Trim();
                         aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
 
-                        aOrder.IsGuest = Request.Form["IsGuest"];
-                        aOrder.LinkMan = Request.Form["LinkMan"];
-                        aOrder.LinkPhone = Request.Form["LinkPhone"];
-                        aOrder.LinkEmail = Request.Form["LinkEmail"];
+                        aOrder.IsGuest = Request.Form["IsGuest"].Trim();
+                        aOrder.LinkMan = Request.Form["LinkMan"].Trim();
+                        aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
+                        aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
 
-                        aOrder.WorkDate = Request.Form["WorkDate"];
-                        aOrder.WorkTime = Request.Form["WorkTime"];
-                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"];
+                        aOrder.WorkDate = Request.Form["WorkDate"].Trim();
+                        aOrder.WorkTime = Request.Form["WorkTime"].Trim();
+                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
 
-                        aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"]);
-                        aOrder.ShipName = Request.Form["ShipName"];
-                        if (Request.Form["BigTugNum"] != "")
-                            aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"]);
-                        if (Request.Form["MiddleTugNum"] != "")
-                            aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"]);
-                        if (Request.Form["SmallTugNum"] != "")
-                            aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"]);
-                        aOrder.WorkPlace = Request.Form["WorkPlace"];
+                        aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"].Trim());
+                        aOrder.ShipName = Request.Form["ShipName"].Trim();
+                        if (Request.Form["BigTugNum"].Trim() != "")
+                            aOrder.BigTugNum = Convert.ToInt32(Request.Form["BigTugNum"].Trim());
+                        if (Request.Form["MiddleTugNum"].Trim() != "")
+                            aOrder.MiddleTugNum = Convert.ToInt32(Request.Form["MiddleTugNum"].Trim());
+                        if (Request.Form["SmallTugNum"].Trim() != "")
+                            aOrder.SmallTugNum = Convert.ToInt32(Request.Form["SmallTugNum"].Trim());
+                        aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
 
-                        Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"]);
+                        Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
                         aOrder.ServiceNatureIDS = dic["ids"];
                         aOrder.ServiceNatureNames = dic["labels"];
 
-                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"]);
-                        aOrder.Remark = Request.Form["Remark"];
+                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
+                        aOrder.Remark = Request.Form["Remark"].Trim();
 
-                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
@@ -293,7 +293,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Convert.ToInt32(Request.Form["data[IDX].Trim()"]);
 
                 TugDataEntities db = new TugDataEntities();
                 OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);
@@ -453,50 +453,50 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     {
                         TugDataModel.Scheduler aScheduler = new Scheduler();
-                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"];
-                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"];
-                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"];
-                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"];
-                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"];
-                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"];
-                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"];
+                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
+                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
+                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
+                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
+                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
+                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
+                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
 
-                        aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"]); ;
+                        aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"].Trim()); ;
 
-                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"]);
+                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"].Trim());
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = -1;
-                        aScheduler.Remark = Request.Form["Remark"]; ;
+                        aScheduler.Remark = Request.Form["Remark"].Trim(); ;
 
-                        aScheduler.RopeUsed = Request.Form["RopeUsed"];
+                        aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
                         if (aScheduler.RopeUsed.Equals("是"))
-                            aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"]);
+                            aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"].Trim());
                         else
                             aScheduler.RopeNum = 0;
 
-                        aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Split('~')[0]);
-                        aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
+                        aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
+                        aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"].Trim());
                         aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
 
-                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         aScheduler = db.Scheduler.Add(aScheduler);
                         db.SaveChanges();
@@ -524,7 +524,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Convert.ToInt32(Request.Form["IDX"].Trim());
                     Scheduler aScheduler = db.Scheduler.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (aScheduler == null)
@@ -533,51 +533,51 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"];
-                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"];
-                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"];
-                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"];
-                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"];
-                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"];
-                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"];
+                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
+                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
+                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
+                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
+                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
+                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
+                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
 
-                        aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"]); ;
+                        aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"].Trim()); ;
 
-                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"]);
+                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"].Trim());
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = -1;
-                        aScheduler.Remark = Request.Form["Remark"]; ;
+                        aScheduler.Remark = Request.Form["Remark".Trim()]; 
 
-                        aScheduler.RopeUsed = Request.Form["RopeUsed"];
+                        aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
                         if (aScheduler.RopeUsed.Equals("是"))
-                            aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"]);
+                            aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"].Trim());
                         else
                             aScheduler.RopeNum = 0;
 
-                        aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Split('~')[0]);
+                        aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
 
-                        aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"]);
+                        aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"].Trim());
                         aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
 
-                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         db.Entry(aScheduler).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
@@ -604,7 +604,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
 
                 TugDataEntities db = new TugDataEntities();
                 Scheduler aScheduler = db.Scheduler.FirstOrDefault(u => u.IDX == idx);

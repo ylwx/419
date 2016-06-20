@@ -218,6 +218,8 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+
+
         #region 计费方案 Written By lg
 
         public ActionResult BillingScheme(string lan, int? id)
@@ -261,7 +263,8 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    customers = db.Customer.Where(u => u.CnName.Contains(queryName) || u.EnName.Contains(queryName) || u.SimpleName.Contains(queryName))
+                    customers = db.Customer.Where(u => u.CnName.Contains(queryName) 
+                        /*|| u.EnName.Contains(queryName) || u.SimpleName.Contains(queryName)*/)
                         .Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
                 }
 
@@ -280,6 +283,8 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+
+
         public ActionResult GetCustomerBillSchemes(bool _search, string sidx, string sord, int page, int rows, int custId)
         {
             this.Internationalization();
@@ -292,7 +297,7 @@ namespace TugManagementSystem.Controllers
                 {
                     string searchOption = Request.QueryString["filters"];
                     //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
-                    List<V_BillingTemplate> orders = TugBusinessLogic.Module.CustomerLogic.SearchForCustomerBillingTemplate(sidx, sord, searchOption);
+                    List<V_BillingTemplate> orders = TugBusinessLogic.Module.CustomerLogic.SearchForCustomerBillingTemplate(sidx, sord, searchOption, custId);
 
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -307,7 +312,7 @@ namespace TugManagementSystem.Controllers
                 else
                 {
                     //List<V_BillingTemplate> orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingTemplate>();
-                    List<V_BillingTemplate> orders = TugBusinessLogic.Module.CustomerLogic.LoadDataForCustomerBillingTemplate(sidx, sord);
+                    List<V_BillingTemplate> orders = TugBusinessLogic.Module.CustomerLogic.LoadDataForCustomerBillingTemplate(sidx, sord, custId);
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
@@ -485,6 +490,9 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+
+
+
         public ActionResult GetCustomerBillSchemeItems(bool _search, string sidx, string sord, int page, int rows, int billSchemeId)
         {
             this.Internationalization();
@@ -501,7 +509,7 @@ namespace TugManagementSystem.Controllers
                 else
                 {
                     //List<V_BillingItemTemplate> orders = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_BillingItemTemplate>();
-                    List<V_BillingItemTemplate> orders = TugBusinessLogic.Module.CustomerLogic.LoadDataForCustomerBillingItemTemplate(sidx, sord);
+                    List<V_BillingItemTemplate> orders = TugBusinessLogic.Module.CustomerLogic.LoadDataForCustomerBillingItemTemplate(sidx, sord, billSchemeId);
                     int totalRecordNum = orders.Count;
                     
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -675,6 +683,32 @@ namespace TugManagementSystem.Controllers
             {
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
+        }
+
+        public string GetPayItems()
+        {
+            string s = string.Empty;
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
+                    || u.CustomName == "BillingItemTemplate.ItemID").OrderBy(u => u.CustomValue).ToList<CustomField>();
+
+                if (list != null && list.Count > 0)
+                {
+                    s += "<select><option value=-1~-1~请选择>请选择</option>";
+                    foreach (CustomField item in list)
+                    {
+                        s += string.Format("<option value={0}>{1}</option>", item.IDX + "~" + item.CustomValue + "~" + item.CustomLabel, item.CustomLabel);
+                    }
+                    s += "</select>";
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return s;
         }
 
         #endregion 计费方案 Written By lg

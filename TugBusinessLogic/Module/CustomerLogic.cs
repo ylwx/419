@@ -16,7 +16,7 @@ namespace TugBusinessLogic.Module
         /// </summary>
         /// <param name="searchOptions">搜索选项，格式如下</param>
         /// <returns></returns>
-        static public List<TugDataModel.V_BillingTemplate> SearchForCustomerBillingTemplate(string orderField, string orderMethod, string searchOptions)
+        static public List<TugDataModel.V_BillingTemplate> SearchForCustomerBillingTemplate(string orderField, string orderMethod, string searchOptions, int custId)
         {
             List<V_BillingTemplate> orders = null;
             try
@@ -34,7 +34,7 @@ namespace TugBusinessLogic.Module
                 //}
 
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_BillingTemplate.Select(u => u).ToList<V_BillingTemplate>();
+                orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).ToList<V_BillingTemplate>();
 
                 JObject jsonSearchOption = (JObject)JsonConvert.DeserializeObject(searchOptions);
                 string groupOp = (string)jsonSearchOption["groupOp"];
@@ -852,14 +852,14 @@ namespace TugBusinessLogic.Module
         /// <param name="orderField">排序字段</param>
         /// <param name="orderMethod">排序方式asc升序；desc降序</param>
         /// <returns></returns>
-        static public List<TugDataModel.V_BillingTemplate> LoadDataForCustomerBillingTemplate(string orderField, string orderMethod)
+        static public List<TugDataModel.V_BillingTemplate> LoadDataForCustomerBillingTemplate(string orderField, string orderMethod, int custId)
         {
             List<V_BillingTemplate> orders = null;
 
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_BillingTemplate.Select(u => u).ToList<V_BillingTemplate>();
+                orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).ToList<V_BillingTemplate>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
@@ -1040,14 +1040,14 @@ namespace TugBusinessLogic.Module
         /// <param name="orderField">排序字段</param>
         /// <param name="orderMethod">排序方式asc升序；desc降序</param>
         /// <returns></returns>
-        static public List<TugDataModel.V_BillingItemTemplate> LoadDataForCustomerBillingItemTemplate(string orderField, string orderMethod)
+        static public List<TugDataModel.V_BillingItemTemplate> LoadDataForCustomerBillingItemTemplate(string orderField, string orderMethod, int billSchemeId)
         {
             List<V_BillingItemTemplate> orders = null;
 
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_BillingItemTemplate.Select(u => u).ToList<V_BillingItemTemplate>();
+                orders = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).Select(u => u).ToList<V_BillingItemTemplate>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
