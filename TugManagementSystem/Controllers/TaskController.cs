@@ -90,7 +90,7 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUser_ID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
+                        List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
 
                         int totalRecordNum = objs.Count;
                         if (page != 0 && totalRecordNum % rows == 0) page -= 1;
