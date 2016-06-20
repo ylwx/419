@@ -1369,9 +1369,9 @@ namespace TugBusinessLogic.Module
                 {
                     case "":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.IDX).ToList();
-                            else
+                            //if (orderMethod.ToLower().Equals("asc"))
+                            //    orders = orders.OrderBy(u => u.IDX).ToList();
+                            //else
                                 orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
@@ -1659,9 +1659,9 @@ namespace TugBusinessLogic.Module
                 {
                     case "":
                         {
-                            if(orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.IDX).ToList();
-                            else
+                            //if(orderMethod.ToLower().Equals("asc"))
+                            //    orders = orders.OrderBy(u => u.IDX).ToList();
+                            //else
                                 orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
@@ -1919,14 +1919,14 @@ namespace TugBusinessLogic.Module
         /// <param name="orderField">排序字段</param>
         /// <param name="orderMethod">排序方式asc升序；desc降序</param>
         /// <returns></returns>
-        static public List<TugDataModel.V_OrderScheduler> LoadDataForOrderScheduler(string orderField, string orderMethod)
+        static public List<TugDataModel.V_OrderScheduler> LoadDataForOrderScheduler(string orderField, string orderMethod, int orderId)
         {
             List<V_OrderScheduler> orders = null;
 
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_OrderScheduler.Select(u => u).ToList<V_OrderScheduler>();
+                orders = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u).ToList<V_OrderScheduler>();
 
                 orderField = orderField.Split(',')[1];
                 orderField = orderField.Trim();
@@ -1935,9 +1935,9 @@ namespace TugBusinessLogic.Module
                 {
                     case "":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.IDX).ToList();
-                            else
+                            //if (orderMethod.ToLower().Equals("asc"))
+                            //    orders = orders.OrderBy(u => u.IDX).ToList();
+                            //else
                                 orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;

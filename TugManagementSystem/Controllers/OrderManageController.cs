@@ -161,7 +161,8 @@ namespace TugManagementSystem.Controllers
                         aOrder.ServiceNatureIDS = dic["ids"];
                         aOrder.ServiceNatureNames = dic["labels"];
 
-                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
+                        //aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
+                        aOrder.WorkStateID = 1; //CustomField表里面的OrderInfor.WorkStateID的IDX
 
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
                         aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
@@ -245,7 +246,8 @@ namespace TugManagementSystem.Controllers
                         aOrder.ServiceNatureIDS = dic["ids"];
                         aOrder.ServiceNatureNames = dic["labels"];
 
-                        aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
+                        //aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
+                        
                         aOrder.Remark = Request.Form["Remark"].Trim();
 
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
@@ -392,7 +394,7 @@ namespace TugManagementSystem.Controllers
                 else
                 {
                     //List<V_OrderScheduler> orders = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
-                    List<V_OrderScheduler> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduler(sidx, sord);
+                    List<V_OrderScheduler> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduler(sidx, sord, orderId);
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
