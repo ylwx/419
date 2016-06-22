@@ -25,6 +25,19 @@ Util.prototype.isDate = function (columnLabel, inputStrDate) {
     return true;
 }
 
+//验证日期时间，形如 (2008-07-22 13:04:06)
+Util.prototype.isDateTime = function (columnLabel, inputStrDateTime) {
+    var reg = /^(\d{4})(-|\/)(\d{2})\2(\d{2}) (\d{2}):(\d{2}):(\d{2})$/;
+    var r = inputStrDateTime.match(reg);
+    if (r == null) { alert(columnLabel + ':不是正确的日期时间格式(yyyy-mm-dd hh:mm:ss)'); return false; }
+    var d = new Date(r[1], r[3] - 1, r[4], r[5], r[6], r[7]);
+    if (false == (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4] && d.getHours() == r[5] && d.getMinutes() == r[6] && d.getSeconds() == r[7])) {
+        alert(columnLabel + ":输入的日期时间无效");
+        return false;
+    }
+    return true;
+}
+
 //验证字符串
 Util.prototype.isValidString = function (columnLabel, inputString) { }
 

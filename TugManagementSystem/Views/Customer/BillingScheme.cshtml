@@ -33,6 +33,7 @@
                                     <h3 class="content-title pull-left">Grid Test</h3>
                                 </div>
                                 <div class="description">Table</div>
+
                             </div>
                         </div>
                     </div>
@@ -215,9 +216,9 @@
                     var ret = true;
                     //日期
                     if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
-                        ret = ret && util.isDate('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+                        ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                     if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
-                        ret = ret && util.isDate('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+                        ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
 
                     //自定义字段
                     if ($("#gs_UserDefinedCol5").val() != null && $("#gs_UserDefinedCol5").val() != "")
@@ -928,17 +929,25 @@
                         editrules: { required: false, date: true }, hidden: false,
                         //formatter: 'date',
                         //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
-                        datefmt: 'yyyy-mm-dd',
+                        //datefmt: 'yyyy-mm-dd',
                         sorttype: 'date',
                         coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                         searchoptions: {
                             sopt: ["eq", "lt", "le", "gt", "ge"],
 
+                            //dataInit: function (element) {
+                            //    $(element).datepicker({
+                            //        //id: 'orderCreateDate_datePicker',
+                            //        dateFormat: 'yy-mm-dd',
+                            //        showOn: 'focus'
+                            //    });
+                            //},
                             dataInit: function (element) {
-                                $(element).datepicker({
+                                $(element).datetimepicker({
                                     //id: 'orderCreateDate_datePicker',
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
+                                    format: 'Y-m-d H:i:s',
+                                    step : 1,
+                                    //timepicker: false
                                 });
                             },
 
@@ -967,20 +976,27 @@
                         label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 150, editable: false, edittype: "text",
                         editrules: { required: false, date: true }, hidden: false,
                         //formatter: 'date',
-                        datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date',
+                        //datefmt: 'yyyy-mm-dd',
+                        //sorttype: 'date',
                         coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                         searchoptions: {
                             sopt: ["eq", "lt", "le", "gt", "ge"],
 
+                            //dataInit: function (element) {
+                            //    $(element).datepicker({
+                            //        //id: 'orderCreateDate_datePicker',
+                            //        dateFormat: 'yy-mm-dd',
+                            //        showOn: 'focus'
+                            //    });
+                            //},
                             dataInit: function (element) {
-                                $(element).datepicker({
+                                $(element).datetimepicker({
                                     //id: 'orderCreateDate_datePicker',
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
+                                    format: 'Y-m-d H:i:s',
+                                    step: 1,
+                                    //timepicker: false
                                 });
                             },
-
                             dataEvents: [
                                 {
 
@@ -1045,17 +1061,24 @@
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
                         editrules: { required: false, date: true }, hidden: true,
-                        datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date',
+                        //datefmt: 'yyyy-mm-dd',
+                        //sorttype: 'date',
                         coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                         searchoptions: {
                             sopt: ["eq", "lt", "le", "gt", "ge"],
 
+                            //dataInit: function (element) {
+                            //    $(element).datepicker({
+                            //        //id: 'orderCreateDate_datePicker',
+                            //        dateFormat: 'yy-mm-dd',
+                            //        showOn: 'focus'
+                            //    });
+                            //},
                             dataInit: function (element) {
-                                $(element).datepicker({
-                                    //id: 'orderCreateDate_datePicker',
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
+                                $(element).datetimepicker({
+                                    format: 'Y-m-d H:i:s',
+                                    step: 1,
+                                    //timepicker: false
                                 });
                             },
 
@@ -1075,17 +1098,24 @@
                     {
                         align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
                         editrules: { required: false, date: true }, hidden: true,
-                        datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date',
+                        //datefmt: 'yyyy-mm-dd',
+                        //sorttype: 'date',
                         coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                         searchoptions: {
                             sopt: ["eq", "lt", "le", "gt", "ge"],
 
+                            //dataInit: function (element) {
+                            //    $(element).datepicker({
+                            //        //id: 'orderCreateDate_datePicker',
+                            //        dateFormat: 'yy-mm-dd',
+                            //        showOn: 'focus'
+                            //    });
+                            //},
                             dataInit: function (element) {
-                                $(element).datepicker({
-                                    //id: 'orderCreateDate_datePicker',
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
+                                $(element).datetimepicker({
+                                    format: 'Y-m-d H:i:s',
+                                    step: 1,
+                                    //timepicker: false
                                 });
                             },
 

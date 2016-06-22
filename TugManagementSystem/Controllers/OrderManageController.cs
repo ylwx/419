@@ -131,7 +131,7 @@ namespace TugManagementSystem.Controllers
 
                         aOrder.Code = TugBusinessLogic.Utils.GetOrderSequenceNo();
 
-                        aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
                         aOrder.CustomerName = Request.Form["CustomerName"].Trim();
                         aOrder.WorkDate = Request.Form["WorkDate"].Trim();
@@ -221,7 +221,7 @@ namespace TugManagementSystem.Controllers
                     {
                         aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"].Trim());
                         aOrder.CustomerName = Request.Form["CustomerName"].Trim();
-                        aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         aOrder.IsGuest = Request.Form["IsGuest"].Trim();
                         aOrder.LinkMan = Request.Form["LinkMan"].Trim();
@@ -510,7 +510,7 @@ namespace TugManagementSystem.Controllers
 
                         aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
                         aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"].Trim());
-                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
                         aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
@@ -591,7 +591,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
 
                         aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"].Trim());
-                        aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
                         aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();

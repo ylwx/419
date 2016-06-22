@@ -348,7 +348,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.BillingTemplateName = Request.Form["BillingTemplateName"];
                         cstmer.BillingTemplateTypeID = Convert.ToInt32(Request.Form["BillingTemplateTypeID"]);
                         
-                        cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         cstmer.CustomerID = custId; // Convert.ToInt32(customerId);
                         cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"];
@@ -422,7 +422,7 @@ namespace TugManagementSystem.Controllers
 
                         cstmer.Remark = Request.Form["Remark"];
                         cstmer.OwnerID = -1;
-                        cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         cstmer.UserID = -1;
                         cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -551,7 +551,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = -1;
 
-                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -617,7 +617,7 @@ namespace TugManagementSystem.Controllers
                         
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = -1;
-                        aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
