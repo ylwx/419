@@ -232,6 +232,12 @@ namespace TugManagementSystem.Controllers
             ViewBag.TotalPageNum = totalPageNum;
             ViewBag.CurPage = 1;
 
+            ViewBag.BillTemplateTypes = GetBillTemplateTypes();
+            ViewBag.BillTemplateTimeTypes = GetBillTemplateTimeTypes();
+            ViewBag.BillTemplatePayItems = GetBillTemplatePayItems();
+            ViewBag.BillTemplatePayItemPosition = GetBillTemplatePayItemPosition();
+            
+
             return View(list);
         }
 
@@ -458,6 +464,64 @@ namespace TugManagementSystem.Controllers
 
             #endregion Edit
 
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
+        public ActionResult AddCustomerBillScheme(int custId, int billingTemplateTypeId, string billingTemplateCode, string billingTemplateName, int timeTypeId, string templateCreditContent, string remark)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    TugDataModel.BillingTemplate cstmer = new BillingTemplate();
+
+                    cstmer.BillingTemplateCode = billingTemplateCode;
+                    cstmer.BillingTemplateName = billingTemplateName;
+                    cstmer.BillingTemplateTypeID = billingTemplateTypeId;
+
+                    cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    cstmer.CustomerID = custId; // Convert.ToInt32(customerId);
+                    cstmer.TemplateCreditContent = templateCreditContent;
+                    cstmer.TimeTypeID = timeTypeId;
+
+                    cstmer.Remark = remark;
+                    cstmer.OwnerID = -1;
+                    cstmer.UserID = -1;
+                    cstmer.UserDefinedCol1 = "";
+                    cstmer.UserDefinedCol2 = "";
+                    cstmer.UserDefinedCol3 = "";
+                    cstmer.UserDefinedCol4 = "";
+
+                    //if (Request.Form["UserDefinedCol5"] != "")
+                    //    cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                    //if (Request.Form["UserDefinedCol6"] != "")
+                    //    cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                    //if (Request.Form["UserDefinedCol7"] != "")
+                    //    cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                    //if (Request.Form["UserDefinedCol8"] != "")
+                    //    cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                    cstmer.UserDefinedCol9 = "";
+                    cstmer.UserDefinedCol10 = "";
+
+                    cstmer = db.BillingTemplate.Add(cstmer);
+                    db.SaveChanges();
+
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                return Json(ret);
+            }
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
@@ -709,6 +773,61 @@ namespace TugManagementSystem.Controllers
             {
             }
             return s;
+        }
+
+
+
+        /// <summary>
+        /// 得到计费模板类型
+        /// </summary>
+        /// <returns></returns>
+        public List<CustomField> GetBillTemplateTypes()
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingTemplate.BillingTemplateType")
+                .OrderBy(u => u.CustomValue).ToList<CustomField>();
+            return list;
+        }
+
+        /// <summary>
+        /// 得到计费模板的计时方式
+        /// </summary>
+        /// <returns></returns>
+        public List<CustomField> GetBillTemplateTimeTypes()
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingTemplate.TimeTypeID")
+                .OrderBy(u => u.CustomValue).ToList<CustomField>();
+            return list;
+        }
+
+
+        /// <summary>
+        /// 得到计费模板付费项目
+        /// </summary>
+        /// <returns></returns>
+        public List<CustomField> GetBillTemplatePayItems()
+        {
+
+            TugDataEntities db = new TugDataEntities();
+            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
+                || u.CustomName == "BillingItemTemplate.ItemID").OrderBy(u => u.CustomValue).ToList<CustomField>();
+
+            return list;
+        }
+
+        /// <summary>
+        /// 得到计费模板付费项目在发票中的位置：上中下
+        /// </summary>
+        /// <returns></returns>
+        public List<CustomField> GetBillTemplatePayItemPosition()
+        {
+
+            TugDataEntities db = new TugDataEntities();
+            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.TypeID")
+                .OrderBy(u => u.CustomValue).ToList<CustomField>();
+
+            return list;
         }
 
         #endregion 计费方案 Written By lg

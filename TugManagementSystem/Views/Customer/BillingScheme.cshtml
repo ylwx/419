@@ -6,6 +6,191 @@
 }
 @model List<TugDataModel.Customer>
     <div id="main-content">
+        
+        <!-- Parent MODAL FORM-->
+        <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div id="model-dlg" class="modal-dialog" style="width:500px">
+                <div class="modal-content modal-table">
+                    @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="box border blue">
+                                    <div class="box-title">
+                                        <h4><i class="fa fa-windows"></i>新增计费方案</h4>
+                                        <div class="tools hidden-xs">
+                                            <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="box-body big">
+                                        @*<h4 class="form-title">Supported controls</h4>*@
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">*@Resources.Language.V_BillingTemplate_BillingTemplateTypeLabel</label>
+                                                <div class="col-sm-9">
+                                                    @*<input type="text" class="form-control" placeholder="@Resources.Language.V_BillingTemplate_BillingTemplateTypeLabel">*@
+                                                    <select id="_BillingTemplateTypeLabel" class="form-control">
+                                                        @{
+                                                            List<CustomField> lstBillTemplateTypes = (List<CustomField>)ViewBag.BillTemplateTypes;
+                                                            if (lstBillTemplateTypes != null)
+                                                            {
+                                                                foreach (CustomField item in lstBillTemplateTypes)
+                                                                {
+                                                                    string tmp = item.IDX.ToString() + "~" + item.CustomValue + "~" + item.CustomLabel;
+                                                                    <option value="@tmp">@item.CustomLabel</option>
+                                                                }
+                                                            }
+                                                        }
+                                                        @*<option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>*@
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">@Resources.Language.V_BillingTemplate_BillingTemplateCode</label>
+                                                <div class="col-sm-9">
+                                                    <input id="_BillingTemplateCode" type="text" class="form-control" placeholder="@Resources.Language.V_BillingTemplate_BillingTemplateCode" onfocus="$(this).parent().removeClass('has-error')" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">*@Resources.Language.V_BillingTemplate_BillingTemplateName</label>
+                                                <div class="col-sm-9">
+                                                    <input id="_BillingTemplateName" type="text" class="form-control" placeholder="@Resources.Language.V_BillingTemplate_BillingTemplateName" onfocus="$(this).parent().removeClass('has-error')" />
+                                                </div>
+                                            </div>
+
+                                            @*<div class="form-group">
+                                                <label class="col-sm-3 control-label">@Resources.Language.V_BillingTemplate_BillingTemplateName</label>
+                                                <div class="col-sm-9">
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
+                                                    </label>
+                                                </div>
+                                            </div>*@
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">*@Resources.Language.V_BillingTemplate_TimeTypeLabel</label>
+                                                <div class="col-sm-9">
+                                                    <select id="_TimeTypeLabel" class="form-control">
+                                                        @{
+                                                            List<CustomField> lstBillTemplateTimeTypes = (List<CustomField>)ViewBag.BillTemplateTimeTypes;
+                                                            if (lstBillTemplateTimeTypes != null)
+                                                            {
+                                                                foreach (CustomField item in lstBillTemplateTimeTypes)
+                                                                {
+                                                                    string tmp = item.IDX.ToString() + "~" + item.CustomValue + "~" + item.CustomLabel;
+                                                                    <option value="@tmp">@item.CustomLabel</option>
+                                                                }
+                                                            }
+                                                        }
+                                                        @*<option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>*@
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">@Resources.Language.V_BillingTemplate_TemplateCreditContent</label>
+                                                <div  class="col-sm-9">
+                                                    <textarea id="_TemplateCreditContent" class="form-control" rows="3" placeholder="@Resources.Language.V_BillingTemplate_TemplateCreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
+                                                <div  class="col-sm-9">
+                                                    <textarea id="_Remark" class="form-control" rows="3" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+
+                                        <div id="errMsg" class="alert alert-block alert-warning fade in" hidden>
+                                            @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                            <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Parent MODAL FORM-->
+
+
+        <!-- Child MODAL FORM-->
+        <div class="modal fade" id="child-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div id="model-dlg" class="modal-dialog" style="width:1200px">
+                <div class="modal-content modal-table">
+                    @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- BOX -->
+                                <div class="box border orange">
+                                    <div class="box-title">
+                                        <h4><i class="fa fa-bars"></i>拖轮选择</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <label for="search_cells">
+                                            搜索:
+                                        </label>
+                                        <input id="search_cells" type="search" class="control-group" placeholder="输入拖轮名称" />
+
+                                        @*<table id="jqGrid2" style="padding:inherit"></table>
+                                        <div id="jqGridPager2"></div>
+                                        <div id="cur_operate_chid_grid" hidden></div>*@
+
+                                    </div>
+                                </div>
+                                <!-- /BOX -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Child MODAL FORM-->
+
+
         <div class="container">
             <div class="row">
                 <div id="content" class="col-lg-12">
@@ -33,7 +218,7 @@
                                     <h3 class="content-title pull-left">Grid Test</h3>
                                 </div>
                                 <div class="description">Table</div>
-
+                                @*<button type="button" class="btn btn-danger" onclick="AddParent()">Add</button>*@
                             </div>
                         </div>
                     </div>
@@ -159,6 +344,8 @@
             </div>
         </div>
     </div>
+
+
     <script type="text/javascript">
         var tableConfig = null;
 
@@ -292,12 +479,15 @@
                             }
                         },
                         position: "last"
+                    }).navButtonAdd('#jqGridPager', {
+                        caption: "", title: "添加新增", buttonicon: "ui-icon-plus",
+                        onClickButton: AddParent
                     });
 
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
                     edit: true,
-                    add: true,
+                    add: false,
                     del: true,
                     cancel: true,
                     editParams: {
@@ -1162,7 +1352,6 @@
                     url: '@Url.Action("GetCustomerBillSchemes", "Customer")' + '?custId=' + $('.panel-title span:first').html(),
                 }).trigger('reloadGrid');
 
-            //alert('@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + customer_id );
             $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + customer_id });
         }
 
@@ -1254,4 +1443,154 @@
             else
                 return [true, ""];
         }
+
+
+
+
+
+
+        
+        function AddParent() {
+            $('#parent-modal').modal()
+        }
+
+
+        function initParentModal() {
+            $('#errMsg').hide();
+            $('#_BillingTemplateCode').parent().removeClass("has-error");
+            $('#_BillingTemplateName').parent().removeClass("has-error");
+            $('#_TemplateCreditContent').parent().removeClass("has-error");
+            $('#_Remark').parent().removeClass("has-error");
+
+
+            $("#_BillingTemplateTypeLabel option:first").prop("selected", 'selected');
+            $("#_TimeTypeLabel option:first").prop("selected", 'selected');
+
+            $('#_BillingTemplateCode').val("");
+            $('#_BillingTemplateName').val("");
+            $('#_TemplateCreditContent').val("");
+            $('#_Remark').val("");
+        }
+
+        $('#parent-modal').on('show.bs.modal', function (e) {
+            initParentModal();
+            
+            //var invoker = $(e.relatedTarget);
+            //alert(invoker.html());
+        });
+
+        $('#parent-modal').on('shown.bs.modal', function (e) {
+            //var invoker = $(e.relatedTarget);
+            //alert(invoker.html());
+
+        });
+        $('#parent-modal').on('hide.bs.modal', function () {
+            $(this).removeData("bs.modal");
+            //alert("hide");
+        });
+        $('#parent-modal').on('hidden.bs.modal', function () {
+            //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
+            $(this).removeData("bs.modal");
+            //alert("hidden");
+        });
+
+        function submitParentModal() {
+
+            $('#errMsg').hide();
+            $('#_BillingTemplateCode').parent().removeClass("has-error");
+            $('#_BillingTemplateName').parent().removeClass("has-error");
+            $('#_TemplateCreditContent').parent().removeClass("has-error");
+            $('#_Remark').parent().removeClass("has-error");
+
+
+            var maxTextLength = 10;
+            var maxTextAreaLength = 10;
+
+            var custId = $('.panel-title span:first').html();
+            var billingTemplateTypeId = $("#_BillingTemplateTypeLabel").val().toString().split('~')[0];
+            var timeTypeId = $("#_TimeTypeLabel").val().toString().split('~')[0];
+
+            var billingTemplateCode = $('#_BillingTemplateCode').val().trim();
+            var billingTemplateName = $('#_BillingTemplateName').val().trim();
+            var templateCreditContent = $('#_TemplateCreditContent').val().trim();
+            var remark = $('#_Remark').val().trim();
+
+            @*if ($('#_BillingTemplateCode').val().trim().length <= 0) {
+                $('#errMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateCode' + "必填");
+                $('#_BillingTemplateCode').parent().addClass("has-error");
+                $('#errMsg').show();
+                return;
+            }*@
+            if (billingTemplateCode.length > maxTextLength) {
+                $('#errMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateCode' + "长度不能超过" + maxTextLength);
+                $('#_BillingTemplateCode').parent().addClass("has-error");
+                $('#errMsg').show();
+                return;
+            }
+
+            else if (billingTemplateName.length <= 0) {
+                $('#errMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateName' + "必填");
+                $('#_BillingTemplateName').parent().addClass("has-error");
+                $('#errMsg').show();
+                return;
+            } else if (billingTemplateName.length > maxTextLength) {
+                $('#errMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateName' + "长度不能超过" + maxTextLength);
+                $('#_BillingTemplateName').parent().addClass("has-error");
+                $('#errMsg').show();
+                return;
+            }
+
+
+            else if (templateCreditContent.length > maxTextAreaLength) {
+                $('#errMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+                $('#_TemplateCreditContent').parent().addClass("has-error");
+                $('#errMsg').show();
+                return;
+            }
+
+            else if (remark.length > maxTextAreaLength) {
+                $('#errMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+                $('#_Remark').parent().addClass("has-error");
+                $('#errMsg').show();
+                return;
+            }
+            
+            
+
+            //提交数据库
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("AddCustomerBillScheme", "Customer")',
+                data: {
+                    'custId': custId,
+                    'billingTemplateTypeId': billingTemplateTypeId,
+                    'billingTemplateCode': billingTemplateCode,
+                    'billingTemplateName': billingTemplateName,
+                    'timeTypeId': timeTypeId,
+                    'templateCreditContent': templateCreditContent,
+                    'remark': remark
+                },//"oper=delete&id=" + gr,
+                dataType: 'json',
+                success: function (result) {
+                    
+                    $('#parent-modal').modal('hide')
+                    //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                    //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    alert(result.message);
+
+                    $('#jqGrid').jqGrid('setGridParam',
+                    {
+                        datatype: 'json',
+                        url: '@Url.Action("GetCustomerBillSchemes", "Customer")' + '?custId=' + $('.panel-title span:first').html(),
+                    }).trigger('reloadGrid');
+
+                    $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + $('.panel-title span:first').html() });
+
+                },
+            });
+
+        }
+
+
     </script>
