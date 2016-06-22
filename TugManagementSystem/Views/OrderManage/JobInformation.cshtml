@@ -26,9 +26,15 @@
                                     <h4><i class="fa fa-bars"></i>拖轮选择</h4>
                                 </div>
                                 <div class="box-body">
-                                    <table id="jqGrid2"></table>
+                                    <label for="search_cells">
+                                        搜索:
+                                    </label>
+                                    <input id="search_cells" type="search" class="control-group" placeholder="输入拖轮名称" />
+
+                                    <table id="jqGrid2" style="padding:inherit"></table>
                                     <div id="jqGridPager2"></div>
-                                    <div id="cur_operate_chid_grid" hidden="hidden"></div>
+                                    <div id="cur_operate_chid_grid" hidden></div>
+
                                 </div>
                             </div>
                             <!-- /BOX -->
@@ -37,6 +43,7 @@
 
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>
                 </div>
             </div>
@@ -243,6 +250,7 @@
                     }
                 })
 
+        modalDialogGridInit();
 
         //最后调用，冻结列
         //$("#jqGrid").jqGrid("setFrozenColumns");
@@ -356,6 +364,7 @@
                                 type: 'focus',
                                 fn: function (e) {
                                     g_cur_subGridId = '#' + childGridID;
+                                    g_cur_parentGridRowId = parentRowKey;
                                     $('#table-modal').modal()
                                 }
                             }
@@ -378,6 +387,8 @@
                                 type: 'focus',
                                 fn: function (e) {
                                     g_cur_subGridId = '#' + childGridID;
+                                    g_cur_parentGridRowId = parentRowKey;
+
                                     $('#table-modal').modal()
                                 }
                             }
@@ -388,7 +399,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ChooseTug', name: "SimpleName", width: 100, editable: true, edittype: 'text',
-                    editrules: { required: false, edithidden:true }, hidden: false,
+                    editrules: { required: false, edithidden: true }, hidden: false,
                     editoptions: {
                         @*custom_value: function (elem, oper, value){},
                         custom_element: function (value, editOptions) {
@@ -402,6 +413,7 @@
                                 type: 'focus',
                                 fn: function (e) {
                                     g_cur_subGridId = '#' + childGridID;
+                                    g_cur_parentGridRowId = parentRowKey;
                                     $('#table-modal').modal()
                                 }
                             }
@@ -604,14 +616,14 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeUsed', name: "RopeUsed", width: 100, editable: true, edittype: "checkbox",
                     editrules: { required: true }, colmenu: false,
-                    editoptions: { value: "是:否"},  //yes:是， no:否
+                    editoptions: { value: "是:否" },  //yes:是， no:否
                     hidden: false
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeNum', name: "RopeNum", width: 100, editable: true, edittype: "text",
                     editrules: {
                         required: false,
-                        custom_func: function(value, column) {
+                        custom_func: function (value, column) {
 
                             var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
                             if (rowid != null) {
@@ -775,7 +787,7 @@
             shrinkToFit: false,     //指定各列宽度
             pager: "#" + childGridPagerID,
             grouping: true,
-            caption : '调度拖轮',
+            caption: '调度拖轮',
             groupingView: {
                 groupField: ["ServiceNatureLabel"],
                 groupColumnShow: [true],
@@ -794,7 +806,6 @@
         $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
 
         $('#pg_' + childGridPagerID).css("background-color", "lightblue"); //更改子Grid导航的背景色
-
 
         //subGridPager
         $('#' + childGridID).navGrid('#' + childGridPagerID, { edit: false, add: false, del: false, refresh: false, view: false, search: false })
@@ -823,7 +834,7 @@
                                     success: function (result) {
                                         alert(result.message);
                                         //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
-                                        $('#'+childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                                     },
 
                                 }
@@ -881,7 +892,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
-                     hidden: true,
+                    hidden: true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: true, edittype: "checkbox",
@@ -1205,7 +1216,7 @@
                     }
                 },
                 { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", hidden: true },
-                { align: 'center', label: 'Scheduler', name: "Scheduler", width: 100, editable: true, edittype: "text",hidden: true }
+                { align: 'center', label: 'Scheduler', name: "Scheduler", width: 100, editable: true, edittype: "text", hidden: true }
 
             ]
         };
@@ -1215,242 +1226,37 @@
 
 
     var g_cur_subGridId = '';
+    var g_cur_parentGridRowId;
 
 
     $('#table-modal').on('show.bs.modal', function (e) {
-        //alert("show");
 
-        $("#jqGrid2").jqGrid({
-            url: '@Url.Action("GetDataForLoadOnce", "TugInfor")',
-            mtype: "GET",
-            datatype: "json",
-            colModel: [
-
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Code', name: "Code", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, colmenu: false,
-                    hidden: false,
-                    searchoptions: { sopt: ["cn"] }
-                    //searchoptions: { sopt: ["ge", "le"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: true }, hidden: false,
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Power', name: "Power", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Class', name: "Class", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Speed', name: "Speed", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Length', name: "Length", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Width', name: "Width", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    editoptions: {},
-                    searchoptions: { sopt: ["cn"] }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 150, editable: true, edittype: "textarea",
-                    editrules: { required: false }, hidden: false
-                },
-                {
-                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
-                },
-                {
-                    align: 'center',
-                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    //formatter: 'date',
-                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    },
-
-                    searchoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
-                },
-                {
-                    align: 'center',
-                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    //formatter: 'date',
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    },
-                    searchoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, number: true }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, integer: true }, hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
-                },
-                {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: true,
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    }
-                },
-                { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
-                { align: 'center', label: 'CustomerShip', name: "CustomerShip", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
-
-            ],
-            viewrecords: true,
-            //width: 780,
-            height: 300,
-            rowNum: 10,
-            autowidth: true,
-            editurl: '@Url.Action("AddEdit", "TugInfor")',
-            pager: "#jqGridPager2",
-            loadonce: true,
-            rowList: ['10', '20', '30'],
-            rownumbers: true,
-            shrinkToFit: true,     //指定各列宽度
-            sortable: true,          //列可移动
-            colMenu: true          //列菜单
-        });
-
-        $('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
-
-        $('#jqGrid2').navGrid('#jqGridPager2', { edit: false, add: false, del: false, refresh: false, view: false, search: false });
-
-        $('#model-dlg').width($('#jqGrid2').width() + 45);
-
-        var invoker = $(e.relatedTarget);
+        //alert(g_cur_parentGridRowId)
+        $("#search_cells").val("");
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
         $('#cur_operate_chid_grid').text(g_cur_subGridId);
+        //alert(dr.WorkDate);
+
+        $('#jqGrid2').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + dr.WorkDate,
+                }).trigger('reloadGrid');
+
+        $("#jqGrid2").jqGrid('setCaption', '<' + dr.WorkDate + '>日拖轮调度状态');
+        //$('#jqGrid2').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
     });
+
     $('#table-modal').on('shown.bs.modal', function (e) {
         var invoker = $(e.relatedTarget);
 
     });
     $('#table-modal').on('hide.bs.modal', function () {
-
+        $(this).removeData("bs.modal");
         //alert("hide");
     });
     $('#table-modal').on('hidden.bs.modal', function () {
-
+        //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
         $(this).removeData("bs.modal");
         //alert("hidden");
     });
@@ -1458,16 +1264,18 @@
     function chooseTug() {
 
         var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
+        //alert(rowid);
         if (rowid != null) {
             var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
 
             var curChildGridId = $('#cur_operate_chid_grid').text();
+            //alert(curChildGridId);
             var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
 
             if (childRowid != null) {
 
                 var tugID_id = childRowid + "_TugID";
-                $('#' + tugID_id).val(dr.IDX);
+                $('#' + tugID_id).val(dr.TugID);
 
                 var cnName_id = childRowid + "_CnName";
                 $('#' + cnName_id).val(dr.CnName);
@@ -1483,6 +1291,523 @@
 
             }
         }
+    }
+
+
+
+
+
+    function modalDialogGridInit() {
+        //alert("show");
+
+        var w = 80;
+
+
+        $("#jqGrid2").jqGrid({
+            url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + new Date().Format("yyyy-MM-dd"),
+            mtype: "GET",
+            datatype: "json",
+            caption: '拖轮调度状态',
+            colModel: [
+
+                {
+                    align: 'center', label: '@Resources.Language.TugInfor_IDX', index: "TugID", name: "TugID", width: 100,
+                    editable: true, edittype: "text", editrules: { required: false }, hidden: true, frozen: true,
+                    search: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.TugInfor_Code', name: "Code", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, colmenu: false,
+                    hidden: true,
+                    search: false,
+                    frozen: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.TugInfor_CnName', name: "CnName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false, frozen: true,
+                    searchoptions: { sopt: ["cn"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.TugInfor_EnName', name: "EnName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    search: false,
+                    editoptions: {},
+                    searchoptions: { sopt: ["cn"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.TugInfor_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    search: false,
+                    editoptions: {},
+                    searchoptions: { sopt: ["cn"] }
+                },
+                {
+                    align: 'center', label: '00:00-00:30', name: "Cell0", width: w, search: false
+                },
+                {
+                    align: 'center', label: '00:30-01:00', name: "Cell1", width: w, search: false
+                },
+                {
+                    align: 'center', label: '01:00-01:30', name: "Cell2", width: w, search: false
+                },
+                {
+                    align: 'center', label: '01:30-02:00', name: "Cell3", width: w, search: false
+                },
+                {
+                    align: 'center', label: '02:00-02:30', name: "Cell4", width: w, search: false
+                },
+                {
+                    align: 'center', label: '02:30-03:00', name: "Cell5", width: w, search: false
+                },
+                {
+                    align: 'center', label: '03:00-03:30', name: "Cell6", width: w, search: false
+                },
+                {
+                    align: 'center', label: '03:30-04:00', name: "Cell7", width: w, search: false
+                },
+                {
+                    align: 'center', label: '04:00-04:30', name: "Cell8", width: w, search: false
+                },
+                {
+                    align: 'center', label: '04:30-05:00', name: "Cell9", width: w, search: false
+                },
+                {
+                    align: 'center', label: '05:00-05:30', name: "Cell10", width: w, search: false
+                },
+
+
+                {
+                    align: 'center', label: '05:30-06:00', name: "Cell11", width: w, search: false
+                },
+                {
+                    align: 'center', label: '06:00-06:30', name: "Cell12", width: w, search: false
+                },
+                {
+                    align: 'center', label: '06:30-07:00', name: "Cell13", width: w, search: false
+                },
+                {
+                    align: 'center', label: '07:00-07:30', name: "Cell14", width: w, search: false
+                },
+                {
+                    align: 'center', label: '07:30-08:00', name: "Cell15", width: w, search: false
+                },
+                {
+                    align: 'center', label: '08:00-08:30', name: "Cell16", width: w, search: false
+                },
+                {
+                    align: 'center', label: '08:30-09:00', name: "Cell17", width: w, search: false
+                },
+                {
+                    align: 'center', label: '09:00-09:30', name: "Cell18", width: w, search: false
+                },
+                {
+                    align: 'center', label: '09:30-10:00', name: "Cell19", width: w, search: false
+                },
+                {
+                    align: 'center', label: '10:00-10:30', name: "Cell20", width: w, search: false
+                },
+                {
+                    align: 'center', label: '10:30-11:00', name: "Cell21", width: w, search: false
+                },
+                {
+                    align: 'center', label: '11:00-11:30', name: "Cell22", width: w, search: false
+                },
+
+
+                {
+                    align: 'center', label: '11:30-12:00', name: "Cell23", width: w, search: false
+                },
+                {
+                    align: 'center', label: '12:00-12:30', name: "Cell24", width: w, search: false
+                },
+                {
+                    align: 'center', label: '12:30-13:00', name: "Cell25", width: w, search: false
+                },
+                {
+                    align: 'center', label: '13:00-13:30', name: "Cell26", width: w, search: false
+                },
+                {
+                    align: 'center', label: '13:30-14:00', name: "Cell27", width: w, search: false
+                },
+                {
+                    align: 'center', label: '14:00-14:30', name: "Cell28", width: w, search: false
+                },
+                {
+                    align: 'center', label: '14:30-15:00', name: "Cell29", width: w, search: false
+                },
+                {
+                    align: 'center', label: '15:00-15:30', name: "Cell30", width: w, search: false
+                },
+                {
+                    align: 'center', label: '15:30-16.00', name: "Cell31", width: w, search: false
+                },
+                {
+                    align: 'center', label: '16.00-16:30', name: "Cell32", width: w, search: false
+                },
+                {
+                    align: 'center', label: '16:30-17:00', name: "Cell33", width: w, search: false
+                },
+                {
+                    align: 'center', label: '17:00-17:30', name: "Cell34", width: w, search: false
+                },
+
+
+                {
+                    align: 'center', label: '17:30-18:00', name: "Cell35", width: w, search: false
+                },
+                {
+                    align: 'center', label: '18:00-18:30', name: "Cell36", width: w, search: false
+                },
+                {
+                    align: 'center', label: '18:30-19:00', name: "Cell37", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:00-19:30', name: "Cell38", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:30-20:00', name: "Cell39", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20:00-20:30', name: "Cell40", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20：30-21:00', name: "Cell41", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:00-21:30', name: "Cell42", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:30-22:00', name: "Cell43", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:00-22:30', name: "Cell44", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:30-23:00', name: "Cell45", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:00-23:30', name: "Cell46", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:30-23:59', name: "Cell47", width: w, search: false
+                },
+
+            ],
+            viewrecords: true,
+            width: $('#model-dlg').width() - 25,//780,
+            height: '100%',
+            rowNum: 15,
+            //autowidth: true,
+            editurl: '@Url.Action("AddEdit", "TugInfor")',
+            pager: "#jqGridPager2",
+            loadonce: true,
+            rowList: ['15', '20', '25', '30'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            //sortable: true,          //列可移动
+            //colMenu: true          //列菜单
+            subGrid: true,
+            subGridRowExpanded: showChildGridForModalDialog,
+            subGridOptions: {
+                "plusicon": "ui-icon-triangle-1-e",
+                "minusicon": "ui-icon-triangle-1-s",
+                "openicon": "ui-icon-arrowreturn-1-e"
+            },
+
+            loadComplete: function () {
+                // 设定背景色
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var val = $(this).getCell(ids[i], 'CnName');
+                    $(this).setCell(ids[i], 'CnName', val, { background: 'lightyellow' });
+
+                    for (var j = 0; j < 48; j++) {
+                        var col_name = "Cell" + j.toString();
+
+                        val = $(this).getCell(ids[i], col_name);
+                        var bkcolor = '#00CC00'; //"#FFFFFF";
+                        if (val == 1) bkcolor = '#D90000';//"#00CC00";
+                        $(this).setCell(ids[i], col_name, ' ', { background: bkcolor });
+                    }
+                };
+            }
+        });
+
+        //$('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+
+        $('#jqGrid2').navGrid('#jqGridPager2', { edit: false, add: false, del: false, refresh: false, view: false, search: false });
+
+        //$('#model-dlg').width($('#jqGrid2').width() + 40);
+
+        var timer;
+        $("#search_cells").on("keyup", function () {
+            var self = this;
+            if (timer) { clearTimeout(timer); }
+            timer = setTimeout(function () {
+                //timer = null;
+                $("#jqGrid2").jqGrid('filterInput', self.value);
+            }, 0);
+        });
+
+        //var invoker = $(e.relatedTarget);
+
+
+
+
+        //最后调用，冻结列
+        //$("#jqGrid2").jqGrid("setFrozenColumns");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // the event handler on expanding parent row receives two parameters
+    // the ID of the grid tow  and the primary key of the row
+    function showChildGridForModalDialog(parentRowID, parentRowKey) {
+
+        var childGridID = parentRowID + "_table";
+
+        var childGridPagerID = parentRowID + "_pager";
+
+        var dr = jQuery("#jqGrid2").jqGrid('getRowData', parentRowKey);
+        //alert(dr.TugID);
+        var parentDr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+        var childGridURL = '@Url.Action("GetTugRelatedOrders", "OrderManage")' + "?tugId=" + dr.TugID + "&workDate=" + parentDr.WorkDate;
+
+        // add a table and pager HTML elements to the parent grid row - we will render the child grid here
+        $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
+
+        $("#" + childGridID).jqGrid({
+            url: childGridURL,
+            mtype: "GET",
+            datatype: "json",
+            //page: 1,
+            viewrecords: true,
+            editurl: null,
+            colModel: [
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 90
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "Code", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkTime', name: "WorkTime", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "WorkPlace", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 260,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkMan', name: "LinkMan", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100,
+                },
+
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, hidden: true,
+
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, hidden: true,
+
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 120,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100,
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, hidden: true,
+                },
+            ],
+
+            loadonce: true,
+            rowNum: 10,
+            //width: 500,
+            autowidth: true,
+            height: '100%',
+            shrinkToFit: false,     //指定各列宽度
+            pager: "#" + childGridPagerID,
+            grouping: true,
+            caption: '已安排此拖轮的订单',
+            @*groupingView: {
+                groupField: ["Code"],
+                groupColumnShow: [true],
+                groupText: ['@Resources.Language.V_OrderInfor_Code' + ": <b>{0}</b>"],
+                groupOrder: ["asc"],
+                groupSummary: [false],
+                groupCollapse: false
+            },*@
+
+            subGrid: true,
+            subGridRowExpanded: showThirdLevelChildGrid,
+            //gridComplete: function () {
+            //    alert(1);
+            //}
+        });
+
+        $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#pg_' + childGridPagerID).css("background-color", "lightblue"); //更改子Grid导航的背景色
+
+    }
+
+
+
+
+    // the event handler on expanding parent row receives two parameters
+    // the ID of the grid tow  and the primary key of the row
+    function showThirdLevelChildGrid(parentRowID, parentRowKey) {
+
+        var parentGridID = parentRowID.substring(0, parentRowID.lastIndexOf('_'));
+
+        var childGridID = parentRowID + "_table";
+        var childGridPagerID = parentRowID + "_pager";
+
+        var dr = jQuery("#" + parentGridID).jqGrid('getRowData', parentRowKey);//得到该行的数据
+        //alert(dr.Code);
+
+        // send the parent row primary key to the server so that we know which grid to show
+        var childGridURL = '@Url.Action("GetOrderSubSchedulerDataForLoadOnce", "OrderManage")' + "?orderId=" + dr.IDX;
+
+        // add a table and pager HTML elements to the parent grid row - we will render the child grid here
+        $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
+
+        $("#" + childGridID).jqGrid({
+            url: childGridURL,
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_IDX', name: 'IDX', key: 'IDX', width: 75, hidden: true },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureLabel', name: 'ServiceNatureLabel', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureLabel', name: 'JobStateLabel', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_InformCaptainTime', name: 'InformCaptainTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_CaptainConfirmTime', name: 'CaptainConfirmTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_DepartBaseTime', name: 'DepartBaseTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalShipSideTime', name: 'ArrivalShipSideTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCommencedTime', name: 'WorkCommencedTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCompletedTime', name: 'WorkCompletedTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalBaseTime', name: 'ArrivalBaseTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeUsed', name: 'RopeUsed', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeNum', name: 'RopeNum', width: 100 },
+
+            ],
+            rowNum: 10,
+            shrinkToFit: false,
+            loadonce: true,
+            autowidth: true,
+            height: '100%',
+            pager: "#" + childGridPagerID,
+            grouping: true,
+            caption: '调度拖轮',
+            groupingView: {
+                groupField: ["ServiceNatureLabel"],
+                groupColumnShow: [true],
+                groupText: ['@Resources.Language.V_OrderScheduler_ServiceNatureLabel' + ": <b>{0}</b>"],
+                groupOrder: ["asc"],
+                groupSummary: [false],
+                groupCollapse: false
+            },
+        });
+
+        $('#pg_' + childGridPagerID).css("background-color", "aliceblue"); //更改子Grid导航的背景色
+
     }
 
 </script>
