@@ -665,10 +665,7 @@ namespace TugBusinessLogic.Module
                         {
                             case "":
                                 {
-                                    if (orderMethod.ToLower().Equals("asc"))
-                                        orders = orders.OrderBy(u => u.IDX).ToList();
-                                    else
-                                        orders = orders.OrderByDescending(u => u.IDX).ToList();
+                                    orders = orders.OrderByDescending(u => u.IDX).ToList();
                                 }
                                 break;
                             case "BillingTemplateTypeLabel":
@@ -871,10 +868,7 @@ namespace TugBusinessLogic.Module
                 {
                     case "":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.IDX).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.IDX).ToList();
+                            orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
                     case "BillingTemplateTypeLabel":
@@ -1059,10 +1053,7 @@ namespace TugBusinessLogic.Module
                 {
                     case "":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.IDX).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.IDX).ToList();
+                            orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
                     case "ItemLabel":

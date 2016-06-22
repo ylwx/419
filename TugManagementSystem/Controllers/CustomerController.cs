@@ -720,6 +720,63 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
+        public ActionResult AddCustomerBillSchemeItem(int billingTemplateId, int itemId, string unitPrice, string currency, int typeId) 
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    TugDataModel.BillingItemTemplate aScheduler = new BillingItemTemplate();
+                    aScheduler.BillingTemplateID = billingTemplateId;
+                    aScheduler.ItemID = itemId;
+                    aScheduler.UnitPrice = Convert.ToDouble(unitPrice);
+                    aScheduler.Currency = currency;
+                    aScheduler.TypeID = typeId;
+
+                    aScheduler.OwnerID = -1;
+                    aScheduler.UserID = -1;
+
+                    aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    aScheduler.UserDefinedCol1 = "";
+                    aScheduler.UserDefinedCol2 = "";
+                    aScheduler.UserDefinedCol3 = "";
+                    aScheduler.UserDefinedCol4 = "";
+
+                    //if (Request.Form["UserDefinedCol5"] != "")
+                    //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                    //if (Request.Form["UserDefinedCol6"] != "")
+                    //    aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                    //if (Request.Form["UserDefinedCol7"] != "")
+                    //    aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                    //if (Request.Form["UserDefinedCol8"] != "")
+                    //    aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                    aScheduler.UserDefinedCol9 = "";
+                    aScheduler.UserDefinedCol10 = "";
+
+                    aScheduler = db.BillingItemTemplate.Add(aScheduler);
+                    db.SaveChanges();
+
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception ex)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                return Json(ret);
+            }
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
         public ActionResult DeleteCustomerBillSchemeItem()
         {
             this.Internationalization();
