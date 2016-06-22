@@ -1579,14 +1579,15 @@
     // the event handler on expanding parent row receives two parameters
     // the ID of the grid tow  and the primary key of the row
     function showChildGridForModalDialog(parentRowID, parentRowKey) {
-
+        
         var childGridID = parentRowID + "_table";
+
         var childGridPagerID = parentRowID + "_pager";
 
         var dr = jQuery("#jqGrid2").jqGrid('getRowData', parentRowKey);
         //alert(dr.TugID);
-
-        var childGridURL = '@Url.Action("GetTugRelatedOrders", "OrderManage")' + "?tugId=" + dr.TugID;
+        var parentDr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+        var childGridURL = '@Url.Action("GetTugRelatedOrders", "OrderManage")' + "?tugId=" + dr.TugID + "&workDate=" + parentDr.WorkDate; 
 
         // add a table and pager HTML elements to the parent grid row - we will render the child grid here
         $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
@@ -1730,16 +1731,17 @@
             pager: "#" + childGridPagerID,
             grouping: true,
             caption: '已安排此拖轮的订单',
-            groupingView: {
+            @*groupingView: {
                 groupField: ["Code"],
                 groupColumnShow: [true],
                 groupText: ['@Resources.Language.V_OrderInfor_Code' + ": <b>{0}</b>"],
                 groupOrder: ["asc"],
                 groupSummary: [false],
                 groupCollapse: false
-            },
+            },*@
 
-
+            subGrid: true,
+            subGridRowExpanded: showThirdLevelChildGrid,
             //gridComplete: function () {
             //    alert(1);
             //}
@@ -1748,6 +1750,68 @@
         $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
 
         $('#pg_' + childGridPagerID).css("background-color", "lightblue"); //更改子Grid导航的背景色
+
+    }
+
+
+
+
+    // the event handler on expanding parent row receives two parameters
+    // the ID of the grid tow  and the primary key of the row
+    function showThirdLevelChildGrid(parentRowID, parentRowKey) {
+        
+        var parentGridID = parentRowID.substring(0, parentRowID.lastIndexOf('_'));
+
+        var childGridID = parentRowID + "_table";
+        var childGridPagerID = parentRowID + "_pager";
+
+        var dr = jQuery("#" + parentGridID).jqGrid('getRowData', parentRowKey);//得到该行的数据
+        //alert(dr.Code);
+
+        // send the parent row primary key to the server so that we know which grid to show
+        var childGridURL = '@Url.Action("GetOrderSubSchedulerDataForLoadOnce", "OrderManage")' + "?orderId=" + dr.IDX;
+
+        // add a table and pager HTML elements to the parent grid row - we will render the child grid here
+        $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
+
+        $("#" + childGridID).jqGrid({
+            url: childGridURL,
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_IDX', name: 'IDX', key: 'IDX', width: 75, hidden: true },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureLabel', name: 'ServiceNatureLabel', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureLabel', name: 'JobStateLabel', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_InformCaptainTime', name: 'InformCaptainTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_CaptainConfirmTime', name: 'CaptainConfirmTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_DepartBaseTime', name: 'DepartBaseTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalShipSideTime', name: 'ArrivalShipSideTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCommencedTime', name: 'WorkCommencedTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_WorkCompletedTime', name: 'WorkCompletedTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_ArrivalBaseTime', name: 'ArrivalBaseTime', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeUsed', name: 'RopeUsed', width: 100 },
+                { align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeNum', name: 'RopeNum', width: 100 },
+  
+            ],
+            rowNum: 10,
+            shrinkToFit: false,
+            loadonce: true,
+            autowidth: true,
+            height: '100%',
+            pager: "#" + childGridPagerID,
+            grouping: true,
+            caption: '调度拖轮',
+            groupingView: {
+                groupField: ["ServiceNatureLabel"],
+                groupColumnShow: [true],
+                groupText: ['@Resources.Language.V_OrderScheduler_ServiceNatureLabel' + ": <b>{0}</b>"],
+                groupOrder: ["asc"],
+                groupSummary: [false],
+                groupCollapse: false
+            },
+        });
+
+        $('#pg_' + childGridPagerID).css("background-color", "aliceblue"); //更改子Grid导航的背景色
 
     }
 

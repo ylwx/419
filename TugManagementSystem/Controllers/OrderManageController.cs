@@ -412,6 +412,38 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        public ActionResult GetOrderSubSchedulerDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows, int orderId)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string s = Request.QueryString["filters"];
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    List<V_OrderScheduler> orders = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult GetTugsByCnName(string value)
         {
             TugDataEntities db = new TugDataEntities();
@@ -627,7 +659,7 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetTugRelatedOrders(bool _search, string sidx, string sord, int page, int rows, int tugId)
+        public ActionResult GetTugRelatedOrders(bool _search, string sidx, string sord, int page, int rows, int tugId, string workDate)
         {
             this.Internationalization();
 
@@ -642,9 +674,9 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    string now = DateTime.Now.ToString("yyyy-MM-dd");
+                    //string now = DateTime.Now.ToString("yyyy-MM-dd");
 
-                    List<V_OrderScheduler> schedulers = db.V_OrderScheduler.Where(u => u.TugID == tugId && u.WorkDate == now)
+                    List<V_OrderScheduler> schedulers = db.V_OrderScheduler.Where(u => u.TugID == tugId && u.WorkDate == workDate)
                         .Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
                     //List<V_OrderScheduler> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduler(sidx, sord, orderId);
 
