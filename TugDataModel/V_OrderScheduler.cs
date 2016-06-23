@@ -15,6 +15,8 @@ namespace TugDataModel
     public partial class V_OrderScheduler
     {
         public int IDX { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+        public string CustomerName { get; set; }
         public Nullable<int> OrderID { get; set; }
         public string WorkDate { get; set; }
         public string WorkTime { get; set; }
