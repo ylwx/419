@@ -27,6 +27,7 @@ namespace TugManagementSystem.Controllers
             lan = this.Internationalization();
             ViewBag.Language = lan;
 
+            ViewBag.JobStates = TugBusinessLogic.Utils.GetJobStates();
             return View();
         }
 

@@ -92,6 +92,13 @@ namespace TugBusinessLogic
             return list;
         }
         
+        static public List<CustomField> GetJobStates()
+        {
+            List<CustomField> list = new List<CustomField>();
+            TugDataEntities db = new TugDataEntities();
+            list = db.CustomField.Where(u => u.CustomName == "Scheduler.JobStateID").OrderBy(u => u.CustomValue).ToList<CustomField>();
+            return list;
+        }
 
         /// <summary>
         /// 获取自定义字段
