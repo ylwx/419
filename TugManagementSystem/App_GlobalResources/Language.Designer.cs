@@ -1420,6 +1420,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 預估完成時間 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_EstimatedCompletionTime {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_EstimatedCompletionTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 調度ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_IDX {
@@ -1533,6 +1542,24 @@ namespace Resources {
         internal static string V_OrderScheduler_WorkCompletedTime {
             get {
                 return ResourceManager.GetString("V_OrderScheduler_WorkCompletedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作日期 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_WorkDate {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_WorkDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工作時間 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_WorkTime {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_WorkTime", resourceCulture);
             }
         }
     }
