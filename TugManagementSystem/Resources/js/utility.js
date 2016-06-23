@@ -52,6 +52,15 @@ Util.prototype.isEmail = function (columnLabel, inputStrEmail) {
     }
 }
 
+Util.prototype.isEmail2 = function (inputStrEmail) {
+    var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    if (reg.test(inputStrEmail)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 //验证货币金额
 Util.prototype.isValidCurrency = function (columnLabel, inputStrCurrency) {
     var reg = /^\d+\.?\d{0,2}$/;

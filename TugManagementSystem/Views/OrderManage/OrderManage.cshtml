@@ -5,7 +5,212 @@
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
 @model TugDataModel.OrderInfor
+
 <div id="main-content">
+
+    <!-- Parent MODAL FORM-->
+    <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width:800px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>新增订单</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    @*<h4 class="form-title">Supported controls</h4>*@
+                                    <form class="form-horizontal" role="form">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_CustomerName</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_CustomerName" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_WorkDate</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_WorkDate" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_WorkDate" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_WorkTime</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_WorkTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_WorkTime" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_EstimatedCompletionTime</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_EstimatedCompletionTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_EstimatedCompletionTime" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_ShipName</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_ShipName" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_ShipName" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_WorkPlace</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_WorkPlace" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_WorkPlace" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">*@Resources.Language.V_OrderInfor_ServiceNatureNames</label>
+                                                    <div id="_ServiceNatureNames" class="col-sm-10">
+
+                                                        @{
+                                                            List<CustomField> listServices = (List<CustomField>)ViewBag.Services;
+                                                            foreach (CustomField item in listServices)
+                                                            {
+                                                                string tmp = item.IDX.ToString() + "~" + item.CustomValue.ToString() + "~" + item.CustomLabel.ToString();
+                                                                <label class="checkbox-inline">
+                                                                    <input type="checkbox" name="serviceCheckbox" value="@tmp" onfocus="$(this).parent().parent().removeClass('has-error')"> @item.CustomLabel
+                                                                </label>
+                                                            }
+                                                        }
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.V_OrderInfor_BigTugNum</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_BigTugNum" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_BigTugNum" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.V_OrderInfor_MiddleTugNum</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_MiddleTugNum" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_MiddleTugNum" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.V_OrderInfor_SmallTugNum</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_SmallTugNum" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_SmallTugNum" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_LinkMan</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_LinkMan" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_LinkMan" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_LinkPhone</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_LinkPhone" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_LinkPhone" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.V_OrderInfor_LinkEmail</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_LinkEmail" type="email" class="form-control" placeholder="@Resources.Language.V_OrderInfor_LinkEmail" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">@Resources.Language.Remark</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    <div id="parentErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="_CustomerID" hidden>-1</div>
+                    <div id="_ShipID" hidden>-1</div>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Parent MODAL FORM-->
+
+
+
     <div class="container">
         <div class="row">
             <div id="content" class="col-lg-12">
@@ -33,6 +238,8 @@
                                 <h3 class="content-title pull-left">Grid Test</h3>
                             </div>
                             <div class="description">Table</div>
+
+                            @*<div><button class="btn btn-danger" onclick="AddParent()">Add Parent</button></div>*@
                         </div>
                     </div>
                 </div>
@@ -103,6 +310,7 @@
 
     function Init() {
         {
+
 
             if (tableConfig == null) {
                 GetTableConfig();
@@ -236,12 +444,16 @@
                         }
                     },
                     position: "last"
+                }).navButtonAdd('#jqGridPager', {
+                    //id: 'jqGrid_ilrefresh',
+                    caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                    onClickButton: AddParent
                 });
 
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
                     edit: true,
-                    add: true,
+                    add: false,
                     del: true,
                     cancel: true,
                     editParams: {
@@ -287,7 +499,7 @@
                     editrules: { required: false }, hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 90, editable: true, edittype: "checkbox",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: false, edittype: "checkbox",
                     editrules: { required: true }, /*colmenu: false,*/
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: { value: "是:否" },  //yes:是， no:否
@@ -454,7 +666,7 @@
                                 //alert(column + ":输入的时间无效");
                                 return [false, column + ":输入的时间无效"];
                             }
-                            return [true,""];
+                            return [true, ""];
                         },
                         custom: true
                     }, hidden: false,
@@ -493,7 +705,7 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 100,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 120,
                     editable: true, edittype: "text",
                     editrules: {
                         required: true,
@@ -680,8 +892,8 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
-                
-                
+
+
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, custom_func: function () { return [true, ""]; }/*validateTugID*/, custom: true }, hidden: true,
@@ -728,7 +940,7 @@
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
                     }
                 },
-                
+
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
                     editrules: { required: false }, hidden: false,
@@ -1062,74 +1274,6 @@
             return span;
         }
 
-
-        //return span;
-        //if (value == "" || value == "/") {
-        //    var span = $("<span />");
-        //    var label0 = $("<span />", { html: "泊码头" });
-        //    var checkbox0 = $("<input>", { type: "checkbox", value: "0:泊码头", name: "service0" });
-        //    var label1 = $("<span />", { html: "进坞" });
-        //    var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1" });
-        //    var label2 = $("<span />", { html: "护航" });
-        //    var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2" });
-        //    var label3 = $("<span />", { html: "守护" });
-        //    var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3" });
-        //    var br = $("<br />");
-        //    var label4 = $("<span />", { html: "离码头" });
-        //    var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4" });
-        //    var label5 = $("<span />", { html: "出坞" });
-        //    var checkbox5 = $("<input>", { type: "checkbox", value: "5:出坞", name: "service5" });
-        //    var label6 = $("<span />", { html: "拖带" });
-        //    var checkbox6 = $("<input>", { type: "checkbox", value: "6:拖带", name: "service6" });
-        //    var label7 = $("<span />", { html: "其他" });
-        //    var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7" });
-
-        //    span.append(label0).append(checkbox0).append(label1).append(checkbox1).append(label2).append(checkbox2)
-        //        .append(label3).append(checkbox3).append(br).append(label4).append(checkbox4)
-        //        .append(label5).append(checkbox5).append(label6).append(checkbox6).append(label7).append(checkbox7);
-
-        //    return span;
-        //}
-        //else {
-        //    var list = value.split("/");
-        //    if (list.length > 0) {
-
-        //        var span = $("<span />");
-
-        //        var labels = new Array("泊码头", "进坞", "护航", "守护", "离码头", "出坞", "拖带", "其他");
-        //        var flags = new Array(false, false, false, false, false, false, false, false);
-        //        for (var i = 0; i < list.length; ++i) {
-        //            for (var j = 0; j < flags.length; j++) {
-        //                if (list[i] == labels[j])
-        //                    flags[j] = true;
-        //            }
-        //        }
-
-        //        var label0 = $("<span />", { html: "泊码头" });
-        //        var checkbox0 = $("<input>", { type: "checkbox", value: "0:泊码头", name: "service0", checked: flags[0] });
-        //        var label1 = $("<span />", { html: "进坞" });
-        //        var checkbox1 = $("<input>", { type: "checkbox", value: "1:进坞", name: "service1", checked: flags[1] });
-        //        var label2 = $("<span />", { html: "护航" });
-        //        var checkbox2 = $("<input>", { type: "checkbox", value: "2:护航", name: "service2", checked: flags[2] });
-        //        var label3 = $("<span />", { html: "守护" });
-        //        var checkbox3 = $("<input>", { type: "checkbox", value: "3:守护", name: "service3", checked: flags[3] });
-        //        var br = $("<br />");
-        //        var label4 = $("<span />", { html: "离码头" });
-        //        var checkbox4 = $("<input>", { type: "checkbox", value: "4:离码头", name: "service4", checked: flags[4] });
-        //        var label5 = $("<span />", { html: "出坞" });
-        //        var checkbox5 = $("<input>", { type: "checkbox", value: "5:出坞", name: "service5", checked: flags[5] });
-        //        var label6 = $("<span />", { html: "拖带" });
-        //        var checkbox6 = $("<input>", { type: "checkbox", value: "6:拖带", name: "service6", checked: flags[6] });
-        //        var label7 = $("<span />", { html: "其他" });
-        //        var checkbox7 = $("<input>", { type: "checkbox", value: "7:其他", name: "service7", checked: flags[7] });
-
-        //        span.append(label0).append(checkbox0).append(label1).append(checkbox1).append(label2).append(checkbox2).append(label3).append(checkbox3)
-        //            .append(br).append(label4).append(checkbox4).append(label5).append(checkbox5)
-        //            .append(label6).append(checkbox6).append(label7).append(checkbox7);
-
-        //        return span;
-        //    }
-        //}
     }
 
     // The javascript executed specified by JQGridColumn.EditTypeCustomGetValue when EditType = EditType.Custom
@@ -1167,4 +1311,424 @@
         else
             return [true, ""];
     }
+
+
+
+    //模态框
+    function AddParent() {
+        $('#parent-modal').modal()
+
+    }
+
+
+    function initParentModal() {
+        $('#parentErrMsg').hide();
+        $('#_CustomerName').parent().removeClass("has-error");
+        $('#_WorkDate').parent().removeClass("has-error");
+        $('#_WorkTime').parent().removeClass("has-error");
+        $('#_EstimatedCompletionTime').parent().removeClass("has-error");
+
+        $('#_ShipName').parent().removeClass("has-error");
+        $('#_WorkPlace').parent().removeClass("has-error");
+        $('#_ServiceNatureNames').removeClass("has-error");
+
+        $('#_BigTugNum').parent().removeClass("has-error");
+        $('#_MiddleTugNum').parent().removeClass("has-error");
+        $('#_SmallTugNum').parent().removeClass("has-error");
+
+
+        $('#_LinkMan').parent().removeClass("has-error");
+        $('#_LinkPhone').parent().removeClass("has-error");
+        $('#_LinkEmail').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+        $('#_CustomerName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomer", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            return {
+                                id: item.CustomerID,
+                                label: item.ShipName,
+                                value: item.ShipName
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null)
+                    $("#_CustomerID").text(ui.item.id);
+                else
+                    $("#_CustomerID").text(-1);
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null)
+                    $("#_CustomerID").text(ui.item.id);
+                else
+                    $("#_CustomerID").text(-1);
+
+            },
+            autoFocus: true
+        });
+
+
+        $('#_ShipName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomer", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            return {
+                                id: item.CustomerID,
+                                label: item.ShipName,
+                                value: item.ShipName
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null)
+                    $("#_ShipID").text(ui.item.id);
+                else
+                    $("#_ShipID").text(-1);
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null)
+                    $("#_ShipID").text(ui.item.id);
+                else
+                    $("#_ShipID").text(-1);
+            },
+            autoFocus: true
+        });
+
+        $('#_WorkDate').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m-d',
+            timepicker: false,
+        });
+
+        $('#_WorkTime').datetimepicker({
+            format: 'H:i',
+            step: 1,
+            datepicker: false,
+        });
+
+        $('#_EstimatedCompletionTime').datetimepicker({
+            format: 'H:i',
+            step: 1,
+            datepicker: false
+        });
+
+        $('#_CustomerName').val("");
+
+        $('#_WorkDate').val(new Date().Format("yyyy-MM-dd"));
+        $('#_WorkTime').val(new Date().Format("hh:mm"));
+        $('#_EstimatedCompletionTime').val(new Date().Format("hh:mm"));
+
+        $('#_ShipName').val("");
+        $('#_WorkPlace').val("");
+
+        $("input[name='serviceCheckbox']").each(function () {
+            $(this).attr("checked", false);
+        });
+
+        $('#_BigTugNum').val("");
+        $('#_MiddleTugNum').val("");
+        $('#_SmallTugNum').val("");
+
+        $('#_LinkMan').val("");
+        $('#_LinkPhone').val("");
+        $('#_LinkEmail').val("");
+        $('#_Remark').val("");
+    }
+
+    $('#parent-modal').on('show.bs.modal', function (e) {
+        initParentModal();
+
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
+    });
+
+    $('#parent-modal').on('shown.bs.modal', function (e) {
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
+
+    });
+    $('#parent-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hide");
+    });
+    $('#parent-modal').on('hidden.bs.modal', function () {
+        //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
+        $(this).removeData("bs.modal");
+        //alert("hidden");
+    });
+
+
+    function submitParentModal() {
+
+        $('#parentErrMsg').hide();
+        $('#_CustomerName').parent().removeClass("has-error");
+        $('#_WorkDate').parent().removeClass("has-error");
+        $('#_WorkTime').parent().removeClass("has-error");
+        $('#_EstimatedCompletionTime').parent().removeClass("has-error");
+
+        $('#_ShipName').parent().removeClass("has-error");
+        $('#_WorkPlace').parent().removeClass("has-error");
+        $('#_ServiceNatureNames').removeClass("has-error");
+
+        $('#_BigTugNum').parent().removeClass("has-error");
+        $('#_MiddleTugNum').parent().removeClass("has-error");
+        $('#_SmallTugNum').parent().removeClass("has-error");
+
+
+        $('#_LinkMan').parent().removeClass("has-error");
+        $('#_LinkPhone').parent().removeClass("has-error");
+        $('#_LinkEmail').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+
+        var maxTextLength = 10;
+        var maxTextAreaLength = 100;
+
+
+        var customerId = $("#_CustomerID").text();
+        var customerName = $("#_CustomerName").val().trim();
+        var workDate = $("#_WorkDate").val().trim();
+        var workTime = $("#_WorkTime").val().trim();
+        var estimatedCompletionTime = $("#_EstimatedCompletionTime").val().trim();
+        var shipId = $("#_ShipID").text();
+        var shipName = $("#_ShipName").val().trim();
+        var workPlace = $("#_WorkPlace").val().trim();
+        var bigTugNum = $("#_BigTugNum").val().trim();
+        var middleTugNum = $("#_MiddleTugNum").val().trim();
+        var smallTugNum = $("#_SmallTugNum").val().trim();
+        var linkMan = $("#_LinkMan").val().trim();
+        var linkPhone = $("#_LinkPhone").val().trim();
+        var linkEmail = $("#_LinkEmail").val().trim();
+        var remark = $("#_Remark").val().trim();
+
+        if (customerName.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "必填");
+            $('#_CustomerName').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        } else if (customerName.length > maxTextLength) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "长度不能超过" + maxTextLength);
+            $('#_CustomerName').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+        else if (workDate.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkDate' + "必填");
+            $('#_WorkDate').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+        else if (workTime.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkTime' + "必填");
+            $('#_WorkTime').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+        else if (estimatedCompletionTime.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_EstimatedCompletionTime' + "必填");
+            $('#_EstimatedCompletionTime').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+        else if (shipName.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ShipName' + "必填");
+            $('#_ShipName').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        } else if (shipName.length > maxTextLength) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ShipName' + "长度不能超过" + maxTextLength);
+            $('#_ShipName').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+
+        else if (workPlace.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkPlace' + "必填");
+            $('#_WorkPlace').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        } else if (workPlace.length > maxTextLength) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkPlace' + "长度不能超过" + maxTextLength);
+            $('#_WorkPlace').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+        var hasChecked = false;
+        var serviceNatureIds = '', serviceNatureNames = '';
+        $("input[name='serviceCheckbox']").each(function () {
+            if ($(this).is(':checked')) {
+
+                hasChecked = true;
+                serviceNatureIds += $(this).val().toString().split('~')[0] + '/';
+                serviceNatureNames += $(this).val().toString().split('~')[2] + '/';
+            }
+        });
+
+        if (hasChecked == true){
+            serviceNatureIds = serviceNatureIds.substr(0, serviceNatureIds.length - 1);
+            serviceNatureNames = serviceNatureNames.substr(0, serviceNatureNames.length - 1)
+        }
+        else {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ServiceNatureNames' + ":至少选择一项服务内容");
+            $('#_ServiceNatureNames').addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+        //alert(serviceNatureIds);
+        //alert(serviceNatureNames);
+        
+
+        if (bigTugNum.length > 0) {
+            var r = bigTugNum.match("^\\d+$");
+            if (r == null) {
+                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_BigTugNum' + ":请输入大于或等于0的整数");
+                $('#_BigTugNum').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+        }
+
+        else if (middleTugNum.length > 0) {
+            var r = middleTugNum.match("^\\d+$");
+            if (r == null) {
+                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_MiddleTugNum' + ":请输入大于或等于0的整数");
+                $('#_MiddleTugNum').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+        }
+
+        else if (smallTugNum.length > 0) {
+            var r = smallTugNum.match("^\\d+$");
+            if (r == null) {
+                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_SmallTugNum' + ":请输入大于或等于0的整数");
+                $('#_SmallTugNum').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+        }
+
+        else if (linkMan.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "必填");
+            $('#_LinkMan').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        } else if (linkMan.length > maxTextLength) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "长度不能超过" + maxTextLength);
+            $('#_LinkMan').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+        else if (linkPhone.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "必填");
+            $('#_LinkPhone').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        } else if (linkPhone.length > maxTextLength) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "长度不能超过" + maxTextLength);
+            $('#_LinkPhone').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+
+        else if (linkEmail.length > 0) {
+            var util = new Util();
+            
+            if (false == util.isEmail2(linkEmail)) {
+                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkEmail' + ":输入的电子邮件无效");
+                $('#_LinkEmail').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+
+        }
+
+        else if (remark.length > maxTextAreaLength) {
+            $('#parentErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#_Remark').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+
+        //提交数据库
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("AddOrder", "OrderManage")',
+            data: {
+                'customerId': customerId,
+                'customerName': customerName,
+                'workDate': workDate,
+                'workTime': workTime,
+                'estimatedCompletionTime': estimatedCompletionTime,
+                'shipId': shipId,
+                'shipName': shipName,
+                'workPlace': workPlace,
+                'serviceNatureIds': serviceNatureIds,
+                'serviceNatureNames': serviceNatureNames,
+                'bigTugNum': bigTugNum,
+                'middleTugNum': middleTugNum,
+                'smallTugNum': smallTugNum,
+                'linkMan': linkMan,
+                'linkPhone': linkPhone,
+                'linkEmail': linkEmail,
+                'remark': remark,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#parent-modal').modal('hide')
+                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                alert(result.message);
+
+                $('#jqGrid').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetData", "OrderManage")',
+                }).trigger('reloadGrid');
+
+                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "OrderManage")' });
+
+            },
+        });
+
+    }
+
+
+
+
 </script>

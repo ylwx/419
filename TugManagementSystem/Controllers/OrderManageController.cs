@@ -138,7 +138,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.WorkTime = Request.Form["WorkTime"].Trim();
                         aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
 
-                        aOrder.IsGuest = Request.Form["IsGuest"].Trim();
+                        aOrder.IsGuest = "否"; // Request.Form["IsGuest"].Trim();
                         aOrder.LinkMan = Request.Form["LinkMan"].Trim();
                         aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
                         aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
@@ -285,6 +285,88 @@ namespace TugManagementSystem.Controllers
             #endregion Edit
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
+        public ActionResult AddOrder(int customerId, string customerName, string workDate, string workTime, string estimatedCompletionTime,
+            int shipId, string shipName, string workPlace, string serviceNatureIds, string serviceNatureNames, string bigTugNum,
+            string middleTugNum, string smallTugNum, string linkMan, string linkPhone, string linkEmail, string remark) 
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    TugDataModel.OrderInfor aOrder = new OrderInfor();
+
+                    aOrder.Code = TugBusinessLogic.Utils.GetOrderSequenceNo();
+
+                    aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    aOrder.CustomerID = customerId;
+                    aOrder.CustomerName = customerName;
+                    aOrder.WorkDate = workDate;
+                    aOrder.WorkTime = workTime;
+                    aOrder.EstimatedCompletionTime = estimatedCompletionTime;
+
+                    aOrder.IsGuest = "否";
+                    aOrder.LinkMan = linkMan;
+                    aOrder.LinkPhone = linkPhone;
+                    aOrder.LinkEmail = linkEmail;
+
+                    if (bigTugNum != "")
+                        aOrder.BigTugNum = Convert.ToInt32(bigTugNum);
+                    if (middleTugNum != "")
+                        aOrder.MiddleTugNum = Convert.ToInt32(middleTugNum);
+                    if (smallTugNum != "")
+                        aOrder.SmallTugNum = Convert.ToInt32(smallTugNum);
+
+                    aOrder.OwnerID = -1;
+                    aOrder.Remark = remark;
+                    aOrder.ShipID = shipId;
+                    aOrder.ShipName = shipName;
+                    aOrder.UserID = -1;
+                    aOrder.WorkPlace = workPlace;
+
+                    aOrder.ServiceNatureIDS = serviceNatureIds;
+                    aOrder.ServiceNatureNames = serviceNatureNames;
+
+                    //aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
+                    aOrder.WorkStateID = 1; //CustomField表里面的OrderInfor.WorkStateID的IDX
+
+                    aOrder.UserDefinedCol1 = "";
+                    aOrder.UserDefinedCol2 = "";
+                    aOrder.UserDefinedCol3 = "";
+                    aOrder.UserDefinedCol4 = "";
+
+                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                    //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                    //    aOrder.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+
+                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                    //    aOrder.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+
+                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                    //    aOrder.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+
+                    aOrder.UserDefinedCol9 = "";
+                    aOrder.UserDefinedCol10 = "";
+
+                    aOrder = db.OrderInfor.Add(aOrder);
+                    db.SaveChanges();
+
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                return Json(ret);
+            }
         }
 
         public ActionResult Delete()

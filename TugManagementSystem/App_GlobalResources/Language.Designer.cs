@@ -1213,7 +1213,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 是否遊客下單 的本地化字符串。
+        ///   查找类似 是否客戶下單 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_IsGuest {
             get {
