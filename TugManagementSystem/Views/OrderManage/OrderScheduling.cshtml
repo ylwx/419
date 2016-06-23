@@ -8,60 +8,15 @@
 
 <div id="main-content">
 
-    <!-- 拖轮选择模态框-->
-    <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="model-dlg" class="modal-dialog" style="width:1200px">
+
+    <!-- Child MODAL FORM-->
+    <div class="modal fade" id="child-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="child-model-dlg" class="modal-dialog" style="width:500px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">拖轮选择</h4>
                 </div>*@
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- BOX -->
-                            <div class="box border orange">
-                                <div class="box-title">
-                                    <h4><i class="fa fa-bars"></i>拖轮选择</h4>
-                                </div>
-                                <div class="box-body">
-                                    <label for="search_cells">
-                                        搜索:
-                                    </label>
-                                    <input id="search_cells" type="search" class="control-group" placeholder="输入拖轮名称"/>
-                                    
-                                    <table id="jqGrid2" style="padding:inherit"></table>
-                                    <div id="jqGridPager2"></div>
-                                    <div id="cur_operate_chid_grid" hidden></div>
-
-                                    
-                                </div>
-                            </div>
-                            <!-- /BOX -->
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /拖轮选择模态框-->
-
-
-    <!-- Child MODAL FORM-->
-    <div class="modal fade" id="child-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="model-dlg" class="modal-dialog" style="width:500px">
-            <div class="modal-content modal-table">
-                @*<div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">拖轮选择</h4>
-                    </div>*@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -78,15 +33,12 @@
                                     @*<h4 class="form-title">Supported controls</h4>*@
                                     <form class="form-horizontal" role="form">
 
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceNatureLabel</label>
                                             <div class="col-sm-9">
-                                                <select id="_ServiceNatureLabel" class="form-control"> 
-                                                </select>
+                                                <select id="_ServiceNatureLabel" class="form-control"></select>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ChooseTug</label>
                                             <div class="col-sm-9">
@@ -98,7 +50,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_JobStateLabel</label>
                                             <div class="col-sm-9">
@@ -108,13 +59,12 @@
                                                         foreach (CustomField item in lstJobStates)
                                                         {
                                                             string tmp = item.IDX + "~" + item.CustomValue + "~" + item.CustomLabel;
-                                                            <option value="@tmp">@item.CustomLabel</option>
+                                                    <option value="@tmp">@item.CustomLabel</option>
                                                         }
                                                     }
                                                 </select>
                                             </div>
                                         </div>
-
 
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeUsed</label>
@@ -125,25 +75,21 @@
                                             </div>
                                         </div>
 
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeNum</label>
                                             <div class="col-sm-9">
-                                                <input id="_RopeNum" type="text" value="0" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled/>
+                                                <input id="_RopeNum" type="text" value="0" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
                                             </div>
                                         </div>
-
 
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
                                             <div class="col-sm-9">
-                                                <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')" ></textarea>
+                                                <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                             </div>
                                         </div>
 
-
                                     </form>
-
                                     <div id="childErrMsg" class="alert alert-block alert-warning fade in" hidden>
                                         @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
                                         <i class="fa fa-exclamation-circle"></i><p style=""></p>
@@ -154,7 +100,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div id="_TugID">-1</div>
+                    <div id="_TugID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" onclick="submitChildModal()">提交</button>
                 </div>
@@ -162,6 +108,55 @@
         </div>
     </div>
     <!-- /Child MODAL FORM-->
+
+
+    <!-- 拖轮选择模态框-->
+    <div class="modal fade" id="table-modal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+        <div id="table-model-dlg" class="modal-dialog" style="width:1000px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">拖轮选择</h4>
+                </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BOX -->
+                            <div class="box border orange">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-bars"></i>拖轮选择</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#table-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <label for="search_cells">
+                                        搜索:
+                                    </label>
+                                    <input id="search_cells" type="search" class="control-group" placeholder="输入拖轮名称" />
+
+                                    <table id="jqGrid2" style="padding:inherit"></table>
+                                    <div id="jqGridPager2"></div>
+                                    <div id="cur_operate_chid_grid" hidden></div>
+
+                                </div>
+                            </div>
+                            <!-- /BOX -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /拖轮选择模态框-->
+
 
 
 
@@ -1564,6 +1559,9 @@
                 //jQuery('' + curChildGridId).setCell(childRowid, 'SimpleName', dr.SimpleName);
 
             }
+
+            $('#_TugID').text(dr.TugID);
+            $('#_ChooseTug').val(dr.CnName);
         }
     }
 
@@ -1768,7 +1766,7 @@
 
             ],
             viewrecords: true,
-            width: $('#model-dlg').width() - 25,//780,
+            width: $('#table-model-dlg').width() - 25,//780,
             height: '100%',
             rowNum: 15,
             //autowidth: true,
@@ -1811,7 +1809,6 @@
 
         $('#jqGrid2').navGrid('#jqGridPager2', { edit: false, add: false, del: false, refresh: false, view: false, search: false });
 
-        //$('#model-dlg').width($('#jqGrid2').width() + 40);
 
         var timer;
         $("#search_cells").on("keyup", function () {
@@ -2136,7 +2133,7 @@
 
     function ropeUsedCheck() {
         var ret = $('#_RopeUsed input[type="checkbox"]').is(':checked');
-        
+
         if (ret == false) {
             $('#_RopeNum').attr("disabled", "disabled");
         } else {
@@ -2157,11 +2154,11 @@
 
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
-        
+
         var orderId = dr.IDX;
-        var serviceNatureID = $('#_ServiceNatureLabel').val();
-        var tugID = $('#_TugID').text();
-        var jobStateID = $("#_JobStateLabel").val().toString().split('~')[0];
+        var serviceNatureId = $('#_ServiceNatureLabel').val();
+        var tugId = $('#_TugID').text();
+        var jobStateId = $("#_JobStateLabel").val().toString().split('~')[0];
         var ropeUsed = "否";
         if (true == $("#_RopeUsed").is(':checked'))
             ropeUsed = "是"
@@ -2196,6 +2193,39 @@
 
 
         //提交数据库
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("AddScheduler", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+                'tugId': tugId,
+                'jobStateId': jobStateId,
+                'ropeUsed': ropeUsed,
+                'ropeNum': ropeNum,
+                'remark': remark,
+
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#child-modal').modal('hide')
+                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                alert(result.message);
+
+                var childGridURL = '@Url.Action("GetOrderSubSchedulerData", "OrderManage")' + "?orderId=" + orderId;
+
+                $('' + g_cur_subGridId).jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: childGridURL,
+                }).trigger('reloadGrid');
+
+                $('' + g_cur_subGridId).jqGrid('setGridParam', { editurl: '@Url.Action("AddEditScheduler", "OrderManage")' });
+
+            },
+        });
 
     }
 </script>

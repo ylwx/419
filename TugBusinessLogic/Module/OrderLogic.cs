@@ -2195,7 +2195,8 @@ namespace TugBusinessLogic.Module
             {
                 foreach (V_OrderScheduler item in schedulers)
                 {
-                    tugEx = SetTugBusyState(item.DepartBaseTime.Trim(), item.ArrivalBaseTime.Trim(), tugEx);
+                    if(item.DepartBaseTime != null && item.ArrivalBaseTime != null)
+                        tugEx = SetTugBusyState(item.DepartBaseTime.Trim(), item.ArrivalBaseTime.Trim(), tugEx);
                     //tugEx = SetTugBusyState("00:20", "00:30", tugEx);
                 }
             }

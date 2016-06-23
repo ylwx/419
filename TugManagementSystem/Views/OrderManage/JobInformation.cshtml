@@ -7,11 +7,112 @@
 }
 
 
-
 <div id="main-content">
-    <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
-    <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="model-dlg" class="modal-dialog" style="width:1200px">
+
+    <!-- Child MODAL FORM-->
+    <div class="modal fade" id="child-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="child-model-dlg" class="modal-dialog" style="width:500px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>新增拖轮调度</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#child-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    @*<h4 class="form-title">Supported controls</h4>*@
+                                    <form class="form-horizontal" role="form">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceNatureLabel</label>
+                                            <div class="col-sm-9">
+                                                <select id="_ServiceNatureLabel" class="form-control"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ChooseTug</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input id="_ChooseTug" type="text" class="form-control" disabled>
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-success" onclick="$('#table-modal').modal()" onfocus="$(this).parent().parent().removeClass('has-error')">@Resources.Language.V_OrderScheduler_ChooseTug</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_JobStateLabel</label>
+                                            <div class="col-sm-9">
+                                                <select id="_JobStateLabel" class="form-control">
+                                                    @{
+                                                        List<CustomField> lstJobStates = (List<CustomField>)ViewBag.JobStates;
+                                                        foreach (CustomField item in lstJobStates)
+                                                        {
+                                                            string tmp = item.IDX + "~" + item.CustomValue + "~" + item.CustomLabel;
+                                                            <option value="@tmp">@item.CustomLabel</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeUsed</label>
+                                            <div id="_RopeUsed" class="col-sm-9">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" onfocus="$(this).parent().parent().removeClass('has-error')" onchange="ropeUsedCheck()">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeNum</label>
+                                            <div class="col-sm-9">
+                                                <input id="_RopeNum" type="text" value="0" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                    <div id="childErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="_TugID" hidden>-1</div>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submitChildModal()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Child MODAL FORM-->
+
+
+    <!-- 拖轮选择模态框-->
+    <div class="modal fade" id="table-modal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+        <div id="table-model-dlg" class="modal-dialog" style="width:1000px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -24,6 +125,11 @@
                             <div class="box border orange">
                                 <div class="box-title">
                                     <h4><i class="fa fa-bars"></i>拖轮选择</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#table-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="box-body">
                                     <label for="search_cells">
@@ -49,7 +155,8 @@
             </div>
         </div>
     </div>
-    <!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
+    <!-- /拖轮选择模态框-->
+
 
     <div class="container">
         <div class="row">
@@ -79,6 +186,7 @@
                                 <h3 class="content-title pull-left">Grid Test</h3>
                             </div>
                             <div class="description">Table</div>
+                            @*<div><button class="btn btn-danger" onclick="AddChild()">Add Child</button></div>*@
                         </div>
                     </div>
                 </div>
@@ -130,7 +238,6 @@
     </div>
 
 </div>
-
 
 
 
@@ -398,7 +505,7 @@
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ChooseTug', name: "SimpleName", width: 100, editable: true, edittype: 'text',
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: 'text',
                     editrules: { required: false, edithidden: true }, hidden: false,
                     editoptions: {
                         @*custom_value: function (elem, oper, value){},
@@ -901,7 +1008,7 @@
         //subGridPager
         $('#' + childGridID).navGrid('#' + childGridPagerID, { edit: false, add: false, del: false, refresh: false, view: false, search: false })
         .navButtonAdd('#' + childGridPagerID, {
-            id: childGridID + 'jqGrid_ilrefresh',
+            id: childGridID + '_ilrefresh',
             caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
             onClickButton: function () {
 
@@ -939,13 +1046,21 @@
                     }
                 },
                 position: "last"
+            }).navButtonAdd('#' + childGridPagerID, {
+                //id: childGridID + '_ilrefresh',
+                caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                onClickButton: function () {
+                    g_cur_parentGridRowId = parentRowKey;
+                    g_cur_subGridId = '#' + childGridID;
+                    AddChild();
+                }
             });
 
 
         $('#' + childGridID).inlineNav('#' + childGridPagerID,
             {
                 edit: true,
-                add: true,
+                add: false,
                 del: true,
                 cancel: true,
                 editParams: {
@@ -1391,7 +1506,7 @@
                     url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + dr.WorkDate,
                 }).trigger('reloadGrid');
 
-        $("#jqGrid2").jqGrid('setCaption', '<' + dr.WorkDate + '>日拖轮调度状态');
+        $("#jqGrid2").jqGrid('setCaption', '<' + dr.WorkDate + '>日拖轮调度状态' );
         //$('#jqGrid2').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
     });
 
@@ -1438,6 +1553,9 @@
                 //jQuery('' + curChildGridId).setCell(childRowid, 'SimpleName', dr.SimpleName);
 
             }
+
+            $('#_TugID').text(dr.TugID);
+            $('#_ChooseTug').val(dr.CnName);
         }
     }
 
@@ -1455,7 +1573,7 @@
             url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + new Date().Format("yyyy-MM-dd"),
             mtype: "GET",
             datatype: "json",
-            caption: '拖轮调度状态',
+            caption : '拖轮调度状态',
             colModel: [
 
                 {
@@ -1642,7 +1760,7 @@
 
             ],
             viewrecords: true,
-            width: $('#model-dlg').width() - 25,//780,
+            width: $('#table-model-dlg').width() - 25,//780,
             height: '100%',
             rowNum: 15,
             //autowidth: true,
@@ -1685,7 +1803,6 @@
 
         $('#jqGrid2').navGrid('#jqGridPager2', { edit: false, add: false, del: false, refresh: false, view: false, search: false });
 
-        //$('#model-dlg').width($('#jqGrid2').width() + 40);
 
         var timer;
         $("#search_cells").on("keyup", function () {
@@ -1734,7 +1851,7 @@
             editurl: null,
             colModel: [
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, hidden: true,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "IDX", name: "IDX", width: 100, hidden:true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 90
@@ -1743,7 +1860,7 @@
                     align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "Code", width: 100,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, hidden: true,
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, hidden:true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120,
@@ -1823,7 +1940,7 @@
                     label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, hidden: true,
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, hidden:true,
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, hidden: true,
@@ -1948,4 +2065,160 @@
 
     }
 
+</script>
+
+
+<script type="text/javascript">
+    //模态框
+
+    function AddChild() {
+        $('#child-modal').modal()
+
+    }
+
+    function initChildModal() {
+        $('#childErrMsg').hide();
+        $('#_ChooseTug').parent().removeClass("has-error");
+        $('#_RopeNum').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+
+        $('#_ServiceNatureLabel').empty();
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+
+        var serviceNatureIDS = dr.ServiceNatureIDS.split('/');
+        var serviceNatureNames = dr.ServiceNatureNames.split('/');
+        for (var i = 0; i < serviceNatureIDS.length; i++) {
+            var option = "<option value=" + serviceNatureIDS[i] + ">" + serviceNatureNames[i] + "</option>"
+            $('#_ServiceNatureLabel').append(option)
+        }
+
+        $("#_ServiceNatureLabel option:first").prop("selected", 'selected');
+
+        $('#_ChooseTug').val("");
+        $("#_JobStateLabel option:first").prop("selected", 'selected');
+        $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+        $('#_RopeNum').val("0");
+        $('#_RopeNum').attr("disabled", "disabled");
+        $('#_Remark').val("");
+    }
+
+    $('#child-modal').on('show.bs.modal', function (e) {
+        initChildModal();
+
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
+    });
+
+    $('#child-modal').on('shown.bs.modal', function (e) {
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
+
+    });
+    $('#child-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hide");
+    });
+    $('#child-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hidden");
+    });
+
+    function ropeUsedCheck() {
+        var ret = $('#_RopeUsed input[type="checkbox"]').is(':checked');
+
+        if (ret == false) {
+            $('#_RopeNum').attr("disabled", "disabled");
+        } else {
+            $('#_RopeNum').removeAttr("disabled");
+        }
+    }
+
+    function submitChildModal() {
+
+        var maxTextLength = 25;
+        var maxTextAreaLength = 500;
+
+
+        $('#childErrMsg').hide();
+        $('#_ChooseTug').parent().removeClass("has-error");
+        $('#_RopeNum').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+
+        var orderId = dr.IDX;
+        var serviceNatureId = $('#_ServiceNatureLabel').val();
+        var tugId = $('#_TugID').text();
+        var jobStateId = $("#_JobStateLabel").val().toString().split('~')[0];
+        var ropeUsed = "否";
+        if (true == $("#_RopeUsed").is(':checked'))
+            ropeUsed = "是"
+
+        var ropeNum = $('#_RopeNum').val().toString().trim();
+        var remark = $('#_Remark').val().toString().trim();
+
+        //校验
+        if ($("#_ChooseTug").val().toString().trim().length <= 0) {
+            $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ChooseTug' + ":请选择一个拖轮");
+            $('#_ChooseTug').parent().addClass("has-error");
+            $('#childErrMsg').show();
+            return;
+        }
+
+        if (true == $("#_RopeUsed").is(':checked')) {
+            var r = ropeNum.match("^\\d+$");
+            if (r == null) {
+                $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_RopeNum' + ":请输入0或正整数");
+                $('#_RopeNum').parent().addClass("has-error");
+                $('#childErrMsg').show();
+                return;
+            }
+        }
+
+        if (remark.length > maxTextAreaLength) {
+            $('#childErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#_Remark').parent().addClass("has-error");
+            $('#childErrMsg').show();
+            return;
+        }
+
+
+        //提交数据库
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("AddScheduler", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+                'tugId': tugId,
+                'jobStateId': jobStateId,
+                'ropeUsed': ropeUsed,
+                'ropeNum': ropeNum,
+                'remark': remark,
+
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#child-modal').modal('hide')
+                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                alert(result.message);
+
+                var childGridURL = '@Url.Action("GetOrderSubSchedulerData", "OrderManage")' + "?orderId=" + orderId;
+
+                $('' + g_cur_subGridId).jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: childGridURL,
+                }).trigger('reloadGrid');
+
+                $('' + g_cur_subGridId).jqGrid('setGridParam', { editurl: '@Url.Action("AddEditScheduler", "OrderManage")' });
+
+            },
+        });
+
+    }
 </script>

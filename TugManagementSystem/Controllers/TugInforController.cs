@@ -253,7 +253,7 @@ namespace TugManagementSystem.Controllers
                 var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = lst };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }

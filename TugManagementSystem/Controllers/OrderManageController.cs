@@ -37,6 +37,7 @@ namespace TugManagementSystem.Controllers
             lan = this.Internationalization();
             ViewBag.Language = lan;
 
+            ViewBag.JobStates = TugBusinessLogic.Utils.GetJobStates();
             return View();
         }
 
@@ -711,6 +712,66 @@ namespace TugManagementSystem.Controllers
             #endregion Edit
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
+
+        public ActionResult AddScheduler(int orderId, int serviceNatureId, int tugId, int jobStateId, string ropeUsed, int ropeNum, string remark)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    TugDataModel.Scheduler aScheduler = new Scheduler();
+
+                    aScheduler.OrderID = orderId;
+                    aScheduler.ServiceNatureID = serviceNatureId;
+                    aScheduler.TugID = tugId;
+                    aScheduler.JobStateID = jobStateId;
+                    aScheduler.RopeUsed = ropeUsed;
+                    aScheduler.RopeNum = ropeNum;
+                    aScheduler.Remark = remark;
+
+                    aScheduler.OwnerID = -1;
+                    aScheduler.UserID = -1;
+                   
+                    aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    aScheduler.UserDefinedCol1 = "";
+                    aScheduler.UserDefinedCol2 = "";
+                    aScheduler.UserDefinedCol3 = "";
+                    aScheduler.UserDefinedCol4 = "";
+
+                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                    //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                    //    aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+
+                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                    //    aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+
+                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                    //    aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+
+                    aScheduler.UserDefinedCol9 = "";
+                    aScheduler.UserDefinedCol10 = "";
+
+                    aScheduler = db.Scheduler.Add(aScheduler);
+                    db.SaveChanges();
+
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                return Json(ret);
+            }
         }
 
         public ActionResult DeleteScheduler()
