@@ -19,6 +19,12 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+        public ActionResult Logout(string lan, int? id)
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
+        }
+
         [HttpGet]
         [Authorize]
         public ActionResult UserInfor(string lan, int? id)
@@ -45,7 +51,6 @@ namespace TugManagementSystem.Controllers
         public ActionResult ChangePwd(string lan, int? id)
         {
             lan = this.Internationalization();
-
             return View();
         }
 
@@ -80,7 +85,7 @@ namespace TugManagementSystem.Controllers
             if (user != null)
             {
                 FormsAuthentication.SetAuthCookie(user.UserName, false);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("OrderManage", "OrderManage");
             }
             else
             {
@@ -113,45 +118,36 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult UpdateUserInfor()
+        public ActionResult UpdateUserInfor(string UserName)
         {
-            string tmpUser = Request.Form["UserName"].ToString();
+            string tmpUser = UserName;
             TugDataEntities db = new TugDataEntities();
-            UserInfor newUser = new UserInfor();
             System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == tmpUser;
-            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
-            if (user != null)  //更新用户信息
+            try
             {
-                newUser.CnName = Request.Form["CnName"].ToString();
-                newUser.EnName = Request.Form["EnName"].ToString();
-                newUser.Email = Request.Form["Email"].ToString();
-                newUser.Tel = Request.Form["Tel"].ToString();
-                newUser.Sex = Request.Form["Sex"].ToString();
-                newUser = db.UserInfor.Add(newUser);
-                db.SaveChanges();
-                return Json(new { message = "个人信息已更新！" });
+                UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
+                if (user != null)  //更新用户信息
+                {
+                    user.CnName = Request.Form["CnName"].ToString();
+                    user.EnName = Request.Form["EnName"].ToString();
+                    user.Email = Request.Form["Email"].ToString();
+                    user.Tel = Request.Form["Tel"].ToString();
+                    user.Sex = Request.Form["Sex"].ToString();
+                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { message = "个人信息已更新！" });
+                }
+                else   //失败
+                {
+                    return Json(new { message = "未找到当前用户信息！" });
+                }
             }
-            else   //失败
+            catch (Exception ex)
             {
-                return Json(new { message = "未找到当前用户信息！" });
+                Console.WriteLine(ex.Message);
+                return Json(new { message = ex.Message });
+                //throw;
             }
-        }
-
-        //[Authorize]
-        public ActionResult Index(string lan, int? id)
-        {
-            lan = this.Internationalization();
-
-            //var p = Request.Params;
-            //var q = Request.RawUrl;
-            //ViewBag.Title = "Home Page";
-            //ViewBag.Language = lan;
-            //ViewBag.Controller = "Home";
-            //Console.WriteLine(User.Identity.Name);
-            //TugDataModel.OrderInfor order = new OrderInfor();
-            //order.Code = "123";
-
-            return View();
         }
     }
 }
