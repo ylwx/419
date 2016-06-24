@@ -84,7 +84,7 @@
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderID" Type="int" />
           <Property Name="CustomerID" Type="int" />
-          <Property Name="BillingType" Type="int" />
+          <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeID" Type="int" />
@@ -94,7 +94,6 @@
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
           <Property Name="TaskID" Type="int" />
           <Property Name="Phase" Type="int" />
-          <Property Name="TaskName" Type="nvarchar" MaxLength="50" />
           <Property Name="OwnerID" Type="int" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
           <Property Name="UserID" Type="int" />
@@ -723,6 +722,72 @@
           <Property Name="Phase" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_Invoice”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Invoice">
+          <Key>
+            <PropertyRef Name="BillingID" />
+            <PropertyRef Name="BillingItemIDX" />
+          </Key>
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="OrderWorkDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderWorkTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderEstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceNatureID" Type="int" />
+          <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="TugID" Type="int" />
+          <Property Name="TugCnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TugEnName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TugSimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="JobStateID" Type="int" />
+          <Property Name="JobStateLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="InformCaptainTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="CaptainConfirmTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ArrivalShipSideTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkCommencedTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkCompletedTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="RopeUsed" Type="nvarchar" MaxLength="50" />
+          <Property Name="RopeNum" Type="int" />
+          <Property Name="OrderSchedulerRemark" Type="nvarchar(max)" />
+          <Property Name="OrderSchedulerOwnerID" Type="int" />
+          <Property Name="OrderSchedulerUserID" Type="int" />
+          <Property Name="OrderSchedulerCreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderSchedulerLastUpDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingID" Type="int" Nullable="false" />
+          <Property Name="BillingTypeID" Type="int" />
+          <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeID" Type="int" />
+          <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreditContent" Type="nvarchar(max)" />
+          <Property Name="CreditAmount" Type="float" />
+          <Property Name="BillingRemark" Type="nvarchar(max)" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="TaskID" Type="int" />
+          <Property Name="TaskValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="TaskLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phase" Type="int" />
+          <Property Name="BillingOwnerID" Type="int" />
+          <Property Name="BillingCreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingUserID" Type="int" />
+          <Property Name="BillingLastUpDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingItemIDX" Type="int" Nullable="false" />
+          <Property Name="ItemID" Type="int" />
+          <Property Name="BillingItemValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingItemLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="UnitPrice" Type="float" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="50" />
+          <Property Name="PositionTypeID" Type="int" />
+          <Property Name="PositionTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="PositionTypeLabel" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_NeedApproveBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_NeedApproveBilling">
           <Key>
@@ -1144,6 +1209,68 @@
     [V_Flow].[Phase] AS [Phase]
     FROM [dbo].[V_Flow] AS [V_Flow]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_Invoice" EntityType="Self.V_Invoice" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Invoice].[CustomerID] AS [CustomerID], 
+    [V_Invoice].[CustomerName] AS [CustomerName], 
+    [V_Invoice].[OrderID] AS [OrderID], 
+    [V_Invoice].[OrderWorkDate] AS [OrderWorkDate], 
+    [V_Invoice].[OrderWorkTime] AS [OrderWorkTime], 
+    [V_Invoice].[OrderEstimatedCompletionTime] AS [OrderEstimatedCompletionTime], 
+    [V_Invoice].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Invoice].[ServiceNatureLabel] AS [ServiceNatureLabel], 
+    [V_Invoice].[TugID] AS [TugID], 
+    [V_Invoice].[TugCnName] AS [TugCnName], 
+    [V_Invoice].[TugEnName] AS [TugEnName], 
+    [V_Invoice].[TugSimpleName] AS [TugSimpleName], 
+    [V_Invoice].[JobStateID] AS [JobStateID], 
+    [V_Invoice].[JobStateLabel] AS [JobStateLabel], 
+    [V_Invoice].[InformCaptainTime] AS [InformCaptainTime], 
+    [V_Invoice].[CaptainConfirmTime] AS [CaptainConfirmTime], 
+    [V_Invoice].[DepartBaseTime] AS [DepartBaseTime], 
+    [V_Invoice].[ArrivalShipSideTime] AS [ArrivalShipSideTime], 
+    [V_Invoice].[WorkCommencedTime] AS [WorkCommencedTime], 
+    [V_Invoice].[WorkCompletedTime] AS [WorkCompletedTime], 
+    [V_Invoice].[ArrivalBaseTime] AS [ArrivalBaseTime], 
+    [V_Invoice].[RopeUsed] AS [RopeUsed], 
+    [V_Invoice].[RopeNum] AS [RopeNum], 
+    [V_Invoice].[OrderSchedulerRemark] AS [OrderSchedulerRemark], 
+    [V_Invoice].[OrderSchedulerOwnerID] AS [OrderSchedulerOwnerID], 
+    [V_Invoice].[OrderSchedulerUserID] AS [OrderSchedulerUserID], 
+    [V_Invoice].[OrderSchedulerCreateDate] AS [OrderSchedulerCreateDate], 
+    [V_Invoice].[OrderSchedulerLastUpDate] AS [OrderSchedulerLastUpDate], 
+    [V_Invoice].[BillingID] AS [BillingID], 
+    [V_Invoice].[BillingTypeID] AS [BillingTypeID], 
+    [V_Invoice].[BillingTypeValue] AS [BillingTypeValue], 
+    [V_Invoice].[BillingTypeLabel] AS [BillingTypeLabel], 
+    [V_Invoice].[BillingCode] AS [BillingCode], 
+    [V_Invoice].[BillingName] AS [BillingName], 
+    [V_Invoice].[TimeTypeID] AS [TimeTypeID], 
+    [V_Invoice].[TimeTypeValue] AS [TimeTypeValue], 
+    [V_Invoice].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_Invoice].[CreditContent] AS [CreditContent], 
+    [V_Invoice].[CreditAmount] AS [CreditAmount], 
+    [V_Invoice].[BillingRemark] AS [BillingRemark], 
+    [V_Invoice].[Month] AS [Month], 
+    [V_Invoice].[TaskID] AS [TaskID], 
+    [V_Invoice].[TaskValue] AS [TaskValue], 
+    [V_Invoice].[TaskLabel] AS [TaskLabel], 
+    [V_Invoice].[Phase] AS [Phase], 
+    [V_Invoice].[BillingOwnerID] AS [BillingOwnerID], 
+    [V_Invoice].[BillingCreateDate] AS [BillingCreateDate], 
+    [V_Invoice].[BillingUserID] AS [BillingUserID], 
+    [V_Invoice].[BillingLastUpDate] AS [BillingLastUpDate], 
+    [V_Invoice].[BillingItemIDX] AS [BillingItemIDX], 
+    [V_Invoice].[ItemID] AS [ItemID], 
+    [V_Invoice].[BillingItemValue] AS [BillingItemValue], 
+    [V_Invoice].[BillingItemLabel] AS [BillingItemLabel], 
+    [V_Invoice].[UnitPrice] AS [UnitPrice], 
+    [V_Invoice].[Currency] AS [Currency], 
+    [V_Invoice].[PositionTypeID] AS [PositionTypeID], 
+    [V_Invoice].[PositionTypeValue] AS [PositionTypeValue], 
+    [V_Invoice].[PositionTypeLabel] AS [PositionTypeLabel]
+    FROM [dbo].[V_Invoice] AS [V_Invoice]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_NeedApproveBilling" EntityType="Self.V_NeedApproveBilling" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_NeedApproveBilling].[BillingType] AS [BillingType], 
@@ -1387,6 +1514,7 @@
           <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
           <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
           <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
+          <EntitySet Name="V_Invoice" EntityType="Model.V_Invoice" />
           <EntitySet Name="V_NeedApproveBilling" EntityType="Model.V_NeedApproveBilling" />
           <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
@@ -1545,7 +1673,7 @@
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="Int32" />
           <Property Name="CustomerID" Type="Int32" />
-          <Property Name="BillingType" Type="Int32" />
+          <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeID" Type="Int32" />
@@ -1555,7 +1683,6 @@
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TaskID" Type="Int32" />
           <Property Name="Phase" Type="Int32" />
-          <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" />
@@ -2179,6 +2306,70 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="V_Invoice">
+          <Key>
+            <PropertyRef Name="BillingID" />
+            <PropertyRef Name="BillingItemIDX" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="OrderWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderWorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderEstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceNatureID" Type="Int32" />
+          <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TugID" Type="Int32" />
+          <Property Name="TugCnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TugEnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TugSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="JobStateID" Type="Int32" />
+          <Property Name="JobStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InformCaptainTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CaptainConfirmTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalShipSideTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkCommencedTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkCompletedTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RopeUsed" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RopeNum" Type="Int32" />
+          <Property Name="OrderSchedulerRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderSchedulerOwnerID" Type="Int32" />
+          <Property Name="OrderSchedulerUserID" Type="Int32" />
+          <Property Name="OrderSchedulerCreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderSchedulerLastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingID" Type="Int32" Nullable="false" />
+          <Property Name="BillingTypeID" Type="Int32" />
+          <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeID" Type="Int32" />
+          <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreditAmount" Type="Double" />
+          <Property Name="BillingRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskID" Type="Int32" />
+          <Property Name="TaskValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TaskLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phase" Type="Int32" />
+          <Property Name="BillingOwnerID" Type="Int32" />
+          <Property Name="BillingCreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingUserID" Type="Int32" />
+          <Property Name="BillingLastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingItemIDX" Type="Int32" Nullable="false" />
+          <Property Name="ItemID" Type="Int32" />
+          <Property Name="BillingItemValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingItemLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Double" />
+          <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PositionTypeID" Type="Int32" />
+          <Property Name="PositionTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PositionTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="V_NeedApproveBilling">
           <Key>
             <PropertyRef Name="IDX" />
@@ -2594,7 +2785,6 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
                 <ScalarProperty Name="Phase" ColumnName="Phase" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
@@ -2604,7 +2794,7 @@
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+                <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
@@ -3219,6 +3409,70 @@
                 <ScalarProperty Name="BillingTemplateTypeID" ColumnName="BillingTemplateTypeID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Invoice">
+            <EntityTypeMapping TypeName="Model.V_Invoice">
+              <MappingFragment StoreEntitySet="V_Invoice">
+                <ScalarProperty Name="PositionTypeLabel" ColumnName="PositionTypeLabel" />
+                <ScalarProperty Name="PositionTypeValue" ColumnName="PositionTypeValue" />
+                <ScalarProperty Name="PositionTypeID" ColumnName="PositionTypeID" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="BillingItemLabel" ColumnName="BillingItemLabel" />
+                <ScalarProperty Name="BillingItemValue" ColumnName="BillingItemValue" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="BillingItemIDX" ColumnName="BillingItemIDX" />
+                <ScalarProperty Name="BillingLastUpDate" ColumnName="BillingLastUpDate" />
+                <ScalarProperty Name="BillingUserID" ColumnName="BillingUserID" />
+                <ScalarProperty Name="BillingCreateDate" ColumnName="BillingCreateDate" />
+                <ScalarProperty Name="BillingOwnerID" ColumnName="BillingOwnerID" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="TaskLabel" ColumnName="TaskLabel" />
+                <ScalarProperty Name="TaskValue" ColumnName="TaskValue" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="BillingRemark" ColumnName="BillingRemark" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
+                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
+                <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
+                <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="OrderSchedulerLastUpDate" ColumnName="OrderSchedulerLastUpDate" />
+                <ScalarProperty Name="OrderSchedulerCreateDate" ColumnName="OrderSchedulerCreateDate" />
+                <ScalarProperty Name="OrderSchedulerUserID" ColumnName="OrderSchedulerUserID" />
+                <ScalarProperty Name="OrderSchedulerOwnerID" ColumnName="OrderSchedulerOwnerID" />
+                <ScalarProperty Name="OrderSchedulerRemark" ColumnName="OrderSchedulerRemark" />
+                <ScalarProperty Name="RopeNum" ColumnName="RopeNum" />
+                <ScalarProperty Name="RopeUsed" ColumnName="RopeUsed" />
+                <ScalarProperty Name="ArrivalBaseTime" ColumnName="ArrivalBaseTime" />
+                <ScalarProperty Name="WorkCompletedTime" ColumnName="WorkCompletedTime" />
+                <ScalarProperty Name="WorkCommencedTime" ColumnName="WorkCommencedTime" />
+                <ScalarProperty Name="ArrivalShipSideTime" ColumnName="ArrivalShipSideTime" />
+                <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
+                <ScalarProperty Name="CaptainConfirmTime" ColumnName="CaptainConfirmTime" />
+                <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
+                <ScalarProperty Name="JobStateLabel" ColumnName="JobStateLabel" />
+                <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
+                <ScalarProperty Name="TugSimpleName" ColumnName="TugSimpleName" />
+                <ScalarProperty Name="TugEnName" ColumnName="TugEnName" />
+                <ScalarProperty Name="TugCnName" ColumnName="TugCnName" />
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="ServiceNatureLabel" ColumnName="ServiceNatureLabel" />
+                <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
+                <ScalarProperty Name="OrderEstimatedCompletionTime" ColumnName="OrderEstimatedCompletionTime" />
+                <ScalarProperty Name="OrderWorkTime" ColumnName="OrderWorkTime" />
+                <ScalarProperty Name="OrderWorkDate" ColumnName="OrderWorkDate" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

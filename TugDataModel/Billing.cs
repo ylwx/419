@@ -22,7 +22,7 @@ namespace TugDataModel
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
         public Nullable<int> CustomerID { get; set; }
-        public Nullable<int> BillingType { get; set; }
+        public Nullable<int> BillingTypeID { get; set; }
         public string BillingCode { get; set; }
         public string BillingName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
@@ -32,7 +32,6 @@ namespace TugDataModel
         public string Month { get; set; }
         public Nullable<int> TaskID { get; set; }
         public Nullable<int> Phase { get; set; }
-        public string TaskName { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
