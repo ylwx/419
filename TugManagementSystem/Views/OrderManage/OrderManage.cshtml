@@ -559,8 +559,8 @@
                                                 response($.map(data.list, function (item) {
                                                     return {
                                                         id: item.CustomerID,
-                                                        label: item.ShipName,
-                                                        value: item.ShipName
+                                                        label: item.CustomerCnName,
+                                                        value: item.CustomerCnName
                                                     };
                                                 }));
                                             },
@@ -799,16 +799,16 @@
                                     id: 'AutoComplete',
                                     source: function (request, response) {
                                         this.xhr = $.ajax({
-                                            url: '@Url.Action("GetCustomer", "OrderManage")',
+                                            url: '@Url.Action("GetCustomerShips", "OrderManage")',
                                             data: request,
                                             type: 'GET',
                                             dataType: 'json',
                                             success: function (data) {
                                                 response($.map(data.list, function (item) {
                                                     return {
-                                                        id: item.CustomerID,
-                                                        label: item.ShipName,
-                                                        value: item.ShipName
+                                                        id: item.ShipID,
+                                                        label: item.ShipCnName,
+                                                        value: item.ShipCnName
                                                     };
                                                 }));
                                             },
@@ -1353,8 +1353,8 @@
                         response($.map(data.list, function (item) {
                             return {
                                 id: item.CustomerID,
-                                label: item.ShipName,
-                                value: item.ShipName
+                                label: item.CustomerCnName,
+                                value: item.CustomerCnName
                             };
                         }));
                     },
@@ -1385,16 +1385,16 @@
         $('#_ShipName').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomer", "OrderManage")',
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")',
                     data: request,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
                         response($.map(data.list, function (item) {
                             return {
-                                id: item.CustomerID,
-                                label: item.ShipName,
-                                value: item.ShipName
+                                id: item.ShipID,
+                                label: item.ShipCnName,
+                                value: item.ShipCnName
                             };
                         }));
                     },
