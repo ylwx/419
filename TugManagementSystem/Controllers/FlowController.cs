@@ -11,6 +11,41 @@ namespace TugManagementSystem.Controllers
 {
     public class FlowController : BaseController
     {
+        #region handsontable方式实现，模态框中下拉、日期均可实现
+        public ActionResult FlowView_Handsontable(string lan, int? id)  //复杂版，显示组织结构，人员
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+        public ActionResult GetNodes()
+        {
+            string[] mynodes=new string[2];
+            mynodes[0] = "创建";
+            mynodes[1] = "校对";
+            mynodes[2] = "审核";
+            return Json(mynodes, JsonRequestBehavior.AllowGet);
+            //List<object> source = new List<object>();
+            //source.Add(new { FlowUserID = "123", CnName = "张三" });
+            //source.Add(new { FlowUserID = "234", CnName = "李四" });
+            //source.Add(new { FlowUserID = "345", CnName = "王五" });
+            //source.Add(new { FlowUserID = "456", CnName = "赵六" });
+
+            //var p = Request.Params;
+
+            //List<object> list = new List<object>();
+
+            //list.Add(source[0]);
+            //list.Add(source[1]);
+            //list.Add(source[2]);
+            //list.Add(source[3]);
+
+            //var jsonData = new { list = list };
+            //return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }        
+        #endregion
+
+        #region jqgrid方式实现，有问题：模态框中下拉、日期不能正常显示
         public ActionResult AddEdit()
         {
             string newcode;
@@ -507,5 +542,6 @@ namespace TugManagementSystem.Controllers
             }
             return NewInCode;
         }
+        #endregion
     }
 }
