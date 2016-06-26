@@ -209,5 +209,55 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
             return View();
         }
+
+
+        #region written by lg
+        public ActionResult GetTugEx(bool _search, string sidx, string sord, int page, int rows, string workDate)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<TugInfor> TugInfors = db.TugInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<TugInfor>();
+
+                int totalRecordNum = TugInfors.Count;
+                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                //List<TugInfor> page_TugInfors = TugInfors.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<TugInfor>();
+
+
+                List<TugBusinessLogic.TugEx> lst = new List<TugBusinessLogic.TugEx>();
+
+                if (TugInfors != null)
+                {
+                    foreach (TugInfor tug in TugInfors)
+                    {
+                        TugBusinessLogic.TugEx o = new TugBusinessLogic.TugEx();
+                        o.TugID = tug.IDX;
+                        o.CnName = tug.CnName;
+                        o.EnName = tug.EnName;
+                        o.SimpleName = tug.SimpleName;
+                        o.Code = tug.Code;
+
+                        o = TugBusinessLogic.Module.OrderLogic.GetTugSchedulerBusyState(tug.IDX, o, workDate);
+
+                        lst.Add(o);
+                    }
+                }
+
+                
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = lst };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+        #endregion
     }
 }
