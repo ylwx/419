@@ -668,36 +668,36 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     {
                         TugDataModel.BillingItemTemplate aScheduler = new BillingItemTemplate();
-                        aScheduler.BillingTemplateID = Convert.ToInt32(Request.Form["BillingTemplateID"]);
-                        aScheduler.ItemID = Convert.ToInt32(Request.Form["ItemID"]);
-                        aScheduler.UnitPrice = Convert.ToDouble(Request.Form["UnitPrice"]);
-                        aScheduler.Currency = Request.Form["Currency"];
-                        aScheduler.TypeID = Convert.ToInt32(Request.Form["TypeID"]);
+                        aScheduler.BillingTemplateID = Convert.ToInt32(Request.Form["BillingTemplateID"].Trim());
+                        aScheduler.ItemID = Convert.ToInt32(Request.Form["ItemID"].Trim());
+                        aScheduler.UnitPrice = Convert.ToDouble(Request.Form["UnitPrice"].Trim());
+                        aScheduler.Currency = Request.Form["Currency".Trim()];
+                        aScheduler.TypeID = Convert.ToInt32(Request.Form["TypeID"].Trim());
                         
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = -1;
 
                         aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         aScheduler = db.BillingItemTemplate.Add(aScheduler);
                         db.SaveChanges();
@@ -734,36 +734,36 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        aScheduler.BillingTemplateID = Convert.ToInt32(Request.Form["BillingTemplateID"]);
-                        aScheduler.ItemID = Convert.ToInt32(Request.Form["ItemID"]);
-                        aScheduler.UnitPrice = Convert.ToDouble(Request.Form["UnitPrice"]);
-                        aScheduler.Currency = Request.Form["Currency"];
-                        aScheduler.TypeID = Convert.ToInt32(Request.Form["TypeID"]);
+                        aScheduler.BillingTemplateID = Convert.ToInt32(Request.Form["BillingTemplateID"].Trim());
+                        aScheduler.ItemID = Convert.ToInt32(Request.Form["ItemID"].Trim());
+                        aScheduler.UnitPrice = Convert.ToDouble(Request.Form["UnitPrice"].Trim());
+                        aScheduler.Currency = Request.Form["Currency"].Trim();
+                        aScheduler.TypeID = Convert.ToInt32(Request.Form["TypeID"].Trim());
 
                         
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = -1;
                         aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         db.Entry(aScheduler).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
