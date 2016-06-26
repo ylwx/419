@@ -346,49 +346,57 @@ namespace TugManagementSystem.Controllers
             {
                 try
                 {
-                    TugDataEntities db = new TugDataEntities();
+                    //重名了
+                    if (true == CheckBillingTemplateName(custId, Request.Form["BillingTemplateName"].Trim(), -1))
                     {
-                        TugDataModel.BillingTemplate cstmer = new BillingTemplate();
+                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
+                    }
+                    else
+                    {
+                        TugDataEntities db = new TugDataEntities();
+                        {
+                            TugDataModel.BillingTemplate cstmer = new BillingTemplate();
 
-                        cstmer.BillingTemplateCode = Request.Form["BillingTemplateCode"];
-                        cstmer.BillingTemplateName = Request.Form["BillingTemplateName"];
-                        cstmer.BillingTemplateTypeID = Convert.ToInt32(Request.Form["BillingTemplateTypeID"]);
-                        
-                        cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            cstmer.BillingTemplateCode = Request.Form["BillingTemplateCode"].Trim();
+                            cstmer.BillingTemplateName = Request.Form["BillingTemplateName"].Trim();
+                            cstmer.BillingTemplateTypeID = Convert.ToInt32(Request.Form["BillingTemplateTypeID"].Trim());
 
-                        cstmer.CustomerID = custId; // Convert.ToInt32(customerId);
-                        cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"];
-                        cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"]);
+                            cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        cstmer.Remark = Request.Form["Remark"];
-                        cstmer.OwnerID = -1;
-                        cstmer.UserID = -1;
-                        cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        cstmer.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                            cstmer.CustomerID = custId; // Convert.ToInt32(customerId);
+                            cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"].Trim();
+                            cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"].Trim());
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            cstmer.Remark = Request.Form["Remark"].Trim();
+                            cstmer.OwnerID = -1;
+                            cstmer.UserID = -1;
+                            cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                            cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                            cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                            cstmer.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                            if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        cstmer = db.BillingTemplate.Add(cstmer);
-                        db.SaveChanges();
+                            cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                            cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
-                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
-                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                        return Json(ret);
+                            cstmer = db.BillingTemplate.Add(cstmer);
+                            db.SaveChanges();
+
+                            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                            //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                            return Json(ret);
+                        }
                     }
                 }
                 catch (Exception)
@@ -416,39 +424,44 @@ namespace TugManagementSystem.Controllers
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
+                    //重名了
+                    if (true == CheckBillingTemplateName(Convert.ToInt32(Request.Form["CustomerID"].Trim()), Request.Form["BillingTemplateName"].Trim(), idx))
+                    {
+                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
+                    }
                     else
                     {
-                        cstmer.BillingTemplateCode = Request.Form["BillingTemplateCode"];
-                        cstmer.BillingTemplateName = Request.Form["BillingTemplateName"];
-                        cstmer.BillingTemplateTypeID = Convert.ToInt32(Request.Form["BillingTemplateTypeID"]);
+                        cstmer.BillingTemplateCode = Request.Form["BillingTemplateCode"].Trim();
+                        cstmer.BillingTemplateName = Request.Form["BillingTemplateName"].Trim();
+                        cstmer.BillingTemplateTypeID = Convert.ToInt32(Request.Form["BillingTemplateTypeID"].Trim());
 
-                        cstmer.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
-                        cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"];
-                        cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"]);
+                        cstmer.CustomerID = Convert.ToInt32(Request.Form["CustomerID"].Trim());
+                        cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"].Trim();
+                        cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"].Trim());
 
-                        cstmer.Remark = Request.Form["Remark"];
+                        cstmer.Remark = Request.Form["Remark"].Trim();
                         cstmer.OwnerID = -1;
                         cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         cstmer.UserID = -1;
-                        cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        cstmer.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        cstmer.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
 
-                        cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         db.Entry(cstmer).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
@@ -456,7 +469,7 @@ namespace TugManagementSystem.Controllers
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
                 }
-                catch (Exception exp)
+                catch (Exception)
                 {
                     return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
                 }
@@ -471,8 +484,14 @@ namespace TugManagementSystem.Controllers
         {
             try
             {
-                TugDataEntities db = new TugDataEntities();
+                //重名了
+                if (true == CheckBillingTemplateName(custId, billingTemplateName, -1))
                 {
+                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
+                }
+                else
+                {
+                    TugDataEntities db = new TugDataEntities();
                     TugDataModel.BillingTemplate cstmer = new BillingTemplate();
 
                     cstmer.BillingTemplateCode = billingTemplateCode;
@@ -522,7 +541,6 @@ namespace TugManagementSystem.Controllers
                 //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
                 return Json(ret);
             }
-            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
         public ActionResult DeleteCustomerBillScheme()
@@ -555,6 +573,50 @@ namespace TugManagementSystem.Controllers
         }
 
 
+        /// <summary>
+        /// 检查模板名称是否重名
+        /// </summary>
+        /// <param name="custId">客户ID</param>
+        /// <param name="billingTemplateName">数据的模板名称</param>
+        /// <param name="billTemplateId">新增传-1， 编辑传模板ID</param>
+        /// <returns>true：重名，false：不重名</returns>
+        private bool CheckBillingTemplateName(int custId, string billingTemplateName, int billTemplateId = -1)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (billTemplateId == -1) //新增
+                {
+                    int ret = 0;
+                    ret = db.BillingTemplate.Where(u => u.CustomerID == custId && u.BillingTemplateName == billingTemplateName).Count();
+
+                    return ret > 0;
+                }
+                else
+                {
+                    List<BillingTemplate> list = db.BillingTemplate.Where(u => u.CustomerID == custId && u.BillingTemplateName == billingTemplateName).ToList<BillingTemplate>();
+                    if(list == null || list.Count <= 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        if (billTemplateId == list[0].IDX) {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
 
         public ActionResult GetCustomerBillSchemeItems(bool _search, string sidx, string sord, int page, int rows, int billSchemeId)
