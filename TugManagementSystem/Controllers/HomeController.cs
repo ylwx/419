@@ -72,6 +72,7 @@ namespace TugManagementSystem.Controllers
             else   //原密码错误
             {
                 //Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                Response.StatusCode = 404;
                 return Json(new { message = "原密码不正确，请重新输入！" });
             }
         }
@@ -103,6 +104,7 @@ namespace TugManagementSystem.Controllers
             UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
             if (user != null)  //用户名已被占用
             {
+                Response.StatusCode = 404;
                 return Json(new { code = Resources.Common.Information_CODE, message = Resources.Common.Information_MESSAGE });
             }
             else   //注册成功
