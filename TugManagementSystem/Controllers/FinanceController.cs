@@ -19,5 +19,16 @@ namespace TugManagementSystem.Controllers
 
             return View();
         }
+
+
+        [HttpGet]
+        public ActionResult ViewInvoice(string lan, int? orderId)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            //return RedirectToAction("Login", "Home");
+            return View();
+        }
 	}
+
 }
