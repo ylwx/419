@@ -16,7 +16,6 @@ namespace TugDataModel
     {
         public Customer()
         {
-            this.Billing = new HashSet<Billing>();
             this.CustomerShip = new HashSet<CustomerShip>();
         }
     
@@ -48,7 +47,6 @@ namespace TugDataModel
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
     
-        public virtual ICollection<Billing> Billing { get; set; }
         public virtual ICollection<CustomerShip> CustomerShip { get; set; }
     }
 }

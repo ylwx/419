@@ -995,18 +995,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Billing_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Billing">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Billing_OrderInfor">
           <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
           <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
@@ -1444,10 +1432,6 @@
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
           </AssociationSet>
-          <AssociationSet Name="FK_Billing_Customer" Association="Self.FK_Billing_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Billing" EntitySet="Billing" />
-          </AssociationSet>
           <AssociationSet Name="FK_Billing_OrderInfor" Association="Self.FK_Billing_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
             <End Role="Billing" EntitySet="Billing" />
@@ -1524,10 +1508,6 @@
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Billing_Customer" Association="Model.FK_Billing_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
           <AssociationSet Name="FK_Billing_OrderInfor" Association="Model.FK_Billing_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
@@ -1697,7 +1677,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="Model.FK_Billing_Customer" FromRole="Billing" ToRole="Customer" />
           <NavigationProperty Name="OrderInfor" Relationship="Model.FK_Billing_OrderInfor" FromRole="Billing" ToRole="OrderInfor" />
           <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
         </EntityType>
@@ -1813,7 +1792,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Billing" Relationship="Model.FK_Billing_Customer" FromRole="Customer" ToRole="Billing" />
           <NavigationProperty Name="CustomerShip" Relationship="Model.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
         </EntityType>
         <EntityType Name="CustomerShip">
@@ -2545,18 +2523,6 @@
             </Principal>
             <Dependent Role="Arrangement">
               <PropertyRef Name="TugID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Billing_Customer">
-          <End Type="Model.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="Model.Billing" Role="Billing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Billing">
-              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
