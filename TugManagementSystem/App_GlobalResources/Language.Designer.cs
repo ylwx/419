@@ -61,6 +61,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 通過 的本地化字符串。
+        /// </summary>
+        internal static string Approve_Pass {
+            get {
+                return ResourceManager.GetString("Approve_Pass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 駁回 的本地化字符串。
+        /// </summary>
+        internal static string Approve_Reject {
+            get {
+                return ResourceManager.GetString("Approve_Reject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 排班 的本地化字符串。
         /// </summary>
         internal static string Arrangement {
@@ -120,6 +138,60 @@ namespace Resources {
         internal static string Arrangement_WorkDate {
             get {
                 return ResourceManager.GetString("Arrangement_WorkDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 編號 的本地化字符串。
+        /// </summary>
+        internal static string Billing_BillingCode {
+            get {
+                return ResourceManager.GetString("Billing_BillingCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 名稱 的本地化字符串。
+        /// </summary>
+        internal static string Billing_BillingName {
+            get {
+                return ResourceManager.GetString("Billing_BillingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 類型 的本地化字符串。
+        /// </summary>
+        internal static string Billing_BillingType {
+            get {
+                return ResourceManager.GetString("Billing_BillingType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 折扣 的本地化字符串。
+        /// </summary>
+        internal static string Billing_CreditAmount {
+            get {
+                return ResourceManager.GetString("Billing_CreditAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 內容 的本地化字符串。
+        /// </summary>
+        internal static string Billing_CreditContent {
+            get {
+                return ResourceManager.GetString("Billing_CreditContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 月份 的本地化字符串。
+        /// </summary>
+        internal static string Billing_Month {
+            get {
+                return ResourceManager.GetString("Billing_Month", resourceCulture);
             }
         }
         
@@ -745,6 +817,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 已審核 的本地化字符串。
+        /// </summary>
+        internal static string Task_Approved {
+            get {
+                return ResourceManager.GetString("Task_Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 待審核 的本地化字符串。
+        /// </summary>
+        internal static string Task_NeedApprove {
+            get {
+                return ResourceManager.GetString("Task_NeedApprove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 任務 的本地化字符串。
+        /// </summary>
+        internal static string Task_Task {
+            get {
+                return ResourceManager.GetString("Task_Task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 任務管理 的本地化字符串。
+        /// </summary>
+        internal static string Task_TaskManage {
+            get {
+                return ResourceManager.GetString("Task_TaskManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 拖輪 的本地化字符串。
         /// </summary>
         internal static string TugInfor {
@@ -952,6 +1060,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 返回登陸頁面 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_BackLogin {
+            get {
+                return ResourceManager.GetString("UserInfor_BackLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 修改密碼 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_ChangePwd {
+            get {
+                return ResourceManager.GetString("UserInfor_ChangePwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 中文名 的本地化字符串。
         /// </summary>
         internal static string UserInfor_CnName {
@@ -961,11 +1087,155 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 部 門 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Dept {
+            get {
+                return ResourceManager.GetString("UserInfor_Dept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 郵 箱 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Email {
+            get {
+                return ResourceManager.GetString("UserInfor_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 英文名 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_EnName {
+            get {
+                return ResourceManager.GetString("UserInfor_EnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登 陸 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Login {
+            get {
+                return ResourceManager.GetString("UserInfor_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新密碼 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_NewPwd {
+            get {
+                return ResourceManager.GetString("UserInfor_NewPwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 確 定 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_OK {
+            get {
+                return ResourceManager.GetString("UserInfor_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 原密碼 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_OriginalPwd {
+            get {
+                return ResourceManager.GetString("UserInfor_OriginalPwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密 碼 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Pwd {
+            get {
+                return ResourceManager.GetString("UserInfor_Pwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 註 冊 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Register {
+            get {
+                return ResourceManager.GetString("UserInfor_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 再次輸入新密碼 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RepeatPwd {
+            get {
+                return ResourceManager.GetString("UserInfor_RepeatPwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 科 室 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Sec {
+            get {
+                return ResourceManager.GetString("UserInfor_Sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 性 別 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Sex {
+            get {
+                return ResourceManager.GetString("UserInfor_Sex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 註冊 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_SignUp {
+            get {
+                return ResourceManager.GetString("UserInfor_SignUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 電 話 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_Tel {
+            get {
+                return ResourceManager.GetString("UserInfor_Tel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 個人信息 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_UserInfor {
+            get {
+                return ResourceManager.GetString("UserInfor_UserInfor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用戶名 的本地化字符串。
         /// </summary>
         internal static string UserInfor_UserName {
             get {
                 return ResourceManager.GetString("UserInfor_UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工 號 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_WorkNumber {
+            get {
+                return ResourceManager.GetString("UserInfor_WorkNumber", resourceCulture);
             }
         }
         
@@ -1420,15 +1690,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 預估完成時間 的本地化字符串。
-        /// </summary>
-        internal static string V_OrderScheduler_EstimatedCompletionTime {
-            get {
-                return ResourceManager.GetString("V_OrderScheduler_EstimatedCompletionTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 調度ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_IDX {
@@ -1542,24 +1803,6 @@ namespace Resources {
         internal static string V_OrderScheduler_WorkCompletedTime {
             get {
                 return ResourceManager.GetString("V_OrderScheduler_WorkCompletedTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 工作日期 的本地化字符串。
-        /// </summary>
-        internal static string V_OrderScheduler_WorkDate {
-            get {
-                return ResourceManager.GetString("V_OrderScheduler_WorkDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 工作時間 的本地化字符串。
-        /// </summary>
-        internal static string V_OrderScheduler_WorkTime {
-            get {
-                return ResourceManager.GetString("V_OrderScheduler_WorkTime", resourceCulture);
             }
         }
     }

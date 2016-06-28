@@ -225,7 +225,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.CustomerName = Request.Form["CustomerName"].Trim();
                         aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        aOrder.IsGuest = Request.Form["IsGuest"].Trim();
+                        //aOrder.IsGuest = Request.Form["IsGuest"].Trim();
                         aOrder.LinkMan = Request.Form["LinkMan"].Trim();
                         aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
                         aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
@@ -379,7 +379,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX].Trim()"]);
+                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);
@@ -401,19 +401,41 @@ namespace TugManagementSystem.Controllers
         }
 
         public ActionResult GetCustomer(string term)
-        {
-            List<object> source = new List<object>();
-            source.Add(new { CustomerID = "123", ShipName = "abc" });
-            source.Add(new { CustomerID = "234", ShipName = "cde" });
-            source.Add(new { CustomerID = "345", ShipName = "efg" });
-            source.Add(new { CustomerID = "456", ShipName = "ghi" });
-
-            var p = Request.Params;
+         {
+            TugDataEntities db = new TugDataEntities();
+            List<Customer> customers = db.Customer.Where(u => u.CnName.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.CnName).ToList<Customer>();
 
             List<object> list = new List<object>();
 
-            list.Add(source[0]);
-            list.Add(source[1]);
+            if (customers != null)
+            {
+                foreach (Customer item in customers)
+                {
+                    list.Add(new { CustomerID = item.IDX, CustomerCnName = item.CnName });
+                }
+            }
+
+            var jsonData = new { list = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult GetCustomerShips(string term)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<CustomerShip> ships = db.CustomerShip.Where(u => u.CnName.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.CnName).ToList<CustomerShip>();
+
+            List<object> list = new List<object>();
+
+            if (ships != null)
+            {
+                foreach (CustomerShip item in ships)
+                {
+                    list.Add(new { ShipID = item.IDX, ShipCnName = item.CnName });
+                }
+            }
 
             var jsonData = new { list = list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
