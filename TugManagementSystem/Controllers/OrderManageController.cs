@@ -225,7 +225,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.CustomerName = Request.Form["CustomerName"].Trim();
                         aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                        aOrder.IsGuest = Request.Form["IsGuest"].Trim();
+                        //aOrder.IsGuest = Request.Form["IsGuest"].Trim();
                         aOrder.LinkMan = Request.Form["LinkMan"].Trim();
                         aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
                         aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
@@ -379,7 +379,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX].Trim()"]);
+                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);

@@ -17,6 +17,7 @@ namespace TugDataModel
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
         public Nullable<int> OrderID { get; set; }
+        public string OrderCode { get; set; }
         public string OrderWorkDate { get; set; }
         public string OrderWorkTime { get; set; }
         public string OrderEstimatedCompletionTime { get; set; }

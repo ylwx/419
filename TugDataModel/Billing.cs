@@ -47,7 +47,6 @@ namespace TugDataModel
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
     
-        public virtual Customer Customer { get; set; }
         public virtual OrderInfor OrderInfor { get; set; }
         public virtual ICollection<BillingItem> BillingItem { get; set; }
     }

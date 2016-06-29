@@ -156,7 +156,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.GenerateInvoice</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.Order</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
                                 <table id="jqGrid"></table>
@@ -181,7 +181,7 @@
 
 
 
-
+<!-- 父Grid -->
 <script type="text/javascript">
     var tableConfig = null;
 
@@ -189,14 +189,11 @@
 
     function Init() {
         {
-
-
             if (tableConfig == null) {
                 GetTableConfig();
             }
 
             $("#jqGrid").jqGrid({
-                //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
                 url: '@Url.Action("GetData", "OrderManage")',
                 mtype: "GET",
                 datatype: "json",
@@ -206,7 +203,7 @@
                 height: '100%', //'auto', //350,
                 rowNum: 20,
                 autowidth: true,
-                editurl: '@Url.Action("AddEdit", "OrderManage")',
+                editurl: null,//'@Url.Action("AddEdit", "OrderManage")',
                 pager: "#jqGridPager",
                 //loadonce: true,
                 rowList: ['20', '30', '50', '80', '100'],
@@ -214,7 +211,15 @@
                 shrinkToFit: false,     //指定各列宽度
                 sortable: true,          //列可移动
                 //footerrow: true,
-                colMenu: true          //列菜单
+                colMenu: true,          //列菜单
+
+                subGrid: true,
+                subGridRowExpanded: showChildGrid,
+                subGridOptions: {
+                    "plusicon": "ui-icon-triangle-1-e",
+                    "minusicon": "ui-icon-triangle-1-s",
+                    "openicon": "ui-icon-arrowreturn-1-e"
+                },
             });
 
             $('#jqGrid').jqGrid('filterToolbar',
@@ -329,40 +334,6 @@
                     onClickButton: AddParent
                 });
 
-            $('#jqGrid').inlineNav('#jqGridPager',
-                {
-                    edit: true,
-                    add: false,
-                    del: true,
-                    cancel: true,
-                    editParams: {
-                        keys: true,
-                        successfunc: function (val) {
-                            if (val.responseText != "") {
-                                var ret = $.parseJSON(val.responseText);
-                                alert(ret.message);
-                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            }
-                        },
-                        url: null, //'/api/values',
-                        mtype: 'POST'
-                    },
-
-                    addParams: {
-                        keys: true,
-                        successfunc: function (val) {
-                            if (val.responseText != "") {
-                                var ret = $.parseJSON(val.responseText);
-                                alert(ret.message);
-                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            }
-                        },
-                        errorfunc: function (rowid, xhr) {
-                            alert(xhr.responseText);
-                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                        }
-                    }
-                });
 
             //最后调用，冻结列
             //$("#jqGrid").jqGrid("setFrozenColumns");
@@ -381,24 +352,12 @@
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: false, edittype: "checkbox",
                     editrules: { required: true }, /*colmenu: false,*/
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    editoptions: { value: "是:否" },  //yes:是， no:否
                     hidden: false,
                     stype: 'select',
 
                     searchoptions: {
                         //sopt: ["ge", "le"],
                         value: "全部:全部;是:是;否:否",
-                        //dataEvents: [
-                        //    {
-                        //        type: 'change',
-                        //        fn: function (e) {
-                        //            //alert(e);
-                        //            var grid = $('#jqGrid')[0];
-                        //            grid.triggerToolbar();
-
-                        //        }
-                        //    }
-                        //]
                     }
                 },
                 {
@@ -414,103 +373,19 @@
                     align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, integer: true },
                     hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                    editoptions: {
-                        dataInit: function (element) {
-                            window.setTimeout(function () {
-                                $(element).autocomplete({
-                                    id: 'AutoComplete',
-                                    source: function (request, response) {
-                                        this.xhr = $.ajax({
-                                            url: '@Url.Action("GetCustomer", "OrderManage")',
-                                            data: request,
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            success: function (data) {
-                                                response($.map(data.list, function (item) {
-                                                    return {
-                                                        id: item.CustomerID,
-                                                        label: item.CustomerCnName,
-                                                        value: item.CustomerCnName
-                                                    };
-                                                }));
-                                            },
-
-                                            error: function (model, response, options) {
-                                                response([]);
-                                            }
-                                        });
-                                    },
-                                    select: function (event, ui) {
-                                    },
-                                    change: function (event, ui) {
-
-                                        var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var customerId_id = rowid + "_CustomerID";
-                                            $('#' + customerId_id).val(ui.item.id);
-
-                                            //jQuery("#jqGrid").setCell(rowid, 'CustomerID', ui.item.id);
-                                        }
-                                        else {
-                                            var customerId_id = rowid + "_CustomerID";
-                                            $('#' + customerId_id).val(-1);
-                                            //jQuery("#jqGrid").setCell(rowid, 'CustomerID', -1);
-                                        }
-
-                                        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                                    },
-                                    autoFocus: false
-                                });
-                            }, 100);
-                        }
-
-                    }
-
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 120, editable: true, edittype: "text",
-                    editrules: { required: true, date: true }, hidden: false,
-                    //datefmt: 'yyyy-mm-dd',
-                    //sorttype: 'date',
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 120,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    editoptions: {
-                        //dataInit: function (element) {
-                        //    $(element).datepicker({
-                        //        dateFormat: 'yy-mm-dd',
-                        //        showOn: 'focus'
-                        //    });
-                        //}
-
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'Y-m-d',
-                                step: 1,
-                                timepicker: false
-                            });
-                        },
-
-                        defaultValue: function () { var date = new Date(); return date.Format('yyyy-MM-dd') }
-                    },
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
 
-                        //dataInit: function (element) {
-                        //    $(element).datepicker({
-                        //        //id: 'orderCreateDate_datePicker',
-                        //        dateFormat: 'yy-mm-dd',
-                        //        showOn: 'focus'
-                        //    });
-                        //},
                         dataInit: function (element) {
                             $(element).datetimepicker({
                                 format: 'Y-m-d',
@@ -533,33 +408,6 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkTime', name: "WorkTime", width: 100, editable: true, edittype: "text",
-                    editrules: {
-                        required: true,
-                        custom_func: function (value, column) {
-                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
-                            if (ret == null) {
-                                //alert(column + ':不是正确的时间格式(hh:mm)');
-                                return [false, column + ":不是正确的时间格式(hh:mm)"];
-                            }
-                            if (ret[1] >= 24 || ret[3] >= 60) {
-                                //alert(column + ":输入的时间无效");
-                                return [false, column + ":输入的时间无效"];
-                            }
-                            return [true, ""];
-                        },
-                        custom: true
-                    }, hidden: false,
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'H:i',
-                                step: 1,
-                                datepicker: false
-                            });
-                        },
-
-                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
-                    },
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
@@ -586,32 +434,6 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 120,
                     editable: true, edittype: "text",
-                    editrules: {
-                        required: true,
-                        custom_func: function (value, column) {
-                            var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
-                            if (ret == null) {
-                                //alert(column + ':不是正确的时间格式(hh:mm)');
-                                return [false, column + ":不是正确的时间格式(hh:mm)"];
-                            }
-                            if (ret[1] >= 24 || ret[3] >= 60) {
-                                //alert(column + ":输入的时间无效");
-                                return [false, column + ":输入的时间无效"];
-                            }
-                            return [true, ""];
-                        },
-                        custom: true
-                    }, hidden: false,
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'H:i',
-                                step: 1,
-                                datepicker: false
-                            });
-                        },
-                        defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
-                    },
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
@@ -644,86 +466,23 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: true,
-                    editoptions: {
-                        defaultValue: "/"
-                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureNames", width: 260, editable: true, edittype: "custom",
                     editrules: { required: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                    editoptions: {
-                        custom_value: getServiceNatureElementValue,
-                        custom_element: createServiceNatureEditElement
-                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
                     hidden: true,
                     editrules: { required: true, integer: true },
-                    editoptions: {
-                        defaultValue: -1
-                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                    editoptions: {
-                        dataInit: function (element) {
-                            window.setTimeout(function () {
-                                $(element).autocomplete({
-                                    id: 'AutoComplete',
-                                    source: function (request, response) {
-                                        this.xhr = $.ajax({
-                                            url: '@Url.Action("GetCustomerShips", "OrderManage")',
-                                            data: request,
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            success: function (data) {
-                                                response($.map(data.list, function (item) {
-                                                    return {
-                                                        id: item.ShipID,
-                                                        label: item.ShipCnName,
-                                                        value: item.ShipCnName
-                                                    };
-                                                }));
-                                            },
-
-                                            error: function (model, response, options) {
-                                                response([]);
-                                            }
-                                        });
-                                    },
-                                    select: function (event, ui) {
-
-                                    },
-                                    change: function (event, ui) {
-
-                                        var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-
-                                        if (ui.item != null) {
-                                            var shipId_id = rowid + "_ShipID";
-                                            $('#' + shipId_id).val(ui.item.id);
-
-                                            //jQuery("#jqGrid").setCell(rowid, 'ShipID', ui.item.id);
-                                        }
-                                        else {
-                                            var shipId_id = rowid + "_ShipID";
-                                            $('#' + shipId_id).val(-1);
-                                            //jQuery("#jqGrid").setCell(rowid, 'ShipID', -1);
-                                        }
-
-                                        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                                    },
-                                    autoFocus: false
-                                });
-                            }, 100);
-                        }
-
-                    }
 
                 },
                 {
@@ -776,44 +535,16 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, custom_func: function () { return [true, ""]; }/*validateTugID*/, custom: true }, hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
-
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateValue', name: "WorkStateValue", width: 100, editable: true, edittype: "text",
                     editrules: { required: true, custom_func: function () { return [true, ""]; }/*validateTugID*/, custom: true }, hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
 
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 120, editable: false, edittype: "select",
                     editrules: { required: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    editoptions: {
-                        //multiple: true,
-                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID" })',
-                        //value: "-1:请选择;1:One;2:Two",
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-                                    if (rowid != null) {
-                                        var workStateID_id = rowid + "_WorkStateID";
-                                        var workStateValue_id = rowid + "_WorkStateValue";
-                                        $('#' + workStateID_id).val($(this).val().split("~")[0]);
-                                        $('#' + workStateValue_id).val($(this).val().split("~")[1]);
-                                        //$('#' + workStateID_id).val($(this).find("option:selected").text());
-                                    }
-                                }
-                            }
-                        ]
-                    },
-
                     stype: "select",
                     searchoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderInfor.WorkStateID"})',
@@ -842,39 +573,9 @@
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 200, editable: false, edittype: "text",
                     editrules: { required: false, date: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    //searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
-                    //formatter: 'date',
-                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
-                    //datefmt: 'yyyy-mm-dd',
-                    //sorttype: 'date',
-
-                    editoptions: {
-                        //dataInit: function (element) {
-                        //    $(element).datepicker({
-                        //        //id: 'orderCreateDate_datePicker',
-                        //        dateFormat: 'yy-mm-dd',
-                        //        showOn: 'focus'
-                        //    });
-                        //}
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'Y-m-d H:i:s',
-                                step: 1,
-                                //timepicker: false
-                            });
-                        },
-                    },
-
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
 
-                        //dataInit: function (element) {
-                        //    $(element).datepicker({
-                        //        //id: 'orderCreateDate_datePicker',
-                        //        dateFormat: 'yy-mm-dd',
-                        //        showOn: 'focus'
-                        //    });
-                        //},
                         dataInit: function (element) {
                             $(element).datetimepicker({
                                 format: 'Y-m-d H:i:s',
@@ -900,36 +601,9 @@
                     label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 200, editable: false, edittype: "text",
                     editrules: { required: false, date: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    //searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
-                    //formatter: 'date',
-                    //datefmt: 'yyyy-mm-dd',
-                    //sorttype: 'date',
-                    editoptions: {
-                        //dataInit: function (element) {
-                        //    $(element).datepicker({
-                        //        //id: 'orderCreateDate_datePicker',
-                        //        dateFormat: 'yy-mm-dd',
-                        //        showOn: 'focus'
-                        //    });
-                        //}
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'Y-m-d H:i:s',
-                                step: 1,
-                                //timepicker: false
-                            });
-                        },
-                    },
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
 
-                        //dataInit: function (element) {
-                        //    $(element).datepicker({
-                        //        //id: 'orderCreateDate_datePicker',
-                        //        dateFormat: 'yy-mm-dd',
-                        //        showOn: 'focus'
-                        //    });
-                        //},
                         dataInit: function (element) {
                             $(element).datetimepicker({
                                 format: 'Y-m-d H:i:s',
@@ -1001,77 +675,14 @@
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date: true }, hidden: true,
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    },
-                    searchoptions: {
-                        sopt: ["eq", "lt", "le", "gt", "ge"],
-
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        },
-
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var grid = $('#jqGrid')[0];
-                                    grid.triggerToolbar();
-
-                                }
-                            }
-                        ]
-                    }
                 },
 
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date: true }, hidden: true,
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        }
-                    },
-                    searchoptions: {
-                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false }
 
-                        dataInit: function (element) {
-                            $(element).datepicker({
-                                //id: 'orderCreateDate_datePicker',
-                                dateFormat: 'yy-mm-dd',
-                                showOn: 'focus'
-                            });
-                        },
-
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var grid = $('#jqGrid')[0];
-                                    grid.triggerToolbar();
-
-                                }
-                            }
-                        ]
-                    }
                 },
                 { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
                 { align: 'center', label: 'Scheduler', name: "Scheduler", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
@@ -1080,115 +691,37 @@
         };
     }
 
-    function createServiceNatureEditElement(value, editOptions) {
-        var services = $('#services div');
-
-
-        if (value == "" || value == "/") {
-            if (services != null) {
-
-                var span = $("<span />");
-
-                for (var i = 0; i < services.length; ++i) {
-                    var label = $("<span />", { html: $($(services[i]).children('span')[2]).html() });
-                    var checkbox = $("<input>",
-                        {
-                            type: "checkbox",
-                            value: $($(services[i]).children('span')[0]).html() + '~' + $($(services[i]).children('span')[1]).html() + '~' + $($(services[i]).children('span')[2]).html(),
-                            name: "service" + i.toString()
-                        });
-
-                    if ((i + 1) % (services.length / 2 + 1) == 0) {
-                        var br = $("<br />");
-                        span.append(br);
-                    }
-
-                    span.append(label).append(checkbox);
-                }
-                return span;
-            }
-        }
-        else {
-            var span = $("<span />");
-
-            var list = value.split("/");
-
-            if (list.length > 0) {
-
-                var labels = new Array(services.length);
-                for (var i = 0; i < services.length; ++i) {
-                    labels[i] = $($(services[i]).children('span')[2]).html();
-                }
-                var flags = new Array(services.length);
-                for (var i = 0; i < services.length; i++) {
-                    flags[i] = false;
-                }
-
-                for (var i = 0; i < list.length; ++i) {
-                    for (var j = 0; j < flags.length; j++) {
-                        if (list[i] == labels[j])
-                            flags[j] = true;
-                    }
-                }
-
-                for (var i = 0; i < services.length; ++i) {
-                    var label = $("<span />", { html: $($(services[i]).children('span')[2]).html() });
-                    var checkbox = $("<input>",
-                        {
-                            type: "checkbox",
-                            value: $($(services[i]).children('span')[0]).html() + '~' + $($(services[i]).children('span')[1]).html() + '~' + $($(services[i]).children('span')[2]).html(),
-                            name: "service" + i.toString(),
-                            checked: flags[i]
-                        });
-
-                    if ((i + 1) % (services.length / 2 + 1) == 0) {
-                        var br = $("<br />");
-                        span.append(br);
-                    }
-
-                    span.append(label).append(checkbox);
-                }
-            }
-
-            return span;
-        }
-
-    }
-
-    // The javascript executed specified by JQGridColumn.EditTypeCustomGetValue when EditType = EditType.Custom
-    // One parameter passed - the custom element created in JQGridColumn.EditTypeCustomCreateElement
-    function getServiceNatureElementValue(elem, oper, value) {
-        if (oper === "set") {
-        }
-
-        if (oper === "get") {
-            var checkboxes = $(elem).find("input:checkbox:checked");
-            var str_values = "";
-            //var str_labels = "/";
-            for (var i = 0; i < checkboxes.length; ++i) {
-                str_values += $(checkboxes[i]).val() + "/";
-            }
-            if (checkboxes.length > 0) {
-                str_values = str_values.substr(0, str_values.length - 1);
-            }
-
-            return str_values;
-        }
-    }
-
-
-    function validateTugID(value, column) {
-        var re = /^[0-9]+[0-9]*]*$/;  //判断输入是否是正整数和0
-        if (!re.test(value))
-            return [false, "请选择一个工作状态"];
-        else
-            return [true, ""];
-    }
-
-
 </script>
 
 
+<!-- 子Grid -->
+<script>
+
+    // the event handler on expanding parent row receives two parameters
+    // the ID of the grid tow  and the primary key of the row
+    function showChildGrid(parentRowID, parentRowKey) {
+        var childGridID = parentRowID + "_table";
+        var childGridPagerID = parentRowID + "_pager";
+
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', parentRowKey);
+        var childGridURL = '@Url.Action("ViewInvoice", "Finance")' + "?lan=" + '@ViewBag.Language' + "&orderId=" + dr.IDX;
+        
+        //var html = '<div><input type="text" value="123"/></div>'
+
+        $.ajax({
+            url: childGridURL,//parentRowKey + ".html",
+            type: "GET",
+            success: function (html) {
+                $("#" + parentRowID).append(html);
+            }
+        });
+
+
+
+
+        
+    }
+</script>
 
 <!-- 模态框 -->
 <script type="text/javascript">

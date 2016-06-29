@@ -731,6 +731,7 @@
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderWorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderWorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderEstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -861,6 +862,7 @@
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -992,18 +994,6 @@
             </Principal>
             <Dependent Role="Arrangement">
               <PropertyRef Name="TugID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Billing_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Billing">
-              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1214,6 +1204,7 @@
     [V_Invoice].[CustomerID] AS [CustomerID], 
     [V_Invoice].[CustomerName] AS [CustomerName], 
     [V_Invoice].[OrderID] AS [OrderID], 
+    [V_Invoice].[OrderCode] AS [OrderCode], 
     [V_Invoice].[OrderWorkDate] AS [OrderWorkDate], 
     [V_Invoice].[OrderWorkTime] AS [OrderWorkTime], 
     [V_Invoice].[OrderEstimatedCompletionTime] AS [OrderEstimatedCompletionTime], 
@@ -1335,6 +1326,7 @@
     [V_OrderScheduler].[CustomerID] AS [CustomerID], 
     [V_OrderScheduler].[CustomerName] AS [CustomerName], 
     [V_OrderScheduler].[OrderID] AS [OrderID], 
+    [V_OrderScheduler].[OrderCode] AS [OrderCode], 
     [V_OrderScheduler].[WorkDate] AS [WorkDate], 
     [V_OrderScheduler].[WorkTime] AS [WorkTime], 
     [V_OrderScheduler].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
@@ -1444,10 +1436,6 @@
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
           </AssociationSet>
-          <AssociationSet Name="FK_Billing_Customer" Association="Self.FK_Billing_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Billing" EntitySet="Billing" />
-          </AssociationSet>
           <AssociationSet Name="FK_Billing_OrderInfor" Association="Self.FK_Billing_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
             <End Role="Billing" EntitySet="Billing" />
@@ -1524,10 +1512,6 @@
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Billing_Customer" Association="Model.FK_Billing_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
           <AssociationSet Name="FK_Billing_OrderInfor" Association="Model.FK_Billing_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
@@ -1697,7 +1681,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="Model.FK_Billing_Customer" FromRole="Billing" ToRole="Customer" />
           <NavigationProperty Name="OrderInfor" Relationship="Model.FK_Billing_OrderInfor" FromRole="Billing" ToRole="OrderInfor" />
           <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
         </EntityType>
@@ -1813,7 +1796,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Billing" Relationship="Model.FK_Billing_Customer" FromRole="Customer" ToRole="Billing" />
           <NavigationProperty Name="CustomerShip" Relationship="Model.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
         </EntityType>
         <EntityType Name="CustomerShip">
@@ -2314,6 +2296,7 @@
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderWorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderEstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2438,6 +2421,7 @@
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2545,18 +2529,6 @@
             </Principal>
             <Dependent Role="Arrangement">
               <PropertyRef Name="TugID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Billing_Customer">
-          <End Type="Model.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="Model.Billing" Role="Billing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Billing">
-              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3470,6 +3442,7 @@
                 <ScalarProperty Name="OrderEstimatedCompletionTime" ColumnName="OrderEstimatedCompletionTime" />
                 <ScalarProperty Name="OrderWorkTime" ColumnName="OrderWorkTime" />
                 <ScalarProperty Name="OrderWorkDate" ColumnName="OrderWorkDate" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
@@ -3576,6 +3549,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />

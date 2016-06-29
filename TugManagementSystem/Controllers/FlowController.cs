@@ -18,31 +18,42 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
             return View();
         }
+        string[] nodes;
         public ActionResult GetNodes()
         {
-            string[] mynodes=new string[2];
-            mynodes[0] = "创建";
-            mynodes[1] = "校对";
-            mynodes[2] = "审核";
-            return Json(mynodes, JsonRequestBehavior.AllowGet);
-            //List<object> source = new List<object>();
-            //source.Add(new { FlowUserID = "123", CnName = "张三" });
-            //source.Add(new { FlowUserID = "234", CnName = "李四" });
-            //source.Add(new { FlowUserID = "345", CnName = "王五" });
-            //source.Add(new { FlowUserID = "456", CnName = "赵六" });
-
-            //var p = Request.Params;
-
-            //List<object> list = new List<object>();
-
-            //list.Add(source[0]);
-            //list.Add(source[1]);
-            //list.Add(source[2]);
-            //list.Add(source[3]);
-
-            //var jsonData = new { list = list };
-            //return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }        
+            int i = 0; 
+            if(nodes==null)
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "Task.Node").OrderBy(u => u.CustomValue).ToList<CustomField>();
+                nodes=new string[list.Count];
+                foreach (var itm in list)
+                {
+                    nodes[i] = itm.CustomLabel;
+                    i++;
+                }
+            }
+            return Json(nodes, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetPersons()
+        {            
+            int i = 0;
+            string[] persons;
+            TugDataEntities db = new TugDataEntities();
+            List<UserInfor> list = db.UserInfor.Where(u => u.IsGuest != "true").OrderBy(u => u.CnName).ToList<UserInfor>();
+            persons=new string[list.Count];
+            foreach (var itm in list)
+            {
+                persons[i] = itm.CnName;
+                i++;
+            }
+            return Json(persons, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult SubmitFlow(List<string[]> dataListFromTable)
+        {
+            var dataListTable = dataListFromTable;
+            return Json("Response, Data Received Successfully");
+        }     
         #endregion
 
         #region jqgrid方式实现，有问题：模态框中下拉、日期不能正常显示

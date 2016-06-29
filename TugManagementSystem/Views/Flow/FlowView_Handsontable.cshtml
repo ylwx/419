@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    @*<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>*@
+                    <button id="tj" type="button" class="btn btn-primary" data-dismiss="modal" @*onclick="updateflowinfor()"*@>提交审核</button>
                     <a href="#" class="btn btn-warning" data-dismiss="modal">Close</a>
                 </div>
             </div>
@@ -117,8 +117,11 @@
 
 <script type="text/javascript">
     // Variables declaration & to make our life easier we set our HTML tags to variables too
-    //
-    var container = document.getElementById('example1'),
+    var
+        $$ = function (id) { return document.getElementById(id); },
+        container = $$('example1'),
+        tjflow = $$('tj'),
+        autosaveNotification,
         hot;
 
     hot = new Handsontable(container, {
@@ -129,26 +132,72 @@
         columnSorting: true,
         contextMenu: true,
         minSpareRows: 1,
-        heigth:500,
+        heigth: 500,
         columns: [
           {
               type: 'autocomplete',
               //source: ['创建', '校对', '审核', '会签'],
-              //source: 'Flow/GetNodes',
-              source: '@Url.Action("GetNodes", "Flow")',
+              source: function (request, response) {
+                  this.xhr = $.ajax({
+                      url: '@Url.Action("GetNodes", "Flow")',
+                      data: request,
+                      type: 'GET',
+                      dataType: 'json',
+                      success: function (data) {
+                          response(data);
+                      },
+
+                      error: function (model, response, options) {
+                          response([]);
+                      }
+                  });
+              },
               strict: false,
-              width:120
+              width: 120
           },
           {
+              type: 'autocomplete',
+              //source: ['张三', '李四', '王五', '赵六'],
+              source: function (query, process) {
+                  $.ajax({
+                      //url: 'php/cars.php', // commented out because our website is hosted on static GitHub Pages
+                      url: '@Url.Action("GetPersons", "Flow")',
+                      dataType: 'json',
+                      data: {
+                          query: query
+                      },
+                      success: function (response) {
+                          console.log("response", response);
+                          //process(JSON.parse(response.data)); // JSON.parse takes string as a argument
+                          process(response);
+
+                      }
+                  });
+              },
+              @*source: function (request, response) {
+                  this.xhr = $.ajax({
+                      url: '@Url.Action("GetPersons", "Flow")',
+                      data: request,
+                      type: 'GET',
+                      dataType: 'json',
+                      success: function (data) {
+                          response(data);
+                      },
+
+                      error: function (model, response, options) {
+                          response([]);
+                      }
+                  });
+              },*@
+              strict: false,
               width: 120
-              // 2nd cell is simple text, no special options here
           },
           {
               type: 'date',
               dateFormat: 'MM/DD/YYYY',
               correctFormat: true,
               defaultDate: '@DateTime.Now.ToShortDateString()',
-              width:120
+              width: 120
           },
           {
               type: 'date',
@@ -157,9 +206,124 @@
               //defaultDate: '@DateTime.Now.ToShortDateString()'
               width: 120
           }
-        ]
+        ],
+        afterChange: function (change, source) {
+            //alert(change);
+            //alert(source);
+            if (source === 'loadData') {
+                return; //don't save this change
+            }
+            clearTimeout(autosaveNotification);
+            jQuery.ajax({
+                url: '@Url.Action("")',
+                type: "POST",
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(hot.getData()),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    //exampleConsole.innerHTML = 'Changes will be autosaved';
+                    autosaveNotification = setTimeout(function () {
+                        //exampleConsole.innerHTML = 'Autosaved (' + change.length +
+                        //' ' + 'cell' +
+                        //(change.length > 1 ? 's' : '') + ')';
+                    }, 1000);
+                    //alert(data);
+                },
+                error: function (xhr) {
+                    //exampleConsole.innerHTML = 'Autosave: No Response from Controller';
+                    //alert('error');
+                }
+            });
+        }
     });
-    $('#table-modal').on('show.bs.modal', function (e) { });
+
+    //更新billing的流程信息
+    function updateflowinfor() {
+        //var container = document.getElementById('example1');
+        //var rcount = container.countRows;
+        var rct = hot.countRows();
+        alert(rct);
+        for(var i=0;i<rct-1;i++)
+        {
+            //alert(hot.getDataAtCell(i, 0));//[A1,B1]
+            //alert(hot.getDataAtCell(i, 1));//[A1,B1,C1]
+            var vlnode = hot.getDataAtCell(i, 0)
+            if (vlnode ==null) alert("第" + (i+1) + "行流程节点为空! ")
+            var vlperson = hot.getDataAtCell(i, 1)
+            if (vlperson==null) alert("第" + (i+1) + "行人员为空! ")
+        }
+        //return false;
+        alert("ok");
+        jQuery.ajax({
+            url: '/Flow/SubmitFlow',
+            type: "POST",
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            //data: JSON.stringify(hot.getSourceData()),
+            data: JSON.stringify(hot.getChangeData()),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                exampleConsole.innerHTML = 'Data saved';
+                //alert(data);
+            },
+            error: function (xhr) {
+                exampleConsole.innerHTML = 'Save error';
+                //alert('error');
+            }
+        });
+
+        //var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
+        //if (rowid != null) {
+        //    var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);
+        //    var curChildGridId = $('#cur_operate_chid_grid').text();
+        //    var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
+        //    if (childRowid != null) {
+
+        //        var tugID_id = childRowid + "_TugID";
+        //        $('#' + tugID_id).val(dr.TugID);
+
+        //        var cnName_id = childRowid + "_CnName";
+        //        $('#' + cnName_id).val(dr.CnName);
+        //        var enName_id = childRowid + "_EnName";
+        //        $('#' + enName_id).val(dr.EnName);
+
+        //        var simpleName_id = childRowid + "_SimpleName";
+        //        $('#' + simpleName_id).val(dr.SimpleName);
+        //    }
+
+        //    $('#_TugID').text(dr.TugID);
+        //    $('#_ChooseTug').val(dr.CnName);
+        //}
+    }
+    Handsontable.Dom.addEvent(tjflow, 'click', function () {
+        jQuery.ajax({
+            url: '/Flow/SubmitFlow',
+            type: "POST",
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            //data: JSON.stringify(hot.getSourceData()),
+            data: JSON.stringify(hot.getChangeData()),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                exampleConsole.innerHTML = 'Data saved';
+                //alert(data);
+            },
+            error: function (xhr) {
+                exampleConsole.innerHTML = 'Save error';
+                //alert('error');
+            }
+        });
+    });
+
+    //
+    $('#table-modal').on('show.bs.modal', function (e) {});
 
 
 
