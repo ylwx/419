@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace TugDataModel
 {
+    public class MyBillingItem {
+        public int IDX { get; set; }
+        public Nullable<int> ItemID { get; set; }
+        public string ItemValue { get; set; }
+        public string ItemLabel { get; set; }
+        public Nullable<double> UnitPrice { get; set; }
+        public string Currency { get; set; }
+        public Nullable<int> TypeID { get; set; }
+        public string TypeValue { get; set; }
+        public string TypeLabel { get; set; }
+    }
     public class MyScheduler{
         public int TugID { get; set; }
         public string TugCnName { get; set; }
@@ -49,7 +60,7 @@ namespace TugDataModel
         public int RopeNum { get; set; }
         public string Remark { get; set; }
 
-        public List<BillingItemTemplate> BillingItems { get; set; }
+        public List<MyBillingItem> BillingItems { get; set; }
 
         /// <summary>
         /// 总计港币
