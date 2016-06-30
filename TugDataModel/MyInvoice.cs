@@ -18,6 +18,7 @@ namespace TugDataModel
         public string TypeValue { get; set; }
         public string TypeLabel { get; set; }
     }
+
     public class MyScheduler{
         public int TugID { get; set; }
         public string TugCnName { get; set; }
@@ -72,6 +73,14 @@ namespace TugDataModel
 
     }
 
+    public class MyService
+    {
+        public int ServiceId { get; set; }
+
+        public string ServiceName { get; set; }
+
+        public string ServiceRemark { get; set; }
+    }
     public class MyInvoice
     {
         public int CustormerID { get; set; }
@@ -91,7 +100,7 @@ namespace TugDataModel
         /// <summary>
         /// 服务内容  key:value = 服务ID : 服务名称
         /// </summary>
-        public Dictionary<int, string> ServiceNature { get; set; }
+        public Dictionary<int, MyService> ServiceNature { get; set; }
 
         /// <summary>
         /// 账单ID

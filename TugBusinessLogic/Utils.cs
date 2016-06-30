@@ -201,6 +201,22 @@ namespace TugBusinessLogic
 
             return 0;
         }
+
+
+        /// <summary>
+        /// 根据模板ID和ItemID获取价格
+        /// </summary>
+        /// <param name="billingTemplateId"></param>
+        /// <param name="billingTemplateItemId"></param>
+        /// <returns></returns>
+        static public double GetServicePrice(int billingTemplateId, int billingTemplateItemId)
+        {
+            TugDataModel.TugDataEntities db = new TugDataEntities();
+            double price = (double)db.BillingItemTemplate.Where(u => u.BillingTemplateID == billingTemplateId && u.ItemID == billingTemplateItemId)
+                .Select(u => u.UnitPrice).FirstOrDefault();
+            return price;
+        }
+
         /// <summary>
         /// 获取最大活动编号
         /// </summary>
@@ -307,6 +323,14 @@ namespace TugBusinessLogic
             {
             }
             return s;
+        }
+
+
+        static public List<CustomField> GetCustomField2(string CustomName)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<CustomField> list = db.CustomField.Where(u => u.CustomName == CustomName).OrderBy(u => u.CustomValue).ToList<CustomField>();
+            return list;
         }
     }
 }

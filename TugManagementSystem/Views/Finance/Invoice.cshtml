@@ -9,7 +9,7 @@
 <div id="main-content">
     <!-- Parent MODAL FORM-->
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="model-dlg" class="modal-dialog" style="width:800px">
+        <div id="model-dlg" class="modal-dialog" style="width:900px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -20,66 +20,167 @@
                         <div class="col-md-12">
                             <div class="box border blue">
                                 <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>新增订单</h4>
+                                    <h4><i class="fa fa-windows"></i>生成账单</h4>
                                     <div class="tools hidden-xs">
                                         <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
                                             <i class="fa fa-times"></i>
                                         </a>
                                     </div>
                                 </div>
+
                                 <div class="box-body big">
-                                    @*<h4 class="form-title">Supported controls</h4>*@
+        
+                                    <div id="div_search" class="col-lg-12" style="padding-bottom:10px">    
+                                        
+                                        <div class="col-xs-3">
+                                            选择计费方案
+                                            <select id="sel_billing_scheme" class="form-control" onchange="billingSchemeChanged($(this).val())">
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            选择账单类型
+                                            <select id="sel_billing_type" class="form-control">
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            选择计时方式
+                                            <select id="sel_time_type" class="form-control">
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
 
-                                    <table data-toggle="table" data-classes="table-no-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th data-width="20%" data-align="center">Item ID</th>
-                                                <th data-width="20%" data-align="right">Item Name</th>
-                                                <th data-width="60%" data-cell-style="cellStyle">Item Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="checkbox" />1</td>
-                                                <td>Item 1</td>
-                                                <td>$1</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Item 2</td>
-                                                <td>$2</td>
-                                            </tr>
+                                        <div class="col-xs-3">
+                                            <button type="submit" class="btn btn-pink" style="margin-top:17px" onclick="reGenerate()">重新生成</button>
+                                        </div>
 
-                                        </tbody>
-                                    </table>
+                                    </div>
 
-                                    <hr />
+                                    <div style="margin:8px;padding:0px; width:820px;height:1px;background-color:black;overflow:hidden;"></div>
 
-                                    <table data-toggle="table" data-show-footer=true data-classes="table">
-                                        <thead>
-                                            <tr>
-                                                <th data-width="" data-align="center">Item ID</th>
-                                                <th data-width="" data-align="center">Item Name</th>
-                                                <th data-align="right">Item Name2</th>
-                                                <th data-cell-style="cellStyle">Item Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><input type="checkbox" />1</td>
-                                                <td>Item 1</td>
-                                                <td>Item 1dddd</td>
-                                                <td>$1</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Item 2</td>
-                                                <td>Item 达到反反复复反反复复反反复复</td>
-                                                <td>$2</td>
-                                            </tr>
+                                    <div id="div_services" class="col-md-12">
+                                        <div class="col-md-2">
+                                            <p>服务项目:<br>SERVICE:</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>服务项目:<br>SERVICE:</p>
+                                            <p>服务项目:<br>SERVICE:</p>
+                                            <p>服务项目:<br>SERVICE:</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>服务项目:<br>SERVICE:</p>
+                                        </div>
+                                    </div>
 
-                                        </tbody>
-                                    </table>
+
+                                    <div style="margin:8px;padding:0px; width:820px;height:1px;background-color:black;overflow:hidden;"></div>
+                                    
+                                    <div id="div_detail">
+                                        <table id="tb_detail" data-toggle="table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="" rowspan="2" data-halign="center" data-align="center" data-valign="bottom">拖轮</th>
+                                                    <th width="" colspan="2" data-halign="center" data-align="center" data-valign="middle">泊码头</th>
+                                                    <th width="" colspan="3" data-halign="center" data-align="center" data-valign="middle">离码头</th>
+                                                    <th width="" colspan="1" data-halign="center" data-align="center" data-valign="middle">护航</th>
+                                                </tr>
+                                                <tr>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">海发</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">海泰</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">海友</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">#REF</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">#REF</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">#REF</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="checkbox" class=""> 离厂时间</td>
+                                                    <td>08:00</td>
+                                                    <td>12:20</td>
+                                                    <td>1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class=""> 回厂时间
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class=""> 工作时间
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class=""> 协议收费
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class=""> 合计港币
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        工作耗时
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class=""> 燃油附加费
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class=""> 拖缆费
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class=""> 总数港币
+                                                    </td>
+                                                    <td>Item 2</td>
+                                                    <td>￥3.00</td>
+                                                    <td>2</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                    <td colspan="6" style="text-align:right"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>
+                                                    <td style="text-align:center;"><strong>12345.67</strong></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
 
 
                                     <div id="parentErrMsg" class="alert alert-block alert-warning fade in" hidden>
@@ -331,7 +432,17 @@
                 }).navButtonAdd('#jqGridPager', {
                     //id: 'jqGrid_ilrefresh',
                     caption: "", title: "新增", buttonicon: "ui-icon-plus",
-                    onClickButton: AddParent
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow'); 
+                        if (rowid != null) {
+                            g_curRowId = rowid;
+                            AddParent();
+                        }
+                        else {
+                            alert('选中一行');
+                        }  
+                    },
+
                 });
 
 
@@ -723,9 +834,11 @@
     }
 </script>
 
+
 <!-- 模态框 -->
 <script type="text/javascript">
-    
+    var g_curRowId = '';
+
     function AddParent() {
         $('#parent-modal').modal()
 
@@ -733,142 +846,73 @@
 
     function initParentModal() {
         $('#parentErrMsg').hide();
-        $('#_CustomerName').parent().removeClass("has-error");
-        $('#_WorkDate').parent().removeClass("has-error");
-        $('#_WorkTime').parent().removeClass("has-error");
-        $('#_EstimatedCompletionTime').parent().removeClass("has-error");
 
-        $('#_ShipName').parent().removeClass("has-error");
-        $('#_WorkPlace').parent().removeClass("has-error");
-        $('#_ServiceNatureNames').removeClass("has-error");
+        //$("#sel_billing_scheme option:first").prop("selected", 'selected');
+        //$("#sel_billing_type option:first").prop("selected", 'selected');
+        //$("#sel_time_type option:first").prop("selected", 'selected');
 
-        $('#_BigTugNum').parent().removeClass("has-error");
-        $('#_MiddleTugNum').parent().removeClass("has-error");
-        $('#_SmallTugNum').parent().removeClass("has-error");
+        //$("input[name='serviceCheckbox']").each(function () {
+        //    $(this).attr("checked", false);
+        //});
+        $('#sel_billing_type').attr('disabled', false);
+        $('#sel_time_type').attr('disabled', false);
 
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
 
-        $('#_LinkMan').parent().removeClass("has-error");
-        $('#_LinkPhone').parent().removeClass("has-error");
-        $('#_LinkEmail').parent().removeClass("has-error");
-        $('#_Remark').parent().removeClass("has-error");
+        $.ajax({
+            type: "get",
+            url: '@Url.Action("InitFilter", "Finance")',
+            data: {
+                'custId': dr.CustomerID,
+                'orderId': dr.IDX
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                
+                $('#sel_billing_scheme').empty();
+                $('#sel_billing_type').empty();
+                $('#sel_time_type').empty();
+                $('#div_services').empty();
+                $('#tb_detail').empty();
 
-        $('#_CustomerName').autocomplete({
-            source: function (request, response) {
-                this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomer", "OrderManage")',
-                    data: request,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        response($.map(data.list, function (item) {
-                            return {
-                                id: item.CustomerID,
-                                label: item.CustomerCnName,
-                                value: item.CustomerCnName
-                            };
-                        }));
-                    },
+                //alert(result.customer_billing_schemes.length);
+                if (result.customer_billing_schemes.length <= 0) {
+                    var option = $('<option value="-1">无</option>')
+                    $('#sel_billing_scheme').append(option);
 
-                    error: function (model, response, options) {
-                        response([]);
+                    //option = $('<option value="-2">无2</option>')
+                    //$('#sel_billing_scheme').append(option);
+                } else {
+                    var option = $('<option value="-1">不使用</option>');
+                    $('#sel_billing_scheme').append(option);
+                    for (var i = 0; i < result.customer_billing_schemes.length; i++) {
+                        option = $('<option value="' + result.customer_billing_schemes[i].IDX + '">' + result.customer_billing_schemes[i].BillingTemplateName + '</option>')
+                        $('#sel_billing_scheme').append(option);
                     }
-                });
+                }
+
+                
+                for (var i = 0; i < result.billing_template_types.length; ++i) {
+                    var option = $('<option value="' + result.billing_template_types[i].IDX + '~' + result.billing_template_types[i].CustomValue + '~' + result.billing_template_types[i].CustomLabel + '">' + result.billing_template_types[i].CustomLabel + '</option>')
+                    $('#sel_billing_type').append(option);
+                }
+                for (var i = 0; i < result.time_types.length; i++) {
+                    var option = $('<option value="' + result.time_types[i].IDX + '~' + result.time_types[i].CustomValue + '~' + result.time_types[i].CustomLabel + '">' + result.time_types[i].CustomLabel + '</option>')
+                    $('#sel_time_type').append(option);
+                }
+
+                $("#sel_billing_scheme option:first").prop("selected", 'selected');
+                $("#sel_billing_type option:first").prop("selected", 'selected');
+                $("#sel_time_type option:first").prop("selected", 'selected');
+
+                var timeTypeId = $("#sel_time_type").val().toString().split('~')[0];
+                var timeTypeValue = $("#sel_time_type").val().toString().split('~')[1];
+                var timeTypeLabel = $("#sel_time_type").val().toString().split('~')[2];
+
+                reGenerate(dr.IDX, timeTypeId, timeTypeValue, timeTypeLabel)
+
             },
-            select: function (event, ui) {
-                if (ui.item != null)
-                    $("#_CustomerID").text(ui.item.id);
-                else
-                    $("#_CustomerID").text(-1);
-            },
-            change: function (event, ui) {
-
-                if (ui.item != null)
-                    $("#_CustomerID").text(ui.item.id);
-                else
-                    $("#_CustomerID").text(-1);
-
-            },
-            autoFocus: true
         });
-
-
-        $('#_ShipName').autocomplete({
-            source: function (request, response) {
-                this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomerShips", "OrderManage")',
-                    data: request,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        response($.map(data.list, function (item) {
-                            return {
-                                id: item.ShipID,
-                                label: item.ShipCnName,
-                                value: item.ShipCnName
-                            };
-                        }));
-                    },
-
-                    error: function (model, response, options) {
-                        response([]);
-                    }
-                });
-            },
-            select: function (event, ui) {
-                if (ui.item != null)
-                    $("#_ShipID").text(ui.item.id);
-                else
-                    $("#_ShipID").text(-1);
-            },
-            change: function (event, ui) {
-
-                if (ui.item != null)
-                    $("#_ShipID").text(ui.item.id);
-                else
-                    $("#_ShipID").text(-1);
-            },
-            autoFocus: true
-        });
-
-        $('#_WorkDate').datetimepicker({
-            //format: 'Y-m-d H:i:s',
-            format: 'Y-m-d',
-            timepicker: false,
-        });
-
-        $('#_WorkTime').datetimepicker({
-            format: 'H:i',
-            step: 1,
-            datepicker: false,
-        });
-
-        $('#_EstimatedCompletionTime').datetimepicker({
-            format: 'H:i',
-            step: 1,
-            datepicker: false
-        });
-
-        $('#_CustomerName').val("");
-
-        $('#_WorkDate').val(new Date().Format("yyyy-MM-dd"));
-        $('#_WorkTime').val(new Date().Format("hh:mm"));
-        $('#_EstimatedCompletionTime').val(new Date().Format("hh:mm"));
-
-        $('#_ShipName').val("");
-        $('#_WorkPlace').val("");
-
-        $("input[name='serviceCheckbox']").each(function () {
-            $(this).attr("checked", false);
-        });
-
-        $('#_BigTugNum').val("");
-        $('#_MiddleTugNum').val("");
-        $('#_SmallTugNum').val("");
-
-        $('#_LinkMan').val("");
-        $('#_LinkPhone').val("");
-        $('#_LinkEmail').val("");
-        $('#_Remark').val("");
     }
 
     $('#parent-modal').on('show.bs.modal', function (e) {
@@ -1146,5 +1190,65 @@
             //classes: 'text-nowrap another-class',
             css: { "color": "blue"}
         };
+    }
+
+
+    function reGenerate(orderId, timeTypeId, timeTypeValue, timeTypeLabel) {
+        //$('#tb_detail').empty();
+
+        
+        $.ajax({
+            type: "get",
+            url: '@Url.Action("NewInvoice", "Finance")',
+            data: {
+                'orderId': orderId,
+                'timeTypeId': timeTypeId,
+                'timeTypeValue': timeTypeValue,
+                'timeTypeLabel': timeTypeLabel
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                $('#tb_detail').empty();
+                $('#div_services').empty();
+
+                var div1 = $('<div class="col-md-2"><p>服务项目:<br>SERVICE:</p></div>');
+                var div2 = $('<div class="col-md-2"></div>');
+                var div3 = $('<div class="col-md-8"></div>');
+                for (key in result.invoice.ServiceNature)
+                {
+                    var value = result.invoice.ServiceNature[key];
+                    var p = $('<p>' + value.ServiceName + '</p>')
+                    div2.append(p);
+
+                    p = $('<p>' + value.ServiceRemark + '</p>');
+                    div3.append(p)
+                }
+               
+                $('#div_services').append(div1).append(div2).append(div3);
+
+                //生成表格
+
+            },
+        });
+
+
+        var table = $('<table id="tb_detail" data-toggle="table"><thead><tr><th width="" rowspan="2" data-halign="center" data-align="center" data-valign="bottom">拖轮</th></tr></thead></table>')
+
+        //$('#div_detail').append(table);
+    }
+    
+
+    function billingSchemeChanged(selectedValue) {
+
+        //alert(selectedValue);
+        if (selectedValue != -1) {
+            $('#sel_billing_type').attr('disabled', true);
+            $('#sel_time_type').attr('disabled', true);
+        }
+        else {
+            $('#sel_billing_type').attr('disabled', false);
+            $('#sel_time_type').attr('disabled', false);
+            
+        }
     }
 </script>
