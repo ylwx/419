@@ -29,6 +29,8 @@ namespace TugBusinessLogic.Module
 
                 Dictionary<int, List<MyScheduler>> dicSchedulers = new Dictionary<int, List<MyScheduler>>();
 
+                double grandTotal = 0;
+
                 if(services != null && services.Count > 0)
                 {
                     foreach(var item in services)
@@ -36,7 +38,7 @@ namespace TugBusinessLogic.Module
                         dicServiceNature.Add((int)item.ServiceNatureID, item.ServiceNatureLabel);
 
                         var ships = list.Where(u => u.ServiceNatureID == item.ServiceNatureID)
-                            .Select(u => new {u.TugID, u.TugCnName, u.TugEnName, u.TugSimpleName}).Distinct()
+                            .Select(u => new {u.TugID, u.TugCnName, u.TugEnName, u.TugSimpleName, u.Power}).Distinct()
                             .OrderBy(u => u.TugCnName).ToList();
 
                         List<MyScheduler> listScheduler = new List<MyScheduler>();
@@ -50,7 +52,7 @@ namespace TugBusinessLogic.Module
                                 sch.TugCnName = ship.TugCnName;
                                 sch.TugEnName = ship.TugEnName;
                                 sch.TugSimpleName = ship.TugSimpleName;
-
+                                sch.TugPower = ship.Power;
                                 var schedulers = list.Where(u => u.ServiceNatureID == item.ServiceNatureID && u.TugID == ship.TugID)
                                     .Select(u => new
                                     {
@@ -58,6 +60,7 @@ namespace TugBusinessLogic.Module
                                         u.TugCnName,
                                         u.TugEnName,
                                         u.TugSimpleName,
+                                        u.Power,
                                         u.InformCaptainTime,
                                         u.CaptainConfirmTime,
                                         u.DepartBaseTime,
@@ -89,17 +92,34 @@ namespace TugBusinessLogic.Module
                                     sch.WorkCompletedTime = schedulers[0].WorkCompletedTime;
                                     sch.ArrivalBaseTime = schedulers[0].ArrivalBaseTime;
 
-                                    sch.WorkTime = "";
-                                    sch.WorkTimeConsumption = "";
+                                    int iDiffHour, iDiffMinute;
+                                    TugBusinessLogic.Utils.CalculateTimeDiff(sch.DepartBaseTime, sch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
+                                    sch.WorkTime = iDiffHour.ToString() + "h" + iDiffMinute.ToString() + "m";
+
+                                    //_invoice.BillingTypeID = (int)list[0].BillingTypeID;
+                                    //_invoice.BillingTypeValue = list[0].BillingTypeValue;
+                                    //_invoice.BillingTypeLabel = list[0].BillingTypeLabel;
+                                    //_invoice.TimeTypeID = (int)list[0].TimeTypeID;
+                                    //_invoice.TimeTypeValue = list[0].TimeTypeValue;
+                                    //_invoice.TimeTypeLabel = list[0].TimeTypeLabel;
+
+                                    sch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute, (int)list[0].TimeTypeID, list[0].TimeTypeValue, list[0].TimeTypeLabel);
 
                                     sch.UnitPrice = (double)schedulers[0].UnitPrice;
-                                    sch.Price = 0;
+                                    if (((int)list[0].BillingTypeID == 5 || list[0].BillingTypeValue == "0" || list[0].BillingTypeLabel == "全包")
+                                        || ((int)list[0].BillingTypeID == 6 || list[0].BillingTypeValue == "1" || list[0].BillingTypeLabel == "全包加特别条款"))
+                                        sch.Price = (double)schedulers[0].UnitPrice;
+                                    else
+                                        sch.Price = (double)schedulers[0].UnitPrice * sch.WorkTimeConsumption;
 
-                                    sch.SubTotaHKS = 0;
+                                    sch.SubTotaHKS = sch.Price;
 
                                     sch.RopeUsed = schedulers[0].RopeUsed;
                                     sch.RopeNum = (int)schedulers[0].RopeNum;
                                     sch.Remark = schedulers[0].OrderSchedulerRemark;
+
+
+                                    double total = sch.SubTotaHKS;
 
                                     #region 一条船的费用项目
                                     List<MyBillingItem> billingItems = new List<MyBillingItem>();
@@ -111,16 +131,35 @@ namespace TugBusinessLogic.Module
                                         bit.ItemValue = subItem.BillingItemValue;
                                         bit.ItemLabel = subItem.BillingItemLabel;
                                         bit.UnitPrice = subItem.UnitPrice;
+
+                                        if (((int)list[0].BillingTypeID == 5 || list[0].BillingTypeValue == "0" || list[0].BillingTypeLabel == "全包")
+                                        || ((int)list[0].BillingTypeID == 6 || list[0].BillingTypeValue == "1" || list[0].BillingTypeLabel == "全包加特别条款"))
+                                            bit.Price = subItem.UnitPrice;
+                                        else
+                                            bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
+
+                                        
                                         bit.Currency = subItem.Currency;
                                         bit.TypeID = subItem.PositionTypeID;
                                         bit.TypeValue = subItem.PositionTypeValue;
                                         bit.TypeLabel = subItem.PositionTypeLabel;
 
+                                        
+
+                                        if (subItem.PositionTypeID == 13 || list[0].BillingTypeValue == "0" || list[0].BillingTypeLabel == "上")
+                                            sch.SubTotaHKS += (double)bit.Price;
+
+                                        total += (double)bit.Price;
+
                                         billingItems.Add(bit);
                                     }
                                     #endregion
 
+                                    sch.TotalHKs = total;
+
                                     sch.BillingItems = billingItems;
+
+                                    grandTotal += total;
                                 }
 
                                 listScheduler.Add(sch);
@@ -145,9 +184,8 @@ namespace TugBusinessLogic.Module
                 _invoice.TimeTypeValue = list[0].TimeTypeValue;
                 _invoice.TimeTypeLabel = list[0].TimeTypeLabel;
 
-                
         
-                _invoice.GrandTotalHKS = 0;
+                _invoice.GrandTotalHKS = grandTotal;
             } 
         }
     }

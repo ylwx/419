@@ -23,6 +23,185 @@ namespace TugBusinessLogic
         }
 
         /// <summary>
+        /// 计算时间差
+        /// </summary>
+        /// <param name="startTime">开始时间 格式：19:33</param>
+        /// <param name="endTime">结束时间 格式：21:21</param>
+        /// <param name="iDiffHour">相差的小时数</param>
+        /// <param name="iDiffMinute">相差的分钟数</param>
+        /// <returns>成功：true， 失败：false</returns>
+        static public bool CalculateTimeDiff(string startTime, string endTime, out int iDiffHour, out int iDiffMinute)
+        {
+            iDiffHour = 0;
+            iDiffMinute = 0;
+
+            string strStartHour = startTime.Split(':')[0];
+            string strStartMinute = startTime.Split(':')[1];
+            int iStartHour = Convert.ToInt32(strStartHour);
+            int iStartMinute = Convert.ToInt32(strStartMinute);
+
+            string strEndHour = endTime.Split(':')[0];
+            string strEndMinute = endTime.Split(':')[1];
+            int iEndHour = Convert.ToInt32(strEndHour);
+            int iEndMinute = Convert.ToInt32(strEndMinute);
+
+            if (iEndHour < iStartHour) return false;
+            if (iEndHour == iStartHour)
+            {
+                if (iEndMinute < iStartMinute) return false;
+                if (iEndMinute == iStartMinute) return true;
+                if (iEndMinute > iStartMinute)
+                {
+                    iDiffMinute = iEndMinute - iStartMinute;
+                    return true;
+                }
+            }
+            if (iEndHour > iStartHour)
+            {
+                //不够减，要向小时借
+                if (iEndMinute < iStartMinute)
+                {
+                    iDiffMinute = iEndMinute + 60 - iStartMinute;
+                    iDiffHour = iEndHour - 1 - iStartHour;
+                    return true;
+                }
+                if(iEndMinute >= iStartMinute)
+                {
+                    iDiffMinute = iEndMinute - iStartMinute;
+                    iDiffHour = iEndHour - iStartHour;
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+        /// <summary>
+        /// 根据不同的计时方式，计算实际消耗时间
+        /// </summary>
+        /// <param name="hour">时间差的小时</param>
+        /// <param name="minute">时间差的分钟</param>
+        /// <param name="timeTypeId">计时方式id，参见CustomField表里面的IDX（CustomName：BillingTemplate.TimeTypeID）</param>
+        /// <param name="timeTypeValue">计时方式value，参见CustomField表里面的CustomrValue（CustomName：BillingTemplate.TimeTypeID）</param>
+        /// <param name="timeTypeLabel">计时方式label，参见CustomField表里面的CustomrLabel（CustomName：BillingTemplate.TimeTypeID）</param>
+        /// <returns>消耗的小时数</returns>
+        static public double CalculateTimeConsumption(int hour, int minute, int timeTypeId, string timeTypeValue, string timeTypeLabel)
+        {
+            #region 一刻钟
+            if (timeTypeId == 8 || timeTypeValue == "0" || timeTypeLabel == "一刻钟")
+            {
+                int count = 0;
+                count += hour * 60 / 15 ;
+                count += minute / 15;
+                if (minute % 15 > 0) {
+                    count++;
+                }
+
+                return (count * 15.0) / 60;
+            }
+            #endregion
+
+            #region 半小时
+            if (timeTypeId == 9 || timeTypeValue == "1" || timeTypeLabel == "半小时") 
+            {
+                int count = 0;
+                count += hour * 60 / 30;
+                count += minute / 30;
+                if (minute % 30 > 0)
+                {
+                    count++;
+                }
+
+                return (count * 30.0) / 60;
+            }
+            #endregion
+
+            #region 一小时
+            if (timeTypeId == 10 || timeTypeValue == "2" || timeTypeLabel == "一小时") 
+            {
+                int count = 0;
+                count += hour * 60 / 60;
+                count += minute / 60;
+                if (minute % 60 > 0)
+                {
+                    count++;
+                }
+
+                return (count * 60.0) / 60;
+            }
+            #endregion
+
+            #region 一刻钟/5min
+            if (timeTypeId == 11 || timeTypeValue == "3" || timeTypeLabel == "一刻钟/5min") 
+            {
+                int count = 0;
+
+                if (minute >= 5)
+                {
+                    minute -= 5;
+                }
+                else 
+                {
+                    if (hour > 0) {
+                        hour -= 1;
+                        minute += 60;
+                    }
+                    else
+                    {
+                        hour = 0;
+                    }
+                }
+                    
+                count += hour * 60 / 15;
+
+                count += minute / 15;
+                if (minute % 15 > 0)
+                {
+                    count++;
+                }
+
+                return (count * 15.0) / 60;
+            }
+            #endregion
+
+            #region 半小时/5min
+            if (timeTypeId == 12 || timeTypeValue == "4" || timeTypeLabel == "半小时/5min") 
+            {
+                int count = 0;
+
+                if (minute >= 5)
+                {
+                    minute -= 5;
+                }
+                else
+                {
+                    if (hour > 0)
+                    {
+                        hour -= 1;
+                        minute += 60;
+                    }
+                    else
+                    {
+                        hour = 0;
+                    }
+                }
+
+
+                count += hour * 60 / 30;
+                count += minute / 30;
+                if (minute % 30 > 0)
+                {
+                    count++;
+                }
+
+                return (count * 30.0) / 60;
+            }
+            #endregion
+
+            return 0;
+        }
+        /// <summary>
         /// 获取最大活动编号
         /// </summary>
         /// <returns></returns>

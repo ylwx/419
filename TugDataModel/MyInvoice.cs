@@ -12,6 +12,7 @@ namespace TugDataModel
         public string ItemValue { get; set; }
         public string ItemLabel { get; set; }
         public Nullable<double> UnitPrice { get; set; }
+        public Nullable<double> Price { get; set; }
         public string Currency { get; set; }
         public Nullable<int> TypeID { get; set; }
         public string TypeValue { get; set; }
@@ -22,6 +23,8 @@ namespace TugDataModel
         public string TugCnName { get; set; }
         public string TugEnName { get; set; }
         public string TugSimpleName { get; set; }
+
+        public string TugPower { get; set; }
 
         public string InformCaptainTime { get; set; } 
         public string CaptainConfirmTime {get;set;}
@@ -38,7 +41,7 @@ namespace TugDataModel
         /// <summary>
         /// 按照计时方式换算后的实际消耗时间
         /// </summary>
-        public string WorkTimeConsumption {get;set;}
+        public double WorkTimeConsumption {get;set;}
 
 
         /// <summary>
