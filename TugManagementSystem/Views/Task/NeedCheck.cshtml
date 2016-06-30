@@ -41,7 +41,18 @@
                             <div class="box-title">
                                 <h4><i class="fa fa-bars"></i>@Resources.Language.Task_NeedApprove</h4>
                             </div>
+                            @*<div class="box-body">
+                                    <div id="query">
+                                        <input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="通 过" />
+                                        <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="驳 回" />
+                                        <label>编号：</label><input type="text" class="input" id="sn" />
+                                            <label>名称：</label><input type="text" class="input" id="title" />
+                                            <input type="submit" class='btn btn-primary btn-xs' id="find_btn" value="查 询" />
+                                    </div>
+                                </div>*@
                             <div id="jqGridContainerBox" class="box-body">
+                                <input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="通 过" />
+                                <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="驳 回" />
                                 <table id="jqGrid"></table>
                                 <div id="jqGridPager"></div>
                             </div>
@@ -86,10 +97,10 @@
                 sortable: true,          //列可移动
                 colMenu: true,          //列菜单
                 multiselect: true,      //选择框
-                toolbar: [true, "top"]   //按钮
+                //toolbar: [true, "top"]   //按钮
 
             });
-            $("#t_jqGrid").append("<input type='button' value='@Resources.Language.Approve_Pass' id='Pass' style='height:20px;font-size:100%' class='btn btn-success' />");
+            @*$("#t_jqGrid").append("<input type='button' value='@Resources.Language.Approve_Pass' id='Pass' style='height:20px;font-size:100%' class='btn btn-success' />");
             $("Pass").on('click', function () {
                 var ids = [];
                 $("#jqGrid").find("input[type='checkbox']:checked").each(function () {
@@ -97,7 +108,9 @@
                 });
                 alert(ids[1]);
             })
-
+            $("Pass_btn").click(function () {
+                alert("按钮成功了");
+            })
             $("#t_jqGrid")
                .append(
                    "<input type='button' value='@Resources.Language.Approve_Reject' id='Reject' style='height:20px;font-size:-3'  class='btn btn-danger' />");
@@ -109,8 +122,10 @@
                         alert(BillID);
                     }
                 }
-            });
-
+            });*@
+            //$("Pass_btn").click(function () {
+            //    alert("按钮成功了");
+            //})
             $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
@@ -163,12 +178,6 @@
         }
     }
 
-    $("Pass").on('click', function () {
-        var ids = [];
-        $("#jqGrid").find("input[type='checkbox']:checked").each(function () {
-            ids.push($(this).attr("Value"));
-        });
-    })
     function GetTableConfig() {
         tableConfig = {
             columns: [
@@ -350,4 +359,18 @@
             ]
         };
     }
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("Pass_btn").on('click', function () {
+            var ids = [];
+            $("#jqGrid").find("input[type='checkbox']:checked").each(function () {
+                ids.push($(this).attr("Value"));
+            });
+            alert("按钮成功了");
+        })
+        $("Pass_btn").click(function () {
+            alert("按钮成功了");
+        })
+    })
 </script>
