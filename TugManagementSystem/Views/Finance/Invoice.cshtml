@@ -886,7 +886,14 @@
                     var option = $('<option value="-1">不使用</option>');
                     $('#sel_billing_scheme').append(option);
                     for (var i = 0; i < result.customer_billing_schemes.length; i++) {
-                        option = $('<option value="' + result.customer_billing_schemes[i].IDX + '">' + result.customer_billing_schemes[i].BillingTemplateName + '</option>')
+
+                        var v = result.customer_billing_schemes[i].IDX
+                            + "%"
+                            + customer_billing_schemes[i].BillingTemplateTypeID + "~" + customer_billing_schemes[i].BillingTemplateTypeValue + "~" + customer_billing_schemes[i].BillingTemplateTypeLabel
+                            + "%"
+                            + customer_billing_schemes[i].TimeTypeID + "~" + customer_billing_schemes[i].TimeTypeValue + "~" + customer_billing_schemes[i].TimeTypeLabel;
+
+                        option = $('<option value="' + v + '">' + result.customer_billing_schemes[i].BillingTemplateName + '</option>')
                         $('#sel_billing_scheme').append(option);
                     }
                 }
@@ -1244,11 +1251,17 @@
         if (selectedValue != -1) {
             $('#sel_billing_type').attr('disabled', true);
             $('#sel_time_type').attr('disabled', true);
+
+            $("#sel_billing_type option:first").prop("selected", 'selected');
+            $("#sel_time_type option:first").prop("selected", 'selected');
         }
         else {
+
             $('#sel_billing_type').attr('disabled', false);
+            $('#sel_billing_type').val(selectedValue.split('%')[1]);
+
             $('#sel_time_type').attr('disabled', false);
-            
+            $('#sel_time_type').val(selectedValue.split('%')[2]);
         }
     }
 </script>
