@@ -93,6 +93,7 @@
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
           <Property Name="TaskID" Type="int" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="50" />
           <Property Name="Phase" Type="int" />
           <Property Name="OwnerID" Type="int" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
@@ -731,6 +732,7 @@
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderWorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderWorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderEstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -740,6 +742,11 @@
           <Property Name="TugCnName" Type="nvarchar" MaxLength="50" />
           <Property Name="TugEnName" Type="nvarchar" MaxLength="50" />
           <Property Name="TugSimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Power" Type="nvarchar" MaxLength="50" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="Speed" Type="nvarchar" MaxLength="50" />
+          <Property Name="Length" Type="nvarchar" MaxLength="50" />
+          <Property Name="Width" Type="nvarchar" MaxLength="50" />
           <Property Name="JobStateID" Type="int" />
           <Property Name="JobStateLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="InformCaptainTime" Type="nvarchar" MaxLength="50" />
@@ -861,6 +868,7 @@
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -870,6 +878,11 @@
           <Property Name="CnName" Type="nvarchar" MaxLength="50" />
           <Property Name="EnName" Type="nvarchar" MaxLength="50" />
           <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Power" Type="nvarchar" MaxLength="50" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="Speed" Type="nvarchar" MaxLength="50" />
+          <Property Name="Length" Type="nvarchar" MaxLength="50" />
+          <Property Name="Width" Type="nvarchar" MaxLength="50" />
           <Property Name="JobStateID" Type="int" />
           <Property Name="JobStateLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="InformCaptainTime" Type="nvarchar" MaxLength="50" />
@@ -992,18 +1005,6 @@
             </Principal>
             <Dependent Role="Arrangement">
               <PropertyRef Name="TugID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Billing_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
-          <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Billing">
-              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1214,6 +1215,7 @@
     [V_Invoice].[CustomerID] AS [CustomerID], 
     [V_Invoice].[CustomerName] AS [CustomerName], 
     [V_Invoice].[OrderID] AS [OrderID], 
+    [V_Invoice].[OrderCode] AS [OrderCode], 
     [V_Invoice].[OrderWorkDate] AS [OrderWorkDate], 
     [V_Invoice].[OrderWorkTime] AS [OrderWorkTime], 
     [V_Invoice].[OrderEstimatedCompletionTime] AS [OrderEstimatedCompletionTime], 
@@ -1223,6 +1225,11 @@
     [V_Invoice].[TugCnName] AS [TugCnName], 
     [V_Invoice].[TugEnName] AS [TugEnName], 
     [V_Invoice].[TugSimpleName] AS [TugSimpleName], 
+    [V_Invoice].[Power] AS [Power], 
+    [V_Invoice].[Class] AS [Class], 
+    [V_Invoice].[Speed] AS [Speed], 
+    [V_Invoice].[Length] AS [Length], 
+    [V_Invoice].[Width] AS [Width], 
     [V_Invoice].[JobStateID] AS [JobStateID], 
     [V_Invoice].[JobStateLabel] AS [JobStateLabel], 
     [V_Invoice].[InformCaptainTime] AS [InformCaptainTime], 
@@ -1335,6 +1342,7 @@
     [V_OrderScheduler].[CustomerID] AS [CustomerID], 
     [V_OrderScheduler].[CustomerName] AS [CustomerName], 
     [V_OrderScheduler].[OrderID] AS [OrderID], 
+    [V_OrderScheduler].[OrderCode] AS [OrderCode], 
     [V_OrderScheduler].[WorkDate] AS [WorkDate], 
     [V_OrderScheduler].[WorkTime] AS [WorkTime], 
     [V_OrderScheduler].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
@@ -1344,6 +1352,11 @@
     [V_OrderScheduler].[CnName] AS [CnName], 
     [V_OrderScheduler].[EnName] AS [EnName], 
     [V_OrderScheduler].[SimpleName] AS [SimpleName], 
+    [V_OrderScheduler].[Power] AS [Power], 
+    [V_OrderScheduler].[Class] AS [Class], 
+    [V_OrderScheduler].[Speed] AS [Speed], 
+    [V_OrderScheduler].[Length] AS [Length], 
+    [V_OrderScheduler].[Width] AS [Width], 
     [V_OrderScheduler].[JobStateID] AS [JobStateID], 
     [V_OrderScheduler].[JobStateLabel] AS [JobStateLabel], 
     [V_OrderScheduler].[InformCaptainTime] AS [InformCaptainTime], 
@@ -1444,10 +1457,6 @@
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
           </AssociationSet>
-          <AssociationSet Name="FK_Billing_Customer" Association="Self.FK_Billing_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Billing" EntitySet="Billing" />
-          </AssociationSet>
           <AssociationSet Name="FK_Billing_OrderInfor" Association="Self.FK_Billing_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
             <End Role="Billing" EntitySet="Billing" />
@@ -1524,10 +1533,6 @@
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
             <End Role="TugInfor" EntitySet="TugInfor" />
             <End Role="Arrangement" EntitySet="Arrangement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Billing_Customer" Association="Model.FK_Billing_Customer">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Billing" EntitySet="Billing" />
           </AssociationSet>
           <AssociationSet Name="FK_Billing_OrderInfor" Association="Model.FK_Billing_OrderInfor">
             <End Role="OrderInfor" EntitySet="OrderInfor" />
@@ -1682,6 +1687,7 @@
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TaskID" Type="Int32" />
+          <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Phase" Type="Int32" />
           <Property Name="OwnerID" Type="Int32" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1697,7 +1703,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="Model.FK_Billing_Customer" FromRole="Billing" ToRole="Customer" />
           <NavigationProperty Name="OrderInfor" Relationship="Model.FK_Billing_OrderInfor" FromRole="Billing" ToRole="OrderInfor" />
           <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
         </EntityType>
@@ -1813,7 +1818,6 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Billing" Relationship="Model.FK_Billing_Customer" FromRole="Customer" ToRole="Billing" />
           <NavigationProperty Name="CustomerShip" Relationship="Model.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
         </EntityType>
         <EntityType Name="CustomerShip">
@@ -2314,6 +2318,7 @@
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderWorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderEstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2323,6 +2328,11 @@
           <Property Name="TugCnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugEnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Power" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Speed" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Length" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Width" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="JobStateID" Type="Int32" />
           <Property Name="JobStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InformCaptainTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2438,6 +2448,7 @@
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2447,6 +2458,11 @@
           <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Power" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Speed" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Length" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Width" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="JobStateID" Type="Int32" />
           <Property Name="JobStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InformCaptainTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2545,18 +2561,6 @@
             </Principal>
             <Dependent Role="Arrangement">
               <PropertyRef Name="TugID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Billing_Customer">
-          <End Type="Model.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="Model.Billing" Role="Billing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="IDX" />
-            </Principal>
-            <Dependent Role="Billing">
-              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2786,6 +2790,7 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
@@ -3461,6 +3466,11 @@
                 <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
                 <ScalarProperty Name="JobStateLabel" ColumnName="JobStateLabel" />
                 <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
                 <ScalarProperty Name="TugSimpleName" ColumnName="TugSimpleName" />
                 <ScalarProperty Name="TugEnName" ColumnName="TugEnName" />
                 <ScalarProperty Name="TugCnName" ColumnName="TugCnName" />
@@ -3470,6 +3480,7 @@
                 <ScalarProperty Name="OrderEstimatedCompletionTime" ColumnName="OrderEstimatedCompletionTime" />
                 <ScalarProperty Name="OrderWorkTime" ColumnName="OrderWorkTime" />
                 <ScalarProperty Name="OrderWorkDate" ColumnName="OrderWorkDate" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
@@ -3567,6 +3578,11 @@
                 <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
                 <ScalarProperty Name="JobStateLabel" ColumnName="JobStateLabel" />
                 <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
                 <ScalarProperty Name="SimpleName" ColumnName="SimpleName" />
                 <ScalarProperty Name="EnName" ColumnName="EnName" />
                 <ScalarProperty Name="CnName" ColumnName="CnName" />
@@ -3576,6 +3592,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />

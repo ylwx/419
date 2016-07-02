@@ -100,7 +100,7 @@
                         <div class="login-box-plain">
                             <h2 class="bigintro">@Resources.Language.UserInfor_Register</h2>
                             <div class="divide-40 "></div>
-                            <form role="form" name="form2" action="/Home/SaveNewUser" method="post" onsubmit="return Check();">
+                            <form role="form" name="form2" action="/Home/SaveNewUser" method="post" onsubmit="return Check()">
                                 <div class="form-group">
                                     <label for="UserName">@Resources.Language.UserInfor_UserName</label>
                                     <i class="fa fa-user"></i>
@@ -184,28 +184,17 @@
                        success: function (result) {
                            console.log(result)
                            alert(result.message);
+                           location.href = '/OrderManage/OrderManage'
                        },
                        error: function (result) {
                            console.log(result)
-                           alert(result.responseJSON.message);
-                           location.href = '/OrderManage/OrderManage'
+                           alert(result.message);
                        }
 
                    }
 );
                 return false;
             }
-            //if (pwd1.length != 6) {
-            //    alert("密码的合法长度为6个字符");
-            //    document.getElementById("Pwd").focus();
-            //    return false;
-            //}
-            //else if (pwd1 != pwd2) {
-            //    alert("您两次输入的密码不一样！请重新输入.");
-            //    document.getElementById("Pwd").focus();
-            //    return false;
-            //}
-            //else { return true; }
         };
     </script>
     <script type="text/javascript">

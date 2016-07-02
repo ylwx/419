@@ -31,6 +31,7 @@ namespace TugDataModel
         public string Remark { get; set; }
         public string Month { get; set; }
         public Nullable<int> TaskID { get; set; }
+        public string TaskName { get; set; }
         public Nullable<int> Phase { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
@@ -47,7 +48,6 @@ namespace TugDataModel
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
     
-        public virtual Customer Customer { get; set; }
         public virtual OrderInfor OrderInfor { get; set; }
         public virtual ICollection<BillingItem> BillingItem { get; set; }
     }

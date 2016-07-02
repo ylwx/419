@@ -64,7 +64,7 @@
                             <div class="divide-40 ">
                                 <p style="color:red; text-align:center"><strong> @ViewBag.Message</strong></p>
                             </div>
-                            <form role="form" name="form1" method="post" action="/Home/SavePwd">
+                            <form role="form" name="form1" method="post" onsubmit="return Check()">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">@Resources.Language.UserInfor_OriginalPwd</label>
                                     <i class="fa fa-lock"></i>
@@ -81,7 +81,7 @@
                                     <input type="password" name="Pwd" id="Pwd2" class="form-control" required>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn btn-danger" onclick="return Check();">@Resources.Language.UserInfor_OK</button>
+                                    <button type="submit" class="btn btn-danger">@Resources.Language.UserInfor_OK</button>
                                 </div>
                             </form>
                         </div>
@@ -122,34 +122,24 @@
                 return false;
             }
             else {
-                $.ajax(
-                    {
-                        type: "post",
-                        url: '@Url.Action("SavePwd", "Home")',
-
-                        success: function (result) {
-                            alert(result.message);
-                            return true;
-                        },
-
+                var Pwd = document.getElementById("Pwd").value;
+                var newpwd = document.getElementById("Pwd1").value;
+                $.ajax({
+                    type: "post",
+                    url: "/Home/SavePwd",
+                    datatype: 'json',
+                    data: { Pwd: Pwd, newpwd: newpwd },
+                    success: function (result){
+                        alert(result.message);
+                        location.href = '/Home/Login'
+                    },
+                    error: function (result){
+                        alert(result.responseJSON.message);
                     }
-);
-                //alert("密码修改成功！");
-
+                });
+                return false;
             }
-
-            //if (pwd1.length != 6) {
-            //    alert("密码的合法长度为6个字符");
-            //    document.getElementById("Pwd").focus();
-            //    return false;
-            //}
-            //else if (pwd1 != pwd2) {
-            //    alert("您两次输入的密码不一样！请重新输入.");
-            //    document.getElementById("Pwd").focus();
-            //    return false;
-            //}
-            //else { return true; }
-        }
+        };
     </script>
     <script type="text/javascript">
         function swapScreen(id) {

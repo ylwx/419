@@ -66,11 +66,9 @@
 
     function Init() {
         {
-
             if (tableConfig == null) {
                 GetTableConfig();
             }
-
             $("#jqGrid").jqGrid({
                 //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
                 url: "/Task/GetTaskData",
@@ -91,29 +89,19 @@
                 toolbar: [true, "top"]   //按钮
 
             });
-            $("#t_jqGrid")
-                .append(
-                    "<input type='button' value='@Resources.Language.Approve_Pass' id='Pass' style='height:20px;font-size:100%' class='btn btn-success'  />");
-            $("Pass", "#t_jqGrid").click(function () {
-                var rowData = jQuery('#jqGrid').jqGrid('getGridParam', 'selarrrow');
-                if (rowData.length) {
-                    for (var i = 0; i < rowData.length; i++) {
-                        var BillID = jQuery('#jqGrid').jqGrid('getCell', rowData[i], 'IDX');//IDX是colModel中的一属性
-                        alert(BillID);
-                    }
-                }
+            $("#t_jqGrid").append("<input type='button' value='@Resources.Language.Approve_Pass' id='Pass' style='height:20px;font-size:100%' class='btn btn-success' />");
+            $("Pass").on('click', function () {
+                var ids = [];
+                $("#jqGrid").find("input[type='checkbox']:checked").each(function () {
+                    ids.push($(this).attr("Value"));
+                });
+                alert(ids[1]);
+            })
 
-            });
             $("#t_jqGrid")
                .append(
                    "<input type='button' value='@Resources.Language.Approve_Reject' id='Reject' style='height:20px;font-size:-3'  class='btn btn-danger' />");
             $("Reject", "#t_jqGrid").click(function () {
-                //var obj = $("#jqGrid").jqGrid("getRowData");
-                //$(obj).each(function () {
-
-                //    var ret = $("#jqGrid").jqGrid("getRowData", 0);
-
-                //});
                 var rowData = jQuery('#jqGrid').jqGrid('getGridParam', 'selarrrow');
                 if (rowData.length) {
                     for (var i = 0; i < rowData.length; i++) {
@@ -175,6 +163,12 @@
         }
     }
 
+    $("Pass").on('click', function () {
+        var ids = [];
+        $("#jqGrid").find("input[type='checkbox']:checked").each(function () {
+            ids.push($(this).attr("Value"));
+        });
+    })
     function GetTableConfig() {
         tableConfig = {
             columns: [

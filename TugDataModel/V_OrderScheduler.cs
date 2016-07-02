@@ -18,6 +18,7 @@ namespace TugDataModel
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
         public Nullable<int> OrderID { get; set; }
+        public string OrderCode { get; set; }
         public string WorkDate { get; set; }
         public string WorkTime { get; set; }
         public string EstimatedCompletionTime { get; set; }
@@ -27,6 +28,11 @@ namespace TugDataModel
         public string CnName { get; set; }
         public string EnName { get; set; }
         public string SimpleName { get; set; }
+        public string Power { get; set; }
+        public string Class { get; set; }
+        public string Speed { get; set; }
+        public string Length { get; set; }
+        public string Width { get; set; }
         public Nullable<int> JobStateID { get; set; }
         public string JobStateLabel { get; set; }
         public string InformCaptainTime { get; set; }
