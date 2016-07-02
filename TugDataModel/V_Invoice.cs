@@ -27,6 +27,11 @@ namespace TugDataModel
         public string TugCnName { get; set; }
         public string TugEnName { get; set; }
         public string TugSimpleName { get; set; }
+        public string Power { get; set; }
+        public string Class { get; set; }
+        public string Speed { get; set; }
+        public string Length { get; set; }
+        public string Width { get; set; }
         public Nullable<int> JobStateID { get; set; }
         public string JobStateLabel { get; set; }
         public string InformCaptainTime { get; set; }
