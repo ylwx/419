@@ -142,9 +142,15 @@ namespace TugManagementSystem.Controllers
         public ActionResult ApprovePass()
         {
             var ids = Request.Form["data"];
+
+            //获取当前用户ID
+            int curUserId = 0;
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> expUser = u => u.UserName == User.Identity.Name;
+            UserInfor curUser = db.UserInfor.Where(expUser).FirstOrDefault();
+            curUserId = curUser.IDX;
             foreach (int id in ids)
             {
-                TugDataEntities db = new TugDataEntities();
                 System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == id;
                 Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
 
@@ -156,18 +162,34 @@ namespace TugManagementSystem.Controllers
                 approveInfor.Phase = billInfor.Phase;
                 approveInfor.Task = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TaskID));
                 approveInfor.Accept = 1;
+                approveInfor.PersonID = curUserId;
+                approveInfor.UserID = curUserId;
+                approveInfor.CreateDate = DateTime.Now.ToShortDateString();
+                approveInfor.LastUpDate = DateTime.Now.ToShortDateString();
+                approveInfor = db.Approve.Add(approveInfor);
+                db.SaveChanges();
 
                 //判断是不是流程最后一步
                 System.Linq.Expressions.Expression<Func<Flow, bool>> expFlow = u => u.BillingID == id && u.MarkID == billInfor.TaskID;
                 List<Flow> users = db.Flow.Where(expFlow).Select(u => u).ToList<Flow>();
                 if (billInfor.Phase + 1 == users.Count)  //流程最后一步
                 {
+                    //更改Billing状态
+                    billInfor.Phase = -1;
+                    billInfor.TaskName = "完成";
+                    db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { message = "审核完成！" });
                 }
                 else
                 {
+                    //更改Billing状态
+                    billInfor.Phase = billInfor.Phase + 1;
+                    billInfor.TaskName = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TaskID));
+                    db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return Json(new { message = "操作完成！" });
                 }
-
-                //更改Billing状态
             }
             return View();
         }
