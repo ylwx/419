@@ -12,15 +12,12 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_NeedApproveBilling
+    public partial class sysdiagrams
     {
-        public int IDX { get; set; }
-        public Nullable<int> FlowUserID { get; set; }
-        public string BillingCode { get; set; }
-        public string BillingName { get; set; }
-        public string Month { get; set; }
-        public string TaskName { get; set; }
-        public Nullable<double> CreditAmount { get; set; }
-        public string CreditContent { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
