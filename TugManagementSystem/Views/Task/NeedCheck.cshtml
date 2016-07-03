@@ -100,33 +100,38 @@
                 //toolbar: [true, "top"]   //按钮
 
             });
-            @*$("#t_jqGrid").append("<input type='button' value='@Resources.Language.Approve_Pass' id='Pass' style='height:20px;font-size:100%' class='btn btn-success' />");
-            $("Pass").on('click', function () {
+
+            $("#Pass_btn").click(function () {
+                //测试1
                 var ids = [];
-                $("#jqGrid").find("input[type='checkbox']:checked").each(function () {
-                    ids.push($(this).attr("Value"));
-                });
-                alert(ids[1]);
-            })
-            $("Pass_btn").click(function () {
-                alert("按钮成功了");
-            })
-            $("#t_jqGrid")
-               .append(
-                   "<input type='button' value='@Resources.Language.Approve_Reject' id='Reject' style='height:20px;font-size:-3'  class='btn btn-danger' />");
-            $("Reject", "#t_jqGrid").click(function () {
-                var rowData = jQuery('#jqGrid').jqGrid('getGridParam', 'selarrrow');
+                //$("#jqGrid").find("input[type='checkbox']:checked").each(function () {
+                //    ids.push($(this).attr("ID"));
+                //    alert(ids);
+                //});
+                //测试2
+                var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
+                alert("所有选中行：" + rowData);
                 if (rowData.length) {
                     for (var i = 0; i < rowData.length; i++) {
-                        var BillID = jQuery('#jqGrid').jqGrid('getCell', rowData[i], 'IDX');//IDX是colModel中的一属性
-                        alert(BillID);
+                        var BillId = $('#jqGrid').jqGrid('getCell', rowData[i], 'IDX');
+                        ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
                     }
+                    $.ajax(
+                               {
+                                   type: "post",
+                                   url: "/Task/ApprovePass",
+                                   data: { 'data': ids },
+                                   dataType: 'json',
+                                   success: function (result) {
+                                       alert(result.message);
+                                       $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                   },
+                               });
+                    alert("BILL的所有ID数据" + ids);
                 }
-            });*@
-            $("#Pass_btn").click(function () {
-                alert("按钮成功了");
+                alert("测试信息!");
             })
-            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });//搜索框
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
             $('#jqGridContainerBox').resize(function () {
@@ -195,7 +200,7 @@
                       editrules: { required: false }, hidden: true,
                   },
                   {
-                      align: 'center', label: '@Resources.Language.Billing_BillingType', name: "BillingType", width: 90, editable: true, edittype: "text",
+                      align: 'center', label: '@Resources.Language.Billing_BillingType', name: "BillingTypeID", width: 90, editable: true, edittype: "text",
                       editrules: { required: true }, colmenu: false,
                       hidden: false,
                       searchoptions: { sopt: ["cn"] }
@@ -359,18 +364,4 @@
             ]
         };
     }
-</script>
-<script type="text/javascript">
-    $(function () {
-        $("Pass_btn").on('click', function () {
-            var ids = [];
-            $("#jqGrid").find("input[type='checkbox']:checked").each(function () {
-                ids.push($(this).attr("Value"));
-            });
-            alert("按钮成功了");
-        })
-        $("Pass_btn").click(function () {
-            alert("按钮成功了");
-        })
-    })
 </script>

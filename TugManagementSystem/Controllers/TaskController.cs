@@ -177,14 +177,14 @@ namespace TugManagementSystem.Controllers
             string error = null;
             DataTable FlowTb;
             Flow FlowSheet = new Flow();
-            System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.SheetID == tID && u.MarkID == MarkID && u.System == sheetType;
-            FlowTb = DALayer.QueryTable(FlowSheet, expF, ref error);
+            System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == tID && u.MarkID == MarkID;
             // 当ＭＲｓｈｅｅｔ的Ｐｈａｓｅ值＋１后等于Ｆｌｏｗ表的行数说明该操作为流程最末操作
             //if (tPhase == FlowTb.Rows.Count) return "完成审核";
             if (tPhase == -1) return "完成";
 
-            DataRow RowF = FlowTb.Select("Phase='" + tPhase + "'")[0];
-            return RowF["Task"].ToString();
+            //DataRow RowF = FlowTb.Select("Phase='" + tPhase + "'")[0];
+            //return RowF["Task"].ToString();
+            return "";
         }
 
         #endregion 通过

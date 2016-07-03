@@ -800,19 +800,14 @@
           <Key>
             <PropertyRef Name="IDX" />
           </Key>
-          <Property Name="BillingType" Type="int" />
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="FlowUserID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
-          <Property Name="CreditContent" Type="nvarchar(max)" />
-          <Property Name="CreditAmount" Type="float" />
-          <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
-          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
-          <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
-          <Property Name="IDX" Type="int" Nullable="false" />
-          <Property Name="TaskID" Type="int" />
-          <Property Name="Phase" Type="int" />
-          <Property Name="FlowUserID" Type="int" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreditAmount" Type="float" />
+          <Property Name="CreditContent" Type="nvarchar(max)" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“419.dbo.V_OrderInfor”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1280,19 +1275,14 @@
           </EntitySet>
           <EntitySet Name="V_NeedApproveBilling" EntityType="Self.V_NeedApproveBilling" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [V_NeedApproveBilling].[BillingType] AS [BillingType], 
+    [V_NeedApproveBilling].[IDX] AS [IDX], 
+    [V_NeedApproveBilling].[FlowUserID] AS [FlowUserID], 
     [V_NeedApproveBilling].[BillingCode] AS [BillingCode], 
     [V_NeedApproveBilling].[BillingName] AS [BillingName], 
-    [V_NeedApproveBilling].[CreditContent] AS [CreditContent], 
-    [V_NeedApproveBilling].[CreditAmount] AS [CreditAmount], 
-    [V_NeedApproveBilling].[Remark] AS [Remark], 
     [V_NeedApproveBilling].[Month] AS [Month], 
-    [V_NeedApproveBilling].[CreateDate] AS [CreateDate], 
-    [V_NeedApproveBilling].[LastUpDate] AS [LastUpDate], 
-    [V_NeedApproveBilling].[IDX] AS [IDX], 
-    [V_NeedApproveBilling].[TaskID] AS [TaskID], 
-    [V_NeedApproveBilling].[Phase] AS [Phase], 
-    [V_NeedApproveBilling].[FlowUserID] AS [FlowUserID]
+    [V_NeedApproveBilling].[TaskName] AS [TaskName], 
+    [V_NeedApproveBilling].[CreditAmount] AS [CreditAmount], 
+    [V_NeedApproveBilling].[CreditContent] AS [CreditContent]
     FROM [dbo].[V_NeedApproveBilling] AS [V_NeedApproveBilling]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderInfor" EntityType="Self.V_OrderInfor" store:Type="Views" store:Schema="dbo">
@@ -2384,19 +2374,14 @@
           <Key>
             <PropertyRef Name="IDX" />
           </Key>
-          <Property Name="BillingType" Type="Int32" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="FlowUserID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreditAmount" Type="Double" />
-          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IDX" Type="Int32" Nullable="false" />
-          <Property Name="TaskID" Type="Int32" />
-          <Property Name="Phase" Type="Int32" />
-          <Property Name="FlowUserID" Type="Int32" />
+          <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreditAmount" Type="Double" />
+          <Property Name="CreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderInfor">
           <Key>
@@ -3490,19 +3475,14 @@
           <EntitySetMapping Name="V_NeedApproveBilling">
             <EntityTypeMapping TypeName="Model.V_NeedApproveBilling">
               <MappingFragment StoreEntitySet="V_NeedApproveBilling">
-                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
                 <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
