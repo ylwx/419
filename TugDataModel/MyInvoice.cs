@@ -6,11 +6,26 @@ using System.Threading.Tasks;
 
 namespace TugDataModel
 {
+    public class MyBillingItem {
+        public int IDX { get; set; }
+        public Nullable<int> ItemID { get; set; }
+        public string ItemValue { get; set; }
+        public string ItemLabel { get; set; }
+        public Nullable<double> UnitPrice { get; set; }
+        public Nullable<double> Price { get; set; }
+        public string Currency { get; set; }
+        public Nullable<int> TypeID { get; set; }
+        public string TypeValue { get; set; }
+        public string TypeLabel { get; set; }
+    }
+
     public class MyScheduler{
         public int TugID { get; set; }
         public string TugCnName { get; set; }
         public string TugEnName { get; set; }
         public string TugSimpleName { get; set; }
+
+        public string TugPower { get; set; }
 
         public string InformCaptainTime { get; set; } 
         public string CaptainConfirmTime {get;set;}
@@ -27,7 +42,7 @@ namespace TugDataModel
         /// <summary>
         /// 按照计时方式换算后的实际消耗时间
         /// </summary>
-        public string WorkTimeConsumption {get;set;}
+        public double WorkTimeConsumption {get;set;}
 
 
         /// <summary>
@@ -49,7 +64,7 @@ namespace TugDataModel
         public int RopeNum { get; set; }
         public string Remark { get; set; }
 
-        public List<BillingItemTemplate> BillingItems { get; set; }
+        public List<MyBillingItem> BillingItems { get; set; }
 
         /// <summary>
         /// 总计港币
@@ -58,6 +73,14 @@ namespace TugDataModel
 
     }
 
+    public class MyService
+    {
+        public int ServiceId { get; set; }
+
+        public string ServiceName { get; set; }
+
+        public string ServiceRemark { get; set; }
+    }
     public class MyInvoice
     {
         public int CustormerID { get; set; }
@@ -77,7 +100,7 @@ namespace TugDataModel
         /// <summary>
         /// 服务内容  key:value = 服务ID : 服务名称
         /// </summary>
-        public Dictionary<int, string> ServiceNature { get; set; }
+        public Dictionary<int, MyService> ServiceNature { get; set; }
 
         /// <summary>
         /// 账单ID

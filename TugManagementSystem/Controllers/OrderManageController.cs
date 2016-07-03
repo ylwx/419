@@ -164,7 +164,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.ServiceNatureNames = dic["labels"];
 
                         //aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
-                        aOrder.WorkStateID = 1; //CustomField表里面的OrderInfor.WorkStateID的IDX
+                        aOrder.WorkStateID = 2; //CustomField表里面的OrderInfor.WorkStateID的IDX
 
                         aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
                         aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
@@ -333,7 +333,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.ServiceNatureNames = serviceNatureNames;
 
                     //aOrder.WorkStateID = Convert.ToInt32(Request.Form["WorkStateID"].Trim());
-                    aOrder.WorkStateID = 1; //CustomField表里面的OrderInfor.WorkStateID的IDX
+                    aOrder.WorkStateID = 2; //CustomField表里面的OrderInfor.WorkStateID的IDX
 
                     aOrder.UserDefinedCol1 = "";
                     aOrder.UserDefinedCol2 = "";
@@ -490,6 +490,7 @@ namespace TugManagementSystem.Controllers
 
             try
             {
+                //
                 TugDataEntities db = new TugDataEntities();
 
                 if (_search == true)
