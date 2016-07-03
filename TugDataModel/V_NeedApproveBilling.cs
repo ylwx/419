@@ -14,11 +14,9 @@ namespace TugDataModel
     
     public partial class V_NeedApproveBilling
     {
-        public Nullable<int> BillingType { get; set; }
+        public Nullable<int> BillingTypeID { get; set; }
         public string BillingCode { get; set; }
         public string BillingName { get; set; }
-        public string CreditContent { get; set; }
-        public Nullable<double> CreditAmount { get; set; }
         public string Remark { get; set; }
         public string Month { get; set; }
         public string CreateDate { get; set; }

@@ -12,20 +12,18 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Billing
+    public partial class V_Billing
     {
-        public Billing()
-        {
-            this.BillingItem = new HashSet<BillingItem>();
-            this.Credit = new HashSet<Credit>();
-        }
-    
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
+        public string BillingTypeValue { get; set; }
+        public string BillingTypeLabel { get; set; }
         public string BillingCode { get; set; }
         public string BillingName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
+        public string TimeTypeValue { get; set; }
+        public string TimeTypeLabel { get; set; }
         public string Remark { get; set; }
         public string Month { get; set; }
         public Nullable<int> TimesNo { get; set; }
@@ -45,9 +43,5 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
-    
-        public virtual OrderInfor OrderInfor { get; set; }
-        public virtual ICollection<BillingItem> BillingItem { get; set; }
-        public virtual ICollection<Credit> Credit { get; set; }
     }
 }
