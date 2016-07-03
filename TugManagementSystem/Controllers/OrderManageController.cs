@@ -490,6 +490,7 @@ namespace TugManagementSystem.Controllers
 
             try
             {
+                //
                 TugDataEntities db = new TugDataEntities();
 
                 if (_search == true)
