@@ -141,13 +141,50 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult ApprovePass()
         {
-            //判断是不是流程最后一步
+            var ids = Request.Form["data"];
+            foreach (int id in ids)
+            {
+                TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == id;
+                Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
 
-            //写入Approve表
+                //写入Approve表
+                System.Linq.Expressions.Expression<Func<Approve, bool>> expApprove = u => u.BillingID == id;
+                Approve approveInfor = db.Approve.Where(expApprove).FirstOrDefault();
+                approveInfor.BillingID = id;
+                approveInfor.FlowMark = billInfor.TaskID;
+                approveInfor.Phase = billInfor.Phase;
+                approveInfor.Task = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TaskID));
+                approveInfor.Accept = 1;
 
-            //更改Billing状态
+                //判断是不是流程最后一步
+                System.Linq.Expressions.Expression<Func<Flow, bool>> expFlow = u => u.BillingID == id && u.MarkID == billInfor.TaskID;
+                List<Flow> users = db.Flow.Where(expFlow).Select(u => u).ToList<Flow>();
+                if (billInfor.Phase + 1 == users.Count)  //流程最后一步
+                {
+                }
+                else
+                {
+                }
 
+                //更改Billing状态
+            }
             return View();
+        }
+
+        private static string Task(int tID, int tPhase, int MarkID)
+        {
+            string error = null;
+            DataTable FlowTb;
+            Flow FlowSheet = new Flow();
+            System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.SheetID == tID && u.MarkID == MarkID && u.System == sheetType;
+            FlowTb = DALayer.QueryTable(FlowSheet, expF, ref error);
+            // 当ＭＲｓｈｅｅｔ的Ｐｈａｓｅ值＋１后等于Ｆｌｏｗ表的行数说明该操作为流程最末操作
+            //if (tPhase == FlowTb.Rows.Count) return "完成审核";
+            if (tPhase == -1) return "完成";
+
+            DataRow RowF = FlowTb.Select("Phase='" + tPhase + "'")[0];
+            return RowF["Task"].ToString();
         }
 
         #endregion 通过
