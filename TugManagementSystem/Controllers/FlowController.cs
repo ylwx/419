@@ -12,6 +12,12 @@ namespace TugManagementSystem.Controllers
     public class FlowController : BaseController
     {
         #region handsontable方式实现，模态框中下拉、日期均可实现
+        public ActionResult testHandsontable(string lan, int? id)  //复杂版，显示组织结构，人员
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
         public ActionResult FlowView_Handsontable(string lan, int? id)  //复杂版，显示组织结构，人员
         {
             lan = this.Internationalization();
@@ -49,11 +55,23 @@ namespace TugManagementSystem.Controllers
             }
             return Json(persons, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult SubmitFlow(List<string[]> dataListFromTable)
+        public ActionResult SubmitFlow(string para1, string para2)
         {
-            var dataListTable = dataListFromTable;
+            //var dataListTable = dataListFromTable;
+            Console.WriteLine(para1);
+            Console.WriteLine(para2);
             return Json("Response, Data Received Successfully");
-        }     
+        }
+        public JsonResult GetInitData()
+        {
+            var jsonData = new[]
+                     {
+                         new[] {"创建", "", "",""},
+                         new[] {"审核", "", "",""}
+                    };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }    
         #endregion
 
         #region jqgrid方式实现，有问题：模态框中下拉、日期不能正常显示
