@@ -14,18 +14,20 @@ namespace TugDataModel
     
     public partial class V_NeedApproveBilling
     {
-        public Nullable<int> BillingType { get; set; }
+        public int IDX { get; set; }
         public string BillingCode { get; set; }
         public string BillingName { get; set; }
-        public string CreditContent { get; set; }
-        public Nullable<double> CreditAmount { get; set; }
-        public string Remark { get; set; }
         public string Month { get; set; }
-        public string CreateDate { get; set; }
-        public string LastUpDate { get; set; }
-        public int IDX { get; set; }
-        public Nullable<int> TaskID { get; set; }
+        public string Status { get; set; }
         public Nullable<int> Phase { get; set; }
+        public string CreateDate { get; set; }
+        public string Task { get; set; }
+        public Nullable<int> FlowPhase { get; set; }
+        public Nullable<int> MarkID { get; set; }
+        public Nullable<int> BillingID { get; set; }
+        public string System { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public Nullable<int> TimesNo { get; set; }
         public Nullable<int> FlowUserID { get; set; }
     }
 }
