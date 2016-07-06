@@ -131,7 +131,7 @@ namespace TugManagementSystem.Controllers
                     {
                         TugDataModel.OrderInfor aOrder = new OrderInfor();
 
-                        aOrder.Code = TugBusinessLogic.Utils.GetOrderSequenceNo();
+                        aOrder.Code = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
 
                         aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
@@ -301,7 +301,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataModel.OrderInfor aOrder = new OrderInfor();
 
-                    aOrder.Code = TugBusinessLogic.Utils.GetOrderSequenceNo();
+                    aOrder.Code = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
 
                     aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     aOrder.CustomerID = customerId;

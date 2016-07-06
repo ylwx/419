@@ -871,6 +871,45 @@
           <Property Name="FlowUserID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_OrderBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_OrderBilling">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipID" Type="int" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceNatureIDS" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceNatureNames" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkStateID" Type="int" />
+          <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingID" Type="int" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTypeID" Type="int" />
+          <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeID" Type="int" />
+          <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingRemark" Type="nvarchar(max)" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="TimesNo" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phase" Type="int" />
+          <Property Name="BillingOwnerID" Type="int" />
+          <Property Name="BillingCreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingUserID" Type="int" />
+          <Property Name="BillingLastUpDate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderBillingCredit”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_OrderBillingCredit">
           <Key>
@@ -1443,6 +1482,42 @@
     [V_NeedApproveBilling].[FlowUserID] AS [FlowUserID]
     FROM [dbo].[V_NeedApproveBilling] AS [V_NeedApproveBilling]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_OrderBilling" EntityType="Self.V_OrderBilling" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_OrderBilling].[CustomerID] AS [CustomerID], 
+    [V_OrderBilling].[CustomerName] AS [CustomerName], 
+    [V_OrderBilling].[OrderID] AS [OrderID], 
+    [V_OrderBilling].[OrderCode] AS [OrderCode], 
+    [V_OrderBilling].[WorkDate] AS [WorkDate], 
+    [V_OrderBilling].[WorkTime] AS [WorkTime], 
+    [V_OrderBilling].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
+    [V_OrderBilling].[ShipID] AS [ShipID], 
+    [V_OrderBilling].[ShipName] AS [ShipName], 
+    [V_OrderBilling].[ServiceNatureIDS] AS [ServiceNatureIDS], 
+    [V_OrderBilling].[ServiceNatureNames] AS [ServiceNatureNames], 
+    [V_OrderBilling].[WorkStateID] AS [WorkStateID], 
+    [V_OrderBilling].[WorkStateValue] AS [WorkStateValue], 
+    [V_OrderBilling].[WorkStateLabel] AS [WorkStateLabel], 
+    [V_OrderBilling].[BillingID] AS [BillingID], 
+    [V_OrderBilling].[BillingCode] AS [BillingCode], 
+    [V_OrderBilling].[BillingName] AS [BillingName], 
+    [V_OrderBilling].[BillingTypeID] AS [BillingTypeID], 
+    [V_OrderBilling].[BillingTypeValue] AS [BillingTypeValue], 
+    [V_OrderBilling].[BillingTypeLabel] AS [BillingTypeLabel], 
+    [V_OrderBilling].[TimeTypeID] AS [TimeTypeID], 
+    [V_OrderBilling].[TimeTypeValue] AS [TimeTypeValue], 
+    [V_OrderBilling].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_OrderBilling].[BillingRemark] AS [BillingRemark], 
+    [V_OrderBilling].[Month] AS [Month], 
+    [V_OrderBilling].[TimesNo] AS [TimesNo], 
+    [V_OrderBilling].[Status] AS [Status], 
+    [V_OrderBilling].[Phase] AS [Phase], 
+    [V_OrderBilling].[BillingOwnerID] AS [BillingOwnerID], 
+    [V_OrderBilling].[BillingCreateDate] AS [BillingCreateDate], 
+    [V_OrderBilling].[BillingUserID] AS [BillingUserID], 
+    [V_OrderBilling].[BillingLastUpDate] AS [BillingLastUpDate]
+    FROM [dbo].[V_OrderBilling] AS [V_OrderBilling]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_OrderBillingCredit" EntityType="Self.V_OrderBillingCredit" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_OrderBillingCredit].[CustomerID] AS [CustomerID], 
@@ -1723,6 +1798,7 @@
           <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
           <EntitySet Name="V_Invoice" EntityType="Model.V_Invoice" />
           <EntitySet Name="V_NeedApproveBilling" EntityType="Model.V_NeedApproveBilling" />
+          <EntitySet Name="V_OrderBilling" EntityType="Model.V_OrderBilling" />
           <EntitySet Name="V_OrderBillingCredit" EntityType="Model.V_OrderBillingCredit" />
           <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
           <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
@@ -2656,6 +2732,43 @@
           <Property Name="UserID" Type="Int32" />
           <Property Name="TimesNo" Type="Int32" />
           <Property Name="FlowUserID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_OrderBilling">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipID" Type="Int32" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceNatureIDS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceNatureNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkStateID" Type="Int32" />
+          <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingID" Type="Int32" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTypeID" Type="Int32" />
+          <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeID" Type="Int32" />
+          <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimesNo" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phase" Type="Int32" />
+          <Property Name="BillingOwnerID" Type="Int32" />
+          <Property Name="BillingCreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingUserID" Type="Int32" />
+          <Property Name="BillingLastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderBillingCredit">
           <Key>
@@ -3875,6 +3988,44 @@
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_OrderBilling">
+            <EntityTypeMapping TypeName="Model.V_OrderBilling">
+              <MappingFragment StoreEntitySet="V_OrderBilling">
+                <ScalarProperty Name="BillingLastUpDate" ColumnName="BillingLastUpDate" />
+                <ScalarProperty Name="BillingUserID" ColumnName="BillingUserID" />
+                <ScalarProperty Name="BillingCreateDate" ColumnName="BillingCreateDate" />
+                <ScalarProperty Name="BillingOwnerID" ColumnName="BillingOwnerID" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="BillingRemark" ColumnName="BillingRemark" />
+                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
+                <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
+                <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="WorkStateLabel" ColumnName="WorkStateLabel" />
+                <ScalarProperty Name="WorkStateValue" ColumnName="WorkStateValue" />
+                <ScalarProperty Name="WorkStateID" ColumnName="WorkStateID" />
+                <ScalarProperty Name="ServiceNatureNames" ColumnName="ServiceNatureNames" />
+                <ScalarProperty Name="ServiceNatureIDS" ColumnName="ServiceNatureIDS" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+                <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
+                <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
