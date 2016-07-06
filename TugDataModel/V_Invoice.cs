@@ -59,10 +59,8 @@ namespace TugDataModel
         public string TimeTypeLabel { get; set; }
         public string BillingRemark { get; set; }
         public string Month { get; set; }
-        public Nullable<int> TaskID { get; set; }
-        public string TaskValue { get; set; }
-        public string TaskLabel { get; set; }
-        public string TaskName { get; set; }
+        public Nullable<int> TimesNo { get; set; }
+        public string Status { get; set; }
         public Nullable<int> Phase { get; set; }
         public Nullable<int> BillingOwnerID { get; set; }
         public string BillingCreateDate { get; set; }
