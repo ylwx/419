@@ -143,7 +143,7 @@ namespace TugManagementSystem.Controllers
                         obj.SortNum = 0;
                         obj.Remark = "";
                         obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         obj.UserID = -1;
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -221,7 +221,7 @@ namespace TugManagementSystem.Controllers
                         //obj.SortNum = 0;
                         //obj.Remark = "";
                         //obj.OwnerID = -1;
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         obj.UserID = -1;
                         //obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         //obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -331,7 +331,7 @@ namespace TugManagementSystem.Controllers
                         usobj.Tel = Request.Form["Tel"];
                         usobj.Email = Request.Form["Email"];
                         usobj.OwnerID = -1;
-                        usobj.CreateDate = usobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        usobj.CreateDate = usobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         usobj.AddUserID = -1;
                         usobj.System = Request.Form["System"];
                         usobj.Status = -1;
@@ -405,7 +405,7 @@ namespace TugManagementSystem.Controllers
                         usobj.Tel = Request.Form["Tel"];
                         usobj.Email = Request.Form["Email"];
                         usobj.OwnerID = -1;
-                        usobj.CreateDate = usobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        usobj.CreateDate = usobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         usobj.AddUserID = -1;
                         usobj.System = Request.Form["System"];
                         usobj.Status = -1;

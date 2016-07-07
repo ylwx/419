@@ -205,7 +205,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 關閉 的本地化字符串。
+        ///   查找类似 Close 的本地化字符串。
         /// </summary>
         internal static string Close {
             get {
@@ -444,6 +444,15 @@ namespace Resources {
         internal static string Customer_MailCode {
             get {
                 return ResourceManager.GetString("Customer_MailCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增客戶 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NewCustomer {
+            get {
+                return ResourceManager.GetString("Customer_NewCustomer", resourceCulture);
             }
         }
         
@@ -898,6 +907,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 Submit 的本地化字符串。
+        /// </summary>
+        internal static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 提交審核 的本地化字符串。
         /// </summary>
         internal static string SubmitForApproval {
@@ -921,15 +939,6 @@ namespace Resources {
         internal static string Task_NeedApprove {
             get {
                 return ResourceManager.GetString("Task_NeedApprove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 駁回原因 的本地化字符串。
-        /// </summary>
-        internal static string Task_RejectReason {
-            get {
-                return ResourceManager.GetString("Task_RejectReason", resourceCulture);
             }
         }
         
