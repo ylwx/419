@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TugBusinessLogic.Module;
 using TugDataModel;
+using TugBusinessLogic;
 
 namespace TugManagementSystem.Controllers
 {
