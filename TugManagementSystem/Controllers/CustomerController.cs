@@ -38,7 +38,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.MailCode = Request.Form["MailCode"];
                         cstmer.Remark = Request.Form["Remark"];
                         cstmer.OwnerID = -1;
-                        cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString();//.ToString("yyyy-MM-dd");
+                        cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;//.ToString("yyyy-MM-dd");
                         cstmer.UserID = -1;
                         cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -108,7 +108,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.MailCode = Request.Form["MailCode"];
                         cstmer.Remark = Request.Form["Remark"];
                         cstmer.OwnerID = -1;
-                        cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         cstmer.UserID = -1;
                         cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"];

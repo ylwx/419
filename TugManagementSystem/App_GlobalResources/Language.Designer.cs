@@ -205,6 +205,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 Close 的本地化字符串。
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 創建時間 的本地化字符串。
         /// </summary>
         internal static string CreateDate {
@@ -435,6 +444,15 @@ namespace Resources {
         internal static string Customer_MailCode {
             get {
                 return ResourceManager.GetString("Customer_MailCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增客戶 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NewCustomer {
+            get {
+                return ResourceManager.GetString("Customer_NewCustomer", resourceCulture);
             }
         }
         
@@ -885,6 +903,15 @@ namespace Resources {
         internal static string Role_System {
             get {
                 return ResourceManager.GetString("Role_System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Submit 的本地化字符串。
+        /// </summary>
+        internal static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         

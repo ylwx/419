@@ -117,7 +117,7 @@ namespace TugManagementSystem.Controllers
                         obj.EndDate =dataListFromTable[i][3] ;
                         obj.System = "Tug";
                         obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         obj.UserID = -1;
                         //obj.State =0;
                         obj.Sign =mark;
@@ -151,7 +151,7 @@ namespace TugManagementSystem.Controllers
                     objapp.PersonID = us2.IDX;
                     objapp.System="Tug";
                     objapp.OwnerID=-1;
-                    objapp.CreateDate = objapp.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    objapp.CreateDate = objapp.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                     objapp.UserID = -1;
                     objapp = db.Approve.Add(objapp);
                     db.SaveChanges();
@@ -231,7 +231,7 @@ namespace TugManagementSystem.Controllers
                         obj.SortNum = 0;
                         obj.Remark = "";
                         obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         obj.UserID = -1;
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -309,7 +309,7 @@ namespace TugManagementSystem.Controllers
                         obj.SortNum = 0;
                         obj.Remark = "";
                         obj.OwnerID = -1;
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         obj.UserID = -1;
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -385,7 +385,7 @@ namespace TugManagementSystem.Controllers
                         obj.EndDate = Request.Form["EndDate"];
                         obj.System = "Billing";
                         obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         obj.UserID = -1;
                         obj.State = -1;
                         obj.Sign = "";
@@ -454,7 +454,7 @@ namespace TugManagementSystem.Controllers
                         obj.EndDate = Request.Form["EndDate"];
                         obj.System = "Billing";
                         obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         obj.UserID = -1;
                         obj.State = -1;
                         obj.Sign = "";
