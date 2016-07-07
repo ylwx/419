@@ -12,6 +12,7 @@
 <script src="~/Resources/handsontable-master/demo/js/pikaday/pikaday.js"></script>
 <script src="~/Resources/handsontable-master/demo/js/pikaday/css/pikaday.css"></script>
 
+
 <div id="main-content">
     <!-- Parent MODAL FORM-->
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -89,10 +90,10 @@
                                     <div style="margin:8px;padding:0px; width:820px;height:1px;background-color:black;overflow:hidden;"></div>
                                     
                                     <div id="div_detail">
-                                        <table id="tb_detail" data-toggle="table">
+                                        <table id="tb_detail" class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th width="" rowspan="2" data-halign="center" data-align="center" data-valign="bottom">拖轮</th>
+                                                    <th width="" rowspan="2" data-halign="center" data-align="center" data-valign="bottom" style="text-align:center;vertical-align:middle">拖轮</th>
                                                     <th width="" colspan="2" data-halign="center" data-align="center" data-valign="middle">泊码头</th>
                                                     <th width="" colspan="3" data-halign="center" data-align="center" data-valign="middle">离码头</th>
                                                     <th width="" colspan="1" data-halign="center" data-align="center" data-valign="middle">护航</th>
@@ -253,7 +254,7 @@
                 <!-- PAGE HEADER-->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="page-header">
+                        <div class="">
                             <!-- STYLER -->
                             <!-- /STYLER -->
                             <!-- BREADCRUMBS -->
@@ -271,10 +272,10 @@
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
-                            <div class="clearfix">
+                            @*<div class="clearfix">
                                 <h3 class="content-title pull-left">Grid Test</h3>
                             </div>
-                            <div class="description">Table</div>
+                            <div class="description">Table</div>*@
                             @*<div><button class="btn btn-danger" onclick="AddParent()">Add Parent</button></div>*@
                         </div>
                     </div>
@@ -516,6 +517,7 @@
                     caption: "", title: "新增", buttonicon: "ui-icon-plus",
                     onClickButton: function () {
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        //alert(rowid);
                         if (rowid != null) {
                             g_curRowId = rowid;
                             AddParent();
@@ -1258,7 +1260,7 @@
             url: '@Url.Action("InitFilter", "Finance")',
             data: {
                 'custId': dr.CustomerID,
-                'orderId': dr.IDX
+                'orderId': dr.OrderID
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
@@ -1283,9 +1285,9 @@
 
                         var v = result.customer_billing_schemes[i].IDX
                             + "%"
-                            + customer_billing_schemes[i].BillingTemplateTypeID + "~" + customer_billing_schemes[i].BillingTemplateTypeValue + "~" + customer_billing_schemes[i].BillingTemplateTypeLabel
+                            + result.customer_billing_schemes[i].BillingTemplateTypeID + "~" + result.customer_billing_schemes[i].BillingTemplateTypeValue + "~" + result.customer_billing_schemes[i].BillingTemplateTypeLabel
                             + "%"
-                            + customer_billing_schemes[i].TimeTypeID + "~" + customer_billing_schemes[i].TimeTypeValue + "~" + customer_billing_schemes[i].TimeTypeLabel;
+                            + result.customer_billing_schemes[i].TimeTypeID + "~" + result.customer_billing_schemes[i].TimeTypeValue + "~" + result.customer_billing_schemes[i].TimeTypeLabel;
 
                         option = $('<option value="' + v + '">' + result.customer_billing_schemes[i].BillingTemplateName + '</option>')
                         $('#sel_billing_scheme').append(option);
@@ -1310,7 +1312,7 @@
                 var timeTypeValue = $("#sel_time_type").val().toString().split('~')[1];
                 var timeTypeLabel = $("#sel_time_type").val().toString().split('~')[2];
 
-                reGenerate(dr.IDX, timeTypeId, timeTypeValue, timeTypeLabel)
+                reGenerate(dr.OrderID, timeTypeId, timeTypeValue, timeTypeLabel)
 
             },
         });
@@ -1593,9 +1595,10 @@
         };
     }
 
+    
 
     function reGenerate(orderId, timeTypeId, timeTypeValue, timeTypeLabel) {
-        //$('#tb_detail').empty();
+        $('#tb_detail').empty();
 
         
         $.ajax({
@@ -1609,7 +1612,7 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-                $('#tb_detail').empty();
+                //$('#tb_detail').empty();
                 $('#div_services').empty();
 
                 var div1 = $('<div class="col-md-2"><p>服务项目:<br>SERVICE:</p></div>');
@@ -1628,12 +1631,39 @@
                 $('#div_services').append(div1).append(div2).append(div3);
 
                 //生成表格
+                var thead = $('<thead></thead>');
+                var tr1 = $('<tr></tr>');
+                var tr2 = $('<tr></tr>');
+                var th = $('<th width="20%" rowspan="2" style="text-align:center;vertical-align:middle">拖轮</th>');
+                tr1.append(th);
+                for (key in result.invoice.ServiceNature)
+                {
+                    var value = result.invoice.ServiceNature[key];
+                    //alert(result.invoice.Schedulers[key].length);
+                    var th = $('<th width="" style="text-align:center;vertical-align:middle" colspan="' + result.invoice.Schedulers[key].length + '" data-halign="center" data-align="center" data-valign="middle">' + value.ServiceName + '</th>');
+                    tr1.append(th)
+                }
+
+                for (key in result.invoice.Schedulers)
+                {
+                    
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        var th = '<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>';
+
+                        tr2.append(th)
+                    }
+                }
+
+                thead.append(tr1);
+                thead.append(tr2);
+                $('#tb_detail').append(thead);
 
             },
         });
 
 
-        var table = $('<table id="tb_detail" data-toggle="table"><thead><tr><th width="" rowspan="2" data-halign="center" data-align="center" data-valign="bottom">拖轮</th></tr></thead></table>')
+        //var table = $('<table id="tb_detail" data-toggle="table"><thead><tr><th width="" rowspan="2" data-halign="center" data-align="center" data-valign="bottom">拖轮</th></tr></thead></table>')
 
         //$('#div_detail').append(table);
     }
@@ -1644,18 +1674,20 @@
         //alert(selectedValue);
         if (selectedValue != -1) {
             $('#sel_billing_type').attr('disabled', true);
-            $('#sel_time_type').attr('disabled', true);
+            $('#sel_billing_type').val(selectedValue.split('%')[1]);
 
-            $("#sel_billing_type option:first").prop("selected", 'selected');
-            $("#sel_time_type option:first").prop("selected", 'selected');
+            $('#sel_time_type').attr('disabled', true);
+            $('#sel_time_type').val(selectedValue.split('%')[2]);
+
+            
         }
         else {
 
             $('#sel_billing_type').attr('disabled', false);
-            $('#sel_billing_type').val(selectedValue.split('%')[1]);
+            $("#sel_billing_type option:first").prop("selected", 'selected');
 
             $('#sel_time_type').attr('disabled', false);
-            $('#sel_time_type').val(selectedValue.split('%')[2]);
+            $("#sel_time_type option:first").prop("selected", 'selected');
         }
     }
 </script>
