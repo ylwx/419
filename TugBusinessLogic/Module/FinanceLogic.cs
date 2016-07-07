@@ -210,7 +210,9 @@ namespace TugBusinessLogic.Module
         }
 
 
-        static public MyInvoice NewInvoice(int orderId, int timeTypeId, string timeTypeValue, string timeTypeLabel) 
+        static public MyInvoice NewInvoice(int orderId, string customerBillingScheme,
+            int billingTypeId, string billingTypeValue, string billingTypeLabel, 
+            int timeTypeId, string timeTypeValue, string timeTypeLabel) 
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
