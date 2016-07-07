@@ -502,6 +502,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 是管理員 的本地化字符串。
+        /// </summary>
+        internal static string IsAdmin {
+            get {
+                return ResourceManager.GetString("IsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 作業信息 的本地化字符串。
         /// </summary>
         internal static string JobInformation {
@@ -759,6 +768,78 @@ namespace Resources {
         internal static string RoleManage {
             get {
                 return ResourceManager.GetString("RoleManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色菜單 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu {
+            get {
+                return ResourceManager.GetString("RoleMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色菜單關聯 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenuManage {
+            get {
+                return ResourceManager.GetString("RoleMenuManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜單ID 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_Menu {
+            get {
+                return ResourceManager.GetString("RoleMenu_Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 菜單名 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_MenuName {
+            get {
+                return ResourceManager.GetString("RoleMenu_MenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 頁面 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_Page {
+            get {
+                return ResourceManager.GetString("RoleMenu_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否可見 的本地化字符串。
+        /// </summary>
+        internal static string RoleMenu_Visible {
+            get {
+                return ResourceManager.GetString("RoleMenu_Visible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色模塊 的本地化字符串。
+        /// </summary>
+        internal static string RoleModule {
+            get {
+                return ResourceManager.GetString("RoleModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色模塊管理 的本地化字符串。
+        /// </summary>
+        internal static string RoleModuleManage {
+            get {
+                return ResourceManager.GetString("RoleModuleManage", resourceCulture);
             }
         }
         
@@ -1429,6 +1510,132 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 帳單編號 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_BillingCode {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_BillingCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_BillingID {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_BillingID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單名稱 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_BillingName {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_BillingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單備註 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_BillingRemark {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_BillingRemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單類型ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_BillingTypeID {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_BillingTypeID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單類型 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_BillingTypeLabel {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_BillingTypeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單類型值 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_BillingTypeValue {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_BillingTypeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單月份 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_Month {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單階段 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_Phase {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_Phase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單狀態 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_Status {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 次序 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_TimesNo {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_TimesNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計時方式ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_TimeTypeID {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_TimeTypeID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計時方式 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_TimeTypeLabel {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_TimeTypeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計時方式值 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_TimeTypeValue {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_TimeTypeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 大拖輪數量 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_BigTugNum {
@@ -1447,7 +1654,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 下單人ID 的本地化字符串。
+        ///   查找类似 客戶ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_CustomerID {
             get {
@@ -1456,7 +1663,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 下單人名稱 的本地化字符串。
+        ///   查找类似 客戶名稱 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_CustomerName {
             get {

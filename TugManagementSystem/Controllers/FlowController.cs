@@ -12,7 +12,13 @@ namespace TugManagementSystem.Controllers
     public class FlowController : BaseController
     {
         #region handsontable方式实现，模态框中下拉、日期均可实现
-        public ActionResult FlowView_Handsontable(string lan, int? id)  //复杂版，显示组织结构，人员
+        public ActionResult testHandsontable(string lan, int? id)  //复杂版，显示组织结构，人员
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+        public ActionResult FlowView_Handsontable(string lan, int? id)  
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
@@ -36,12 +42,29 @@ namespace TugManagementSystem.Controllers
             return Json(nodes, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetPersons()
-        {            
+        {
+            //TugDataEntities db = new TugDataEntities();
+            //List<UserInfor> users = db.UserInfor.Select(u => u).OrderBy(u => u.CnName).ToList<UserInfor>();
+            //List<object> list = new List<object>();
+
+            //if (users != null)
+            //{
+            //    foreach (UserInfor item in users)
+            //    {
+            //        list.Add(new { UserID = item.IDX, UserCnName = item.CnName });
+            //    }
+            //}
+
+            //var jsonData = new { list = list };
+            //return Json(jsonData, JsonRequestBehavior.AllowGet);       
+
+
+
             int i = 0;
             string[] persons;
             TugDataEntities db = new TugDataEntities();
             List<UserInfor> list = db.UserInfor.Where(u => u.IsGuest != "true").OrderBy(u => u.CnName).ToList<UserInfor>();
-            persons=new string[list.Count];
+            persons = new string[list.Count];
             foreach (var itm in list)
             {
                 persons[i] = itm.CnName;
@@ -49,11 +72,119 @@ namespace TugManagementSystem.Controllers
             }
             return Json(persons, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult UserValid(string vlperson)
+        {
+            bool isvalid = false;
+            TugDataEntities db = new TugDataEntities();
+            UserInfor us = db.UserInfor.Where(u => u.CnName == vlperson).FirstOrDefault();
+            if (us == null)
+                isvalid = false;
+            else
+                isvalid = true;
+            var ret = new { code = Resources.Common.SUCCESS_CODE, rvalid =isvalid };
+            return Json(ret);
+        }
         public ActionResult SubmitFlow(List<string[]> dataListFromTable)
         {
-            var dataListTable = dataListFromTable;
+            //billid 从Invoice页面传入
+            int[] billids =new int[2]{1,2};
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                foreach (int idx in billids)
+                {
+                    Billing billobj = db.Billing.Where(u => u.IDX == idx).FirstOrDefault();
+                    if (billobj == null)
+                    {
+                        continue ;
+                        //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                    int newTimesNo =Util.toint(billobj.TimesNo) + 1;  //第几次流程
+                    //将流程信息写入Flow表
+                    #region 
+                    string mark = Util.GetSequence("F");
+                    for(int i=0;i<dataListFromTable.Count-1;i++)//最后一行空行
+                    {
+                        TugDataModel.Flow obj = new Flow();
+                        obj.BillingID = idx;
+                        obj.MarkID = newTimesNo;
+                        obj.Phase = i;
+                        obj.Task =dataListFromTable[i][0] ;
+                        string cnname1=dataListFromTable[i][1];
+                        UserInfor us1 = db.UserInfor.Where(u => u.CnName == cnname1).FirstOrDefault();
+                        obj.FlowUserID = us1.IDX;                        
+                        obj.StDate = dataListFromTable[i][2];
+                        obj.EndDate =dataListFromTable[i][3] ;
+                        obj.System = "Tug";
+                        obj.OwnerID = -1;
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        obj.UserID = -1;
+                        //obj.State =0;
+                        obj.Sign =mark;
+                        //obj.UserDefinedCol1 = "";
+                        //obj.UserDefinedCol2 = "";
+                        //obj.UserDefinedCol3 = "";
+                        //obj.UserDefinedCol4 = "";
+                        //if (Request.Form["UserDefinedCol5"] != "")
+                        //    obj.UserDefinedCol5 = Convert.ToInt32(Request.Form["UserDefinedCol5"]);
+                        //obj.UserDefinedCol6 =;
+                        //obj.UserDefinedCol7 =;
+                        //obj.UserDefinedCol8 =;
+                        //obj.UserDefinedCol9 = "";
+                        //obj.UserDefinedCol10 = "";
+                        obj = db.Flow.Add(obj);
+                        db.SaveChanges();
+                    }  
+#endregion
+
+                    //将提交审核写入Approve
+                    #region
+                    TugDataModel.Approve objapp = new Approve();
+                    objapp.BillingID = idx;
+                    objapp.FlowMark = newTimesNo;
+                    objapp.Phase = 0;
+                    objapp.Task = dataListFromTable[0][0];
+                    objapp.Accept=2;
+                    objapp.Remark="";
+                    string cnname2 = dataListFromTable[0][1];
+                    UserInfor us2 = db.UserInfor.Where(u => u.CnName == cnname2).FirstOrDefault();
+                    objapp.PersonID = us2.IDX;
+                    objapp.System="Tug";
+                    objapp.OwnerID=-1;
+                    objapp.CreateDate = objapp.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    objapp.UserID = -1;
+                    objapp = db.Approve.Add(objapp);
+                    db.SaveChanges();
+                    #endregion
+
+                    //更新Billing表的流程信息
+                    #region
+                    billobj.TimesNo = newTimesNo;
+                    billobj.Status = dataListFromTable[1][0];
+                    billobj.Phase = 1;
+                    db.Entry(billobj).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    #endregion
+                }
+
+            }
+            catch (Exception exp)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
             return Json("Response, Data Received Successfully");
-        }     
+        }
+        public JsonResult GetInitData()
+        {
+            var jsonData = new[]
+                     {
+                         new[] {"创建", "", "",""},
+                         new[] {"审核", "", "",""}
+                    };
+
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }    
         #endregion
 
         #region jqgrid方式实现，有问题：模态框中下拉、日期不能正常显示

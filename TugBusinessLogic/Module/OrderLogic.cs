@@ -1,19 +1,21 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+
 using TugDataModel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+using System.Linq.Expressions;
 
 namespace TugBusinessLogic.Module
 {
     public class OrderLogic
     {
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="searchOptions">搜索选项，格式如下</param>
         /// <returns></returns>
@@ -34,6 +36,8 @@ namespace TugBusinessLogic.Module
 
                 //}
 
+                
+
                 TugDataEntities db = new TugDataEntities();
                 //orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
 
@@ -53,11 +57,9 @@ namespace TugBusinessLogic.Module
                         string data = (string)item["data"];
 
                         #region 根据各字段条件进行条件表达式拼接
-
                         switch (field)
                         {
                             #region IsGuest
-
                             case "IsGuest":
                                 {
                                     Expression cdt = null;
@@ -69,11 +71,10 @@ namespace TugBusinessLogic.Module
                                                 if (data != "全部")
                                                 {
                                                     //orders = orders.Where(u => u.IsGuest == data).ToList();
-                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "IsGuest"), Expression.Constant(data));
+                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "IsGuest"), Expression.Constant(data)); 
                                                 }
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -84,11 +85,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion IsGuest
+                            #endregion
 
                             #region Code
-
                             case "Code":
                                 {
                                     Expression cdt = null;
@@ -100,28 +99,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Code"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(),typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -132,11 +127,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion Code
+                            #endregion
 
                             #region CustomerName
-
                             case "CustomerName":
                                 {
                                     Expression cdt = null;
@@ -148,28 +141,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.CustomerName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.CustomerName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.CustomerName.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -179,11 +168,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion CustomerName
+                            #endregion
 
                             #region WorkDate
-
                             case "WorkDate":
                                 {
                                     Expression cdt = null;
@@ -196,7 +183,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == -1).ToList();
@@ -204,7 +190,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == -1 || u.WorkDate.CompareTo(data.Trim()) == 0).ToList();
@@ -212,7 +197,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == 1).ToList();
@@ -220,7 +204,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == 1 || u.WorkDate.CompareTo(data.Trim()) == 0).ToList();
@@ -228,7 +211,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -238,11 +220,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion WorkDate
+                            #endregion
 
                             #region WorkTime
-
                             case "WorkTime":
                                 {
                                     Expression cdt = null;
@@ -255,7 +235,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == -1).ToList();
@@ -263,7 +242,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == -1 || u.WorkTime.CompareTo(data.Trim()) == 0).ToList();
@@ -271,7 +249,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == 1).ToList();
@@ -279,7 +256,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == 1 || u.WorkTime.CompareTo(data.Trim()) == 0).ToList();
@@ -287,7 +263,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -297,11 +272,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion WorkTime
+                            #endregion
 
                             #region EstimatedCompletionTime
-
                             case "EstimatedCompletionTime":
                                 {
                                     Expression cdt = null;
@@ -313,7 +286,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "EstimatedCompletionTime"), Expression.Constant(data.Trim()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data.Trim()) == -1).ToList();
@@ -321,7 +293,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data.Trim()) == -1 || u.EstimatedCompletionTime.CompareTo(data.Trim()) == 0).ToList();
@@ -329,7 +300,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data.Trim()) == 1).ToList();
@@ -337,7 +307,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.EstimatedCompletionTime.CompareTo(data.Trim()) == 1 || u.EstimatedCompletionTime.CompareTo(data.Trim()) == 0).ToList();
@@ -345,7 +314,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -355,11 +323,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion EstimatedCompletionTime
+                            #endregion
 
                             #region ShipName
-
                             case "ShipName":
                                 {
                                     Expression cdt = null;
@@ -371,28 +337,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ShipName"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -402,11 +364,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion ShipName
+                            #endregion
 
                             #region LinkMan
-
                             case "LinkMan":
                                 {
                                     Expression cdt = null;
@@ -418,28 +378,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "LinkMan"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.LinkMan.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkMan"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.LinkMan.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkMan"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkMan"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(),typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.LinkMan.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkMan"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -449,11 +405,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion LinkMan
+                            #endregion
 
                             #region LinkPhone
-
                             case "LinkPhone":
                                 {
                                     Expression cdt = null;
@@ -465,28 +419,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "LinkPhone"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.LinkPhone.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkPhone"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.LinkPhone.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkPhone"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkPhone"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(),typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.LinkPhone.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkPhone"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -496,11 +446,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion LinkPhone
+                            #endregion
 
                             #region LinkEmail
-
                             case "LinkEmail":
                                 {
                                     Expression cdt = null;
@@ -512,28 +460,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "LinkEmail"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.LinkEmail.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkEmail"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.LinkEmail.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkEmail"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.LinkEmail.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "LinkEmail"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -543,11 +487,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion LinkEmail
+                            #endregion
 
                             #region WorkPlace
-
                             case "WorkPlace":
                                 {
                                     Expression cdt = null;
@@ -559,28 +501,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "WorkPlace"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.WorkPlace.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "WorkPlace"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "WorkPlace"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(),typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.WorkPlace.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "WorkPlace"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.WorkPlace.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "WorkPlace"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -590,11 +528,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion WorkPlace
+                            #endregion
 
                             #region ServiceNatureNames
-
                             case "ServiceNatureNames":
                                 {
                                     Expression cdt = null;
@@ -606,28 +542,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ServiceNatureNames"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.ServiceNatureNames.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ServiceNatureNames"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ServiceNatureNames"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(),typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.ServiceNatureNames.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "ServiceNatureNames"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.ServiceNatureNames.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "ServiceNatureNames"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -637,11 +569,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion ServiceNatureNames
+                            #endregion
 
                             #region WorkStateLabel
-
                             case "WorkStateLabel":
                                 {
                                     Expression cdt = null;
@@ -655,6 +585,7 @@ namespace TugBusinessLogic.Module
                                                     //orders = orders.Where(u => u.WorkStateID == workStateId).ToList();
                                                     cdt = Expression.Equal(Expression.PropertyOrField(parameter, "WorkStateID"), Expression.Constant(workStateId, typeof(Nullable<int>)));
                                                 }
+
                                             }
                                             break;
 
@@ -667,11 +598,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion WorkStateLabel
+                            #endregion
 
                             #region BigTugNum
-
                             case "BigTugNum":
                                 {
                                     Expression cdt = null;
@@ -683,35 +612,30 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BigTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "BigTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data.Trim()) || u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "BigTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "BigTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data.Trim()) || u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "BigTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -721,11 +645,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion BigTugNum
+                            #endregion
 
                             #region MiddleTugNum
-
                             case "MiddleTugNum":
                                 {
                                     Expression cdt = null;
@@ -737,35 +659,30 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "MiddleTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.MiddleTugNum < Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "MiddleTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.MiddleTugNum < Convert.ToInt32(data.Trim()) || u.MiddleTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "MiddleTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.MiddleTugNum > Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "MiddleTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.MiddleTugNum > Convert.ToInt32(data.Trim()) || u.MiddleTugNum == Convert.ToInt32(data.Trim())).ToList();
-                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "MiddleTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "MiddleTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()),typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -775,11 +692,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion MiddleTugNum
+                            #endregion
 
                             #region SmallTugNum
-
                             case "SmallTugNum":
                                 {
                                     Expression cdt = null;
@@ -791,35 +706,30 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "SmallTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "SmallTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "SmallTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "SmallTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "SmallTugNum"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -829,11 +739,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion SmallTugNum
+                            #endregion
 
                             #region Remark
-
                             case "Remark":
                                 {
                                     Expression cdt = null;
@@ -845,28 +753,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Remark"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.Remark.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(),typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.Remark.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.Remark.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -876,11 +780,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion Remark
+                            #endregion
 
                             #region CreateDate
-
                             case "CreateDate":
                                 {
                                     Expression cdt = null;
@@ -892,16 +794,14 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1).ToList();
                                                 //cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo",new Type[]{typeof(String)}), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
@@ -909,7 +809,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1).ToList();
@@ -917,7 +816,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
@@ -925,7 +823,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -935,11 +832,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion CreateDate
+                            #endregion
 
                             #region LastUpDate
-
                             case "LastUpDate":
                                 {
                                     Expression cdt = null;
@@ -952,7 +847,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1).ToList();
@@ -960,7 +854,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
@@ -968,7 +861,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1).ToList();
@@ -976,7 +868,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
@@ -984,7 +875,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -994,11 +884,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion LastUpDate
+                            #endregion
 
                             #region UserDefinedCol1
-
                             case "UserDefinedCol1":
                                 {
                                     Expression cdt = null;
@@ -1010,28 +898,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol1"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol1"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol1"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol1"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1041,11 +925,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol1
+                            #endregion
 
                             #region UserDefinedCol2
-
                             case "UserDefinedCol2":
                                 {
                                     Expression cdt = null;
@@ -1057,28 +939,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol2"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol2"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol2"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol2"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1088,11 +966,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol2
+                            #endregion
 
                             #region UserDefinedCol3
-
                             case "UserDefinedCol3":
                                 {
                                     Expression cdt = null;
@@ -1104,28 +980,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol3"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol3"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol3"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol3"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1135,11 +1007,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol3
+                            #endregion
 
                             #region UserDefinedCol4
-
                             case "UserDefinedCol4":
                                 {
                                     Expression cdt = null;
@@ -1151,28 +1021,24 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol4"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol4"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol4"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "UserDefinedCol4"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1182,11 +1048,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol4
+                            #endregion
 
                             #region UserDefinedCol5
-
                             case "UserDefinedCol5":
                                 {
                                     Expression cdt = null;
@@ -1198,35 +1062,30 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol5"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "UserDefinedCol5"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol5"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "UserDefinedCol5"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol5"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1236,11 +1095,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol5
+                            #endregion
 
                             #region UserDefinedCol6
-
                             case "UserDefinedCol6":
                                 {
                                     Expression cdt = null;
@@ -1252,35 +1109,30 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol6"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "UserDefinedCol6"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol6"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "UserDefinedCol6"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol6"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1290,11 +1142,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol6
+                            #endregion
 
                             #region UserDefinedCol7
-
                             case "UserDefinedCol7":
                                 {
                                     Expression cdt = null;
@@ -1306,35 +1156,30 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol7"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "UserDefinedCol7"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol7"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "UserDefinedCol7"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol7"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1344,11 +1189,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol7
+                            #endregion
 
                             #region UserDefinedCol8
-
                             case "UserDefinedCol8":
                                 {
                                     Expression cdt = null;
@@ -1360,35 +1203,30 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol8"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "UserDefinedCol8"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol8"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "UserDefinedCol8"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "UserDefinedCol8"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1398,11 +1236,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol8
+                            #endregion
 
                             #region UserDefinedCol9
-
                             case "UserDefinedCol9":
                                 {
                                     Expression cdt = null;
@@ -1415,7 +1251,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1).ToList();
@@ -1423,7 +1258,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
@@ -1431,7 +1265,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1).ToList();
@@ -1439,7 +1272,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
@@ -1447,7 +1279,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1457,11 +1288,9 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol9
+                            #endregion
 
                             #region UserDefinedCol10
-
                             case "UserDefinedCol10":
                                 {
                                     Expression cdt = null;
@@ -1474,7 +1303,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1).ToList();
@@ -1482,7 +1310,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
@@ -1490,7 +1317,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1).ToList();
@@ -1498,7 +1324,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
-
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
@@ -1506,7 +1331,6 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
-
                                         default:
                                             break;
                                     }
@@ -1516,19 +1340,18 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 break;
-
-                            #endregion UserDefinedCol10
+                            #endregion
 
                             default:
                                 break;
                         }
+                        #endregion
 
-                        #endregion 根据各字段条件进行条件表达式拼接
                     }
+
                 }
 
                 #region 执行查询
-
                 if (condition != null)
                 {
                     var lamda = Expression.Lambda<Func<V_OrderInfor, bool>>(condition, parameter);
@@ -1538,11 +1361,10 @@ namespace TugBusinessLogic.Module
                 {
                     orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
                 }
+                #endregion
 
-                #endregion 执行查询
 
                 #region 对搜索结果根据排序字段和方式进行排序
-
                 switch (orderField)
                 {
                     case "":
@@ -1550,10 +1372,9 @@ namespace TugBusinessLogic.Module
                             //if (orderMethod.ToLower().Equals("asc"))
                             //    orders = orders.OrderBy(u => u.IDX).ToList();
                             //else
-                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                                orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
-
                     case "IsGuest":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1562,7 +1383,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.IsGuest).ToList();
                         }
                         break;
-
                     case "Code":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1571,7 +1391,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.Code).ToList();
                         }
                         break;
-
                     case "CustomerName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1580,7 +1399,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CustomerName).ToList();
                         }
                         break;
-
                     case "WorkDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1589,7 +1407,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkDate).ToList();
                         }
                         break;
-
                     case "WorkTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1598,7 +1415,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkTime).ToList();
                         }
                         break;
-
                     case "EstimatedCompletionTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1607,7 +1423,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
                         }
                         break;
-
                     case "ShipName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1616,7 +1431,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ShipName).ToList();
                         }
                         break;
-
                     case "LinkMan":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1625,7 +1439,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LinkMan).ToList();
                         }
                         break;
-
                     case "LinkPhone":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1634,7 +1447,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LinkPhone).ToList();
                         }
                         break;
-
                     case "LinkEmail":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1643,7 +1455,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LinkEmail).ToList();
                         }
                         break;
-
                     case "WorkPlace":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1652,7 +1463,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkPlace).ToList();
                         }
                         break;
-
                     case "ServiceNatureNames":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1661,7 +1471,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
                         }
                         break;
-
                     case "WorkStateLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1670,7 +1479,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkStateLabel).ToList();
                         }
                         break;
-
                     case "BigTugNum":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1679,7 +1487,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.BigTugNum).ToList();
                         }
                         break;
-
                     case "MiddleTugNum":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1688,7 +1495,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.MiddleTugNum).ToList();
                         }
                         break;
-
                     case "SmallTugNum":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1697,7 +1503,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.SmallTugNum).ToList();
                         }
                         break;
-
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1706,7 +1511,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.Remark).ToList();
                         }
                         break;
-
                     case "CreateDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1715,7 +1519,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CreateDate).ToList();
                         }
                         break;
-
                     case "LastUpDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1724,7 +1527,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-
                     case "UserDefinedCol1":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1733,7 +1535,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
                         }
                         break;
-
                     case "UserDefinedCol2":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1742,7 +1543,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
                         }
                         break;
-
                     case "UserDefinedCol3":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1751,7 +1551,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
                         }
                         break;
-
                     case "UserDefinedCol4":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1760,7 +1559,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
                         }
                         break;
-
                     case "UserDefinedCol5":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1769,7 +1567,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
                         }
                         break;
-
                     case "UserDefinedCol6":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1778,7 +1575,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
                         }
                         break;
-
                     case "UserDefinedCol7":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1787,7 +1583,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
                         }
                         break;
-
                     case "UserDefinedCol8":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1796,7 +1591,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
                         }
                         break;
-
                     case "UserDefinedCol9":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1805,7 +1599,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
                         }
                         break;
-
                     case "UserDefinedCol10":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1814,12 +1607,11 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
                         }
                         break;
-
                     default:
                         break;
                 }
+                #endregion
 
-                #endregion 对搜索结果根据排序字段和方式进行排序
 
                 JArray groups = (JArray)jsonSearchOption["groups"];
                 if (groups != null)
@@ -1838,8 +1630,9 @@ namespace TugBusinessLogic.Module
                         string item_rule1_data = (string)(((JObject)item_rules[1])["data"]);
                     }
                 }
+
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return null;
             }
@@ -1847,7 +1640,7 @@ namespace TugBusinessLogic.Module
         }
 
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="orderField">排序字段</param>
         /// <param name="orderMethod">排序方式asc升序；desc降序</param>
@@ -1862,7 +1655,6 @@ namespace TugBusinessLogic.Module
                 orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
 
                 #region 根据排序字段和排序方式排序
-
                 switch (orderField)
                 {
                     case "":
@@ -1870,10 +1662,9 @@ namespace TugBusinessLogic.Module
                             //if(orderMethod.ToLower().Equals("asc"))
                             //    orders = orders.OrderBy(u => u.IDX).ToList();
                             //else
-                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                                orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
-
                     case "IsGuest":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1882,7 +1673,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.IsGuest).ToList();
                         }
                         break;
-
                     case "Code":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1891,7 +1681,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.Code).ToList();
                         }
                         break;
-
                     case "CustomerName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1900,7 +1689,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CustomerName).ToList();
                         }
                         break;
-
                     case "WorkDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1909,7 +1697,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkDate).ToList();
                         }
                         break;
-
                     case "WorkTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1918,7 +1705,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkTime).ToList();
                         }
                         break;
-
                     case "EstimatedCompletionTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1927,7 +1713,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
                         }
                         break;
-
                     case "ShipName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1936,7 +1721,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ShipName).ToList();
                         }
                         break;
-
                     case "LinkMan":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1945,7 +1729,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LinkMan).ToList();
                         }
                         break;
-
                     case "LinkPhone":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1954,7 +1737,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LinkPhone).ToList();
                         }
                         break;
-
                     case "LinkEmail":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1963,7 +1745,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LinkEmail).ToList();
                         }
                         break;
-
                     case "WorkPlace":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1972,7 +1753,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkPlace).ToList();
                         }
                         break;
-
                     case "ServiceNatureNames":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1981,7 +1761,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
                         }
                         break;
-
                     case "WorkStateLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1990,7 +1769,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkStateLabel).ToList();
                         }
                         break;
-
                     case "BigTugNum":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1999,7 +1777,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.BigTugNum).ToList();
                         }
                         break;
-
                     case "MiddleTugNum":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2008,7 +1785,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.MiddleTugNum).ToList();
                         }
                         break;
-
                     case "SmallTugNum":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2017,7 +1793,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.SmallTugNum).ToList();
                         }
                         break;
-
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2026,7 +1801,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.Remark).ToList();
                         }
                         break;
-
                     case "CreateDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2035,7 +1809,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CreateDate).ToList();
                         }
                         break;
-
                     case "LastUpDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2044,7 +1817,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-
                     case "UserDefinedCol1":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2053,7 +1825,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
                         }
                         break;
-
                     case "UserDefinedCol2":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2062,7 +1833,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
                         }
                         break;
-
                     case "UserDefinedCol3":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2071,7 +1841,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
                         }
                         break;
-
                     case "UserDefinedCol4":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2080,7 +1849,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
                         }
                         break;
-
                     case "UserDefinedCol5":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2089,7 +1857,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
                         }
                         break;
-
                     case "UserDefinedCol6":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2098,7 +1865,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
                         }
                         break;
-
                     case "UserDefinedCol7":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2107,7 +1873,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
                         }
                         break;
-
                     case "UserDefinedCol8":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2116,7 +1881,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
                         }
                         break;
-
                     case "UserDefinedCol9":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2125,7 +1889,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
                         }
                         break;
-
                     case "UserDefinedCol10":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2134,14 +1897,13 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
                         }
                         break;
-
                     default:
                         break;
                 }
 
-                #endregion 根据排序字段和排序方式排序
+                #endregion
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return null;
             }
@@ -2149,8 +1911,10 @@ namespace TugBusinessLogic.Module
             return orders;
         }
 
+
+
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="orderField">排序字段</param>
         /// <param name="orderMethod">排序方式asc升序；desc降序</param>
@@ -2166,9 +1930,7 @@ namespace TugBusinessLogic.Module
 
                 orderField = orderField.Split(',')[1];
                 orderField = orderField.Trim();
-
                 #region 根据排序字段和排序方式排序
-
                 switch (orderField)
                 {
                     case "":
@@ -2176,10 +1938,9 @@ namespace TugBusinessLogic.Module
                             //if (orderMethod.ToLower().Equals("asc"))
                             //    orders = orders.OrderBy(u => u.IDX).ToList();
                             //else
-                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                                orders = orders.OrderByDescending(u => u.IDX).ToList();
                         }
                         break;
-
                     case "ServiceNatureLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2188,7 +1949,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ServiceNatureLabel).ToList();
                         }
                         break;
-
                     case "CnName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2197,7 +1957,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CnName).ToList();
                         }
                         break;
-
                     case "EnName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2206,7 +1965,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.EnName).ToList();
                         }
                         break;
-
                     case "SimpleName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2215,7 +1973,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.SimpleName).ToList();
                         }
                         break;
-
                     case "JobStateLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2224,7 +1981,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.JobStateLabel).ToList();
                         }
                         break;
-
                     case "InformCaptainTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2233,7 +1989,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.InformCaptainTime).ToList();
                         }
                         break;
-
                     case "CaptainConfirmTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2242,7 +1997,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CaptainConfirmTime).ToList();
                         }
                         break;
-
                     case "DepartBaseTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2251,7 +2005,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.DepartBaseTime).ToList();
                         }
                         break;
-
                     case "ArrivalShipSideTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2260,7 +2013,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ArrivalShipSideTime).ToList();
                         }
                         break;
-
                     case "WorkCommencedTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2269,7 +2021,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkCommencedTime).ToList();
                         }
                         break;
-
                     case "WorkCompletedTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2278,7 +2029,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkCompletedTime).ToList();
                         }
                         break;
-
                     case "ArrivalBaseTime":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2287,7 +2037,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ArrivalBaseTime).ToList();
                         }
                         break;
-
                     case "RopeUsed":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2296,7 +2045,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.RopeUsed).ToList();
                         }
                         break;
-
                     case "RopeNum":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2305,7 +2053,7 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.RopeNum).ToList();
                         }
                         break;
-
+                    
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2314,7 +2062,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.Remark).ToList();
                         }
                         break;
-
                     case "CreateDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2323,7 +2070,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CreateDate).ToList();
                         }
                         break;
-
                     case "LastUpDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2332,7 +2078,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-
                     case "UserDefinedCol1":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2341,7 +2086,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
                         }
                         break;
-
                     case "UserDefinedCol2":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2350,7 +2094,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
                         }
                         break;
-
                     case "UserDefinedCol3":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2359,7 +2102,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
                         }
                         break;
-
                     case "UserDefinedCol4":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2368,7 +2110,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
                         }
                         break;
-
                     case "UserDefinedCol5":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2377,7 +2118,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
                         }
                         break;
-
                     case "UserDefinedCol6":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2386,7 +2126,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
                         }
                         break;
-
                     case "UserDefinedCol7":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2395,7 +2134,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
                         }
                         break;
-
                     case "UserDefinedCol8":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2404,7 +2142,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
                         }
                         break;
-
                     case "UserDefinedCol9":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2413,7 +2150,6 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
                         }
                         break;
-
                     case "UserDefinedCol10":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2422,12 +2158,11 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
                         }
                         break;
-
                     default:
                         break;
                 }
 
-                #endregion 根据排序字段和排序方式排序
+                #endregion
             }
             catch (Exception ex)
             {
@@ -2436,6 +2171,8 @@ namespace TugBusinessLogic.Module
 
             return orders;
         }
+
+
 
         /// <summary>
         /// 获取拖轮一日的时间安排状态
@@ -2454,11 +2191,11 @@ namespace TugBusinessLogic.Module
 
             //schedulers[0].DepartBaseTime;
             //schedulers[0].ArrivalBaseTime;
-            if (schedulers != null)
+            if(schedulers != null)
             {
                 foreach (V_OrderScheduler item in schedulers)
                 {
-                    if (item.DepartBaseTime != null && item.ArrivalBaseTime != null)
+                    if(item.DepartBaseTime != null && item.ArrivalBaseTime != null)
                         tugEx = SetTugBusyState(item.DepartBaseTime.Trim(), item.ArrivalBaseTime.Trim(), tugEx);
                     //tugEx = SetTugBusyState("00:20", "00:30", tugEx);
                 }
@@ -2470,9 +2207,10 @@ namespace TugBusinessLogic.Module
         static private TugEx SetTugBusyState(string startTime, string endTime, TugEx tugEx)
         {
             string[] _TimeInterval = {
-                                         "00:30","01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30","06:00",
-                                         "06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00",
-                                         "12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00",
+                                         
+                                         "00:30","01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30","06:00", 
+                                         "06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00", 
+                                         "12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00", 
                                          "18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30","24:00"
                                      };
 
@@ -2482,6 +2220,7 @@ namespace TugBusinessLogic.Module
                                      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                                  };
+
 
             string s = _TimeInterval.First(u => u.CompareTo(startTime) > 0);
             string e = _TimeInterval.First(u => u.CompareTo(endTime) >= 0);

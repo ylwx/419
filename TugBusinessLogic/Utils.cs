@@ -12,15 +12,86 @@ namespace TugBusinessLogic
     {
         static private int MaxOrderInforId()
         {
-            TugDataEntities db = new TugDataEntities();
+            int maxId = 0;
+            try 
+            {
+                TugDataEntities db = new TugDataEntities();
+                maxId = db.OrderInfor.Max(u => u.IDX);
+            }
+            catch(Exception)
+            {
 
-            List<int> list = db.OrderInfor.OrderByDescending(u => u.IDX).Select(u => u.IDX).ToList();
-
-            if (list != null && list.Count > 0)
-                if (list != null)
-                    return Int32.Parse(list[0].ToString()); ;
-            return 0;
+            }
+            return maxId;
         }
+
+        static private int MaxBillId()
+        {
+            int maxId = 0;
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                maxId = db.Billing.Max(u => u.IDX);
+            }
+            catch (Exception)
+            {
+
+            }
+            return maxId;
+        }
+
+        static public string AutoGenerateOrderSequenceNo(string msg = "")
+        {
+            string ret = "";
+            using (TugDataEntities db = new TugDataEntities())
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        DateTime now = DateTime.Today;
+                        ret = now.Year.ToString("0000") + now.Month.ToString("00") + now.Day.ToString("00") + (MaxOrderInforId() + 1).ToString("00000");
+
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 获取最大活动编号
+        /// </summary>
+        /// <returns></returns>
+        static public string AutoGenerateBillCode(string msg = "")
+        {
+            string ret = "";
+            using (TugDataEntities db = new TugDataEntities())
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        ret = msg + "T" + (MaxBillId() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
+
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+
 
         /// <summary>
         /// 计算时间差
@@ -217,32 +288,7 @@ namespace TugBusinessLogic
             return price;
         }
 
-        /// <summary>
-        /// 获取最大活动编号
-        /// </summary>
-        /// <returns></returns>
-        static public string GetOrderSequenceNo(string msg = "")
-        {
-            string ret = "";
-            using (TugDataEntities db = new TugDataEntities())
-            {
-                using (var dbContextTransaction = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        ret = msg + "T" + (MaxOrderInforId() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
-
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        dbContextTransaction.Rollback();
-                    }
-                }
-            }
-
-            return ret;
-        }
+        
 
         static public Dictionary<string, string> ResolveServices(string content)
         {
