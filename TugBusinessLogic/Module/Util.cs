@@ -8,6 +8,18 @@ namespace TugBusinessLogic.Module
 {
     public static class Util
     {
+        public static string GetSequence(string type)
+        {
+            string sequence = null;
+            DateTime? now = DateTime.Now;
+
+            if (now != null)
+            {
+                sequence = string.Format("{0}{1:D4}{2:D2}{3:D2}{4:D2}{5:D2}{6:D2}{7:D3}", type, now.Value.Year, now.Value.Month, now.Value.Day, now.Value.Hour, now.Value.Minute, now.Value.Second, now.Value.Millisecond);
+                //sequence = type + now.Value.Year + now.Value.Month + now.Value.Day + now.Value.Hour + now.Value.Minute + now.Value.Second + now.Value.Millisecond;
+            }
+            return sequence;
+        }
         public static string checkdbnull(object obj)
         {
             try

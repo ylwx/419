@@ -132,7 +132,7 @@
             //data: getCarData(),
             startRows: 2,
             startCols: 4,
-            colHeaders: ['流程节点', '人员', '起始日期', '结束日期'],
+            colHeaders: ['流程节点',  '人员', '起始日期', '结束日期'],
             columnSorting: true,
             contextMenu: true,
             minSpareRows: 1,
@@ -143,20 +143,21 @@
             heigth: 500,
             columns: [
               {
-                  type: 'autocomplete',
+                  type: 'dropdown',
                   //source: ['创建', '校对', '审核', '会签'],
-                  source: function (request, response) {
-                      this.xhr = $.ajax({
+                  source: function (query, process) {
+                      $.ajax({
+                          //url: 'php/cars.php', // commented out because our website is hosted on static GitHub Pages
                           url: '@Url.Action("GetNodes", "Flow")',
-                          data: request,
-                          type: 'GET',
                           dataType: 'json',
-                          success: function (data) {
-                              response(data);
+                          data: {
+                              query: query
                           },
+                          success: function (response) {
+                              console.log("response", response);
+                              //process(JSON.parse(response.data)); // JSON.parse takes string as a argument
+                              process(response);
 
-                          error: function (model, response, options) {
-                              response([]);
                           }
                       });
                   },
@@ -164,7 +165,7 @@
                   width: 120
               },
               {
-                  type: 'autocomplete',
+                  type: 'dropdown',//'autocomplete',
                   //source: ['张三', '李四', '王五', '赵六'],
                   source: function (query, process) {
                       $.ajax({
@@ -217,9 +218,52 @@
             ],
             afterChange: function (change, source) {
                 //alert(change);
-                //alert(source);
+                //alert(source);                
+
                 if (source === 'loadData') {
                     return; //don't save this change
+                }
+                if (change != null) {
+                    var chs = change[0];
+                    //判断节点是否重复
+                    var rct = hot.countRows();
+                    //alert(rct);
+                    if (chs[1] == 0)
+                    {
+                        //$('#childErrMsg p').html("");
+                        //$('#childErrMsg').hide();
+                        for (var i = 0; i < rct - 1; i++) {
+                            if (i == chs[0]) continue;
+                            var vlnode = hot.getDataAtCell(i, 0)
+                            if (chs[3] == vlnode && chs[3] !="") {
+                                alert("行流程节点重复! ");
+                                hot.setDataAtRowProp(chs[0], 0, "");
+                                return;
+                            }
+                        }
+                    }
+                    //判断人员是否存在
+                    if (chs[1] == 1) {
+                        var vlperson = hot.getDataAtCell(chs[0], 1);
+                        if (vlperson !=null && vlperson != "")
+                        {
+                            jQuery.ajax({
+                                url: '/Flow/UserValid',
+                                type: "POST",
+                                dataType: "json",
+                                data: { 'vlperson': vlperson },//JSON.stringify(hot.getChangeData()),
+                                success: function (result) {
+                                    if (result.rvalid == false) {
+                                        alert(vlperson + "不存在! ")
+                                        hot.setDataAtRowProp(chs[0], 1, "");
+                                    }
+                                },
+                                error: function (xhr) {
+                                    //alert('error');
+                                }
+                            });
+                        }
+                    }
                 }
                 clearTimeout(autosaveNotification);
                 jQuery.ajax({
@@ -247,136 +291,136 @@
                 });
             }
         });
-    //创建单元格只读
-    hot.updateSettings({
-        cells: function (row, col, prop) {
-            var cellProperties = {};
+          //创建单元格只读
+          hot.updateSettings({
+              cells: function (row, col, prop) {
+                  var cellProperties = {};
 
-            if (hot.getData()[row][prop] === '创建') {
-                cellProperties.readOnly = true;
-            }
+                  if (hot.getData()[row][prop] === '创建') {
+                      cellProperties.readOnly = true;
+                  }
 
-            return cellProperties;
-        }
-    });
-    //第一行不能被删除
-    hot.updateSettings({
-        contextMenu: {
-            //callback: function (key, options) {
-            //    if (key === 'about') {
-            //        setTimeout(function () {
-            //            //timeout is used to make sure the menu collapsed before alert is shown
-            //            alert("This is a context menu with default and custom options mixed");
-            //        }, 100);
-            //    }
-            //},
-            items: {
-                "row_below": {
-                    //disabled: function () {
-                    //    //if first row, disable this option
-                    //    return (hot.getSelected() && hot.getSelected()[0] === 0)
-                    //}
-                },
-                "remove_row": {
-                    name: 'Remove row',
-                    disabled: function () {
-                        //if first row, disable this option
-                        return (hot.getSelected() && hot.getSelected()[0] === 0)
-                    }
-                }
-            }
-        }
-    })
+                  return cellProperties;
+              }
+          });
+          //第一行不能被删除
+          hot.updateSettings({
+              contextMenu: {
+                  //callback: function (key, options) {
+                  //    if (key === 'about') {
+                  //        setTimeout(function () {
+                  //            //timeout is used to make sure the menu collapsed before alert is shown
+                  //            alert("This is a context menu with default and custom options mixed");
+                  //        }, 100);
+                  //    }
+                  //},
+                  items: {
+                      "row_below": {
+                          //disabled: function () {
+                          //    //if first row, disable this option
+                          //    return (hot.getSelected() && hot.getSelected()[0] === 0)
+                          //}
+                      },
+                      "remove_row": {
+                          name: 'Remove row',
+                          disabled: function () {
+                              //if first row, disable this option
+                              return (hot.getSelected() && hot.getSelected()[0] === 0)
+                          }
+                      }
+                  }
+              }
+          })
 
-    Handsontable.Dom.addEvent(tjflow, 'click', function () {
-        var rct = hot.countRows();
-        //alert(rct);
-        for (var i = 0; i < rct - 1; i++) {
-            //alert(hot.getDataAtCell(i, 0));//[A1,B1]
-            var vlnode = hot.getDataAtCell(i, 0)
-            //alert(vlnode);
-            if (vlnode == null || vlnode == '' || vlnode == undefined)
-            {
-                //alert("第" + (i + 1) + "行流程节点为空! ");
-                $('#childErrMsg p').html("第" + (i + 1) + "行流程节点为空! ");
-                //$('#_XX').parent().addClass("has-error");
-                $('#childErrMsg').show();
-                return;
-            }
-            var vlperson = hot.getDataAtCell(i, 1)
-            if (vlperson == null || vlperson == '' || vlperson == undefined)
-            {
-                //alert("第" + (i + 1) + "行人员为空! ");
-                $('#childErrMsg p').html("第" + (i + 1) + "行人员为空! ");
-                //$('#_XX').parent().addClass("has-error");
-                $('#childErrMsg').show();
-                return;
-            }
+          Handsontable.Dom.addEvent(tjflow, 'click', function () {
+              var rct = hot.countRows();
+              //alert(rct);
+              for (var i = 0; i < rct - 1; i++) {
+                  //alert(hot.getDataAtCell(i, 0));//[A1,B1]
+                  var vlnode = hot.getDataAtCell(i, 0)
+                  //alert(vlnode);
+                  if (vlnode == null || vlnode == '' || vlnode == undefined) {
+                      //alert("第" + (i + 1) + "行流程节点为空! ");
+                      $('#childErrMsg p').html("第" + (i + 1) + "行流程节点为空! ");
+                      //$('#_XX').parent().addClass("has-error");
+                      $('#childErrMsg').show();
+                      return;
+                  }
+                  var vlperson = hot.getDataAtCell(i, 1)
+                  if (vlperson == null || vlperson == '' || vlperson == undefined) {
+                      //alert("第" + (i + 1) + "行人员为空! ");
+                      $('#childErrMsg p').html("第" + (i + 1) + "行人员为空! ");
+                      //$('#_XX').parent().addClass("has-error");
+                      $('#childErrMsg').show();
+                      return;
+                  }
 
-        }
-        jQuery.ajax({
-            url: '/Flow/SubmitFlow',
-            type: "POST",
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(hot.getSourceData()),
-            async: true,
-            processData: false,
-            cache: false,
-            success: function (result) {
-                //exampleConsole.innerHTML = 'Data saved';
-                //alert(result.message);
-            },
-            error: function (xhr) {
-                //exampleConsole.innerHTML = 'Save error';
-                //alert('error');
-            }
-        });
-    });
+              }              
+              jQuery.ajax({
+                  url: '/Flow/SubmitFlow',
+                  type: "POST",
+                  dataType: "json",
+                  contentType: 'application/json; charset=utf-8',
+                  data: JSON.stringify(hot.getSourceData()),
+                  async: true,
+                  processData: false,
+                  cache: false,
+                  success: function (result) {
+                      $('#table-modal').modal('hide')
 
-    //
-    $('#table-modal').on('shown.bs.modal', function (e) {
-        initChildModal();
-    });
+                      //exampleConsole.innerHTML = 'Data saved';
+                      //alert(result.message);
+                  },
+                  error: function (xhr) {
+                      //exampleConsole.innerHTML = 'Save error';
+                      //alert('error');
+                  }
+              });
+          });
 
-    function initChildModal() {
-        $('#childErrMsg').hide();
-        //$('#_xxx').parent().removeClass("has-error");
+          //
+          $('#table-modal').on('shown.bs.modal', function (e) {
+              initChildModal();
+          });
 
-        jQuery.ajax({
-            url: '/Flow/GetInitData', //Controller to Get the
-            //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            charset: "utf-8", // dataType and contentType should be json
-            async: true,
-            processData: false,
-            cache: false,
-            success: function (data) {      // on Success send the Json data
-                // to the table by using loaddata function""
-                //alert("ok");
-                hot.loadData(data);
-                //exampleConsole.innerHTML = 'Data loaded';
-            },
-            error: function (xhr) {
-                alert('error');
-            }
-        });
+          function initChildModal() {
+              $('#childErrMsg').hide();
+              //$('#_xxx').parent().removeClass("has-error");
+
+              jQuery.ajax({
+                  url: '/Flow/GetInitData', //Controller to Get the
+                  //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+                  type: "GET",
+                  dataType: "json",
+                  contentType: "application/json",
+                  charset: "utf-8", // dataType and contentType should be json
+                  async: true,
+                  processData: false,
+                  cache: false,
+                  success: function (data) {      // on Success send the Json data
+                      // to the table by using loaddata function""
+                      //alert("ok");
+                      hot.loadData(data);
+                      //exampleConsole.innerHTML = 'Data loaded';
+                  },
+                  error: function (xhr) {
+                      alert('error');
+                  }
+              });
 
 
-        //var rct = hot.countRows();
-        ////alert(rct);
-        //for (var i = 0; i < rct - 1; i++) {
-        //    hot.alter('remove_row',i);
-        //}      
-        //hot.clear();
+              //var rct = hot.countRows();
+              ////alert(rct);
+              //for (var i = 0; i < rct - 1; i++) {
+              //    hot.alter('remove_row',i);
+              //}
+              //hot.clear();
 
-        //$('#_ServiceNatureLabel').empty();
-        //$('#_ChooseTug').val("");
-        //$("#_JobStateLabel option:first").prop("selected", 'selected');
-        //$('#_RopeUsed input[type="checkbox"]').attr("checked", false);
-    }
+              //$('#_ServiceNatureLabel').empty();
+              //$('#_ChooseTug').val("");
+              //$("#_JobStateLabel option:first").prop("selected", 'selected');
+              //$('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+          }
 
 </script>
 
