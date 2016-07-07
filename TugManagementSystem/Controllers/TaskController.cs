@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using System.Data;
-=======
->>>>>>> c7146e765396c2386c07269e5e4b3720fd142593
 using System.Linq;
 using System.Web.Mvc;
 using TugDataModel;
@@ -94,7 +91,6 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-<<<<<<< HEAD
                         List<Approve> ApproveList = db.Approve.Where(u => u.PersonID == curUserId).Select(u => u).ToList<Approve>();
                         if (ApproveList.Count != 0)
                         {
@@ -126,17 +122,15 @@ namespace TugManagementSystem.Controllers
                         {
                             return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
                         }
-=======
                         List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
 
-                        int totalRecordNum = objs.Count;
-                        if (page != 0 && totalRecordNum % rows == 0) page -= 1;
-                        int pageSize = rows;
-                        int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                        List<V_NeedApproveBilling> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveBilling>();
-                        var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
-                        return Json(jsonData, JsonRequestBehavior.AllowGet);
->>>>>>> c7146e765396c2386c07269e5e4b3720fd142593
+                        int totalRecordNum1 = objs.Count;
+                        if (page != 0 && totalRecordNum1 % rows == 0) page -= 1;
+                        int pageSize1 = rows;
+                        int totalPageNum1 = (int)Math.Ceiling((double)totalRecordNum1 / pageSize1);
+                        List<V_NeedApproveBilling> page_objs1 = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveBilling>();
+                        var jsonData1 = new { page = page, records = totalRecordNum1, total = totalPageNum1, rows = page_objs1 };
+                        return Json(jsonData1, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
@@ -151,7 +145,6 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 已审核
-<<<<<<< HEAD
 
         #region 通过
 
@@ -361,7 +354,5 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 撤销通过
-=======
->>>>>>> c7146e765396c2386c07269e5e4b3720fd142593
     }
 }
