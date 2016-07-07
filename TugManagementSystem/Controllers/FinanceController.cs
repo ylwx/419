@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using TugDataModel;
@@ -112,6 +113,65 @@ namespace TugManagementSystem.Controllers
 
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult DeleteInvoice()
+        {
+            this.Internationalization();
+
+            try
+            {
+                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                ParameterExpression parameter = Expression.Parameter(typeof(Billing));
+
+                string strBillIds = Request.Form["billIds"];
+
+                if (strBillIds != "")
+                {
+                    List<string> listBillIds = strBillIds.Split(',').ToList();
+
+                    TugDataEntities db = new TugDataEntities();
+                    foreach (string billId in listBillIds)
+                    {
+                        Expression cdt = Expression.Equal(Expression.PropertyOrField(parameter, "IDX"), Expression.Constant(Convert.ToInt32(billId)));
+                        condition = Expression.OrElse(condition, cdt);
+
+                        //int idx = Convert.ToInt32(billId);
+                        //Billing aOrder = db.Billing.FirstOrDefault(u => u.IDX == idx);
+                        //if (aOrder != null)
+                        //{
+                        //    db.Billing.Remove(aOrder);
+                        //    db.SaveChanges();
+                        //    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        //}
+                        //else
+                        //{
+                        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                        //}
+                    }
+
+                    var lamda = Expression.Lambda<Func<Billing, bool>>(condition, parameter);
+                    List<Billing> orders = db.Billing.Where(lamda).Select(u => u).ToList<Billing>();
+                    if (orders != null)
+                    {
+                        db.Billing.RemoveRange(orders);
+                        db.SaveChanges();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+
+
 	}
 
 }
