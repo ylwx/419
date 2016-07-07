@@ -288,7 +288,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-
+        [Authorize]
         public ActionResult OrgManage(string lan, int? id)
         {
             lan = this.Internationalization();

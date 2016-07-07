@@ -244,7 +244,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-
+        [Authorize]
         public ActionResult RoleManage(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -467,7 +467,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-
+        [Authorize]
         public ActionResult ModuleManage(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -666,7 +666,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-
+        [Authorize]
         public ActionResult RoleUserManage(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -865,6 +865,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+        [Authorize]
         public ActionResult RoleModuleManage(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -881,7 +882,7 @@ namespace TugManagementSystem.Controllers
         #endregion 角色模块Action
 
         #region 角色菜单模块Action
-
+        [Authorize]
         public ActionResult RoleMenuManage(string lan, int? id)
         {
             lan = this.Internationalization();

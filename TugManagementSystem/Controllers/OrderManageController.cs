@@ -12,6 +12,7 @@ namespace TugManagementSystem.Controllers
         #region 页面Action
 
         // GET: OrderManage
+        [Authorize]
         public ActionResult OrderManage(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -21,7 +22,7 @@ namespace TugManagementSystem.Controllers
 
             return View();
         }
-
+        [Authorize]
         //GET: OrderScheduling
         public ActionResult OrderScheduling(string lan, int? id)
         {

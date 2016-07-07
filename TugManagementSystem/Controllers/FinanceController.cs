@@ -68,7 +68,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-
+        [Authorize]
         [HttpGet]
         public ActionResult ViewInvoice(string lan, int? orderId)
         {

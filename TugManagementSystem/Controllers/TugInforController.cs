@@ -203,7 +203,7 @@ namespace TugManagementSystem.Controllers
         {
             return View();
         }
-
+        [Authorize]
         public ActionResult TugInforManage(string lan, int? id)
         {
             lan = this.Internationalization();

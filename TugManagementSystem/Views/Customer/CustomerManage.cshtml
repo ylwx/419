@@ -616,20 +616,19 @@
         $('#_Customer_MailCode').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
+        var Customer_Code = $('#_Customer_Code').val();
+        var Customer_CnName = $('#_Customer_CnName').val();
+        var Customer_EnName=$('#_Customer_EnName').val();
+        var Customer_SimpleName=$('#_Customer_SimpleName').val();
+        var Customer_ContactPerson=$('#_Customer_ContactPerson').val();
+        var Customer_Telephone= $('#_Customer_Telephone').val();
+        var Customer_Fax=$('#_Customer_Fax').val();
+        var Customer_Email=$('#_Customer_Email').val();
+        var Customer_Address=$('#_Customer_Address').val();
+        var Customer_MailCode=$('#_Customer_MailCode').val();
+        var Remark = $('#_Remark').val();
 
-        var _Customer_Code=$('#_Customer_Code').text();
-        var _Customer_CnName=$('#_Customer_CnName').text();
-        var _Customer_EnName=$('#_Customer_EnName').text();
-        var _Customer_SimpleName=$('#_Customer_SimpleName').text();
-        var _Customer_ContactPerson=$('#_Customer_ContactPerson').text();
-        var _Customer_Telephone= $('#_Customer_Telephone').text();
-        var _Customer_Fax=$('#_Customer_Fax').text();
-        var _Customer_Email=$('#_Customer_Email').text();
-        var _Customer_Address=$('#_Customer_Address').text();
-        var _Customer_MailCode=$('#_Customer_MailCode').text();
-        var _Remark = $('#_Remark').text();
-
-        if (_Customer_CnName.length <= 0) {
+        if (Customer_CnName.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.Customer_CnName' + "@Resources.Language.IsNull");
             $('#_Customer_CnName').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -640,17 +639,17 @@
             type: "post",
             url: '@Url.Action("AddCustomer", "Customer")',
             data: {
-                'Code': _Customer_Code,
-                'CnName': _Customer_CnName,
-                'EnName': _Customer_EnName,
-                'SimpleName': _Customer_SimpleName,
-                'ContactPerson': _Customer_ContactPerson,
-                'Telephone':_Customer_Telephone ,
-                'Fax': _Customer_Fax,
-                'Email': _Customer_Email,
-                'Address': _Customer_Address,
-                'MailCode':_Customer_MailCode ,
-                'Remark': _Remark
+                'Code': Customer_Code,
+                'CnName': Customer_CnName,
+                'EnName': Customer_EnName,
+                'SimpleName': Customer_SimpleName,
+                'ContactPerson': Customer_ContactPerson,
+                'Telephone':Customer_Telephone ,
+                'Fax': Customer_Fax,
+                'Email': Customer_Email,
+                'Address': Customer_Address,
+                'MailCode':Customer_MailCode ,
+                'Remark': Remark
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {

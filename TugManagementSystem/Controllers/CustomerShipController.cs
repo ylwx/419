@@ -144,7 +144,7 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
-
+        [Authorize]
         public ActionResult CustomerShipManage(string lan, int? id)
         {
             lan = this.Internationalization();
