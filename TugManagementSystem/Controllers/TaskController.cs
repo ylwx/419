@@ -269,7 +269,7 @@ namespace TugManagementSystem.Controllers
             }
             else
             {
-                //更新Billing表状态
+                //更新Billing状态
                 System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
                 Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
 
