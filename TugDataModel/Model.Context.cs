@@ -34,6 +34,7 @@ namespace TugDataModel
         public virtual DbSet<BillingItem> BillingItem { get; set; }
         public virtual DbSet<BillingItemTemplate> BillingItemTemplate { get; set; }
         public virtual DbSet<BillingTemplate> BillingTemplate { get; set; }
+        public virtual DbSet<Credit> Credit { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<CustomerShip> CustomerShip { get; set; }
         public virtual DbSet<CustomField> CustomField { get; set; }
@@ -51,10 +52,13 @@ namespace TugDataModel
         public virtual DbSet<UserInfor> UserInfor { get; set; }
         public virtual DbSet<UsersRole> UsersRole { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
+        public virtual DbSet<V_Billing> V_Billing { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
+        public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }
+        public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }
         public virtual DbSet<V_OrderInfor> V_OrderInfor { get; set; }
         public virtual DbSet<V_OrderScheduler> V_OrderScheduler { get; set; }
         public virtual DbSet<V_RoleMenu> V_RoleMenu { get; set; }
