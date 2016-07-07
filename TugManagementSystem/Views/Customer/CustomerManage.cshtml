@@ -599,6 +599,48 @@
     function AddParent() {
         $('#parent-modal').modal()
     }
+    function initParentModal() {
+        $('#parentErrMsg').hide();
+        $('#_Customer_Code').parent().removeClass("has-error");
+        $('#_Customer_CnName').parent().removeClass("has-error");
+        $('#_Customer_EnName').parent().removeClass("has-error");
+        $('#_Customer_SimpleName').parent().removeClass("has-error");
+        $('#_Customer_ContactPerson').parent().removeClass("has-error");
+        $('#_Customer_Telephone').parent().removeClass("has-error");
+        $('#_Customer_Fax').parent().removeClass("has-error");
+        $('#_Customer_Email').parent().removeClass("has-error");
+        $('#_Customer_Address').parent().removeClass("has-error");
+        $('#_Customer_MailCode').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+        $('#_Customer_Code').val("");
+        $('#_Customer_CnName').val("");
+        $('#_Customer_EnName').val("");
+        $('#_Customer_SimpleName').val("");
+        $('#_Customer_ContactPerson').val("");
+        $('#_Customer_Telephone').val("");
+        $('#_Customer_Fax').val("");
+        $('#_Customer_Email').val("");
+        $('#_Customer_Address').val("");
+        $('#_Customer_MailCode').val("");
+        $('#_Remark').val("");
+    }
+
+
+    $('#parent-modal').on('show.bs.modal', function (e) {
+        initParentModal();
+    });
+    $('#parent-modal').on('shown.bs.modal', function (e) {
+    });
+    $('#parent-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hide");
+    });
+    $('#parent-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hidden");
+    });
+
     function submitParentModal() {
         var maxTextLength = 25;
         var maxTextAreaLength = 500;
