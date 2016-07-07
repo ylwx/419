@@ -205,6 +205,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 關閉 的本地化字符串。
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 創建時間 的本地化字符串。
         /// </summary>
         internal static string CreateDate {
@@ -912,6 +921,15 @@ namespace Resources {
         internal static string Task_NeedApprove {
             get {
                 return ResourceManager.GetString("Task_NeedApprove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 駁回原因 的本地化字符串。
+        /// </summary>
+        internal static string Task_RejectReason {
+            get {
+                return ResourceManager.GetString("Task_RejectReason", resourceCulture);
             }
         }
         

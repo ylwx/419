@@ -14,7 +14,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>驳回原因</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.Task_RejectReason</h4>
                             </div>
                             <div class="box-body">
                                 <div id="test">
@@ -27,8 +27,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="ok" type="button" class="btn btn-primary" data-dismiss="modal">确 定</button>
-                <a href="#" class="btn btn-warning" data-dismiss="modal">关 闭</a>
+                <button id="ok" type="button" class="btn btn-primary" data-dismiss="modal">@Resources.Language.UserInfor_OK</button>
+                <a href="#" class="btn btn-warning" data-dismiss="modal">@Resources.Language.Close</a>
             </div>
         </div>
     </div>
@@ -70,14 +70,14 @@
                             <div class="box-title">
                                 <h4><i class="fa fa-bars"></i>@Resources.Language.Task_NeedApprove</h4>
                             </div>
-                            
-                                <div id="jqGridContainerBox" class="box-body">
-                                    <input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="通 过" />
-                                    <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="驳 回" onclick="$('#table-modal').modal()" />
-                                    <table id="jqGrid"></table>
-                                    <div id="jqGridPager"></div>
-                                </div>
-                         
+
+                            <div id="jqGridContainerBox" class="box-body">
+                                <input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="@Resources.Language.Approve_Pass" />
+                                <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="@Resources.Language.Approve_Reject" onclick="$('#table-modal').modal()" />
+                                <table id="jqGrid"></table>
+                                <div id="jqGridPager"></div>
+                            </div>
+
                             <!-- /BOX -->
                         </div>
                     </div>
@@ -91,317 +91,318 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        var tableConfig = null;
+</div>
+<script type="text/javascript">
+    var tableConfig = null;
 
-        $(document).ready(Init);
+    $(document).ready(Init);
 
-        function Init() {
-            {
-                if (tableConfig == null) {
-                    GetTableConfig();
+    function Init() {
+        {
+            if (tableConfig == null) {
+                GetTableConfig();
+            }
+            $("#jqGrid").jqGrid({
+                //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+                url: "/Task/GetTaskData",
+                mtype: "GET",
+                datatype: "json",
+                colModel: tableConfig.columns,
+                viewrecords: true,
+                height: '100%', //350,
+                rowNum: 30,
+                autowidth: true,
+                pager: "#jqGridPager",
+                rowList: ['30', '50', '80', '100'],
+                rownumbers: true,
+                shrinkToFit: false,     //指定各列宽度
+                sortable: true,          //列可移动
+                colMenu: true,          //列菜单
+                multiselect: true,      //选择框
+                //toolbar: [true, "top"]   //按钮
+
+            });
+
+            //通过
+            $("#Pass_btn").click(function () {
+                var ids = [];
+                var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
+                if (rowData.length) {
+                    for (var i = 0; i < rowData.length; i++) {
+                        ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
+                    }
+                    $.ajax(
+                               {
+                                   type: "post",
+                                   url: "/Task/ApprovePass",
+                                   data: { 'passdata': ids },
+                                   traditional: true,
+                                   dataType: 'json',
+                                   success: function (result) {
+                                       alert(result.message);
+                                       $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                   },
+                               });
                 }
-                $("#jqGrid").jqGrid({
-                    //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-                    url: "/Task/GetTaskData",
-                    mtype: "GET",
-                    datatype: "json",
-                    colModel: tableConfig.columns,
-                    viewrecords: true,
-                    height: '100%', //350,
-                    rowNum: 30,
-                    autowidth: true,
-                    pager: "#jqGridPager",
-                    rowList: ['30', '50', '80', '100'],
-                    rownumbers: true,
-                    shrinkToFit: false,     //指定各列宽度
-                    sortable: true,          //列可移动
-                    colMenu: true,          //列菜单
-                    multiselect: true,      //选择框
-                    //toolbar: [true, "top"]   //按钮
+                else { alert("未选择需要操作的数据！"); }
+            })
 
-                });
-
-                //通过
-                $("#Pass_btn").click(function () {
-                    var ids = [];
-                    var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
-                    if (rowData.length) {
-                        for (var i = 0; i < rowData.length; i++) {
-                            ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
-                        }
-                        $.ajax(
-                                   {
-                                       type: "post",
-                                       url: "/Task/ApprovePass",
-                                       data: { 'passdata': ids },
-                                       traditional: true,
-                                       dataType: 'json',
-                                       success: function (result) {
-                                           alert(result.message);
-                                           $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                       },
-                                   });
+            //驳回
+            $("#ok").click(function () {
+                var RejectReason = document.getElementById("RejectReason").value;
+                var ids = [];
+                var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
+                if (rowData.length) {
+                    for (var i = 0; i < rowData.length; i++) {
+                        ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
                     }
-                    else { alert("未选择需要操作的数据！"); }
-                })
+                    $.ajax(
+                               {
+                                   type: "post",
+                                   url: "/Task/ApproveReject",
+                                   data: { 'rejectdata': ids, 'RejectReason': RejectReason },
+                                   traditional: true,
+                                   dataType: 'json',
+                                   success: function (result) {
+                                       alert(result.message);
+                                       $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                   },
+                               });
+                }
+                else { alert("未选择需要操作的数据！"); }
+            })
 
-                //驳回
-                $("#ok").click(function () {
-                    var RejectReason = document.getElementById("RejectReason").value;
-                    var ids = [];
-                    var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
-                    if (rowData.length) {
-                        for (var i = 0; i < rowData.length; i++) {
-                            ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
-                        }
-                        $.ajax(
-                                   {
-                                       type: "post",
-                                       url: "/Task/ApproveReject",
-                                       data: { 'rejectdata': ids, 'RejectReason': RejectReason },
-                                       traditional: true,
-                                       dataType: 'json',
-                                       success: function (result) {
-                                           alert(result.message);
-                                           $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                       },
-                                   });
-                    }
-                    else { alert("未选择需要操作的数据！"); }
-                })
+            //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });//隐藏搜索框
 
-                //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });//隐藏搜索框
+            $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
-                $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+            $('#jqGridContainerBox').resize(function () {
+                var width = $('#jqGridContainerBox').width();
+                $("#jqGrid").setGridWidth(width);
+            });
 
-                $('#jqGridContainerBox').resize(function () {
-                    var width = $('#jqGridContainerBox').width();
-                    $("#jqGrid").setGridWidth(width);
-                });
+            $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
-                $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+                .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
 
-                    .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
-
-                $('#jqGrid').inlineNav('#jqGridPager',
-                    {
-                        edit: false,
-                        add: false,
-                        del: false,
-                        cancel: false,
-                        editParams: {
-                            keys: true,
-                            successfunc: function (val) {
-                                if (val.responseText != "") {
-                                    var ret = $.parseJSON(val.responseText);
-                                    alert(ret.message);
-                                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                }
-                            },
-                            url: null, //'/api/values',
-                            mtype: 'POST'
-                        },
-
-                        addParams: {
-                            keys: true,
-                            successfunc: function (val) {
-                                if (val.responseText != "") {
-                                    var ret = $.parseJSON(val.responseText);
-                                    alert(ret.message);
-                                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                }
-                            },
-                            errorfunc: function (rowid, xhr) {
-                                alert(xhr.responseText);
+            $('#jqGrid').inlineNav('#jqGridPager',
+                {
+                    edit: false,
+                    add: false,
+                    del: false,
+                    cancel: false,
+                    editParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
                                 $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                             }
-                        }
-                    });
-
-                //最后调用，冻结列
-                //$("#jqGrid").jqGrid("setFrozenColumns");
-            }
-        }
-        function GetTableConfig() {
-            tableConfig = {
-                columns: [
-
-                    {
-                        align: 'center', label: '@Resources.Language.IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true,
-                    },
-                     {
-                         align: 'center', label: 'OrderID', name: "OrderID", width: 100, editable: true, edittype: "text",
-                         editrules: { required: false }, hidden: true,
-                     },
-                      {
-                          align: 'center', label: 'CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
-                          editrules: { required: false }, hidden: true,
-                      },
-                      {
-                          align: 'center', label: '@Resources.Language.Billing_BillingType', name: "BillingType", width: 90, editable: true, edittype: "text",
-                          editrules: { required: true }, colmenu: false,
-                          hidden: false,
-                          searchoptions: { sopt: ["cn"] }
-                      },
-                    {
-                        align: 'center', label: '@Resources.Language.Billing_BillingCode', name: "BillingCode", width: 90, editable: true, edittype: "text",
-                        editrules: { required: true }, colmenu: false,
-                        hidden: false,
-                        searchoptions: { sopt: ["cn"] }
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.Billing_BillingName', name: "BillingName", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: false,
-                        editoptions: {
                         },
-                        searchoptions: { sopt: ["cn"] }
-                    },
-                    {
-                        align: 'center', label: 'TimeTypeID', name: "TimeTypeID", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true,
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.Billing_CreditContent', name: "CreditContent", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: false,
-                        editoptions: {
-                        },
-                        searchoptions: { sopt: ["cn"] }
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.Billing_CreditAmount', name: "CreditAmount", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, number: true }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.Billing_Month', name: "Month", width: 200, editable: true, edittype: "textarea",
-                        editrules: { required: false }, hidden: false
-                    },
-                     {
-                         align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
-                         editrules: { required: false }, hidden: false
-                     },
-                    {
-                        align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true,
-                        editoptions: {
-                            defaultValue: -1
-                        }
+                        url: null, //'/api/values',
+                        mtype: 'POST'
                     },
 
-                    {
-                        align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
-                    },
-                    {
-                        align: 'center',
-                        label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
-                        editrules: { required: false, date: true }, hidden: false,
-                        datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date',
-                        editoptions: {
-                            dataInit: function (element) {
-                                $(element).datepicker({
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
-                                });
+                    addParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                             }
                         },
-
-                        searchoptions: {
-                            dataInit: function (element) {
-                                $(element).datepicker({
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
-                                });
-                            }
-                        }
-                    },
-                    {
-                        align: 'center',
-                        label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
-                        editrules: { required: false, date: true }, hidden: false,
-                        datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date',
-                        editoptions: {
-                            dataInit: function (element) {
-                                $(element).datepicker({
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
-                                });
-                            }
-                        },
-                        searchoptions: {
-                            dataInit: function (element) {
-                                $(element).datepicker({
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
-                                });
-                            }
-                        }
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, number: true }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, integer: true }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, integer: true }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, integer: true }, hidden: true
-                    },
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, date: true }, hidden: true,
-                        datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date',
-                        editoptions: {
-                            dataInit: function (element) {
-                                $(element).datepicker({
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
-                                });
-                            }
-                        }
-                    },
-
-                    {
-                        align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
-                        editrules: { required: false, date: true }, hidden: true,
-                        datefmt: 'yyyy-mm-dd',
-                        sorttype: 'date',
-                        editoptions: {
-                            dataInit: function (element) {
-                                $(element).datepicker({
-                                    dateFormat: 'yy-mm-dd',
-                                    showOn: 'focus'
-                                });
-                            }
+                        errorfunc: function (rowid, xhr) {
+                            alert(xhr.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     }
-                ]
-            };
+                });
+
+            //最后调用，冻结列
+            //$("#jqGrid").jqGrid("setFrozenColumns");
         }
-    </script>
+    }
+    function GetTableConfig() {
+        tableConfig = {
+            columns: [
+
+                {
+                    align: 'center', label: '@Resources.Language.IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                 {
+                     align: 'center', label: 'OrderID', name: "OrderID", width: 100, editable: true, edittype: "text",
+                     editrules: { required: false }, hidden: true,
+                 },
+                  {
+                      align: 'center', label: 'CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
+                      editrules: { required: false }, hidden: true,
+                  },
+                  {
+                      align: 'center', label: '@Resources.Language.Billing_BillingType', name: "BillingType", width: 90, editable: true, edittype: "text",
+                      editrules: { required: true }, colmenu: false,
+                      hidden: false,
+                      searchoptions: { sopt: ["cn"] }
+                  },
+                {
+                    align: 'center', label: '@Resources.Language.Billing_BillingCode', name: "BillingCode", width: 90, editable: true, edittype: "text",
+                    editrules: { required: true }, colmenu: false,
+                    hidden: false,
+                    searchoptions: { sopt: ["cn"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Billing_BillingName', name: "BillingName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false,
+                    editoptions: {
+                    },
+                    searchoptions: { sopt: ["cn"] }
+                },
+                {
+                    align: 'center', label: 'TimeTypeID', name: "TimeTypeID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Billing_CreditContent', name: "CreditContent", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false,
+                    editoptions: {
+                    },
+                    searchoptions: { sopt: ["cn"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Billing_CreditAmount', name: "CreditAmount", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, number: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Billing_Month', name: "Month", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: false }, hidden: false
+                },
+                 {
+                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                     editrules: { required: false }, hidden: false
+                 },
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    },
+
+                    searchoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    },
+                    searchoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, number: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    }
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datepicker({
+                                dateFormat: 'yy-mm-dd',
+                                showOn: 'focus'
+                            });
+                        }
+                    }
+                }
+            ]
+        };
+    }
+</script>
