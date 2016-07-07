@@ -104,9 +104,9 @@ namespace TugManagementSystem.Controllers
                                 if (billData != null)
                                 {
                                     //撤销提交的为待提交任务
-                                    if (Convert.ToInt32(billData.Phase) == 0 && billData.TaskName == "已撤销提交") continue;
+                                    if (Convert.ToInt32(billData.Phase) == 0 && billData.Status == "已撤销提交") continue;
                                     //驳回或撤销通过的为待完成任务
-                                    if (Convert.ToInt32(billData.Phase) == 0 && billData.TaskName.ToString().Length >= 3) continue;
+                                    if (Convert.ToInt32(billData.Phase) == 0 && billData.Status.ToString().Length >= 3) continue;
                                     BillList.Add(billData);
                                 }
                             }
@@ -139,96 +139,160 @@ namespace TugManagementSystem.Controllers
 
         #region 通过
 
-        public ActionResult ApprovePass()
+        public class IDS
         {
-            var ids = Request.Form["data"];
+            public int id { get; set; }
+        }
 
-            //获取当前用户ID
+        public ActionResult ApprovePass(List<int> passdata)
+        {
+            //var ids = Request.Form["data"];
             int curUserId = 0;
             TugDataEntities db = new TugDataEntities();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> expUser = u => u.UserName == User.Identity.Name;
-            UserInfor curUser = db.UserInfor.Where(expUser).FirstOrDefault();
-            curUserId = curUser.IDX;
-            foreach (int id in ids)
+            curUserId = userID(User.Identity.Name);
+            foreach (int id in passdata)
             {
                 System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == id;
                 Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
 
                 //写入Approve表
-                System.Linq.Expressions.Expression<Func<Approve, bool>> expApprove = u => u.BillingID == id;
-                Approve approveInfor = db.Approve.Where(expApprove).FirstOrDefault();
-                approveInfor.BillingID = id;
-                approveInfor.FlowMark = billInfor.TaskID;
-                approveInfor.Phase = billInfor.Phase;
-                approveInfor.Task = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TaskID));
-                approveInfor.Accept = 1;
-                approveInfor.PersonID = curUserId;
-                approveInfor.UserID = curUserId;
-                approveInfor.CreateDate = DateTime.Now.ToShortDateString();
-                approveInfor.LastUpDate = DateTime.Now.ToShortDateString();
-                approveInfor = db.Approve.Add(approveInfor);
+                Approve addApprove = new Approve();
+                addApprove.BillingID = id;
+                addApprove.FlowMark = billInfor.TimesNo;
+                addApprove.Phase = billInfor.Phase;
+                addApprove.Task = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TimesNo));
+                addApprove.Accept = 1;
+                addApprove.PersonID = curUserId;
+                addApprove.UserID = curUserId;
+                addApprove.CreateDate = DateTime.Now.ToShortDateString();
+                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove = db.Approve.Add(addApprove);
                 db.SaveChanges();
 
                 //判断是不是流程最后一步
-                System.Linq.Expressions.Expression<Func<Flow, bool>> expFlow = u => u.BillingID == id && u.MarkID == billInfor.TaskID;
-                List<Flow> users = db.Flow.Where(expFlow).Select(u => u).ToList<Flow>();
-                if (billInfor.Phase + 1 == users.Count)  //流程最后一步
+                System.Linq.Expressions.Expression<Func<Flow, bool>> expFlow = u => u.BillingID == id && u.MarkID == billInfor.TimesNo;
+                List<Flow> flowData = db.Flow.Where(expFlow).Select(u => u).ToList<Flow>();
+                if (billInfor.Phase + 1 == flowData.Count)  //流程最后一步
                 {
                     //更改Billing状态
                     billInfor.Phase = -1;
-                    billInfor.TaskName = "完成";
+                    billInfor.Status = "完成";
                     db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return Json(new { message = "审核完成！" });
                 }
                 else
                 {
                     //更改Billing状态
                     billInfor.Phase = billInfor.Phase + 1;
-                    billInfor.TaskName = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TaskID));
+                    billInfor.Status = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TimesNo));
                     db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return Json(new { message = "操作完成！" });
                 }
             }
-            return View();
+            return Json(new { message = "审核完成！" });
         }
 
         private static string Task(int tID, int tPhase, int MarkID)
         {
-            string error = null;
-            DataTable FlowTb;
-            Flow FlowSheet = new Flow();
-            System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == tID && u.MarkID == MarkID;
-            // 当ＭＲｓｈｅｅｔ的Ｐｈａｓｅ值＋１后等于Ｆｌｏｗ表的行数说明该操作为流程最末操作
-            //if (tPhase == FlowTb.Rows.Count) return "完成审核";
-            if (tPhase == -1) return "完成";
-
-            //DataRow RowF = FlowTb.Select("Phase='" + tPhase + "'")[0];
-            //return RowF["Task"].ToString();
-            return "";
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == tID && u.MarkID == MarkID && u.Phase == tPhase;
+            Flow curFlow = db.Flow.Where(expF).FirstOrDefault();
+            return curFlow.Task;
         }
 
         #endregion 通过
 
+        #region 获取当前用户ID
+
+        private static int userID(string curUserName)
+        {
+            int curUserId = 0;
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> expUser = u => u.UserName == curUserName;
+            UserInfor curUser = db.UserInfor.Where(expUser).FirstOrDefault();
+            curUserId = curUser.IDX;
+            return curUserId;
+        }
+
+        #endregion 获取当前用户ID
+
         #region 驳回
 
-        public ActionResult ApproveReject()
+        public ActionResult ApproveReject(List<int> rejectdata, string RejectReason)
         {
-            //写入Approve表
+            int curUserId;
+            TugDataEntities db = new TugDataEntities();
+            curUserId = userID(User.Identity.Name);
+            foreach (int id in rejectdata)
+            {
+                //更改Billing状态
+                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == id;
+                Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
+                billInfor.Phase = 0;
+                billInfor.Status = "已驳回";
+                db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
 
-            //更改Billing状态
-
-            return View();
+                //写入Approve表
+                Approve addApprove = new Approve();
+                addApprove.BillingID = id;
+                addApprove.FlowMark = billInfor.TimesNo;
+                addApprove.Phase = billInfor.Phase;
+                addApprove.Task = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TimesNo));
+                addApprove.Accept = 0;
+                addApprove.PersonID = curUserId;
+                addApprove.UserID = curUserId;
+                addApprove.CreateDate = DateTime.Now.ToShortDateString();
+                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove = db.Approve.Add(addApprove);
+                db.SaveChanges();
+            }
+            return Json(new { message = "操作完成！" });
         }
 
         #endregion 驳回
 
         #region 撤销提交
 
-        public ActionResult RepealSubmit()
+        public ActionResult RepealSubmit(Billing data)
         {
-            return View();
+            int id = data.IDX;
+            int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
+            int Phase = Convert.ToInt32(Request.Form["data[Phase]"].Trim());
+            int timeNo = Convert.ToInt32(Request.Form["data[TimesNo]"].Trim());
+            int curUserId = userID(User.Identity.Name);
+            TugDataEntities db = new TugDataEntities();
+            if (Phase > 1 || Phase == -1)  //流程已进入审核环节或已完成全部审核，不能撤销
+            {
+                Response.StatusCode = 404;
+                return Json(new { message = "流程已进入审核环节，不能撤销！" });
+            }
+            else
+            {
+                //更新Billing表状态
+                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
+                Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
+
+                billInfor.Phase = 0;
+                billInfor.Status = "已撤销提交";
+                db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                //写入Approve表
+                Approve addApprove = new Approve();
+                addApprove.BillingID = idx;
+                addApprove.FlowMark = billInfor.TimesNo;
+                addApprove.Phase = 0;
+                addApprove.Task = "创建";
+                addApprove.Accept = 3;
+                addApprove.PersonID = curUserId;
+                addApprove.UserID = curUserId;
+                addApprove.CreateDate = DateTime.Now.ToShortDateString();
+                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove = db.Approve.Add(addApprove);
+                db.SaveChanges();
+                return Json(new { message = "撤销成功！" });
+            }
         }
 
         #endregion 撤销提交
@@ -237,7 +301,47 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult RepealPass()
         {
-            return View();
+            int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
+            int Phase = Convert.ToInt32(Request.Form["data[Phase]"].Trim());
+            int timeNo = Convert.ToInt32(Request.Form["data[TimesNo]"].Trim());
+            int curUserId = userID(User.Identity.Name);
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == idx && u.MarkID == timeNo && u.FlowUserID == curUserId;
+            Flow flowData = db.Flow.Where(expF).FirstOrDefault();
+            if (Phase > flowData.Phase + 1)  //流程已进入下一审核环节，不能撤销
+            {
+                Response.StatusCode = 404;
+                return Json(new { message = "已进入下一审核环节，不能撤销！" });
+            }
+            else
+            {
+                //更新Billing表状态
+                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
+                Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
+
+                billInfor.Phase = Phase - 1;
+                billInfor.Status = "已撤销通过";
+                db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                //写入Approve表
+                System.Linq.Expressions.Expression<Func<Approve, bool>> expA = u => u.BillingID == idx && u.FlowMark == timeNo && u.PersonID == curUserId;
+                Approve approveInfor = db.Approve.Where(expA).FirstOrDefault(); //获取当前用户的审核信息
+
+                Approve addApprove = new Approve();
+                addApprove.BillingID = idx;
+                addApprove.FlowMark = billInfor.TimesNo;
+                addApprove.Phase = approveInfor.Phase;
+                addApprove.Task = approveInfor.Task;
+                addApprove.Accept = 4;
+                addApprove.PersonID = curUserId;
+                addApprove.UserID = curUserId;
+                addApprove.CreateDate = DateTime.Now.ToShortDateString();
+                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove = db.Approve.Add(addApprove);
+                db.SaveChanges();
+                return Json(new { message = "撤销成功！" });
+            }
         }
 
         #endregion 撤销通过

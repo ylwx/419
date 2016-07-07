@@ -4,7 +4,36 @@
     ViewBag.SubMenuIndex = 0;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
-
+<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+<div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="model-dlg" class="modal-dialog" style="width: 520px ;height:600px">
+        <div class="modal-content modal-table">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BOX -->
+                        <div class="box border orange">
+                            <div class="box-title">
+                                <h4><i class="fa fa-bars"></i>驳回原因</h4>
+                            </div>
+                            <div class="box-body">
+                                <div id="test">
+                                    <textarea id="RejectReason" rows="5" cols="50" style="width:100%" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /BOX -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="ok" type="button" class="btn btn-primary" data-dismiss="modal">确 定</button>
+                <a href="#" class="btn btn-warning" data-dismiss="modal">关 闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
 <div id="main-content">
     <div class="container">
         <div class="row">
@@ -41,18 +70,10 @@
                             <div class="box-title">
                                 <h4><i class="fa fa-bars"></i>@Resources.Language.Task_NeedApprove</h4>
                             </div>
-                            @*<div class="box-body">
-                                    <div id="query">
-                                        <input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="通 过" />
-                                        <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="驳 回" />
-                                        <label>编号：</label><input type="text" class="input" id="sn" />
-                                            <label>名称：</label><input type="text" class="input" id="title" />
-                                            <input type="submit" class='btn btn-primary btn-xs' id="find_btn" value="查 询" />
-                                    </div>
-                                </div>*@
+
                             <div id="jqGridContainerBox" class="box-body">
                                 <input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="通 过" />
-                                <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="驳 回" />
+                                <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="驳 回" onclick="$('#table-modal').modal()" />
                                 <table id="jqGrid"></table>
                                 <div id="jqGridPager"></div>
                             </div>
@@ -101,36 +122,55 @@
 
             });
 
+            //通过
             $("#Pass_btn").click(function () {
-                //测试1
                 var ids = [];
-                //$("#jqGrid").find("input[type='checkbox']:checked").each(function () {
-                //    ids.push($(this).attr("ID"));
-                //    alert(ids);
-                //});
-                //测试2
                 var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
-                alert("所有选中行：" + rowData);
                 if (rowData.length) {
                     for (var i = 0; i < rowData.length; i++) {
-                        var BillId = $('#jqGrid').jqGrid('getCell', rowData[i], 'IDX');
                         ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
                     }
                     $.ajax(
                                {
                                    type: "post",
                                    url: "/Task/ApprovePass",
-                                   data: { 'data': ids },
+                                   data: { 'passdata': ids },
+                                   traditional: true,
                                    dataType: 'json',
                                    success: function (result) {
                                        alert(result.message);
-                                       $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                       $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                                    },
                                });
-                    alert("BILL的所有ID数据" + ids);
                 }
-                alert("测试信息!");
+                else { alert("未选择需要操作的数据！"); }
             })
+
+            //驳回
+            $("#ok").click(function () {
+                var RejectReason = document.getElementById("RejectReason").value;
+                var ids = [];
+                var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
+                if (rowData.length) {
+                    for (var i = 0; i < rowData.length; i++) {
+                        ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
+                    }
+                    $.ajax(
+                               {
+                                   type: "post",
+                                   url: "/Task/ApproveReject",
+                                   data: { 'rejectdata': ids, 'RejectReason': RejectReason },
+                                   traditional: true,
+                                   dataType: 'json',
+                                   success: function (result) {
+                                       alert(result.message);
+                                       $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                   },
+                               });
+                }
+                else { alert("未选择需要操作的数据！"); }
+            })
+
             //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });//搜索框
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
