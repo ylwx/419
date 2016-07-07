@@ -205,7 +205,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 Close 的本地化字符串。
+        ///   查找类似 關閉 的本地化字符串。
         /// </summary>
         internal static string Close {
             get {
@@ -943,6 +943,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 駁回原因 的本地化字符串。
+        /// </summary>
+        internal static string Task_RejectReason {
+            get {
+                return ResourceManager.GetString("Task_RejectReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 任務 的本地化字符串。
         /// </summary>
         internal static string Task_Task {
@@ -1227,6 +1236,15 @@ namespace Resources {
         internal static string UserInfor_Login {
             get {
                 return ResourceManager.GetString("UserInfor_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退出 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_LoginOut {
+            get {
+                return ResourceManager.GetString("UserInfor_LoginOut", resourceCulture);
             }
         }
         
