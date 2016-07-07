@@ -84,54 +84,46 @@ namespace TugManagementSystem.Controllers
                 if (curUser != null)
                 {
                     curUserId = curUser.IDX;   //當前用戶ID
-                    if (_search == true)
+                    List<Approve> ApproveList = db.Approve.Where(u => u.PersonID == curUserId).Select(u => u).ToList<Approve>();
+                    if (ApproveList.Count != 0)
                     {
-                        string s = Request.QueryString["filters"];
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                        List<Billing> BillList = db.Billing.Where(u => u.IDX == -1).Select(u => u).ToList<Billing>();
+
+                        foreach (Approve obj in ApproveList)
+                        {
+                            if (Convert.ToInt32(obj.Accept) > 2) continue;
+                            System.Linq.Expressions.Expression<Func<Billing, bool>> expB = u => u.IDX == obj.BillingID;
+                            Billing billData = db.Billing.Where(expB).FirstOrDefault();
+                            if (billData != null)
+                            {
+                                //撤销提交的为待提交任务
+                                if (Convert.ToInt32(billData.Phase) == 0 && billData.Status == "已撤销提交") continue;
+                                //驳回或撤销通过的为待完成任务
+                                if (Convert.ToInt32(billData.Phase) == 0 && billData.Status.ToString().Length >= 3) continue;
+                                BillList.Add(billData);
+                            }
+                        }
+                        int totalRecordNum = BillList.Count;
+                        if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                        int pageSize = rows;
+                        int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+                        List<Billing> page_objs = BillList.Skip((page - 1) * rows).Take(rows).ToList<Billing>();
+                        var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                        return Json(jsonData, JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
-                        List<Approve> ApproveList = db.Approve.Where(u => u.PersonID == curUserId).Select(u => u).ToList<Approve>();
-                        if (ApproveList.Count != 0)
-                        {
-                            List<Billing> BillList = db.Billing.Where(u => u.IDX == -1).Select(u => u).ToList<Billing>();
-
-                            foreach (Approve obj in ApproveList)
-                            {
-                                if (Convert.ToInt32(obj.Accept) > 2) continue;
-                                System.Linq.Expressions.Expression<Func<Billing, bool>> expB = u => u.IDX == obj.BillingID;
-                                Billing billData = db.Billing.Where(expB).FirstOrDefault();
-                                if (billData != null)
-                                {
-                                    //撤销提交的为待提交任务
-                                    if (Convert.ToInt32(billData.Phase) == 0 && billData.Status == "已撤销提交") continue;
-                                    //驳回或撤销通过的为待完成任务
-                                    if (Convert.ToInt32(billData.Phase) == 0 && billData.Status.ToString().Length >= 3) continue;
-                                    BillList.Add(billData);
-                                }
-                            }
-                            int totalRecordNum = BillList.Count;
-                            if (page != 0 && totalRecordNum % rows == 0) page -= 1;
-                            int pageSize = rows;
-                            int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                            List<Billing> page_objs = BillList.Skip((page - 1) * rows).Take(rows).ToList<Billing>();
-                            var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
-                            return Json(jsonData, JsonRequestBehavior.AllowGet);
-                        }
-                        else
-                        {
-                            return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-                        }
-                        List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
-
-                        int totalRecordNum1 = objs.Count;
-                        if (page != 0 && totalRecordNum1 % rows == 0) page -= 1;
-                        int pageSize1 = rows;
-                        int totalPageNum1 = (int)Math.Ceiling((double)totalRecordNum1 / pageSize1);
-                        List<V_NeedApproveBilling> page_objs1 = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveBilling>();
-                        var jsonData1 = new { page = page, records = totalRecordNum1, total = totalPageNum1, rows = page_objs1 };
-                        return Json(jsonData1, JsonRequestBehavior.AllowGet);
+                        return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
                     }
+                    //List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
+
+                    //int totalRecordNum1 = objs.Count;
+                    //if (page != 0 && totalRecordNum1 % rows == 0) page -= 1;
+                    //int pageSize1 = rows;
+                    //int totalPageNum1 = (int)Math.Ceiling((double)totalRecordNum1 / pageSize1);
+                    //List<V_NeedApproveBilling> page_objs1 = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveBilling>();
+                    //var jsonData1 = new { page = page, records = totalRecordNum1, total = totalPageNum1, rows = page_objs1 };
+                    //return Json(jsonData1, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
