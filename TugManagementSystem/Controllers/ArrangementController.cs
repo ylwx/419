@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TugBusinessLogic.Module;
 using TugDataModel;
+using TugBusinessLogic;
 
 namespace TugManagementSystem.Controllers
 {
@@ -30,7 +31,7 @@ namespace TugManagementSystem.Controllers
                         arr.Remark = Request.Form["Remark"];
                         arr.OwnerID = -1;
                         arr.CreateDate = arr.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        arr.UserID = -1;
+                        arr.UserID = Session.GetDataFromSession<int>("userid"); 
                         arr.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         arr.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         arr.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -93,7 +94,7 @@ namespace TugManagementSystem.Controllers
                         arr.Remark = Request.Form["Remark"];
                         arr.OwnerID = -1;
                         arr.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        arr.UserID = -1;
+                        arr.UserID = Session.GetDataFromSession<int>("userid"); 
                         arr.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         arr.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         arr.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -130,7 +131,7 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
-
+        [Authorize]
         public ActionResult ArrangementManage(string lan, int? id)
         {
             lan = this.Internationalization();

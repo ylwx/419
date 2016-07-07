@@ -529,6 +529,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 必填 的本地化字符串。
+        /// </summary>
+        internal static string IsNull {
+            get {
+                return ResourceManager.GetString("IsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 作業信息 的本地化字符串。
         /// </summary>
         internal static string JobInformation {

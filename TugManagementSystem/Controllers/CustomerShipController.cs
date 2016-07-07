@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TugBusinessLogic.Module;
 using TugDataModel;
+using TugBusinessLogic;
 
 namespace TugManagementSystem.Controllers
 {
@@ -37,7 +38,7 @@ namespace TugManagementSystem.Controllers
                         ship.Remark = Request.Form["Remark"];
                         ship.OwnerID = -1;
                         ship.CreateDate = ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        ship.UserID = -1;
+                        ship.UserID = Session.GetDataFromSession<int>("userid"); 
                         ship.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         ship.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         ship.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -106,7 +107,7 @@ namespace TugManagementSystem.Controllers
                         ship.Remark = Request.Form["Remark"];
                         ship.OwnerID = -1;
                         ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        ship.UserID = -1;
+                        ship.UserID = Session.GetDataFromSession<int>("userid"); 
                         ship.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         ship.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         ship.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -143,7 +144,7 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
-
+        [Authorize]
         public ActionResult CustomerShipManage(string lan, int? id)
         {
             lan = this.Internationalization();
