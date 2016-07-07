@@ -20,10 +20,10 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.Task</a>
+                                    <a href="#">@Resources.Language.Task_Task</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.TaskManage
+                                    @Resources.Language.Task_TaskManage
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
@@ -40,9 +40,13 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.Approved</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.Task_Approved</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
+
+                                <input type="button" class='btn btn-warning btn-xs' id="RepealSubmit_btn" value="撤销提交" />
+                                <input type="button" class='btn btn-warning btn-xs' id="RepealPass_btn" value="撤销通过" />
+
                                 <table id="jqGrid"></table>
                                 <div id="jqGridPager"></div>
                             </div>
@@ -73,7 +77,7 @@
             }
 
             $("#jqGrid").jqGrid({
-                url: "/Task/GetTaskData",
+                url: "/Task/GetCheckedData",
                 mtype: "GET",
                 datatype: "json",
                 colModel: tableConfig.columns,
@@ -86,10 +90,73 @@
                 rownumbers: true,
                 shrinkToFit: false,     //指定各列宽度
                 sortable: true,          //列可移动
-                colMenu: true          //列菜单
+                colMenu: true,          //列菜单
+                multiselect: true       //选择框
             });
 
-            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            // 撤销通过
+            $("#RepealPass_btn").click(function () {
+                var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                var rowData = $('#jqGrid').jqGrid('getGridParam', id);
+                var curPhase = rowData.Phase;
+                if (rowData.length) {
+                    if (curPhase == -1) {
+                        alert("已完成全部审核，无法撤销！");
+                    }
+                    else {
+                        $.ajax(
+                                                      {
+                                                          type: "post",
+                                                          url: "/Task/RepealPass",
+                                                          data: { 'data': rowData },
+                                                          traditional: true,
+                                                          dataType: 'json',
+                                                          success: function (result) {
+                                                              alert(result.message);
+                                                              $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                          },
+                                                          error: function (result) {
+                                                              console.log(result)
+                                                              alert(result.message);
+                                                          }
+                                                      });
+                    }
+
+                }
+                else { alert("未选择需要操作的数据！"); }
+            })
+
+            // 撤销提交
+            $("#RepealSubmit_btn").click(function () {
+                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                var dr = jQuery('#jqGrid').jqGrid('getRowData', rowid);//选中行的数据
+                //var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                //var rowData = $('#jqGrid').jqGrid('getGridParam', id);
+                //var curPhase = rowData.Phase;
+                if (rowid != null) {
+                    $.ajax(
+                                                  {
+                                                      type: "post",
+                                                      url: "/Task/RepealSubmit",
+                                                      data: { 'data': dr },
+                                                      traditional: true,
+                                                      dataType: 'json',
+                                                      success: function (result) {
+                                                          alert(result.message);
+                                                          $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                      },
+                                                      error: function (result) {
+                                                          console.log(result)
+                                                          alert(result.message);
+                                                      }
+                                                  });
+
+                }
+                else { alert("未选择需要操作的数据！"); }
+            })
+
+            //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });//搜索框
+
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
             $('#jqGridContainerBox').resize(function () {
@@ -99,12 +166,6 @@
 
             $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
-                .navButtonAdd('#jqGridPager', {
-                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
-                    onClickButton: function () {
-                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    }
-                })
                 .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
 
             $('#jqGrid').inlineNav('#jqGridPager',

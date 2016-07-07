@@ -36,7 +36,7 @@ namespace TugManagementSystem.Controllers
                         ship.Class = Request.Form["Class"];
                         ship.Remark = Request.Form["Remark"];
                         ship.OwnerID = -1;
-                        ship.CreateDate = ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        ship.CreateDate = ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         ship.UserID = -1;
                         ship.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         ship.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -105,7 +105,7 @@ namespace TugManagementSystem.Controllers
                         ship.Class = Request.Form["Class"];
                         ship.Remark = Request.Form["Remark"];
                         ship.OwnerID = -1;
-                        ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         ship.UserID = -1;
                         ship.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         ship.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
