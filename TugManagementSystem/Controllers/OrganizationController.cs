@@ -144,7 +144,7 @@ namespace TugManagementSystem.Controllers
                         obj.Remark = "";
                         obj.OwnerID = -1;
                         obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        obj.UserID = -1;
+                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -222,7 +222,7 @@ namespace TugManagementSystem.Controllers
                         //obj.Remark = "";
                         //obj.OwnerID = -1;
                         obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        obj.UserID = -1;
+                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
                         //obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         //obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         //obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -332,7 +332,7 @@ namespace TugManagementSystem.Controllers
                         usobj.Email = Request.Form["Email"];
                         usobj.OwnerID = -1;
                         usobj.CreateDate = usobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        usobj.AddUserID = -1;
+                        usobj.AddUserID = Session.GetDataFromSession<int>("userid"); 
                         usobj.System = Request.Form["System"];
                         usobj.Status = -1;
                         usobj.LogIP = Request.Form["LogIP"];
@@ -406,7 +406,7 @@ namespace TugManagementSystem.Controllers
                         usobj.Email = Request.Form["Email"];
                         usobj.OwnerID = -1;
                         usobj.CreateDate = usobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        usobj.AddUserID = -1;
+                        usobj.AddUserID = Session.GetDataFromSession<int>("userid"); 
                         usobj.System = Request.Form["System"];
                         usobj.Status = -1;
                         usobj.LogIP = Request.Form["LogIP"];

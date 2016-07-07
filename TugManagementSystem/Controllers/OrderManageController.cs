@@ -156,7 +156,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.Remark = Request.Form["Remark"].Trim();
                         aOrder.ShipID = Convert.ToInt32(Request.Form["ShipID"].Trim());
                         aOrder.ShipName = Request.Form["ShipName"].Trim();
-                        aOrder.UserID = -1;
+                        aOrder.UserID = Session.GetDataFromSession<int>("userid"); 
                         aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
 
                         Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
@@ -326,7 +326,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.Remark = remark;
                     aOrder.ShipID = shipId;
                     aOrder.ShipName = shipName;
-                    aOrder.UserID = -1;
+                    aOrder.UserID = Session.GetDataFromSession<int>("userid"); 
                     aOrder.WorkPlace = workPlace;
 
                     aOrder.ServiceNatureIDS = serviceNatureIds;
@@ -606,7 +606,7 @@ namespace TugManagementSystem.Controllers
 
                         aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"].Trim());
                         aScheduler.OwnerID = -1;
-                        aScheduler.UserID = -1;
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
                         aScheduler.Remark = Request.Form["Remark"].Trim(); ;
 
                         aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
@@ -686,7 +686,7 @@ namespace TugManagementSystem.Controllers
 
                         aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"].Trim());
                         aScheduler.OwnerID = -1;
-                        aScheduler.UserID = -1;
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
                         aScheduler.Remark = Request.Form["Remark".Trim()]; 
 
                         aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
@@ -757,7 +757,7 @@ namespace TugManagementSystem.Controllers
                     aScheduler.Remark = remark;
 
                     aScheduler.OwnerID = -1;
-                    aScheduler.UserID = -1;
+                    aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
                    
                     aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 

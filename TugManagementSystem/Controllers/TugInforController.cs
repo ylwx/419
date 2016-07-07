@@ -35,7 +35,7 @@ namespace TugManagementSystem.Controllers
                         tug.Remark = Request.Form["Remark"];
                         tug.OwnerID = -1;
                         tug.CreateDate = tug.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        tug.UserID = -1;
+                        tug.UserID = Session.GetDataFromSession<int>("userid"); 
                         tug.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         tug.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         tug.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -103,7 +103,7 @@ namespace TugManagementSystem.Controllers
                         tug.Remark = Request.Form["Remark"];
                         tug.OwnerID = -1;
                         tug.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        tug.UserID = -1;
+                        tug.UserID = Session.GetDataFromSession<int>("userid"); 
                         tug.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         tug.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         tug.UserDefinedCol3 = Request.Form["UserDefinedCol3"];

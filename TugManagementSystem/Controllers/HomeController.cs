@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using TugBusinessLogic;
 using TugBusinessLogic.Module;
 using TugDataModel;
 
@@ -86,6 +87,12 @@ namespace TugManagementSystem.Controllers
             if (user != null)
             {
                 FormsAuthentication.SetAuthCookie(user.UserName, false);
+                Session.SetDataInSession<int>("userid", user.IDX);
+                Session.SetDataInSession<string>("username", user.UserName);
+                Session.SetDataInSession<string>("cnname", user.CnName);
+
+                int userid = Session.GetDataFromSession<int>("userid");
+                Console.WriteLine(userid);
                 return RedirectToAction("OrderManage", "OrderManage");
             }
             else

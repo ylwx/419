@@ -81,7 +81,7 @@ namespace TugManagementSystem.Controllers
                         obj.Remark = Request.Form["Remark"];
                         obj.OwnerID = -1;
                         obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        obj.UserID = -1;
+                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -143,7 +143,7 @@ namespace TugManagementSystem.Controllers
                         obj.Remark = Request.Form["Remark"];
                         obj.OwnerID = -1;
                         obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        obj.UserID = -1;
+                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -278,7 +278,7 @@ namespace TugManagementSystem.Controllers
                         obj.Remark = Request.Form["Remark"];
                         //obj.OwnerID = -1;
                         //obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        //obj.UserID = -1;
+                        //obj.UserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -340,7 +340,7 @@ namespace TugManagementSystem.Controllers
                         obj.Remark = Request.Form["Remark"];
                         //obj.OwnerID = -1;
                         //obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        //obj.UserID = -1;
+                        //obj.UserID = Session.GetDataFromSession<int>("userid"); 
 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -502,7 +502,7 @@ namespace TugManagementSystem.Controllers
                         obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
 
                         obj.OwnerID = -1;
-                        obj.AddUserID = -1;
+                        obj.AddUserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -565,7 +565,7 @@ namespace TugManagementSystem.Controllers
                         obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
 
                         obj.OwnerID = -1;
-                        obj.AddUserID = -1;
+                        obj.AddUserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -731,7 +731,7 @@ namespace TugManagementSystem.Controllers
                         obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
 
                         obj.OwnerID = -1;
-                        obj.UserID = -1;
+                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -795,7 +795,7 @@ namespace TugManagementSystem.Controllers
                         obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
 
                         obj.OwnerID = -1;
-                        obj.UserID = -1;
+                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -951,7 +951,7 @@ namespace TugManagementSystem.Controllers
                         obj.System = "Role";
                         //obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         //obj.OwnerID = -1;
-                        //obj.AddUserID = -1;
+                        //obj.AddUserID = Session.GetDataFromSession<int>("userid"); 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
