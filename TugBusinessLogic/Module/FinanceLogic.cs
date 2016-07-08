@@ -220,7 +220,7 @@ namespace TugBusinessLogic.Module
 
             var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u);
 
-            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.Remark }).Distinct().ToList();
+            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkPlace }).Distinct().ToList();
 
             if (services != null)
             {
@@ -231,7 +231,7 @@ namespace TugBusinessLogic.Module
                     MyService ms = new MyService();
                     ms.ServiceId = (int)service.ServiceNatureID;
                     ms.ServiceName = service.ServiceNatureLabel;
-                    ms.ServiceRemark = service.Remark;
+                    ms.ServiceRemark = service.ServiceWorkPlace;
                     dicService.Add(ms.ServiceId, ms);
 
                     var schedulers = list.Where(u => u.ServiceNatureID == (int)service.ServiceNatureID)

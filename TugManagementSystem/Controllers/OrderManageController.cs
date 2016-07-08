@@ -34,6 +34,7 @@ namespace TugManagementSystem.Controllers
         }
 
         //GET: JobInformation
+        [Authorize]
         public ActionResult JobInformation(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -699,13 +700,13 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
-                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
-                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
-                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
-                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
-                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
-                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
+                        //aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
+                        //aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
+                        //aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
+                        //aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
+                        //aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
+                        //aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
+                        //aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
 
                         aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"].Trim()); ;
 
@@ -959,5 +960,189 @@ namespace TugManagementSystem.Controllers
             }
         }
         #endregion 订单调度页面Action
+
+
+        #region
+        public ActionResult AddEditJobInformation()
+        {
+            this.Internationalization();
+
+            #region Add
+
+            if (Request.Form["oper"].Equals("add"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        TugDataModel.Scheduler aScheduler = new Scheduler();
+                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
+                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
+                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
+                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
+                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
+                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
+                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
+
+                        aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"].Trim()); ;
+
+                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"].Trim());
+                        aScheduler.OwnerID = -1;
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+                        aScheduler.Remark = Request.Form["Remark"].Trim(); ;
+
+                        aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
+                        if (aScheduler.RopeUsed.Equals("是"))
+                            aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"].Trim());
+                        else
+                            aScheduler.RopeNum = 0;
+
+                        aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
+                        aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"].Trim());
+                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
+
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+
+                        aScheduler = db.Scheduler.Add(aScheduler);
+                        db.SaveChanges();
+
+                        {
+                            OrderService os = db.OrderService.Where(u => u.OrderID == aScheduler.OrderID && u.ServiceNatureID == aScheduler.ServiceNatureID).FirstOrDefault();
+                            if (os == null)
+                            {
+                                os = new OrderService();
+                                os.CreateDate = os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                os.OrderID = aScheduler.OrderID;
+                                os.OwnerID = -1;
+                                os.ServiceNatureID = aScheduler.ServiceNatureID;
+                                os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
+                                os.UserID = Session.GetDataFromSession<int>("userid");
+                                os = db.OrderService.Add(os);
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
+                                os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
+                    }
+                }
+                catch (Exception)
+                {
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret);
+                }
+            }
+
+            #endregion Add
+
+            #region Edit
+
+            if (Request.Form["oper"].Equals("edit"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+
+                    int idx = Convert.ToInt32(Request.Form["IDX"].Trim());
+                    Scheduler aScheduler = db.Scheduler.Where(u => u.IDX == idx).FirstOrDefault();
+
+                    if (aScheduler == null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                    else
+                    {
+                        aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
+                        aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
+                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
+                        aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
+                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
+                        aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
+                        aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
+
+                        //aScheduler.JobStateID = Convert.ToInt32(Request.Form["JobStateID"].Trim()); ;
+
+                        aScheduler.OrderID = Convert.ToInt32(Request.Form["OrderID"].Trim());
+                        aScheduler.OwnerID = -1;
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+                        //aScheduler.Remark = Request.Form["Remark".Trim()];
+
+                        //aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
+                        //if (aScheduler.RopeUsed.Equals("是"))
+                        //    aScheduler.RopeNum = Convert.ToInt32(Request.Form["RopeNum"].Trim());
+                        //else
+                        //    aScheduler.RopeNum = 0;
+
+                        //aScheduler.ServiceNatureID = Convert.ToInt32(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
+
+                        //aScheduler.TugID = Convert.ToInt32(Request.Form["TugID"].Trim());
+                        aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aScheduler.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aScheduler.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aScheduler.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
+
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+
+                        aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+
+                        db.Entry(aScheduler).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        
+
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                }
+                catch (Exception exp)
+                {
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
+            }
+
+            #endregion Edit
+
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+        #endregion
     }
 }
