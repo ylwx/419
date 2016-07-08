@@ -82,7 +82,9 @@ namespace TugManagementSystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult NewInvoice(string lan, int? orderId, int timeTypeId, string timeTypeValue, string timeTypeLabel)
+        public ActionResult NewInvoice(string lan, int? orderId, string customerBillingScheme, 
+            int billingTypeId, string billingTypeValue, string billingTypeLabel, 
+            int timeTypeId, string timeTypeValue, string timeTypeLabel)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
@@ -91,9 +93,12 @@ namespace TugManagementSystem.Controllers
             //List<TugDataModel.CustomField>BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             //List<TugDataModel.CustomField>TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
-            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, timeTypeId, timeTypeValue, timeTypeLabel);
+            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, customerBillingScheme, 
+            billingTypeId, billingTypeValue, billingTypeLabel,timeTypeId, timeTypeValue, timeTypeLabel);
 
-            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice };
+            List<TugDataModel.CustomField> Items = TugBusinessLogic.Utils.GetCustomField2("BillingItemTemplate.ItemID");
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items};
 
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
@@ -108,6 +113,7 @@ namespace TugManagementSystem.Controllers
             List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
             List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
+            
 
             var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, customer_billing_schemes = CustomerBillingSchemes, time_types = TimeTypes, billing_template_types = BillingTemplateTypes };
 
