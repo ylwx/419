@@ -55,6 +55,11 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+        public ActionResult GetUserName()
+        {
+            return Json(new { message = User.Identity.Name });
+        }
+
         public ActionResult SavePwd()
         {
             string pwd = Request.Form["Pwd"].ToString();
@@ -129,9 +134,8 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult UpdateUserInfor(string UserName)
         {
-            string tmpUser = UserName;
             TugDataEntities db = new TugDataEntities();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == tmpUser;
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == UserName;
             try
             {
                 UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();

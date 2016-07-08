@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
+using TugBusinessLogic;
 using TugDataModel;
 
 namespace TugManagementSystem.Controllers
@@ -150,7 +151,7 @@ namespace TugManagementSystem.Controllers
             //var ids = Request.Form["data"];
             int curUserId = 0;
             TugDataEntities db = new TugDataEntities();
-            curUserId = userID(User.Identity.Name);
+            curUserId = Session.GetDataFromSession<int>("userid");
             foreach (int id in passdata)
             {
                 System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == id;
@@ -203,27 +204,13 @@ namespace TugManagementSystem.Controllers
 
         #endregion 通过
 
-        #region 获取当前用户ID
-
-        private static int userID(string curUserName)
-        {
-            int curUserId = 0;
-            TugDataEntities db = new TugDataEntities();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> expUser = u => u.UserName == curUserName;
-            UserInfor curUser = db.UserInfor.Where(expUser).FirstOrDefault();
-            curUserId = curUser.IDX;
-            return curUserId;
-        }
-
-        #endregion 获取当前用户ID
-
         #region 驳回
 
         public ActionResult ApproveReject(List<int> rejectdata, string RejectReason)
         {
             int curUserId;
             TugDataEntities db = new TugDataEntities();
-            curUserId = userID(User.Identity.Name);
+            curUserId = Session.GetDataFromSession<int>("userid");
             foreach (int id in rejectdata)
             {
                 //更改Billing状态
@@ -261,7 +248,7 @@ namespace TugManagementSystem.Controllers
             int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
             int Phase = Convert.ToInt32(Request.Form["data[Phase]"].Trim());
             int timeNo = Convert.ToInt32(Request.Form["data[TimesNo]"].Trim());
-            int curUserId = userID(User.Identity.Name);
+            int curUserId = Session.GetDataFromSession<int>("userid");
             TugDataEntities db = new TugDataEntities();
             if (Phase > 1 || Phase == -1)  //流程已进入审核环节或已完成全部审核，不能撤销
             {
@@ -305,7 +292,7 @@ namespace TugManagementSystem.Controllers
             int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
             int Phase = Convert.ToInt32(Request.Form["data[Phase]"].Trim());
             int timeNo = Convert.ToInt32(Request.Form["data[TimesNo]"].Trim());
-            int curUserId = userID(User.Identity.Name);
+            int curUserId = Session.GetDataFromSession<int>("userid");
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == idx && u.MarkID == timeNo && u.FlowUserID == curUserId;
             Flow flowData = db.Flow.Where(expF).FirstOrDefault();
