@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using TugDataModel;
@@ -67,7 +68,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-
+        [Authorize]
         [HttpGet]
         public ActionResult ViewInvoice(string lan, int? orderId)
         {
@@ -81,7 +82,9 @@ namespace TugManagementSystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult NewInvoice(string lan, int? orderId, int timeTypeId, string timeTypeValue, string timeTypeLabel)
+        public ActionResult NewInvoice(string lan, int? orderId, string customerBillingScheme, 
+            int billingTypeId, string billingTypeValue, string billingTypeLabel, 
+            int timeTypeId, string timeTypeValue, string timeTypeLabel)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
@@ -90,9 +93,12 @@ namespace TugManagementSystem.Controllers
             //List<TugDataModel.CustomField>BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             //List<TugDataModel.CustomField>TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
-            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, timeTypeId, timeTypeValue, timeTypeLabel);
+            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, customerBillingScheme, 
+            billingTypeId, billingTypeValue, billingTypeLabel,timeTypeId, timeTypeValue, timeTypeLabel);
 
-            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice };
+            List<TugDataModel.CustomField> Items = TugBusinessLogic.Utils.GetCustomField2("BillingItemTemplate.ItemID");
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items};
 
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
@@ -107,11 +113,71 @@ namespace TugManagementSystem.Controllers
             List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
             List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
+            
 
             var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, customer_billing_schemes = CustomerBillingSchemes, time_types = TimeTypes, billing_template_types = BillingTemplateTypes };
 
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult DeleteInvoice()
+        {
+            this.Internationalization();
+
+            try
+            {
+                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                ParameterExpression parameter = Expression.Parameter(typeof(Billing));
+
+                string strBillIds = Request.Form["billIds"];
+
+                if (strBillIds != "")
+                {
+                    List<string> listBillIds = strBillIds.Split(',').ToList();
+
+                    TugDataEntities db = new TugDataEntities();
+                    foreach (string billId in listBillIds)
+                    {
+                        Expression cdt = Expression.Equal(Expression.PropertyOrField(parameter, "IDX"), Expression.Constant(Convert.ToInt32(billId)));
+                        condition = Expression.OrElse(condition, cdt);
+
+                        //int idx = Convert.ToInt32(billId);
+                        //Billing aOrder = db.Billing.FirstOrDefault(u => u.IDX == idx);
+                        //if (aOrder != null)
+                        //{
+                        //    db.Billing.Remove(aOrder);
+                        //    db.SaveChanges();
+                        //    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        //}
+                        //else
+                        //{
+                        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                        //}
+                    }
+
+                    var lamda = Expression.Lambda<Func<Billing, bool>>(condition, parameter);
+                    List<Billing> orders = db.Billing.Where(lamda).Select(u => u).ToList<Billing>();
+                    if (orders != null)
+                    {
+                        db.Billing.RemoveRange(orders);
+                        db.SaveChanges();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+
+
 	}
 
 }

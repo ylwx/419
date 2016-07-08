@@ -2228,7 +2228,8 @@ namespace TugBusinessLogic.Module
             int startIndex = _TimeInterval.ToList().IndexOf(s);
             int endIndex = _TimeInterval.ToList().IndexOf(e);
 
-            for (int i = startIndex; i <= endIndex; i++)
+
+            for (int i = Math.Min(startIndex, endIndex); i <= Math.Max(startIndex, endIndex); i++)
             {
                 if (_OriginCells[i] == 0) _OriginCells[i] = 1;
             }

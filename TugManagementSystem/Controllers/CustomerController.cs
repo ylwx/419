@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TugDataModel;
+using TugBusinessLogic;
 
 namespace TugManagementSystem.Controllers
 {
@@ -39,7 +40,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.Remark = Request.Form["Remark"];
                         cstmer.OwnerID = -1;
                         cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;//.ToString("yyyy-MM-dd");
-                        cstmer.UserID = -1;
+                        cstmer.UserID = Session.GetDataFromSession<int>("userid"); 
                         cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -109,7 +110,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.Remark = Request.Form["Remark"];
                         cstmer.OwnerID = -1;
                         cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        cstmer.UserID = -1;
+                        cstmer.UserID = Session.GetDataFromSession<int>("userid"); 
                         cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -146,7 +147,66 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+        public ActionResult AddCustomer(string Code,string CnName,string EnName,string SimpleName,string ContactPerson,
+      string Telephone, string Fax, string Email, string Address, string MailCode, string Remark)
+        {
+            this.Internationalization();
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    TugDataModel.Customer cstmer = new Customer();
 
+                    cstmer.Code = Code;
+                    cstmer.CnName = CnName;
+                    cstmer.EnName = EnName;
+                    cstmer.SimpleName = SimpleName;
+                    cstmer.ContactPerson = ContactPerson;
+                    cstmer.Telephone = Telephone;
+                    cstmer.Fax = Fax;
+                    cstmer.Email = Email;
+                    cstmer.Address = Address;
+                    cstmer.MailCode = MailCode;
+                    cstmer.Remark = Remark;
+                    cstmer.OwnerID = -1;
+                    cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
+                    cstmer.UserID = Session.GetDataFromSession<int>("userid"); 
+                    cstmer.UserDefinedCol1 = "";
+                    cstmer.UserDefinedCol2 = "";
+                    cstmer.UserDefinedCol3 = "";
+                    cstmer.UserDefinedCol4 = "";
+                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                    //    cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                    //    cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+
+                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                    //    cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+
+                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                    //    cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+
+                    cstmer.UserDefinedCol9 = "";
+                    cstmer.UserDefinedCol10 = "";
+
+                    cstmer = db.Customer.Add(cstmer);
+                    db.SaveChanges();
+
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                return Json(ret);
+            }
+        }
+
+        [Authorize]
         public ActionResult CustomerManage(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -186,7 +246,6 @@ namespace TugManagementSystem.Controllers
         public ActionResult GetDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
-
             //string s = Request.QueryString[6];
 
             try
@@ -369,7 +428,7 @@ namespace TugManagementSystem.Controllers
 
                             cstmer.Remark = Request.Form["Remark"].Trim();
                             cstmer.OwnerID = -1;
-                            cstmer.UserID = -1;
+                            cstmer.UserID = Session.GetDataFromSession<int>("userid"); 
                             cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
                             cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
                             cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
@@ -442,7 +501,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.Remark = Request.Form["Remark"].Trim();
                         cstmer.OwnerID = -1;
                         cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        cstmer.UserID = -1;
+                        cstmer.UserID = Session.GetDataFromSession<int>("userid"); 
                         cstmer.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
                         cstmer.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
                         cstmer.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
@@ -506,7 +565,7 @@ namespace TugManagementSystem.Controllers
 
                     cstmer.Remark = remark;
                     cstmer.OwnerID = -1;
-                    cstmer.UserID = -1;
+                    cstmer.UserID = Session.GetDataFromSession<int>("userid"); 
                     cstmer.UserDefinedCol1 = "";
                     cstmer.UserDefinedCol2 = "";
                     cstmer.UserDefinedCol3 = "";
@@ -675,7 +734,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.TypeID = Convert.ToInt32(Request.Form["TypeID"].Trim());
                         
                         aScheduler.OwnerID = -1;
-                        aScheduler.UserID = -1;
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
 
                         aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -742,7 +801,7 @@ namespace TugManagementSystem.Controllers
 
                         
                         aScheduler.OwnerID = -1;
-                        aScheduler.UserID = -1;
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
                         aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         aScheduler.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
@@ -798,7 +857,7 @@ namespace TugManagementSystem.Controllers
                     aScheduler.TypeID = typeId;
 
                     aScheduler.OwnerID = -1;
-                    aScheduler.UserID = -1;
+                    aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
 
                     aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
