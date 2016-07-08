@@ -238,9 +238,9 @@ namespace TugBusinessLogic.Module
                         .Select(u => new
                         {
                             u.TugID,
-                            u.Name1,
-                            u.Name2,
-                            u.SimpleName,
+                            u.TugName1,
+                            u.TugName2,
+                            u.TugSimpleName,
                             u.Power,
                             u.DepartBaseTime,
                             u.ArrivalBaseTime,
@@ -256,9 +256,9 @@ namespace TugBusinessLogic.Module
                         {
                             MyScheduler mySch = new MyScheduler();
                             mySch.TugID = (int)scheduler.TugID;
-                            mySch.TugCnName = scheduler.Name1;
-                            mySch.TugEnName = scheduler.Name2;
-                            mySch.TugSimpleName = scheduler.SimpleName;
+                            mySch.TugCnName = scheduler.TugName1;
+                            mySch.TugEnName = scheduler.TugName2;
+                            mySch.TugSimpleName = scheduler.TugSimpleName;
                             mySch.TugPower = scheduler.Power;
 
                             mySch.DepartBaseTime = scheduler.DepartBaseTime;

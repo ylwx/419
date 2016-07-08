@@ -41,6 +41,7 @@ namespace TugDataModel
         public virtual DbSet<FunctionModule> FunctionModule { get; set; }
         public virtual DbSet<LogProcess> LogProcess { get; set; }
         public virtual DbSet<OrderInfor> OrderInfor { get; set; }
+        public virtual DbSet<OrderService> OrderService { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<RoleMenu> RoleMenu { get; set; }
         public virtual DbSet<RoleModule> RoleModule { get; set; }
@@ -60,6 +61,7 @@ namespace TugDataModel
         public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }
         public virtual DbSet<V_OrderInfor> V_OrderInfor { get; set; }
         public virtual DbSet<V_OrderScheduler> V_OrderScheduler { get; set; }
+        public virtual DbSet<V_OrderService> V_OrderService { get; set; }
         public virtual DbSet<V_RoleMenu> V_RoleMenu { get; set; }
         public virtual DbSet<V_RoleModule> V_RoleModule { get; set; }
         public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
