@@ -21,8 +21,8 @@ namespace TugDataModel
     
         public int IDX { get; set; }
         public string Code { get; set; }
-        public string CnName { get; set; }
-        public string EnName { get; set; }
+        public string Name1 { get; set; }
+        public string Name2 { get; set; }
         public string SimpleName { get; set; }
         public string Power { get; set; }
         public string Class { get; set; }

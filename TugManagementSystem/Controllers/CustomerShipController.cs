@@ -27,8 +27,8 @@ namespace TugManagementSystem.Controllers
 
                         ship.CustomerID = 4;// Util.toint(Request.Form["CustomerID"]);
                         ship.ShipTypeID = -1;//Util.toint(Request.Form["ShipTypeID"]);
-                        ship.CnName = Request.Form["CnName"];
-                        ship.EnName = Request.Form["EnName"];
+                        ship.Name1 = Request.Form["Name1"];
+                        ship.Name2 = Request.Form["Name2"];
                         ship.SimpleName = Request.Form["SimpleName"];
                         ship.DeadWeight = Util.toint(Request.Form["DeadWeight"]);
                         ship.Length = Util.toint(Request.Form["Length"]);
@@ -96,8 +96,8 @@ namespace TugManagementSystem.Controllers
                     {
                         ship.CustomerID = 4;// Util.toint(Request.Form["CustomerID"]);
                         ship.ShipTypeID = -1; //Util.toint(Request.Form["ShipTypeID"]);
-                        ship.CnName = Request.Form["CnName"];
-                        ship.EnName = Request.Form["EnName"];
+                        ship.Name1 = Request.Form["Name1"];
+                        ship.Name2 = Request.Form["Name2"];
                         ship.SimpleName = Request.Form["SimpleName"];
                         ship.DeadWeight = Util.toint(Request.Form["DeadWeight"]);
                         ship.Length = Util.toint(Request.Form["Length"]);

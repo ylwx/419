@@ -27,8 +27,8 @@ namespace TugDataModel
         public string Lan { get; set; }
         public string Dept { get; set; }
         public string Sec { get; set; }
-        public string CnName { get; set; }
-        public string EnName { get; set; }
+        public string Name1 { get; set; }
+        public string Name2 { get; set; }
         public string WorkNumber { get; set; }
         public string Sex { get; set; }
         public string Tel { get; set; }

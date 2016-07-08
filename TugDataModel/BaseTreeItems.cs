@@ -19,8 +19,8 @@ namespace TugDataModel
         public Nullable<int> FatherID { get; set; }
         public Nullable<int> LevelValue { get; set; }
         public string IsLeaf { get; set; }
-        public string CNName { get; set; }
-        public string ENName { get; set; }
+        public string Name1 { get; set; }
+        public string Name2 { get; set; }
         public string SType { get; set; }
         public Nullable<int> SortNum { get; set; }
         public string Remark { get; set; }

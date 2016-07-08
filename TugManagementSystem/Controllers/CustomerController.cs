@@ -27,8 +27,8 @@ namespace TugManagementSystem.Controllers
                         TugDataModel.Customer cstmer = new Customer();
 
                         cstmer.Code = Request.Form["Code"];
-                        cstmer.CnName = Request.Form["CnName"];
-                        cstmer.EnName = Request.Form["EnName"];
+                        cstmer.Name1 = Request.Form["Name1"];
+                        cstmer.Name2 = Request.Form["Name2"];
                         cstmer.SimpleName = Request.Form["SimpleName"];
                         cstmer.TypeID = Convert.ToInt32(Request.Form["TypeID"]);
                         cstmer.ContactPerson = Request.Form["ContactPerson"];
@@ -97,8 +97,8 @@ namespace TugManagementSystem.Controllers
                     else
                     {
                         cstmer.Code = Request.Form["Code"];
-                        cstmer.CnName = Request.Form["CnName"];
-                        cstmer.EnName = Request.Form["EnName"];
+                        cstmer.Name1 = Request.Form["Name1"];
+                        cstmer.Name2 = Request.Form["Name2"];
                         cstmer.SimpleName = Request.Form["SimpleName"];
                         cstmer.TypeID = Convert.ToInt32(Request.Form["TypeID"]);
                         cstmer.ContactPerson = Request.Form["ContactPerson"];
@@ -147,7 +147,7 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
-        public ActionResult AddCustomer(string Code,string CnName,string EnName,string SimpleName,string ContactPerson,
+        public ActionResult AddCustomer(string Code,string Name1,string Name2,string SimpleName,string ContactPerson,
       string Telephone, string Fax, string Email, string Address, string MailCode, string Remark)
         {
             this.Internationalization();
@@ -158,8 +158,8 @@ namespace TugManagementSystem.Controllers
                     TugDataModel.Customer cstmer = new Customer();
 
                     cstmer.Code = Code;
-                    cstmer.CnName = CnName;
-                    cstmer.EnName = EnName;
+                    cstmer.Name1 = Name1;
+                    cstmer.Name2 = Name2;
                     cstmer.SimpleName = SimpleName;
                     cstmer.ContactPerson = ContactPerson;
                     cstmer.Telephone = Telephone;
@@ -328,8 +328,8 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    customers = db.Customer.Where(u => u.CnName.Contains(queryName) 
-                        /*|| u.EnName.Contains(queryName) || u.SimpleName.Contains(queryName)*/)
+                    customers = db.Customer.Where(u => u.Name1.Contains(queryName) 
+                        /*|| u.Name2.Contains(queryName) || u.SimpleName.Contains(queryName)*/)
                         .Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
                 }
 

@@ -138,8 +138,8 @@ namespace TugManagementSystem.Controllers
                         if (fatherid != "") obj.FatherID = Util.toint(fatherid);
                         obj.LevelValue = level;
                         obj.IsLeaf = "true";
-                        obj.CNName = Request.Form["CNName"];
-                        obj.ENName = "";
+                        obj.Name1 = Request.Form["Name1"];
+                        obj.Name2 = "";
                         obj.SType = "Organizion";
                         obj.SortNum = 0;
                         obj.Remark = "";
@@ -216,8 +216,8 @@ namespace TugManagementSystem.Controllers
                         //obj.FatherID = System.DBNull.Value;
                         //obj.LevelValue = 0;
                         //obj.IsLeaf = "false";
-                        obj.CNName = Request.Form["CNName"];
-                        //obj.ENName = "";
+                        obj.Name1 = Request.Form["Name1"];
+                        //obj.Name2 = "";
                         //obj.SType = "Organizion";
                         //obj.SortNum = 0;
                         //obj.Remark = "";
@@ -325,8 +325,8 @@ namespace TugManagementSystem.Controllers
                         usobj.Lan = Request.Form["Lan"];
                         usobj.Dept = Request.Form["Dept"];
                         usobj.Sec = Request.Form["Sec"];
-                        usobj.CnName = Request.Form["CnName"];
-                        usobj.EnName = Request.Form["EnName"];
+                        usobj.Name1 = Request.Form["Name1"];
+                        usobj.Name2 = Request.Form["Name2"];
                         usobj.WorkNumber = Request.Form["WorkNumber"];
                         usobj.Sex = Request.Form["Sex"];
                         usobj.Tel = Request.Form["Tel"];
@@ -399,8 +399,8 @@ namespace TugManagementSystem.Controllers
                         usobj.Lan = Request.Form["Lan"];
                         usobj.Dept = Request.Form["Dept"];
                         usobj.Sec = Request.Form["Sec"];
-                        usobj.CnName = Request.Form["CnName"];
-                        usobj.EnName = Request.Form["EnName"];
+                        usobj.Name1 = Request.Form["Name1"];
+                        usobj.Name2 = Request.Form["Name2"];
                         usobj.WorkNumber = Request.Form["WorkNumber"];
                         usobj.Sex = Request.Form["Sex"];
                         usobj.Tel = Request.Form["Tel"];
