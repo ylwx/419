@@ -1240,6 +1240,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 模塊定義 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_ModuleManage {
+            get {
+                return ResourceManager.GetString("UserInfor_ModuleManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 中文名 的本地化字符串。
         /// </summary>
         internal static string UserInfor_Name1 {
@@ -1285,6 +1294,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 權限管理 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_permissions {
+            get {
+                return ResourceManager.GetString("UserInfor_permissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 密 碼 的本地化字符串。
         /// </summary>
         internal static string UserInfor_Pwd {
@@ -1308,6 +1326,42 @@ namespace Resources {
         internal static string UserInfor_RepeatPwd {
             get {
                 return ResourceManager.GetString("UserInfor_RepeatPwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色定義 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色菜單 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleMenuManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleMenuManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色模塊 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleModuleManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleModuleManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色用戶 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleUserManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleUserManage", resourceCulture);
             }
         }
         

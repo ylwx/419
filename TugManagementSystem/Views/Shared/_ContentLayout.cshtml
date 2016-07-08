@@ -83,7 +83,8 @@
         <div class="container">
             <div class="navbar-brand">
                 <!-- COMPANY LOGO -->
-                <a href="#">  <!--href="@Url.Action("Index", "Home")"-->
+                <a href="#">
+                    <!--href="@Url.Action("Index", "Home")"-->
                     <img src="~/Resources/Frame/img/logo/logo.png" alt="Cloud Admin Logo" class="img-responsive" height="30" width="120">
                 </a>
                 <!-- /COMPANY LOGO -->
@@ -354,7 +355,8 @@
                 <li class="dropdown user" id="header-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img alt="" src="~/Resources/Frame/img/avatars/avatar3.jpg" />
-                        <span class="username">@ViewBag.user_name</span>
+                        @*<span class="username" id="userName">@ViewBag.user_name</span>*@
+                        <span class="username" id="userName"></span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -422,19 +424,19 @@
                             <span class="selected"></span>
                         </a>
                         <ul class="sub">
-                            <li><a class="" href="~/Organization/OrgManage"><span class="sub-menu-text">组织结构</span></a></li>
+                            <li><a class="" href="~/Organization/OrgManage"><span class="sub-menu-text">@Resources.Language.Organization</span></a></li>
                             <li>
                             <li class="has-sub-sub">
                                 <a href="javascript:;" class="">
-                                    <span class="sub-menu-text">权限</span>
+                                    <span class="sub-menu-text">@Resources.Language.UserInfor_permissions</span>
                                     <span class="arrow"></span>
                                 </a>
                                 <ul class="sub-sub">
-                                    <li><a class="" href="~/Permit/RoleManage"><span class="sub-sub-menu-text">角色定义</span></a></li>
-                                    <li><a class="" href="~/Permit/ModuleManage"><span class="sub-sub-menu-text">模块定义</span></a></li>
-                                    <li><a class="" href="~/Permit/RoleUserManage"><span class="sub-sub-menu-text">角色用户</span></a></li>
-                                    <li><a class="" href="~/Permit/RoleModuleManage"><span class="sub-sub-menu-text">角色模块</span></a></li>
-                                    <li><a class="" href="~/Permit/RoleMenuManage"><span class="sub-sub-menu-text">角色菜单</span></a></li>
+                                    <li><a class="" href="~/Permit/RoleManage"><span class="sub-sub-menu-text">@Resources.Language.UserInfor_RoleManage</span></a></li>
+                                    <li><a class="" href="~/Permit/ModuleManage"><span class="sub-sub-menu-text">@Resources.Language.UserInfor_ModuleManage</span></a></li>
+                                    <li><a class="" href="~/Permit/RoleUserManage"><span class="sub-sub-menu-text">@Resources.Language.UserInfor_RoleUserManage</span></a></li>
+                                    <li><a class="" href="~/Permit/RoleModuleManage"><span class="sub-sub-menu-text">@Resources.Language.UserInfor_RoleModuleManage</span></a></li>
+                                    <li><a class="" href="~/Permit/RoleMenuManage"><span class="sub-sub-menu-text">@Resources.Language.UserInfor_RoleMenuManage</span></a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -563,7 +565,17 @@
 
             $("li.current").removeClass("current");
             $(menu_id).children("ul.sub").children("li").eq(submenu_index).addClass("current");
+            $.ajax(
+                      {
+                          type: "post",
+                          url: "/Home/GetUserName",
+                          dataType: 'json',
+                          success: function (result) {
+                              $("#userName").val(result.message);
+                          },
 
+                      }
+   );
         });
     </script>
     @{
