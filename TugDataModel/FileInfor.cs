@@ -18,7 +18,7 @@ namespace TugDataModel
         public Nullable<int> RelateID { get; set; }
         public string PaperCode { get; set; }
         public string PaperName { get; set; }
-        public string OrigenName { get; set; }
+        public string OrigName2 { get; set; }
         public string NewName { get; set; }
         public string Remark { get; set; }
         public Nullable<int> RelateTypeID { get; set; }

@@ -24,8 +24,8 @@ namespace TugDataModel
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureLabel { get; set; }
         public Nullable<int> TugID { get; set; }
-        public string TugCnName { get; set; }
-        public string TugEnName { get; set; }
+        public string TugName1 { get; set; }
+        public string TugName2 { get; set; }
         public string TugSimpleName { get; set; }
         public string Power { get; set; }
         public string Class { get; set; }

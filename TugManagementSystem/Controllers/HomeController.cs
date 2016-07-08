@@ -36,8 +36,8 @@ namespace TugManagementSystem.Controllers
             UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
             UserInfor curUser = new UserInfor();
             curUser.UserName = user.UserName;
-            curUser.CnName = user.CnName;
-            curUser.EnName = user.EnName;
+            curUser.Name1 = user.Name1;
+            curUser.Name2 = user.Name2;
             curUser.Dept = user.Dept;
             curUser.Sec = user.Sec;
             curUser.Sex = user.Sex;
@@ -89,7 +89,7 @@ namespace TugManagementSystem.Controllers
                 FormsAuthentication.SetAuthCookie(user.UserName, false);
                 Session.SetDataInSession<int>("userid", user.IDX);
                 Session.SetDataInSession<string>("username", user.UserName);
-                Session.SetDataInSession<string>("cnname", user.CnName);
+                Session.SetDataInSession<string>("Name1", user.Name1);
 
                 int userid = Session.GetDataFromSession<int>("userid");
                 Console.WriteLine(userid);
@@ -116,7 +116,7 @@ namespace TugManagementSystem.Controllers
             }
             else   //注册成功
             {
-                newUser.CnName = Request.Form["CnName"].ToString();
+                newUser.Name1 = Request.Form["Name1"].ToString();
                 newUser.UserName = Request.Form["UserName"].ToString();
                 newUser.Email = Request.Form["Email"].ToString();
                 newUser.Pwd = Request.Form["Pwd"].ToString();
@@ -137,8 +137,8 @@ namespace TugManagementSystem.Controllers
                 UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
                 if (user != null)  //更新用户信息
                 {
-                    user.CnName = Request.Form["CnName"].ToString();
-                    user.EnName = Request.Form["EnName"].ToString();
+                    user.Name1 = Request.Form["Name1"].ToString();
+                    user.Name2 = Request.Form["Name2"].ToString();
                     user.Email = Request.Form["Email"].ToString();
                     user.Tel = Request.Form["Tel"].ToString();
                     user.Sex = Request.Form["Sex"].ToString();

@@ -54,8 +54,8 @@ namespace TugBusinessLogic.Module
                         dicServiceNature.Add(ms.ServiceId, ms);
 
                         var ships = list.Where(u => u.ServiceNatureID == item.ServiceNatureID)
-                            .Select(u => new {u.TugID, u.TugCnName, u.TugEnName, u.TugSimpleName, u.Power}).Distinct()
-                            .OrderBy(u => u.TugCnName).ToList();
+                            .Select(u => new {u.TugID, u.TugName1, u.TugName2, u.TugSimpleName, u.Power}).Distinct()
+                            .OrderBy(u => u.TugName1).ToList();
 
                         List<MyScheduler> listScheduler = new List<MyScheduler>();
                         
@@ -65,8 +65,8 @@ namespace TugBusinessLogic.Module
                             {
                                 MyScheduler sch = new MyScheduler();
                                 sch.TugID = (int)ship.TugID;
-                                sch.TugCnName = ship.TugCnName;
-                                sch.TugEnName = ship.TugEnName;
+                                sch.TugName1 = ship.TugName1;
+                                sch.TugName2 = ship.TugName2;
                                 sch.TugSimpleName = ship.TugSimpleName;
                                 sch.TugPower = ship.Power;
                                 var schedulers = list.Where(u => u.ServiceNatureID == item.ServiceNatureID && u.TugID == ship.TugID)
@@ -74,8 +74,8 @@ namespace TugBusinessLogic.Module
                                     .Select(u => new
                                     {
                                         u.TugID,
-                                        u.TugCnName,
-                                        u.TugEnName,
+                                        u.TugName1,
+                                        u.TugName2,
                                         u.TugSimpleName,
                                         u.Power,
                                         u.InformCaptainTime,
@@ -210,9 +210,7 @@ namespace TugBusinessLogic.Module
         }
 
 
-        static public MyInvoice NewInvoice(int orderId, string customerBillingScheme,
-            int billingTypeId, string billingTypeValue, string billingTypeLabel, 
-            int timeTypeId, string timeTypeValue, string timeTypeLabel) 
+        static public MyInvoice NewInvoice(int orderId, int timeTypeId, string timeTypeValue, string timeTypeLabel) 
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
@@ -235,7 +233,7 @@ namespace TugBusinessLogic.Module
                     dicService.Add(ms.ServiceId, ms);
 
                     var schedulers = list.Where(u => u.ServiceNatureID == (int)service.ServiceNatureID)
-                        .Select(u => new {u.TugID, u.CnName, u.EnName, u.SimpleName, u.Power, u.DepartBaseTime, u.ArrivalBaseTime,
+                        .Select(u => new {u.TugID, u.Name1, u.Name2, u.SimpleName, u.Power, u.DepartBaseTime, u.ArrivalBaseTime,
                         u.RopeUsed, u.RopeNum, u.Remark}).ToList();
 
                     if(schedulers != null)
@@ -245,8 +243,8 @@ namespace TugBusinessLogic.Module
                         {
                             MyScheduler mySch = new MyScheduler();
                             mySch.TugID = (int)scheduler.TugID;
-                            mySch.TugCnName = scheduler.CnName;
-                            mySch.TugEnName = scheduler.EnName;
+                            mySch.TugName1 = scheduler.Name1;
+                            mySch.TugName2 = scheduler.Name2;
                             mySch.TugSimpleName = scheduler.SimpleName;
                             mySch.TugPower = scheduler.Power;
 

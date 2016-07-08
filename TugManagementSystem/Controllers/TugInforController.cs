@@ -25,8 +25,8 @@ namespace TugManagementSystem.Controllers
                         TugDataModel.TugInfor tug = new TugInfor();
 
                         tug.Code = Request.Form["Code"];
-                        tug.CnName = Request.Form["CnName"];
-                        tug.EnName = Request.Form["EnName"];
+                        tug.Name1 = Request.Form["Name1"];
+                        tug.Name2 = Request.Form["Name2"];
                         tug.SimpleName = Request.Form["SimpleName"];
                         tug.Power = Request.Form["Power"];
                         tug.Class = Request.Form["Class"];
@@ -93,8 +93,8 @@ namespace TugManagementSystem.Controllers
                     else
                     {
                         tug.Code = Request.Form["Code"];
-                        tug.CnName = Request.Form["CnName"];
-                        tug.EnName = Request.Form["EnName"];
+                        tug.Name1 = Request.Form["Name1"];
+                        tug.Name2 = Request.Form["Name2"];
                         tug.SimpleName = Request.Form["SimpleName"];
                         tug.Power = Request.Form["Power"];
                         tug.Class = Request.Form["Class"];
@@ -238,8 +238,8 @@ namespace TugManagementSystem.Controllers
                     {
                         TugBusinessLogic.TugEx o = new TugBusinessLogic.TugEx();
                         o.TugID = tug.IDX;
-                        o.CnName = tug.CnName;
-                        o.EnName = tug.EnName;
+                        o.Name1 = tug.Name1;
+                        o.Name2 = tug.Name2;
                         o.SimpleName = tug.SimpleName;
                         o.Code = tug.Code;
 

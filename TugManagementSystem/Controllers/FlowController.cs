@@ -45,14 +45,14 @@ namespace TugManagementSystem.Controllers
         public ActionResult GetPersons()
         {
             //TugDataEntities db = new TugDataEntities();
-            //List<UserInfor> users = db.UserInfor.Select(u => u).OrderBy(u => u.CnName).ToList<UserInfor>();
+            //List<UserInfor> users = db.UserInfor.Select(u => u).OrderBy(u => u.Name1).ToList<UserInfor>();
             //List<object> list = new List<object>();
 
             //if (users != null)
             //{
             //    foreach (UserInfor item in users)
             //    {
-            //        list.Add(new { UserID = item.IDX, UserCnName = item.CnName });
+            //        list.Add(new { UserID = item.IDX, UserName1 = item.Name1 });
             //    }
             //}
 
@@ -64,11 +64,11 @@ namespace TugManagementSystem.Controllers
             int i = 0;
             string[] persons;
             TugDataEntities db = new TugDataEntities();
-            List<UserInfor> list = db.UserInfor.Where(u => u.IsGuest != "true").OrderBy(u => u.CnName).ToList<UserInfor>();
+            List<UserInfor> list = db.UserInfor.Where(u => u.IsGuest != "true").OrderBy(u => u.Name1).ToList<UserInfor>();
             persons = new string[list.Count];
             foreach (var itm in list)
             {
-                persons[i] = itm.CnName;
+                persons[i] = itm.Name1;
                 i++;
             }
             return Json(persons, JsonRequestBehavior.AllowGet);
@@ -77,7 +77,7 @@ namespace TugManagementSystem.Controllers
         {
             bool isvalid = false;
             TugDataEntities db = new TugDataEntities();
-            UserInfor us = db.UserInfor.Where(u => u.CnName == vlperson).FirstOrDefault();
+            UserInfor us = db.UserInfor.Where(u => u.Name1 == vlperson).FirstOrDefault();
             if (us == null)
                 isvalid = false;
             else
@@ -111,8 +111,8 @@ namespace TugManagementSystem.Controllers
                         obj.MarkID = newTimesNo;
                         obj.Phase = i;
                         obj.Task =dataListFromTable[i][0] ;
-                        string cnname1=dataListFromTable[i][1];
-                        UserInfor us1 = db.UserInfor.Where(u => u.CnName == cnname1).FirstOrDefault();
+                        string Name11=dataListFromTable[i][1];
+                        UserInfor us1 = db.UserInfor.Where(u => u.Name1 == Name11).FirstOrDefault();
                         obj.FlowUserID = us1.IDX;                        
                         obj.StDate = dataListFromTable[i][2];
                         obj.EndDate =dataListFromTable[i][3] ;
@@ -147,8 +147,8 @@ namespace TugManagementSystem.Controllers
                     objapp.Task = dataListFromTable[0][0];
                     objapp.Accept=2;
                     objapp.Remark="";
-                    string cnname2 = dataListFromTable[0][1];
-                    UserInfor us2 = db.UserInfor.Where(u => u.CnName == cnname2).FirstOrDefault();
+                    string Name12 = dataListFromTable[0][1];
+                    UserInfor us2 = db.UserInfor.Where(u => u.Name1 == Name12).FirstOrDefault();
                     objapp.PersonID = us2.IDX;
                     objapp.System="Tug";
                     objapp.OwnerID=-1;
@@ -226,8 +226,8 @@ namespace TugManagementSystem.Controllers
                         if (fatherid != "") obj.FatherID = Util.toint(fatherid);
                         obj.LevelValue = level;
                         obj.IsLeaf = "true";
-                        obj.CNName = Request.Form["CNName"];
-                        obj.ENName = "";
+                        obj.Name1 = Request.Form["Name1"];
+                        obj.Name2 = "";
                         obj.SType = "Organizion";
                         obj.SortNum = 0;
                         obj.Remark = "";
@@ -304,8 +304,8 @@ namespace TugManagementSystem.Controllers
                         //obj.FatherID = System.DBNull.Value;
                         obj.LevelValue = 0;
                         obj.IsLeaf = "false";
-                        obj.CNName = Request.Form["CNName"];
-                        obj.ENName = "";
+                        obj.Name1 = Request.Form["Name1"];
+                        obj.Name2 = "";
                         obj.SType = "Organizion";
                         obj.SortNum = 0;
                         obj.Remark = "";
@@ -528,10 +528,10 @@ namespace TugManagementSystem.Controllers
         public ActionResult GetUser(string term)
         {
             List<object> source = new List<object>();
-            source.Add(new { FlowUserID = "123", CnName = "张三" });
-            source.Add(new { FlowUserID = "234", CnName = "李四" });
-            source.Add(new { FlowUserID = "345", CnName = "王五" });
-            source.Add(new { FlowUserID = "456", CnName = "赵六" });
+            source.Add(new { FlowUserID = "123", Name1 = "张三" });
+            source.Add(new { FlowUserID = "234", Name1 = "李四" });
+            source.Add(new { FlowUserID = "345", Name1 = "王五" });
+            source.Add(new { FlowUserID = "456", Name1 = "赵六" });
 
             var p = Request.Params;
 
