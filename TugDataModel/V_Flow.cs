@@ -24,5 +24,7 @@ namespace TugDataModel
         public string Name1 { get; set; }
         public Nullable<int> MarkID { get; set; }
         public Nullable<int> Phase { get; set; }
+
+        public string Name2 { get; set; }
     }
 }

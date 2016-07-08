@@ -23,5 +23,6 @@ namespace TugDataModel
         public string Tel { get; set; }
         public string Email { get; set; }
         public int IDX { get; set; }
+        public string Name2 { get; set; }
     }
 }

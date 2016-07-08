@@ -307,7 +307,7 @@
           <Property Name="RelateID" Type="int" />
           <Property Name="PaperCode" Type="nvarchar" MaxLength="200" />
           <Property Name="PaperName" Type="nvarchar" MaxLength="200" />
-          <Property Name="OrigName2" Type="nvarchar(max)" />
+          <Property Name="OrigenName" Type="nvarchar(max)" />
           <Property Name="NewName" Type="nvarchar(max)" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="RelateTypeID" Type="int" />
@@ -658,7 +658,7 @@
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FatherID" Type="int" />
           <Property Name="LevelValue" Type="int" />
-          <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+          <Property Name="CNName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsLeaf" Type="nvarchar" MaxLength="50" />
           <Property Name="InCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -776,6 +776,7 @@
           <Property Name="EndDate" Type="nvarchar" MaxLength="50" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name2" Type="nvarchar" MaxLength="50" />
           <Property Name="MarkID" Type="int" />
           <Property Name="Phase" Type="int" />
         </EntityType>
@@ -1097,6 +1098,7 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name2" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Tel" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
@@ -1112,9 +1114,9 @@
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
-          <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
           <Property Name="TreeID" Type="int" Nullable="false" />
-          <Property Name="TreeName1" Type="nvarchar" MaxLength="50" />
+          <Property Name="TreeCNName" Type="nvarchar" MaxLength="50" />
           <Property Name="FatherID" Type="int" />
           <Property Name="InCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Pwd" Type="nvarchar" MaxLength="50" />
@@ -1122,7 +1124,7 @@
           <Property Name="Lan" Type="nvarchar" MaxLength="50" />
           <Property Name="Dept" Type="nvarchar" MaxLength="50" />
           <Property Name="Sec" Type="nvarchar" MaxLength="50" />
-          <Property Name="Name2" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnName" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Sex" Type="nvarchar" MaxLength="50" />
           <Property Name="Tel" Type="nvarchar" MaxLength="50" />
@@ -1288,7 +1290,7 @@
     [V_BaseTreeItems].[IDX] AS [IDX], 
     [V_BaseTreeItems].[FatherID] AS [FatherID], 
     [V_BaseTreeItems].[LevelValue] AS [LevelValue], 
-    [V_BaseTreeItems].[Name1] AS [Name1], 
+    [V_BaseTreeItems].[CNName] AS [CNName], 
     [V_BaseTreeItems].[IsLeaf] AS [IsLeaf], 
     [V_BaseTreeItems].[InCode] AS [InCode]
     FROM [dbo].[V_BaseTreeItems] AS [V_BaseTreeItems]</DefiningQuery>
@@ -1394,6 +1396,7 @@
     [V_Flow].[EndDate] AS [EndDate], 
     [V_Flow].[UserName] AS [UserName], 
     [V_Flow].[Name1] AS [Name1], 
+    [V_Flow].[Name2] AS [Name2], 
     [V_Flow].[MarkID] AS [MarkID], 
     [V_Flow].[Phase] AS [Phase]
     FROM [dbo].[V_Flow] AS [V_Flow]</DefiningQuery>
@@ -1682,6 +1685,7 @@
     [V_RoleUser].[UserID] AS [UserID], 
     [V_RoleUser].[UserName] AS [UserName], 
     [V_RoleUser].[Name1] AS [Name1], 
+    [V_RoleUser].[Name2] AS [Name2], 
     [V_RoleUser].[WorkNumber] AS [WorkNumber], 
     [V_RoleUser].[Tel] AS [Tel], 
     [V_RoleUser].[Email] AS [Email], 
@@ -1693,9 +1697,9 @@
     [V_Users].[IDX] AS [IDX], 
     [V_Users].[UserName] AS [UserName], 
     [V_Users].[IsGuest] AS [IsGuest], 
-    [V_Users].[Name1] AS [Name1], 
+    [V_Users].[CnName] AS [CnName], 
     [V_Users].[TreeID] AS [TreeID], 
-    [V_Users].[TreeName1] AS [TreeName1], 
+    [V_Users].[TreeCNName] AS [TreeCNName], 
     [V_Users].[FatherID] AS [FatherID], 
     [V_Users].[InCode] AS [InCode], 
     [V_Users].[Pwd] AS [Pwd], 
@@ -1703,7 +1707,7 @@
     [V_Users].[Lan] AS [Lan], 
     [V_Users].[Dept] AS [Dept], 
     [V_Users].[Sec] AS [Sec], 
-    [V_Users].[Name2] AS [Name2], 
+    [V_Users].[EnName] AS [EnName], 
     [V_Users].[WorkNumber] AS [WorkNumber], 
     [V_Users].[Sex] AS [Sex], 
     [V_Users].[Tel] AS [Tel], 
@@ -1860,6 +1864,9 @@
           <Property Name="Name1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MarkID" Type="Int32" />
           <Property Name="Phase" Type="Int32" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name11" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_RoleUser">
           <Key>
@@ -1876,6 +1883,9 @@
           <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name11" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Approve">
           <Key>
@@ -2191,7 +2201,7 @@
           <Property Name="RelateID" Type="Int32" />
           <Property Name="PaperCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PaperName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="OrigName2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrigenName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NewName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RelateTypeID" Type="Int32" />
@@ -2548,7 +2558,7 @@
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FatherID" Type="Int32" />
           <Property Name="LevelValue" Type="Int32" />
-          <Property Name="Name1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsLeaf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -2943,9 +2953,9 @@
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TreeID" Type="Int32" Nullable="false" />
-          <Property Name="TreeName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TreeCNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FatherID" Type="Int32" />
           <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2953,7 +2963,7 @@
           <Property Name="Lan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Dept" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Sec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3098,9 +3108,10 @@
           <EntitySetMapping Name="V_Flow">
             <EntityTypeMapping TypeName="Model.V_Flow">
               <MappingFragment StoreEntitySet="V_Flow">
+                <ScalarProperty Name="Name2" ColumnName="Name2" />
+                <ScalarProperty Name="Name11" ColumnName="Name1" />
                 <ScalarProperty Name="Phase" ColumnName="Phase" />
                 <ScalarProperty Name="MarkID" ColumnName="MarkID" />
-                <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StDate" ColumnName="StDate" />
@@ -3114,11 +3125,12 @@
           <EntitySetMapping Name="V_RoleUser">
             <EntityTypeMapping TypeName="Model.V_RoleUser">
               <MappingFragment StoreEntitySet="V_RoleUser">
+                <ScalarProperty Name="Name2" ColumnName="Name2" />
+                <ScalarProperty Name="Name11" ColumnName="Name1" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
-                <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
@@ -3452,7 +3464,7 @@
                 <ScalarProperty Name="RelateTypeID" ColumnName="RelateTypeID" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="NewName" ColumnName="NewName" />
-                <ScalarProperty Name="OrigName2" ColumnName="OrigName2" />
+                <ScalarProperty Name="OrigenName" ColumnName="OrigenName" />
                 <ScalarProperty Name="PaperName" ColumnName="PaperName" />
                 <ScalarProperty Name="PaperCode" ColumnName="PaperCode" />
                 <ScalarProperty Name="RelateID" ColumnName="RelateID" />
@@ -3799,7 +3811,7 @@
               <MappingFragment StoreEntitySet="V_BaseTreeItems">
                 <ScalarProperty Name="InCode" ColumnName="InCode" />
                 <ScalarProperty Name="IsLeaf" ColumnName="IsLeaf" />
-                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="CNName" ColumnName="CNName" />
                 <ScalarProperty Name="LevelValue" ColumnName="LevelValue" />
                 <ScalarProperty Name="FatherID" ColumnName="FatherID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
@@ -4213,7 +4225,7 @@
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
-                <ScalarProperty Name="Name2" ColumnName="Name2" />
+                <ScalarProperty Name="EnName" ColumnName="EnName" />
                 <ScalarProperty Name="Sec" ColumnName="Sec" />
                 <ScalarProperty Name="Dept" ColumnName="Dept" />
                 <ScalarProperty Name="Lan" ColumnName="Lan" />
@@ -4221,9 +4233,9 @@
                 <ScalarProperty Name="Pwd" ColumnName="Pwd" />
                 <ScalarProperty Name="InCode" ColumnName="InCode" />
                 <ScalarProperty Name="FatherID" ColumnName="FatherID" />
-                <ScalarProperty Name="TreeName1" ColumnName="TreeName1" />
+                <ScalarProperty Name="TreeCNName" ColumnName="TreeCNName" />
                 <ScalarProperty Name="TreeID" ColumnName="TreeID" />
-                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="CnName" ColumnName="CnName" />
                 <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
