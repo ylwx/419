@@ -12,15 +12,9 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderInfor
+    public partial class V_OrderService
     {
-        public OrderInfor()
-        {
-            this.Billing = new HashSet<Billing>();
-            this.OrderService = new HashSet<OrderService>();
-        }
-    
-        public int IDX { get; set; }
+        public int OrderID { get; set; }
         public string IsGuest { get; set; }
         public string Code { get; set; }
         public Nullable<int> CustomerID { get; set; }
@@ -29,8 +23,6 @@ namespace TugDataModel
         public string WorkTime { get; set; }
         public string EstimatedCompletionTime { get; set; }
         public string WorkPlace { get; set; }
-        public string ServiceNatureIDS { get; set; }
-        public string ServiceNatureNames { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
         public Nullable<int> BigTugNum { get; set; }
@@ -40,23 +32,16 @@ namespace TugDataModel
         public string LinkPhone { get; set; }
         public string LinkEmail { get; set; }
         public Nullable<int> WorkStateID { get; set; }
+        public string WorkStateValue { get; set; }
+        public string WorkStateLabel { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
-        public string UserDefinedCol1 { get; set; }
-        public string UserDefinedCol2 { get; set; }
-        public string UserDefinedCol3 { get; set; }
-        public string UserDefinedCol4 { get; set; }
-        public Nullable<double> UserDefinedCol5 { get; set; }
-        public Nullable<int> UserDefinedCol6 { get; set; }
-        public Nullable<int> UserDefinedCol7 { get; set; }
-        public Nullable<int> UserDefinedCol8 { get; set; }
-        public string UserDefinedCol9 { get; set; }
-        public string UserDefinedCol10 { get; set; }
-    
-        public virtual ICollection<Billing> Billing { get; set; }
-        public virtual ICollection<OrderService> OrderService { get; set; }
+        public Nullable<int> ServiceNatureID { get; set; }
+        public string ServiceNatureValue { get; set; }
+        public string ServiceNatureLabel { get; set; }
+        public string ServiceWorkPlace { get; set; }
     }
 }

@@ -25,8 +25,6 @@ namespace TugDataModel
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<V_Flow> V_Flow { get; set; }
-        public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
         public virtual DbSet<Approve> Approve { get; set; }
         public virtual DbSet<Arrangement> Arrangement { get; set; }
         public virtual DbSet<BaseTreeItems> BaseTreeItems { get; set; }
@@ -43,6 +41,7 @@ namespace TugDataModel
         public virtual DbSet<FunctionModule> FunctionModule { get; set; }
         public virtual DbSet<LogProcess> LogProcess { get; set; }
         public virtual DbSet<OrderInfor> OrderInfor { get; set; }
+        public virtual DbSet<OrderService> OrderService { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<RoleMenu> RoleMenu { get; set; }
         public virtual DbSet<RoleModule> RoleModule { get; set; }
@@ -55,14 +54,17 @@ namespace TugDataModel
         public virtual DbSet<V_Billing> V_Billing { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
+        public virtual DbSet<V_Flow> V_Flow { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }
         public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }
         public virtual DbSet<V_OrderInfor> V_OrderInfor { get; set; }
         public virtual DbSet<V_OrderScheduler> V_OrderScheduler { get; set; }
+        public virtual DbSet<V_OrderService> V_OrderService { get; set; }
         public virtual DbSet<V_RoleMenu> V_RoleMenu { get; set; }
         public virtual DbSet<V_RoleModule> V_RoleModule { get; set; }
+        public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     }
 }

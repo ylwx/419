@@ -24,10 +24,12 @@ namespace TugDataModel
         public string EstimatedCompletionTime { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureLabel { get; set; }
+        public string ServiceWorkPlace { get; set; }
+        public string SchedulerWorkPlace { get; set; }
         public Nullable<int> TugID { get; set; }
-        public string Name1 { get; set; }
-        public string Name2 { get; set; }
-        public string SimpleName { get; set; }
+        public string TugName1 { get; set; }
+        public string TugName2 { get; set; }
+        public string TugSimpleName { get; set; }
         public string Power { get; set; }
         public string Class { get; set; }
         public string Speed { get; set; }

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Invoice";
     ViewBag.MenuId = "menu6";
     ViewBag.SubMenuIndex = 0;
@@ -36,9 +35,9 @@
                                 </div>
 
                                 <div class="box-body big">
-        
-                                    <div id="div_search" class="col-lg-12" style="padding-bottom:10px">    
-                                        
+
+                                    <div id="div_search" class="col-lg-12" style="padding-bottom:10px">
+
                                         <div class="col-xs-3">
                                             选择计费方案
                                             <select id="sel_billing_scheme" class="form-control" onchange="billingSchemeChanged($(this).val())">
@@ -88,7 +87,7 @@
 
 
                                     <div style="margin:8px;padding:0px; width:820px;height:1px;background-color:black;overflow:hidden;"></div>
-                                    
+
                                     <div id="div_detail">
                                         <table id="tb_detail" class="table table-bordered">
                                             <thead>
@@ -209,8 +208,6 @@
         </div>
     </div>
     <!-- /Parent MODAL FORM-->
-
-
     <!-- 提交审核 MODAL FORM-->
     <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="model-dlg" class="modal-dialog" style="width: 560px ;height:600px">
@@ -273,9 +270,9 @@
                             </ul>
                             <!-- /BREADCRUMBS -->
                             @*<div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>*@
+                                    <h3 class="content-title pull-left">Grid Test</h3>
+                                </div>
+                                <div class="description">Table</div>*@
                             @*<div><button class="btn btn-danger" onclick="AddParent()">Add Parent</button></div>*@
                         </div>
                     </div>
@@ -359,21 +356,21 @@
                 //footerrow: true,
                 colMenu: true,          //列菜单
 
-               
+
                 multiselect: true,
                 //multiboxonly: true,
 
                 onSelectRow: function (rowid,status,e) {
-                    //alert(rowid)  
+                    //alert(rowid)
                     //alert(status);
                     var grid = $("#jqGrid");
                     var rowKey = grid.getGridParam("selrow");
-                    
+
                     if (!rowKey){
                         $('#jqGrid_ilAdd').addClass('ui-state-disabled');
                         $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                         $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
-                    }                
+                    }
                     else {
 
                         $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
@@ -393,14 +390,14 @@
                 subGrid: true,
                 subGridRowExpanded: showChildGrid,
                 isHasSubGrid: function (rowid) {
-                    
+
                     // if custommerid begin with B, do not use subgrid
                     var checkbox_id = 'jqg_jqGrid_' + rowid.toString();
 
                     var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
                     //console.log(cell, rowid);
                     if (cell == null || cell == "") {
-                        
+
                         //$('#' + checkbox_id).attr('disabled', true);
                         //$('#' + checkbox_id).prop('hidden', true);
                         return false;
@@ -508,7 +505,7 @@
                                 }
                                 );
                         }
-                        
+
 
                     },
                     position: "last"
@@ -588,7 +585,7 @@
                     hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120, 
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] }
@@ -682,7 +679,7 @@
 
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100,
                     hidden: true
                 },
                 {
@@ -725,7 +722,7 @@
 
 
 
-                
+
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', name: "BillingID", width: 100,
                     hidden: true,
@@ -755,7 +752,7 @@
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeLabel', name: "BillingTypeLabel", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeLabel', name: "BillingTypeLabel", width: 100,
                     hidden: false,
                     stype: "select",
                     searchoptions: {
@@ -769,7 +766,7 @@
                     hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimeTypeValue', name: "TimeTypeValue", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimeTypeValue', name: "TimeTypeValue", width: 100,
                     hidden: true
                 },
                 {
@@ -783,26 +780,26 @@
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingRemark', name: "BillingRemark", width: 200, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingRemark', name: "BillingRemark", width: 200,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_Month', name: "Month", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_Month', name: "Month", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     hidden: false
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimesNo', name: "TimesNo", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimesNo', name: "TimesNo", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_Status', name: "Status", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_Status', name: "Status", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     hidden: false
@@ -814,16 +811,16 @@
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OwnerID', name: "BillingOwnerID", width: 100, 
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "BillingOwnerID", width: 100,
                     hidden: true
                 },
-                
+
 
 
 
                 {
                     align: 'center',
-                    label: '@Resources.Language.CreateDate', name: "BillingCreateDate", width: 200, 
+                    label: '@Resources.Language.CreateDate', name: "BillingCreateDate", width: 200,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
@@ -850,12 +847,12 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserID', name: "BillingUserID", width: 100, 
+                    align: 'center', label: '@Resources.Language.UserID', name: "BillingUserID", width: 100,
                     hidden: true
                 },
                 {
                     align: 'center',
-                    label: '@Resources.Language.LastUpDate', name: "BillingLastUpDate", width: 200, 
+                    label: '@Resources.Language.LastUpDate', name: "BillingLastUpDate", width: 200,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
@@ -881,7 +878,7 @@
                         ]
                     }
                 },
-                
+
 
             ]
         };
@@ -901,7 +898,7 @@
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', parentRowKey);
         var childGridURL = '@Url.Action("ViewInvoice", "Finance")' + "?lan=" + '@ViewBag.Language' + "&orderId=" + dr.IDX;
-        
+
         //var html = '<div><input type="text" value="123"/></div>'
 
         $.ajax({
@@ -915,7 +912,7 @@
 
 
 
-        
+
     }
 </script>
 
@@ -1264,7 +1261,7 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-                
+
                 $('#sel_billing_scheme').empty();
                 $('#sel_billing_type').empty();
                 $('#sel_time_type').empty();
@@ -1294,7 +1291,7 @@
                     }
                 }
 
-                
+
                 for (var i = 0; i < result.billing_template_types.length; ++i) {
                     var option = $('<option value="' + result.billing_template_types[i].IDX + '~' + result.billing_template_types[i].CustomValue + '~' + result.billing_template_types[i].CustomLabel + '">' + result.billing_template_types[i].CustomLabel + '</option>')
                     $('#sel_billing_type').append(option);
@@ -1308,11 +1305,17 @@
                 $("#sel_billing_type option:first").prop("selected", 'selected');
                 $("#sel_time_type option:first").prop("selected", 'selected');
 
+                var customerBillingScheme = $("#sel_billing_scheme").val().toString();
+
+                var billingTypeId = $("#sel_billing_type").val().toString().split('~')[0];
+                var billingTypeValue = $("#sel_billing_type").val().toString().split('~')[1];
+                var billingTypeLabel = $("#sel_billing_type").val().toString().split('~')[2];
+
                 var timeTypeId = $("#sel_time_type").val().toString().split('~')[0];
                 var timeTypeValue = $("#sel_time_type").val().toString().split('~')[1];
                 var timeTypeLabel = $("#sel_time_type").val().toString().split('~')[2];
 
-                reGenerate(dr.OrderID, timeTypeId, timeTypeValue, timeTypeLabel)
+                reGenerate(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel)
 
             },
         });
@@ -1344,244 +1347,19 @@
     function submitParentModal() {
 
         $('#parentErrMsg').hide();
-        $('#_CustomerName').parent().removeClass("has-error");
-        $('#_WorkDate').parent().removeClass("has-error");
-        $('#_WorkTime').parent().removeClass("has-error");
-        $('#_EstimatedCompletionTime').parent().removeClass("has-error");
-
-        $('#_ShipName').parent().removeClass("has-error");
-        $('#_WorkPlace').parent().removeClass("has-error");
-        $('#_ServiceNatureNames').removeClass("has-error");
-
-        $('#_BigTugNum').parent().removeClass("has-error");
-        $('#_MiddleTugNum').parent().removeClass("has-error");
-        $('#_SmallTugNum').parent().removeClass("has-error");
-
-
-        $('#_LinkMan').parent().removeClass("has-error");
-        $('#_LinkPhone').parent().removeClass("has-error");
-        $('#_LinkEmail').parent().removeClass("has-error");
-        $('#_Remark').parent().removeClass("has-error");
-
-
-        var maxTextLength = 25;
-        var maxTextAreaLength = 500;
-
-
-        var customerId = $("#_CustomerID").text();
-        var customerName = $("#_CustomerName").val().trim();
-        var workDate = $("#_WorkDate").val().trim();
-        var workTime = $("#_WorkTime").val().trim();
-        var estimatedCompletionTime = $("#_EstimatedCompletionTime").val().trim();
-        var shipId = $("#_ShipID").text();
-        var shipName = $("#_ShipName").val().trim();
-        var workPlace = $("#_WorkPlace").val().trim();
-        var bigTugNum = $("#_BigTugNum").val().trim();
-        var middleTugNum = $("#_MiddleTugNum").val().trim();
-        var smallTugNum = $("#_SmallTugNum").val().trim();
-        var linkMan = $("#_LinkMan").val().trim();
-        var linkPhone = $("#_LinkPhone").val().trim();
-        var linkEmail = $("#_LinkEmail").val().trim();
-        var remark = $("#_Remark").val().trim();
-
-        if (customerName.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "必填");
-            $('#_CustomerName').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        } else if (customerName.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "长度不能超过" + maxTextLength);
-            $('#_CustomerName').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
-        else if (workDate.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkDate' + "必填");
-            $('#_WorkDate').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
-        else if (workTime.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkTime' + "必填");
-            $('#_WorkTime').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
-        else if (estimatedCompletionTime.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_EstimatedCompletionTime' + "必填");
-            $('#_EstimatedCompletionTime').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
-        else if (shipName.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ShipName' + "必填");
-            $('#_ShipName').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        } else if (shipName.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ShipName' + "长度不能超过" + maxTextLength);
-            $('#_ShipName').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
-
-        else if (workPlace.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkPlace' + "必填");
-            $('#_WorkPlace').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        } else if (workPlace.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkPlace' + "长度不能超过" + maxTextLength);
-            $('#_WorkPlace').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
+               
         var hasChecked = false;
         var serviceNatureIds = '', serviceNatureNames = '';
-        $("input[name='serviceCheckbox']").each(function () {
+        $("input[name='bill_items']").each(function () {
             if ($(this).is(':checked')) {
 
                 hasChecked = true;
-                serviceNatureIds += $(this).val().toString().split('~')[0] + '/';
-                serviceNatureNames += $(this).val().toString().split('~')[2] + '/';
+                alert($(this).html());
             }
         });
-
-        if (hasChecked == true) {
-            serviceNatureIds = serviceNatureIds.substr(0, serviceNatureIds.length - 1);
-            serviceNatureNames = serviceNatureNames.substr(0, serviceNatureNames.length - 1)
-        }
-        else {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ServiceNatureNames' + ":至少选择一项服务内容");
-            $('#_ServiceNatureNames').addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-        //alert(serviceNatureIds);
-        //alert(serviceNatureNames);
-
-
-        if (bigTugNum.length > 0) {
-            var r = bigTugNum.match("^\\d+$");
-            if (r == null) {
-                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_BigTugNum' + ":请输入大于或等于0的整数");
-                $('#_BigTugNum').parent().addClass("has-error");
-                $('#parentErrMsg').show();
-                return;
-            }
-        }
-
-        else if (middleTugNum.length > 0) {
-            var r = middleTugNum.match("^\\d+$");
-            if (r == null) {
-                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_MiddleTugNum' + ":请输入大于或等于0的整数");
-                $('#_MiddleTugNum').parent().addClass("has-error");
-                $('#parentErrMsg').show();
-                return;
-            }
-        }
-
-        else if (smallTugNum.length > 0) {
-            var r = smallTugNum.match("^\\d+$");
-            if (r == null) {
-                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_SmallTugNum' + ":请输入大于或等于0的整数");
-                $('#_SmallTugNum').parent().addClass("has-error");
-                $('#parentErrMsg').show();
-                return;
-            }
-        }
-
-        else if (linkMan.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "必填");
-            $('#_LinkMan').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        } else if (linkMan.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "长度不能超过" + maxTextLength);
-            $('#_LinkMan').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
-        else if (linkPhone.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "必填");
-            $('#_LinkPhone').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        } else if (linkPhone.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "长度不能超过" + maxTextLength);
-            $('#_LinkPhone').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-
-
-        else if (linkEmail.length > 0) {
-            var util = new Util();
-
-            if (false == util.isEmail2(linkEmail)) {
-                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkEmail' + ":输入的电子邮件无效");
-                $('#_LinkEmail').parent().addClass("has-error");
-                $('#parentErrMsg').show();
-                return;
-            }
-
-        }
-
-        else if (remark.length > maxTextAreaLength) {
-            $('#parentErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
-            $('#_Remark').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
 
         //提交数据库
-        $.ajax({
-            type: "post",
-            url: '@Url.Action("AddOrder", "OrderManage")',
-            data: {
-                'customerId': customerId,
-                'customerName': customerName,
-                'workDate': workDate,
-                'workTime': workTime,
-                'estimatedCompletionTime': estimatedCompletionTime,
-                'shipId': shipId,
-                'shipName': shipName,
-                'workPlace': workPlace,
-                'serviceNatureIds': serviceNatureIds,
-                'serviceNatureNames': serviceNatureNames,
-                'bigTugNum': bigTugNum,
-                'middleTugNum': middleTugNum,
-                'smallTugNum': smallTugNum,
-                'linkMan': linkMan,
-                'linkPhone': linkPhone,
-                'linkEmail': linkEmail,
-                'remark': remark,
-            },//"oper=delete&id=" + gr,
-            dataType: 'json',
-            success: function (result) {
-
-                $('#parent-modal').modal('hide')
-                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                alert(result.message);
-
-                $('#jqGrid').jqGrid('setGridParam',
-                {
-                    datatype: 'json',
-                    url: '@Url.Action("GetData", "OrderManage")',
-                }).trigger('reloadGrid');
-
-                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "OrderManage")' });
-
-            },
-        });
+        
 
     }
 </script>
@@ -1595,17 +1373,20 @@
         };
     }
 
-    
 
-    function reGenerate(orderId, timeTypeId, timeTypeValue, timeTypeLabel) {
+
+    function reGenerate(orderId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel) {
         $('#tb_detail').empty();
 
-        
         $.ajax({
             type: "get",
             url: '@Url.Action("NewInvoice", "Finance")',
             data: {
                 'orderId': orderId,
+                'customerBillingScheme': customerBillingScheme,
+                'billingTypeId': billingTypeId,
+                'billingTypeValue': billingTypeValue,
+                'billingTypeLabel':billingTypeLabel,
                 'timeTypeId': timeTypeId,
                 'timeTypeValue': timeTypeValue,
                 'timeTypeLabel': timeTypeLabel
@@ -1627,47 +1408,218 @@
                     p = $('<p>' + value.ServiceRemark + '</p>');
                     div3.append(p)
                 }
-               
+
                 $('#div_services').append(div1).append(div2).append(div3);
 
-                //生成表格
-                var thead = $('<thead></thead>');
-                var tr1 = $('<tr></tr>');
-                var tr2 = $('<tr></tr>');
-                var th = $('<th width="20%" rowspan="2" style="text-align:center;vertical-align:middle">拖轮</th>');
-                tr1.append(th);
-                for (key in result.invoice.ServiceNature)
-                {
-                    var value = result.invoice.ServiceNature[key];
-                    //alert(result.invoice.Schedulers[key].length);
-                    var th = $('<th width="" style="text-align:center;vertical-align:middle" colspan="' + result.invoice.Schedulers[key].length + '" data-halign="center" data-align="center" data-valign="middle">' + value.ServiceName + '</th>');
-                    tr1.append(th)
-                }
+                //----生成表格
 
-                for (key in result.invoice.Schedulers)
+                //1.表头
                 {
-                    
-                    var value = result.invoice.Schedulers[key];
-                    for (var i = 0; i < value.length; ++i) {
-                        var th = '<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugName1 + '</th>';
-
-                        tr2.append(th)
+                    var thead = $('<thead></thead>');
+                    var tr1 = $('<tr></tr>');
+                    var tr2 = $('<tr></tr>');
+                    var th = $('<th width="20%" rowspan="2" style="text-align:center;vertical-align:middle">拖轮</th>');
+                    tr1.append(th);
+                    for (key in result.invoice.ServiceNature) {
+                        var value = result.invoice.ServiceNature[key];
+                        //alert(result.invoice.Schedulers[key].length);
+                        var th = $('<th width="" style="text-align:center;vertical-align:middle" colspan=' + result.invoice.Schedulers[key].length + '>' + value.ServiceName + '</th>');
+                        tr1.append(th)
                     }
+                    thead.append(tr1);
+
+                    var colspan = 0;
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            var th = '<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>';
+                            tr2.append(th);
+                            colspan++;
+                        }
+                    }
+
+                    
+                    thead.append(tr2);
+                    $('#tb_detail').append(thead);
                 }
 
-                thead.append(tr1);
-                thead.append(tr2);
-                $('#tb_detail').append(thead);
+                //2.表体
+                DynamicGenerateTBody(billingTypeId, billingTypeValue, billingTypeLabel, result);
 
+                //3.表尾
+                {
+                    var tfoot = $('<tfoot></tfoot>')
+                    var tr = $('<tr></tr>')
+
+                    if (colspan == 0) {
+                        var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + result.invoice.GrandTotalHKS + '<br> Grand Total HKS</strong></td>');
+                        tr.append(td);
+                    }
+                    else {
+                        var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>');
+                        var td2 = $('<td style="text-align:center;vertical-align:middle"><strong>' + result.invoice.GrandTotalHKS + '</strong></td>');
+
+                        tr.append(td1);
+                        tr.append(td2);
+                    }
+                    tfoot.append(tr);
+
+                    $('#tb_detail').append(tfoot);
+                }
             },
         });
-
-
-        //var table = $('<table id="tb_detail" data-toggle="table"><thead><tr><th width="" rowspan="2" data-halign="center" data-align="center" data-valign="bottom">拖轮</th></tr></thead></table>')
-
-        //$('#div_detail').append(table);
     }
-    
+
+
+    function DynamicGenerateTBody(billingTypeId, billingTypeValue, billingTypeLabel, result)
+    {
+        if (billingTypeId == 6 || billingTypeValue == 0 || billingTypeLabel == "全包") {
+            var tbody = $('<tbody></tbody>')
+
+            //1
+            {
+                var tr = $('<tr></tr>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle">离厂时间</td>')
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].DepartBaseTime + '</td>';
+                        tr.append(td)
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            //2
+            {
+                var tr = $('<tr></tr>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle">回厂时间</td>')
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].ArrivalBaseTime + '</td>';
+                        tr.append(td)
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            //3
+            {
+                var tr = $('<tr></tr>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle">工作时间</td>')
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTime + '</td>';
+                        tr.append(td)
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            //4
+            {
+                var tr = $('<tr></tr>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle">换算耗时</td>')
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>';
+                        tr.append(td)
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            //5
+            {
+                var tr = $('<tr></tr>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle">协议收费</td>')
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>';
+                        tr.append(td)
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            //6
+            {
+                var tr = $('<tr></tr>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>合计港币</strong></td>')
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = '<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>';
+                        tr.append(td)
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            //7
+
+            for (var ii = 0; ii < result.items.length; ii++)
+            {
+                var tr = $('<tr></tr>')
+                //var td = $('<td width="" style="vertical-align:middle">' + '<input type="checkbox" class="">' + ii.toString() + '</td>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
+                var input = $('<input type="checkbox" name="bill_items" class="">' + result.items[ii].CustomLabel + '</input>');
+                td.append(input)
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+                        input = $('<input type="text" class="" value="12" onkeyup="inputCheck(this)"></input>');
+
+                        td.append(input);
+                        tr.append(td);
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            //8
+            {
+                var tr = $('<tr></tr>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>总计港币</strong></td>')
+                tr.append(td);
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        td = '<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>';
+                        tr.append(td)
+                    }
+                }
+                tbody.append(tr);
+            }
+
+            $('#tb_detail').append(tbody);
+        }
+        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") { }
+        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") { }
+    }
+
+
 
     function billingSchemeChanged(selectedValue) {
 
@@ -1679,7 +1631,7 @@
             $('#sel_time_type').attr('disabled', true);
             $('#sel_time_type').val(selectedValue.split('%')[2]);
 
-            
+
         }
         else {
 
@@ -1689,5 +1641,14 @@
             $('#sel_time_type').attr('disabled', false);
             $("#sel_time_type option:first").prop("selected", 'selected');
         }
+    }
+
+    function inputCheck(obj) {
+        //return value.replace(/[^\d.]/g, '');
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
     }
 </script>

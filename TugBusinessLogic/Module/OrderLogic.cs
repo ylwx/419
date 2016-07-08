@@ -1949,28 +1949,28 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ServiceNatureLabel).ToList();
                         }
                         break;
-                    case "Name1":
+                    case "TugName1":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.Name1).ToList();
+                                orders = orders.OrderBy(u => u.TugName1).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.Name1).ToList();
+                                orders = orders.OrderByDescending(u => u.TugName1).ToList();
                         }
                         break;
-                    case "Name2":
+                    case "TugName2":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.Name2).ToList();
+                                orders = orders.OrderBy(u => u.TugName2).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.Name2).ToList();
+                                orders = orders.OrderByDescending(u => u.TugName2).ToList();
                         }
                         break;
-                    case "SimpleName":
+                    case "TugSimpleName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.SimpleName).ToList();
+                                orders = orders.OrderBy(u => u.TugSimpleName).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.SimpleName).ToList();
+                                orders = orders.OrderByDescending(u => u.TugSimpleName).ToList();
                         }
                         break;
                     case "JobStateLabel":

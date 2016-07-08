@@ -2068,6 +2068,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 調度地點 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_SchedulerWorkPlace {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_SchedulerWorkPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 服務內容ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_ServiceNatureID {
@@ -2082,6 +2091,15 @@ namespace Resources {
         internal static string V_OrderScheduler_ServiceNatureLabel {
             get {
                 return ResourceManager.GetString("V_OrderScheduler_ServiceNatureLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服務地點 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_ServiceWorkPlace {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_ServiceWorkPlace", resourceCulture);
             }
         }
         

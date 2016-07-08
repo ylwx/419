@@ -12,23 +12,17 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_Users
+    public partial class OrderService
     {
         public int IDX { get; set; }
-        public string UserName { get; set; }
-        public string IsGuest { get; set; }
-        public int TreeID { get; set; }
-        public Nullable<int> FatherID { get; set; }
-        public string InCode { get; set; }
-        public string Pwd { get; set; }
-        public string LanUserName { get; set; }
-        public string Lan { get; set; }
-        public string Dept { get; set; }
-        public string Sec { get; set; }
-        public string WorkNumber { get; set; }
-        public string Sex { get; set; }
-        public string Tel { get; set; }
-        public string Email { get; set; }
+        public Nullable<int> OrderID { get; set; }
+        public Nullable<int> ServiceNatureID { get; set; }
+        public string ServiceWorkPlace { get; set; }
+        public string Remark { get; set; }
+        public Nullable<int> OwnerID { get; set; }
+        public string CreateDate { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public string LastUpDate { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }
         public string UserDefinedCol3 { get; set; }
@@ -39,8 +33,7 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
-        public string Name1 { get; set; }
-        public string Expr1 { get; set; }
-        public string Name2 { get; set; }
+    
+        public virtual OrderInfor OrderInfor { get; set; }
     }
 }
