@@ -658,9 +658,9 @@
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FatherID" Type="int" />
           <Property Name="LevelValue" Type="int" />
-          <Property Name="CNName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsLeaf" Type="nvarchar" MaxLength="50" />
           <Property Name="InCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name1" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1114,9 +1114,7 @@
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
-          <Property Name="CnName" Type="nvarchar" MaxLength="50" />
           <Property Name="TreeID" Type="int" Nullable="false" />
-          <Property Name="TreeCNName" Type="nvarchar" MaxLength="50" />
           <Property Name="FatherID" Type="int" />
           <Property Name="InCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Pwd" Type="nvarchar" MaxLength="50" />
@@ -1124,7 +1122,6 @@
           <Property Name="Lan" Type="nvarchar" MaxLength="50" />
           <Property Name="Dept" Type="nvarchar" MaxLength="50" />
           <Property Name="Sec" Type="nvarchar" MaxLength="50" />
-          <Property Name="EnName" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Sex" Type="nvarchar" MaxLength="50" />
           <Property Name="Tel" Type="nvarchar" MaxLength="50" />
@@ -1139,6 +1136,9 @@
           <Property Name="UserDefinedCol8" Type="int" />
           <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+          <Property Name="Expr1" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name2" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
           <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
@@ -1290,9 +1290,9 @@
     [V_BaseTreeItems].[IDX] AS [IDX], 
     [V_BaseTreeItems].[FatherID] AS [FatherID], 
     [V_BaseTreeItems].[LevelValue] AS [LevelValue], 
-    [V_BaseTreeItems].[CNName] AS [CNName], 
     [V_BaseTreeItems].[IsLeaf] AS [IsLeaf], 
-    [V_BaseTreeItems].[InCode] AS [InCode]
+    [V_BaseTreeItems].[InCode] AS [InCode], 
+    [V_BaseTreeItems].[Name1] AS [Name1]
     FROM [dbo].[V_BaseTreeItems] AS [V_BaseTreeItems]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Billing" EntityType="Self.V_Billing" store:Type="Views" store:Schema="dbo">
@@ -1697,9 +1697,7 @@
     [V_Users].[IDX] AS [IDX], 
     [V_Users].[UserName] AS [UserName], 
     [V_Users].[IsGuest] AS [IsGuest], 
-    [V_Users].[CnName] AS [CnName], 
     [V_Users].[TreeID] AS [TreeID], 
-    [V_Users].[TreeCNName] AS [TreeCNName], 
     [V_Users].[FatherID] AS [FatherID], 
     [V_Users].[InCode] AS [InCode], 
     [V_Users].[Pwd] AS [Pwd], 
@@ -1707,7 +1705,6 @@
     [V_Users].[Lan] AS [Lan], 
     [V_Users].[Dept] AS [Dept], 
     [V_Users].[Sec] AS [Sec], 
-    [V_Users].[EnName] AS [EnName], 
     [V_Users].[WorkNumber] AS [WorkNumber], 
     [V_Users].[Sex] AS [Sex], 
     [V_Users].[Tel] AS [Tel], 
@@ -1721,7 +1718,10 @@
     [V_Users].[UserDefinedCol7] AS [UserDefinedCol7], 
     [V_Users].[UserDefinedCol8] AS [UserDefinedCol8], 
     [V_Users].[UserDefinedCol9] AS [UserDefinedCol9], 
-    [V_Users].[UserDefinedCol10] AS [UserDefinedCol10]
+    [V_Users].[UserDefinedCol10] AS [UserDefinedCol10], 
+    [V_Users].[Name1] AS [Name1], 
+    [V_Users].[Expr1] AS [Expr1], 
+    [V_Users].[Name2] AS [Name2]
     FROM [dbo].[V_Users] AS [V_Users]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
@@ -2521,9 +2521,9 @@
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FatherID" Type="Int32" />
           <Property Name="LevelValue" Type="Int32" />
-          <Property Name="CNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsLeaf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Billing">
           <Key>
@@ -2949,9 +2949,7 @@
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TreeID" Type="Int32" Nullable="false" />
-          <Property Name="TreeCNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FatherID" Type="Int32" />
           <Property Name="InCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2959,7 +2957,6 @@
           <Property Name="Lan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Dept" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Sec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EnName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2974,6 +2971,9 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Expr1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Arrangement_TugInfor">
           <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
@@ -3772,9 +3772,9 @@
           <EntitySetMapping Name="V_BaseTreeItems">
             <EntityTypeMapping TypeName="Model.V_BaseTreeItems">
               <MappingFragment StoreEntitySet="V_BaseTreeItems">
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="InCode" ColumnName="InCode" />
                 <ScalarProperty Name="IsLeaf" ColumnName="IsLeaf" />
-                <ScalarProperty Name="CNName" ColumnName="CNName" />
                 <ScalarProperty Name="LevelValue" ColumnName="LevelValue" />
                 <ScalarProperty Name="FatherID" ColumnName="FatherID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
@@ -4207,6 +4207,9 @@
           <EntitySetMapping Name="V_Users">
             <EntityTypeMapping TypeName="Model.V_Users">
               <MappingFragment StoreEntitySet="V_Users">
+                <ScalarProperty Name="Name2" ColumnName="Name2" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
                 <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
                 <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
@@ -4221,7 +4224,6 @@
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="WorkNumber" ColumnName="WorkNumber" />
-                <ScalarProperty Name="EnName" ColumnName="EnName" />
                 <ScalarProperty Name="Sec" ColumnName="Sec" />
                 <ScalarProperty Name="Dept" ColumnName="Dept" />
                 <ScalarProperty Name="Lan" ColumnName="Lan" />
@@ -4229,9 +4231,7 @@
                 <ScalarProperty Name="Pwd" ColumnName="Pwd" />
                 <ScalarProperty Name="InCode" ColumnName="InCode" />
                 <ScalarProperty Name="FatherID" ColumnName="FatherID" />
-                <ScalarProperty Name="TreeCNName" ColumnName="TreeCNName" />
                 <ScalarProperty Name="TreeID" ColumnName="TreeID" />
-                <ScalarProperty Name="CnName" ColumnName="CnName" />
                 <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />

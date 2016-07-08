@@ -17,9 +17,7 @@ namespace TugDataModel
         public int IDX { get; set; }
         public string UserName { get; set; }
         public string IsGuest { get; set; }
-        public string CnName { get; set; }
         public int TreeID { get; set; }
-        public string TreeCNName { get; set; }
         public Nullable<int> FatherID { get; set; }
         public string InCode { get; set; }
         public string Pwd { get; set; }
@@ -27,7 +25,6 @@ namespace TugDataModel
         public string Lan { get; set; }
         public string Dept { get; set; }
         public string Sec { get; set; }
-        public string EnName { get; set; }
         public string WorkNumber { get; set; }
         public string Sex { get; set; }
         public string Tel { get; set; }
@@ -42,5 +39,8 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
+        public string Name1 { get; set; }
+        public string Expr1 { get; set; }
+        public string Name2 { get; set; }
     }
 }
