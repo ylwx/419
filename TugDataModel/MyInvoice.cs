@@ -81,7 +81,7 @@ namespace TugDataModel
 
         public string ServiceName { get; set; }
 
-        public string ServiceRemark { get; set; }
+        public string ServiceWorkPlace { get; set; }
     }
     public class MyInvoice
     {

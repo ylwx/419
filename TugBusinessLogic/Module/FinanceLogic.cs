@@ -36,7 +36,7 @@ namespace TugBusinessLogic.Module
 
                 Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();
                 //var services2 = list.Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).ToList();
-                var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.OrderSchedulerRemark }).Distinct().ToList();
+                var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkPlace }).Distinct().ToList();
                 //var services = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).Distinct().ToList();
 
                 Dictionary<int, List<MyScheduler>> dicSchedulers = new Dictionary<int, List<MyScheduler>>();
@@ -50,7 +50,7 @@ namespace TugBusinessLogic.Module
                         MyService ms = new MyService();
                         ms.ServiceId = (int)item.ServiceNatureID;
                         ms.ServiceName = item.ServiceNatureLabel;
-                        ms.ServiceRemark = item.OrderSchedulerRemark;
+                        ms.ServiceWorkPlace = item.ServiceWorkPlace;
                         dicServiceNature.Add(ms.ServiceId, ms);
 
                         var ships = list.Where(u => u.ServiceNatureID == item.ServiceNatureID)
@@ -231,7 +231,7 @@ namespace TugBusinessLogic.Module
                     MyService ms = new MyService();
                     ms.ServiceId = (int)service.ServiceNatureID;
                     ms.ServiceName = service.ServiceNatureLabel;
-                    ms.ServiceRemark = service.ServiceWorkPlace;
+                    ms.ServiceWorkPlace = service.ServiceWorkPlace;
                     dicService.Add(ms.ServiceId, ms);
 
                     var schedulers = list.Where(u => u.ServiceNatureID == (int)service.ServiceNatureID)
@@ -298,6 +298,15 @@ namespace TugBusinessLogic.Module
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
             List<V_BillingTemplate> list = db.V_BillingTemplate.Where(u => u.CustomerID == custId).OrderBy(u => u.BillingTemplateName).ToList();
+
+            return list;
+        }
+
+        static public List<V_BillingItemTemplate> GetCustomerBillSchemeItems(int billSchemeId)
+        {
+            TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+            List<V_BillingItemTemplate> list = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).OrderBy(u => u.TypeValue).OrderBy(u=>u.ItemValue).ToList();
 
             return list;
         }
