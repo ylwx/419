@@ -43,9 +43,9 @@ namespace TugBusinessLogic.Module
 
                 double grandTotal = 0;
 
-                if(services != null && services.Count > 0)
+                if (services != null && services.Count > 0)
                 {
-                    foreach(var item in services)
+                    foreach (var item in services)
                     {
                         MyService ms = new MyService();
                         ms.ServiceId = (int)item.ServiceNatureID;
@@ -54,19 +54,19 @@ namespace TugBusinessLogic.Module
                         dicServiceNature.Add(ms.ServiceId, ms);
 
                         var ships = list.Where(u => u.ServiceNatureID == item.ServiceNatureID)
-                            .Select(u => new {u.TugID, u.TugName1, u.TugName2, u.TugSimpleName, u.Power}).Distinct()
+                            .Select(u => new { u.TugID, u.TugName1, u.TugName2, u.TugSimpleName, u.Power }).Distinct()
                             .OrderBy(u => u.TugName1).ToList();
 
                         List<MyScheduler> listScheduler = new List<MyScheduler>();
-                        
-                        if(ships != null && ships.Count > 0)
+
+                        if (ships != null && ships.Count > 0)
                         {
                             foreach (var ship in ships)
                             {
                                 MyScheduler sch = new MyScheduler();
                                 sch.TugID = (int)ship.TugID;
-                                sch.TugName1 = ship.TugName1;
-                                sch.TugName2 = ship.TugName2;
+                                sch.TugCnName = ship.TugName1;
+                                sch.TugEnName = ship.TugName2;
                                 sch.TugSimpleName = ship.TugSimpleName;
                                 sch.TugPower = ship.Power;
                                 var schedulers = list.Where(u => u.ServiceNatureID == item.ServiceNatureID && u.TugID == ship.TugID)
@@ -156,7 +156,7 @@ namespace TugBusinessLogic.Module
                                             bit.Price = subItem.UnitPrice;
                                         else
                                             bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
-                                        
+
                                         bit.Currency = subItem.Currency;
                                         bit.TypeID = subItem.PositionTypeID;
                                         bit.TypeValue = subItem.PositionTypeValue;
@@ -188,7 +188,7 @@ namespace TugBusinessLogic.Module
                         }
 
                         dicSchedulers.Add((int)item.ServiceNatureID, listScheduler);
-                        
+
                     }
                 }
 
@@ -204,13 +204,15 @@ namespace TugBusinessLogic.Module
                 _invoice.TimeTypeValue = list.FirstOrDefault().TimeTypeValue;
                 _invoice.TimeTypeLabel = list.FirstOrDefault().TimeTypeLabel;
 
-        
+
                 _invoice.GrandTotalHKS = grandTotal;
-            } 
+            }
         }
 
 
-        static public MyInvoice NewInvoice(int orderId, int timeTypeId, string timeTypeValue, string timeTypeLabel) 
+        static public MyInvoice NewInvoice(int orderId, string customerBillingScheme,
+            int billingTypeId, string billingTypeValue, string billingTypeLabel,
+            int timeTypeId, string timeTypeValue, string timeTypeLabel)
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
@@ -218,7 +220,7 @@ namespace TugBusinessLogic.Module
 
             var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u);
 
-            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.Remark}).Distinct().ToList();
+            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.Remark }).Distinct().ToList();
 
             if (services != null)
             {
@@ -233,18 +235,29 @@ namespace TugBusinessLogic.Module
                     dicService.Add(ms.ServiceId, ms);
 
                     var schedulers = list.Where(u => u.ServiceNatureID == (int)service.ServiceNatureID)
-                        .Select(u => new {u.TugID, u.Name1, u.Name2, u.SimpleName, u.Power, u.DepartBaseTime, u.ArrivalBaseTime,
-                        u.RopeUsed, u.RopeNum, u.Remark}).ToList();
+                        .Select(u => new
+                        {
+                            u.TugID,
+                            u.Name1,
+                            u.Name2,
+                            u.SimpleName,
+                            u.Power,
+                            u.DepartBaseTime,
+                            u.ArrivalBaseTime,
+                            u.RopeUsed,
+                            u.RopeNum,
+                            u.Remark
+                        }).ToList();
 
-                    if(schedulers != null)
+                    if (schedulers != null)
                     {
                         List<MyScheduler> lstScheduler = new List<MyScheduler>();
                         foreach (var scheduler in schedulers)
                         {
                             MyScheduler mySch = new MyScheduler();
                             mySch.TugID = (int)scheduler.TugID;
-                            mySch.TugName1 = scheduler.Name1;
-                            mySch.TugName2 = scheduler.Name2;
+                            mySch.TugCnName = scheduler.Name1;
+                            mySch.TugEnName = scheduler.Name2;
                             mySch.TugSimpleName = scheduler.SimpleName;
                             mySch.TugPower = scheduler.Power;
 
@@ -252,8 +265,8 @@ namespace TugBusinessLogic.Module
                             mySch.ArrivalBaseTime = scheduler.ArrivalBaseTime;
 
                             int iDiffHour, iDiffMinute;
-                                    TugBusinessLogic.Utils.CalculateTimeDiff(mySch.DepartBaseTime, mySch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
-                                    mySch.WorkTime = iDiffHour.ToString() + "h" + iDiffMinute.ToString() + "m";
+                            TugBusinessLogic.Utils.CalculateTimeDiff(mySch.DepartBaseTime, mySch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
+                            mySch.WorkTime = iDiffHour.ToString() + "h" + iDiffMinute.ToString() + "m";
 
                             mySch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute,
                                 timeTypeId, timeTypeValue, timeTypeLabel);
@@ -275,7 +288,7 @@ namespace TugBusinessLogic.Module
             }
 
 
-             
+
             return _invoice;
         }
 
@@ -333,7 +346,7 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.OrderCode).ToList();
                         }
                         break;
-                    
+
                     case "WorkDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -366,8 +379,8 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ShipName).ToList();
                         }
                         break;
-                    
-                    
+
+
                     case "ServiceNatureNames":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -475,8 +488,8 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.BillingLastUpDate).ToList();
                         }
                         break;
-                   
-                    
+
+
                     default:
                         break;
                 }
@@ -647,7 +660,7 @@ namespace TugBusinessLogic.Module
                                 }
                                 break;
                             #endregion
-        
+
                             #region WorkDate
                             case "WorkDate":
                                 {
@@ -1377,7 +1390,7 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
-      
+
 
                             default:
                                 break;
