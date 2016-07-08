@@ -108,6 +108,7 @@
     </Key>
     <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BillingID" Type="int" />
+    <Property Name="SchedulerID" Type="int" />
     <Property Name="ItemID" Type="int" />
     <Property Name="UnitPrice" Type="float" />
     <Property Name="Currency" Type="nvarchar" MaxLength="50" />
@@ -860,6 +861,7 @@
     <Property Name="BillingCreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingUserID" Type="int" />
     <Property Name="BillingLastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="SchedulerID" Type="int" />
     <Property Name="BillingItemIDX" Type="int" Nullable="false" />
     <Property Name="ItemID" Type="int" />
     <Property Name="BillingItemValue" Type="nvarchar" MaxLength="50" />
@@ -1224,7 +1226,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BillingItem_Billing">
-    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
@@ -1244,6 +1248,18 @@
       </Principal>
       <Dependent Role="BillingItem">
         <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BillingItem_Scheduler">
+    <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="0..1" />
+    <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Scheduler">
+        <PropertyRef Name="IDX" />
+      </Principal>
+      <Dependent Role="BillingItem">
+        <PropertyRef Name="SchedulerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1528,6 +1544,7 @@
     [V_Invoice].[BillingCreateDate] AS [BillingCreateDate], 
     [V_Invoice].[BillingUserID] AS [BillingUserID], 
     [V_Invoice].[BillingLastUpDate] AS [BillingLastUpDate], 
+    [V_Invoice].[SchedulerID] AS [SchedulerID], 
     [V_Invoice].[BillingItemIDX] AS [BillingItemIDX], 
     [V_Invoice].[ItemID] AS [ItemID], 
     [V_Invoice].[BillingItemValue] AS [BillingItemValue], 
@@ -1846,6 +1863,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_BillingItem_CustomerField" Association="Self.FK_BillingItem_CustomerField">
       <End Role="CustomField" EntitySet="CustomField" />
+      <End Role="BillingItem" EntitySet="BillingItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingItem_Scheduler" Association="Self.FK_BillingItem_Scheduler">
+      <End Role="Scheduler" EntitySet="Scheduler" />
       <End Role="BillingItem" EntitySet="BillingItem" />
     </AssociationSet>
     <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Self.FK_BillingItemTemplate_BillingTemplate">

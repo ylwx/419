@@ -67,6 +67,7 @@ namespace TugDataModel
         public string BillingCreateDate { get; set; }
         public Nullable<int> BillingUserID { get; set; }
         public string BillingLastUpDate { get; set; }
+        public Nullable<int> SchedulerID { get; set; }
         public int BillingItemIDX { get; set; }
         public Nullable<int> ItemID { get; set; }
         public string BillingItemValue { get; set; }
