@@ -1949,20 +1949,20 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ServiceNatureLabel).ToList();
                         }
                         break;
-                    case "CnName":
+                    case "Name1":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.CnName).ToList();
+                                orders = orders.OrderBy(u => u.Name1).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.CnName).ToList();
+                                orders = orders.OrderByDescending(u => u.Name1).ToList();
                         }
                         break;
-                    case "EnName":
+                    case "Name2":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.EnName).ToList();
+                                orders = orders.OrderBy(u => u.Name2).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.EnName).ToList();
+                                orders = orders.OrderByDescending(u => u.Name2).ToList();
                         }
                         break;
                     case "SimpleName":

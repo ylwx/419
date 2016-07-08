@@ -405,8 +405,8 @@ namespace TugManagementSystem.Controllers
         public ActionResult GetCustomer(string term)
          {
             TugDataEntities db = new TugDataEntities();
-            List<Customer> customers = db.Customer.Where(u => u.CnName.ToLower().Trim().Contains(term.Trim().ToLower()))
-                .Select(u => u).OrderBy(u => u.CnName).ToList<Customer>();
+            List<Customer> customers = db.Customer.Where(u => u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
 
             List<object> list = new List<object>();
 
@@ -414,7 +414,7 @@ namespace TugManagementSystem.Controllers
             {
                 foreach (Customer item in customers)
                 {
-                    list.Add(new { CustomerID = item.IDX, CustomerCnName = item.CnName });
+                    list.Add(new { CustomerID = item.IDX, CustomerName1 = item.Name1 });
                 }
             }
 
@@ -426,8 +426,8 @@ namespace TugManagementSystem.Controllers
         public ActionResult GetCustomerShips(string term)
         {
             TugDataEntities db = new TugDataEntities();
-            List<CustomerShip> ships = db.CustomerShip.Where(u => u.CnName.ToLower().Trim().Contains(term.Trim().ToLower()))
-                .Select(u => u).OrderBy(u => u.CnName).ToList<CustomerShip>();
+            List<CustomerShip> ships = db.CustomerShip.Where(u => u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.Name1).ToList<CustomerShip>();
 
             List<object> list = new List<object>();
 
@@ -435,7 +435,7 @@ namespace TugManagementSystem.Controllers
             {
                 foreach (CustomerShip item in ships)
                 {
-                    list.Add(new { ShipID = item.IDX, ShipCnName = item.CnName });
+                    list.Add(new { ShipID = item.IDX, ShipName1 = item.Name1 });
                 }
             }
 
@@ -553,21 +553,21 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetTugsByCnName(string value)
+        public ActionResult GetTugsByName1(string value)
         {
             TugDataEntities db = new TugDataEntities();
-            List<TugInfor> source = db.TugInfor.Where(u => u.CnName.Contains(value))
-                .OrderBy(u => u.CnName).ToList<TugInfor>();
+            List<TugInfor> source = db.TugInfor.Where(u => u.Name1.Contains(value))
+                .OrderBy(u => u.Name1).ToList<TugInfor>();
 
             var jsonData = new { list = source };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetTugsByEnName(string value)
+        public ActionResult GetTugsByName2(string value)
         {
             TugDataEntities db = new TugDataEntities();
-            List<TugInfor> source = db.TugInfor.Where(u => u.EnName.Contains(value))
-                .OrderBy(u => u.CnName).ToList<TugInfor>();
+            List<TugInfor> source = db.TugInfor.Where(u => u.Name2.Contains(value))
+                .OrderBy(u => u.Name1).ToList<TugInfor>();
 
             var jsonData = new { list = source };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -577,7 +577,7 @@ namespace TugManagementSystem.Controllers
         {
             TugDataEntities db = new TugDataEntities();
             List<TugInfor> source = db.TugInfor.Where(u => u.SimpleName.Contains(value))
-                .OrderBy(u => u.CnName).ToList<TugInfor>();
+                .OrderBy(u => u.Name1).ToList<TugInfor>();
 
             var jsonData = new { list = source };
             return Json(jsonData, JsonRequestBehavior.AllowGet);

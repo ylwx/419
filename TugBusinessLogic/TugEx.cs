@@ -9,8 +9,8 @@ namespace TugBusinessLogic
     {
         public int TugID { get; set; }
         public string Code { get; set; }
-        public string CnName { get; set; }
-        public string EnName { get; set; }
+        public string Name1 { get; set; }
+        public string Name2 { get; set; }
         public string SimpleName { get; set; }
 
         public int Cell0 { get; set; }

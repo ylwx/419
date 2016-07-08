@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TugDataModel
 {
-    public class MyBillingItem {
+    public class MyBillingItem
+    {
         public int IDX { get; set; }
         public Nullable<int> ItemID { get; set; }
         public string ItemValue { get; set; }
@@ -19,7 +20,8 @@ namespace TugDataModel
         public string TypeLabel { get; set; }
     }
 
-    public class MyScheduler{
+    public class MyScheduler
+    {
         public int TugID { get; set; }
         public string TugCnName { get; set; }
         public string TugEnName { get; set; }
@@ -27,8 +29,8 @@ namespace TugDataModel
 
         public string TugPower { get; set; }
 
-        public string InformCaptainTime { get; set; } 
-        public string CaptainConfirmTime {get;set;}
+        public string InformCaptainTime { get; set; }
+        public string CaptainConfirmTime { get; set; }
         public string DepartBaseTime { get; set; }
         public string ArrivalShipSideTime { get; set; }
         public string WorkCommencedTime { get; set; }
@@ -38,18 +40,18 @@ namespace TugDataModel
         /// <summary>
         /// 工作时间：ArrivalBaseTime - DepartBaseTime
         /// </summary>
-        public string WorkTime{get;set;}
+        public string WorkTime { get; set; }
         /// <summary>
         /// 按照计时方式换算后的实际消耗时间
         /// </summary>
-        public double WorkTimeConsumption {get;set;}
+        public double WorkTimeConsumption { get; set; }
 
 
         /// <summary>
         /// 单价
         /// </summary>
         public double UnitPrice { get; set; }
-        
+
         /// <summary>
         /// 根据计费类型不同，显示的价格也不同。比如全包：协议收费；条款：按时间收费（WorkTimeConsumption * UnitPrice）
         /// </summary>
@@ -135,12 +137,12 @@ namespace TugDataModel
         /// <summary>
         /// 计时方式Value
         /// </summary>
-        public string TimeTypeValue{get;set;}
+        public string TimeTypeValue { get; set; }
 
         /// <summary>
         /// 计时方式名称
         /// </summary>
-        public string TimeTypeLabel{get;set;}
+        public string TimeTypeLabel { get; set; }
 
 
         /// <summary>

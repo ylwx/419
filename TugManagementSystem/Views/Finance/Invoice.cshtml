@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Invoice";
     ViewBag.MenuId = "menu6";
     ViewBag.SubMenuIndex = 0;
@@ -36,9 +35,9 @@
                                 </div>
 
                                 <div class="box-body big">
-        
-                                    <div id="div_search" class="col-lg-12" style="padding-bottom:10px">    
-                                        
+
+                                    <div id="div_search" class="col-lg-12" style="padding-bottom:10px">
+
                                         <div class="col-xs-3">
                                             选择计费方案
                                             <select id="sel_billing_scheme" class="form-control" onchange="billingSchemeChanged($(this).val())">
@@ -88,7 +87,7 @@
 
 
                                     <div style="margin:8px;padding:0px; width:820px;height:1px;background-color:black;overflow:hidden;"></div>
-                                    
+
                                     <div id="div_detail">
                                         <table id="tb_detail" class="table table-bordered">
                                             <thead>
@@ -209,8 +208,6 @@
         </div>
     </div>
     <!-- /Parent MODAL FORM-->
-
-
     <!-- 提交审核 MODAL FORM-->
     <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="model-dlg" class="modal-dialog" style="width: 560px ;height:600px">
@@ -273,9 +270,9 @@
                             </ul>
                             <!-- /BREADCRUMBS -->
                             @*<div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>*@
+                                    <h3 class="content-title pull-left">Grid Test</h3>
+                                </div>
+                                <div class="description">Table</div>*@
                             @*<div><button class="btn btn-danger" onclick="AddParent()">Add Parent</button></div>*@
                         </div>
                     </div>
@@ -359,21 +356,21 @@
                 //footerrow: true,
                 colMenu: true,          //列菜单
 
-               
+
                 multiselect: true,
                 //multiboxonly: true,
 
                 onSelectRow: function (rowid,status,e) {
-                    //alert(rowid)  
+                    //alert(rowid)
                     //alert(status);
                     var grid = $("#jqGrid");
                     var rowKey = grid.getGridParam("selrow");
-                    
+
                     if (!rowKey){
                         $('#jqGrid_ilAdd').addClass('ui-state-disabled');
                         $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                         $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
-                    }                
+                    }
                     else {
 
                         $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
@@ -393,14 +390,14 @@
                 subGrid: true,
                 subGridRowExpanded: showChildGrid,
                 isHasSubGrid: function (rowid) {
-                    
+
                     // if custommerid begin with B, do not use subgrid
                     var checkbox_id = 'jqg_jqGrid_' + rowid.toString();
 
                     var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
                     //console.log(cell, rowid);
                     if (cell == null || cell == "") {
-                        
+
                         //$('#' + checkbox_id).attr('disabled', true);
                         //$('#' + checkbox_id).prop('hidden', true);
                         return false;
@@ -508,7 +505,7 @@
                                 }
                                 );
                         }
-                        
+
 
                     },
                     position: "last"
@@ -588,7 +585,7 @@
                     hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120, 
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 120,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] }
@@ -682,7 +679,7 @@
 
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100,
                     hidden: true
                 },
                 {
@@ -725,7 +722,7 @@
 
 
 
-                
+
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', name: "BillingID", width: 100,
                     hidden: true,
@@ -755,7 +752,7 @@
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeLabel', name: "BillingTypeLabel", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeLabel', name: "BillingTypeLabel", width: 100,
                     hidden: false,
                     stype: "select",
                     searchoptions: {
@@ -769,7 +766,7 @@
                     hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimeTypeValue', name: "TimeTypeValue", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimeTypeValue', name: "TimeTypeValue", width: 100,
                     hidden: true
                 },
                 {
@@ -783,26 +780,26 @@
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingRemark', name: "BillingRemark", width: 200, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingRemark', name: "BillingRemark", width: 200,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_Month', name: "Month", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_Month', name: "Month", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     hidden: false
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimesNo', name: "TimesNo", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimesNo', name: "TimesNo", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderBilling_Status', name: "Status", width: 100, 
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_Status', name: "Status", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                     hidden: false
@@ -814,16 +811,16 @@
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.OwnerID', name: "BillingOwnerID", width: 100, 
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "BillingOwnerID", width: 100,
                     hidden: true
                 },
-                
+
 
 
 
                 {
                     align: 'center',
-                    label: '@Resources.Language.CreateDate', name: "BillingCreateDate", width: 200, 
+                    label: '@Resources.Language.CreateDate', name: "BillingCreateDate", width: 200,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
@@ -850,12 +847,12 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserID', name: "BillingUserID", width: 100, 
+                    align: 'center', label: '@Resources.Language.UserID', name: "BillingUserID", width: 100,
                     hidden: true
                 },
                 {
                     align: 'center',
-                    label: '@Resources.Language.LastUpDate', name: "BillingLastUpDate", width: 200, 
+                    label: '@Resources.Language.LastUpDate', name: "BillingLastUpDate", width: 200,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
@@ -881,7 +878,7 @@
                         ]
                     }
                 },
-                
+
 
             ]
         };
@@ -901,7 +898,7 @@
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', parentRowKey);
         var childGridURL = '@Url.Action("ViewInvoice", "Finance")' + "?lan=" + '@ViewBag.Language' + "&orderId=" + dr.IDX;
-        
+
         //var html = '<div><input type="text" value="123"/></div>'
 
         $.ajax({
@@ -915,7 +912,7 @@
 
 
 
-        
+
     }
 </script>
 
@@ -1264,7 +1261,7 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-                
+
                 $('#sel_billing_scheme').empty();
                 $('#sel_billing_type').empty();
                 $('#sel_time_type').empty();
@@ -1294,7 +1291,7 @@
                     }
                 }
 
-                
+
                 for (var i = 0; i < result.billing_template_types.length; ++i) {
                     var option = $('<option value="' + result.billing_template_types[i].IDX + '~' + result.billing_template_types[i].CustomValue + '~' + result.billing_template_types[i].CustomLabel + '">' + result.billing_template_types[i].CustomLabel + '</option>')
                     $('#sel_billing_type').append(option);
@@ -1601,11 +1598,11 @@
         };
     }
 
-    
+
 
     function reGenerate(orderId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel) {
         $('#tb_detail').empty();
-        
+
         $.ajax({
             type: "get",
             url: '@Url.Action("NewInvoice", "Finance")',
@@ -1636,7 +1633,7 @@
                     p = $('<p>' + value.ServiceRemark + '</p>');
                     div3.append(p)
                 }
-               
+
                 $('#div_services').append(div1).append(div2).append(div3);
 
                 //----生成表格
@@ -1671,7 +1668,7 @@
                     $('#tb_detail').append(thead);
                 }
 
-                //2.表体  
+                //2.表体
                 DynamicGenerateTBody(billingTypeId, billingTypeValue, billingTypeLabel, result);
 
                 //3.表尾
@@ -1690,7 +1687,7 @@
             },
         });
     }
-    
+
 
     function DynamicGenerateTBody(billingTypeId, billingTypeValue, billingTypeLabel, result)
     {
@@ -1839,7 +1836,7 @@
         if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") { }
     }
 
-    
+
 
     function billingSchemeChanged(selectedValue) {
 
@@ -1851,7 +1848,7 @@
             $('#sel_time_type').attr('disabled', true);
             $('#sel_time_type').val(selectedValue.split('%')[2]);
 
-            
+
         }
         else {
 

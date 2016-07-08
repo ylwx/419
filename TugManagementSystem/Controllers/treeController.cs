@@ -27,13 +27,13 @@ namespace TugManagementSystem.Controllers
                 ////List<TugInfor> page_trees = trees.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<TugInfor>();
 
                 List<object> source = new List<object>();
-                source.Add(new { IDX = 10, CNName = "中国", FatherID = System.DBNull.Value, LevelValue = 0, IsLeaf = "false", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 11, CNName = "上海", FatherID = 10, LevelValue = 1, IsLeaf = "false", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 12, CNName = "浦东", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 13, CNName = "徐汇", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 14, CNName = "北京", FatherID = 10, LevelValue = 1, IsLeaf = "false", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 15, CNName = "海淀", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
-                source.Add(new { IDX = 16, CNName = "通州", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 10, Name1 = "中国", FatherID = System.DBNull.Value, LevelValue = 0, IsLeaf = "false", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 11, Name1 = "上海", FatherID = 10, LevelValue = 1, IsLeaf = "false", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 12, Name1 = "浦东", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 13, Name1 = "徐汇", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 14, Name1 = "北京", FatherID = 10, LevelValue = 1, IsLeaf = "false", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 15, Name1 = "海淀", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
+                source.Add(new { IDX = 16, Name1 = "通州", FatherID = 11, LevelValue = 2, IsLeaf = "true", loaded = "true", expanded = "true" });
 
                 List<object> list = new List<object>();
 

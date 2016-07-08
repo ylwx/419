@@ -288,9 +288,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 中文名 的本地化字符串。
         /// </summary>
-        internal static string CustomerShip_CnName {
+        internal static string CustomerShip_Name1 {
             get {
-                return ResourceManager.GetString("CustomerShip_CnName", resourceCulture);
+                return ResourceManager.GetString("CustomerShip_Name1", resourceCulture);
             }
         }
         
@@ -315,9 +315,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 英文名 的本地化字符串。
         /// </summary>
-        internal static string CustomerShip_EnName {
+        internal static string CustomerShip_Name2 {
             get {
-                return ResourceManager.GetString("CustomerShip_EnName", resourceCulture);
+                return ResourceManager.GetString("CustomerShip_Name2", resourceCulture);
             }
         }
         
@@ -376,11 +376,11 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 中文名稱 的本地化字符串。
+        ///   查找类似 名稱1 的本地化字符串。
         /// </summary>
-        internal static string Customer_CnName {
+        internal static string Customer_Name1 {
             get {
-                return ResourceManager.GetString("Customer_CnName", resourceCulture);
+                return ResourceManager.GetString("Customer_Name1", resourceCulture);
             }
         }
         
@@ -412,11 +412,11 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 英文名稱 的本地化字符串。
+        ///   查找类似 名稱2 的本地化字符串。
         /// </summary>
-        internal static string Customer_EnName {
+        internal static string Customer_Name2 {
             get {
-                return ResourceManager.GetString("Customer_EnName", resourceCulture);
+                return ResourceManager.GetString("Customer_Name2", resourceCulture);
             }
         }
         
@@ -657,9 +657,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 中文名 的本地化字符串。
         /// </summary>
-        internal static string Org_CnName {
+        internal static string Org_Name1 {
             get {
-                return ResourceManager.GetString("Org_CnName", resourceCulture);
+                return ResourceManager.GetString("Org_Name1", resourceCulture);
             }
         }
         
@@ -684,9 +684,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 英文名 的本地化字符串。
         /// </summary>
-        internal static string Org_EnName {
+        internal static string Org_Name2 {
             get {
-                return ResourceManager.GetString("Org_EnName", resourceCulture);
+                return ResourceManager.GetString("Org_Name2", resourceCulture);
             }
         }
         
@@ -1006,11 +1006,11 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 中文名稱 的本地化字符串。
+        ///   查找类似 名稱1 的本地化字符串。
         /// </summary>
-        internal static string TugInfor_CnName {
+        internal static string TugInfor_Name1 {
             get {
-                return ResourceManager.GetString("TugInfor_CnName", resourceCulture);
+                return ResourceManager.GetString("TugInfor_Name1", resourceCulture);
             }
         }
         
@@ -1024,11 +1024,11 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 英文名稱 的本地化字符串。
+        ///   查找类似 名稱2 的本地化字符串。
         /// </summary>
-        internal static string TugInfor_EnName {
+        internal static string TugInfor_Name2 {
             get {
-                return ResourceManager.GetString("TugInfor_EnName", resourceCulture);
+                return ResourceManager.GetString("TugInfor_Name2", resourceCulture);
             }
         }
         
@@ -1206,9 +1206,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 中文名 的本地化字符串。
         /// </summary>
-        internal static string UserInfor_CnName {
+        internal static string UserInfor_Name1 {
             get {
-                return ResourceManager.GetString("UserInfor_CnName", resourceCulture);
+                return ResourceManager.GetString("UserInfor_Name1", resourceCulture);
             }
         }
         
@@ -1233,9 +1233,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 英文名 的本地化字符串。
         /// </summary>
-        internal static string UserInfor_EnName {
+        internal static string UserInfor_Name2 {
             get {
-                return ResourceManager.GetString("UserInfor_EnName", resourceCulture);
+                return ResourceManager.GetString("UserInfor_Name2", resourceCulture);
             }
         }
         
@@ -1926,9 +1926,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 拖輪中文名 的本地化字符串。
         /// </summary>
-        internal static string V_OrderScheduler_CnName {
+        internal static string V_OrderScheduler_Name1 {
             get {
-                return ResourceManager.GetString("V_OrderScheduler_CnName", resourceCulture);
+                return ResourceManager.GetString("V_OrderScheduler_Name1", resourceCulture);
             }
         }
         
@@ -1944,9 +1944,9 @@ namespace Resources {
         /// <summary>
         ///   查找类似 拖輪英文名 的本地化字符串。
         /// </summary>
-        internal static string V_OrderScheduler_EnName {
+        internal static string V_OrderScheduler_Name2 {
             get {
-                return ResourceManager.GetString("V_OrderScheduler_EnName", resourceCulture);
+                return ResourceManager.GetString("V_OrderScheduler_Name2", resourceCulture);
             }
         }
         

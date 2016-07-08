@@ -308,20 +308,20 @@
                                                         @{
                                                             for (int i = 0; i < Model.Count; i++)
                                                             {
-                                                                <li class="clearfix" onclick="loadCustomerBillScheme($(this), '@Model[i].IDX', '@Model[i].CnName')">
+                                                                <li class="clearfix" onclick="loadCustomerBillScheme($(this), '@Model[i].IDX', '@Model[i].Name1')">
                                                                     <div class="pull-left">
                                                                         @if (i % 2 == 0)
                                                                         {
-                                                                            @*<p><h4><span class="label label-danger arrow-in-right"><i class="fa fa-user"></i><strong> @Model[i].CnName</strong></span></h4></p>*@
-                                                                            <p><h4><i class="fa fa-user"></i><strong> @Model[i].CnName</strong></h4></p>
+                                                                            @*<p><h4><span class="label label-danger arrow-in-right"><i class="fa fa-user"></i><strong> @Model[i].Name1</strong></span></h4></p>*@
+                                                                            <p><h4><i class="fa fa-user"></i><strong> @Model[i].Name1</strong></h4></p>
 
                                                                         }
                                                                         else
                                                                         {
-                                                                            @*<p><h4><span class="label label-success arrow-in-right"><i class="fa fa-user"></i><strong> @Model[i].CnName</strong></span></h4></p>*@
-                                                                            <p><h4><i class="fa fa-user"></i><strong> @Model[i].CnName</strong></h4></p>
+                                                                            @*<p><h4><span class="label label-success arrow-in-right"><i class="fa fa-user"></i><strong> @Model[i].Name1</strong></span></h4></p>*@
+                                                                            <p><h4><i class="fa fa-user"></i><strong> @Model[i].Name1</strong></h4></p>
                                                                         }
-                                                                        @*<span> @Model[i].EnName</span>
+                                                                        @*<span> @Model[i].Name2</span>
                                                                             <span> <abbr class=""> @Model[i].SimpleName</abbr></span>*@
                                                                     </div>
                                                                     @*<div class="text-right pull-right">
@@ -369,7 +369,7 @@
                                                         if (Model.Count > 0)
                                                         {
                                                             <span hidden>@Model[0].IDX</span>
-                                                            <span>@Model[0].CnName</span>
+                                                            <span>@Model[0].Name1</span>
                                                         }
                                                         else
                                                         {
@@ -1411,9 +1411,9 @@
             return [true, ""];
     }
 
-    function loadCustomerBillScheme(self, customer_id, customer_cnName) {
+    function loadCustomerBillScheme(self, customer_id, customer_Name1) {
         $('.panel-title span:first').html(customer_id);
-        $('.panel-title span:last').html(customer_cnName);
+        $('.panel-title span:last').html(customer_Name1);
 
         $('li.clearfix').removeAttr('style');
         $(self).css('background-color', 'ButtonHighlight');
