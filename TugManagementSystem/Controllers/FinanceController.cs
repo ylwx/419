@@ -12,6 +12,7 @@ namespace TugManagementSystem.Controllers
     {
         //
         // GET: /Finance/
+        [Authorize]
         public ActionResult Invoice(string lan, int? id)
         {
             lan = this.Internationalization();
@@ -24,6 +25,7 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult GetInvoice(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
@@ -68,6 +70,8 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
+
         [Authorize]
         [HttpGet]
         public ActionResult ViewInvoice(string lan, int? orderId)
@@ -82,6 +86,7 @@ namespace TugManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult NewInvoice(string lan, int? orderId, string customerBillingScheme, 
             int billingTypeId, string billingTypeValue, string billingTypeLabel, 
             int timeTypeId, string timeTypeValue, string timeTypeLabel)
@@ -105,6 +110,7 @@ namespace TugManagementSystem.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public ActionResult InitFilter(string lan, int? custId,  int? orderId)
         {
             lan = this.Internationalization();
@@ -120,7 +126,7 @@ namespace TugManagementSystem.Controllers
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize]
         public ActionResult DeleteInvoice()
         {
             this.Internationalization();
