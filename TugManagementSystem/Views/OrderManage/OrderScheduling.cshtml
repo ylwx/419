@@ -36,7 +36,13 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceNatureLabel</label>
                                             <div class="col-sm-9">
-                                                <select id="_ServiceNatureLabel" class="form-control"></select>
+                                                <select id="_ServiceNatureLabel" class="form-control" onchange="serviceChanged()"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceWorkPlace</label>
+                                            <div class="col-sm-9">
+                                                <input id="_ServiceWorkPlace" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_ServiceWorkPlace" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -2093,6 +2099,8 @@
 
     function initChildModal() {
         $('#childErrMsg').hide();
+        
+        $('#_ServiceWorkPlace').parent().removeClass("has-error");
         $('#_ChooseTug').parent().removeClass("has-error");
         $('#_RopeNum').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
@@ -2110,12 +2118,34 @@
 
         $("#_ServiceNatureLabel option:first").prop("selected", 'selected');
 
-        $('#_ChooseTug').val("");
-        $("#_JobStateLabel option:first").prop("selected", 'selected');
-        $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
-        $('#_RopeNum').val("0");
-        $('#_RopeNum').attr("disabled", "disabled");
-        $('#_Remark').val("");
+        var orderId = dr.IDX;
+        var serviceNatureId = $('#_ServiceNatureLabel').val();
+        //alert(serviceNatureId);
+        //return;
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetServicePlace", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#_ServiceWorkPlace').val(result.service_place);
+                $('#_ChooseTug').val("");
+                $("#_JobStateLabel option:first").prop("selected", 'selected');
+                $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+                $('#_RopeNum').val("0");
+                $('#_RopeNum').attr("disabled", "disabled");
+                $('#_Remark').val("");
+
+            },
+        });
+
+
+        
     }
 
     $('#child-modal').on('show.bs.modal', function (e) {
@@ -2149,6 +2179,26 @@
         }
     }
 
+    function serviceChanged() {
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+        var orderId = dr.IDX;
+        var serviceNatureId = $('#_ServiceNatureLabel').val();
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetServicePlace", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#_ServiceWorkPlace').val(result.service_place);
+            },
+        });
+    }
+
     function submitChildModal() {
 
         var maxTextLength = 25;
@@ -2156,6 +2206,7 @@
 
 
         $('#childErrMsg').hide();
+        $('#_ServiceWorkPlace').parent().removeClass("has-error");
         $('#_ChooseTug').parent().removeClass("has-error");
         $('#_RopeNum').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
@@ -2165,6 +2216,7 @@
 
         var orderId = dr.IDX;
         var serviceNatureId = $('#_ServiceNatureLabel').val();
+        var serviceWorkPlace = $('#_ServiceWorkPlace').val().trim();
         var tugId = $('#_TugID').text();
         var jobStateId = $("#_JobStateLabel").val().toString().split('~')[0];
         var ropeUsed = "否";
@@ -2175,6 +2227,19 @@
         var remark = $('#_Remark').val().toString().trim();
 
         //校验
+        if ($("#_ServiceWorkPlace").val().toString().trim().length <= 0) {
+            $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkPlace' + "必填");
+            $('#_ServiceWorkPlace').parent().addClass("has-error");
+            $('#childErrMsg').show();
+            return;
+        }
+        if ($("#_ServiceWorkPlace").val().toString().trim().length > maxTextAreaLength) {
+            $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkPlace' + "长度不能超过" + maxTextAreaLength);
+            $('#_ServiceWorkPlace').parent().addClass("has-error");
+            $('#childErrMsg').show();
+            return;
+        }
+
         if ($("#_ChooseTug").val().toString().trim().length <= 0) {
             $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ChooseTug' + ":请选择一个拖轮");
             $('#_ChooseTug').parent().addClass("has-error");
@@ -2207,6 +2272,7 @@
             data: {
                 'orderId': orderId,
                 'serviceNatureId': serviceNatureId,
+                'serviceWorkPlace':serviceWorkPlace,
                 'tugId': tugId,
                 'jobStateId': jobStateId,
                 'ropeUsed': ropeUsed,

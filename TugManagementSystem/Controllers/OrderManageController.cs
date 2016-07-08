@@ -644,6 +644,29 @@ namespace TugManagementSystem.Controllers
                         aScheduler = db.Scheduler.Add(aScheduler);
                         db.SaveChanges();
 
+                        {
+                            OrderService os = db.OrderService.Where(u => u.OrderID == aScheduler.OrderID && u.ServiceNatureID == aScheduler.ServiceNatureID).FirstOrDefault();
+                            if (os == null)
+                            {
+                                os = new OrderService();
+                                os.CreateDate = os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                os.OrderID = aScheduler.OrderID;
+                                os.OwnerID = -1;
+                                os.ServiceNatureID = aScheduler.ServiceNatureID;
+                                os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim(); 
+                                os.UserID = Session.GetDataFromSession<int>("userid");
+                                os = db.OrderService.Add(os);
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim(); 
+                                os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                         //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                         return Json(ret);
@@ -725,6 +748,29 @@ namespace TugManagementSystem.Controllers
                         db.Entry(aScheduler).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
+                        {
+                            OrderService os = db.OrderService.Where(u => u.OrderID == aScheduler.OrderID && u.ServiceNatureID == aScheduler.ServiceNatureID).FirstOrDefault();
+                            if (os == null)
+                            {
+                                os = new OrderService();
+                                os.CreateDate = os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                os.OrderID = aScheduler.OrderID;
+                                os.OwnerID = -1;
+                                os.ServiceNatureID = aScheduler.ServiceNatureID;
+                                os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
+                                os.UserID = Session.GetDataFromSession<int>("userid");
+                                os = db.OrderService.Add(os);
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
+                                os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
                 }
@@ -740,7 +786,7 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        public ActionResult AddScheduler(int orderId, int serviceNatureId, int tugId, int jobStateId, string ropeUsed, int ropeNum, string remark)
+        public ActionResult AddScheduler(int orderId, int serviceNatureId, string serviceWorkPlace, int tugId, int jobStateId, string ropeUsed, int ropeNum, string remark)
         {
             this.Internationalization();
 
@@ -752,6 +798,7 @@ namespace TugManagementSystem.Controllers
 
                     aScheduler.OrderID = orderId;
                     aScheduler.ServiceNatureID = serviceNatureId;
+
                     aScheduler.TugID = tugId;
                     aScheduler.JobStateID = jobStateId;
                     aScheduler.RopeUsed = ropeUsed;
@@ -785,6 +832,30 @@ namespace TugManagementSystem.Controllers
 
                     aScheduler = db.Scheduler.Add(aScheduler);
                     db.SaveChanges();
+
+                    {
+                        OrderService os = db.OrderService.Where(u => u.OrderID == orderId && u.ServiceNatureID == serviceNatureId).FirstOrDefault();
+                        if (os == null)
+                        {
+                            os = new OrderService();
+                            os.CreateDate = os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            os.OrderID = orderId;
+                            os.OwnerID = -1;
+                            os.ServiceNatureID = serviceNatureId;
+                            os.ServiceWorkPlace = serviceWorkPlace;
+                            os.UserID = Session.GetDataFromSession<int>("userid");
+                            os = db.OrderService.Add(os);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            os.ServiceWorkPlace = serviceWorkPlace;
+                            os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                            
+                        }
+                    }
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
@@ -872,6 +943,19 @@ namespace TugManagementSystem.Controllers
             catch (Exception)
             {
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetServicePlace(int orderId, int serviceNatureId)
+        {
+            TugDataEntities db = new TugDataEntities();
+            OrderService os = db.OrderService.Where(u => u.OrderID == orderId && u.ServiceNatureID == serviceNatureId).FirstOrDefault();
+            if (os != null) {
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, service_place=os.ServiceWorkPlace }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, service_place = "" }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion 订单调度页面Action

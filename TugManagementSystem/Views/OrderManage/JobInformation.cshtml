@@ -9,6 +9,7 @@
 
 <div id="main-content">
 
+
     <!-- Child MODAL FORM-->
     <div class="modal fade" id="child-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="child-model-dlg" class="modal-dialog" style="width:500px">
@@ -36,7 +37,13 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceNatureLabel</label>
                                             <div class="col-sm-9">
-                                                <select id="_ServiceNatureLabel" class="form-control"></select>
+                                                <select id="_ServiceNatureLabel" class="form-control" onchange="serviceChanged()"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceWorkPlace</label>
+                                            <div class="col-sm-9">
+                                                <input id="_ServiceWorkPlace" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_ServiceWorkPlace" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -108,8 +115,6 @@
         </div>
     </div>
     <!-- /Child MODAL FORM-->
-
-
     <!-- 拖轮选择模态框-->
     <div class="modal fade" id="table-modal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
         <div id="table-model-dlg" class="modal-dialog" style="width:1000px">
@@ -158,6 +163,8 @@
     <!-- /拖轮选择模态框-->
 
 
+
+
     <div class="container">
         <div class="row">
             <div id="content" class="col-lg-12">
@@ -184,9 +191,10 @@
                             </ul>
                             <!-- /BREADCRUMBS -->
                             @*<div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>*@
+                                    <h3 class="content-title pull-left">Grid Test</h3>
+                                </div>
+                                <div class="description">Table</div>*@
+
                             @*<div><button class="btn btn-danger" onclick="AddChild()">Add Child</button></div>*@
                         </div>
                     </div>
@@ -229,14 +237,17 @@
                     </div>
                 </div>
                 <!-- /SAMPLE -->
+
                 <div class="footer-tools">
                     <span class="go-top">
                         <i class="fa fa-chevron-up"></i> Top
                     </span>
                 </div>
+
             </div>
         </div>
     </div>
+
 
 </div>
 
@@ -443,7 +454,14 @@
                         ]
                     }
                 },
-
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkPlace', name: "ServiceWorkPlace", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_SchedulerWorkPlace', name: "SchedulerWorkPlace", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_TugID', name: "TugID", width: 100, editable: true, edittype: "text",
                     hidden: true,
@@ -461,7 +479,7 @@
                     editoptions: { defaultValue: -1 }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_Name1', name: "Name1", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_Name1', name: "TugName1", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {
                         dataInit: function (element) {
@@ -483,7 +501,7 @@
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_Name2', name: "Name2", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_Name2', name: "TugName2", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     editoptions: {
                         dataInit: function (element) {
@@ -506,7 +524,7 @@
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: 'text',
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_SimpleName', name: "TugSimpleName", width: 100, editable: true, edittype: 'text',
                     editrules: { required: false, edithidden: true }, hidden: false,
                     editoptions: {
                         @*custom_value: function (elem, oper, value){},
@@ -1567,7 +1585,7 @@
     function modalDialogGridInit() {
         //alert("show");
 
-        var w = 80;
+        var w = 45;
 
 
         $("#jqGrid2").jqGrid({
@@ -1609,154 +1627,154 @@
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '00:00-00:30', name: "Cell0", width: w, search: false
+                    align: 'center', label: '00:30', name: "Cell0", width: w, search: false
                 },
                 {
-                    align: 'center', label: '00:30-01:00', name: "Cell1", width: w, search: false
+                    align: 'center', label: '01:00', name: "Cell1", width: w, search: false
                 },
                 {
-                    align: 'center', label: '01:00-01:30', name: "Cell2", width: w, search: false
+                    align: 'center', label: '01:30', name: "Cell2", width: w, search: false
                 },
                 {
-                    align: 'center', label: '01:30-02:00', name: "Cell3", width: w, search: false
+                    align: 'center', label: '02:00', name: "Cell3", width: w, search: false
                 },
                 {
-                    align: 'center', label: '02:00-02:30', name: "Cell4", width: w, search: false
+                    align: 'center', label: '02:30', name: "Cell4", width: w, search: false
                 },
                 {
-                    align: 'center', label: '02:30-03:00', name: "Cell5", width: w, search: false
+                    align: 'center', label: '03:00', name: "Cell5", width: w, search: false
                 },
                 {
-                    align: 'center', label: '03:00-03:30', name: "Cell6", width: w, search: false
+                    align: 'center', label: '03:30', name: "Cell6", width: w, search: false
                 },
                 {
-                    align: 'center', label: '03:30-04:00', name: "Cell7", width: w, search: false
+                    align: 'center', label: '04:00', name: "Cell7", width: w, search: false
                 },
                 {
-                    align: 'center', label: '04:00-04:30', name: "Cell8", width: w, search: false
+                    align: 'center', label: '04:30', name: "Cell8", width: w, search: false
                 },
                 {
-                    align: 'center', label: '04:30-05:00', name: "Cell9", width: w, search: false
+                    align: 'center', label: '05:00', name: "Cell9", width: w, search: false
                 },
                 {
-                    align: 'center', label: '05:00-05:30', name: "Cell10", width: w, search: false
-                },
-
-
-                {
-                    align: 'center', label: '05:30-06:00', name: "Cell11", width: w, search: false
-                },
-                {
-                    align: 'center', label: '06:00-06:30', name: "Cell12", width: w, search: false
-                },
-                {
-                    align: 'center', label: '06:30-07:00', name: "Cell13", width: w, search: false
-                },
-                {
-                    align: 'center', label: '07:00-07:30', name: "Cell14", width: w, search: false
-                },
-                {
-                    align: 'center', label: '07:30-08:00', name: "Cell15", width: w, search: false
-                },
-                {
-                    align: 'center', label: '08:00-08:30', name: "Cell16", width: w, search: false
-                },
-                {
-                    align: 'center', label: '08:30-09:00', name: "Cell17", width: w, search: false
-                },
-                {
-                    align: 'center', label: '09:00-09:30', name: "Cell18", width: w, search: false
-                },
-                {
-                    align: 'center', label: '09:30-10:00', name: "Cell19", width: w, search: false
-                },
-                {
-                    align: 'center', label: '10:00-10:30', name: "Cell20", width: w, search: false
-                },
-                {
-                    align: 'center', label: '10:30-11:00', name: "Cell21", width: w, search: false
-                },
-                {
-                    align: 'center', label: '11:00-11:30', name: "Cell22", width: w, search: false
+                    align: 'center', label: '05:30', name: "Cell10", width: w, search: false
                 },
 
 
                 {
-                    align: 'center', label: '11:30-12:00', name: "Cell23", width: w, search: false
+                    align: 'center', label: '06:00', name: "Cell11", width: w, search: false
                 },
                 {
-                    align: 'center', label: '12:00-12:30', name: "Cell24", width: w, search: false
+                    align: 'center', label: '06:30', name: "Cell12", width: w, search: false
                 },
                 {
-                    align: 'center', label: '12:30-13:00', name: "Cell25", width: w, search: false
+                    align: 'center', label: '07:00', name: "Cell13", width: w, search: false
                 },
                 {
-                    align: 'center', label: '13:00-13:30', name: "Cell26", width: w, search: false
+                    align: 'center', label: '07:30', name: "Cell14", width: w, search: false
                 },
                 {
-                    align: 'center', label: '13:30-14:00', name: "Cell27", width: w, search: false
+                    align: 'center', label: '08:00', name: "Cell15", width: w, search: false
                 },
                 {
-                    align: 'center', label: '14:00-14:30', name: "Cell28", width: w, search: false
+                    align: 'center', label: '08:30', name: "Cell16", width: w, search: false
                 },
                 {
-                    align: 'center', label: '14:30-15:00', name: "Cell29", width: w, search: false
+                    align: 'center', label: '09:00', name: "Cell17", width: w, search: false
                 },
                 {
-                    align: 'center', label: '15:00-15:30', name: "Cell30", width: w, search: false
+                    align: 'center', label: '09:30', name: "Cell18", width: w, search: false
                 },
                 {
-                    align: 'center', label: '15:30-16.00', name: "Cell31", width: w, search: false
+                    align: 'center', label: '10:00', name: "Cell19", width: w, search: false
                 },
                 {
-                    align: 'center', label: '16.00-16:30', name: "Cell32", width: w, search: false
+                    align: 'center', label: '10:30', name: "Cell20", width: w, search: false
                 },
                 {
-                    align: 'center', label: '16:30-17:00', name: "Cell33", width: w, search: false
+                    align: 'center', label: '11:00', name: "Cell21", width: w, search: false
                 },
                 {
-                    align: 'center', label: '17:00-17:30', name: "Cell34", width: w, search: false
+                    align: 'center', label: '11:30', name: "Cell22", width: w, search: false
                 },
 
 
                 {
-                    align: 'center', label: '17:30-18:00', name: "Cell35", width: w, search: false
+                    align: 'center', label: '12:00', name: "Cell23", width: w, search: false
                 },
                 {
-                    align: 'center', label: '18:00-18:30', name: "Cell36", width: w, search: false
+                    align: 'center', label: '12:30', name: "Cell24", width: w, search: false
                 },
                 {
-                    align: 'center', label: '18:30-19:00', name: "Cell37", width: w, search: false
+                    align: 'center', label: '13:00', name: "Cell25", width: w, search: false
                 },
                 {
-                    align: 'center', label: '19:00-19:30', name: "Cell38", width: w, search: false
+                    align: 'center', label: '13:30', name: "Cell26", width: w, search: false
                 },
                 {
-                    align: 'center', label: '19:30-20:00', name: "Cell39", width: w, search: false
+                    align: 'center', label: '14:00', name: "Cell27", width: w, search: false
                 },
                 {
-                    align: 'center', label: '20:00-20:30', name: "Cell40", width: w, search: false
+                    align: 'center', label: '14:30', name: "Cell28", width: w, search: false
                 },
                 {
-                    align: 'center', label: '20：30-21:00', name: "Cell41", width: w, search: false
+                    align: 'center', label: '15:00', name: "Cell29", width: w, search: false
                 },
                 {
-                    align: 'center', label: '21:00-21:30', name: "Cell42", width: w, search: false
+                    align: 'center', label: '15:30', name: "Cell30", width: w, search: false
                 },
                 {
-                    align: 'center', label: '21:30-22:00', name: "Cell43", width: w, search: false
+                    align: 'center', label: '16.00', name: "Cell31", width: w, search: false
                 },
                 {
-                    align: 'center', label: '22:00-22:30', name: "Cell44", width: w, search: false
+                    align: 'center', label: '16:30', name: "Cell32", width: w, search: false
                 },
                 {
-                    align: 'center', label: '22:30-23:00', name: "Cell45", width: w, search: false
+                    align: 'center', label: '17:00', name: "Cell33", width: w, search: false
                 },
                 {
-                    align: 'center', label: '23:00-23:30', name: "Cell46", width: w, search: false
+                    align: 'center', label: '17:30', name: "Cell34", width: w, search: false
+                },
+
+
+                {
+                    align: 'center', label: '18:00', name: "Cell35", width: w, search: false
                 },
                 {
-                    align: 'center', label: '23:30-23:59', name: "Cell47", width: w, search: false
+                    align: 'center', label: '18:30', name: "Cell36", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:00', name: "Cell37", width: w, search: false
+                },
+                {
+                    align: 'center', label: '19:30', name: "Cell38", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20:00', name: "Cell39", width: w, search: false
+                },
+                {
+                    align: 'center', label: '20:30', name: "Cell40", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:00', name: "Cell41", width: w, search: false
+                },
+                {
+                    align: 'center', label: '21:30', name: "Cell42", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:00', name: "Cell43", width: w, search: false
+                },
+                {
+                    align: 'center', label: '22:30', name: "Cell44", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:00', name: "Cell45", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:30', name: "Cell46", width: w, search: false
+                },
+                {
+                    align: 'center', label: '23:59', name: "Cell47", width: w, search: false
                 },
 
             ],
@@ -2069,6 +2087,7 @@
 </script>
 
 
+
 <script type="text/javascript">
     //模态框
 
@@ -2079,6 +2098,8 @@
 
     function initChildModal() {
         $('#childErrMsg').hide();
+
+        $('#_ServiceWorkPlace').parent().removeClass("has-error");
         $('#_ChooseTug').parent().removeClass("has-error");
         $('#_RopeNum').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
@@ -2096,12 +2117,34 @@
 
         $("#_ServiceNatureLabel option:first").prop("selected", 'selected');
 
-        $('#_ChooseTug').val("");
-        $("#_JobStateLabel option:first").prop("selected", 'selected');
-        $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
-        $('#_RopeNum').val("0");
-        $('#_RopeNum').attr("disabled", "disabled");
-        $('#_Remark').val("");
+        var orderId = dr.IDX;
+        var serviceNatureId = $('#_ServiceNatureLabel').val();
+        //alert(serviceNatureId);
+        //return;
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetServicePlace", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#_ServiceWorkPlace').val(result.service_place);
+                $('#_ChooseTug').val("");
+                $("#_JobStateLabel option:first").prop("selected", 'selected');
+                $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+                $('#_RopeNum').val("0");
+                $('#_RopeNum').attr("disabled", "disabled");
+                $('#_Remark').val("");
+
+            },
+        });
+
+
+
     }
 
     $('#child-modal').on('show.bs.modal', function (e) {
@@ -2135,6 +2178,26 @@
         }
     }
 
+    function serviceChanged() {
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+        var orderId = dr.IDX;
+        var serviceNatureId = $('#_ServiceNatureLabel').val();
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetServicePlace", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#_ServiceWorkPlace').val(result.service_place);
+            },
+        });
+    }
+
     function submitChildModal() {
 
         var maxTextLength = 25;
@@ -2142,6 +2205,7 @@
 
 
         $('#childErrMsg').hide();
+        $('#_ServiceWorkPlace').parent().removeClass("has-error");
         $('#_ChooseTug').parent().removeClass("has-error");
         $('#_RopeNum').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
@@ -2151,6 +2215,7 @@
 
         var orderId = dr.IDX;
         var serviceNatureId = $('#_ServiceNatureLabel').val();
+        var serviceWorkPlace = $('#_ServiceWorkPlace').val().trim();
         var tugId = $('#_TugID').text();
         var jobStateId = $("#_JobStateLabel").val().toString().split('~')[0];
         var ropeUsed = "否";
@@ -2161,6 +2226,19 @@
         var remark = $('#_Remark').val().toString().trim();
 
         //校验
+        if ($("#_ServiceWorkPlace").val().toString().trim().length <= 0) {
+            $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkPlace' + "必填");
+            $('#_ServiceWorkPlace').parent().addClass("has-error");
+            $('#childErrMsg').show();
+            return;
+        }
+        if ($("#_ServiceWorkPlace").val().toString().trim().length > maxTextAreaLength) {
+            $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkPlace' + "长度不能超过" + maxTextAreaLength);
+            $('#_ServiceWorkPlace').parent().addClass("has-error");
+            $('#childErrMsg').show();
+            return;
+        }
+
         if ($("#_ChooseTug").val().toString().trim().length <= 0) {
             $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ChooseTug' + ":请选择一个拖轮");
             $('#_ChooseTug').parent().addClass("has-error");
@@ -2193,6 +2271,7 @@
             data: {
                 'orderId': orderId,
                 'serviceNatureId': serviceNatureId,
+                'serviceWorkPlace':serviceWorkPlace,
                 'tugId': tugId,
                 'jobStateId': jobStateId,
                 'ropeUsed': ropeUsed,
