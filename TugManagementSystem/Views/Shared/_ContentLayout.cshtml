@@ -356,7 +356,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img alt="" src="~/Resources/Frame/img/avatars/avatar3.jpg" />
                         @*<span class="username" id="userName">@ViewBag.user_name</span>*@
-                        <span class="username" id="userName"></span>
+                        <span class="username" id="_userName"></span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -571,15 +571,13 @@
                           url: "/Home/GetUserName",
                           dataType: 'json',
                           success: function (result) {
-                              $("#userName").val(result.message);
+                              $("#_userName").html(result.message);
                           },
 
                       }
+
    );
         });
     </script>
-    @{
-        ViewBag.user_name = User.Identity.Name;
-    }
 </body>
 </html>
