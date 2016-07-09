@@ -2095,6 +2095,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 服務日期 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_ServiceWorkDate {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_ServiceWorkDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 服務地點 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_ServiceWorkPlace {

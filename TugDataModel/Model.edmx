@@ -450,6 +450,7 @@
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderID" Type="int" />
           <Property Name="ServiceNatureID" Type="int" />
+          <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="OwnerID" Type="int" />
@@ -822,6 +823,7 @@
           <Property Name="OrderEstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNatureID" Type="int" />
           <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
           <Property Name="TugID" Type="int" />
           <Property Name="TugName1" Type="nvarchar" MaxLength="50" />
@@ -1045,6 +1047,7 @@
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNatureID" Type="int" />
           <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
           <Property Name="SchedulerWorkPlace" Type="nvarchar" MaxLength="50" />
           <Property Name="TugID" Type="int" />
@@ -1117,6 +1120,7 @@
           <Property Name="ServiceNatureID" Type="int" />
           <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
         </EntityType>
         <!--生成过程中发现错误:
@@ -1505,6 +1509,7 @@
     [V_Invoice].[OrderEstimatedCompletionTime] AS [OrderEstimatedCompletionTime], 
     [V_Invoice].[ServiceNatureID] AS [ServiceNatureID], 
     [V_Invoice].[ServiceNatureLabel] AS [ServiceNatureLabel], 
+    [V_Invoice].[ServiceWorkDate] AS [ServiceWorkDate], 
     [V_Invoice].[ServiceWorkPlace] AS [ServiceWorkPlace], 
     [V_Invoice].[TugID] AS [TugID], 
     [V_Invoice].[TugName1] AS [TugName1], 
@@ -1713,6 +1718,7 @@
     [V_OrderScheduler].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
     [V_OrderScheduler].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderScheduler].[ServiceNatureLabel] AS [ServiceNatureLabel], 
+    [V_OrderScheduler].[ServiceWorkDate] AS [ServiceWorkDate], 
     [V_OrderScheduler].[ServiceWorkPlace] AS [ServiceWorkPlace], 
     [V_OrderScheduler].[SchedulerWorkPlace] AS [SchedulerWorkPlace], 
     [V_OrderScheduler].[TugID] AS [TugID], 
@@ -1782,6 +1788,7 @@
     [V_OrderService].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderService].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_OrderService].[ServiceNatureLabel] AS [ServiceNatureLabel], 
+    [V_OrderService].[ServiceWorkDate] AS [ServiceWorkDate], 
     [V_OrderService].[ServiceWorkPlace] AS [ServiceWorkPlace]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
           </EntitySet>
@@ -2458,6 +2465,7 @@
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="Int32" />
           <Property Name="ServiceNatureID" Type="Int32" />
+          <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" />
@@ -2827,6 +2835,7 @@
           <Property Name="OrderEstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNatureID" Type="Int32" />
           <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TugID" Type="Int32" />
           <Property Name="TugName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3040,6 +3049,7 @@
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNatureID" Type="Int32" />
           <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SchedulerWorkPlace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugID" Type="Int32" />
@@ -3110,6 +3120,7 @@
           <Property Name="ServiceNatureID" Type="Int32" />
           <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_RoleMenu">
@@ -3816,6 +3827,7 @@
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
                 <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
@@ -4221,6 +4233,7 @@
                 <ScalarProperty Name="TugName1" ColumnName="TugName1" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
                 <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
                 <ScalarProperty Name="ServiceNatureLabel" ColumnName="ServiceNatureLabel" />
                 <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
                 <ScalarProperty Name="OrderEstimatedCompletionTime" ColumnName="OrderEstimatedCompletionTime" />
@@ -4421,6 +4434,7 @@
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
                 <ScalarProperty Name="SchedulerWorkPlace" ColumnName="SchedulerWorkPlace" />
                 <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
                 <ScalarProperty Name="ServiceNatureLabel" ColumnName="ServiceNatureLabel" />
                 <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
@@ -4438,6 +4452,7 @@
             <EntityTypeMapping TypeName="Model.V_OrderService">
               <MappingFragment StoreEntitySet="V_OrderService">
                 <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
                 <ScalarProperty Name="ServiceNatureLabel" ColumnName="ServiceNatureLabel" />
                 <ScalarProperty Name="ServiceNatureValue" ColumnName="ServiceNatureValue" />
                 <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />

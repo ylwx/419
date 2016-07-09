@@ -36,7 +36,7 @@ namespace TugBusinessLogic.Module
 
                 Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();
                 //var services2 = list.Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).ToList();
-                var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkPlace }).Distinct().ToList();
+                var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
                 //var services = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).Distinct().ToList();
 
                 Dictionary<int, List<MyScheduler>> dicSchedulers = new Dictionary<int, List<MyScheduler>>();
@@ -50,6 +50,7 @@ namespace TugBusinessLogic.Module
                         MyService ms = new MyService();
                         ms.ServiceId = (int)item.ServiceNatureID;
                         ms.ServiceName = item.ServiceNatureLabel;
+                        ms.ServiceWorkDate = item.ServiceWorkDate;
                         ms.ServiceWorkPlace = item.ServiceWorkPlace;
                         dicServiceNature.Add(ms.ServiceId, ms);
 
@@ -220,7 +221,7 @@ namespace TugBusinessLogic.Module
 
             var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u);
 
-            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkPlace }).Distinct().ToList();
+            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
 
             if (services != null)
             {
@@ -231,6 +232,7 @@ namespace TugBusinessLogic.Module
                     MyService ms = new MyService();
                     ms.ServiceId = (int)service.ServiceNatureID;
                     ms.ServiceName = service.ServiceNatureLabel;
+                    ms.ServiceWorkDate = service.ServiceWorkDate;
                     ms.ServiceWorkPlace = service.ServiceWorkPlace;
                     dicService.Add(ms.ServiceId, ms);
 
