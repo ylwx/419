@@ -1478,7 +1478,12 @@
 
                         var value = result.invoice.Schedulers[key];
                         for (var i = 0; i < value.length; ++i) {
-                            var th = '<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>';
+                            var th = $('<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>');
+
+                            
+                            var span1 = $('<span hidden>' + value[i].SchedulerID + '</span>');
+                            th.append(span1);
+
                             tr2.append(th);
                             colspan++;
                         }

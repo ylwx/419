@@ -22,6 +22,7 @@ namespace TugDataModel
 
     public class MyScheduler
     {
+        public int SchedulerID { get; set; }
         public int TugID { get; set; }
         public string TugCnName { get; set; }
         public string TugEnName { get; set; }

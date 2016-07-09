@@ -239,6 +239,7 @@ namespace TugBusinessLogic.Module
                     var schedulers = list.Where(u => u.ServiceNatureID == (int)service.ServiceNatureID)
                         .Select(u => new
                         {
+                            u.IDX,
                             u.TugID,
                             u.TugName1,
                             u.TugName2,
@@ -257,6 +258,7 @@ namespace TugBusinessLogic.Module
                         foreach (var scheduler in schedulers)
                         {
                             MyScheduler mySch = new MyScheduler();
+                            mySch.SchedulerID = scheduler.IDX;
                             mySch.TugID = (int)scheduler.TugID;
                             mySch.TugCnName = scheduler.TugName1;
                             mySch.TugEnName = scheduler.TugName2;
