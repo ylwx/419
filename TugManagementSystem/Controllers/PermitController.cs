@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TugBusinessLogic;
 using TugBusinessLogic.Module;
 using TugDataModel;
-using TugBusinessLogic;
 
 namespace TugManagementSystem.Controllers
 {
     public class PermitController : BaseController
     {
         private static int _DefaultPageSie = 7;
+
         #region 角色
+
         [HttpGet]
         public ActionResult GetRoles(int curPage, string queryName = "")
         {
@@ -58,7 +60,8 @@ namespace TugManagementSystem.Controllers
                 return null;
             }
         }
-        #endregion
+
+        #endregion 角色
 
         #region 角色页面Action
 
@@ -81,8 +84,8 @@ namespace TugManagementSystem.Controllers
                         obj.System = Request.Form["System"];
                         obj.Remark = Request.Form["Remark"];
                         obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        obj.UserID = Session.GetDataFromSession<int>("userid");
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -143,8 +146,8 @@ namespace TugManagementSystem.Controllers
                         obj.System = Request.Form["System"];
                         obj.Remark = Request.Form["Remark"];
                         obj.OwnerID = -1;
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
+                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        obj.UserID = Session.GetDataFromSession<int>("userid");
 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -244,6 +247,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
         [Authorize]
         public ActionResult RoleManage(string lan, int? id)
         {
@@ -279,7 +283,7 @@ namespace TugManagementSystem.Controllers
                         obj.Remark = Request.Form["Remark"];
                         //obj.OwnerID = -1;
                         //obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        //obj.UserID = Session.GetDataFromSession<int>("userid"); 
+                        //obj.UserID = Session.GetDataFromSession<int>("userid");
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -341,7 +345,7 @@ namespace TugManagementSystem.Controllers
                         obj.Remark = Request.Form["Remark"];
                         //obj.OwnerID = -1;
                         //obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        //obj.UserID = Session.GetDataFromSession<int>("userid"); 
+                        //obj.UserID = Session.GetDataFromSession<int>("userid");
 
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
@@ -408,6 +412,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
         public ActionResult GetModuleDataForOnce(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
@@ -435,6 +440,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
         public ActionResult GetModuleData(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
@@ -467,6 +473,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
         [Authorize]
         public ActionResult ModuleManage(string lan, int? id)
         {
@@ -500,10 +507,10 @@ namespace TugManagementSystem.Controllers
                         obj.RoleID = rolId;
                         obj.IsAdmin = Request.Form["IsAdmin"];
                         obj.System = "Role";
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
                         obj.OwnerID = -1;
-                        obj.AddUserID = Session.GetDataFromSession<int>("userid"); 
+                        obj.AddUserID = Session.GetDataFromSession<int>("userid");
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -563,10 +570,10 @@ namespace TugManagementSystem.Controllers
                         obj.RoleID = Util.toint(Request.Form["RoleID"]);
                         obj.IsAdmin = Request.Form["IsAdmin"];
                         obj.System = "Role";
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
+                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
                         obj.OwnerID = -1;
-                        obj.AddUserID = Session.GetDataFromSession<int>("userid"); 
+                        obj.AddUserID = Session.GetDataFromSession<int>("userid");
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -633,7 +640,6 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-
         public ActionResult GetRowUsers(bool _search, string sidx, string sord, int page, int rows, int rolId)
         {
             this.Internationalization();
@@ -666,6 +672,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
         [Authorize]
         public ActionResult RoleUserManage(string lan, int? id)
         {
@@ -683,6 +690,7 @@ namespace TugManagementSystem.Controllers
         #endregion 角色人页面Action
 
         #region 角色模块Action
+
         public ActionResult DeleteRoleModule()
         {
             this.Internationalization();
@@ -711,6 +719,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
         public ActionResult AddEditRowModule(int rolId)
         {
             //this.Internationalization();
@@ -729,10 +738,10 @@ namespace TugManagementSystem.Controllers
 
                         obj.IsAdmin = Request.Form["IsAdmin"];
                         obj.System = "Role";
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
                         obj.OwnerID = -1;
-                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
+                        obj.UserID = Session.GetDataFromSession<int>("userid");
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -793,10 +802,10 @@ namespace TugManagementSystem.Controllers
 
                         obj.IsAdmin = Request.Form["IsAdmin"];
                         obj.System = "Role";
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
+                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
                         obj.OwnerID = -1;
-                        obj.UserID = Session.GetDataFromSession<int>("userid"); 
+                        obj.UserID = Session.GetDataFromSession<int>("userid");
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
@@ -833,6 +842,7 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+
         public ActionResult GetRowModules(bool _search, string sidx, string sord, int page, int rows, int rolId)
         {
             this.Internationalization();
@@ -865,6 +875,7 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+
         [Authorize]
         public ActionResult RoleModuleManage(string lan, int? id)
         {
@@ -882,6 +893,7 @@ namespace TugManagementSystem.Controllers
         #endregion 角色模块Action
 
         #region 角色菜单模块Action
+
         [Authorize]
         public ActionResult RoleMenuManage(string lan, int? id)
         {
@@ -895,6 +907,7 @@ namespace TugManagementSystem.Controllers
 
             return View(list);
         }
+
         public ActionResult GetRowMenus(bool _search, string sidx, string sord, int page, int rows, int rolId)
         {
             this.Internationalization();
@@ -944,7 +957,7 @@ namespace TugManagementSystem.Controllers
 
                         obj.Page = Request.Form["Page"];
                         obj.Menu = Request.Form["Menu"];
-                        obj.MenuName =Request.Form["MenuName"];
+                        obj.MenuName = Request.Form["MenuName"];
                         obj.Visible = Request.Form["Visible"];
                         obj.IsAdmin = Request.Form["IsAdmin"];
                         obj.RoleID = rolId;
@@ -953,7 +966,7 @@ namespace TugManagementSystem.Controllers
                         obj.System = "Role";
                         //obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
                         //obj.OwnerID = -1;
-                        //obj.AddUserID = Session.GetDataFromSession<int>("userid"); 
+                        //obj.AddUserID = Session.GetDataFromSession<int>("userid");
                         obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
                         obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
                         obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
