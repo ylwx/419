@@ -426,6 +426,8 @@ namespace TugManagementSystem.Controllers
                             cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"].Trim();
                             cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"].Trim());
 
+                            cstmer.Discount = Convert.ToDouble(Request.Form["Discount"].Trim());
+
                             cstmer.Remark = Request.Form["Remark"].Trim();
                             cstmer.OwnerID = -1;
                             cstmer.UserID = Session.GetDataFromSession<int>("userid"); 
@@ -498,6 +500,8 @@ namespace TugManagementSystem.Controllers
                         cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"].Trim();
                         cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"].Trim());
 
+                        cstmer.Discount = Convert.ToDouble(Request.Form["Discount"].Trim());
+
                         cstmer.Remark = Request.Form["Remark"].Trim();
                         cstmer.OwnerID = -1;
                         cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -539,7 +543,7 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
-        public ActionResult AddCustomerBillScheme(int custId, int billingTemplateTypeId, string billingTemplateCode, string billingTemplateName, int timeTypeId, string templateCreditContent, string remark)
+        public ActionResult AddCustomerBillScheme(int custId, int billingTemplateTypeId, string billingTemplateCode, string billingTemplateName, int timeTypeId, double discount, string templateCreditContent, string remark)
         {
             try
             {
@@ -562,6 +566,7 @@ namespace TugManagementSystem.Controllers
                     cstmer.CustomerID = custId; // Convert.ToInt32(customerId);
                     cstmer.TemplateCreditContent = templateCreditContent;
                     cstmer.TimeTypeID = timeTypeId;
+                    cstmer.Discount = discount;
 
                     cstmer.Remark = remark;
                     cstmer.OwnerID = -1;

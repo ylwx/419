@@ -654,6 +654,7 @@ namespace TugManagementSystem.Controllers
                                 os.OrderID = aScheduler.OrderID;
                                 os.OwnerID = -1;
                                 os.ServiceNatureID = aScheduler.ServiceNatureID;
+                                os.ServiceWorkDate = Request.Form["ServiceWorkDate"].Trim(); 
                                 os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim(); 
                                 os.UserID = Session.GetDataFromSession<int>("userid");
                                 os = db.OrderService.Add(os);
@@ -661,6 +662,7 @@ namespace TugManagementSystem.Controllers
                             }
                             else
                             {
+                                os.ServiceWorkDate = Request.Form["ServiceWorkDate"].Trim(); 
                                 os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim(); 
                                 os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                                 db.Entry(os).State = System.Data.Entity.EntityState.Modified;
@@ -758,6 +760,7 @@ namespace TugManagementSystem.Controllers
                                 os.OrderID = aScheduler.OrderID;
                                 os.OwnerID = -1;
                                 os.ServiceNatureID = aScheduler.ServiceNatureID;
+                                os.ServiceWorkDate = Request.Form["ServiceWorkDate"].Trim();
                                 os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
                                 os.UserID = Session.GetDataFromSession<int>("userid");
                                 os = db.OrderService.Add(os);
@@ -765,6 +768,7 @@ namespace TugManagementSystem.Controllers
                             }
                             else
                             {
+                                os.ServiceWorkDate = Request.Form["ServiceWorkDate"].Trim();
                                 os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
                                 os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                                 db.Entry(os).State = System.Data.Entity.EntityState.Modified;
@@ -787,7 +791,7 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        public ActionResult AddScheduler(int orderId, int serviceNatureId, string serviceWorkPlace, int tugId, int jobStateId, string ropeUsed, int ropeNum, string remark)
+        public ActionResult AddScheduler(int orderId, int serviceNatureId, string serviceWorkDate, string serviceWorkPlace, int tugId, int jobStateId, string ropeUsed, int ropeNum, string remark)
         {
             this.Internationalization();
 
@@ -843,6 +847,7 @@ namespace TugManagementSystem.Controllers
                             os.OrderID = orderId;
                             os.OwnerID = -1;
                             os.ServiceNatureID = serviceNatureId;
+                            os.ServiceWorkDate = serviceWorkDate;
                             os.ServiceWorkPlace = serviceWorkPlace;
                             os.UserID = Session.GetDataFromSession<int>("userid");
                             os = db.OrderService.Add(os);
@@ -850,6 +855,7 @@ namespace TugManagementSystem.Controllers
                         }
                         else
                         {
+                            os.ServiceWorkDate = serviceWorkDate;
                             os.ServiceWorkPlace = serviceWorkPlace;
                             os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Entry(os).State = System.Data.Entity.EntityState.Modified;
@@ -947,16 +953,16 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetServicePlace(int orderId, int serviceNatureId)
+        public ActionResult GetServiceDateAndPlace(int orderId, int serviceNatureId)
         {
             TugDataEntities db = new TugDataEntities();
             OrderService os = db.OrderService.Where(u => u.OrderID == orderId && u.ServiceNatureID == serviceNatureId).FirstOrDefault();
             if (os != null) {
-                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, service_place=os.ServiceWorkPlace }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, service_place = os.ServiceWorkPlace, service_date = os.ServiceWorkDate }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, service_place = "" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, service_place = "", service_date = DateTime.Now.ToString("yyyy-MM-dd") }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion 订单调度页面Action

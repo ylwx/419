@@ -1438,6 +1438,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 折扣 的本地化字符串。
+        /// </summary>
+        internal static string V_BillingItemTemplate_Discount {
+            get {
+                return ResourceManager.GetString("V_BillingItemTemplate_Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 模板項ID 的本地化字符串。
         /// </summary>
         internal static string V_BillingItemTemplate_IDX {
@@ -1605,6 +1614,15 @@ namespace Resources {
         internal static string V_BillingTemplate_TimeTypeValue {
             get {
                 return ResourceManager.GetString("V_BillingTemplate_TimeTypeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 總計價格 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_Amount {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_Amount", resourceCulture);
             }
         }
         
@@ -2082,6 +2100,15 @@ namespace Resources {
         internal static string V_OrderScheduler_ServiceNatureLabel {
             get {
                 return ResourceManager.GetString("V_OrderScheduler_ServiceNatureLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服務日期 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_ServiceWorkDate {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_ServiceWorkDate", resourceCulture);
             }
         }
         

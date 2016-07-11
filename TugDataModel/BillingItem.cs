@@ -16,6 +16,7 @@ namespace TugDataModel
     {
         public int IDX { get; set; }
         public Nullable<int> BillingID { get; set; }
+        public Nullable<int> SchedulerID { get; set; }
         public Nullable<int> ItemID { get; set; }
         public Nullable<double> UnitPrice { get; set; }
         public string Currency { get; set; }
@@ -37,5 +38,6 @@ namespace TugDataModel
     
         public virtual Billing Billing { get; set; }
         public virtual CustomField CustomField { get; set; }
+        public virtual Scheduler Scheduler { get; set; }
     }
 }

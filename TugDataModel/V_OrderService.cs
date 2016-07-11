@@ -42,6 +42,7 @@ namespace TugDataModel
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureValue { get; set; }
         public string ServiceNatureLabel { get; set; }
+        public string ServiceWorkDate { get; set; }
         public string ServiceWorkPlace { get; set; }
     }
 }

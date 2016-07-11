@@ -15,7 +15,7 @@
 <div id="main-content">
     <!-- Parent MODAL FORM-->
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="model-dlg" class="modal-dialog" style="width:900px">
+        <div id="model-dlg" class="modal-dialog" style="width:1024px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="col-xs-3">
                                             选择账单类型
-                                            <select id="sel_billing_type" class="form-control">
+                                            <select id="sel_billing_type" class="form-control" onchange="btnClick()">
                                                 <option value="">1</option>
                                                 <option value="">2</option>
                                                 <option value="">3</option>
@@ -56,20 +56,22 @@
                                         </div>
                                         <div class="col-xs-3">
                                             选择计时方式
-                                            <select id="sel_time_type" class="form-control">
+                                            <select id="sel_time_type" class="form-control" onchange="btnClick()">
                                                 <option value="">1</option>
                                                 <option value="">2</option>
                                                 <option value="">3</option>
                                             </select>
                                         </div>
-
+                                        
                                         <div class="col-xs-3">
-                                            <button type="submit" class="btn btn-pink" style="margin-top:17px" onclick="reGenerate()">重新生成</button>
+                                            <button type="submit" class="btn btn-pink" style="margin-top:17px" onclick="btnClick()">
+                                                重新生成
+                                            </button>
                                         </div>
 
                                     </div>
 
-                                    <div style="margin:8px;padding:0px; width:820px;height:1px;background-color:black;overflow:hidden;"></div>
+                                    <div style="margin:8px;padding:0px; width:940px;height:1px;background-color:black;overflow:hidden;"></div>
 
                                     <div id="div_services" class="col-md-12">
                                         <div class="col-md-2">
@@ -86,7 +88,7 @@
                                     </div>
 
 
-                                    <div style="margin:8px;padding:0px; width:820px;height:1px;background-color:black;overflow:hidden;"></div>
+                                    <div style="margin: 8px; padding: 0px; width: 940px; height: 1px; background-color: black; overflow: hidden;"></div>
 
                                     <div id="div_detail">
                                         <table id="tb_detail" class="table table-bordered">
@@ -208,6 +210,7 @@
         </div>
     </div>
     <!-- /Parent MODAL FORM-->
+
     <!-- 提交审核 MODAL FORM-->
     <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="model-dlg" class="modal-dialog" style="width: 560px ;height:600px">
@@ -381,7 +384,9 @@
                             $('#jqGrid_ilAdd').addClass('ui-state-disabled');
                         }
                         else {
+
                             $('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+
                         }
 
                     }
@@ -423,6 +428,11 @@
                         var util = new Util();
 
                         var ret = true;
+
+                        //价格
+                        if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
+                            ret = ret && util.isValidCurrency('@Resources.Language.V_OrderBilling_Amount', $("#gs_Amount").val());
+
                         //时间
                         if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
                             ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
@@ -517,7 +527,14 @@
                         //alert(rowid);
                         if (rowid != null) {
                             g_curRowId = rowid;
-                            AddParent();
+
+                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                            if(cell == null || cell == "")
+                                AddParent();
+                            else{
+                                //编辑
+                                alert('所选记录已有账单，无需重复生成！');
+                            }
                         }
                         else {
                             alert('选中一行');
@@ -777,6 +794,13 @@
                     searchoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
                     }
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_Amount', name: "Amount", width: 100, 
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                    hidden: false
                 },
 
                 {
@@ -1347,7 +1371,7 @@
     function submitParentModal() {
 
         $('#parentErrMsg').hide();
-               
+
         var hasChecked = false;
         var serviceNatureIds = '', serviceNatureNames = '';
         $("input[name='bill_items']").each(function () {
@@ -1359,23 +1383,51 @@
         });
 
         //提交数据库
-        
 
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+        var customerBillingScheme = $("#sel_billing_scheme").val().toString();
+
+        var billingTypeId = $("#sel_billing_type").val().toString().split('~')[0];
+        var billingTypeValue = $("#sel_billing_type").val().toString().split('~')[1];
+        var billingTypeLabel = $("#sel_billing_type").val().toString().split('~')[2];
+
+        var timeTypeId = $("#sel_time_type").val().toString().split('~')[0];
+        var timeTypeValue = $("#sel_time_type").val().toString().split('~')[1];
+        var timeTypeLabel = $("#sel_time_type").val().toString().split('~')[2];
+
+
+        $.ajax({
+            url: '@Url.Action("AddBill", "Finance")',
+            type: "GET",
+            data: {
+                'orderId': dr.OrderID,
+                'billingTypeId': billingTypeId,
+                'timeTypeId': timeTypeId
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                $('#parent-modal').modal('hide')
+
+                alert(result.message);
+
+                $('#jqGrid').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetInvoice", "Finance")',
+                }).trigger('reloadGrid');
+
+               // $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Finance")' });
+            }
+        });
     }
 </script>
 
 
 <script type="text/javascript">
-    function cellStyle(value, row, index) {
-        return {
-            //classes: 'text-nowrap another-class',
-            css: { "color": "blue"}
-        };
-    }
-
-
 
     function reGenerate(orderId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel) {
+
         $('#tb_detail').empty();
 
         $.ajax({
@@ -1398,18 +1450,23 @@
 
                 var div1 = $('<div class="col-md-2"><p>服务项目:<br>SERVICE:</p></div>');
                 var div2 = $('<div class="col-md-2"></div>');
-                var div3 = $('<div class="col-md-8"></div>');
+                var div3 = $('<div class="col-md-3"></div>');
+                var div4 = $('<div class="col-md-5"></div>')
                 for (key in result.invoice.ServiceNature)
                 {
                     var value = result.invoice.ServiceNature[key];
                     var p = $('<p>' + value.ServiceName + '</p>')
                     div2.append(p);
 
-                    p = $('<p>' + value.ServiceRemark + '</p>');
+                    p = $('<p>' + value.ServiceWorkDate + '</p>');
                     div3.append(p)
+
+                    p = $('<p>' + value.ServiceWorkPlace + '</p>');
+                    div4.append(p)
+
                 }
 
-                $('#div_services').append(div1).append(div2).append(div3);
+                $('#div_services').append(div1).append(div2).append(div3).append(div4);
 
                 //----生成表格
 
@@ -1433,7 +1490,12 @@
 
                         var value = result.invoice.Schedulers[key];
                         for (var i = 0; i < value.length; ++i) {
-                            var th = '<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>';
+                            var th = $('<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>');
+
+                            
+                            var span1 = $('<span hidden>' + value[i].SchedulerID + '</span>');
+                            th.append(span1);
+
                             tr2.append(th);
                             colspan++;
                         }
@@ -1445,7 +1507,7 @@
                 }
 
                 //2.表体
-                DynamicGenerateTBody(billingTypeId, billingTypeValue, billingTypeLabel, result);
+                DynamicGenerateTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, result);
 
                 //3.表尾
                 {
@@ -1472,9 +1534,10 @@
     }
 
 
-    function DynamicGenerateTBody(billingTypeId, billingTypeValue, billingTypeLabel, result)
+    function DynamicGenerateTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, result)
     {
-        if (billingTypeId == 6 || billingTypeValue == 0 || billingTypeLabel == "全包") {
+        if (customerBillingScheme == -1) //不使用计费方案或者没有计费方案，价格全部手动输入
+        {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -1486,7 +1549,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].DepartBaseTime + '</td>';
+                        td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].DepartBaseTime + '</td>');
                         tr.append(td)
                     }
                 }
@@ -1502,7 +1565,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].ArrivalBaseTime + '</td>';
+                        td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].ArrivalBaseTime + '</td>');
                         tr.append(td)
                     }
                 }
@@ -1518,7 +1581,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTime + '</td>';
+                        td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTime + '</td>');
                         tr.append(td)
                     }
                 }
@@ -1534,7 +1597,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>';
+                        td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
                         tr.append(td)
                     }
                 }
@@ -1544,13 +1607,15 @@
             //5
             {
                 var tr = $('<tr></tr>')
-                var td = $('<td width="" style="text-align:center;vertical-align:middle">协议收费</td>')
+                var td = $('<td width="" style="text-align:center;vertical-align:middle">每小时收费</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = '<td width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>';
+                        td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+                        var input = $('<input type="text" class="" value="" onkeyup="inputCheck(this)"></input>');
+                        td.append(input);
                         tr.append(td)
                     }
                 }
@@ -1566,7 +1631,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = '<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>';
+                        td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -1575,8 +1640,7 @@
 
             //7
 
-            for (var ii = 0; ii < result.items.length; ii++)
-            {
+            for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
                 //var td = $('<td width="" style="vertical-align:middle">' + '<input type="checkbox" class="">' + ii.toString() + '</td>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
@@ -1588,7 +1652,7 @@
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
-                        input = $('<input type="text" class="" value="12" onkeyup="inputCheck(this)"></input>');
+                        input = $('<input type="text" class="" value="" onkeyup="inputCheck(this)"></input>');
 
                         td.append(input);
                         tr.append(td);
@@ -1606,7 +1670,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = '<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>';
+                        td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -1614,9 +1678,508 @@
             }
 
             $('#tb_detail').append(tbody);
+
         }
-        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") { }
-        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") { }
+
+        //使用计费方案
+        else
+        {
+            //全包方式
+            if (billingTypeId == 6 || billingTypeValue == 0 || billingTypeLabel == "全包") {
+
+                var tbody = $('<tbody></tbody>')
+
+                //1
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">离厂时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].DepartBaseTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //2
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">回厂时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].ArrivalBaseTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //3
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">工作时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //4
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">换算耗时</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //5
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">协议收费</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var price = 0;
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+
+                            for (var j = 0; j < result.customer_scheme.length; ++j) {
+                                if (key == result.customer_scheme[j].ItemID) {
+                                    price = result.customer_scheme[j].UnitPrice;
+                                }
+                            }
+
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+
+                            var input = $('<input type="text" class="" value="' + price + '" onkeyup="inputCheck(this)" disabled></input>');
+
+                            td.append(input);
+
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //6
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>合计港币</strong></td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //7
+
+                for (var ii = 0; ii < result.items.length; ii++) {
+                    var tr = $('<tr></tr>')
+                    //var td = $('<td width="" style="vertical-align:middle">' + '<input type="checkbox" class="">' + ii.toString() + '</td>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
+                    var input = $('<input type="checkbox" name="bill_items" class="">' + result.items[ii].CustomLabel + '</input>');
+                    td.append(input)
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+
+                            var price = 0;
+                            for (var j = 0; j < result.customer_scheme.length; ++j) {
+                                if (result.items[ii].IDX == result.customer_scheme[j].ItemID) {
+                                    price = result.customer_scheme[j].UnitPrice;
+                                }
+                            }
+
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+
+                            var input = $('<input type="text" class="" value="' + price + '" onkeyup="inputCheck(this)" disabled></input>');
+
+                            td.append(input);
+                            tr.append(td);
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //8
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>总计港币</strong></td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                $('#tb_detail').append(tbody);
+
+            }
+            //半包
+            if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") {
+                var tbody = $('<tbody></tbody>')
+
+                //1
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">离厂时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].DepartBaseTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //2
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">回厂时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].ArrivalBaseTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //3
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">工作时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //4
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">换算耗时</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //5
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">协议收费</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var price = 0;
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+
+                            for (var j = 0; j < result.customer_scheme.length; ++j) {
+                                if (key == result.customer_scheme[j].ItemID) {
+                                    price = result.customer_scheme[j].UnitPrice;
+                                }
+                            }
+
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+
+                            var input = $('<input type="text" class="" value="' + price + '" onkeyup="inputCheck(this)" disabled></input>');
+
+                            td.append(input);
+
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //6
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>合计港币</strong></td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //7
+
+                for (var ii = 0; ii < result.items.length; ii++) {
+                    var tr = $('<tr></tr>')
+                    //var td = $('<td width="" style="vertical-align:middle">' + '<input type="checkbox" class="">' + ii.toString() + '</td>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
+                    var input = $('<input type="checkbox" name="bill_items" class="">' + result.items[ii].CustomLabel + '</input>');
+                    td.append(input)
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+
+                            var price = 0;
+                            for (var j = 0; j < result.customer_scheme.length; ++j) {
+                                if (result.items[ii].IDX == result.customer_scheme[j].ItemID) {
+                                    price = result.customer_scheme[j].UnitPrice;
+                                }
+                            }
+
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+
+                            var input = $('<input type="text" class="" value="' + price + '" onkeyup="inputCheck(this)"></input>');
+
+                            td.append(input);
+                            tr.append(td);
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //8
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>总计港币</strong></td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                $('#tb_detail').append(tbody);
+
+            }
+            if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") {
+                var tbody = $('<tbody></tbody>')
+
+                //1
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">离厂时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].DepartBaseTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //2
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">回厂时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].ArrivalBaseTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //3
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">工作时间</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTime + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //4
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">换算耗时</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //5
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle">每小时收费</td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var price = 0;
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+
+                            for (var j = 0; j < result.customer_scheme.length; ++j) {
+                                if (key == result.customer_scheme[j].ItemID) {
+                                    price = result.customer_scheme[j].UnitPrice;
+                                }
+                            }
+
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+
+                            var input = $('<input type="text" class="" value="' + price + '" onkeyup="inputCheck(this)"></input>');
+
+                            td.append(input);
+
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //6
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>合计港币</strong></td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //7
+
+                for (var ii = 0; ii < result.items.length; ii++) {
+                    var tr = $('<tr></tr>')
+                    //var td = $('<td width="" style="vertical-align:middle">' + '<input type="checkbox" class="">' + ii.toString() + '</td>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
+                    var input = $('<input type="checkbox" name="bill_items" class="">' + result.items[ii].CustomLabel + '</input>');
+                    td.append(input)
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+
+                            var price = 0;
+                            for (var j = 0; j < result.customer_scheme.length; ++j) {
+                                if (result.items[ii].IDX == result.customer_scheme[j].ItemID) {
+                                    price = result.customer_scheme[j].UnitPrice;
+                                }
+                            }
+
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
+
+                            var input = $('<input type="text" class="" value="' + price + '" onkeyup="inputCheck(this)"></input>');
+
+                            td.append(input);
+                            tr.append(td);
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                //8
+                {
+                    var tr = $('<tr></tr>')
+                    var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>总计港币</strong></td>')
+                    tr.append(td);
+                    for (key in result.invoice.Schedulers) {
+
+                        var value = result.invoice.Schedulers[key];
+                        for (var i = 0; i < value.length; ++i) {
+                            td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                            tr.append(td)
+                        }
+                    }
+                    tbody.append(tr);
+                }
+
+                $('#tb_detail').append(tbody);
+
+            }
+        }
     }
 
 
@@ -1641,6 +2204,9 @@
             $('#sel_time_type').attr('disabled', false);
             $("#sel_time_type option:first").prop("selected", 'selected');
         }
+
+        btnClick();
+
     }
 
     function inputCheck(obj) {
@@ -1650,5 +2216,31 @@
         obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
         obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
         obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+        //if (obj.value.trim().length == 0) {
+        //    obj.value = 0;
+        //}
+    }
+
+    function btnClick() {
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+        var customerBillingScheme = $("#sel_billing_scheme").val().toString();
+
+        //alert(customerBillingScheme);
+
+        var billingTypeId = $("#sel_billing_type").val().toString().split('~')[0];
+        var billingTypeValue = $("#sel_billing_type").val().toString().split('~')[1];
+        var billingTypeLabel = $("#sel_billing_type").val().toString().split('~')[2];
+
+        //alert(billingTypeId + " --- " + billingTypeValue + ' --- ' + billingTypeLabel);
+
+        var timeTypeId = $("#sel_time_type").val().toString().split('~')[0];
+        var timeTypeValue = $("#sel_time_type").val().toString().split('~')[1];
+        var timeTypeLabel = $("#sel_time_type").val().toString().split('~')[2];
+
+        //alert(timeTypeId + " --- " + timeTypeValue + ' --- ' + timeTypeLabel);
+
+        //return;
+        reGenerate(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel);
     }
 </script>

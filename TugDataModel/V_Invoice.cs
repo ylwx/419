@@ -23,6 +23,7 @@ namespace TugDataModel
         public string OrderEstimatedCompletionTime { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureLabel { get; set; }
+        public string ServiceWorkDate { get; set; }
         public string ServiceWorkPlace { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName1 { get; set; }
@@ -58,6 +59,8 @@ namespace TugDataModel
         public Nullable<int> TimeTypeID { get; set; }
         public string TimeTypeValue { get; set; }
         public string TimeTypeLabel { get; set; }
+        public Nullable<double> Discount { get; set; }
+        public Nullable<double> Amount { get; set; }
         public string BillingRemark { get; set; }
         public string Month { get; set; }
         public Nullable<int> TimesNo { get; set; }
@@ -67,6 +70,7 @@ namespace TugDataModel
         public string BillingCreateDate { get; set; }
         public Nullable<int> BillingUserID { get; set; }
         public string BillingLastUpDate { get; set; }
+        public Nullable<int> SchedulerID { get; set; }
         public int BillingItemIDX { get; set; }
         public Nullable<int> ItemID { get; set; }
         public string BillingItemValue { get; set; }

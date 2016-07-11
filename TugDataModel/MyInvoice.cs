@@ -22,6 +22,7 @@ namespace TugDataModel
 
     public class MyScheduler
     {
+        public int SchedulerID { get; set; }
         public int TugID { get; set; }
         public string TugCnName { get; set; }
         public string TugEnName { get; set; }
@@ -81,7 +82,9 @@ namespace TugDataModel
 
         public string ServiceName { get; set; }
 
-        public string ServiceRemark { get; set; }
+        public string ServiceWorkDate { get; set; }
+
+        public string ServiceWorkPlace { get; set; }
     }
     public class MyInvoice
     {
@@ -144,7 +147,11 @@ namespace TugDataModel
         /// </summary>
         public string TimeTypeLabel { get; set; }
 
-
+        
+        /// <summary>
+        /// 折扣系数
+        /// </summary>
+        public double Discount { get; set; }
         /// <summary>
         /// 多个调度， key:value = 服务ID:调度对象
         /// </summary>

@@ -36,7 +36,7 @@ namespace TugBusinessLogic.Module
 
                 Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();
                 //var services2 = list.Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).ToList();
-                var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.OrderSchedulerRemark }).Distinct().ToList();
+                var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
                 //var services = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).Distinct().ToList();
 
                 Dictionary<int, List<MyScheduler>> dicSchedulers = new Dictionary<int, List<MyScheduler>>();
@@ -50,7 +50,8 @@ namespace TugBusinessLogic.Module
                         MyService ms = new MyService();
                         ms.ServiceId = (int)item.ServiceNatureID;
                         ms.ServiceName = item.ServiceNatureLabel;
-                        ms.ServiceRemark = item.OrderSchedulerRemark;
+                        ms.ServiceWorkDate = item.ServiceWorkDate;
+                        ms.ServiceWorkPlace = item.ServiceWorkPlace;
                         dicServiceNature.Add(ms.ServiceId, ms);
 
                         var ships = list.Where(u => u.ServiceNatureID == item.ServiceNatureID)
@@ -220,7 +221,7 @@ namespace TugBusinessLogic.Module
 
             var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u);
 
-            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkPlace }).Distinct().ToList();
+            var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
 
             if (services != null)
             {
@@ -231,12 +232,14 @@ namespace TugBusinessLogic.Module
                     MyService ms = new MyService();
                     ms.ServiceId = (int)service.ServiceNatureID;
                     ms.ServiceName = service.ServiceNatureLabel;
-                    ms.ServiceRemark = service.ServiceWorkPlace;
+                    ms.ServiceWorkDate = service.ServiceWorkDate;
+                    ms.ServiceWorkPlace = service.ServiceWorkPlace;
                     dicService.Add(ms.ServiceId, ms);
 
                     var schedulers = list.Where(u => u.ServiceNatureID == (int)service.ServiceNatureID)
                         .Select(u => new
                         {
+                            u.IDX,
                             u.TugID,
                             u.TugName1,
                             u.TugName2,
@@ -255,6 +258,7 @@ namespace TugBusinessLogic.Module
                         foreach (var scheduler in schedulers)
                         {
                             MyScheduler mySch = new MyScheduler();
+                            mySch.SchedulerID = scheduler.IDX;
                             mySch.TugID = (int)scheduler.TugID;
                             mySch.TugCnName = scheduler.TugName1;
                             mySch.TugEnName = scheduler.TugName2;
@@ -298,6 +302,15 @@ namespace TugBusinessLogic.Module
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
             List<V_BillingTemplate> list = db.V_BillingTemplate.Where(u => u.CustomerID == custId).OrderBy(u => u.BillingTemplateName).ToList();
+
+            return list;
+        }
+
+        static public List<V_BillingItemTemplate> GetCustomerBillSchemeItems(int billSchemeId)
+        {
+            TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+            List<V_BillingItemTemplate> list = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).OrderBy(u => u.TypeValue).OrderBy(u=>u.ItemValue).ToList();
 
             return list;
         }
@@ -430,6 +443,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
+                        }
+                        break;
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
                         }
                         break;
                     case "BillingRemark":
@@ -1069,6 +1090,54 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
+                            #region Amount
+                            case "Amount":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+
                             #region BillingRemark
                             case "BillingRemark":
                                 {
@@ -1525,6 +1594,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
+                        }
+                        break;
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
                         }
                         break;
                     case "BillingRemark":
