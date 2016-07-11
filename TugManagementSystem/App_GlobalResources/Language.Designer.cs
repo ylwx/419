@@ -1447,6 +1447,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 折扣 的本地化字符串。
+        /// </summary>
+        internal static string V_BillingItemTemplate_Discount {
+            get {
+                return ResourceManager.GetString("V_BillingItemTemplate_Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 模板項ID 的本地化字符串。
         /// </summary>
         internal static string V_BillingItemTemplate_IDX {

@@ -103,6 +103,14 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_BillingItemTemplate_Discount</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Discount" type="text" class="form-control" placeholder="@Resources.Language.V_BillingItemTemplate_Discount" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">@Resources.Language.V_BillingTemplate_TemplateCreditContent</label>
                                             <div class="col-sm-9">
@@ -723,7 +731,7 @@
                         custom_func: function (value, column) {
                             var re = /^\d+\.?\d{0,2}$/;
                             if (!re.test(value)) {
-                                return [false, '@Resources.Language.V_OrderScheduler_RopeNum' + ": 请输入两位正小数!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_UnitPrice' + ": 请输入两位正小数!"];
                             }
                             else
                                 return [true, ""];
@@ -1169,6 +1177,32 @@
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
                     }
                 },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_Discount', name: "Discount", width: 100, editable: true, edittype: "text",
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var re = /^\d+\.?\d{0,2}$/;
+                            if (!re.test(value.trim())) {
+                                return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ": 请输入两位正小数!"];
+                            }
+                            else {
+                                var f = parseFloat(value.toString().trim());
+                                if (f > 1 || f <= 0)
+                                    return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ': 请输入0-1之间的小数']
+                                return [true, ""];
+                            }
+
+                        },
+                        custom: true
+                    },
+                    hidden: false,
+                    editoptions: {
+                        defaultValue: 1.00
+                    }
+                },
+
                 {
                     align: 'center', label: '@Resources.Language.V_BillingTemplate_TemplateCreditContent', name: "TemplateCreditContent",
                     width: 150, editable: true, edittype: "textarea",
@@ -1531,6 +1565,7 @@
         $('#parentErrMsg').hide();
         $('#_BillingTemplateCode').parent().removeClass("has-error");
         $('#_BillingTemplateName').parent().removeClass("has-error");
+        $('#_Discount').parent().removeClass("has-error");
         $('#_TemplateCreditContent').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
@@ -1539,6 +1574,7 @@
 
         $('#_BillingTemplateCode').val("");
         $('#_BillingTemplateName').val("");
+        $('#_Discount').val("1.00");
         $('#_TemplateCreditContent').val("");
         $('#_Remark').val("");
     }
@@ -1572,6 +1608,7 @@
         $('#parentErrMsg').hide();
         $('#_BillingTemplateCode').parent().removeClass("has-error");
         $('#_BillingTemplateName').parent().removeClass("has-error");
+        $('#_Discount').parent().removeClass("has-error");
         $('#_TemplateCreditContent').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
@@ -1584,6 +1621,7 @@
 
         var billingTemplateCode = $('#_BillingTemplateCode').val().trim();
         var billingTemplateName = $('#_BillingTemplateName').val().trim();
+        var discount = $('#_Discount').val().trim();
         var templateCreditContent = $('#_TemplateCreditContent').val().trim();
         var remark = $('#_Remark').val().trim();
 
@@ -1612,7 +1650,30 @@
             return;
         }
 
-        
+        if (discount.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + "必填");
+            $('#_Discount').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        } else{
+
+            var reg = /^\d+\.?\d{0,2}$/;
+            if (false == reg.test(discount)) {
+                $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "请输入0-1之间的两位小数");
+                $('#_Discount').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+            else {
+                discount = parseFloat(discount);
+                if (discount > 1 || discount <= 0) {
+                    $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "请输入0-1之间的两位小数");
+                    $('#_Discount').parent().addClass("has-error");
+                    $('#parentErrMsg').show();
+                    return;
+                }
+            }
+        }
 
         if (templateCreditContent.length > maxTextAreaLength) {
             $('#parentErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
@@ -1640,6 +1701,7 @@
                 'billingTemplateCode': billingTemplateCode,
                 'billingTemplateName': billingTemplateName,
                 'timeTypeId': timeTypeId,
+                'discount': discount,
                 'templateCreditContent': templateCreditContent,
                 'remark': remark
             },//"oper=delete&id=" + gr,

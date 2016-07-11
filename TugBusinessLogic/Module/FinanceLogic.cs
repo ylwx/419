@@ -445,6 +445,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
                         }
                         break;
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
+                        }
+                        break;
                     case "BillingRemark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1586,6 +1594,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
+                        }
+                        break;
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
                         }
                         break;
                     case "BillingRemark":
