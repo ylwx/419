@@ -87,6 +87,7 @@
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeID" Type="int" />
+          <Property Name="Discount" Type="float" />
           <Property Name="Amount" Type="float" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
@@ -707,6 +708,7 @@
           <Property Name="TimeTypeID" Type="int" />
           <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Discount" Type="float" />
           <Property Name="Amount" Type="float" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
@@ -863,6 +865,8 @@
           <Property Name="TimeTypeID" Type="int" />
           <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="Amount" Type="float" />
           <Property Name="BillingRemark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
           <Property Name="TimesNo" Type="int" />
@@ -905,6 +909,7 @@
           <Property Name="TimesNo" Type="int" />
           <Property Name="FlowUserID" Type="int" />
           <Property Name="Amount" Type="float" />
+          <Property Name="Discount" Type="float" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -935,6 +940,7 @@
           <Property Name="TimeTypeID" Type="int" />
           <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Discount" Type="float" />
           <Property Name="Amount" Type="float" />
           <Property Name="BillingRemark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
@@ -975,6 +981,7 @@
           <Property Name="TimeTypeID" Type="int" />
           <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="Discount" Type="float" />
           <Property Name="Amount" Type="float" />
           <Property Name="BillingRemark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
@@ -1411,6 +1418,7 @@
     [V_Billing].[TimeTypeID] AS [TimeTypeID], 
     [V_Billing].[TimeTypeValue] AS [TimeTypeValue], 
     [V_Billing].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_Billing].[Discount] AS [Discount], 
     [V_Billing].[Amount] AS [Amount], 
     [V_Billing].[Remark] AS [Remark], 
     [V_Billing].[Month] AS [Month], 
@@ -1554,6 +1562,8 @@
     [V_Invoice].[TimeTypeID] AS [TimeTypeID], 
     [V_Invoice].[TimeTypeValue] AS [TimeTypeValue], 
     [V_Invoice].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_Invoice].[Discount] AS [Discount], 
+    [V_Invoice].[Amount] AS [Amount], 
     [V_Invoice].[BillingRemark] AS [BillingRemark], 
     [V_Invoice].[Month] AS [Month], 
     [V_Invoice].[TimesNo] AS [TimesNo], 
@@ -1592,7 +1602,8 @@
     [V_NeedApproveBilling].[UserID] AS [UserID], 
     [V_NeedApproveBilling].[TimesNo] AS [TimesNo], 
     [V_NeedApproveBilling].[FlowUserID] AS [FlowUserID], 
-    [V_NeedApproveBilling].[Amount] AS [Amount]
+    [V_NeedApproveBilling].[Amount] AS [Amount], 
+    [V_NeedApproveBilling].[Discount] AS [Discount]
     FROM [dbo].[V_NeedApproveBilling] AS [V_NeedApproveBilling]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderBilling" EntityType="Self.V_OrderBilling" store:Type="Views" store:Schema="dbo">
@@ -1620,6 +1631,7 @@
     [V_OrderBilling].[TimeTypeID] AS [TimeTypeID], 
     [V_OrderBilling].[TimeTypeValue] AS [TimeTypeValue], 
     [V_OrderBilling].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_OrderBilling].[Discount] AS [Discount], 
     [V_OrderBilling].[Amount] AS [Amount], 
     [V_OrderBilling].[BillingRemark] AS [BillingRemark], 
     [V_OrderBilling].[Month] AS [Month], 
@@ -1657,6 +1669,7 @@
     [V_OrderBillingCredit].[TimeTypeID] AS [TimeTypeID], 
     [V_OrderBillingCredit].[TimeTypeValue] AS [TimeTypeValue], 
     [V_OrderBillingCredit].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_OrderBillingCredit].[Discount] AS [Discount], 
     [V_OrderBillingCredit].[Amount] AS [Amount], 
     [V_OrderBillingCredit].[BillingRemark] AS [BillingRemark], 
     [V_OrderBillingCredit].[Month] AS [Month], 
@@ -2100,6 +2113,7 @@
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeID" Type="Int32" />
+          <Property Name="Discount" Type="Double" />
           <Property Name="Amount" Type="Double" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2739,6 +2753,7 @@
           <Property Name="TimeTypeID" Type="Int32" />
           <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Double" />
           <Property Name="Amount" Type="Double" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2887,6 +2902,8 @@
           <Property Name="TimeTypeID" Type="Int32" />
           <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="Amount" Type="Double" />
           <Property Name="BillingRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimesNo" Type="Int32" />
@@ -2927,6 +2944,7 @@
           <Property Name="TimesNo" Type="Int32" />
           <Property Name="FlowUserID" Type="Int32" />
           <Property Name="Amount" Type="Double" />
+          <Property Name="Discount" Type="Double" />
         </EntityType>
         <EntityType Name="V_OrderBilling">
           <Key>
@@ -2955,6 +2973,7 @@
           <Property Name="TimeTypeID" Type="Int32" />
           <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Double" />
           <Property Name="Amount" Type="Double" />
           <Property Name="BillingRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2993,6 +3012,7 @@
           <Property Name="TimeTypeID" Type="Int32" />
           <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Double" />
           <Property Name="Amount" Type="Double" />
           <Property Name="BillingRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3471,6 +3491,7 @@
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
@@ -4106,6 +4127,7 @@
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
                 <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
@@ -4221,6 +4243,8 @@
                 <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="BillingRemark" ColumnName="BillingRemark" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
                 <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
@@ -4272,6 +4296,7 @@
           <EntitySetMapping Name="V_NeedApproveBilling">
             <EntityTypeMapping TypeName="Model.V_NeedApproveBilling">
               <MappingFragment StoreEntitySet="V_NeedApproveBilling">
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
                 <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
@@ -4304,6 +4329,7 @@
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="BillingRemark" ColumnName="BillingRemark" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
                 <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
@@ -4351,6 +4377,7 @@
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="BillingRemark" ColumnName="BillingRemark" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
                 <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />

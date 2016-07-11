@@ -30,5 +30,6 @@ namespace TugDataModel
         public Nullable<int> TimesNo { get; set; }
         public Nullable<int> FlowUserID { get; set; }
         public Nullable<double> Amount { get; set; }
+        public Nullable<double> Discount { get; set; }
     }
 }
