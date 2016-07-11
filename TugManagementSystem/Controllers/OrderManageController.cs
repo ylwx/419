@@ -139,6 +139,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         aOrder.CustomerID = Convert.ToInt32(Request.Form["CustomerID"]);
                         aOrder.CustomerName = Request.Form["CustomerName"].Trim();
+                        aOrder.OrdDate = Request.Form["OrdDate"].Trim();
                         aOrder.WorkDate = Request.Form["WorkDate"].Trim();
                         aOrder.WorkTime = Request.Form["WorkTime"].Trim();
                         aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
@@ -233,6 +234,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
                         aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
 
+                        aOrder.OrdDate = Request.Form["OrdDate"].Trim();
                         aOrder.WorkDate = Request.Form["WorkDate"].Trim();
                         aOrder.WorkTime = Request.Form["WorkTime"].Trim();
                         aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
@@ -292,7 +294,7 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
-        public ActionResult AddOrder(int customerId, string customerName, string workDate, string workTime, string estimatedCompletionTime,
+        public ActionResult AddOrder(int customerId, string customerName, string ordDate, string workDate, string workTime, string estimatedCompletionTime,
             int shipId, string shipName, string workPlace, string serviceNatureIds, string serviceNatureNames, string bigTugNum,
             string middleTugNum, string smallTugNum, string linkMan, string linkPhone, string linkEmail, string remark) 
         {
@@ -309,6 +311,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     aOrder.CustomerID = customerId;
                     aOrder.CustomerName = customerName;
+                    aOrder.OrdDate = ordDate;
                     aOrder.WorkDate = workDate;
                     aOrder.WorkTime = workTime;
                     aOrder.EstimatedCompletionTime = estimatedCompletionTime;

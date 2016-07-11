@@ -19,6 +19,7 @@ namespace TugDataModel
         public Nullable<int> ItemID { get; set; }
         public string ItemValue { get; set; }
         public string ItemLabel { get; set; }
+        public string FormulaStr { get; set; }
         public Nullable<double> UnitPrice { get; set; }
         public string Currency { get; set; }
         public Nullable<int> TypeID { get; set; }

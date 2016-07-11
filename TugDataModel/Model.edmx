@@ -415,6 +415,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -741,6 +742,7 @@
           <Property Name="ItemID" Type="int" />
           <Property Name="ItemValue" Type="nvarchar" MaxLength="50" />
           <Property Name="ItemLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="FormulaStr" Type="nvarchar" MaxLength="10" />
           <Property Name="UnitPrice" Type="float" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" />
           <Property Name="TypeID" Type="int" />
@@ -921,6 +923,7 @@
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -962,6 +965,7 @@
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -1012,6 +1016,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -1056,6 +1061,7 @@
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" />
           <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -1111,6 +1117,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
           <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
@@ -1448,6 +1455,7 @@
     [V_BillingItemTemplate].[ItemID] AS [ItemID], 
     [V_BillingItemTemplate].[ItemValue] AS [ItemValue], 
     [V_BillingItemTemplate].[ItemLabel] AS [ItemLabel], 
+    [V_BillingItemTemplate].[FormulaStr] AS [FormulaStr], 
     [V_BillingItemTemplate].[UnitPrice] AS [UnitPrice], 
     [V_BillingItemTemplate].[Currency] AS [Currency], 
     [V_BillingItemTemplate].[TypeID] AS [TypeID], 
@@ -1612,6 +1620,7 @@
     [V_OrderBilling].[CustomerName] AS [CustomerName], 
     [V_OrderBilling].[OrderID] AS [OrderID], 
     [V_OrderBilling].[OrderCode] AS [OrderCode], 
+    [V_OrderBilling].[OrdDate] AS [OrdDate], 
     [V_OrderBilling].[WorkDate] AS [WorkDate], 
     [V_OrderBilling].[WorkTime] AS [WorkTime], 
     [V_OrderBilling].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
@@ -1650,6 +1659,7 @@
     [V_OrderBillingCredit].[CustomerName] AS [CustomerName], 
     [V_OrderBillingCredit].[OrderID] AS [OrderID], 
     [V_OrderBillingCredit].[OrderCode] AS [OrderCode], 
+    [V_OrderBillingCredit].[OrdDate] AS [OrdDate], 
     [V_OrderBillingCredit].[WorkDate] AS [WorkDate], 
     [V_OrderBillingCredit].[WorkTime] AS [WorkTime], 
     [V_OrderBillingCredit].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
@@ -1697,6 +1707,7 @@
     [V_OrderInfor].[Code] AS [Code], 
     [V_OrderInfor].[CustomerID] AS [CustomerID], 
     [V_OrderInfor].[CustomerName] AS [CustomerName], 
+    [V_OrderInfor].[OrdDate] AS [OrdDate], 
     [V_OrderInfor].[WorkDate] AS [WorkDate], 
     [V_OrderInfor].[WorkTime] AS [WorkTime], 
     [V_OrderInfor].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
@@ -1738,6 +1749,7 @@
     [V_OrderScheduler].[CustomerName] AS [CustomerName], 
     [V_OrderScheduler].[OrderID] AS [OrderID], 
     [V_OrderScheduler].[OrderCode] AS [OrderCode], 
+    [V_OrderScheduler].[OrdDate] AS [OrdDate], 
     [V_OrderScheduler].[WorkDate] AS [WorkDate], 
     [V_OrderScheduler].[WorkTime] AS [WorkTime], 
     [V_OrderScheduler].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
@@ -1790,6 +1802,7 @@
     [V_OrderService].[Code] AS [Code], 
     [V_OrderService].[CustomerID] AS [CustomerID], 
     [V_OrderService].[CustomerName] AS [CustomerName], 
+    [V_OrderService].[OrdDate] AS [OrdDate], 
     [V_OrderService].[WorkDate] AS [WorkDate], 
     [V_OrderService].[WorkTime] AS [WorkTime], 
     [V_OrderService].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
@@ -2453,6 +2466,7 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2784,6 +2798,7 @@
           <Property Name="ItemID" Type="Int32" />
           <Property Name="ItemValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ItemLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FormulaStr" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="UnitPrice" Type="Double" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TypeID" Type="Int32" />
@@ -2954,6 +2969,7 @@
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2993,6 +3009,7 @@
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3041,6 +3058,7 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3083,6 +3101,7 @@
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
           <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3136,6 +3155,7 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3842,6 +3862,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -4163,6 +4184,7 @@
                 <ScalarProperty Name="TypeID" ColumnName="TypeID" />
                 <ScalarProperty Name="Currency" ColumnName="Currency" />
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="FormulaStr" ColumnName="FormulaStr" />
                 <ScalarProperty Name="ItemLabel" ColumnName="ItemLabel" />
                 <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
                 <ScalarProperty Name="ItemID" ColumnName="ItemID" />
@@ -4349,6 +4371,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -4397,6 +4420,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -4439,6 +4463,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -4493,6 +4518,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -4529,6 +4555,7 @@
                 <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
                 <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
                 <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />

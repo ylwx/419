@@ -170,6 +170,58 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
+                            #region OrdDate
+                            case "OrdDate":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.WorkDate == data.Trim()).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == -1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == -1 || u.WorkDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == 1 || u.WorkDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region WorkDate
                             case "WorkDate":
                                 {
@@ -1399,6 +1451,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CustomerName).ToList();
                         }
                         break;
+                    case "OrdDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.OrdDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.OrdDate).ToList();
+                        }
+                        break;
                     case "WorkDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1687,6 +1747,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.CustomerName).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.CustomerName).ToList();
+                        }
+                        break;
+                    case "OrdDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.OrdDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.OrdDate).ToList();
                         }
                         break;
                     case "WorkDate":

@@ -1357,6 +1357,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 角色定義 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色菜單 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleMenuManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleMenuManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色模塊 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleModuleManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleModuleManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色用戶 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_RoleUserManage {
+            get {
+                return ResourceManager.GetString("UserInfor_RoleUserManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 科 室 的本地化字符串。
         /// </summary>
         internal static string UserInfor_Sec {
@@ -1848,6 +1884,15 @@ namespace Resources {
         internal static string V_OrderInfor_MiddleTugNum {
             get {
                 return ResourceManager.GetString("V_OrderInfor_MiddleTugNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下單日期 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_OrdDate {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_OrdDate", resourceCulture);
             }
         }
         

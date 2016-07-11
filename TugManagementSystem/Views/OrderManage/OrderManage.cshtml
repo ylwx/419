@@ -44,9 +44,9 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_WorkDate</label>
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_OrdDate</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_WorkDate" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_WorkDate" onfocus="$(this).parent().removeClass('has-error')" />
+                                                        <input id="_OrdDate" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_OrdDate" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -54,6 +54,14 @@
 
 
                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_WorkDate</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_WorkDate" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_WorkDate" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_WorkTime</label>
@@ -62,6 +70,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
+                                        </div>
+
+
+                                        <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_EstimatedCompletionTime</label>
@@ -70,10 +83,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-
-                                        <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_ShipName</label>
@@ -82,16 +92,21 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
+                                            
+                                        </div>
+                                                                                
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_WorkPlace</label>
-                                                    <div class="col-sm-8">
+                                                    <label class="col-sm-2 control-label">*@Resources.Language.V_OrderInfor_WorkPlace</label>
+                                                    <div class="col-sm-10">
                                                         <input id="_WorkPlace" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_WorkPlace" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                                                                
+
 
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -355,6 +370,8 @@
                             ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());
 
                         //日期
+                        if ($("#gs_OrdDate").val() != null && $("#gs_OrdDate").val() != "")
+                            ret = ret && util.isDate('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
                         if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
                             ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());
                         if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
@@ -599,6 +616,45 @@
                     }
 
                 },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    editoptions: {
+                         dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                step: 1,
+                                timepicker: false
+                            });
+                        },
+
+                        defaultValue: function () { var date = new Date(); return date.Format('yyyy-MM-dd') }
+                    },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                step: 1,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
+                },
+
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 120, editable: true, edittype: "text",
                     editrules: { required: true, date: true }, hidden: false,
@@ -1325,6 +1381,7 @@
     function initParentModal() {
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
+        $('#_OrdDate').parent().removeClass("has-error");
         $('#_WorkDate').parent().removeClass("has-error");
         $('#_WorkTime').parent().removeClass("has-error");
         $('#_EstimatedCompletionTime').parent().removeClass("has-error");
@@ -1421,6 +1478,12 @@
             autoFocus: true
         });
 
+        $('#_OrdDate').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m-d',
+            timepicker: false,
+        });
+
         $('#_WorkDate').datetimepicker({
             //format: 'Y-m-d H:i:s',
             format: 'Y-m-d',
@@ -1441,6 +1504,7 @@
 
         $('#_CustomerName').val("");
 
+        $('#_OrdDate').val(new Date().Format("yyyy-MM-dd"));
         $('#_WorkDate').val(new Date().Format("yyyy-MM-dd"));
         $('#_WorkTime').val(new Date().Format("hh:mm"));
         $('#_EstimatedCompletionTime').val(new Date().Format("hh:mm"));
@@ -1489,6 +1553,7 @@
 
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
+        $('#_OrdDate').parent().removeClass("has-error");
         $('#_WorkDate').parent().removeClass("has-error");
         $('#_WorkTime').parent().removeClass("has-error");
         $('#_EstimatedCompletionTime').parent().removeClass("has-error");
@@ -1514,6 +1579,7 @@
 
         var customerId = $("#_CustomerID").text();
         var customerName = $("#_CustomerName").val().trim();
+        var ordDate = $("#_OrdDate").val().trim();
         var workDate = $("#_WorkDate").val().trim();
         var workTime = $("#_WorkTime").val().trim();
         var estimatedCompletionTime = $("#_EstimatedCompletionTime").val().trim();
@@ -1540,6 +1606,12 @@
             return;
         }
 
+        else if (workDate.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_OrdDate' + "必填");
+            $('#_OrdDate').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
         else if (workDate.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkDate' + "必填");
             $('#_WorkDate').parent().addClass("has-error");
@@ -1692,6 +1764,7 @@
             data: {
                 'customerId': customerId,
                 'customerName': customerName,
+                'ordDate':ordDate,
                 'workDate': workDate,
                 'workTime': workTime,
                 'estimatedCompletionTime': estimatedCompletionTime,
