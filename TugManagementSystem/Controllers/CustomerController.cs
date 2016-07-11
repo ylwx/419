@@ -293,7 +293,7 @@ namespace TugManagementSystem.Controllers
 
             ViewBag.BillTemplateTypes = GetBillTemplateTypes();
             ViewBag.BillTemplateTimeTypes = GetBillTemplateTimeTypes();
-            ViewBag.BillTemplatePayItems = GetBillTemplatePayItems();
+            //ViewBag.BillTemplatePayItems = GetBillTemplatePayItems();
             ViewBag.BillTemplatePayItemPosition = GetBillTemplatePayItemPosition();
             
 
@@ -985,6 +985,54 @@ namespace TugManagementSystem.Controllers
         }
 
 
+
+        /// <summary>
+        /// 得到计费模板付费项目
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetBillTemplatePayItems(int billingTemplateId)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                
+                {
+                    //已经有的
+                    var existList = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billingTemplateId);
+
+                    //
+                    List<CustomField> srcList = TugBusinessLogic.Module.CustomerLogic.GetPriceItems();
+
+                    List<CustomField> list = new List<CustomField>();
+
+                    if (srcList != null)
+                    {
+                        foreach (var item in srcList)
+                        {
+                            if (existList != null)
+                            {
+                                var o = existList.FirstOrDefault(u => u.ItemID == item.IDX || u.ItemValue == item.CustomValue || u.ItemLabel == item.CustomLabel);
+                                if(o == null)
+                                {
+                                    list.Add(item);
+                                }
+                            }
+                        }
+                    }
+
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE, list = list }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }           
+        }
+
+
         /// <summary>
         /// 得到计费模板付费项目
         /// </summary>
@@ -994,7 +1042,7 @@ namespace TugManagementSystem.Controllers
 
             TugDataEntities db = new TugDataEntities();
             List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
-                || u.CustomName == "BillingItemTemplate.ItemID").OrderBy(u => u.CustomValue).ToList<CustomField>();
+                || (u.CustomName == "BillingItemTemplate.ItemID" && u.CustomValue.StartsWith("8"))).OrderBy(u => u.CustomValue).ToList<CustomField>();
 
             return list;
         }

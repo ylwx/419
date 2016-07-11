@@ -73,6 +73,22 @@ Util.prototype.isValidCurrency = function (columnLabel, inputStrCurrency) {
     }
 }
 
+//验证折扣
+Util.prototype.isValidDiscount = function (columnLabel, inputStrCurrency) {
+    var reg = /^\d+\.?\d{0,2}$/;
+    if (reg.test(inputStrCurrency)) {
+        if (parseFloat(inputStrCurrency) > 1 || parseFloat(inputStrCurrency) <= 0) {
+            alert(columnLabel + ":输入的折扣无效(0-1之间的两位小数)");
+            return false;
+        }
+        return true;
+    }
+    else {
+        alert(columnLabel + ":输入的折扣无效(0-1之间的两位小数)");
+        return false;
+    }
+}
+
 //验证小数 
 Util.prototype.isValidFloat = function (columnLabel, inputStrFloat) { 
     var reg = /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/;

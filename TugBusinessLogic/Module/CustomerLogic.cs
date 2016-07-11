@@ -162,6 +162,43 @@ namespace TugBusinessLogic.Module
                                 }
                                 break;
                             #endregion
+
+                            #region Discount
+                            case "Discount":
+                                {
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                orders = orders.Where(u => u.Discount == Convert.ToDouble(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                orders = orders.Where(u => u.Discount < Convert.ToDouble(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                orders = orders.Where(u => u.Discount <= Convert.ToDouble(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                orders = orders.Where(u => u.Discount > Convert.ToDouble(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                orders = orders.Where(u => u.Discount >= Convert.ToDouble(data)).ToList();
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                break;
+                            #endregion
                           
                             #region TemplateCreditContent
                             case "TemplateCreditContent":
@@ -701,6 +738,15 @@ namespace TugBusinessLogic.Module
                                         orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
                                 }
                                 break;
+
+                            case "Discount":
+                                {
+                                    if (orderMethod.ToLower().Equals("asc"))
+                                        orders = orders.OrderBy(u => u.Discount).ToList();
+                                    else
+                                        orders = orders.OrderByDescending(u => u.Discount).ToList();
+                                }
+                                break;
                             case "TemplateCreditContent":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
@@ -902,6 +948,15 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
+                        }
+                        break;
+
+                    case "Discount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Discount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Discount).ToList();
                         }
                         break;
                     case "TemplateCreditContent":
@@ -1199,5 +1254,19 @@ namespace TugBusinessLogic.Module
 
             return orders;
         }
+
+
+
+        static public List<CustomField> GetPriceItems()
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<CustomField> src = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
+                || (u.CustomName == "BillingItemTemplate.ItemID" && u.CustomValue.StartsWith("8")))
+                .OrderBy(u => u.CustomValue).ToList<CustomField>();
+
+            return src;
+        }
+
+
     }
 }

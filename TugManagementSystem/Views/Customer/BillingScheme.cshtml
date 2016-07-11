@@ -171,17 +171,7 @@
                                             <div class="col-sm-9">
                                                 @*<input type="text" class="form-control" placeholder="@Resources.Language.V_BillingTemplate_BillingTemplateTypeLabel">*@
                                                 <select id="_ItemLabel" class="form-control">
-                                                    @{
-                                                        List<CustomField> lstBillTemplatePayItems = (List<CustomField>)ViewBag.BillTemplatePayItems;
-                                                        if (lstBillTemplatePayItems != null)
-                                                        {
-                                                            foreach (CustomField item in lstBillTemplatePayItems)
-                                                            {
-                                                                string tmp = item.IDX.ToString() + "~" + item.CustomValue + "~" + item.CustomLabel;
-                                                                <option value="@tmp">@item.CustomLabel</option>
-                                                            }
-                                                        }
-                                                    }
+                                                   
                                                 </select>
                                             </div>
                                         </div>
@@ -465,6 +455,11 @@
                 var util = new Util();
 
                 var ret = true;
+                
+                //折扣
+                if ($("#gs_Discount").val() != null && $("#gs_Discount").val() != "")
+                    ret = ret && util.isValidDiscount('@Resources.Language.V_BillingItemTemplate_Discount', $("#gs_Discount").val());
+
                 //日期
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
@@ -545,7 +540,9 @@
                     position: "last"
                 }).navButtonAdd('#jqGridPager', {
                     caption: "", title: "添加新增", buttonicon: "ui-icon-plus",
-                    onClickButton: AddParent
+                    onClickButton: function () {
+                        AddParent();
+                    }
                 });
 
         $('#jqGrid').inlineNav('#jqGridPager',
@@ -698,30 +695,10 @@
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ItemLabel', name: "ItemLabel", width: 150, editable: true, edittype: "select",
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ItemLabel', name: "ItemLabel", width: 150, editable: false, edittype: "text",
                     editrules: { required: true },
                     hidden: false,
-                    editoptions: {
-                        //multiple: true,
-                        dataUrl: '@Url.Action("GetPayItems", "Customer")',
-                        //value: "-1:;1:One;2:Two",
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var rowid = jQuery("#" + childGridID).jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
-                                    if (rowid != null) {
-                                        var itemID_id = rowid + "_ItemID";
-                                        var itemValue_id = rowid + "_ItemValue";
-
-                                        $('#' + itemID_id).val($(this).val().split("~")[0]);
-                                        $('#' + itemValue_id).val($(this).val().split("~")[1]);
-                                        //$('#' + workStateID_id).val($(this).find("option:selected").text());
-                                    }
-                                }
-                            }
-                        ]
-                    }
+            
                 },
 
                 {
@@ -1018,8 +995,9 @@
                 //id: childGridID + '_ilrefresh',
                 caption: "", title: "新增", buttonicon: "ui-icon-plus",
                 onClickButton: function () {
-                    AddChild();
                     g_PrentRowId = parentRowID, g_ParentRowIndex = parentRowKey, g_ChildGridId = childGridID;
+                    AddChild();
+                    
                 }
             });
 
@@ -1198,6 +1176,9 @@
                         custom: true
                     },
                     hidden: false,
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                    
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: {
                         defaultValue: 1.00
                     }
@@ -1557,6 +1538,8 @@
 
 <!-- 模态框 -->
 <script>
+    var g_curSelectedParentRowid = '';
+
     function AddParent() {
         $('#parent-modal').modal()
     }
@@ -1577,6 +1560,7 @@
         $('#_Discount').val("1.00");
         $('#_TemplateCreditContent').val("");
         $('#_Remark').val("");
+        
     }
 
     $('#parent-modal').on('show.bs.modal', function (e) {
@@ -1735,6 +1719,8 @@
     }
 
 
+    var g_PrentRowId = '', g_ParentRowIndex = '', g_ChildGridId = '';
+
     function AddChild() {
         $('#child-modal').modal()
     }
@@ -1745,7 +1731,37 @@
         $('#_UnitPrice').parent().removeClass("has-error");
         
 
-        $("#_ItemLabel option:first").prop("selected", 'selected');
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_ParentRowIndex);//得到该行的数据
+        var billingTemplateId = dr.IDX;
+
+
+        $.ajax({
+            type: "get",
+            url: '@Url.Action("GetBillTemplatePayItems", "Customer")',
+            data: {
+                'billingTemplateId': billingTemplateId
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#_ItemLabel').empty();
+
+                for (var i = 0; i < result.list.length; i++) {
+
+                    var v = result.list[i].IDX + "~" + result.list[i].CustomValue + "~" + result.list[i].CustomLabel;
+
+                    option = $('<option value="' + v + '">' + result.list[i].CustomLabel + '</option>');
+
+                    $('#_ItemLabel').append(option);
+                }
+
+                $("#_ItemLabel option:first").prop("selected", 'selected');
+
+            },
+        });
+
+
+        //$("#_ItemLabel option:first").prop("selected", 'selected');
         $("#_Currency option:first").prop("selected", 'selected');
         $("#_TypeLabel option:first").prop("selected", 'selected');
 
@@ -1774,7 +1790,7 @@
     });
     
 
-    var g_PrentRowId = '', g_ParentRowIndex = '', g_ChildGridId = '';
+    
 
     function submitChildModal(parentRowId, parentRowIndex, childGridId) {
 
