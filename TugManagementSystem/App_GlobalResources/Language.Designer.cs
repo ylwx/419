@@ -1618,6 +1618,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 總計價格 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_Amount {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 帳單編號 的本地化字符串。
         /// </summary>
         internal static string V_OrderBilling_BillingCode {

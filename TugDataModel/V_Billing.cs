@@ -24,6 +24,7 @@ namespace TugDataModel
         public Nullable<int> TimeTypeID { get; set; }
         public string TimeTypeValue { get; set; }
         public string TimeTypeLabel { get; set; }
+        public Nullable<double> Amount { get; set; }
         public string Remark { get; set; }
         public string Month { get; set; }
         public Nullable<int> TimesNo { get; set; }

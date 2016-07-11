@@ -82,6 +82,7 @@
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeID" Type="int" />
+    <Property Name="Amount" Type="float" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="TimesNo" Type="int" />
@@ -700,6 +701,7 @@
     <Property Name="TimeTypeID" Type="int" />
     <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="Amount" Type="float" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="TimesNo" Type="int" />
@@ -895,6 +897,7 @@
     <Property Name="UserID" Type="int" />
     <Property Name="TimesNo" Type="int" />
     <Property Name="FlowUserID" Type="int" />
+    <Property Name="Amount" Type="float" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -925,6 +928,7 @@
     <Property Name="TimeTypeID" Type="int" />
     <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="Amount" Type="float" />
     <Property Name="BillingRemark" Type="nvarchar(max)" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="TimesNo" Type="int" />
@@ -964,6 +968,7 @@
     <Property Name="TimeTypeID" Type="int" />
     <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="Amount" Type="float" />
     <Property Name="BillingRemark" Type="nvarchar(max)" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="TimesNo" Type="int" />
@@ -1399,6 +1404,7 @@
     [V_Billing].[TimeTypeID] AS [TimeTypeID], 
     [V_Billing].[TimeTypeValue] AS [TimeTypeValue], 
     [V_Billing].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_Billing].[Amount] AS [Amount], 
     [V_Billing].[Remark] AS [Remark], 
     [V_Billing].[Month] AS [Month], 
     [V_Billing].[TimesNo] AS [TimesNo], 
@@ -1577,7 +1583,8 @@
     [V_NeedApproveBilling].[System] AS [System], 
     [V_NeedApproveBilling].[UserID] AS [UserID], 
     [V_NeedApproveBilling].[TimesNo] AS [TimesNo], 
-    [V_NeedApproveBilling].[FlowUserID] AS [FlowUserID]
+    [V_NeedApproveBilling].[FlowUserID] AS [FlowUserID], 
+    [V_NeedApproveBilling].[Amount] AS [Amount]
     FROM [dbo].[V_NeedApproveBilling] AS [V_NeedApproveBilling]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_OrderBilling" EntityType="Self.V_OrderBilling" store:Type="Views" store:Schema="dbo">
@@ -1605,6 +1612,7 @@
     [V_OrderBilling].[TimeTypeID] AS [TimeTypeID], 
     [V_OrderBilling].[TimeTypeValue] AS [TimeTypeValue], 
     [V_OrderBilling].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_OrderBilling].[Amount] AS [Amount], 
     [V_OrderBilling].[BillingRemark] AS [BillingRemark], 
     [V_OrderBilling].[Month] AS [Month], 
     [V_OrderBilling].[TimesNo] AS [TimesNo], 
@@ -1641,6 +1649,7 @@
     [V_OrderBillingCredit].[TimeTypeID] AS [TimeTypeID], 
     [V_OrderBillingCredit].[TimeTypeValue] AS [TimeTypeValue], 
     [V_OrderBillingCredit].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_OrderBillingCredit].[Amount] AS [Amount], 
     [V_OrderBillingCredit].[BillingRemark] AS [BillingRemark], 
     [V_OrderBillingCredit].[Month] AS [Month], 
     [V_OrderBillingCredit].[TimesNo] AS [TimesNo], 

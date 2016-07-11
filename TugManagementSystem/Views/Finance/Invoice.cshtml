@@ -428,6 +428,11 @@
                         var util = new Util();
 
                         var ret = true;
+
+                        //价格
+                        if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
+                            ret = ret && util.isValidCurrency('@Resources.Language.V_OrderBilling_Amount', $("#gs_Amount").val());
+
                         //时间
                         if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
                             ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
@@ -789,6 +794,13 @@
                     searchoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
                     }
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_Amount', name: "Amount", width: 100, 
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                    hidden: false
                 },
 
                 {
