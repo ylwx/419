@@ -371,7 +371,7 @@
 
                         //日期
                         if ($("#gs_OrdDate").val() != null && $("#gs_OrdDate").val() != "")
-                            ret = ret && util.isDate('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
+                            ret = ret && util.isDateTime('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
                         if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
                             ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());
                         if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
@@ -619,14 +619,31 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
-                    editrules: { required: true, date: true }, hidden: false,
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var r = value.match(/^(\d{4})(-|\/)(\d{2})\2(\d{2}) (\d{2}):(\d{2}):(\d{2})$/);
+                            if (r == null) {
+                                //alert(column + ':不是正确的时间格式(hh:mm)');
+                                return [false, column + ":" + "不是正确的时间格式(yyyy-MM-dd hh:mm:ss)"];
+                            }
+
+                            var d = new Date(r[1], r[3] - 1, r[4], r[5], r[6], r[7]);
+                            if (false == (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[3] && d.getDate() == r[4] && d.getHours() == r[5] && d.getMinutes() == r[6] && d.getSeconds() == r[7])) {
+                                return [false, column + ":" + "输入的日期时间无效"];
+                            }
+
+                            return [true, ""];
+                        },
+                        custom: true
+                    }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: {
                          dataInit: function (element) {
                             $(element).datetimepicker({
-                                format: 'Y-m-d',
+                                format: 'Y-m-d H:i:s',
                                 step: 1,
-                                timepicker: false
+                                timepicker: true
                             });
                         },
 
@@ -636,9 +653,9 @@
                         sopt: ["eq", "lt", "le", "gt", "ge"],
                         dataInit: function (element) {
                             $(element).datetimepicker({
-                                format: 'Y-m-d',
+                                format: 'Y-m-d H:i:s',
                                 step: 1,
-                                timepicker: false
+                                timepicker: true
                             });
                         },
 
@@ -1480,7 +1497,7 @@
 
         $('#_OrdDate').datetimepicker({
             //format: 'Y-m-d H:i:s',
-            format: 'Y-m-d',
+            format: 'Y-m-d H:i:s',
             timepicker: false,
         });
 
@@ -1504,7 +1521,7 @@
 
         $('#_CustomerName').val("");
 
-        $('#_OrdDate').val(new Date().Format("yyyy-MM-dd"));
+        $('#_OrdDate').val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
         $('#_WorkDate').val(new Date().Format("yyyy-MM-dd"));
         $('#_WorkTime').val(new Date().Format("hh:mm"));
         $('#_EstimatedCompletionTime').val(new Date().Format("hh:mm"));

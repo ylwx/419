@@ -213,7 +213,7 @@ namespace TugBusinessLogic.Module
 
         static public MyInvoice NewInvoice(int orderId, string customerBillingScheme,
             int billingTypeId, string billingTypeValue, string billingTypeLabel,
-            int timeTypeId, string timeTypeValue, string timeTypeLabel)
+            int timeTypeId, string timeTypeValue, string timeTypeLabel, double discount)
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
@@ -291,7 +291,18 @@ namespace TugBusinessLogic.Module
                 _invoice.Schedulers = dicScheduler;
             }
 
+            _invoice.OrderID = orderId;
+            //_invoice.OrderCode = ;
+            //_invoice
 
+            int billingTemplateId = Convert.ToInt32(customerBillingScheme.Split('%')[0].Split('~')[0]);
+            _invoice.BillingTypeID = billingTypeId;
+            _invoice.BillingTypeValue = billingTypeValue;
+            _invoice.BillingTypeLabel = billingTypeLabel;
+            _invoice.TimeTypeID = timeTypeId;
+            _invoice.TimeTypeValue = timeTypeValue;
+            _invoice.TimeTypeLabel = timeTypeLabel;
+            _invoice.Discount = discount;
 
             return _invoice;
         }
@@ -301,7 +312,11 @@ namespace TugBusinessLogic.Module
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
-            List<V_BillingTemplate> list = db.V_BillingTemplate.Where(u => u.CustomerID == custId).OrderBy(u => u.BillingTemplateName).ToList();
+            List<V_BillingTemplate> list = new List<V_BillingTemplate>();
+            if(custId == -1)
+                list = db.V_BillingTemplate.Where(u => u.CustomerCode == "-1").OrderBy(u => u.BillingTemplateName).ToList();
+            else
+                list = db.V_BillingTemplate.Where(u =>u.CustomerCode == "-1" || u.CustomerID == custId).OrderBy(u => u.BillingTemplateName).ToList();
 
             return list;
         }

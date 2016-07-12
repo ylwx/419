@@ -90,7 +90,7 @@ namespace TugManagementSystem.Controllers
         [Authorize]
         public ActionResult NewInvoice(string lan, int? orderId, string customerBillingScheme,
             int billingTypeId, string billingTypeValue, string billingTypeLabel,
-            int timeTypeId, string timeTypeValue, string timeTypeLabel)
+            int timeTypeId, string timeTypeValue, string timeTypeLabel, double discount)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
@@ -100,14 +100,14 @@ namespace TugManagementSystem.Controllers
             //List<TugDataModel.CustomField>TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
             TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, customerBillingScheme,
-            billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel);
+            billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount);
 
             List<TugDataModel.CustomField> Items = TugBusinessLogic.Utils.GetCustomField2("BillingItemTemplate.ItemID");
 
             List<V_BillingItemTemplate> customerSchemeItems = null;
             if (customerBillingScheme != "-1")
             {
-                customerSchemeItems = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemeItems(Convert.ToInt32(customerBillingScheme.Split('%')[0]));
+                customerSchemeItems = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemeItems(Convert.ToInt32(customerBillingScheme.Split('%')[0].Split('~')[0]));
             }
 
             var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems };

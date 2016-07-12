@@ -47,27 +47,35 @@
                                             </select>
                                         </div>
                                         <div class="col-xs-3">
-                                            选择账单类型
-                                            <select id="sel_billing_type" class="form-control" onchange="btnClick()">
+                                            账单类型
+                                            @*<select id="sel_billing_type" class="form-control" onchange="btnClick()">
                                                 <option value="">1</option>
                                                 <option value="">2</option>
                                                 <option value="">3</option>
-                                            </select>
+                                            </select>*@
+
+                                            <input id="sel_billing_type" type="text" class="form-control" readonly/>
                                         </div>
                                         <div class="col-xs-3">
-                                            选择计时方式
-                                            <select id="sel_time_type" class="form-control" onchange="btnClick()">
+                                            计时方式
+                                            @*<select id="sel_time_type" class="form-control" onchange="btnClick()">
                                                 <option value="">1</option>
                                                 <option value="">2</option>
                                                 <option value="">3</option>
-                                            </select>
+                                            </select>*@
+                                            <input id="sel_time_type" type="text" class="form-control" readonly />
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            折扣
+                                            <input id="txt_discount" type="text" class="form-control" readonly />
                                         </div>
                                         
-                                        <div class="col-xs-3">
+                                        @*<div class="col-xs-3">
                                             <button type="submit" class="btn btn-pink" style="margin-top:17px" onclick="btnClick()">
                                                 重新生成
                                             </button>
-                                        </div>
+                                        </div>*@
 
                                     </div>
 
@@ -1287,59 +1295,57 @@
             success: function (result) {
 
                 $('#sel_billing_scheme').empty();
-                $('#sel_billing_type').empty();
-                $('#sel_time_type').empty();
+                //$('#sel_billing_type').empty();
+                //$('#sel_time_type').empty();
                 $('#div_services').empty();
                 $('#tb_detail').empty();
 
-                //alert(result.customer_billing_schemes.length);
-                if (result.customer_billing_schemes.length <= 0) {
-                    var option = $('<option value="-1">无</option>')
+                  
+                for (var i = 0; i < result.customer_billing_schemes.length; i++) {
+
+                    //计费方案ID~计费折扣%计费方案模板类型ID~计费方案模板类型Value~计费方案模板类型Label%计费方案模板计时方式ID~计费方案模板计时方式Value~计费方案模板计时方式Label
+                    var v = result.customer_billing_schemes[i].BillingTemplateIDX + '~' + result.customer_billing_schemes[i].Discount
+                        + "%"
+                        + result.customer_billing_schemes[i].BillingTemplateTypeID + "~" + result.customer_billing_schemes[i].BillingTemplateTypeValue + "~" + result.customer_billing_schemes[i].BillingTemplateTypeLabel
+                        + "%"
+                        + result.customer_billing_schemes[i].TimeTypeID + "~" + result.customer_billing_schemes[i].TimeTypeValue + "~" + result.customer_billing_schemes[i].TimeTypeLabel;
+
+                    option = $('<option value="' + v + '">' + result.customer_billing_schemes[i].BillingTemplateName + '</option>')
                     $('#sel_billing_scheme').append(option);
 
-                    //option = $('<option value="-2">无2</option>')
-                    //$('#sel_billing_scheme').append(option);
-                } else {
-                    var option = $('<option value="-1">不使用</option>');
-                    $('#sel_billing_scheme').append(option);
-                    for (var i = 0; i < result.customer_billing_schemes.length; i++) {
-
-                        var v = result.customer_billing_schemes[i].IDX
-                            + "%"
-                            + result.customer_billing_schemes[i].BillingTemplateTypeID + "~" + result.customer_billing_schemes[i].BillingTemplateTypeValue + "~" + result.customer_billing_schemes[i].BillingTemplateTypeLabel
-                            + "%"
-                            + result.customer_billing_schemes[i].TimeTypeID + "~" + result.customer_billing_schemes[i].TimeTypeValue + "~" + result.customer_billing_schemes[i].TimeTypeLabel;
-
-                        option = $('<option value="' + v + '">' + result.customer_billing_schemes[i].BillingTemplateName + '</option>')
-                        $('#sel_billing_scheme').append(option);
-                    }
                 }
-
-
-                for (var i = 0; i < result.billing_template_types.length; ++i) {
-                    var option = $('<option value="' + result.billing_template_types[i].IDX + '~' + result.billing_template_types[i].CustomValue + '~' + result.billing_template_types[i].CustomLabel + '">' + result.billing_template_types[i].CustomLabel + '</option>')
-                    $('#sel_billing_type').append(option);
-                }
-                for (var i = 0; i < result.time_types.length; i++) {
-                    var option = $('<option value="' + result.time_types[i].IDX + '~' + result.time_types[i].CustomValue + '~' + result.time_types[i].CustomLabel + '">' + result.time_types[i].CustomLabel + '</option>')
-                    $('#sel_time_type').append(option);
-                }
-
                 $("#sel_billing_scheme option:first").prop("selected", 'selected');
-                $("#sel_billing_type option:first").prop("selected", 'selected');
-                $("#sel_time_type option:first").prop("selected", 'selected');
+
+
+                //for (var i = 0; i < result.billing_template_types.length; ++i) {
+                //    var option = $('<option value="' + result.billing_template_types[i].IDX + '~' + result.billing_template_types[i].CustomValue + '~' + result.billing_template_types[i].CustomLabel + '">' + result.billing_template_types[i].CustomLabel + '</option>')
+                //    $('#sel_billing_type').append(option);
+                //}
+                //for (var i = 0; i < result.time_types.length; i++) {
+                //    var option = $('<option value="' + result.time_types[i].IDX + '~' + result.time_types[i].CustomValue + '~' + result.time_types[i].CustomLabel + '">' + result.time_types[i].CustomLabel + '</option>')
+                //    $('#sel_time_type').append(option);
+                //}
+
+                //$("#sel_billing_type option:first").prop("selected", 'selected');
+                //$("#sel_time_type option:first").prop("selected", 'selected');
 
                 var customerBillingScheme = $("#sel_billing_scheme").val().toString();
+          
+                $('#txt_discount').val(customerBillingScheme.split('%')[0].split('~')[1])
+                $('#sel_billing_type').val(customerBillingScheme.split('%')[1].split('~')[2]);
+                $('#sel_time_type').val(customerBillingScheme.split('%')[2].split('~')[2]);
 
-                var billingTypeId = $("#sel_billing_type").val().toString().split('~')[0];
-                var billingTypeValue = $("#sel_billing_type").val().toString().split('~')[1];
-                var billingTypeLabel = $("#sel_billing_type").val().toString().split('~')[2];
+                var billingTypeId = customerBillingScheme.split('%')[1].split('~')[0]; 
+                var billingTypeValue = customerBillingScheme.split('%')[1].split('~')[1];
+                var billingTypeLabel = customerBillingScheme.split('%')[1].split('~')[2];
 
-                var timeTypeId = $("#sel_time_type").val().toString().split('~')[0];
-                var timeTypeValue = $("#sel_time_type").val().toString().split('~')[1];
-                var timeTypeLabel = $("#sel_time_type").val().toString().split('~')[2];
+                var timeTypeId = customerBillingScheme.split('%')[2].split('~')[0];
+                var timeTypeValue = customerBillingScheme.split('%')[2].split('~')[1];
+                var timeTypeLabel = customerBillingScheme.split('%')[2].split('~')[2];
 
-                reGenerate(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel)
+                var discount = $('#txt_discount').val();
+
+                reGenerate(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount)
 
             },
         });
@@ -1426,7 +1432,7 @@
 
 <script type="text/javascript">
 
-    function reGenerate(orderId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel) {
+    function reGenerate(orderId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount) {
 
         $('#tb_detail').empty();
 
@@ -1441,7 +1447,8 @@
                 'billingTypeLabel':billingTypeLabel,
                 'timeTypeId': timeTypeId,
                 'timeTypeValue': timeTypeValue,
-                'timeTypeLabel': timeTypeLabel
+                'timeTypeLabel': timeTypeLabel,
+                'discount': discount
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
@@ -2186,24 +2193,9 @@
 
     function billingSchemeChanged(selectedValue) {
 
-        //alert(selectedValue);
-        if (selectedValue != -1) {
-            $('#sel_billing_type').attr('disabled', true);
-            $('#sel_billing_type').val(selectedValue.split('%')[1]);
+        $('#sel_billing_type').val(selectedValue.split('%')[1].split('~')[2]);
 
-            $('#sel_time_type').attr('disabled', true);
-            $('#sel_time_type').val(selectedValue.split('%')[2]);
-
-
-        }
-        else {
-
-            $('#sel_billing_type').attr('disabled', false);
-            $("#sel_billing_type option:first").prop("selected", 'selected');
-
-            $('#sel_time_type').attr('disabled', false);
-            $("#sel_time_type option:first").prop("selected", 'selected');
-        }
+        $('#sel_time_type').val(selectedValue.split('%')[2].split('~')[2]);
 
         btnClick();
 
@@ -2226,21 +2218,22 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
         var customerBillingScheme = $("#sel_billing_scheme").val().toString();
 
-        //alert(customerBillingScheme);
+        $('#txt_discount').val(customerBillingScheme.split('%')[0].split('~')[1])
 
-        var billingTypeId = $("#sel_billing_type").val().toString().split('~')[0];
-        var billingTypeValue = $("#sel_billing_type").val().toString().split('~')[1];
-        var billingTypeLabel = $("#sel_billing_type").val().toString().split('~')[2];
+        var billingTypeId = customerBillingScheme.split('%')[1].split('~')[0];
+        var billingTypeValue = customerBillingScheme.split('%')[1].split('~')[1];
+        var billingTypeLabel = customerBillingScheme.split('%')[1].split('~')[2];
 
         //alert(billingTypeId + " --- " + billingTypeValue + ' --- ' + billingTypeLabel);
 
-        var timeTypeId = $("#sel_time_type").val().toString().split('~')[0];
-        var timeTypeValue = $("#sel_time_type").val().toString().split('~')[1];
-        var timeTypeLabel = $("#sel_time_type").val().toString().split('~')[2];
+        var timeTypeId = customerBillingScheme.split('%')[2].split('~')[0];
+        var timeTypeValue = customerBillingScheme.split('%')[2].split('~')[1];
+        var timeTypeLabel = customerBillingScheme.split('%')[2].split('~')[2];
 
         //alert(timeTypeId + " --- " + timeTypeValue + ' --- ' + timeTypeLabel);
 
-        //return;
-        reGenerate(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel);
+        var discount = $('#txt_discount').val();
+
+        reGenerate(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount);
     }
 </script>

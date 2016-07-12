@@ -702,7 +702,7 @@ namespace TugBusinessLogic.Module
                         {
                             case "":
                                 {
-                                    orders = orders.OrderByDescending(u => u.IDX).ToList();
+                                    orders = orders.OrderByDescending(u => u.BillingTemplateIDX).ToList();
                                 }
                                 break;
                             case "BillingTemplateTypeLabel":
@@ -914,7 +914,7 @@ namespace TugBusinessLogic.Module
                 {
                     case "":
                         {
-                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                            orders = orders.OrderByDescending(u => u.BillingTemplateIDX).ToList();
                         }
                         break;
                     case "BillingTemplateTypeLabel":
