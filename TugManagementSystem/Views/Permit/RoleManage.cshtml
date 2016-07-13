@@ -23,7 +23,6 @@
                                 </div>
                                 <div class="box-body big">
                                     <form class="form-horizontal" role="form">
-
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -155,11 +154,11 @@
                 for (int i = 0; i < list.Count; i++)
                 {
                     string s_id = "service" + i.ToString();
-            <div id='@s_id'>
-                <span>@list[i].IDX</span>
-                <span>@list[i].CustomValue</span>
-                <span>@list[i].CustomLabel</span>
-            </div>
+                    <div id='@s_id'>
+                        <span>@list[i].IDX</span>
+                        <span>@list[i].CustomValue</span>
+                        <span>@list[i].CustomLabel</span>
+                    </div>
                 }
 
             }
@@ -199,7 +198,7 @@
                 colMenu: true          //列菜单
             });
 
-            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
             $('#jqGridContainerBox').resize(function () {
@@ -261,10 +260,7 @@
                     },
                     position: "last"
                 })
-            .navButtonAdd('#jqGridPager', {
-                caption: "", title: "新增", buttonicon: "ui-icon-plus",
-                onClickButton: AddRole
-            });
+
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
                     edit: true,
@@ -537,7 +533,7 @@
         //提交数据库
         $.ajax({
             type: "post",
-            url: '@Url.Action("AddEditRole", "Permit")',
+            url: "/Permit/AddRole",
             data: {
                 'RoleName': RoleName,
                 'Dept': Dept,
@@ -553,10 +549,10 @@
                 $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+                    url: "/Permit/GetRoleData",
                 }).trigger('reloadGrid');
 
-                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Customer")' });
+                $("#jqGrid").jqGrid('setGridParam', { editurl: "/Permit/AddEdit", });
 
             },
         });
