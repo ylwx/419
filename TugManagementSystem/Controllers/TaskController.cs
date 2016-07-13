@@ -292,11 +292,18 @@ namespace TugManagementSystem.Controllers
             int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
             int Phase = Convert.ToInt32(Request.Form["data[Phase]"].Trim());
             int timeNo = Convert.ToInt32(Request.Form["data[TimesNo]"].Trim());
+            string tmpUserName = Request.Form["data[UserName]"].Trim();
             int curUserId = Session.GetDataFromSession<int>("userid");
+
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == idx && u.MarkID == timeNo && u.FlowUserID == curUserId;
             Flow flowData = db.Flow.Where(expF).FirstOrDefault();
-            if (Phase > flowData.Phase + 1)  //流程已进入下一审核环节，不能撤销
+            if (tmpUserName == Session.GetDataFromSession<string>("username"))
+            {
+                Response.StatusCode = 404;
+                return Json(new { message = "该记录是您的提交任务，您无法撤销通过！" });
+            }
+            else if (Phase > flowData.Phase + 1)  //流程已进入下一审核环节，不能撤销
             {
                 Response.StatusCode = 404;
                 return Json(new { message = "已进入下一审核环节，不能撤销！" });

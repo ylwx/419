@@ -60,6 +60,50 @@ namespace TugManagementSystem.Controllers
             return Json(new { message = User.Identity.Name });
         }
 
+        public ActionResult NeedApproveCount()
+        {
+            int curUserId = 0;
+            int NeedApprovedCount;
+            TugDataEntities db = new TugDataEntities();
+            curUserId = Session.GetDataFromSession<int>("userid");
+            List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
+            NeedApprovedCount = objs.Count;
+            return Json(new { message = NeedApprovedCount });
+        }
+
+        public ActionResult ApproveCount()
+        {
+            int curUserId = 0, ApprovedCount;
+            TugDataEntities db = new TugDataEntities();
+            curUserId = Session.GetDataFromSession<int>("userid");    //當前用戶ID
+            List<Approve> ApproveList = db.Approve.Where(u => u.PersonID == curUserId).Select(u => u).ToList<Approve>();
+            if (ApproveList.Count != 0)
+            {
+                List<Billing> BillList = db.Billing.Where(u => u.IDX == -1).Select(u => u).ToList<Billing>();
+                foreach (Approve obj in ApproveList)
+                {
+                    if (Convert.ToInt32(obj.Accept) > 2) continue;
+                    System.Linq.Expressions.Expression<Func<Billing, bool>> expB = u => u.IDX == obj.BillingID;
+                    Billing billData = db.Billing.Where(expB).FirstOrDefault();
+                    if (billData != null)
+                    {
+                        //撤销提交的为待提交任务
+                        if (Convert.ToInt32(billData.Phase) == 0 && billData.Status == "已撤销提交") continue;
+                        //驳回或撤销通过的为待完成任务
+                        if (Convert.ToInt32(billData.Phase) == 0 && billData.Status.ToString().Length >= 3) continue;
+                        BillList.Add(billData);
+                    }
+                }
+                ApprovedCount = BillList.Count;
+                return Json(new { message = ApprovedCount });
+            }
+            else
+            {
+                Response.StatusCode = 404;
+                return Json(new { message = "0" });
+            }
+        }
+
         public ActionResult SavePwd()
         {
             string pwd = Request.Form["Pwd"].ToString();

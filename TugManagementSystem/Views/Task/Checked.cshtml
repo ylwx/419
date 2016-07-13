@@ -92,7 +92,7 @@
                 shrinkToFit: false,     //指定各列宽度
                 sortable: true,          //列可移动
                 colMenu: true,          //列菜单
-                multiselect: true       //选择框
+                //multiselect: true       //选择框
             });
 
             // 撤销通过
@@ -131,26 +131,26 @@
             $("#RepealSubmit_btn").click(function () {
                 var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                 var dr = jQuery('#jqGrid').jqGrid('getRowData', rowid);//选中行的数据
-                //var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-                //var rowData = $('#jqGrid').jqGrid('getGridParam', id);
-                //var curPhase = rowData.Phase;
                 if (rowid != null) {
-                    $.ajax(
-                                                  {
-                                                      type: "post",
-                                                      url: "/Task/RepealSubmit",
-                                                      data: { 'data': dr },
-                                                      traditional: true,
-                                                      dataType: 'json',
-                                                      success: function (result) {
-                                                          alert(result.message);
-                                                          $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                                      },
-                                                      error: function (result) {
-                                                          console.log(result)
-                                                          alert(result.message);
-                                                      }
-                                                  });
+                    if (confirm('确定要撤销提交吗?')) {
+                        var d = new Date();
+                        $.ajax(
+                           {
+                               type: "post",
+                               url: "/Task/RepealSubmit",
+                               data: { 'data': dr },
+                               //traditional: true,
+                               dataType: 'json',
+                               success: function (result) {
+                                   alert(result.message);
+                                   $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                               },
+                               error: function (result) {
+                                   console.log(result)
+                                   alert(result.message);
+                               }
+                           });
+                    }
 
                 }
                 else { alert("未选择需要操作的数据！"); }
