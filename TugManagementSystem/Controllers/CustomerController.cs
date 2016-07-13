@@ -1042,7 +1042,7 @@ namespace TugManagementSystem.Controllers
 
             TugDataEntities db = new TugDataEntities();
             List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
-                || (u.CustomName == "BillingItemTemplate.ItemID" && u.CustomValue.StartsWith("8"))).OrderBy(u => u.CustomValue).ToList<CustomField>();
+                || (u.CustomName == "BillingItemTemplate.ItemID" && u.CustomValue.StartsWith("C8"))).OrderBy(u => u.CustomValue).ToList<CustomField>();
 
             return list;
         }

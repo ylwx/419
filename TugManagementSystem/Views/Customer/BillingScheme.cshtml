@@ -437,7 +437,7 @@
 
             isHasSubGrid: function (rowid) {
                 // if custommerid begin with B, do not use subgrid
-                var cell = $(this).jqGrid('getCell', rowid, "IDX");
+                var cell = $(this).jqGrid('getCell', rowid, "BillingTemplateIDX");
                 //alert(cell);
                 //console.log(cell, rowid);
                 if (cell == null || cell == undefined || cell == "") {
@@ -609,7 +609,7 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', parentRowKey);
         //alert(dr.IDX);
 
-        var childGridURL = '@Url.Action("GetCustomerBillSchemeItems", "Customer")' + "?billSchemeId=" + dr.IDX;
+        var childGridURL = '@Url.Action("GetCustomerBillSchemeItems", "Customer")' + "?billSchemeId=" + dr.BillingTemplateIDX;
 
         //var str_services = "";
         //var serviceNatureIds = dr.ServiceNatureIDS.split("/");
@@ -1043,7 +1043,7 @@
             columns: [
 
                 {
-                    align: 'center', label: '@Resources.Language.V_BillingTemplate_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_BillingTemplate_IDX', index: "BillingTemplateIDX", name: "BillingTemplateIDX", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
                 {
@@ -1732,7 +1732,8 @@
         
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_ParentRowIndex);//得到该行的数据
-        var billingTemplateId = dr.IDX;
+
+        var billingTemplateId = dr.BillingTemplateIDX;
 
 
         $.ajax({

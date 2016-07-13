@@ -1261,7 +1261,7 @@ namespace TugBusinessLogic.Module
         {
             TugDataEntities db = new TugDataEntities();
             List<CustomField> src = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
-                || (u.CustomName == "BillingItemTemplate.ItemID" && u.CustomValue.StartsWith("8")))
+                || (u.CustomName == "BillingItemTemplate.ItemID" && u.CustomValue.StartsWith("C8")))
                 .OrderBy(u => u.CustomValue).ToList<CustomField>();
 
             return src;
