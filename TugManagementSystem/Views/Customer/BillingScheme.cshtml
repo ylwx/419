@@ -645,7 +645,7 @@
                     align: 'center', label: '@Resources.Language.V_BillingItemTemplate_BillingTemplateID', name: "BillingTemplateID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                     editoptions: {
-                        defaultValue: dr.IDX
+                        defaultValue: dr.BillingTemplateIDX
                     }
                 },
                 {
@@ -676,22 +676,8 @@
                     align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ItemValue', name: "ItemValue", width: 100, editable: true, edittype: "text",
                     editrules: {
                         required: true,
-                        custom_func: function (value, column) {
-
-                            var re = /^[0-9]+[0-9]*]*$/;
-
-                            if (!re.test(value)) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_ItemLabel' + ": 请选择服务项!"];
-                            }
-                            else
-                                return [true, ""];
-
-                        },
-                        custom: true
                     }, hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    },
+
                     searchoptions: { sopt: ["cn"] }
                 },
                 {
@@ -1806,7 +1792,7 @@
         $('#childErrMsg').hide();
         $('#_UnitPrice').parent().removeClass("has-error");
 
-        var billingTemplateId = dr.IDX;
+        var billingTemplateId = dr.BillingTemplateIDX;
         var itemId = $("#_ItemLabel").val().toString().split('~')[0];
         var unitPrice = $('#_UnitPrice').val().trim();
         var currency = $("#_Currency").val().toString();

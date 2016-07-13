@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Web.Script.Serialization;
 using TugDataModel;
 
 namespace TugBusinessLogic
@@ -378,5 +380,25 @@ namespace TugBusinessLogic
             List<CustomField> list = db.CustomField.Where(u => u.CustomName == CustomName).OrderBy(u => u.CustomValue).ToList<CustomField>();
             return list;
         }
+
+
+
+        public static List<T> JSONStringToList<T>(string JsonStr)
+        {
+            JavaScriptSerializer Serializer = new JavaScriptSerializer();
+            List<T> objs = Serializer.Deserialize<List<T>>(JsonStr);
+            return objs;
+        }
+
+        public static T Deserialize<T>(string json)
+        {
+            T obj = Activator.CreateInstance<T>();
+            using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(obj.GetType());
+                return (T)serializer.ReadObject(ms);
+            }
+        }  
+
     }
 }

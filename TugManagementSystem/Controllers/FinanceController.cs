@@ -193,7 +193,7 @@ namespace TugManagementSystem.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult AddBill(int orderId, int billingTypeId, int timeTypeId)
+        public ActionResult AddBill(int orderId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
         {
 
             this.Internationalization();
@@ -219,6 +219,8 @@ namespace TugManagementSystem.Controllers
                     aScheduler.TimesNo = -1;
                     aScheduler.TimeTypeID = timeTypeId;
                     aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+                    aScheduler.Discount = discount;
+                    aScheduler.Amount = amount;
 
 
                     aScheduler.UserDefinedCol1 = "";
@@ -244,6 +246,45 @@ namespace TugManagementSystem.Controllers
                     aScheduler = db.Billing.Add(aScheduler);
                     db.SaveChanges();
 
+                    List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                    listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                    if (listInVoiceItems != null)
+                    {
+                        foreach (InVoiceItem item in listInVoiceItems)
+                        {
+                            BillingItem bi = new BillingItem();
+                            bi.BillingID = aScheduler.IDX;
+                            bi.SchedulerID = item.SchedulerID;
+                            bi.ItemID = item.ItemID;
+                            bi.UnitPrice = item.UnitPrice;
+                            bi.Currency = item.Currency;
+                            bi.OwnerID = -1;
+                            bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                            bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            bi.UserDefinedCol1 = "";
+                            bi.UserDefinedCol2 = "";
+                            bi.UserDefinedCol3 = "";
+                            bi.UserDefinedCol4 = "";
+
+                            //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                            //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            //    aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+
+                            //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            //    aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+
+                            //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            //    aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+
+                            bi.UserDefinedCol9 = "";
+                            bi.UserDefinedCol10 = "";
+
+                            bi = db.BillingItem.Add(bi);
+                            db.SaveChanges();
+                        }
+                    }
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
