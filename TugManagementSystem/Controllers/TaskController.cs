@@ -141,10 +141,6 @@ namespace TugManagementSystem.Controllers
 
         #region 通过
 
-        public class IDS
-        {
-            public int id { get; set; }
-        }
 
         public ActionResult ApprovePass(List<int> passdata)
         {
