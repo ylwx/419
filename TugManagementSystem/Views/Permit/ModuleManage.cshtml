@@ -180,7 +180,7 @@
 
             $("#jqGrid").jqGrid({
                 //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-                url: '@Url.Action("GetModuleData", "Permit")',
+                url: "/Permit/GetModuleData",
                 mtype: "GET",
                 datatype: "json",
                 colModel: tableConfig.columns,
@@ -189,7 +189,7 @@
                 height: '100%', //350,
                 rowNum: 30,
                 autowidth: true,
-                editurl: '@Url.Action("AddEditModule", "Permit")',
+                editurl: "/Permit/AddEditModule",
                 pager: "#jqGridPager",
                 //loadonce: true,
                 rowList: ['30', '50', '80', '100'],
@@ -199,7 +199,7 @@
                 colMenu: true          //列菜单
             });
 
-            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+            //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
             $('#jqGridContainerBox').resize(function () {
@@ -242,7 +242,7 @@
                                 $.ajax(
                                     {
                                         type: "post",
-                                        url: '@Url.Action("DeleteModule", "Permit")',
+                                        url: "/Permit/DeleteModule",
                                         data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                         dataType: 'json',
                                         success: function (result) {
@@ -260,12 +260,17 @@
                         }
                     },
                     position: "last"
-                });
+                })
+             .navButtonAdd('#jqGridPager', {
+                 //id: 'jqGrid_ilrefresh',
+                 caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                 onClickButton: AddModule
+             });
 
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
                     edit: true,
-                    add: true,
+                    add: false,
                     del: true,
                     cancel: true,
                     editParams: {
@@ -481,7 +486,7 @@
         };
     }
     //模态框
-    function AddRole() {
+    function AddModule() {
         $('#parent-modal').modal()
     }
     function initParentModal() {
@@ -491,7 +496,7 @@
         $('#_System').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
-        $('#_RoleName').val("");
+        $('#_ModuleCode').val("");
         $('#_ModuleName').val("");
         $('#_System').val("");
         $('#_Remark').val("");
@@ -524,7 +529,7 @@
         var System = $('#_System').val();
         var Remark = $('#_Remark').val();
 
-        if (RoleName.length <= 0) {
+        if (ModuleCode.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.Customer_Name1' + "@Resources.Language.IsNull");
             $('#_ModuleCode').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -533,7 +538,7 @@
         //提交数据库
         $.ajax({
             type: "post",
-            url: '@Url.Action("AddEditModule", "Permit")',
+            url: "/Permit/AddModule",
             data: {
                 'ModuleCode': ModuleCode,
                 'ModuleName': ModuleName,
@@ -549,10 +554,10 @@
                 $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+                    url: "/Permit/GetModuleData",
                 }).trigger('reloadGrid');
 
-                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Customer")' });
+                $("#jqGrid").jqGrid('setGridParam', { editurl: "/Permit/AddEditModule", });
 
             },
         });

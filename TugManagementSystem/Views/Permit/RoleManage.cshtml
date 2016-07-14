@@ -179,7 +179,7 @@
 
             $("#jqGrid").jqGrid({
                 //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-                url: '@Url.Action("GetRoleData", "Permit")',
+                url: "/Permit/GetRoleData",
                 mtype: "GET",
                 datatype: "json",
                 colModel: tableConfig.columns,
@@ -188,7 +188,7 @@
                 height: '100%', //350,
                 rowNum: 30,
                 autowidth: true,
-                editurl: '@Url.Action("AddEditRole", "Permit")',
+                editurl: "/Permit/AddEditRole",
                 pager: "#jqGridPager",
                 //loadonce: true,
                 rowList: ['30', '50', '80', '100'],
@@ -241,7 +241,7 @@
                                 $.ajax(
                                     {
                                         type: "post",
-                                        url: '@Url.Action("DeleteRole", "Permit")',
+                                        url: "/Permit/DeleteRole",
                                         data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                         dataType: 'json',
                                         success: function (result) {
@@ -260,11 +260,15 @@
                     },
                     position: "last"
                 })
-
+             .navButtonAdd('#jqGridPager', {
+                 //id: 'jqGrid_ilrefresh',
+                 caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                 onClickButton: AddRole
+             });
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
                     edit: true,
-                    add: true,
+                    add: false,
                     del: true,
                     cancel: true,
                     editParams: {
@@ -552,7 +556,7 @@
                     url: "/Permit/GetRoleData",
                 }).trigger('reloadGrid');
 
-                $("#jqGrid").jqGrid('setGridParam', { editurl: "/Permit/AddEdit", });
+                $("#jqGrid").jqGrid('setGridParam', { editurl: "/Permit/AddEditRole", });
 
             },
         });
