@@ -217,7 +217,25 @@ namespace TugBusinessLogic.Module
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
+            double grandTotal = 0.0;
+
             MyInvoice _invoice = new MyInvoice();
+
+            _invoice.OrderID = orderId;
+            //_invoice.OrderCode = ;
+            //_invoice
+
+            int billingTemplateId = Convert.ToInt32(customerBillingScheme.Split('%')[0].Split('~')[0]);
+
+            List<V_BillingItemTemplate> listBillingItemTemplate = GetCustomerBillSchemeItems(billingTemplateId);
+
+            _invoice.BillingTypeID = billingTypeId;
+            _invoice.BillingTypeValue = billingTypeValue;
+            _invoice.BillingTypeLabel = billingTypeLabel;
+            _invoice.TimeTypeID = timeTypeId;
+            _invoice.TimeTypeValue = timeTypeValue;
+            _invoice.TimeTypeLabel = timeTypeLabel;
+            _invoice.Discount = discount;
 
             var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u);
 
@@ -254,9 +272,12 @@ namespace TugBusinessLogic.Module
 
                     if (schedulers != null)
                     {
-                        List<MyScheduler> lstScheduler = new List<MyScheduler>();
+                        List<MyScheduler> lstScheduler = new List<MyScheduler>();    
+
                         foreach (var scheduler in schedulers)
                         {
+                            double totalPrice = 0.0;
+
                             MyScheduler mySch = new MyScheduler();
                             mySch.SchedulerID = scheduler.IDX;
                             mySch.TugID = (int)scheduler.TugID;
@@ -279,6 +300,22 @@ namespace TugBusinessLogic.Module
                             mySch.RopeNum = (int)scheduler.RopeNum;
                             mySch.Remark = scheduler.Remark;
 
+                            if(_invoice.BillingTypeID == 6 || _invoice.BillingTypeValue == "0" || _invoice.BillingTypeLabel == "全包")
+                            {
+                                mySch.UnitPrice = mySch.Price = mySch.SubTotaHKS = (double)((V_BillingItemTemplate)listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID)).UnitPrice;
+                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
+                                mySch.TotalHKs = mySch.DiscountSubTotalHKS;
+                                grandTotal += mySch.TotalHKs;
+                            }
+                            if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "全包加特别条款")
+                            { }
+                            if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "条款")
+                            { }
+                            //mySch.SubTotaHKS;
+                            //mySch.TotalHKs;
+                            //mySch.UnitPrice;
+                            //mySch.Price;
+
                             lstScheduler.Add(mySch);
                         }
                         dicScheduler.Add((int)service.ServiceNatureID, lstScheduler);
@@ -291,18 +328,8 @@ namespace TugBusinessLogic.Module
                 _invoice.Schedulers = dicScheduler;
             }
 
-            _invoice.OrderID = orderId;
-            //_invoice.OrderCode = ;
-            //_invoice
-
-            int billingTemplateId = Convert.ToInt32(customerBillingScheme.Split('%')[0].Split('~')[0]);
-            _invoice.BillingTypeID = billingTypeId;
-            _invoice.BillingTypeValue = billingTypeValue;
-            _invoice.BillingTypeLabel = billingTypeLabel;
-            _invoice.TimeTypeID = timeTypeId;
-            _invoice.TimeTypeValue = timeTypeValue;
-            _invoice.TimeTypeLabel = timeTypeLabel;
-            _invoice.Discount = discount;
+            _invoice.GrandTotalHKS = grandTotal;
+            
 
             return _invoice;
         }

@@ -478,7 +478,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Convert.ToInt32(Request.Form["BillingTemplateIDX"]);
                     BillingTemplate cstmer = db.BillingTemplate.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (cstmer == null)
