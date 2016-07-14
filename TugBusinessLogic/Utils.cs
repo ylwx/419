@@ -218,11 +218,12 @@ namespace TugBusinessLogic
                 {
                     if (hour > 0) {
                         hour -= 1;
-                        minute += 60;
+                        minute += 60 - 5;
                     }
                     else
                     {
                         hour = 0;
+                        minute = 0;
                     }
                 }
                     
@@ -252,11 +253,12 @@ namespace TugBusinessLogic
                     if (hour > 0)
                     {
                         hour -= 1;
-                        minute += 60;
+                        minute += 60 - 5;
                     }
                     else
                     {
                         hour = 0;
+                        minute = 0;
                     }
                 }
 
@@ -269,6 +271,41 @@ namespace TugBusinessLogic
                 }
 
                 return (count * 30.0) / 60;
+            }
+            #endregion
+
+            #region 一小时/5min
+            if (timeTypeId == 42 || timeTypeValue == "5" || timeTypeLabel == "一小时/5min")
+            {
+                int count = 0;
+
+                if (minute >= 5)
+                {
+                    minute -= 5;
+                }
+                else
+                {
+                    if (hour > 0)
+                    {
+                        hour -= 1;
+                        minute += 60 - 5;
+                    }
+                    else
+                    {
+                        hour = 0;
+                        minute = 0;
+                    }
+                }
+
+
+                count += hour * 60 / 60;
+                count += minute / 60;
+                if (minute % 60 > 0)
+                {
+                    count++;
+                }
+
+                return (count * 60.0) / 60;
             }
             #endregion
 
