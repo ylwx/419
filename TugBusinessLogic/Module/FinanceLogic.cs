@@ -276,8 +276,6 @@ namespace TugBusinessLogic.Module
 
                         foreach (var scheduler in schedulers)
                         {
-                            double totalPrice = 0.0;
-
                             MyScheduler mySch = new MyScheduler();
                             mySch.SchedulerID = scheduler.IDX;
                             mySch.TugID = (int)scheduler.TugID;
@@ -300,7 +298,8 @@ namespace TugBusinessLogic.Module
                             mySch.RopeNum = (int)scheduler.RopeNum;
                             mySch.Remark = scheduler.Remark;
 
-                            if(_invoice.BillingTypeID == 6 || _invoice.BillingTypeValue == "0" || _invoice.BillingTypeLabel == "全包")
+                            #region 全包
+                            if (_invoice.BillingTypeID == 6 || _invoice.BillingTypeValue == "0" || _invoice.BillingTypeLabel == "全包")
                             {
                                 V_BillingItemTemplate tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
                                 if(tmp != null)
@@ -315,14 +314,150 @@ namespace TugBusinessLogic.Module
                                 mySch.TotalHKs = mySch.DiscountSubTotalHKS;
                                 grandTotal += mySch.TotalHKs;
                             }
+                            #endregion
+
+                            #region 半包
                             if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "全包加特别条款")
-                            { }
+                            {
+                                double top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0;
+
+                                V_BillingItemTemplate tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
+                                if (tmp != null)
+                                {
+                                    mySch.UnitPrice = mySch.Price = (double)tmp.UnitPrice;
+                                }
+                                else
+                                {
+                                    mySch.UnitPrice = mySch.Price = 0;
+                                }
+
+                                top_total_price += mySch.Price;
+
+
+                                List<CustomField> banbaoShowItems = GetBanBaoShowItems();
+                                List<MyBillingItem> lstMyBillingItems = new List<MyBillingItem>();
+
+                                #region 条目费用计算
+
+                                if (banbaoShowItems != null)
+                                {
+                                    foreach (CustomField item in banbaoShowItems)
+                                    {
+                                        tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == item.IDX);
+
+                                        MyBillingItem mbi = new MyBillingItem();
+                                        if(tmp == null){
+
+                                            if (item.IDX == 17 || item.CustomValue == "B10" || item.CustomLabel == "25%港外附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.25, 2);
+                                            }
+                                            else if (item.IDX == 18 || item.CustomValue == "B11" || item.CustomLabel == "50% 18时至22时附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.5, 2);
+                                            }
+                                            else if (item.IDX == 19 || item.CustomValue == "B12" || item.CustomLabel == "100% 22时至08时附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
+                                            }
+                                            else if (item.IDX == 20 || item.CustomValue == "B13" || item.CustomLabel == "100%假日附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
+                                            }
+                                            else if (item.IDX == 21 || item.CustomValue == "B14" || item.CustomLabel == "100%台风附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
+                                            }
+                                            else if (item.IDX == 22 || item.CustomValue == "C15" || item.CustomLabel == "使用3600BHP以上的拖轮+15%")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
+                                            }
+                                            else
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = -1;
+                                                mbi.ItemValue = "";
+                                                mbi.ItemLabel = "";
+                                                mbi.UnitPrice = 0;
+                                                mbi.Price = 0;
+                                            }
+
+                                            if (item.CustomValue.StartsWith("B")) { mid_total_price += (double)mbi.Price; }
+                                            if (item.CustomValue.StartsWith("C")) { bottom_total_price += (double)mbi.Price; }
+                                        }
+                                        else{
+                                            mbi.Currency = tmp.Currency;
+                                            mbi.ItemID = tmp.ItemID;
+                                            mbi.ItemValue = tmp.ItemValue;
+                                            mbi.ItemLabel = tmp.ItemLabel;
+                                            mbi.UnitPrice = tmp.UnitPrice;
+
+                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C80" || tmp.ItemLabel == "燃油附加费")
+                                            {
+                                                mbi.Price = tmp.UnitPrice * mySch.WorkTimeConsumption; 
+                                            }
+                                            else if (tmp.ItemID == 24 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
+                                            {
+                                                mbi.Price = tmp.UnitPrice * mySch.RopeNum;
+                                            }
+                                            else
+                                            {
+                                                mbi.Price = tmp.UnitPrice;
+                                            }
+
+                                            if (item.CustomValue.StartsWith("B")) { mid_total_price += (double)mbi.Price; }
+                                            if (item.CustomValue.StartsWith("C")) { bottom_total_price += (double)mbi.Price; }
+
+                                            mbi.TypeID = tmp.TypeID;
+                                            mbi.TypeValue = tmp.TypeValue;
+                                            mbi.TypeLabel = tmp.TypeLabel;
+                                        }
+
+                                        lstMyBillingItems.Add(mbi);
+                                    }
+                                }
+                                #endregion
+
+                                mySch.BillingItems = lstMyBillingItems;
+
+                                mySch.SubTotaHKS = top_total_price + mid_total_price;
+                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
+                                //totalPrice += mySch.DiscountSubTotalHKS;
+
+                                mySch.TotalHKs = mySch.DiscountSubTotalHKS + bottom_total_price;
+                                grandTotal += mySch.TotalHKs;
+
+                            }
+                            #endregion
+
+                            #region 条款
                             if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "条款")
                             { }
-                            //mySch.SubTotaHKS;
-                            //mySch.TotalHKs;
-                            //mySch.UnitPrice;
-                            //mySch.Price;
+                            #endregion
 
                             lstScheduler.Add(mySch);
                         }
@@ -361,6 +496,32 @@ namespace TugBusinessLogic.Module
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
             List<V_BillingItemTemplate> list = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).OrderBy(u => u.TypeValue).OrderBy(u=>u.ItemValue).ToList();
+
+            return list;
+        }
+
+        /// <summary>
+        /// 获取半包类型账单的条目显示项
+        /// </summary>
+        /// <returns></returns>
+        static public List<CustomField> GetBanBaoShowItems()
+        {
+            TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.ItemID" && u.FormulaStr.Substring(1,1) == "1").OrderBy(u => u.CustomValue).ToList();
+
+            return list;
+        }
+
+        /// <summary>
+        /// 获取条款类型账单的条目显示项
+        /// </summary>
+        /// <returns></returns>
+        static public List<CustomField> GetTiaoKuanShowItems()
+        {
+            TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.ItemID" && u.FormulaStr.Substring(2, 1) == "1").OrderBy(u => u.CustomValue).ToList();
 
             return list;
         }
