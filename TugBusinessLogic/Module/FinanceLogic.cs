@@ -302,7 +302,15 @@ namespace TugBusinessLogic.Module
 
                             if(_invoice.BillingTypeID == 6 || _invoice.BillingTypeValue == "0" || _invoice.BillingTypeLabel == "全包")
                             {
-                                mySch.UnitPrice = mySch.Price = mySch.SubTotaHKS = (double)((V_BillingItemTemplate)listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID)).UnitPrice;
+                                V_BillingItemTemplate tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
+                                if(tmp != null)
+                                {
+                                    mySch.UnitPrice = mySch.Price = mySch.SubTotaHKS = (double)tmp.UnitPrice;
+                                }
+                                else
+                                {
+                                    mySch.UnitPrice = mySch.Price = mySch.SubTotaHKS = 0;
+                                }
                                 mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
                                 mySch.TotalHKs = mySch.DiscountSubTotalHKS;
                                 grandTotal += mySch.TotalHKs;
