@@ -89,9 +89,9 @@
                                                     <div @* class="scroller" *@ data-height="600px" data-always-visible="1" data-rail-visible="1">
                                                         <div class="padding-bottom-20">
                                                             <div class="input-group">
-                                                                <input id="searchRole" type="text" class="form-control" placeholder="请输入角色名称" value="@ViewBag.QueryName">
+                                                                <input id="searchModule" type="text" class="form-control" placeholder="请输入角色名称" value="@ViewBag.QueryName">
                                                                 <span class="input-group-btn">
-                                                                    <button class="btn btn-primary" type="button" onclick="searchRole($('#searchRole').val())">搜索</button>
+                                                                    <button class="btn btn-primary" type="button" onclick="searchModule($('#searchModule').val())">搜索</button>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -264,6 +264,10 @@
                         $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
                 })
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "添加模块", buttonicon: "ui-icon-plus",
+                    onClickButton: AddRoleModule
+                })
                 .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
                 .navButtonAdd('#jqGridPager', {
                     caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
@@ -299,7 +303,7 @@
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
                     edit: false,
-                    add: true,
+                    add: false,
                     del: true,
                     cancel: true,
                     editParams: {
@@ -403,14 +407,14 @@
             $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("GetRowModules", "Permit")' + '?rolId=' + $('.panel-title span:first').html(),
+                    url:"/Permit/GetRowModules" + '?rolId=' + $('.panel-title span:first').html(),
                 }).trigger('reloadGrid');
 
             //alert('@Url.Action("AddEditRowModule", "Permit")' + '?rolId=' + Role_id );
-            $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditRowModule", "Permit")' + '?rolId=' + Role_id });
+            $("#jqGrid").jqGrid('setGridParam', { editurl:"/Permit/AddEditRowModule" + '?rolId=' + Role_id });
         }
 
-        function searchRole(text) {
+        function searchModule(text) {
 
             var curPage = 1;
             var queryName = text.trim();
@@ -418,7 +422,7 @@
             $.ajax(
                 {
                     type: "get",
-                    url: '@Url.Action("GetRoles", "Permit")',
+                    url:"/Permit/GetRoles",
                     dataType: 'html',
                     type: 'get',
                     data: { 'curPage': curPage, 'queryName': queryName },
@@ -431,7 +435,7 @@
 
         function getRoles(pageIndex) {
             var curPage = parseInt(pageIndex) + 1;
-            var queryName = $('#searchRole').val().trim();
+            var queryName = $('#searchModule').val().trim();
 
             $.ajax(
                 {
@@ -452,7 +456,7 @@
             //alert("show");
 
             $("#jqGrid2").jqGrid({
-                url: '@Url.Action("GetModuleDataForOnce", "Permit")',
+                url:"/Permit/GetModuleDataForOnce",
                 mtype: "GET",
                 datatype: "json",
                 colModel: [
@@ -561,7 +565,8 @@
                 rownumbers: true,
                 shrinkToFit: true,     //指定各列宽度
                 sortable: true,          //列可移动
-                colMenu: true          //列菜单
+                colMenu: true,          //列菜单
+                multiselect: true      //选择框
             });
 
             $('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
@@ -586,31 +591,54 @@
             $(this).removeData("bs.modal");
             //alert("hidden");
         });
-
+        //模态框
+        function AddRoleModule() {
+            $('#table-modal').modal()
+        }
         function chooseModule() {
-
-            var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
-            if (rowid != null) {
-                var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
-
-                //var curChildGridId = $('#cur_operate_chid_grid').text();
-                //var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
-
-                var Rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');
-                if (Rowid != null) {
-
-                    var ModuleID_id = Rowid + "_ModuleID";
-                    $('#' + ModuleID_id).val(dr.IDX);
-
-                    var ModuleCode_id = Rowid + "_ModuleCode";
-                    $('#' + ModuleCode_id).val(dr.ModuleCode);
-                    //jQuery('' + curChildGridId).setCell(Rowid, 'Name1', dr.Name1);
-
-                    var ModuleName_id = Rowid + "_ModuleName";
-                    $('#' + ModuleName_id).val(dr.ModuleName);
-                    //jQuery('' + curChildGridId).setCell(Rowid, 'Name2', dr.Name2);
+            var ids = [];
+            var rowData = $('#jqGrid2').jqGrid('getGridParam', 'selarrrow');
+            if (rowData.length) {
+                for (var i = 0; i < rowData.length; i++) {
+                    ids.push($('#jqGrid2').jqGrid('getCell', rowData[i], 'IDX'));
                 }
+                var roleId = $('.panel-title span:first').html();
+                $.ajax(
+                           {
+                               type: "post",
+                               url: "/Permit/AddRoleModule",
+                               data: { 'data': ids, 'roleId': roleId },
+                               traditional: true,
+                               dataType: 'json',
+                               success: function (result) {
+                                   alert(result.message);
+                                   $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                               },
+                           });
             }
+
+            //var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
+            //if (rowid != null) {
+            //    var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
+
+            //    //var curChildGridId = $('#cur_operate_chid_grid').text();
+            //    //var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
+
+            //    var Rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');
+            //    if (Rowid != null) {
+
+            //        var ModuleID_id = Rowid + "_ModuleID";
+            //        $('#' + ModuleID_id).val(dr.IDX);
+
+            //        var ModuleCode_id = Rowid + "_ModuleCode";
+            //        $('#' + ModuleCode_id).val(dr.ModuleCode);
+            //        //jQuery('' + curChildGridId).setCell(Rowid, 'Name1', dr.Name1);
+
+            //        var ModuleName_id = Rowid + "_ModuleName";
+            //        $('#' + ModuleName_id).val(dr.ModuleName);
+            //        //jQuery('' + curChildGridId).setCell(Rowid, 'Name2', dr.Name2);
+            //    }
+            //}
         }
     </script>
 
