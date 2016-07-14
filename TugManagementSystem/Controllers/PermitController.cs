@@ -62,9 +62,47 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 角色
+        public ActionResult AddRoleUser(List<int> data, int roleId)
+        {
+            this.Internationalization();
+            TugDataEntities db = new TugDataEntities();
+            foreach (int id in data)
+            {
+                UsersRole userRole = new UsersRole();
+                userRole.UserID = id;
+                userRole.RoleID = roleId;
+                userRole.IsAdmin = "否";
+                userRole.OwnerID = -1;
+                userRole.CreateDate = userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                userRole.AddUserID = Session.GetDataFromSession<int>("userid");
+                userRole.System = "Role";
+                userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
+                if (Request.Form["UserDefinedCol5"] != "")
+                    userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                if (Request.Form["UserDefinedCol6"] != "")
+                    userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                if (Request.Form["UserDefinedCol7"] != "")
+                    userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                if (Request.Form["UserDefinedCol8"] != "")
+                    userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                userRole = db.UsersRole.Add(userRole);
+                db.SaveChanges();
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
         #region 角色页面Action
-
+      
         public ActionResult AddEditRole()
         {
             this.Internationalization();
@@ -77,36 +115,36 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        TugDataModel.Role obj = new Role();
+                        TugDataModel.Role userRole = new Role();
 
-                        obj.RoleName = Request.Form["RoleName"];
-                        obj.Dept = Request.Form["Dept"];
-                        obj.System = Request.Form["System"];
-                        obj.Remark = Request.Form["Remark"];
-                        obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
-                        obj.UserID = Session.GetDataFromSession<int>("userid");
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.RoleName = Request.Form["RoleName"];
+                        userRole.Dept = Request.Form["Dept"];
+                        userRole.System = Request.Form["System"];
+                        userRole.Remark = Request.Form["Remark"];
+                        userRole.OwnerID = -1;
+                        userRole.CreateDate = userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        userRole.UserID = Session.GetDataFromSession<int>("userid");
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        obj = db.Role.Add(obj);
+                        userRole = db.Role.Add(userRole);
                         db.SaveChanges();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
@@ -133,43 +171,43 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Convert.ToInt32(Request.Form["IDX"]);
-                    Role obj = db.Role.Where(u => u.IDX == idx).FirstOrDefault();
+                    Role userRole = db.Role.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    if (obj == null)
+                    if (userRole == null)
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
                     else
                     {
-                        obj.RoleName = Request.Form["RoleName"];
-                        obj.Dept = Request.Form["Dept"];
-                        obj.System = Request.Form["System"];
-                        obj.Remark = Request.Form["Remark"];
-                        obj.OwnerID = -1;
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
-                        obj.UserID = Session.GetDataFromSession<int>("userid");
+                        userRole.RoleName = Request.Form["RoleName"];
+                        userRole.Dept = Request.Form["Dept"];
+                        userRole.System = Request.Form["System"];
+                        userRole.Remark = Request.Form["Remark"];
+                        userRole.OwnerID = -1;
+                        userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        userRole.UserID = Session.GetDataFromSession<int>("userid");
 
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                        db.Entry(userRole).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
@@ -197,10 +235,10 @@ namespace TugManagementSystem.Controllers
                 int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
-                Role obj = db.Role.FirstOrDefault(u => u.IDX == idx);
-                if (obj != null)
+                Role userRole = db.Role.FirstOrDefault(u => u.IDX == idx);
+                if (userRole != null)
                 {
-                    db.Role.Remove(obj);
+                    db.Role.Remove(userRole);
                     db.SaveChanges();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
@@ -275,36 +313,36 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        TugDataModel.FunctionModule obj = new FunctionModule();
+                        TugDataModel.FunctionModule userRole = new FunctionModule();
 
-                        obj.ModuleCode = Request.Form["ModuleCode"];
-                        obj.ModuleName = Request.Form["ModuleName"];
-                        obj.System = Request.Form["System"];
-                        obj.Remark = Request.Form["Remark"];
-                        //obj.OwnerID = -1;
-                        //obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        //obj.UserID = Session.GetDataFromSession<int>("userid");
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.ModuleCode = Request.Form["ModuleCode"];
+                        userRole.ModuleName = Request.Form["ModuleName"];
+                        userRole.System = Request.Form["System"];
+                        userRole.Remark = Request.Form["Remark"];
+                        //userRole.OwnerID = -1;
+                        //userRole.CreateDate = userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
+                        //userRole.UserID = Session.GetDataFromSession<int>("userid");
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        obj = db.FunctionModule.Add(obj);
+                        userRole = db.FunctionModule.Add(userRole);
                         db.SaveChanges();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
@@ -331,43 +369,43 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Convert.ToInt32(Request.Form["IDX"]);
-                    FunctionModule obj = db.FunctionModule.Where(u => u.IDX == idx).FirstOrDefault();
+                    FunctionModule userRole = db.FunctionModule.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    if (obj == null)
+                    if (userRole == null)
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
                     else
                     {
-                        obj.ModuleCode = Request.Form["ModuleCode"];
-                        obj.ModuleName = Request.Form["ModuleName"];
-                        obj.System = Request.Form["System"];
-                        obj.Remark = Request.Form["Remark"];
-                        //obj.OwnerID = -1;
-                        //obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        //obj.UserID = Session.GetDataFromSession<int>("userid");
+                        userRole.ModuleCode = Request.Form["ModuleCode"];
+                        userRole.ModuleName = Request.Form["ModuleName"];
+                        userRole.System = Request.Form["System"];
+                        userRole.Remark = Request.Form["Remark"];
+                        //userRole.OwnerID = -1;
+                        //userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
+                        //userRole.UserID = Session.GetDataFromSession<int>("userid");
 
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                        db.Entry(userRole).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
@@ -395,10 +433,10 @@ namespace TugManagementSystem.Controllers
                 int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
-                FunctionModule obj = db.FunctionModule.FirstOrDefault(u => u.IDX == idx);
-                if (obj != null)
+                FunctionModule userRole = db.FunctionModule.FirstOrDefault(u => u.IDX == idx);
+                if (userRole != null)
                 {
-                    db.FunctionModule.Remove(obj);
+                    db.FunctionModule.Remove(userRole);
                     db.SaveChanges();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
@@ -501,37 +539,37 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        TugDataModel.UsersRole obj = new UsersRole();
+                        TugDataModel.UsersRole userRole = new UsersRole();
 
-                        obj.UserID = Util.toint(Request.Form["UserID"]);
-                        obj.RoleID = rolId;
-                        obj.IsAdmin = Request.Form["IsAdmin"];
-                        obj.System = "Role";
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        userRole.UserID = Util.toint(Request.Form["UserID"]);
+                        userRole.RoleID = rolId;
+                        userRole.IsAdmin = Request.Form["IsAdmin"];
+                        userRole.System = "Role";
+                        userRole.CreateDate = userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
-                        obj.OwnerID = -1;
-                        obj.AddUserID = Session.GetDataFromSession<int>("userid");
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.OwnerID = -1;
+                        userRole.AddUserID = Session.GetDataFromSession<int>("userid");
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        obj = db.UsersRole.Add(obj);
+                        userRole = db.UsersRole.Add(userRole);
                         db.SaveChanges();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
@@ -558,43 +596,43 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Convert.ToInt32(Request.Form["IDX"]);
-                    UsersRole obj = db.UsersRole.Where(u => u.IDX == idx).FirstOrDefault();
+                    UsersRole userRole = db.UsersRole.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    if (obj == null)
+                    if (userRole == null)
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
                     else
                     {
-                        obj.UserID = Util.toint(Request.Form["UserID"]);
-                        obj.RoleID = Util.toint(Request.Form["RoleID"]);
-                        obj.IsAdmin = Request.Form["IsAdmin"];
-                        obj.System = "Role";
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        userRole.UserID = Util.toint(Request.Form["UserID"]);
+                        userRole.RoleID = Util.toint(Request.Form["RoleID"]);
+                        userRole.IsAdmin = Request.Form["IsAdmin"];
+                        userRole.System = "Role";
+                        userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
-                        obj.OwnerID = -1;
-                        obj.AddUserID = Session.GetDataFromSession<int>("userid");
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.OwnerID = -1;
+                        userRole.AddUserID = Session.GetDataFromSession<int>("userid");
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                        db.Entry(userRole).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
@@ -622,10 +660,10 @@ namespace TugManagementSystem.Controllers
                 int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
-                UsersRole obj = db.UsersRole.FirstOrDefault(u => u.IDX == idx);
-                if (obj != null)
+                UsersRole userRole = db.UsersRole.FirstOrDefault(u => u.IDX == idx);
+                if (userRole != null)
                 {
-                    db.UsersRole.Remove(obj);
+                    db.UsersRole.Remove(userRole);
                     db.SaveChanges();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
@@ -702,10 +740,10 @@ namespace TugManagementSystem.Controllers
                 int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
-                RoleModule obj = db.RoleModule.FirstOrDefault(u => u.IDX == idx);
-                if (obj != null)
+                RoleModule userRole = db.RoleModule.FirstOrDefault(u => u.IDX == idx);
+                if (userRole != null)
                 {
-                    db.RoleModule.Remove(obj);
+                    db.RoleModule.Remove(userRole);
                     db.SaveChanges();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
@@ -732,37 +770,37 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        TugDataModel.RoleModule obj = new RoleModule();
-                        obj.RoleID = rolId;
-                        obj.ModuleID = Util.toint(Request.Form["ModuleID"]);
+                        TugDataModel.RoleModule userRole = new RoleModule();
+                        userRole.RoleID = rolId;
+                        userRole.ModuleID = Util.toint(Request.Form["ModuleID"]);
 
-                        obj.IsAdmin = Request.Form["IsAdmin"];
-                        obj.System = "Role";
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        userRole.IsAdmin = Request.Form["IsAdmin"];
+                        userRole.System = "Role";
+                        userRole.CreateDate = userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
-                        obj.OwnerID = -1;
-                        obj.UserID = Session.GetDataFromSession<int>("userid");
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.OwnerID = -1;
+                        userRole.UserID = Session.GetDataFromSession<int>("userid");
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        obj = db.RoleModule.Add(obj);
+                        userRole = db.RoleModule.Add(userRole);
                         db.SaveChanges();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
@@ -789,44 +827,44 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Convert.ToInt32(Request.Form["IDX"]);
-                    RoleModule obj = db.RoleModule.Where(u => u.IDX == idx).FirstOrDefault();
+                    RoleModule userRole = db.RoleModule.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    if (obj == null)
+                    if (userRole == null)
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
                     else
                     {
-                        obj.RoleID = rolId;
-                        obj.ModuleID = Util.toint(Request.Form["ModuleID"]);
+                        userRole.RoleID = rolId;
+                        userRole.ModuleID = Util.toint(Request.Form["ModuleID"]);
 
-                        obj.IsAdmin = Request.Form["IsAdmin"];
-                        obj.System = "Role";
-                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        userRole.IsAdmin = Request.Form["IsAdmin"];
+                        userRole.System = "Role";
+                        userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
 
-                        obj.OwnerID = -1;
-                        obj.UserID = Session.GetDataFromSession<int>("userid");
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.OwnerID = -1;
+                        userRole.UserID = Session.GetDataFromSession<int>("userid");
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                        db.Entry(userRole).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
@@ -953,41 +991,41 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        TugDataModel.RoleMenu obj = new RoleMenu();
+                        TugDataModel.RoleMenu userRole = new RoleMenu();
 
-                        obj.Page = Request.Form["Page"];
-                        obj.Menu = Request.Form["Menu"];
-                        obj.MenuName = Request.Form["MenuName"];
-                        obj.Visible = Request.Form["Visible"];
-                        obj.IsAdmin = Request.Form["IsAdmin"];
-                        obj.RoleID = rolId;
+                        userRole.Page = Request.Form["Page"];
+                        userRole.Menu = Request.Form["Menu"];
+                        userRole.MenuName = Request.Form["MenuName"];
+                        userRole.Visible = Request.Form["Visible"];
+                        userRole.IsAdmin = Request.Form["IsAdmin"];
+                        userRole.RoleID = rolId;
 
-                        obj.Remark = Request.Form["Remark"];
-                        obj.System = "Role";
-                        //obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
-                        //obj.OwnerID = -1;
-                        //obj.AddUserID = Session.GetDataFromSession<int>("userid");
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.Remark = Request.Form["Remark"];
+                        userRole.System = "Role";
+                        //userRole.CreateDate = userRole.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");;
+                        //userRole.OwnerID = -1;
+                        //userRole.AddUserID = Session.GetDataFromSession<int>("userid");
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        obj = db.RoleMenu.Add(obj);
+                        userRole = db.RoleMenu.Add(userRole);
                         db.SaveChanges();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
@@ -1014,44 +1052,44 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Convert.ToInt32(Request.Form["IDX"]);
-                    RoleMenu obj = db.RoleMenu.Where(u => u.IDX == idx).FirstOrDefault();
+                    RoleMenu userRole = db.RoleMenu.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    if (obj == null)
+                    if (userRole == null)
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
                     else
                     {
-                        obj.Page = Request.Form["Page"];
-                        obj.Menu = Request.Form["Menu"];
-                        obj.MenuName = Request.Form["MenuName"];
-                        obj.Visible = Request.Form["Visible"];
-                        obj.IsAdmin = Request.Form["IsAdmin"];
-                        obj.RoleID = rolId;
+                        userRole.Page = Request.Form["Page"];
+                        userRole.Menu = Request.Form["Menu"];
+                        userRole.MenuName = Request.Form["MenuName"];
+                        userRole.Visible = Request.Form["Visible"];
+                        userRole.IsAdmin = Request.Form["IsAdmin"];
+                        userRole.RoleID = rolId;
 
-                        obj.Remark = Request.Form["Remark"];
-                        obj.System = "Role";
-                        obj.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        obj.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        obj.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        obj.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+                        userRole.Remark = Request.Form["Remark"];
+                        userRole.System = "Role";
+                        userRole.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        userRole.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        userRole.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        userRole.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
 
                         if (Request.Form["UserDefinedCol5"] != "")
-                            obj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+                            userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            obj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            obj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            obj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        obj.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        obj.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+                        userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                        db.Entry(userRole).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
@@ -1079,10 +1117,10 @@ namespace TugManagementSystem.Controllers
                 int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
-                RoleMenu obj = db.RoleMenu.FirstOrDefault(u => u.IDX == idx);
-                if (obj != null)
+                RoleMenu userRole = db.RoleMenu.FirstOrDefault(u => u.IDX == idx);
+                if (userRole != null)
                 {
-                    db.RoleMenu.Remove(obj);
+                    db.RoleMenu.Remove(userRole);
                     db.SaveChanges();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }

@@ -230,7 +230,6 @@
                 shrinkToFit: false,     //指定各列宽度
                 sortable: true,          //列可移动
                 colMenu: true,          //列菜单
-                multiselect: true      //选择框
               
             });
 
@@ -413,11 +412,11 @@
             $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("GetRowUsers", "Permit")' + '?rolId=' + $('.panel-title span:first').html(),
+                    url:"/Permit/GetRowUsers" + '?rolId=' + $('.panel-title span:first').html(),
                 }).trigger('reloadGrid');
 
             //alert('@Url.Action("AddEditRowUser", "Permit")' + '?rolId=' + Role_id );
-            $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditRowUser", "Permit")' + '?rolId=' + Role_id });
+            $("#jqGrid").jqGrid('setGridParam', { editurl:"/Permit/AddEditRowUser" + '?rolId=' + Role_id });
         }
 
         function searchRole(text) {
@@ -428,7 +427,7 @@
             $.ajax(
                 {
                     type: "get",
-                    url: '@Url.Action("GetRoles", "Permit")',
+                    url:"/Permit/GetRoles",
                     dataType: 'html',
                     type: 'get',
                     data: { 'curPage': curPage, 'queryName': queryName },
@@ -462,7 +461,7 @@
             //alert("show");
 
             $("#jqGrid2").jqGrid({
-                url: '@Url.Action("UserGetDataForLoadOnce", "Organization")',
+                url:"/Organization/UserGetDataForLoadOnce",
                 mtype: "GET",
                 datatype: "json",
                 colModel: [
@@ -651,14 +650,15 @@
                 height: 300,
                 rowNum: 10,
                 autowidth: true,
-                editurl: '@Url.Action("", "")',
+                @*editurl: '@Url.Action("", "")',*@
                 pager: "#jqGridPager2",
                 loadonce: true,
                 rowList: ['10', '20', '30'],
                 rownumbers: true,
                 shrinkToFit: true,     //指定各列宽度
                 sortable: true,          //列可移动
-                colMenu: true          //列菜单
+                colMenu: true,          //列菜单
+                multiselect: true      //选择框
             });
 
             $('#jqGrid2').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
@@ -687,7 +687,6 @@
         function AddRoleUser() {
             $('#table-modal').modal()
         }
-
         function chooseUser() {
             var ids = [];
             var rowData = $('#jqGrid2').jqGrid('getGridParam', 'selarrrow');
@@ -695,11 +694,12 @@
                 for (var i = 0; i < rowData.length; i++) {
                     ids.push($('#jqGrid2').jqGrid('getCell', rowData[i], 'IDX'));
                 }
+                var roleId = $('.panel-title span:first').html();
                 $.ajax(
                            {
                                type: "post",
                                url: "/Permit/AddRoleUser",
-                               data: { 'data': ids,'roleID':0 },
+                               data: { 'data': ids, 'roleId': roleId },
                                traditional: true,
                                dataType: 'json',
                                success: function (result) {
