@@ -10,6 +10,63 @@ namespace TugManagementSystem.Controllers
 {
     public class TugInforController : BaseController
     {
+        public ActionResult AddTug(string Code, string Name1, string Name2, string SimpleName, string Power, string Class, string Speed, string Length, string Width, string Remark)
+        {
+            this.Internationalization();
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        TugDataModel.TugInfor tug = new TugInfor();
+
+                        tug.Code = Code;
+                        tug.Name1 = Name1;
+                        tug.Name2 = Name2;
+                        tug.SimpleName = SimpleName;
+                        tug.Power = Power;
+                        tug.Class = Class;
+                        tug.Speed = Speed;
+                        tug.Length = Length;
+                        tug. Width= Width;
+                        tug.Remark =Remark ;
+                        tug.OwnerID = -1;
+                        tug.CreateDate = tug.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        tug.UserID = Session.GetDataFromSession<int>("userid");
+                        //tug.UserDefinedCol1 = "";
+                        //tug.UserDefinedCol2 = "";
+                        //tug.UserDefinedCol3 = "";
+                        //tug.UserDefinedCol4 = "";
+
+                        //if (Request.Form["UserDefinedCol5"] != "")
+                        //    tug.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        //if (Request.Form["UserDefinedCol6"] != "")
+                        //    tug.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        //if (Request.Form["UserDefinedCol7"] != "")
+                        //    tug.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        //if (Request.Form["UserDefinedCol8"] != "")
+                        //    tug.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        //tug.UserDefinedCol9 = "";
+                        //tug.UserDefinedCol10 = "";
+
+                        tug = db.TugInfor.Add(tug);
+                        db.SaveChanges();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
+                    }
+                }
+                catch (Exception)
+                {
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret);
+                }
+        }
         public ActionResult AddEdit()
         {
             this.Internationalization();
