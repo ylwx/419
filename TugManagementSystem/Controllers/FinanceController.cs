@@ -86,7 +86,7 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
         public ActionResult NewInvoice(string lan, int? orderId, string customerBillingScheme,
             int billingTypeId, string billingTypeValue, string billingTypeLabel,
@@ -195,7 +195,7 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
         public ActionResult AddBill(int orderId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
         {

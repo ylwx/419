@@ -47,6 +47,7 @@ namespace TugDataModel
         public virtual DbSet<RoleModule> RoleModule { get; set; }
         public virtual DbSet<Scheduler> Scheduler { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<testinv> testinv { get; set; }
         public virtual DbSet<TugInfor> TugInfor { get; set; }
         public virtual DbSet<UserInfor> UserInfor { get; set; }
         public virtual DbSet<UsersRole> UsersRole { get; set; }
@@ -55,6 +56,10 @@ namespace TugDataModel
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
         public virtual DbSet<V_Flow> V_Flow { get; set; }
+        public virtual DbSet<V_Inv_BillingItem> V_Inv_BillingItem { get; set; }
+        public virtual DbSet<V_Inv_Head> V_Inv_Head { get; set; }
+        public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
+        public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }

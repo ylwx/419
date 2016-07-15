@@ -78,7 +78,5 @@ namespace TugDataModel
         public Nullable<double> UnitPrice { get; set; }
         public string Currency { get; set; }
         public Nullable<int> PositionTypeID { get; set; }
-        public string PositionTypeValue { get; set; }
-        public string PositionTypeLabel { get; set; }
     }
 }

@@ -95,9 +95,7 @@ namespace TugBusinessLogic.Module
                                         u.BillingItemValue,
                                         u.BillingItemLabel,
                                         u.Currency,
-                                        u.PositionTypeID,
-                                        u.PositionTypeValue,
-                                        u.PositionTypeLabel
+                                        u.PositionTypeID
                                     }).OrderBy(u => u.ItemID).ToList();
 
                                 if (schedulers != null && schedulers.Count > 0)
@@ -160,12 +158,12 @@ namespace TugBusinessLogic.Module
 
                                         bit.Currency = subItem.Currency;
                                         bit.TypeID = subItem.PositionTypeID;
-                                        bit.TypeValue = subItem.PositionTypeValue;
-                                        bit.TypeLabel = subItem.PositionTypeLabel;
 
-                                        if (subItem.PositionTypeID == 13 || subItem.PositionTypeValue == "0" || subItem.PositionTypeLabel == "上")
+
+                                        if(subItem.BillingItemValue[0] == 'A')
+                                        
                                             upTotalPrice += (double)bit.Price;
-                                        else if (subItem.PositionTypeID == 14 || subItem.PositionTypeValue == "1" || subItem.PositionTypeLabel == "中")
+                                        else if (subItem.BillingItemValue[0] == 'B')
                                             midTotalPrice += (double)bit.Price;
 
                                         totalPrice += upTotalPrice + midTotalPrice;
