@@ -88,7 +88,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 排版管理 的本地化字符串。
+        ///   查找类似 排班管理 的本地化字符串。
         /// </summary>
         internal static string ArrangementManagement {
             get {
@@ -129,6 +129,15 @@ namespace Resources {
         internal static string Arrangement_TugID {
             get {
                 return ResourceManager.GetString("Arrangement_TugID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪名稱 的本地化字符串。
+        /// </summary>
+        internal static string Arrangement_TugName {
+            get {
+                return ResourceManager.GetString("Arrangement_TugName", resourceCulture);
             }
         }
         
@@ -313,7 +322,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 中文名 的本地化字符串。
+        ///   查找类似 名稱1 的本地化字符串。
         /// </summary>
         internal static string CustomerShip_Name1 {
             get {
@@ -322,11 +331,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 英文名 的本地化字符串。
+        ///   查找类似 名稱2 的本地化字符串。
         /// </summary>
         internal static string CustomerShip_Name2 {
             get {
                 return ResourceManager.GetString("CustomerShip_Name2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增客戶船 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_NewShip {
+            get {
+                return ResourceManager.GetString("CustomerShip_NewShip", resourceCulture);
             }
         }
         
@@ -700,7 +718,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 中文名 的本地化字符串。
+        ///   查找类似 名稱1 的本地化字符串。
         /// </summary>
         internal static string Org_Name1 {
             get {
@@ -709,7 +727,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 英文名 的本地化字符串。
+        ///   查找类似 名稱2 的本地化字符串。
         /// </summary>
         internal static string Org_Name2 {
             get {
@@ -1074,6 +1092,15 @@ namespace Resources {
         internal static string TugInfor_Name2 {
             get {
                 return ResourceManager.GetString("TugInfor_Name2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 增加拖輪 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_NewTug {
+            get {
+                return ResourceManager.GetString("TugInfor_NewTug", resourceCulture);
             }
         }
         

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TugDataModel;
 using TugBusinessLogic;
+using TugBusinessLogic.Module;
 
 namespace TugManagementSystem.Controllers
 {
@@ -347,7 +348,6 @@ namespace TugManagementSystem.Controllers
                 return null;
             }
         }
-
 
 
         public ActionResult GetCustomerBillSchemes(bool _search, string sidx, string sord, int page, int rows, int custId)

@@ -12,6 +12,8 @@ namespace TugDataModel
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class TugDataEntities : DbContext
     {
@@ -47,14 +49,21 @@ namespace TugDataModel
         public virtual DbSet<RoleModule> RoleModule { get; set; }
         public virtual DbSet<Scheduler> Scheduler { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<testinv> testinv { get; set; }
         public virtual DbSet<TugInfor> TugInfor { get; set; }
         public virtual DbSet<UserInfor> UserInfor { get; set; }
         public virtual DbSet<UsersRole> UsersRole { get; set; }
+        public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
+        public virtual DbSet<V_CustomerShip> V_CustomerShip { get; set; }
         public virtual DbSet<V_Flow> V_Flow { get; set; }
+        public virtual DbSet<V_Inv_BillingItem> V_Inv_BillingItem { get; set; }
+        public virtual DbSet<V_Inv_Head> V_Inv_Head { get; set; }
+        public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
+        public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }
@@ -66,5 +75,168 @@ namespace TugDataModel
         public virtual DbSet<V_RoleModule> V_RoleModule { get; set; }
         public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
+    
+        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> orderID, Nullable<int> timeTypeValue)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("OrderID", orderID) :
+                new ObjectParameter("OrderID", typeof(int));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", orderIDParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> orderID, Nullable<int> timeTypeValue)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("OrderID", orderID) :
+                new ObjectParameter("OrderID", typeof(int));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", orderIDParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
+        {
+            var departBaseTimeParameter = departBaseTime != null ?
+                new ObjectParameter("DepartBaseTime", departBaseTime) :
+                new ObjectParameter("DepartBaseTime", typeof(string));
+    
+            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
+                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
+                new ObjectParameter("ArrivalBaseTime", typeof(string));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("proc_inv_SrvHourNumeric", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<string> proc_inv_SrvHourString(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
+        {
+            var departBaseTimeParameter = departBaseTime != null ?
+                new ObjectParameter("DepartBaseTime", departBaseTime) :
+                new ObjectParameter("DepartBaseTime", typeof(string));
+    
+            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
+                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
+                new ObjectParameter("ArrivalBaseTime", typeof(string));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
+        }
+    
+        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var new_diagramnameParameter = new_diagramname != null ?
+                new ObjectParameter("new_diagramname", new_diagramname) :
+                new ObjectParameter("new_diagramname", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+        }
+    
+        public virtual int sp_upgraddiagrams()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
     }
 }
