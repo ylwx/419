@@ -557,6 +557,7 @@
     <Property Name="WorkCommencedTime" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkCompletedTime" Type="nvarchar" MaxLength="50" />
     <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceHours" Type="nvarchar" MaxLength="50" />
     <Property Name="RopeUsed" Type="nvarchar" MaxLength="50" />
     <Property Name="RopeNum" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
@@ -584,6 +585,16 @@
     <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="testinv">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TugName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Item" Type="nvarchar" MaxLength="50" />
+    <Property Name="Value" Type="nvarchar" MaxLength="50" />
+    <Property Name="Service" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="TugInfor">
     <Key>
@@ -797,6 +808,29 @@
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_CustomerShip”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_CustomerShip">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="ShipTypeID" Type="int" />
+    <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name2" Type="nvarchar" MaxLength="50" />
+    <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="DeadWeight" Type="int" />
+    <Property Name="Length" Type="int" />
+    <Property Name="TEUS" Type="int" />
+    <Property Name="Width" Type="int" />
+    <Property Name="Class" Type="nvarchar" MaxLength="50" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Code" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Flow”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_Flow">
     <Key>
@@ -813,6 +847,67 @@
     <Property Name="Name2" Type="nvarchar" MaxLength="50" />
     <Property Name="MarkID" Type="int" />
     <Property Name="Phase" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_BillingItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_BillingItem">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="UnitPrice" Type="float" />
+    <Property Name="Currency" Type="nvarchar" MaxLength="50" />
+    <Property Name="TugName" Type="nvarchar" MaxLength="50" />
+    <Property Name="SrvName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="SchedulerID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_Head">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="OrderID" Type="int" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimeTypeID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_OrdService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_OrdService">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
+    <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_Scheduler">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceHours" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderID" Type="int" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="TugID" Type="int" />
+    <Property Name="RopeUsed" Type="nvarchar" MaxLength="50" />
+    <Property Name="RopeNum" Type="int" />
+    <Property Name="CustomValue" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Invoice”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1376,6 +1471,55 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="proc_inv_item" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderID" Type="int" Mode="In" />
+    <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
+  </Function>
+  <Function Name="proc_inv_item_xy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderID" Type="int" Mode="In" />
+    <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
+  </Function>
+  <Function Name="proc_inv_SrvHourNumeric" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DepartBaseTime" Type="nvarchar" Mode="In" />
+    <Parameter Name="ArrivalBaseTime" Type="nvarchar" Mode="In" />
+    <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
+  </Function>
+  <Function Name="proc_inv_SrvHourString" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DepartBaseTime" Type="nvarchar" Mode="In" />
+    <Parameter Name="ArrivalBaseTime" Type="nvarchar" Mode="In" />
+    <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="ModelStoreContainer">
     <EntitySet Name="Approve" EntityType="Self.Approve" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Arrangement" EntityType="Self.Arrangement" Schema="dbo" store:Type="Tables" />
@@ -1399,6 +1543,7 @@
     <EntitySet Name="RoleModule" EntityType="Self.RoleModule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Scheduler" EntityType="Self.Scheduler" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="testinv" EntityType="Self.testinv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TugInfor" EntityType="Self.TugInfor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserInfor" EntityType="Self.UserInfor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UsersRole" EntityType="Self.UsersRole" Schema="dbo" store:Type="Tables" />
@@ -1511,6 +1656,26 @@
     [V_BillingTemplate].[UserDefinedCol10] AS [UserDefinedCol10]
     FROM [dbo].[V_BillingTemplate] AS [V_BillingTemplate]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="V_CustomerShip" EntityType="Self.V_CustomerShip" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_CustomerShip].[IDX] AS [IDX], 
+    [V_CustomerShip].[CustomerID] AS [CustomerID], 
+    [V_CustomerShip].[ShipTypeID] AS [ShipTypeID], 
+    [V_CustomerShip].[Name1] AS [Name1], 
+    [V_CustomerShip].[Name2] AS [Name2], 
+    [V_CustomerShip].[SimpleName] AS [SimpleName], 
+    [V_CustomerShip].[DeadWeight] AS [DeadWeight], 
+    [V_CustomerShip].[Length] AS [Length], 
+    [V_CustomerShip].[TEUS] AS [TEUS], 
+    [V_CustomerShip].[Width] AS [Width], 
+    [V_CustomerShip].[Class] AS [Class], 
+    [V_CustomerShip].[Remark] AS [Remark], 
+    [V_CustomerShip].[CreateDate] AS [CreateDate], 
+    [V_CustomerShip].[LastUpDate] AS [LastUpDate], 
+    [V_CustomerShip].[Code] AS [Code], 
+    [V_CustomerShip].[CustomerName] AS [CustomerName]
+    FROM [dbo].[V_CustomerShip] AS [V_CustomerShip]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="V_Flow" EntityType="Self.V_Flow" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_Flow].[IDX] AS [IDX], 
@@ -1525,6 +1690,55 @@
     [V_Flow].[MarkID] AS [MarkID], 
     [V_Flow].[Phase] AS [Phase]
     FROM [dbo].[V_Flow] AS [V_Flow]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_BillingItem" EntityType="Self.V_Inv_BillingItem" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_BillingItem].[IDX] AS [IDX], 
+    [V_Inv_BillingItem].[UnitPrice] AS [UnitPrice], 
+    [V_Inv_BillingItem].[Currency] AS [Currency], 
+    [V_Inv_BillingItem].[TugName] AS [TugName], 
+    [V_Inv_BillingItem].[SrvName] AS [SrvName], 
+    [V_Inv_BillingItem].[ItemName] AS [ItemName], 
+    [V_Inv_BillingItem].[ItemCode] AS [ItemCode], 
+    [V_Inv_BillingItem].[SchedulerID] AS [SchedulerID]
+    FROM [dbo].[V_Inv_BillingItem] AS [V_Inv_BillingItem]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_Head" EntityType="Self.V_Inv_Head" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_Head].[IDX] AS [IDX], 
+    [V_Inv_Head].[OrderID] AS [OrderID], 
+    [V_Inv_Head].[BillingCode] AS [BillingCode], 
+    [V_Inv_Head].[CreateDate] AS [CreateDate], 
+    [V_Inv_Head].[CustomerName] AS [CustomerName], 
+    [V_Inv_Head].[ShipName] AS [ShipName], 
+    [V_Inv_Head].[TimeTypeID] AS [TimeTypeID]
+    FROM [dbo].[V_Inv_Head] AS [V_Inv_Head]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_OrdService" EntityType="Self.V_Inv_OrdService" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_OrdService].[IDX] AS [IDX], 
+    [V_Inv_OrdService].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Inv_OrdService].[ServiceWorkDate] AS [ServiceWorkDate], 
+    [V_Inv_OrdService].[ServiceWorkPlace] AS [ServiceWorkPlace], 
+    [V_Inv_OrdService].[CustomLabel] AS [CustomLabel], 
+    [V_Inv_OrdService].[OrderID] AS [OrderID]
+    FROM [dbo].[V_Inv_OrdService] AS [V_Inv_OrdService]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_Scheduler" EntityType="Self.V_Inv_Scheduler" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_Scheduler].[IDX] AS [IDX], 
+    [V_Inv_Scheduler].[DepartBaseTime] AS [DepartBaseTime], 
+    [V_Inv_Scheduler].[ArrivalBaseTime] AS [ArrivalBaseTime], 
+    [V_Inv_Scheduler].[ServiceHours] AS [ServiceHours], 
+    [V_Inv_Scheduler].[Name1] AS [Name1], 
+    [V_Inv_Scheduler].[CustomLabel] AS [CustomLabel], 
+    [V_Inv_Scheduler].[OrderID] AS [OrderID], 
+    [V_Inv_Scheduler].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Inv_Scheduler].[TugID] AS [TugID], 
+    [V_Inv_Scheduler].[RopeUsed] AS [RopeUsed], 
+    [V_Inv_Scheduler].[RopeNum] AS [RopeNum], 
+    [V_Inv_Scheduler].[CustomValue] AS [CustomValue]
+    FROM [dbo].[V_Inv_Scheduler] AS [V_Inv_Scheduler]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Invoice" EntityType="Self.V_Invoice" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
