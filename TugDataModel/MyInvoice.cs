@@ -68,6 +68,12 @@ namespace TugDataModel
         /// </summary>
         public double DiscountSubTotalHKS { get; set; }
 
+
+        /// <summary>
+        /// 折扣价格
+        /// </summary>
+        public double DiscoutPrice { get; set; }
+
         public string RopeUsed { get; set; }
         public int RopeNum { get; set; }
         public string Remark { get; set; }
