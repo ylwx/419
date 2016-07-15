@@ -102,7 +102,11 @@ namespace TugManagementSystem.Controllers
             TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, customerBillingScheme,
             billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount);
 
-            List<TugDataModel.CustomField> Items = TugBusinessLogic.Utils.GetCustomField2("BillingItemTemplate.ItemID");
+            List<TugDataModel.CustomField> Items = new List<CustomField>();
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeValue == "全包加特别条款")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetBanBaoShowItems();
+            else if(billingTypeId == 8 || billingTypeValue == "2" || billingTypeValue == "条款")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
 
             List<V_BillingItemTemplate> customerSchemeItems = null;
             if (customerBillingScheme != "-1")
