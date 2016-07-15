@@ -295,7 +295,7 @@ namespace TugManagementSystem.Controllers
             }
             catch (Exception)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = "该角色已关联用户或模块，无法删除！" });
             }
         }
 
