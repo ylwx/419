@@ -31,7 +31,6 @@
     <EntitySet Name="V_Billing" EntityType="Model.V_Billing" />
     <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
     <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
-    <EntitySet Name="V_CustomerShip" EntityType="Model.V_CustomerShip" />
     <EntitySet Name="V_Flow" EntityType="Model.V_Flow" />
     <EntitySet Name="V_Inv_BillingItem" EntityType="Model.V_Inv_BillingItem" />
     <EntitySet Name="V_Inv_Head" EntityType="Model.V_Inv_Head" />
@@ -96,54 +95,6 @@
       <End Role="UserInfor" EntitySet="UserInfor" />
       <End Role="UsersRole" EntitySet="UsersRole" />
     </AssociationSet>
-    <FunctionImport Name="proc_inv_item" ReturnType="Collection(Model.proc_inv_item_Result)">
-      <Parameter Name="OrderID" Mode="In" Type="Int32" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_inv_item_xy" ReturnType="Collection(Model.proc_inv_item_xy_Result)">
-      <Parameter Name="OrderID" Mode="In" Type="Int32" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_inv_SrvHourNumeric" ReturnType="Collection(Double)">
-      <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
-      <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_inv_SrvHourString" ReturnType="Collection(String)">
-      <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
-      <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_alterdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_creatediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_dropdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Model.sp_helpdiagramdefinition_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Model.sp_helpdiagrams_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_renamediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="new_diagramname" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
   <EntityType Name="Approve">
     <Key>
@@ -968,27 +919,6 @@
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityType Name="V_CustomerShip">
-    <Key>
-      <PropertyRef Name="IDX" />
-    </Key>
-    <Property Name="IDX" Type="Int32" Nullable="false" />
-    <Property Name="CustomerID" Type="Int32" />
-    <Property Name="ShipTypeID" Type="Int32" />
-    <Property Name="Name1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="SimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="DeadWeight" Type="Int32" />
-    <Property Name="Length" Type="Int32" />
-    <Property Name="TEUS" Type="Int32" />
-    <Property Name="Width" Type="Int32" />
-    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
   <EntityType Name="V_Flow">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1028,7 +958,6 @@
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TimeTypeID" Type="Int32" />
   </EntityType>
   <EntityType Name="V_Inv_OrdService">
     <Key>
@@ -1127,8 +1056,6 @@
     <Property Name="UnitPrice" Type="Double" />
     <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="PositionTypeID" Type="Int32" />
-    <Property Name="PositionTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="PositionTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_NeedApproveBilling">
     <Key>
@@ -1598,31 +1525,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="proc_inv_item_Result">
-    <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="proc_inv_item_xy_Result">
-    <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagramdefinition_Result">
-    <Property Type="Int32" Name="version" Nullable="true" />
-    <Property Type="Binary" Name="definition" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagrams_Result">
-    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="OwnerID" Nullable="false" />
-  </ComplexType>
 </Schema>
