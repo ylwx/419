@@ -62,6 +62,8 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 角色
+
+        #region 添加角色用户
         public ActionResult AddRoleUser(List<int> data, int roleId)
         {
             this.Internationalization();
@@ -101,8 +103,52 @@ namespace TugManagementSystem.Controllers
             }
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
+        #endregion 添加角色用户
+
+        #region 添加角色模块
+        public ActionResult AddRoleModule(List<int> data, int roleId)
+        {
+            this.Internationalization();
+            TugDataEntities db = new TugDataEntities();
+            foreach (int id in data)
+            {
+                RoleModule roleModule = new RoleModule();
+                roleModule.ModuleID = id;
+                roleModule.RoleID = roleId;
+                roleModule.IsAdmin = "否";
+                roleModule.OwnerID = -1;
+                roleModule.CreateDate = roleModule.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                roleModule.UserID = Session.GetDataFromSession<int>("userid");
+                roleModule.System = "Role";
+                roleModule.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                roleModule.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                roleModule.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                roleModule.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                if (Request.Form["UserDefinedCol5"] != "")
+                    roleModule.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                if (Request.Form["UserDefinedCol6"] != "")
+                    roleModule.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                if (Request.Form["UserDefinedCol7"] != "")
+                    roleModule.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                if (Request.Form["UserDefinedCol8"] != "")
+                    roleModule.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                roleModule.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                roleModule.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                roleModule = db.RoleModule.Add(roleModule);
+                db.SaveChanges();
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+        #endregion 添加角色模块
+
         #region 角色页面Action
-      
+
         public ActionResult AddEditRole()
         {
             this.Internationalization();
@@ -249,7 +295,7 @@ namespace TugManagementSystem.Controllers
             }
             catch (Exception)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = "该角色已关联用户或模块，无法删除！" });
             }
         }
 
