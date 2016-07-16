@@ -54,6 +54,92 @@ namespace TugManagementSystem.Controllers
             return TugBusinessLogic.Utils.GetCustomField(CustomName);
         }
 
+        public string GetOrderStateOfOrderSchedulingPage(string CustomName)
+        {
+            string s = string.Empty;
+
+            try
+            {
+                TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+                List<TugDataModel.CustomField> list = db.CustomField
+                    .Where(u => u.CustomName == CustomName && (u.IDX == 2 || u.CustomLabel == "未排船" || u.IDX == 3 || u.CustomLabel == "已排船" || u.IDX == 5 || u.CustomLabel == "已完工"))
+                    .OrderBy(u => u.CustomValue).ToList<TugDataModel.CustomField>();
+
+                if (list != null && list.Count > 0)
+                {
+                    s += "<select><option value=-1~-1~请选择>请选择</option>";
+                    foreach (TugDataModel.CustomField item in list)
+                    {
+                        s += string.Format("<option value={0}>{1}</option>", item.IDX + "~" + item.CustomValue + "~" + item.CustomLabel, item.CustomLabel);
+                    }
+                    s += "</select>";
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return s;
+            
+        }
+
+
+        public string GetOrderStateOfJobInformationPage(string CustomName)
+        {
+            string s = string.Empty;
+
+            try
+            {
+                TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+                List<TugDataModel.CustomField> list = db.CustomField
+                    .Where(u => u.CustomName == CustomName && (u.IDX == 3 || u.CustomLabel == "已排船" || u.IDX == 5 || u.CustomLabel == "已完工"))
+                    .OrderBy(u => u.CustomValue).ToList<TugDataModel.CustomField>();
+
+                if (list != null && list.Count > 0)
+                {
+                    s += "<select><option value=-1~-1~请选择>请选择</option>";
+                    foreach (TugDataModel.CustomField item in list)
+                    {
+                        s += string.Format("<option value={0}>{1}</option>", item.IDX + "~" + item.CustomValue + "~" + item.CustomLabel, item.CustomLabel);
+                    }
+                    s += "</select>";
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return s;
+
+        }
+
+
+        public string GetOrderStateOfInvoicePage(string CustomName)
+        {
+            string s = string.Empty;
+
+            try
+            {
+                TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+                List<TugDataModel.CustomField> list = db.CustomField
+                    .Where(u => u.CustomName == CustomName && (u.IDX == 5 || u.CustomLabel == "已完工"))
+                    .OrderBy(u => u.CustomValue).ToList<TugDataModel.CustomField>();
+
+                if (list != null && list.Count > 0)
+                {
+                    s += "<select><option value=-1~-1~请选择>请选择</option>";
+                    foreach (TugDataModel.CustomField item in list)
+                    {
+                        s += string.Format("<option value={0}>{1}</option>", item.IDX + "~" + item.CustomValue + "~" + item.CustomLabel, item.CustomLabel);
+                    }
+                    s += "</select>";
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return s;
+
+        }
+
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {
             return new JsonNetResult
@@ -61,7 +147,8 @@ namespace TugManagementSystem.Controllers
                 Data = data,
                 ContentType = contentType,
                 ContentEncoding = contentEncoding,
-                JsonRequestBehavior = behavior
+                JsonRequestBehavior = behavior,
+                MaxJsonLength = Int32.MaxValue
             };
         }
     }
