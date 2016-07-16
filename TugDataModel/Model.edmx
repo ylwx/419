@@ -83,6 +83,7 @@
           </Key>
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
@@ -729,6 +730,7 @@
           </Key>
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
@@ -974,6 +976,7 @@
           <Property Name="OrderSchedulerCreateDate" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderSchedulerLastUpDate" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingID" Type="int" Nullable="false" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
@@ -1060,11 +1063,12 @@
           <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingID" Type="int" />
-          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
-          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeID" Type="int" />
           <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
@@ -1102,6 +1106,7 @@
           <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingID" Type="int" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeID" Type="int" />
@@ -1606,6 +1611,7 @@
             <DefiningQuery>SELECT 
     [V_Billing].[IDX] AS [IDX], 
     [V_Billing].[OrderID] AS [OrderID], 
+    [V_Billing].[BillingTemplateID] AS [BillingTemplateID], 
     [V_Billing].[BillingTypeID] AS [BillingTypeID], 
     [V_Billing].[BillingTypeValue] AS [BillingTypeValue], 
     [V_Billing].[BillingTypeLabel] AS [BillingTypeLabel], 
@@ -1823,6 +1829,7 @@
     [V_Invoice].[OrderSchedulerCreateDate] AS [OrderSchedulerCreateDate], 
     [V_Invoice].[OrderSchedulerLastUpDate] AS [OrderSchedulerLastUpDate], 
     [V_Invoice].[BillingID] AS [BillingID], 
+    [V_Invoice].[BillingTemplateID] AS [BillingTemplateID], 
     [V_Invoice].[BillingTypeID] AS [BillingTypeID], 
     [V_Invoice].[BillingTypeValue] AS [BillingTypeValue], 
     [V_Invoice].[BillingTypeLabel] AS [BillingTypeLabel], 
@@ -1900,11 +1907,12 @@
     [V_OrderBilling].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBilling].[WorkStateLabel] AS [WorkStateLabel], 
     [V_OrderBilling].[BillingID] AS [BillingID], 
-    [V_OrderBilling].[BillingCode] AS [BillingCode], 
-    [V_OrderBilling].[BillingName] AS [BillingName], 
+    [V_OrderBilling].[BillingTemplateID] AS [BillingTemplateID], 
     [V_OrderBilling].[BillingTypeID] AS [BillingTypeID], 
     [V_OrderBilling].[BillingTypeValue] AS [BillingTypeValue], 
     [V_OrderBilling].[BillingTypeLabel] AS [BillingTypeLabel], 
+    [V_OrderBilling].[BillingCode] AS [BillingCode], 
+    [V_OrderBilling].[BillingName] AS [BillingName], 
     [V_OrderBilling].[TimeTypeID] AS [TimeTypeID], 
     [V_OrderBilling].[TimeTypeValue] AS [TimeTypeValue], 
     [V_OrderBilling].[TimeTypeLabel] AS [TimeTypeLabel], 
@@ -1939,6 +1947,7 @@
     [V_OrderBillingCredit].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBillingCredit].[WorkStateLabel] AS [WorkStateLabel], 
     [V_OrderBillingCredit].[BillingID] AS [BillingID], 
+    [V_OrderBillingCredit].[BillingTemplateID] AS [BillingTemplateID], 
     [V_OrderBillingCredit].[BillingCode] AS [BillingCode], 
     [V_OrderBillingCredit].[BillingName] AS [BillingName], 
     [V_OrderBillingCredit].[BillingTypeID] AS [BillingTypeID], 
@@ -2473,6 +2482,7 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3136,6 +3146,7 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3363,6 +3374,7 @@
           <Property Name="OrderSchedulerCreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderSchedulerLastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingID" Type="Int32" Nullable="false" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3443,11 +3455,12 @@
           <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingID" Type="Int32" />
-          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeID" Type="Int32" />
           <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3483,6 +3496,7 @@
           <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingID" Type="Int32" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeID" Type="Int32" />
@@ -4028,6 +4042,7 @@
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
@@ -4697,6 +4712,7 @@
                 <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
                 <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
@@ -4895,6 +4911,7 @@
                 <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
                 <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="OrderSchedulerLastUpDate" ColumnName="OrderSchedulerLastUpDate" />
                 <ScalarProperty Name="OrderSchedulerCreateDate" ColumnName="OrderSchedulerCreateDate" />
@@ -4986,11 +5003,12 @@
                 <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
                 <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
                 <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
-                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="WorkStateLabel" ColumnName="WorkStateLabel" />
                 <ScalarProperty Name="WorkStateValue" ColumnName="WorkStateValue" />
@@ -5040,6 +5058,7 @@
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="WorkStateLabel" ColumnName="WorkStateLabel" />
                 <ScalarProperty Name="WorkStateValue" ColumnName="WorkStateValue" />

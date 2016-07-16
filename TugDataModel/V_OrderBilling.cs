@@ -30,11 +30,12 @@ namespace TugDataModel
         public string WorkStateValue { get; set; }
         public string WorkStateLabel { get; set; }
         public Nullable<int> BillingID { get; set; }
-        public string BillingCode { get; set; }
-        public string BillingName { get; set; }
+        public Nullable<int> BillingTemplateID { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingTypeValue { get; set; }
         public string BillingTypeLabel { get; set; }
+        public string BillingCode { get; set; }
+        public string BillingName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
         public string TimeTypeValue { get; set; }
         public string TimeTypeLabel { get; set; }

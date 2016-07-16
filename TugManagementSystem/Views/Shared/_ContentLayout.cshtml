@@ -424,7 +424,7 @@
                             <span class="selected"></span>
                         </a>
                         <ul class="sub">
-                            <li id="_Organization"><a class="" href="~/Organization/OrgManage"><span class="sub-menu-text">@Resources.Language.Organization</span></a></li>
+                            <li id="_Organization"><a class="" href="~/Organization/UserManage"><span class="sub-menu-text">@Resources.Language.UserInfor</span></a></li>
                             <li>
                             <li class="has-sub-sub">
                                 <a href="javascript:;" class="">
@@ -582,19 +582,17 @@
    );
 
         });
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function (request, response) {
             $.ajax(
                      {
                          type: "post",
                          url: "/Home/SetMenuHidden",
                          dataType: 'json',
-                         success: function (result) {
+                         success: function (result) {                         
                              response($.map(result.list, function (item) {
+                                 //alert(item.menuid);
                                  $("#" + item.menuid).css("display", item.display)
-                             }
-                             ))
-                           
-                             
+                             }));
                          },
                      });
         });

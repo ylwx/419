@@ -1240,6 +1240,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 人員信息 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor {
+            get {
+                return ResourceManager.GetString("UserInfor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 人員信息管理 的本地化字符串。
+        /// </summary>
+        internal static string UserInforManage {
+            get {
+                return ResourceManager.GetString("UserInforManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 返回登陸頁面 的本地化字符串。
         /// </summary>
         internal static string UserInfor_BackLogin {
@@ -1326,6 +1344,15 @@ namespace Resources {
         internal static string UserInfor_NewPwd {
             get {
                 return ResourceManager.GetString("UserInfor_NewPwd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增用戶 的本地化字符串。
+        /// </summary>
+        internal static string UserInfor_NewUser {
+            get {
+                return ResourceManager.GetString("UserInfor_NewUser", resourceCulture);
             }
         }
         
