@@ -1197,6 +1197,15 @@ namespace TugManagementSystem.Controllers
             {
                 TugDataEntities db = new TugDataEntities();
                 {
+                    System.Linq.Expressions.Expression<Func<Role, bool>> exp = u => u.RoleName == RoleName;
+                    Role tmprole = db.Role.Where(exp).FirstOrDefault();
+                    if (tmprole != null)
+                    {
+                        Response.StatusCode = 404;
+                        return Json(new { message = RoleName + "已存在！" });
+                    }
+                    else
+                    { 
                     TugDataModel.Role role = new Role();
                     role.RoleName = RoleName;
                     role.Dept = Dept;
@@ -1229,6 +1238,9 @@ namespace TugManagementSystem.Controllers
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     return Json(ret);
+                    }
+
+                    
                 }
             }
             catch (Exception)
@@ -1246,6 +1258,16 @@ namespace TugManagementSystem.Controllers
             {
                 TugDataEntities db = new TugDataEntities();
                 {
+                    System.Linq.Expressions.Expression<Func<FunctionModule, bool>> exp = u => u.ModuleName == ModuleName;
+                    FunctionModule tmpmodule = db.FunctionModule.Where(exp).FirstOrDefault();
+                    if (tmpmodule!=null)
+                    {
+                        Response.StatusCode = 404;
+                        return Json(new { message = ModuleName + "已存在！" });
+                    }
+                    else
+                    {
+                    
                     TugDataModel.FunctionModule module = new FunctionModule();
                     module.ModuleCode = ModuleCode;
                     module.ModuleName = ModuleName;
@@ -1265,6 +1287,7 @@ namespace TugManagementSystem.Controllers
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     return Json(ret);
+                    }
                 }
             }
             catch (Exception)
@@ -1274,237 +1297,238 @@ namespace TugManagementSystem.Controllers
                 return Json(ret);
             }
         }
+        #region 编辑Action
+        //public ActionResult RoleAddEdit()
+        //{
+        //    this.Internationalization();
 
-        public ActionResult RoleAddEdit()
-        {
-            this.Internationalization();
+        //    #region Add
 
-            #region Add
+        //    if (Request.Form["oper"].Equals("add"))
+        //    {
+        //        try
+        //        {
+        //            TugDataEntities db = new TugDataEntities();
+        //            {
+        //                TugDataModel.Role role = new Role();
+        //                role.RoleName = Request.Form["RoleName"];
+        //                role.Dept = Request.Form["Dept"];
+        //                role.System = Request.Form["System"];
+        //                role.Remark = Request.Form["Remark"];
+        //                role.OwnerID = -1;
+        //                role.CreateDate = role.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
+        //                role.UserID = Session.GetDataFromSession<int>("userid");
+        //                role.UserDefinedCol1 = "";
+        //                role.UserDefinedCol2 = "";
+        //                role.UserDefinedCol3 = "";
+        //                role.UserDefinedCol4 = "";
+        //                if (Request.Form["UserDefinedCol5"] != "")
+        //                    role.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
-            if (Request.Form["oper"].Equals("add"))
-            {
-                try
-                {
-                    TugDataEntities db = new TugDataEntities();
-                    {
-                        TugDataModel.Role role = new Role();
-                        role.RoleName = Request.Form["RoleName"];
-                        role.Dept = Request.Form["Dept"];
-                        role.System = Request.Form["System"];
-                        role.Remark = Request.Form["Remark"];
-                        role.OwnerID = -1;
-                        role.CreateDate = role.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
-                        role.UserID = Session.GetDataFromSession<int>("userid");
-                        role.UserDefinedCol1 = "";
-                        role.UserDefinedCol2 = "";
-                        role.UserDefinedCol3 = "";
-                        role.UserDefinedCol4 = "";
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            role.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+        //                if (Request.Form["UserDefinedCol6"] != "")
+        //                    role.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            role.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                if (Request.Form["UserDefinedCol7"] != "")
+        //                    role.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            role.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                if (Request.Form["UserDefinedCol8"] != "")
+        //                    role.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            role.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                role.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+        //                role.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        role.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        role.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+        //                role = db.Role.Add(role);
+        //                db.SaveChanges();
 
-                        role = db.Role.Add(role);
-                        db.SaveChanges();
+        //                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+        //                Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+        //                return Json(ret);
+        //            }
+        //        }
+        //        catch (Exception)
+        //        {
+        //            var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+        //            //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+        //            return Json(ret);
+        //        }
+        //    }
 
-                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
-                        Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                        return Json(ret);
-                    }
-                }
-                catch (Exception)
-                {
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                    return Json(ret);
-                }
-            }
+        //    #endregion Add
 
-            #endregion Add
+        //    #region Edit
 
-            #region Edit
+        //    if (Request.Form["oper"].Equals("edit"))
+        //    {
+        //        try
+        //        {
+        //            TugDataEntities db = new TugDataEntities();
 
-            if (Request.Form["oper"].Equals("edit"))
-            {
-                try
-                {
-                    TugDataEntities db = new TugDataEntities();
+        //            int idx = Convert.ToInt32(Request.Form["IDX"]);
+        //            Role role = db.Role.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
-                    Role role = db.Role.Where(u => u.IDX == idx).FirstOrDefault();
+        //            if (role == null)
+        //            {
+        //                return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        //            }
+        //            else
+        //            {
+        //                role.RoleName = Request.Form["RoleName"];
+        //                role.Dept = Request.Form["Dept"];
+        //                role.System = Request.Form["System"];
+        //                role.Remark = Request.Form["Remark"];
+        //                role.OwnerID = -1;
+        //                role.CreateDate = role.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
+        //                role.UserID = Session.GetDataFromSession<int>("userid");
+        //                role.UserDefinedCol1 = "";
+        //                role.UserDefinedCol2 = "";
+        //                role.UserDefinedCol3 = "";
+        //                role.UserDefinedCol4 = "";
 
-                    if (role == null)
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                    }
-                    else
-                    {
-                        role.RoleName = Request.Form["RoleName"];
-                        role.Dept = Request.Form["Dept"];
-                        role.System = Request.Form["System"];
-                        role.Remark = Request.Form["Remark"];
-                        role.OwnerID = -1;
-                        role.CreateDate = role.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
-                        role.UserID = Session.GetDataFromSession<int>("userid");
-                        role.UserDefinedCol1 = "";
-                        role.UserDefinedCol2 = "";
-                        role.UserDefinedCol3 = "";
-                        role.UserDefinedCol4 = "";
+        //                if (Request.Form["UserDefinedCol5"] != "")
+        //                    role.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            role.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+        //                if (Request.Form["UserDefinedCol6"] != "")
+        //                    role.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            role.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                if (Request.Form["UserDefinedCol7"] != "")
+        //                    role.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            role.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                if (Request.Form["UserDefinedCol8"] != "")
+        //                    role.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            role.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                role.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+        //                role.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        role.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        role.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+        //                db.Entry(role).State = System.Data.Entity.EntityState.Modified;
+        //                db.SaveChanges();
 
-                        db.Entry(role).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
+        //                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        //            }
+        //        }
+        //        catch (Exception exp)
+        //        {
+        //            return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+        //        }
+        //    }
 
-                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                    }
-                }
-                catch (Exception exp)
-                {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-                }
-            }
+        //    #endregion Edit
 
-            #endregion Edit
+        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        //}
 
-            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-        }
+        //public ActionResult ModuleAddEdit()
+        //{
+        //    this.Internationalization();
 
-        public ActionResult ModuleAddEdit()
-        {
-            this.Internationalization();
+        //    #region Add
 
-            #region Add
+        //    if (Request.Form["oper"].Equals("add"))
+        //    {
+        //        try
+        //        {
+        //            TugDataEntities db = new TugDataEntities();
+        //            {
+        //                TugDataModel.FunctionModule module = new FunctionModule();
+        //                module.ModuleCode = Request.Form["ModuleCode"];
+        //                module.ModuleName = Request.Form["ModuleName"];
+        //                module.System = Request.Form["System"];
+        //                module.Remark = Request.Form["Remark"];
+        //                //module.UserID = Session.GetDataFromSession<int>("userid");
+        //                module.UserDefinedCol1 = "";
+        //                module.UserDefinedCol2 = "";
+        //                module.UserDefinedCol3 = "";
+        //                module.UserDefinedCol4 = "";
+        //                if (Request.Form["UserDefinedCol5"] != "")
+        //                    module.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
-            if (Request.Form["oper"].Equals("add"))
-            {
-                try
-                {
-                    TugDataEntities db = new TugDataEntities();
-                    {
-                        TugDataModel.FunctionModule module = new FunctionModule();
-                        module.ModuleCode = Request.Form["ModuleCode"];
-                        module.ModuleName = Request.Form["ModuleName"];
-                        module.System = Request.Form["System"];
-                        module.Remark = Request.Form["Remark"];
-                        //module.UserID = Session.GetDataFromSession<int>("userid");
-                        module.UserDefinedCol1 = "";
-                        module.UserDefinedCol2 = "";
-                        module.UserDefinedCol3 = "";
-                        module.UserDefinedCol4 = "";
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            module.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+        //                if (Request.Form["UserDefinedCol6"] != "")
+        //                    module.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            module.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                if (Request.Form["UserDefinedCol7"] != "")
+        //                    module.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            module.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                if (Request.Form["UserDefinedCol8"] != "")
+        //                    module.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            module.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                module.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+        //                module.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        module.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        module.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+        //                module = db.FunctionModule.Add(module);
+        //                db.SaveChanges();
 
-                        module = db.FunctionModule.Add(module);
-                        db.SaveChanges();
+        //                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+        //                Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+        //                return Json(ret);
+        //            }
+        //        }
+        //        catch (Exception)
+        //        {
+        //            var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+        //            //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+        //            return Json(ret);
+        //        }
+        //    }
 
-                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
-                        Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                        return Json(ret);
-                    }
-                }
-                catch (Exception)
-                {
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                    return Json(ret);
-                }
-            }
+        //    #endregion Add
 
-            #endregion Add
+        //    #region Edit
 
-            #region Edit
+        //    if (Request.Form["oper"].Equals("edit"))
+        //    {
+        //        try
+        //        {
+        //            TugDataEntities db = new TugDataEntities();
 
-            if (Request.Form["oper"].Equals("edit"))
-            {
-                try
-                {
-                    TugDataEntities db = new TugDataEntities();
+        //            int idx = Convert.ToInt32(Request.Form["IDX"]);
+        //            FunctionModule module = db.FunctionModule.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
-                    FunctionModule module = db.FunctionModule.Where(u => u.IDX == idx).FirstOrDefault();
+        //            if (module == null)
+        //            {
+        //                return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        //            }
+        //            else
+        //            {
+        //                module.ModuleCode = Request.Form["ModuleCode"];
+        //                module.ModuleName = Request.Form["ModuleName"];
+        //                module.System = Request.Form["System"];
+        //                module.Remark = Request.Form["Remark"];
+        //                //module.UserID = Session.GetDataFromSession<int>("userid");
+        //                module.UserDefinedCol1 = "";
+        //                module.UserDefinedCol2 = "";
+        //                module.UserDefinedCol3 = "";
+        //                module.UserDefinedCol4 = "";
 
-                    if (module == null)
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                    }
-                    else
-                    {
-                        module.ModuleCode = Request.Form["ModuleCode"];
-                        module.ModuleName = Request.Form["ModuleName"];
-                        module.System = Request.Form["System"];
-                        module.Remark = Request.Form["Remark"];
-                        //module.UserID = Session.GetDataFromSession<int>("userid");
-                        module.UserDefinedCol1 = "";
-                        module.UserDefinedCol2 = "";
-                        module.UserDefinedCol3 = "";
-                        module.UserDefinedCol4 = "";
+        //                if (Request.Form["UserDefinedCol5"] != "")
+        //                    module.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            module.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+        //                if (Request.Form["UserDefinedCol6"] != "")
+        //                    module.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
 
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            module.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                if (Request.Form["UserDefinedCol7"] != "")
+        //                    module.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
 
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            module.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                if (Request.Form["UserDefinedCol8"] != "")
+        //                    module.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
 
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            module.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                module.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+        //                module.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
 
-                        module.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        module.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+        //                db.Entry(module).State = System.Data.Entity.EntityState.Modified;
+        //                db.SaveChanges();
 
-                        db.Entry(module).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
+        //                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        //            }
+        //        }
+        //        catch (Exception exp)
+        //        {
+        //            return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+        //        }
+        //    }
 
-                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                    }
-                }
-                catch (Exception exp)
-                {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-                }
-            }
+        //    #endregion Edit
 
-            #endregion Edit
-
-            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-        }
+        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        //}
+        #endregion 编辑Action
     }
 }

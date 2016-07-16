@@ -1003,6 +1003,18 @@
           <Property Name="PositionTypeID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Module_Role_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Module_Role_User">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="UserID" Type="int" />
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="ModuleCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModuleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleID" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_NeedApproveBilling">
           <Key>
@@ -1840,6 +1852,15 @@
     [V_Invoice].[PositionTypeID] AS [PositionTypeID]
     FROM [dbo].[V_Invoice] AS [V_Invoice]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_Module_Role_User" EntityType="Self.V_Module_Role_User" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Module_Role_User].[UserID] AS [UserID], 
+    [V_Module_Role_User].[IDX] AS [IDX], 
+    [V_Module_Role_User].[ModuleCode] AS [ModuleCode], 
+    [V_Module_Role_User].[ModuleName] AS [ModuleName], 
+    [V_Module_Role_User].[RoleID] AS [RoleID]
+    FROM [dbo].[V_Module_Role_User] AS [V_Module_Role_User]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_NeedApproveBilling" EntityType="Self.V_NeedApproveBilling" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_NeedApproveBilling].[IDX] AS [IDX], 
@@ -2286,6 +2307,7 @@
           <EntitySet Name="V_Inv_OrdService" EntityType="Model.V_Inv_OrdService" />
           <EntitySet Name="V_Inv_Scheduler" EntityType="Model.V_Inv_Scheduler" />
           <EntitySet Name="V_Invoice" EntityType="Model.V_Invoice" />
+          <EntitySet Name="V_Module_Role_User" EntityType="Model.V_Module_Role_User" />
           <EntitySet Name="V_NeedApproveBilling" EntityType="Model.V_NeedApproveBilling" />
           <EntitySet Name="V_OrderBilling" EntityType="Model.V_OrderBilling" />
           <EntitySet Name="V_OrderBillingCredit" EntityType="Model.V_OrderBillingCredit" />
@@ -2344,7 +2366,7 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <ComplexType Name="proc_inv_item_Result">
           <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
@@ -3368,6 +3390,16 @@
           <Property Name="UnitPrice" Type="Double" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PositionTypeID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_Module_Role_User">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="ModuleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_NeedApproveBilling">
           <Key>
@@ -4903,6 +4935,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_Module_Role_User">
+            <EntityTypeMapping TypeName="Model.V_Module_Role_User">
+              <MappingFragment StoreEntitySet="V_Module_Role_User">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="ModuleCode" ColumnName="ModuleCode" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_NeedApproveBilling">
             <EntityTypeMapping TypeName="Model.V_NeedApproveBilling">
               <MappingFragment StoreEntitySet="V_NeedApproveBilling">
@@ -5229,7 +5272,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
