@@ -85,15 +85,17 @@ namespace TugManagementSystem.Controllers
             var ret = new { code = Resources.Common.SUCCESS_CODE, rvalid =isvalid };
             return Json(ret);
         }
-        public ActionResult SubmitFlow(List<string[]> dataListFromTable)
+        public ActionResult SubmitFlow(string billids,List<string[]> dataListFromTable)
         {
             //billid 从Invoice页面传入
-            int[] billids =new int[2]{1,2};
+            //int[] arrbillid =new int[2]{1,2};
+            string[] arrbillid = billids.Split(',');
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                foreach (int idx in billids)
+                foreach (string sidx in arrbillid)
                 {
+                    int idx = Util.toint(sidx);
                     Billing billobj = db.Billing.Where(u => u.IDX == idx).FirstOrDefault();
                     if (billobj == null)
                     {
