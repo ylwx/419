@@ -203,6 +203,7 @@ namespace TugBusinessLogic.Module
                 _invoice.Schedulers = dicSchedulers;
 
                 _invoice.BillingID = list.FirstOrDefault().BillingID;
+                _invoice.BillingTemplateID = (int)list.FirstOrDefault().BillingTemplateID;
                 _invoice.BillingCode = list.FirstOrDefault().BillingCode;
                 _invoice.BillingTypeID = (int)list.FirstOrDefault().BillingTypeID;
                 _invoice.BillingTypeValue = list.FirstOrDefault().BillingTypeValue;
@@ -683,6 +684,20 @@ namespace TugBusinessLogic.Module
             return list;
         }
 
+
+        /// <summary>
+        /// 根据计费方案的id获取计费方案对象
+        /// </summary>
+        /// <param name="billSchemeId"></param>
+        /// <returns></returns>
+        static public V_BillingTemplate GetCustomerBillScheme(int billSchemeId)
+        {
+            TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+            V_BillingTemplate bt = db.V_BillingTemplate.FirstOrDefault(u => u.BillingTemplateIDX == billSchemeId);
+
+            return bt;
+        }
 
         /// <summary>
         /// 获取计费方案的收费条目
