@@ -25,17 +25,17 @@ namespace TugDataModel
         public int SchedulerID { get; set; }
         public int TugID { get; set; }
         public string TugCnName { get; set; }
-        public string TugEnName { get; set; }
-        public string TugSimpleName { get; set; }
+        //public string TugEnName { get; set; }
+        //public string TugSimpleName { get; set; }
 
         public string TugPower { get; set; }
 
-        public string InformCaptainTime { get; set; }
-        public string CaptainConfirmTime { get; set; }
+        //public string InformCaptainTime { get; set; }
+        //public string CaptainConfirmTime { get; set; }
         public string DepartBaseTime { get; set; }
-        public string ArrivalShipSideTime { get; set; }
-        public string WorkCommencedTime { get; set; }
-        public string WorkCompletedTime { get; set; }
+        //public string ArrivalShipSideTime { get; set; }
+        //public string WorkCommencedTime { get; set; }
+        //public string WorkCompletedTime { get; set; }
         public string ArrivalBaseTime { get; set; }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace TugDataModel
 
         public string RopeUsed { get; set; }
         public int RopeNum { get; set; }
-        public string Remark { get; set; }
+        //public string Remark { get; set; }
 
         public List<MyBillingItem> BillingItems { get; set; }
 
@@ -99,8 +99,8 @@ namespace TugDataModel
     }
     public class MyInvoice
     {
-        public int CustormerID { get; set; }
-        public string CustomerName { get; set; }
+        //public int CustormerID { get; set; }
+        //public string CustomerName { get; set; }
 
         /// <summary>
         /// 订单ID
@@ -110,7 +110,7 @@ namespace TugDataModel
         /// <summary>
         /// 订单流水号
         /// </summary>
-        public string OrderCode { get; set; }
+        //public string OrderCode { get; set; }
 
 
         /// <summary>
@@ -172,5 +172,17 @@ namespace TugDataModel
         /// 共计港币
         /// </summary>
         public double GrandTotalHKS { get; set; }
+    }
+
+
+    public class MyCustomField
+    {
+        public int IDX { get; set; }
+
+        public string CustomValue { get; set; }
+
+        public string CustomLabel { get; set; }
+
+        public string FormulaStr { get; set; }
     }
 }

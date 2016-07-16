@@ -35,9 +35,15 @@ namespace TugManagementSystem.MyClass
                     response.ContentEncoding = this.ContentEncoding;
                 if (this.Data == null)
                     return;
+
+                
                 var scriptSerializer = JsonSerializer.Create(this.Settings);
+                
                 using (var sw = new StringWriter())
+                //using (var sw = new JsonTextWriter(new StringWriter()))
                 {
+                 
+
                     scriptSerializer.Serialize(sw, this.Data);
                     response.Write(sw.ToString());
                 }
