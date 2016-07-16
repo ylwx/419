@@ -422,6 +422,11 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
+                                            else if (tmp.ItemID == 43 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            {
+                                                mbi.Price = -tmp.UnitPrice;
+                                                mySch.DiscoutPrice = (double)-tmp.UnitPrice;
+                                            }
                                             else
                                             {
                                                 mbi.Price = tmp.UnitPrice;
@@ -443,8 +448,8 @@ namespace TugBusinessLogic.Module
                                 mySch.BillingItems = lstMyBillingItems;
 
                                 mySch.SubTotaHKS = top_total_price + mid_total_price;
-                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
-                                //totalPrice += mySch.DiscountSubTotalHKS;
+                                //mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
+                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS + mySch.DiscoutPrice, 2);
 
                                 mySch.TotalHKs = mySch.DiscountSubTotalHKS + bottom_total_price;
                                 grandTotal += mySch.TotalHKs;
@@ -563,6 +568,11 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
+                                            else if (tmp.ItemID == 43 || tmp.ItemValue == "C92" || tmp.ItemLabel == "折扣")
+                                            {
+                                                mbi.Price = -tmp.UnitPrice;
+                                                mySch.DiscoutPrice = (double)-tmp.UnitPrice;
+                                            }
                                             else
                                             {
                                                 mbi.Price = tmp.UnitPrice;
@@ -584,8 +594,8 @@ namespace TugBusinessLogic.Module
                                 mySch.BillingItems = lstMyBillingItems;
 
                                 mySch.SubTotaHKS = top_total_price + mid_total_price;
-                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
-                                //totalPrice += mySch.DiscountSubTotalHKS;
+                                //mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
+                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS + mySch.DiscoutPrice, 2);
 
                                 mySch.TotalHKs = mySch.DiscountSubTotalHKS + bottom_total_price;
                                 grandTotal += mySch.TotalHKs;
