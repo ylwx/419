@@ -12,7 +12,7 @@ namespace TugBusinessLogic.Module
 {
     public class FinanceLogic
     {
-        static public void GenerateInvoice(int orderId)
+        static public MyInvoice GenerateInvoice(int orderId)
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
@@ -62,6 +62,7 @@ namespace TugBusinessLogic.Module
                                 MyScheduler sch = new MyScheduler();
                                 sch.TugID = (int)ship.TugID;
                                 sch.TugCnName = ship.TugName1;
+                                
                                 //sch.TugEnName = ship.TugName2;
                                 //sch.TugSimpleName = ship.TugSimpleName;
                                 sch.TugPower = ship.Power;
@@ -116,12 +117,14 @@ namespace TugBusinessLogic.Module
 
                                     sch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute, (int)list.FirstOrDefault().TimeTypeID, list.FirstOrDefault().TimeTypeValue, list.FirstOrDefault().TimeTypeLabel);
 
-                                    sch.UnitPrice = (double)schedulers[0].UnitPrice;
+
+                                    double servicePrice = (double)schedulers.FirstOrDefault(u => u.BillingItemValue.StartsWith("A")).UnitPrice;
+                                    sch.UnitPrice = servicePrice;
                                     if (((int)list.FirstOrDefault().BillingTypeID == 5 || list.FirstOrDefault().BillingTypeValue == "0" || list.FirstOrDefault().BillingTypeLabel == "全包")
                                         || ((int)list.FirstOrDefault().BillingTypeID == 6 || list.FirstOrDefault().BillingTypeValue == "1" || list.FirstOrDefault().BillingTypeLabel == "全包加特别条款"))
-                                        sch.Price = (double)schedulers[0].UnitPrice;
+                                        sch.Price = servicePrice;
                                     else
-                                        sch.Price = (double)schedulers[0].UnitPrice * sch.WorkTimeConsumption;
+                                        sch.Price = servicePrice * sch.WorkTimeConsumption;
 
 
                                     sch.RopeUsed = schedulers[0].RopeUsed;
@@ -129,10 +132,11 @@ namespace TugBusinessLogic.Module
                                     //sch.Remark = schedulers[0].OrderSchedulerRemark;
 
 
-
+                                    double serviceNaturePrice = 0;
                                     double upTotalPrice = 0;
                                     double midTotalPrice = 0;
-                                    double totalPrice = 0;
+                                    double discoutPrice = 0;
+
 
                                     #region 一条船的费用项目
                                     List<MyBillingItem> billingItems = new List<MyBillingItem>();
@@ -145,35 +149,44 @@ namespace TugBusinessLogic.Module
                                         bit.ItemLabel = subItem.BillingItemLabel;
                                         bit.UnitPrice = subItem.UnitPrice;
 
-                                        if (((int)list.FirstOrDefault().BillingTypeID == 5 || list.FirstOrDefault().BillingTypeValue == "0" || list.FirstOrDefault().BillingTypeLabel == "全包")
-                                        || ((int)list.FirstOrDefault().BillingTypeID == 6 || list.FirstOrDefault().BillingTypeValue == "1" || list.FirstOrDefault().BillingTypeLabel == "全包加特别条款"))
-                                            bit.Price = subItem.UnitPrice;
-                                        else
+                                        if (subItem.ItemID == 23 || subItem.BillingItemValue == "C80" || subItem.BillingItemLabel == "燃油附加费")
                                             bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
+                                        else if (subItem.ItemID == 24 || subItem.BillingItemValue == "C81" || subItem.BillingItemLabel == "拖缆费")
+                                            bit.Price = subItem.UnitPrice * sch.RopeNum;
+                                        else
+                                            bit.Price = subItem.UnitPrice;
 
                                         bit.Currency = subItem.Currency;
                                         bit.TypeID = subItem.PositionTypeID;
 
 
-                                        if(subItem.BillingItemValue[0] == 'A')
-                                        
+                                        if(subItem.BillingItemValue.StartsWith("A"))
+                                            serviceNaturePrice += (double)bit.Price;
+                                        else if (subItem.BillingItemValue.StartsWith("B"))
                                             upTotalPrice += (double)bit.Price;
-                                        else if (subItem.BillingItemValue[0] == 'B')
-                                            midTotalPrice += (double)bit.Price;
+                                        else if(subItem.BillingItemValue.StartsWith("C"))
+                                        {
+                                            if(subItem.BillingItemValue.Equals("C82"))
+                                                discoutPrice += (double)bit.Price;
+                                            else
+                                                midTotalPrice += (double)bit.Price;
 
-                                        totalPrice += upTotalPrice + midTotalPrice;
+                                        }
+
+                                        //totalPrice += upTotalPrice + midTotalPrice;
 
                                         billingItems.Add(bit);
                                     }
                                     #endregion
 
-                                    sch.SubTotaHKS = upTotalPrice;
+                                    sch.SubTotaHKS = serviceNaturePrice + upTotalPrice;
+                                    sch.DiscountSubTotalHKS = sch.SubTotaHKS + discoutPrice;
 
-                                    sch.TotalHKs = totalPrice;
+                                    sch.TotalHKs = sch.DiscountSubTotalHKS + midTotalPrice;
 
                                     sch.BillingItems = billingItems;
 
-                                    grandTotal += totalPrice;
+                                    grandTotal += sch.TotalHKs;
                                 }
 
                                 listScheduler.Add(sch);
@@ -198,12 +211,13 @@ namespace TugBusinessLogic.Module
                 _invoice.TimeTypeValue = list.FirstOrDefault().TimeTypeValue;
                 _invoice.TimeTypeLabel = list.FirstOrDefault().TimeTypeLabel;
 
-
                 _invoice.GrandTotalHKS = grandTotal;
             }
+
+            return _invoice;
         }
 
-
+        
         static public MyInvoice NewInvoice(int orderId, string customerBillingScheme,
             int billingTypeId, string billingTypeValue, string billingTypeLabel,
             int timeTypeId, string timeTypeValue, string timeTypeLabel, double discount)
@@ -222,6 +236,7 @@ namespace TugBusinessLogic.Module
 
             List<MyBillingItem> listBillingItemTemplate = GetCustomerBillSchemeItems(billingTemplateId);
 
+            _invoice.BillingTemplateID = billingTemplateId;
             _invoice.BillingTypeID = billingTypeId;
             _invoice.BillingTypeValue = billingTypeValue;
             _invoice.BillingTypeLabel = billingTypeLabel;
@@ -312,7 +327,7 @@ namespace TugBusinessLogic.Module
                             #region 半包
                             if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "全包加特别条款")
                             {
-                                double top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0;
+                                double discount_price = 0.0, top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0;
 
                                 MyBillingItem tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
                                 if (tmp != null)
@@ -400,10 +415,21 @@ namespace TugBusinessLogic.Module
                                                 mbi.Price = 0;
                                             }
 
-                                            if (item.CustomValue.StartsWith("B")) { mid_total_price += (double)mbi.Price; }
-                                            if (item.CustomValue.StartsWith("C")) { bottom_total_price += (double)mbi.Price; }
+                                            if (item.CustomValue.StartsWith("B"))
+                                            {
+                                                mid_total_price += (double)mbi.Price; 
+                                            }
+
+                                            if (item.CustomValue.StartsWith("C"))
+                                            {
+                                                if (item.CustomValue.Equals("C82"))
+                                                    discount_price += (double)mbi.Price;
+                                                else
+                                                    bottom_total_price += (double)mbi.Price;
+                                            }
                                         }
-                                        else{
+                                        else
+                                        {
                                             mbi.Currency = tmp.Currency;
                                             mbi.ItemID = tmp.ItemID;
                                             mbi.ItemValue = tmp.ItemValue;
@@ -428,8 +454,16 @@ namespace TugBusinessLogic.Module
                                                 mbi.Price = tmp.UnitPrice;
                                             }
 
-                                            if (item.CustomValue.StartsWith("B")) { mid_total_price += (double)mbi.Price; }
-                                            if (item.CustomValue.StartsWith("C")) { bottom_total_price += (double)mbi.Price; }
+                                            if (item.CustomValue.StartsWith("B"))
+                                            {
+                                                mid_total_price += (double)mbi.Price; 
+                                            }
+                                            if (item.CustomValue.StartsWith("C")) {
+                                                if (item.CustomValue.Equals("C82")) 
+                                                    discount_price += (double)mbi.Price;
+                                                else
+                                                    bottom_total_price += (double)mbi.Price; 
+                                            }
 
                                             mbi.TypeID = tmp.TypeID;
                                             mbi.TypeValue = tmp.TypeValue;
@@ -456,7 +490,7 @@ namespace TugBusinessLogic.Module
                             #region 条款
                             if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "条款")
                             {
-                                double top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0;
+                                double top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0, discount_price = 0.0;
 
                                 MyBillingItem tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
                                 if (tmp != null)
@@ -546,8 +580,17 @@ namespace TugBusinessLogic.Module
                                                 mbi.Price = 0;
                                             }
 
-                                            if (item.CustomValue.StartsWith("B")) { mid_total_price += (double)mbi.Price; }
-                                            if (item.CustomValue.StartsWith("C")) { bottom_total_price += (double)mbi.Price; }
+                                            if (item.CustomValue.StartsWith("B"))
+                                            {
+                                                mid_total_price += (double)mbi.Price; 
+                                            }
+                                            if (item.CustomValue.StartsWith("C"))
+                                            {
+                                                if (item.CustomValue.Equals("C82"))
+                                                    discount_price += (double)mbi.Price;
+                                                else
+                                                    bottom_total_price += (double)mbi.Price;
+                                            }
                                         }
                                         else
                                         {
@@ -575,8 +618,17 @@ namespace TugBusinessLogic.Module
                                                 mbi.Price = tmp.UnitPrice;
                                             }
 
-                                            if (item.CustomValue.StartsWith("B")) { mid_total_price += (double)mbi.Price; }
-                                            if (item.CustomValue.StartsWith("C")) { bottom_total_price += (double)mbi.Price; }
+                                            if (item.CustomValue.StartsWith("B")) 
+                                            {
+                                                mid_total_price += (double)mbi.Price;
+                                            }
+                                            if (item.CustomValue.StartsWith("C"))
+                                            {
+                                                if (item.CustomValue.Equals("C82"))
+                                                    discount_price += (double)mbi.Price;
+                                                else
+                                                    bottom_total_price += (double)mbi.Price;
+                                            }
 
                                             mbi.TypeID = tmp.TypeID;
                                             mbi.TypeValue = tmp.TypeValue;

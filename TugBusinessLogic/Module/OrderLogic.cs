@@ -2944,6 +2944,7 @@ namespace TugBusinessLogic.Module
             }
             else
             {
+                int i = 0;
                 foreach (var item in list)
                 {
                     if(item.DepartBaseTime == null || item.ArrivalBaseTime == null || item.DepartBaseTime.Trim() == "" || item.ArrivalBaseTime.Trim() == "")
@@ -2951,9 +2952,11 @@ namespace TugBusinessLogic.Module
                         ret = false;
                         break;
                     }
+                    i++;
                 }
 
-                ret = true;
+                if(i >= list.Count)
+                    ret = true;
             }
 
             return ret;

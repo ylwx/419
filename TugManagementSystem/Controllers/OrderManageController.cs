@@ -1296,6 +1296,12 @@ namespace TugManagementSystem.Controllers
                                     db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
+                                //else
+                                //{
+                                //    tmpOrder.WorkStateID = 5; //已完工
+                                //    db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                                //    db.SaveChanges();
+                                //}
                             }
                         }
 
