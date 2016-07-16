@@ -71,8 +71,8 @@
                             </div>
 
                             <div id="jqGridContainerBox" class="box-body">
-                                <input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="@Resources.Language.Approve_Pass" />
-                                <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="@Resources.Language.Approve_Reject" onclick="$('#table-modal').modal()" />
+                                @*<input type="button" class='btn btn-primary btn-xs' id="Pass_btn" value="@Resources.Language.Approve_Pass" />
+                                <input type="button" class='btn btn-danger btn-xs' id="Reject_btn" value="@Resources.Language.Approve_Reject" onclick="$('#table-modal').modal()" />*@
                                 <table id="jqGrid"></table>
                                 <div id="jqGridPager"></div>
                             </div>
@@ -183,7 +183,61 @@
             $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
                 .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+     .navButtonAdd('#jqGridPager', {
+         id: 'jqGrid_Pass',
+         caption: "通过", title: "通过", buttonicon: "ui-icon-disk",
+         onClickButton: function () {
+             var ids = [];
+             var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
+             if (rowData.length) {
+                 for (var i = 0; i < rowData.length; i++) {
+                     ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
+                 }
+                 $.ajax(
+                            {
+                                type: "post",
+                                url: "/Task/ApprovePass",
+                                data: { 'passdata': ids },
+                                traditional: true,
+                                dataType: 'json',
+                                success: function (result) {
+                                    alert(result.message);
+                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                },
+                            });
+             }
+             else { alert("未选择需要操作的数据！"); }
+         },
 
+     })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_Reject',
+                caption: "驳回", title: "驳回", buttonicon: "ui-icon-disk",
+                onClickButton: function () {
+                    var RejectReason = document.getElementById("RejectReason").value;
+                    var ids = [];
+                    var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
+                    if (rowData.length) {
+                        for (var i = 0; i < rowData.length; i++) {
+                            ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
+                        }
+                        $.ajax(
+                                   {
+                                       type: "post",
+                                       url: "/Task/ApproveReject",
+                                       data: { 'rejectdata': ids, 'RejectReason': RejectReason },
+                                       traditional: true,
+                                       dataType: 'json',
+                                       success: function (result) {
+                                           alert(result.message);
+                                           $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                       },
+                                   });
+                    }
+                    else { alert("未选择需要操作的数据！"); }
+                },
+
+            });
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
                     edit: false,
