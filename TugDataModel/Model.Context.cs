@@ -65,6 +65,7 @@ namespace TugDataModel
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
         public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
+        public virtual DbSet<V_Module_Role_User> V_Module_Role_User { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }
         public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }

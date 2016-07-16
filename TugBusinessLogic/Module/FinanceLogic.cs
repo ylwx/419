@@ -24,15 +24,10 @@ namespace TugBusinessLogic.Module
 
             if (list != null)
             {
-                //_invoice.CustormerID = (int)list[0].CustomerID;
-                //_invoice.CustomerName = list[0].CustomerName;
-                //_invoice.OrderID = (int)list[0].OrderID;
-                //_invoice.OrderCode = list[0].OrderCode;
-
-                _invoice.CustormerID = (int)list.FirstOrDefault().CustomerID;
-                _invoice.CustomerName = list.FirstOrDefault().CustomerName;
+                //_invoice.CustormerID = (int)list.FirstOrDefault().CustomerID;
+                //_invoice.CustomerName = list.FirstOrDefault().CustomerName;
                 _invoice.OrderID = (int)list.FirstOrDefault().OrderID;
-                _invoice.OrderCode = list.FirstOrDefault().OrderCode;
+                //_invoice.OrderCode = list.FirstOrDefault().OrderCode;
 
                 Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();
                 //var services2 = list.Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).ToList();
@@ -67,8 +62,8 @@ namespace TugBusinessLogic.Module
                                 MyScheduler sch = new MyScheduler();
                                 sch.TugID = (int)ship.TugID;
                                 sch.TugCnName = ship.TugName1;
-                                sch.TugEnName = ship.TugName2;
-                                sch.TugSimpleName = ship.TugSimpleName;
+                                //sch.TugEnName = ship.TugName2;
+                                //sch.TugSimpleName = ship.TugSimpleName;
                                 sch.TugPower = ship.Power;
                                 var schedulers = list.Where(u => u.ServiceNatureID == item.ServiceNatureID && u.TugID == ship.TugID)
                                     .OrderBy(u => u.OrderID).OrderBy(u => u.ServiceNatureID)
@@ -100,12 +95,12 @@ namespace TugBusinessLogic.Module
 
                                 if (schedulers != null && schedulers.Count > 0)
                                 {
-                                    sch.InformCaptainTime = schedulers[0].InformCaptainTime;
-                                    sch.CaptainConfirmTime = schedulers[0].CaptainConfirmTime;
+                                    //sch.InformCaptainTime = schedulers[0].InformCaptainTime;
+                                    //sch.CaptainConfirmTime = schedulers[0].CaptainConfirmTime;
                                     sch.DepartBaseTime = schedulers[0].DepartBaseTime;
-                                    sch.ArrivalShipSideTime = schedulers[0].ArrivalShipSideTime;
-                                    sch.WorkCommencedTime = schedulers[0].WorkCommencedTime;
-                                    sch.WorkCompletedTime = schedulers[0].WorkCompletedTime;
+                                    //sch.ArrivalShipSideTime = schedulers[0].ArrivalShipSideTime;
+                                    //sch.WorkCommencedTime = schedulers[0].WorkCommencedTime;
+                                    //sch.WorkCompletedTime = schedulers[0].WorkCompletedTime;
                                     sch.ArrivalBaseTime = schedulers[0].ArrivalBaseTime;
 
                                     int iDiffHour, iDiffMinute;
@@ -131,7 +126,7 @@ namespace TugBusinessLogic.Module
 
                                     sch.RopeUsed = schedulers[0].RopeUsed;
                                     sch.RopeNum = (int)schedulers[0].RopeNum;
-                                    sch.Remark = schedulers[0].OrderSchedulerRemark;
+                                    //sch.Remark = schedulers[0].OrderSchedulerRemark;
 
 
 
@@ -225,7 +220,7 @@ namespace TugBusinessLogic.Module
 
             int billingTemplateId = Convert.ToInt32(customerBillingScheme.Split('%')[0].Split('~')[0]);
 
-            List<V_BillingItemTemplate> listBillingItemTemplate = GetCustomerBillSchemeItems(billingTemplateId);
+            List<MyBillingItem> listBillingItemTemplate = GetCustomerBillSchemeItems(billingTemplateId);
 
             _invoice.BillingTypeID = billingTypeId;
             _invoice.BillingTypeValue = billingTypeValue;
@@ -278,8 +273,8 @@ namespace TugBusinessLogic.Module
                             mySch.SchedulerID = scheduler.IDX;
                             mySch.TugID = (int)scheduler.TugID;
                             mySch.TugCnName = scheduler.TugName1;
-                            mySch.TugEnName = scheduler.TugName2;
-                            mySch.TugSimpleName = scheduler.TugSimpleName;
+                            //mySch.TugEnName = scheduler.TugName2;
+                            //mySch.TugSimpleName = scheduler.TugSimpleName;
                             mySch.TugPower = scheduler.Power;
 
                             mySch.DepartBaseTime = scheduler.DepartBaseTime;
@@ -294,12 +289,12 @@ namespace TugBusinessLogic.Module
 
                             mySch.RopeUsed = scheduler.RopeUsed;
                             mySch.RopeNum = (int)scheduler.RopeNum;
-                            mySch.Remark = scheduler.Remark;
+                            //mySch.Remark = scheduler.Remark;
 
                             #region 全包
                             if (_invoice.BillingTypeID == 6 || _invoice.BillingTypeValue == "0" || _invoice.BillingTypeLabel == "全包")
                             {
-                                V_BillingItemTemplate tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
+                                MyBillingItem tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
                                 if(tmp != null)
                                 {
                                     mySch.UnitPrice = mySch.Price = mySch.SubTotaHKS = (double)tmp.UnitPrice;
@@ -319,7 +314,7 @@ namespace TugBusinessLogic.Module
                             {
                                 double top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0;
 
-                                V_BillingItemTemplate tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
+                                MyBillingItem tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
                                 if (tmp != null)
                                 {
                                     mySch.UnitPrice = mySch.Price = (double)tmp.UnitPrice;
@@ -332,14 +327,15 @@ namespace TugBusinessLogic.Module
                                 top_total_price += mySch.Price;
 
 
-                                List<CustomField> banbaoShowItems = GetBanBaoShowItems();
+                                //List<CustomField> banbaoShowItems = GetBanBaoShowItems();
+                                List<MyCustomField> banbaoShowItems = GetBanBaoShowItems();
                                 List<MyBillingItem> lstMyBillingItems = new List<MyBillingItem>();
 
                                 #region 条目费用计算
 
                                 if (banbaoShowItems != null)
                                 {
-                                    foreach (CustomField item in banbaoShowItems)
+                                    foreach (MyCustomField item in banbaoShowItems)
                                     {
                                         tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == item.IDX);
 
@@ -462,7 +458,7 @@ namespace TugBusinessLogic.Module
                             {
                                 double top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0;
 
-                                V_BillingItemTemplate tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
+                                MyBillingItem tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == service.ServiceNatureID);
                                 if (tmp != null)
                                 {
                                     mySch.UnitPrice = (double)tmp.UnitPrice;
@@ -476,14 +472,15 @@ namespace TugBusinessLogic.Module
                                 top_total_price += mySch.Price;
 
 
-                                List<CustomField> banbaoShowItems = GetTiaoKuanShowItems();
+                                //List<CustomField> banbaoShowItems = GetTiaoKuanShowItems();
+                                List<MyCustomField> banbaoShowItems = GetTiaoKuanShowItems();
                                 List<MyBillingItem> lstMyBillingItems = new List<MyBillingItem>();
 
                                 #region 条目费用计算
 
                                 if (banbaoShowItems != null)
                                 {
-                                    foreach (CustomField item in banbaoShowItems)
+                                    foreach (MyCustomField item in banbaoShowItems)
                                     {
                                         tmp = listBillingItemTemplate.FirstOrDefault(u => u.ItemID == item.IDX);
 
@@ -634,11 +631,20 @@ namespace TugBusinessLogic.Module
             return list;
         }
 
-        static public List<V_BillingItemTemplate> GetCustomerBillSchemeItems(int billSchemeId)
+
+        /// <summary>
+        /// 获取计费方案的收费条目
+        /// </summary>
+        /// <param name="billSchemeId">计费方案ID</param>
+        /// <returns></returns>
+        static public List<MyBillingItem> GetCustomerBillSchemeItems(int billSchemeId)
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
-            List<V_BillingItemTemplate> list = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).OrderBy(u => u.TypeValue).OrderBy(u=>u.ItemValue).ToList();
+            List<MyBillingItem> list = db.V_BillingItemTemplate.Where(u => u.BillingTemplateID == billSchemeId).OrderBy(u => u.TypeValue)
+                .OrderBy(u => u.ItemValue).Select(u => new MyBillingItem { 
+                    IDX = u.IDX, ItemID = u.ItemID, ItemValue = u.ItemValue, ItemLabel = u.ItemLabel,
+                    UnitPrice = u.UnitPrice, Currency = u.Currency, TypeID = u.TypeID, TypeValue = u.TypeValue, TypeLabel=u.TypeLabel}).ToList();
 
             return list;
         }
@@ -647,11 +653,12 @@ namespace TugBusinessLogic.Module
         /// 获取半包类型账单的条目显示项
         /// </summary>
         /// <returns></returns>
-        static public List<CustomField> GetBanBaoShowItems()
+        static public List<MyCustomField> GetBanBaoShowItems()
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
-            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.ItemID" && u.FormulaStr.Substring(1,1) == "1").OrderBy(u => u.CustomValue).ToList();
+            List<MyCustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.ItemID" && u.FormulaStr.Substring(1, 1) == "1")
+                .OrderBy(u => u.CustomValue).Select(u => new MyCustomField { IDX = u.IDX, CustomValue = u.CustomValue,CustomLabel = u.CustomLabel,FormulaStr = u.FormulaStr }).ToList<MyCustomField>();
 
             return list;
         }
@@ -660,11 +667,21 @@ namespace TugBusinessLogic.Module
         /// 获取条款类型账单的条目显示项
         /// </summary>
         /// <returns></returns>
-        static public List<CustomField> GetTiaoKuanShowItems()
+        //static public List<CustomField> GetTiaoKuanShowItems()
+        //{
+        //    TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+        //    List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.ItemID" && u.FormulaStr.Substring(2, 1) == "1").OrderBy(u => u.CustomValue).ToList();
+
+        //    return list;
+        //}
+
+        static public List<MyCustomField> GetTiaoKuanShowItems()
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
-            List<CustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.ItemID" && u.FormulaStr.Substring(2, 1) == "1").OrderBy(u => u.CustomValue).ToList();
+            List<MyCustomField> list = db.CustomField.Where(u => u.CustomName == "BillingItemTemplate.ItemID" && u.FormulaStr.Substring(2, 1) == "1")
+                .OrderBy(u => u.CustomValue).Select(u => new MyCustomField {IDX= u.IDX,CustomValue= u.CustomValue,CustomLabel= u.CustomLabel,FormulaStr= u.FormulaStr }).ToList();
 
             return list;
         }
@@ -684,7 +701,11 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_OrderBilling.Select(u => u).ToList<V_OrderBilling>();
+                orders = db.V_OrderBilling
+                    .Where(u => u.WorkStateID == 5
+                    || u.WorkStateValue == "3"
+                    || u.WorkStateLabel == "已完工")
+                    .Select(u => u).ToList<V_OrderBilling>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)

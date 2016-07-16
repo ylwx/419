@@ -46,6 +46,7 @@ namespace TugManagementSystem.Controllers
 
         #endregion 页面Action
 
+
         #region 订单管理页面Action
 
         public ActionResult GetData(bool _search, string sidx, string sord, int page, int rows)
@@ -488,7 +489,54 @@ namespace TugManagementSystem.Controllers
 
         #endregion 订单管理页面Action
 
+
         #region 订单调度页面Action
+
+        public ActionResult GetDataOfOrderScheduling(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.SearchForOrderMange(sidx, sord, searchOption);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderInfor>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduling(sidx, sord);
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderInfor>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
 
         public ActionResult GetOrderSubSchedulerData(bool _search, string sidx, string sord, int page, int rows, int orderId)
         {
@@ -647,6 +695,17 @@ namespace TugManagementSystem.Controllers
 
                         aScheduler = db.Scheduler.Add(aScheduler);
                         db.SaveChanges();
+
+                        {
+                            //更新订单状态
+                            OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == aScheduler.OrderID).FirstOrDefault();
+                            if(tmpOrder != null)
+                            {
+                                tmpOrder.WorkStateID = 3; //已排船
+                                db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
 
                         {
                             OrderService os = db.OrderService.Where(u => u.OrderID == aScheduler.OrderID && u.ServiceNatureID == aScheduler.ServiceNatureID).FirstOrDefault();
@@ -842,6 +901,17 @@ namespace TugManagementSystem.Controllers
                     db.SaveChanges();
 
                     {
+                        //更新订单状态
+                        OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == aScheduler.OrderID).FirstOrDefault();
+                        if (tmpOrder != null)
+                        {
+                            tmpOrder.WorkStateID = 3; //已排船
+                            db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
+                    {
                         OrderService os = db.OrderService.Where(u => u.OrderID == orderId && u.ServiceNatureID == serviceNatureId).FirstOrDefault();
                         if (os == null)
                         {
@@ -894,8 +964,39 @@ namespace TugManagementSystem.Controllers
                 Scheduler aScheduler = db.Scheduler.FirstOrDefault(u => u.IDX == idx);
                 if (aScheduler != null)
                 {
+                    int orderId = (int)aScheduler.OrderID;
                     db.Scheduler.Remove(aScheduler);
                     db.SaveChanges();
+
+                    //删除一个调度之后，要看是否还剩下调度
+                    {
+                        var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).ToList();
+                        if (list == null || list.Count == 0)
+                        {
+                            //更新订单状态
+                            OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                            if (tmpOrder != null)
+                            {
+                                tmpOrder.WorkStateID = 2; //未排船
+                                db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            //更新订单状态
+                            OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                            if (tmpOrder != null)
+                            {
+                                if (true == TugBusinessLogic.Module.OrderLogic.OrderJobInformationInputIsComplete(orderId))
+                                {
+                                    tmpOrder.WorkStateID = 5; //已完工
+                                    db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+                    }
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
                 else
@@ -971,7 +1072,54 @@ namespace TugManagementSystem.Controllers
         #endregion 订单调度页面Action
 
 
-        #region
+        #region 作业信息
+
+        public ActionResult GetDataOfJobInformation(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.SearchForOrderMange(sidx, sord, searchOption);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderInfor>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForJobInformation(sidx, sord);
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderInfor>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
         public ActionResult AddEditJobInformation()
         {
             this.Internationalization();
@@ -1137,7 +1285,19 @@ namespace TugManagementSystem.Controllers
                         db.Entry(aScheduler).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
-                        
+                        {
+                            //更新订单状态
+                            OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == aScheduler.OrderID).FirstOrDefault();
+                            if (tmpOrder != null)
+                            {
+                                if (true == TugBusinessLogic.Module.OrderLogic.OrderJobInformationInputIsComplete((int)aScheduler.OrderID))
+                                {
+                                    tmpOrder.WorkStateID = 5; //已完工
+                                    db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }

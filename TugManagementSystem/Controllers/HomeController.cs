@@ -206,5 +206,31 @@ namespace TugManagementSystem.Controllers
                 //throw;
             }
         }
+
+        public ActionResult SetMenuHidden()
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<object> MenuNone=new List<object>();
+            int usid=Session.GetDataFromSession<int>("userid");
+            List<FunctionModule> modules =  GetModules();
+
+            foreach (FunctionModule md in modules)
+            {
+                List<V_Module_Role_User> objs = db.V_Module_Role_User.Where(u => u.UserID ==usid && u.ModuleCode == md.ModuleCode).ToList<V_Module_Role_User>();
+          
+                if (objs.Count==0)
+                {
+                    MenuNone.Add(new {menuid=md.ModuleCode,display="none"});
+                }
+            }
+            var jsondata = new { list = MenuNone };
+            return Json(jsondata, JsonRequestBehavior.AllowGet);
+        }
+        List<FunctionModule> GetModules()
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<FunctionModule> module = db.FunctionModule.OrderByDescending(u => u.IDX).ToList<FunctionModule>();
+             return module;
+        }
     }
 }
