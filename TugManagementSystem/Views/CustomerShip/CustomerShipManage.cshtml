@@ -288,6 +288,11 @@
                         </div>
                     </div>
                     <!-- /SAMPLE -->
+                    <div class="footer-tools">
+                        <span class="go-top">
+                            <i class="fa fa-chevron-up"></i> Top
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -308,18 +313,17 @@
             datatype: "json",
             colModel: tableConfig.columns,
             viewrecords: true,
-            //width: 780,
-            height: '100%', //height: $(window).height() - 300,
+            height: '100%',
             rowNum: 15,
             autowidth: true,
             editurl: "/CustomerShip/AddEdit" + '?ctmId=' + $('.panel-title span:first').html(),
             pager: "#jqGridPager",
-            loadonce: true,
+            //loadonce: true,
             rowList: ['15', '20', '30', '40', '50'],
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
             sortable: true,          //列可移动
-            colMenu: true          //列菜单
+            colMenu: true,         //列菜单
         });
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
@@ -742,6 +746,8 @@
     //模态框
     function AddParent() {
         $('#parent-modal').modal()
+        var width = $('#jqGridContainerBox').width();
+        $("#jqGrid").setGridWidth(width);
     }
     function initParentModal() {
         $('#parentErrMsg').hide();
