@@ -16,6 +16,7 @@ namespace TugDataModel
     {
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
+        public Nullable<int> BillingTemplateID { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingTypeValue { get; set; }
         public string BillingTypeLabel { get; set; }

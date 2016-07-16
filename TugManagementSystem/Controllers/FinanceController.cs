@@ -27,7 +27,7 @@ namespace TugManagementSystem.Controllers
         }
 
         [Authorize]
-        public ActionResult GetInvoice(bool _search, string sidx, string sord, int page, int rows)
+        public ActionResult GetInvoiceData(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
 
@@ -81,9 +81,38 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
             //return RedirectToAction("Login", "Home");
 
-            TugBusinessLogic.Module.FinanceLogic.GenerateInvoice((int)orderId);
+            //MyInvoice invoice = TugBusinessLogic.Module.FinanceLogic.GenerateInvoice((int)orderId);
 
+            ViewBag.OrderID = orderId;
             return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult GetInvoice(string lan, int? orderId)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            //return RedirectToAction("Login", "Home");
+
+            MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.GenerateInvoice((int)orderId);
+
+            List<TugDataModel.MyCustomField> Items = new List<MyCustomField>();
+            if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "全包加特别条款")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetBanBaoShowItems();
+
+            else if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "条款")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
+
+            List<MyBillingItem> customerSchemeItems = null;
+
+            customerSchemeItems = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemeItems(_invoice.BillingTemplateID);
+            
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems };
+
+
+            return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -104,10 +133,10 @@ namespace TugManagementSystem.Controllers
 
             //List<TugDataModel.CustomField> Items = new List<CustomField>();
             List<TugDataModel.MyCustomField> Items = new List<MyCustomField>();
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeValue == "全包加特别条款")
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款")
                 Items = TugBusinessLogic.Module.FinanceLogic.GetBanBaoShowItems();
-                
-            else if(billingTypeId == 8 || billingTypeValue == "2" || billingTypeValue == "条款")
+
+            else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款")
                 Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
 
             List<MyBillingItem> customerSchemeItems = null;
@@ -199,7 +228,7 @@ namespace TugManagementSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult AddBill(int orderId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
+        public ActionResult AddBill(int orderId, int billingTemplateId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
         {
 
             this.Internationalization();
@@ -210,6 +239,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataModel.Billing aScheduler = new Billing();
 
+                    aScheduler.BillingTemplateID = billingTemplateId;
                     aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
                     aScheduler.BillingName = "";
 
@@ -219,10 +249,10 @@ namespace TugManagementSystem.Controllers
                     aScheduler.OrderID = orderId;
                     aScheduler.OwnerID = -1;
 
-                    aScheduler.Phase = -1;
+                    aScheduler.Phase = 0;
                     aScheduler.Remark = "";
-                    aScheduler.Status = "";
-                    aScheduler.TimesNo = -1;
+                    aScheduler.Status = "创建";
+                    aScheduler.TimesNo = 0;
                     aScheduler.TimeTypeID = timeTypeId;
                     aScheduler.UserID = Session.GetDataFromSession<int>("userid");
                     aScheduler.Discount = discount;

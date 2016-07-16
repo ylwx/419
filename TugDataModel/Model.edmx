@@ -83,6 +83,7 @@
           </Key>
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
@@ -729,6 +730,7 @@
           </Key>
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
@@ -974,6 +976,7 @@
           <Property Name="OrderSchedulerCreateDate" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderSchedulerLastUpDate" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingID" Type="int" Nullable="false" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
@@ -1001,6 +1004,18 @@
           <Property Name="UnitPrice" Type="float" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" />
           <Property Name="PositionTypeID" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Module_Role_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Module_Role_User">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="UserID" Type="int" />
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="ModuleCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModuleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1048,11 +1063,12 @@
           <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingID" Type="int" />
-          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
-          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingTypeID" Type="int" />
           <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeID" Type="int" />
           <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
@@ -1090,6 +1106,7 @@
           <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingID" Type="int" />
+          <Property Name="BillingTemplateID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTypeID" Type="int" />
@@ -1594,6 +1611,7 @@
             <DefiningQuery>SELECT 
     [V_Billing].[IDX] AS [IDX], 
     [V_Billing].[OrderID] AS [OrderID], 
+    [V_Billing].[BillingTemplateID] AS [BillingTemplateID], 
     [V_Billing].[BillingTypeID] AS [BillingTypeID], 
     [V_Billing].[BillingTypeValue] AS [BillingTypeValue], 
     [V_Billing].[BillingTypeLabel] AS [BillingTypeLabel], 
@@ -1811,6 +1829,7 @@
     [V_Invoice].[OrderSchedulerCreateDate] AS [OrderSchedulerCreateDate], 
     [V_Invoice].[OrderSchedulerLastUpDate] AS [OrderSchedulerLastUpDate], 
     [V_Invoice].[BillingID] AS [BillingID], 
+    [V_Invoice].[BillingTemplateID] AS [BillingTemplateID], 
     [V_Invoice].[BillingTypeID] AS [BillingTypeID], 
     [V_Invoice].[BillingTypeValue] AS [BillingTypeValue], 
     [V_Invoice].[BillingTypeLabel] AS [BillingTypeLabel], 
@@ -1839,6 +1858,15 @@
     [V_Invoice].[Currency] AS [Currency], 
     [V_Invoice].[PositionTypeID] AS [PositionTypeID]
     FROM [dbo].[V_Invoice] AS [V_Invoice]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Module_Role_User" EntityType="Self.V_Module_Role_User" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Module_Role_User].[UserID] AS [UserID], 
+    [V_Module_Role_User].[IDX] AS [IDX], 
+    [V_Module_Role_User].[ModuleCode] AS [ModuleCode], 
+    [V_Module_Role_User].[ModuleName] AS [ModuleName], 
+    [V_Module_Role_User].[RoleID] AS [RoleID]
+    FROM [dbo].[V_Module_Role_User] AS [V_Module_Role_User]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_NeedApproveBilling" EntityType="Self.V_NeedApproveBilling" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1879,11 +1907,12 @@
     [V_OrderBilling].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBilling].[WorkStateLabel] AS [WorkStateLabel], 
     [V_OrderBilling].[BillingID] AS [BillingID], 
-    [V_OrderBilling].[BillingCode] AS [BillingCode], 
-    [V_OrderBilling].[BillingName] AS [BillingName], 
+    [V_OrderBilling].[BillingTemplateID] AS [BillingTemplateID], 
     [V_OrderBilling].[BillingTypeID] AS [BillingTypeID], 
     [V_OrderBilling].[BillingTypeValue] AS [BillingTypeValue], 
     [V_OrderBilling].[BillingTypeLabel] AS [BillingTypeLabel], 
+    [V_OrderBilling].[BillingCode] AS [BillingCode], 
+    [V_OrderBilling].[BillingName] AS [BillingName], 
     [V_OrderBilling].[TimeTypeID] AS [TimeTypeID], 
     [V_OrderBilling].[TimeTypeValue] AS [TimeTypeValue], 
     [V_OrderBilling].[TimeTypeLabel] AS [TimeTypeLabel], 
@@ -1918,6 +1947,7 @@
     [V_OrderBillingCredit].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBillingCredit].[WorkStateLabel] AS [WorkStateLabel], 
     [V_OrderBillingCredit].[BillingID] AS [BillingID], 
+    [V_OrderBillingCredit].[BillingTemplateID] AS [BillingTemplateID], 
     [V_OrderBillingCredit].[BillingCode] AS [BillingCode], 
     [V_OrderBillingCredit].[BillingName] AS [BillingName], 
     [V_OrderBillingCredit].[BillingTypeID] AS [BillingTypeID], 
@@ -2286,6 +2316,7 @@
           <EntitySet Name="V_Inv_OrdService" EntityType="Model.V_Inv_OrdService" />
           <EntitySet Name="V_Inv_Scheduler" EntityType="Model.V_Inv_Scheduler" />
           <EntitySet Name="V_Invoice" EntityType="Model.V_Invoice" />
+          <EntitySet Name="V_Module_Role_User" EntityType="Model.V_Module_Role_User" />
           <EntitySet Name="V_NeedApproveBilling" EntityType="Model.V_NeedApproveBilling" />
           <EntitySet Name="V_OrderBilling" EntityType="Model.V_OrderBilling" />
           <EntitySet Name="V_OrderBillingCredit" EntityType="Model.V_OrderBillingCredit" />
@@ -2344,7 +2375,7 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <ComplexType Name="proc_inv_item_Result">
           <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
@@ -2451,6 +2482,7 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3114,6 +3146,7 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3341,6 +3374,7 @@
           <Property Name="OrderSchedulerCreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderSchedulerLastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingID" Type="Int32" Nullable="false" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3368,6 +3402,16 @@
           <Property Name="UnitPrice" Type="Double" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PositionTypeID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_Module_Role_User">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="ModuleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_NeedApproveBilling">
           <Key>
@@ -3411,11 +3455,12 @@
           <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingID" Type="Int32" />
-          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingTypeID" Type="Int32" />
           <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeID" Type="Int32" />
           <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3451,6 +3496,7 @@
           <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingID" Type="Int32" />
+          <Property Name="BillingTemplateID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTypeID" Type="Int32" />
@@ -3996,6 +4042,7 @@
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
@@ -4665,6 +4712,7 @@
                 <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
                 <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
@@ -4863,6 +4911,7 @@
                 <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
                 <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="OrderSchedulerLastUpDate" ColumnName="OrderSchedulerLastUpDate" />
                 <ScalarProperty Name="OrderSchedulerCreateDate" ColumnName="OrderSchedulerCreateDate" />
@@ -4900,6 +4949,17 @@
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Module_Role_User">
+            <EntityTypeMapping TypeName="Model.V_Module_Role_User">
+              <MappingFragment StoreEntitySet="V_Module_Role_User">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="ModuleCode" ColumnName="ModuleCode" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4943,11 +5003,12 @@
                 <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
                 <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
                 <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
                 <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
-                <ScalarProperty Name="BillingName" ColumnName="BillingName" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="WorkStateLabel" ColumnName="WorkStateLabel" />
                 <ScalarProperty Name="WorkStateValue" ColumnName="WorkStateValue" />
@@ -4997,6 +5058,7 @@
                 <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
                 <ScalarProperty Name="BillingName" ColumnName="BillingName" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="WorkStateLabel" ColumnName="WorkStateLabel" />
                 <ScalarProperty Name="WorkStateValue" ColumnName="WorkStateValue" />
@@ -5229,7 +5291,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

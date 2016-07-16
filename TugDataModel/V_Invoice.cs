@@ -51,6 +51,7 @@ namespace TugDataModel
         public string OrderSchedulerCreateDate { get; set; }
         public string OrderSchedulerLastUpDate { get; set; }
         public int BillingID { get; set; }
+        public Nullable<int> BillingTemplateID { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingTypeValue { get; set; }
         public string BillingTypeLabel { get; set; }

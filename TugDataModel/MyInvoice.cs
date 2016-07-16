@@ -97,6 +97,7 @@ namespace TugDataModel
 
         public string ServiceWorkPlace { get; set; }
     }
+
     public class MyInvoice
     {
         //public int CustormerID { get; set; }
@@ -123,6 +124,10 @@ namespace TugDataModel
         /// </summary>
         public int BillingID { get; set; }
 
+        /// <summary>
+        /// 客户计费方案ID
+        /// </summary>
+        public int BillingTemplateID { get; set; }        
         /// <summary>
         /// 账单流水号
         /// </summary>

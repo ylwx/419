@@ -87,6 +87,7 @@
     <EntitySet Name="V_Inv_OrdService" EntityType="Model.V_Inv_OrdService" />
     <EntitySet Name="V_Inv_Scheduler" EntityType="Model.V_Inv_Scheduler" />
     <EntitySet Name="V_Invoice" EntityType="Model.V_Invoice" />
+    <EntitySet Name="V_Module_Role_User" EntityType="Model.V_Module_Role_User" />
     <EntitySet Name="V_NeedApproveBilling" EntityType="Model.V_NeedApproveBilling" />
     <EntitySet Name="V_OrderBilling" EntityType="Model.V_OrderBilling" />
     <EntitySet Name="V_OrderBillingCredit" EntityType="Model.V_OrderBillingCredit" />
@@ -252,6 +253,7 @@
     </Key>
     <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="OrderID" Type="Int32" />
+    <Property Name="BillingTemplateID" Type="Int32" />
     <Property Name="BillingTypeID" Type="Int32" />
     <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -915,6 +917,7 @@
     </Key>
     <Property Name="IDX" Type="Int32" Nullable="false" />
     <Property Name="OrderID" Type="Int32" />
+    <Property Name="BillingTemplateID" Type="Int32" />
     <Property Name="BillingTypeID" Type="Int32" />
     <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1142,6 +1145,7 @@
     <Property Name="OrderSchedulerCreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrderSchedulerLastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingID" Type="Int32" Nullable="false" />
+    <Property Name="BillingTemplateID" Type="Int32" />
     <Property Name="BillingTypeID" Type="Int32" />
     <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1169,6 +1173,16 @@
     <Property Name="UnitPrice" Type="Double" />
     <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="PositionTypeID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="V_Module_Role_User">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="IDX" Type="Int32" Nullable="false" />
+    <Property Name="ModuleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleID" Type="Int32" />
   </EntityType>
   <EntityType Name="V_NeedApproveBilling">
     <Key>
@@ -1212,11 +1226,12 @@
     <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingID" Type="Int32" />
-    <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingTemplateID" Type="Int32" />
     <Property Name="BillingTypeID" Type="Int32" />
     <Property Name="BillingTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TimeTypeID" Type="Int32" />
     <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1252,6 +1267,7 @@
     <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingID" Type="Int32" />
+    <Property Name="BillingTemplateID" Type="Int32" />
     <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTypeID" Type="Int32" />
