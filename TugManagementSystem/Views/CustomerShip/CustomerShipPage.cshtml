@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "客户船信息";
     ViewBag.MenuId = "menu2";
     ViewBag.SubMenuIndex = 1;
@@ -11,9 +12,9 @@
         <div id="model-dlg" class="modal-dialog" style="width:500px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">拖轮选择</h4>
-                    </div>*@
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">拖轮选择</h4>
+        </div>*@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -159,9 +160,9 @@
                             </ul>
                             <!-- /BREADCRUMBS -->
                             @*<div class="clearfix">
-                                    <h3 class="content-title pull-left">Grid Test</h3>
-                                </div>
-                                <div class="description">Table</div>*@
+                        <h3 class="content-title pull-left">Grid Test</h3>
+                    </div>
+                    <div class="description">Table</div>*@
                             @*<button type="button" class="btn btn-danger" onclick="AddChild()">Add</button>*@
                         </div>
                     </div>
@@ -209,12 +210,12 @@
                                                                             <p><h4><i class="fa fa-user"></i><strong> @Model[i].Name1</strong></h4></p>
                                                                         }
                                                                         @*<span> @Model[i].Name2</span>
-                                                                            <span> <abbr class=""> @Model[i].SimpleName</abbr></span>*@
+                                                                <span> <abbr class=""> @Model[i].SimpleName</abbr></span>*@
                                                                     </div>
                                                                     @*<div class="text-right pull-right">
-                                                                            <p><h5><span class=""><i class="fa fa-phone-square"></i> @Model[i].Telephone</span></h5></p>
-                                                                            <p><span class=""><i class="fa fa-envelope"></i> @Model[i].Email</span></p>
-                                                                        </div>*@
+                                                                <p><h5><span class=""><i class="fa fa-phone-square"></i> @Model[i].Telephone</span></h5></p>
+                                                                <p><span class=""><i class="fa fa-envelope"></i> @Model[i].Email</span></p>
+                                                            </div>*@
                                                                     <div class="clearfix"></div>
                                                                 </li>
                                                             }
@@ -287,8 +288,8 @@
             </div>
         </div>
     </div>
-    </div>
-    <script type="text/javascript">
+</div>
+<script type="text/javascript">
     var tableConfig = null;
 
     $(document).ready(function () {
@@ -296,7 +297,6 @@
         if (tableConfig == null) {
             GetTableConfig();
         }
-
 
         $("#jqGrid").jqGrid({
             url: "/CustomerShip/GetCustomerShips" + '?ctmId=' + $('.panel-title span:first').html(),
@@ -318,7 +318,6 @@
         });
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
-
         $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
         $('#contact-card').resize(function () {
@@ -327,8 +326,8 @@
         });
 
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-
             .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilrefresh',
                 caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
                 onClickButton: function () {
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
@@ -342,42 +341,43 @@
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 }
             })
-            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
-            .navButtonAdd('#jqGridPager', {
-                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
-                onClickButton: function () {
-                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                    if (rowid != null) {
-                        if (confirm('确定要删除所选的记录吗?')) {
-                            var d = new Date();
-                            $.ajax(
-                                {
-                                    type: "post",
-                                    url: '@Url.Action("Delete", "CustomerShip")',
-                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        alert(result.message);
-                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    },
+                .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+                .navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ildelete',
+                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                        if (rowid != null) {
+                            if (confirm('确定要删除所选的记录吗?')) {
+                                var d = new Date();
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("Delete", "CustomerShip")',
+                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
 
-                                }
+                                    }
                                     );
+                            }
                         }
+                        else {
+                            alert('选中一行');
+                        }
+                    },
+                    position: "last"
+                }).navButtonAdd('#jqGridPager', {
+                    caption: "", title: "添加新增", buttonicon: "ui-icon-plus",
+                    onClickButton: function () {
+                        AddParent();
                     }
-                    else {
-                        alert('选中一行');
-                    }
-                },
-                position: "last"
-            })
-            .navButtonAdd('#jqGridPager', {
-                //id: 'jqGrid_ilrefresh',
-                caption: "", title: "新增", buttonicon: "ui-icon-plus",
-                onClickButton: AddParent
-            });
+                });
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
@@ -390,7 +390,11 @@
                     successfunc: function (val) {
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
-                            alert(ret.message);
+                            if (ret.code == '@Resources.Common.FAIL_CODE') {
+                                alert(ret.message);
+                            } else {
+                                alert(ret.message);
+                            }
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     },
@@ -401,10 +405,15 @@
                 addParams: {
                     keys: true,
                     successfunc: function (val) {
-                        alert("111");
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
-                            alert(ret.message);
+
+                            if (ret.code == '@Resources.Common.FAIL_CODE') {
+                                alert(ret.message);
+                            } else {
+                                alert(ret.message);
+                            }
+
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
                     },
@@ -648,7 +657,6 @@
             ]
         };
     }
-
     function loadCustomerShips(self, customer_id, customer_Name1) {
         $('.panel-title span:first').html(customer_id);
         $('.panel-title span:last').html(customer_Name1);
@@ -664,34 +672,34 @@
             }).trigger('reloadGrid');
 
         $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "CustomerShip")' + '?ctmId=' + customer_id });
-    }
+                }
 
-    function searchCustomer(text) {
+                function searchCustomer(text) {
 
-        var curPage = 1;
-        var queryName = text.trim();
+                    var curPage = 1;
+                    var queryName = text.trim();
 
-        $.ajax(
-            {
-                type: "get",
-                url: "/CustomerShip/GetCustomers",
-                dataType: 'html',
-                type: 'get',
-                data: { 'curPage': curPage, 'queryName': queryName },
-                success: function (result) {
-                    $("body").html(result);
-                },
-            }
-            );
-    }
+                    $.ajax(
+                        {
+                            type: "get",
+                            url:"/CustomerShip/GetCustomers",
+                            dataType: 'html',
+                            type: 'get',
+                            data: { 'curPage': curPage, 'queryName': queryName },
+                            success: function (result) {
+                                $("body").html(result);
+                            },
+                        }
+                        );
+                }
 
-    function clearCustomer() {
-        $('#searchCustomer').val("");
-        var curPage = 1;
-        $.ajax(
-            {
-                type: "get",
-                url: '@Url.Action("GetCustomers", "CustomerShip")',
+                function clearCustomer() {
+                    $('#searchCustomer').val("");
+                    var curPage = 1;
+                    $.ajax(
+                        {
+                            type: "get",
+                            url: '@Url.Action("GetCustomers", "CustomerShip")',
                 dataType: 'html',
                 type: 'get',
                 data: { 'curPage': curPage, 'queryName': "" },
@@ -702,6 +710,7 @@
             );
 
     }
+
     function onKeyPress(e) {
         var keyCode = null;
 
@@ -716,6 +725,7 @@
         }
         return true;
     }
+
     function getCustomers(pageIndex) {
         var curPage = parseInt(pageIndex) + 1;
         var queryName = $('#searchCustomer').val().trim();
@@ -734,10 +744,15 @@
             );
     }
 
-    //模态框
+</script>
+<!-- 模态框 -->
+<script>
+    var g_curSelectedParentRowid = '';
+
     function AddParent() {
         $('#parent-modal').modal()
     }
+
     function initParentModal() {
         $('#parentErrMsg').hide();
         $('#_CustomerShip_Name1').parent().removeClass("has-error");
@@ -759,21 +774,32 @@
         $('#_CustomerShip_TEUS').val("");
         $('#_CustomerShip_Class').val("");
         $('#_Remark').val("");
+
     }
 
     $('#parent-modal').on('show.bs.modal', function (e) {
         initParentModal();
+
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
     });
+
     $('#parent-modal').on('shown.bs.modal', function (e) {
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
+
     });
     $('#parent-modal').on('hide.bs.modal', function () {
         $(this).removeData("bs.modal");
         //alert("hide");
     });
     $('#parent-modal').on('hidden.bs.modal', function () {
+        //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
         $(this).removeData("bs.modal");
         //alert("hidden");
     });
+
+
 
     function submitParentModal() {
         var maxTextLength = 25;
@@ -811,35 +837,37 @@
             type: "post",
             url: '@Url.Action("AddCustomerShip", "CustomerShip")',
             data: {
-                    'ctmId': $('.panel-title span:first').html(),
-                    'Name1': CustomerShip_Name1,
-                    'Name2': CustomerShip_Name2,
-                    'SimpleName': CustomerShip_SimpleName,
-                    'DeadWeight': CustomerShip_DeadWeight,
-                    'Length': CustomerShip_Length,
-                    'Width': CustomerShip_Width,
-                    'TEUS': CustomerShip_TEUS,
-                    'Class': CustomerShip_Class,
-                    'Remark': Remark
-                },//"oper=delete&id=" + gr,
-                dataType: 'json',
-                success: function (result) {
+                'ctmId': $('.panel-title span:first').html(),
+                'Name1': CustomerShip_Name1,
+                'Name2': CustomerShip_Name2,
+                'SimpleName': CustomerShip_SimpleName,
+                'DeadWeight': CustomerShip_DeadWeight,
+                'Length': CustomerShip_Length,
+                'Width': CustomerShip_Width,
+                'TEUS': CustomerShip_TEUS,
+                'Class': CustomerShip_Class,
+                'Remark': Remark
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
 
-                    $('#parent-modal').modal('hide')
-                    //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                    //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    alert(result.message);
+                $('#parent-modal').modal('hide')
+                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                alert(result.message);
 
-                    $('#jqGrid').jqGrid('setGridParam',
-                    {
-                        datatype: 'json',
-                        url: "/CustomerShip/GetCustomerShips" + '?ctmId=' + $('.panel-title span:first').html(),
-                    }).trigger('reloadGrid');
+                $('#jqGrid').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: "/CustomerShip/GetCustomerShips" + '?ctmId=' + $('.panel-title span:first').html(),
+                }).trigger('reloadGrid');
 
-                    $("#jqGrid").jqGrid('setGridParam', { editurl: "/CustomerShip/AddEdit" + '?ctmId=' + $('.panel-title span:first').html() });
+                $("#jqGrid").jqGrid('setGridParam', { editurl: "/CustomerShip/AddEdit" + '?ctmId=' + $('.panel-title span:first').html() });
 
             },
         });
-
     }
+
 </script>
+
+

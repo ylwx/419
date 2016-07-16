@@ -145,8 +145,8 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
-        public ActionResult AddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, object DeadWeight, object Length,
-            object Width,object TEUS,string Class,string Remark)
+        public ActionResult AddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, string DeadWeight, string Length,
+            string Width, string TEUS, string Class, string Remark)
         {
             this.Internationalization();
                 try
@@ -206,6 +206,18 @@ namespace TugManagementSystem.Controllers
         }
         [Authorize]
         public ActionResult CustomerShipManage(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            int totalRecordNum, totalPageNum;
+            List<Customer> list = GetCustomers(1, _DefaultPageSie, out totalRecordNum, out totalPageNum);
+            ViewBag.TotalPageNum = totalPageNum;
+            ViewBag.CurPage = 1;
+
+            return View(list);
+        }
+        [Authorize]
+        public ActionResult CustomerShipPage(string lan, int? id)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
