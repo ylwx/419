@@ -1,17 +1,141 @@
 ﻿@{
-    ViewBag.Title = "组织结构";
+    ViewBag.Title = "人员信息";
     ViewBag.MenuId = "menu1";
     ViewBag.SubMenuIndex = 0;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
 <div id="main-content">
+    <!-- MODAL 增加-->
+    <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width:800px">
+            <div class="modal-content modal-table">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>@Resources.Language.UserInfor_NewUser</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    @*<h4 class="form-title">Supported controls</h4>*@
+                                    <form class="form-horizontal" role="form">
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.UserInfor_UserName</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_UserName" class="form-control" placeholder="@Resources.Language.UserInfor_UserName" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.UserInfor_Dept</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_Dept" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_Dept" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.UserInfor_Sec</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_Sec" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_Sec" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.UserInfor_Name1</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_Name1" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_Name1" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.UserInfor_Name2</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_Name2" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_Name2" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.UserInfor_WorkNumber</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_WorkNumber" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_WorkNumber" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.UserInfor_Sex</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_Sex" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_Sex" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.UserInfor_Tel</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_Tel" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_Tel" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">@Resources.Language.UserInfor_Email</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_Email" type="text" class="form-control" placeholder="@Resources.Language.UserInfor_Email" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div id="parentErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /MODAL 增加-->
     <div class="container">
         <div class="row">
             <div id="content" class="col-lg-12">
                 <!-- PAGE HEADER-->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="page-header">
+                        <div class="">
                             <!-- STYLER -->
                             <!-- /STYLER -->
                             <!-- BREADCRUMBS -->
@@ -21,17 +145,13 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.Organization</a>
+                                    <a href="#">@Resources.Language.UserInfor</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.OrganizationManage
+                                    @Resources.Language.UserInforManage
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
-                            <div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>
                         </div>
                     </div>
                 </div>
@@ -57,28 +177,22 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.OrganizationManage</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.UserInforManage</h4>
                             </div>
-                            <div class="box-body">
-                                <div class="row">
-                                    <form role="form" name="form1" method="post">
-                                        @*组织结构管理暂时不实现*@
-                                        <div style="float:left">
-                                            <table id="tree"></table>
-                                            <div id="pager"></div>
-                                        </div>
-                                        <div style="float:left;margin-left:10px;">
-                                            <table id="jqGrid"></table>
-                                            <div id="jqGridPager"></div>
-                                        </div>
-                                    </form>
-                                </div>
+                            <div id="jqGridContainerBox" class="box-body">
+                                <table id="jqGrid"></table>
+                                <div id="jqGridPager"></div>
                             </div>
                         </div>
                         <!-- /BOX -->
                     </div>
                 </div>
                 <!-- /SAMPLE -->
+                <div class="footer-tools">
+                    <span class="go-top">
+                        <i class="fa fa-chevron-up"></i> Top
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -87,7 +201,7 @@
 
     var tableConfig = null;
     //设置treegrid
-    jQuery(document).ready(function ($) {
+    @*jQuery(document).ready(function ($) {
         jQuery('#tree').jqGrid({
             "url": "/Organization/OrgGetDataForLoadOnce",
             "editurl": "/Organization/OrgAddEdit",
@@ -181,46 +295,46 @@
                 //    alert('选中一行');
                 //}
             },
-        });
-        //设置treegrid的导航
-        jQuery('#tree').jqGrid('navGrid', '#pager',
-        {
-            "edit": true,
-            "add": true,
-            "del": true,
-            "search": true,
-            "refresh": true,
-            "view": false,
-            "excel": false,
-            "pdf": false,
-            "csv": false,
-            "columns": false
-        },
-        { "drag": true, "resize": true, "closeOnEscape": true, "dataheight": 150 },
-        { "drag": true, "resize": true, "closeOnEscape": true, "dataheight": 150 }
-        );
-        jQuery('#tree').jqGrid('bindKeys');
+        });*@
+    //设置treegrid的导航
+    //jQuery('#tree').jqGrid('navGrid', '#pager',
+    //{
+    //    "edit": true,
+    //    "add": true,
+    //    "del": true,
+    //    "search": true,
+    //    "refresh": true,
+    //    "view": false,
+    //    "excel": false,
+    //    "pdf": false,
+    //    "csv": false,
+    //    "columns": false
+    //},
+    //{ "drag": true, "resize": true, "closeOnEscape": true, "dataheight": 150 },
+    //{ "drag": true, "resize": true, "closeOnEscape": true, "dataheight": 150 }
+    //);
+    //jQuery('#tree').jqGrid('bindKeys');
 
-        //设置jqgrid
-        if (tableConfig == null) {
-            GetTableConfig();
-        }
+    //设置jqgrid
+    if (tableConfig == null) {
+        GetTableConfig();
+    }
 
-        $("#jqGrid").jqGrid({
-            //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("UserGetDataForLoadOnce", "Organization")',
-            mtype: "GET",
-            datatype: "json",
-            colModel: tableConfig.columns,
-            viewrecords: true,
-            width: 700,
-            height: 300,//$(window).height() - 300,//300,
-            rowNum: 10,
-            //autowidth: true,
-            editurl: '@Url.Action("UserAddEdit", "Organization")',
+    $("#jqGrid").jqGrid({
+        //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+        url: '@Url.Action("UserGetDataForLoadOnce", "Organization")',
+        mtype: "GET",
+        datatype: "json",
+        colModel: tableConfig.columns,
+        viewrecords: true,
+        //width: 780,
+        height: '100%', //height: $(window).height() - 300,
+        rowNum: 15,
+        autowidth: true,
+        editurl: '@Url.Action("UserAddEdit", "Organization")',
             pager: "#jqGridPager",
             loadonce: true,
-            rowList: ['10', '20', '30'],
+            rowList: ['15', '20', '30', '40', '50'],
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
             sortable: true,          //列可移动
@@ -229,26 +343,26 @@
 
         $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
+        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox').resize(function () {
+            var width = $('#jqGridContainerBox').width();
+            $("#jqGrid").setGridWidth(width);
+        });
+
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
             .navButtonAdd('#jqGridPager', {
                 caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
                 onClickButton: function () {
-                    //alert("haha");
-                    @*$.ajax(
-                        {
-                            type: "get",
-                            url: '@Url.Action("GetDataForLoadOnce", "Customer")',
-                            dataType: 'json',
-                            type: 'get',
-                            data:{'_search':false, 'sidx':'', 'sord':'', 'page':1, 'rows':10},
-                            success: function (result) {
-
-                                $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            },
-                        }
-                        );*@
-
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navButtonAdd('#jqGridPager', {
+                caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+                onClickButton: function () {
+                    var grid = $('#jqGrid')[0];
+                    grid.clearToolbar();
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 }
             })
@@ -264,7 +378,7 @@
                             $.ajax(
                                 {
                                     type: "post",
-                                    url: '@Url.Action("", "")',
+                                    url: '@Url.Action("Delete", "Organization")',
                                     data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
@@ -282,12 +396,17 @@
                     }
                 },
                 position: "last"
+            })
+            .navButtonAdd('#jqGridPager', {
+                //id: 'jqGrid_ilrefresh',
+                caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                onClickButton: AddParent
             });
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
                 edit: true,
-                add: true,
+                add: false,
                 del: true,
                 cancel: true,
                 editParams: {
@@ -305,8 +424,8 @@
 
                 addParams: {
                     keys: true,
-                    //extraparam: { treeid: treeidx },
                     successfunc: function (val) {
+                        //alert("111");
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
                             alert(ret.message);
@@ -319,8 +438,6 @@
                     }
                 }
             });
-
-    });
 
     //设置jqgrid表头
     function GetTableConfig() {
@@ -509,4 +626,119 @@
             ]
         };
     }
+    //模态框
+    function AddParent() {
+        $('#parent-modal').modal()
+    }
+    function initParentModal() {
+        $('#parentErrMsg').hide();
+        $('#_UserName').parent().removeClass("has-error");
+        $('#_Dept').parent().removeClass("has-error");
+        $('#_Sec').parent().removeClass("has-error");
+        $('#_Name1').parent().removeClass("has-error");
+        $('#_Name2').parent().removeClass("has-error");
+        $('#_WorkNumber').parent().removeClass("has-error");
+        $('#_Sex').parent().removeClass("has-error");
+        $('#_Tel').parent().removeClass("has-error");
+        $('#_Email').parent().removeClass("has-error");
+
+        $('#_UserName').val("");
+        $('#_Dept').val("");
+        $('#_Sec').val("");
+        $('#_Name1').val("");
+        $('#_Name2').val("");
+        $('#_WorkNumber').val("");
+        $('#_Sex').val("");
+        $('#_Tel').val("");
+        $('#_Email').val("");
+    }
+
+    $('#parent-modal').on('show.bs.modal', function (e) {
+        initParentModal();
+    });
+    $('#parent-modal').on('shown.bs.modal', function (e) {
+    });
+    $('#parent-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hide");
+    });
+    $('#parent-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hidden");
+    });
+
+    function submitParentModal() {
+        var maxTextLength = 25;
+        var maxTextAreaLength = 500;
+
+        $('#parentErrMsg').hide();
+        $('#_UserName').parent().removeClass("has-error");
+        $('#_Dept').parent().removeClass("has-error");
+        $('#_Sec').parent().removeClass("has-error");
+        $('#_Name1').parent().removeClass("has-error");
+        $('#_Name2').parent().removeClass("has-error");
+        $('#_WorkNumber').parent().removeClass("has-error");
+        $('#_Sex').parent().removeClass("has-error");
+        $('#_Tel').parent().removeClass("has-error");
+        $('#_Email').parent().removeClass("has-error");
+
+        var _UserName = $('#_UserName').val();
+        var  _Dept= $('#').val();
+        var  _Sec= $('#_Sec').val();
+        var  _Name1= $('#_Name1').val();
+        var  _Name2= $('#_Name2').val();
+        var  _WorkNumber= $('#_WorkNumber').val();
+        var _Sex = $('#_Sex').val();
+        var  _Tel= $('#_Tel').val();
+        var _Email = $('#_Email').val();
+
+
+        if (_UserName.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.UserInfor_UserName' + "@Resources.Language.IsNull");
+            $('#_UserName').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+        else if (_Name1.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.UserInfor_Name1' + "@Resources.Language.IsNull");
+            $('#_Name1').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+        //提交数据库
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("AddUser", "Organization")',
+            data: {
+                'UserName': _UserName,
+                'Dept': _Dept,
+                'Sec': _Sec,
+                'Name1': _Name1,
+                'Name2': _Name2,
+                'WorkNumber': _WorkNumber,
+                'Sex': _Sex,
+                'Tel': _Tel,
+                'Email': _Email,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#parent-modal').modal('hide')
+                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                alert(result.message);
+
+                $('#jqGrid').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("UserGetDataForLoadOnce", "Organization")',
+                }).trigger('reloadGrid');
+
+                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("UserAddEdit", "Organization")' });
+
+            },
+        });
+
+    }
 </script>
+

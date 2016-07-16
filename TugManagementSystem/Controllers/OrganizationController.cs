@@ -295,7 +295,76 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
             return View();
         }
+        [Authorize]
+        public ActionResult UserManage(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+        public ActionResult AddUser(string UserName,string Dept,string Sec,string Name1,string Name2,string WorkNumber,string Sex,string Tel,string Email)
+        {
+            this.Internationalization();
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        TugDataModel.UserInfor usobj = new UserInfor();
 
+                        usobj.UserName =UserName;
+                        usobj.Pwd = "1";
+                        usobj.IsGuest = "false";
+                        usobj.LanUserName ="" ;
+                        usobj.Lan ="";
+                        usobj.Dept =Dept;
+                        usobj.Sec =Sec ;
+                        usobj.Name1 =Name1 ;
+                        usobj.Name2 = Name2;
+                        usobj.WorkNumber =WorkNumber ;
+                        usobj.Sex =Sex ;
+                        usobj.Tel =Tel ;
+                        usobj.Email = Email;
+                        usobj.OwnerID = -1;
+                        usobj.CreateDate = usobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        usobj.AddUserID = Session.GetDataFromSession<int>("userid");
+                        usobj.System = "Tug";
+                        usobj.Status = -1;
+                        usobj.LogIP = "";
+                        usobj.UserDefinedCol1 = "";
+                        usobj.UserDefinedCol2 = "";
+                        usobj.UserDefinedCol3 = "";
+                        usobj.UserDefinedCol4 = "";
+
+                        //if (Request.Form["UserDefinedCol5"] != "")
+                        //    usobj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        //if (Request.Form["UserDefinedCol6"] != "")
+                        //    usobj.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+
+                        //if (Request.Form["UserDefinedCol7"] != "")
+                        //    usobj.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+
+                        //if (Request.Form["UserDefinedCol8"] != "")
+                        //    usobj.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+
+                        usobj.UserDefinedCol9 = "";
+                        usobj.UserDefinedCol10 = "";
+
+                        usobj = db.UserInfor.Add(usobj);
+                        db.SaveChanges();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
+                    }
+                }
+                catch (Exception)
+                {
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret);
+                }
+        }
         public ActionResult UserAddEdit()
         {
             this.Internationalization();
