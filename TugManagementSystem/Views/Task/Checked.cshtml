@@ -13,7 +13,7 @@
                 <!-- PAGE HEADER-->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="page-header">
+                        <div class="">
                             <!-- BREADCRUMBS -->
                             <ul class="breadcrumb">
                                 <li>
@@ -21,6 +21,7 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
+                                    <i class="fa fa-shopping-cart"></i>
                                     <a href="#">@Resources.Language.Task_Task</a>
                                 </li>
                                 <li>
@@ -28,10 +29,6 @@
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
-                            <div class="clearfix">
-                                <h3 class="content-title pull-left">Grid Test</h3>
-                            </div>
-                            <div class="description">Table</div>
                         </div>
                     </div>
                 </div>
@@ -167,7 +164,72 @@
 
             $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
-                .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_RepealSubmit',
+                caption: "撤销提交", title: "撤销提交", buttonicon: "ui-icon-disk",
+                onClickButton: function () {
+                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    var dr = jQuery('#jqGrid').jqGrid('getRowData', rowid);//选中行的数据
+                    if (rowid != null) {
+                    if (confirm('确定要撤销提交吗?')) {
+                        var d = new Date();
+                        $.ajax(
+                           {
+                               type: "post",
+                               url: "/Task/RepealSubmit",
+                               data: { 'data': dr },
+                               //traditional: true,
+                               dataType: 'json',
+                               success: function (result) {
+                                   alert(result.message);
+                                   $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                               },
+                               error: function (result) {
+                                   console.log(result)
+                                   alert(result.message);
+                               }
+                           });
+                    }
+                }
+                },
+
+            })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_RepealPass',
+                caption: "撤销通过", title: "撤销通过", buttonicon: "ui-icon-disk",
+                onClickButton: function () {
+                    var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    var rowData = $('#jqGrid').jqGrid('getGridParam', id);
+                    var curPhase = rowData.Phase;
+                    if (rowData.length) {
+                        if (curPhase == -1) {
+                            alert("已完成全部审核，无法撤销！");
+                        }
+                        else {
+                            $.ajax(
+                                                          {
+                                                              type: "post",
+                                                              url: "/Task/RepealPass",
+                                                              data: { 'data': rowData },
+                                                              traditional: true,
+                                                              dataType: 'json',
+                                                              success: function (result) {
+                                                                  alert(result.message);
+                                                                  $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                              },
+                                                              error: function (result) {
+                                                                  console.log(result)
+                                                                  alert(result.message);
+                                                              }
+                                                          });
+                        }
+
+                    }
+                    else { alert("未选择需要操作的数据！"); }
+                },
+
+            });
 
             $('#jqGrid').inlineNav('#jqGridPager',
                 {

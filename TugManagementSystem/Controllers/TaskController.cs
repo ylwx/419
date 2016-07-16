@@ -32,7 +32,7 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
+                        List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
 
                         int totalRecordNum = objs.Count;
                         if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -242,10 +242,13 @@ namespace TugManagementSystem.Controllers
         {
             int id = data.IDX;
             int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
-            int Phase = Convert.ToInt32(Request.Form["data[Phase]"].Trim());
-            int timeNo = Convert.ToInt32(Request.Form["data[TimesNo]"].Trim());
-            int curUserId = Session.GetDataFromSession<int>("userid");
             TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
+            Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
+
+            int Phase = Convert.ToInt32(billInfor.Phase);
+            int timeNo = Convert.ToInt32(billInfor.TimesNo);
+            int curUserId = Session.GetDataFromSession<int>("userid");
             if (Phase > 1 || Phase == -1)  //流程已进入审核环节或已完成全部审核，不能撤销
             {
                 Response.StatusCode = 404;
@@ -254,9 +257,6 @@ namespace TugManagementSystem.Controllers
             else
             {
                 //更新Billing状态
-                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
-                Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
-
                 billInfor.Phase = 0;
                 billInfor.Status = "已撤销提交";
                 db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
@@ -286,12 +286,15 @@ namespace TugManagementSystem.Controllers
         public ActionResult RepealPass()
         {
             int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
-            int Phase = Convert.ToInt32(Request.Form["data[Phase]"].Trim());
-            int timeNo = Convert.ToInt32(Request.Form["data[TimesNo]"].Trim());
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
+            Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
+
+            int Phase = Convert.ToInt32(billInfor.Phase);
+            int timeNo = Convert.ToInt32(billInfor.TimesNo);
             string tmpUserName = Request.Form["data[UserName]"].Trim();
             int curUserId = Session.GetDataFromSession<int>("userid");
 
-            TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == idx && u.MarkID == timeNo && u.FlowUserID == curUserId;
             Flow flowData = db.Flow.Where(expF).FirstOrDefault();
             if (tmpUserName == Session.GetDataFromSession<string>("username"))
@@ -307,8 +310,7 @@ namespace TugManagementSystem.Controllers
             else
             {
                 //更新Billing表状态
-                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
-                Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
+               
 
                 billInfor.Phase = Phase - 1;
                 billInfor.Status = "已撤销通过";
