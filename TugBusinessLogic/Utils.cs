@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -435,7 +436,19 @@ namespace TugBusinessLogic
                 DataContractJsonSerializer serializer = new DataContractJsonSerializer(obj.GetType());
                 return (T)serializer.ReadObject(ms);
             }
-        }  
+        }
+        //父表的select结果集，返回datatable
+        public static DataTable TableToChildTB(DataTable dt, string condition)
+        {
+            DataTable newdt = new DataTable();
+            newdt = dt.Clone(); // 克隆dt 的结构，包括所有 dt 架构和约束,并无数据；
+            DataRow[] rows = dt.Select(condition); // 从dt 中查询符合条件的记录；
+            foreach (DataRow row in rows)  // 将查询的结果添加到dt中；
+            {
+                newdt.Rows.Add(row.ItemArray);
+            }
+            return newdt;
+        }
 
     }
 }

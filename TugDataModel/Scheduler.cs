@@ -32,6 +32,7 @@ namespace TugDataModel
         public string WorkCommencedTime { get; set; }
         public string WorkCompletedTime { get; set; }
         public string ArrivalBaseTime { get; set; }
+        public string ServiceHours { get; set; }
         public string RopeUsed { get; set; }
         public Nullable<int> RopeNum { get; set; }
         public string Remark { get; set; }

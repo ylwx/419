@@ -177,13 +177,13 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                List<Arrangement> Arrangements = db.Arrangement.Select(u => u).OrderByDescending(u => u.IDX).ToList<Arrangement>();
+                List<V_Arrangement> Arrangements = db.V_Arrangement.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_Arrangement>();
                 int totalRecordNum = Arrangements.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
                 int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                //List<Arrangement> page_Arrangements = Arrangements.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<Arrangement>();
+                //List<V_Arrangement> page_Arrangements = Arrangements.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<Arrangement>();
 
                 var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = Arrangements };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);

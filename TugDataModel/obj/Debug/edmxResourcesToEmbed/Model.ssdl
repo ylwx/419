@@ -557,6 +557,7 @@
     <Property Name="WorkCommencedTime" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkCompletedTime" Type="nvarchar" MaxLength="50" />
     <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceHours" Type="nvarchar" MaxLength="50" />
     <Property Name="RopeUsed" Type="nvarchar" MaxLength="50" />
     <Property Name="RopeNum" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
@@ -584,6 +585,16 @@
     <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="testinv">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TugName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Item" Type="nvarchar" MaxLength="50" />
+    <Property Name="Value" Type="nvarchar" MaxLength="50" />
+    <Property Name="Service" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="TugInfor">
     <Key>
@@ -676,7 +687,7 @@
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_BaseTreeItems”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_BaseTreeItems”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_BaseTreeItems">
     <Key>
       <PropertyRef Name="IDX" />
@@ -689,7 +700,7 @@
     <Property Name="Name1" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_Billing">
     <Key>
       <PropertyRef Name="IDX" />
@@ -727,7 +738,7 @@
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_BillingItemTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_BillingItemTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_BillingItemTemplate">
     <Key>
       <PropertyRef Name="IDX" />
@@ -759,7 +770,7 @@
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_BillingTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_BillingTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_BillingTemplate">
     <Key>
       <PropertyRef Name="BillingTemplateIDX" />
@@ -797,7 +808,7 @@
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_Flow”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_Flow”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_Flow">
     <Key>
       <PropertyRef Name="IDX" />
@@ -815,7 +826,67 @@
     <Property Name="Phase" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_Invoice”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_Inv_BillingItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_BillingItem">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="UnitPrice" Type="float" />
+    <Property Name="Currency" Type="nvarchar" MaxLength="50" />
+    <Property Name="TugName" Type="nvarchar" MaxLength="50" />
+    <Property Name="SrvName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="SchedulerID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_Inv_Head”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_Head">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="OrderID" Type="int" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_Inv_OrdService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_OrdService">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
+    <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_Inv_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_Scheduler">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceHours" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name1" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderID" Type="int" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="TugID" Type="int" />
+    <Property Name="RopeUsed" Type="nvarchar" MaxLength="50" />
+    <Property Name="RopeNum" Type="int" />
+    <Property Name="CustomValue" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“419.dbo.V_Invoice”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_Invoice">
     <Key>
       <PropertyRef Name="BillingID" />
@@ -885,11 +956,9 @@
     <Property Name="UnitPrice" Type="float" />
     <Property Name="Currency" Type="nvarchar" MaxLength="50" />
     <Property Name="PositionTypeID" Type="int" />
-    <Property Name="PositionTypeValue" Type="nvarchar" MaxLength="50" />
-    <Property Name="PositionTypeLabel" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_NeedApproveBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_NeedApproveBilling">
     <Key>
       <PropertyRef Name="IDX" />
@@ -913,7 +982,7 @@
     <Property Name="Discount" Type="float" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_OrderBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_OrderBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_OrderBilling">
     <Key>
       <PropertyRef Name="OrderID" />
@@ -955,7 +1024,7 @@
     <Property Name="BillingLastUpDate" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_OrderBillingCredit”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_OrderBillingCredit”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_OrderBillingCredit">
     <Key>
       <PropertyRef Name="OrderID" />
@@ -1005,7 +1074,7 @@
     <Property Name="CreditLastUpDate" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_OrderInfor”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_OrderInfor”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_OrderInfor">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1050,7 +1119,7 @@
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_OrderScheduler">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1106,7 +1175,7 @@
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_OrderService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_OrderService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_OrderService">
     <Key>
       <PropertyRef Name="OrderID" />
@@ -1144,7 +1213,7 @@
     <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_RoleMenu">
     <Key>
       <PropertyRef Name="RoleID" />
@@ -1161,7 +1230,7 @@
     <Property Name="Remark" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_RoleModule”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_RoleModule”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_RoleModule">
     <Key>
       <PropertyRef Name="RoleID" />
@@ -1176,7 +1245,7 @@
     <Property Name="ModuleID" Type="int" Nullable="false" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_RoleUser”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_RoleUser”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_RoleUser">
     <Key>
       <PropertyRef Name="RoleID" />
@@ -1195,7 +1264,7 @@
     <Property Name="IDX" Type="int" Nullable="false" />
   </EntityType>
   <!--生成过程中发现错误:
-警告 6002: 表/视图“hds153625288_db.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“419.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_Users">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1399,6 +1468,7 @@
     <EntitySet Name="RoleModule" EntityType="Self.RoleModule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Scheduler" EntityType="Self.Scheduler" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="testinv" EntityType="Self.testinv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TugInfor" EntityType="Self.TugInfor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserInfor" EntityType="Self.UserInfor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UsersRole" EntityType="Self.UsersRole" Schema="dbo" store:Type="Tables" />
@@ -1526,6 +1596,54 @@
     [V_Flow].[Phase] AS [Phase]
     FROM [dbo].[V_Flow] AS [V_Flow]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="V_Inv_BillingItem" EntityType="Self.V_Inv_BillingItem" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_BillingItem].[IDX] AS [IDX], 
+    [V_Inv_BillingItem].[UnitPrice] AS [UnitPrice], 
+    [V_Inv_BillingItem].[Currency] AS [Currency], 
+    [V_Inv_BillingItem].[TugName] AS [TugName], 
+    [V_Inv_BillingItem].[SrvName] AS [SrvName], 
+    [V_Inv_BillingItem].[ItemName] AS [ItemName], 
+    [V_Inv_BillingItem].[ItemCode] AS [ItemCode], 
+    [V_Inv_BillingItem].[SchedulerID] AS [SchedulerID]
+    FROM [dbo].[V_Inv_BillingItem] AS [V_Inv_BillingItem]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_Head" EntityType="Self.V_Inv_Head" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_Head].[IDX] AS [IDX], 
+    [V_Inv_Head].[OrderID] AS [OrderID], 
+    [V_Inv_Head].[BillingCode] AS [BillingCode], 
+    [V_Inv_Head].[CreateDate] AS [CreateDate], 
+    [V_Inv_Head].[CustomerName] AS [CustomerName], 
+    [V_Inv_Head].[ShipName] AS [ShipName]
+    FROM [dbo].[V_Inv_Head] AS [V_Inv_Head]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_OrdService" EntityType="Self.V_Inv_OrdService" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_OrdService].[IDX] AS [IDX], 
+    [V_Inv_OrdService].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Inv_OrdService].[ServiceWorkDate] AS [ServiceWorkDate], 
+    [V_Inv_OrdService].[ServiceWorkPlace] AS [ServiceWorkPlace], 
+    [V_Inv_OrdService].[CustomLabel] AS [CustomLabel], 
+    [V_Inv_OrdService].[OrderID] AS [OrderID]
+    FROM [dbo].[V_Inv_OrdService] AS [V_Inv_OrdService]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_Scheduler" EntityType="Self.V_Inv_Scheduler" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_Scheduler].[IDX] AS [IDX], 
+    [V_Inv_Scheduler].[DepartBaseTime] AS [DepartBaseTime], 
+    [V_Inv_Scheduler].[ArrivalBaseTime] AS [ArrivalBaseTime], 
+    [V_Inv_Scheduler].[ServiceHours] AS [ServiceHours], 
+    [V_Inv_Scheduler].[Name1] AS [Name1], 
+    [V_Inv_Scheduler].[CustomLabel] AS [CustomLabel], 
+    [V_Inv_Scheduler].[OrderID] AS [OrderID], 
+    [V_Inv_Scheduler].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Inv_Scheduler].[TugID] AS [TugID], 
+    [V_Inv_Scheduler].[RopeUsed] AS [RopeUsed], 
+    [V_Inv_Scheduler].[RopeNum] AS [RopeNum], 
+    [V_Inv_Scheduler].[CustomValue] AS [CustomValue]
+    FROM [dbo].[V_Inv_Scheduler] AS [V_Inv_Scheduler]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="V_Invoice" EntityType="Self.V_Invoice" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_Invoice].[CustomerID] AS [CustomerID], 
@@ -1591,9 +1709,7 @@
     [V_Invoice].[BillingItemLabel] AS [BillingItemLabel], 
     [V_Invoice].[UnitPrice] AS [UnitPrice], 
     [V_Invoice].[Currency] AS [Currency], 
-    [V_Invoice].[PositionTypeID] AS [PositionTypeID], 
-    [V_Invoice].[PositionTypeValue] AS [PositionTypeValue], 
-    [V_Invoice].[PositionTypeLabel] AS [PositionTypeLabel]
+    [V_Invoice].[PositionTypeID] AS [PositionTypeID]
     FROM [dbo].[V_Invoice] AS [V_Invoice]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_NeedApproveBilling" EntityType="Self.V_NeedApproveBilling" store:Type="Views" store:Schema="dbo">
