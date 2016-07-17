@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TugBusinessLogic
 {
@@ -11,6 +12,7 @@ namespace TugBusinessLogic
     {
         public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)
         {
+            //return System.Web.HttpContext.Current.Response.Redirect("Home\Login");
             return (T)session[key];
         }
 

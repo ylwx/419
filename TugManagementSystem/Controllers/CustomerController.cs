@@ -31,7 +31,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.Name1 = Request.Form["Name1"];
                         cstmer.Name2 = Request.Form["Name2"];
                         cstmer.SimpleName = Request.Form["SimpleName"];
-                        cstmer.TypeID = Convert.ToInt32(Request.Form["TypeID"]);
+                        cstmer.TypeID = Util.toint(Request.Form["TypeID"]);
                         cstmer.ContactPerson = Request.Form["ContactPerson"];
                         cstmer.Telephone = Request.Form["Telephone"];
                         cstmer.Fax = Request.Form["Fax"];
@@ -51,13 +51,13 @@ namespace TugManagementSystem.Controllers
                             cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -88,7 +88,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Util.toint(Request.Form["IDX"]);
                     Customer cstmer = db.Customer.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (cstmer == null)
@@ -101,7 +101,7 @@ namespace TugManagementSystem.Controllers
                         cstmer.Name1 = Request.Form["Name1"];
                         cstmer.Name2 = Request.Form["Name2"];
                         cstmer.SimpleName = Request.Form["SimpleName"];
-                        cstmer.TypeID = Convert.ToInt32(Request.Form["TypeID"]);
+                        cstmer.TypeID =Util.toint(Request.Form["TypeID"]);
                         cstmer.ContactPerson = Request.Form["ContactPerson"];
                         cstmer.Telephone = Request.Form["Telephone"];
                         cstmer.Fax = Request.Form["Fax"];
@@ -121,13 +121,13 @@ namespace TugManagementSystem.Controllers
                             cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -180,13 +180,13 @@ namespace TugManagementSystem.Controllers
                     //    cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                     //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                    //    cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                    //    cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                     //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                    //    cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                    //    cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                     //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                    //    cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                    //    cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                     cstmer.UserDefinedCol9 = "";
                     cstmer.UserDefinedCol10 = "";
@@ -223,7 +223,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 Customer cstmer = db.Customer.FirstOrDefault(u => u.IDX == idx);
@@ -418,13 +418,13 @@ namespace TugManagementSystem.Controllers
 
                             cstmer.BillingTemplateCode = Request.Form["BillingTemplateCode"].Trim();
                             cstmer.BillingTemplateName = Request.Form["BillingTemplateName"].Trim();
-                            cstmer.BillingTemplateTypeID = Convert.ToInt32(Request.Form["BillingTemplateTypeID"].Trim());
+                            cstmer.BillingTemplateTypeID = Util.toint(Request.Form["BillingTemplateTypeID"].Trim());
 
                             cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                             cstmer.CustomerID = custId; // Convert.ToInt32(customerId);
                             cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"].Trim();
-                            cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"].Trim());
+                            cstmer.TimeTypeID = Util.toint(Request.Form["TimeTypeID"].Trim());
 
                             cstmer.Discount = Convert.ToDouble(Request.Form["Discount"].Trim());
 
@@ -440,13 +440,13 @@ namespace TugManagementSystem.Controllers
                                 cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                             if (Request.Form["UserDefinedCol6"].Trim() != "")
-                                cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                                cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                             if (Request.Form["UserDefinedCol7"].Trim() != "")
-                                cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                                cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                             if (Request.Form["UserDefinedCol8"].Trim() != "")
-                                cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                                cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                             cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
                             cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
@@ -478,7 +478,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["BillingTemplateIDX"]);
+                    int idx = Util.toint(Request.Form["BillingTemplateIDX"]);
                     BillingTemplate cstmer = db.BillingTemplate.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (cstmer == null)
@@ -486,7 +486,7 @@ namespace TugManagementSystem.Controllers
                         return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
                     //重名了
-                    if (true == CheckBillingTemplateName(Convert.ToInt32(Request.Form["CustomerID"].Trim()), Request.Form["BillingTemplateName"].Trim(), idx))
+                    if (true == CheckBillingTemplateName(Util.toint(Request.Form["CustomerID"].Trim()), Request.Form["BillingTemplateName"].Trim(), idx))
                     {
                         return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
                     }
@@ -494,11 +494,11 @@ namespace TugManagementSystem.Controllers
                     {
                         cstmer.BillingTemplateCode = Request.Form["BillingTemplateCode"].Trim();
                         cstmer.BillingTemplateName = Request.Form["BillingTemplateName"].Trim();
-                        cstmer.BillingTemplateTypeID = Convert.ToInt32(Request.Form["BillingTemplateTypeID"].Trim());
+                        cstmer.BillingTemplateTypeID = Util.toint(Request.Form["BillingTemplateTypeID"].Trim());
 
-                        cstmer.CustomerID = Convert.ToInt32(Request.Form["CustomerID"].Trim());
+                        cstmer.CustomerID = Util.toint(Request.Form["CustomerID"].Trim());
                         cstmer.TemplateCreditContent = Request.Form["TemplateCreditContent"].Trim();
-                        cstmer.TimeTypeID = Convert.ToInt32(Request.Form["TimeTypeID"].Trim());
+                        cstmer.TimeTypeID = Util.toint(Request.Form["TimeTypeID"].Trim());
 
                         cstmer.Discount = Convert.ToDouble(Request.Form["Discount"].Trim());
 
@@ -515,13 +515,13 @@ namespace TugManagementSystem.Controllers
                             cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                         if (Request.Form["UserDefinedCol6"].Trim() != "")
-                            cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                            cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                         if (Request.Form["UserDefinedCol7"].Trim() != "")
-                            cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                            cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                         if (Request.Form["UserDefinedCol8"].Trim() != "")
-                            cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                            cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                         cstmer.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
                         cstmer.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
@@ -580,13 +580,13 @@ namespace TugManagementSystem.Controllers
                     //    cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                     //if (Request.Form["UserDefinedCol6"] != "")
-                    //    cstmer.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                    //    cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                     //if (Request.Form["UserDefinedCol7"] != "")
-                    //    cstmer.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                    //    cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                     //if (Request.Form["UserDefinedCol8"] != "")
-                    //    cstmer.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                    //    cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                     cstmer.UserDefinedCol9 = "";
                     cstmer.UserDefinedCol10 = "";
@@ -615,7 +615,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 BillingTemplate cstmer = db.BillingTemplate.FirstOrDefault(u => u.IDX == idx);
@@ -732,11 +732,11 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     {
                         TugDataModel.BillingItemTemplate aScheduler = new BillingItemTemplate();
-                        aScheduler.BillingTemplateID = Convert.ToInt32(Request.Form["BillingTemplateID"].Trim());
-                        aScheduler.ItemID = Convert.ToInt32(Request.Form["ItemID"].Trim());
+                        aScheduler.BillingTemplateID = Util.toint(Request.Form["BillingTemplateID"].Trim());
+                        aScheduler.ItemID = Util.toint(Request.Form["ItemID"].Trim());
                         aScheduler.UnitPrice = Convert.ToDouble(Request.Form["UnitPrice"].Trim());
                         aScheduler.Currency = Request.Form["Currency".Trim()];
-                        aScheduler.TypeID = Convert.ToInt32(Request.Form["TypeID"].Trim());
+                        aScheduler.TypeID = Util.toint(Request.Form["TypeID"].Trim());
                         
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
@@ -752,13 +752,13 @@ namespace TugManagementSystem.Controllers
                             aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                         if (Request.Form["UserDefinedCol6"].Trim() != "")
-                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                            aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                         if (Request.Form["UserDefinedCol7"].Trim() != "")
-                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                            aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                         if (Request.Form["UserDefinedCol8"].Trim() != "")
-                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                            aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                         aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
                         aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
@@ -789,7 +789,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Util.toint(Request.Form["IDX"]);
                     BillingItemTemplate aScheduler = db.BillingItemTemplate.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (aScheduler == null)
@@ -798,11 +798,11 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        aScheduler.BillingTemplateID = Convert.ToInt32(Request.Form["BillingTemplateID"].Trim());
-                        aScheduler.ItemID = Convert.ToInt32(Request.Form["ItemID"].Trim());
+                        aScheduler.BillingTemplateID = Util.toint(Request.Form["BillingTemplateID"].Trim());
+                        aScheduler.ItemID = Util.toint(Request.Form["ItemID"].Trim());
                         aScheduler.UnitPrice = Convert.ToDouble(Request.Form["UnitPrice"].Trim());
                         aScheduler.Currency = Request.Form["Currency"].Trim();
-                        aScheduler.TypeID = Convert.ToInt32(Request.Form["TypeID"].Trim());
+                        aScheduler.TypeID = Util.toint(Request.Form["TypeID"].Trim());
 
                         
                         aScheduler.OwnerID = -1;
@@ -818,13 +818,13 @@ namespace TugManagementSystem.Controllers
                             aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                         if (Request.Form["UserDefinedCol6"].Trim() != "")
-                            aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                            aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                         if (Request.Form["UserDefinedCol7"].Trim() != "")
-                            aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                            aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                         if (Request.Form["UserDefinedCol8"].Trim() != "")
-                            aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                            aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                         aScheduler.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
                         aScheduler.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
@@ -875,13 +875,13 @@ namespace TugManagementSystem.Controllers
                     //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                     //if (Request.Form["UserDefinedCol6"] != "")
-                    //    aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                    //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                     //if (Request.Form["UserDefinedCol7"] != "")
-                    //    aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                    //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                     //if (Request.Form["UserDefinedCol8"] != "")
-                    //    aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                    //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                     aScheduler.UserDefinedCol9 = "";
                     aScheduler.UserDefinedCol10 = "";
@@ -911,7 +911,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 BillingItemTemplate aScheduler = db.BillingItemTemplate.FirstOrDefault(u => u.IDX == idx);

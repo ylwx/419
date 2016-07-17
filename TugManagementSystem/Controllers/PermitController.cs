@@ -91,13 +91,13 @@ namespace TugManagementSystem.Controllers
                     userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                 if (Request.Form["UserDefinedCol6"] != "")
-                    userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                    userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                 if (Request.Form["UserDefinedCol7"] != "")
-                    userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                    userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                 if (Request.Form["UserDefinedCol8"] != "")
-                    userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                    userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                 userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                 userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -137,13 +137,13 @@ namespace TugManagementSystem.Controllers
                     roleModule.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                 if (Request.Form["UserDefinedCol6"] != "")
-                    roleModule.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                    roleModule.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                 if (Request.Form["UserDefinedCol7"] != "")
-                    roleModule.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                    roleModule.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                 if (Request.Form["UserDefinedCol8"] != "")
-                    roleModule.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                    roleModule.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                 roleModule.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                 roleModule.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -187,13 +187,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -224,7 +224,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Util.toint(Request.Form["IDX"]);
                     Role userRole = db.Role.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (userRole == null)
@@ -250,13 +250,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -286,7 +286,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 Role userRole = db.Role.FirstOrDefault(u => u.IDX == idx);
@@ -385,13 +385,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -422,7 +422,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Util.toint(Request.Form["IDX"]);
                     FunctionModule userRole = db.FunctionModule.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (userRole == null)
@@ -448,13 +448,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -484,7 +484,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 FunctionModule userRole = db.FunctionModule.FirstOrDefault(u => u.IDX == idx);
@@ -612,13 +612,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -649,7 +649,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Util.toint(Request.Form["IDX"]);
                     UsersRole userRole = db.UsersRole.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (userRole == null)
@@ -675,13 +675,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -711,7 +711,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 UsersRole userRole = db.UsersRole.FirstOrDefault(u => u.IDX == idx);
@@ -791,7 +791,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 RoleModule userRole = db.RoleModule.FirstOrDefault(u => u.IDX == idx);
@@ -843,13 +843,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -880,7 +880,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Util.toint(Request.Form["IDX"]);
                     RoleModule userRole = db.RoleModule.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (userRole == null)
@@ -907,13 +907,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -1068,13 +1068,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -1105,7 +1105,7 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
 
-                    int idx = Convert.ToInt32(Request.Form["IDX"]);
+                    int idx = Util.toint(Request.Form["IDX"]);
                     RoleMenu userRole = db.RoleMenu.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (userRole == null)
@@ -1132,13 +1132,13 @@ namespace TugManagementSystem.Controllers
                             userRole.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
                         if (Request.Form["UserDefinedCol6"] != "")
-                            userRole.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+                            userRole.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
                         if (Request.Form["UserDefinedCol7"] != "")
-                            userRole.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+                            userRole.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
                         if (Request.Form["UserDefinedCol8"] != "")
-                            userRole.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+                            userRole.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
                         userRole.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
                         userRole.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -1168,7 +1168,7 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
+                int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
                 RoleMenu userRole = db.RoleMenu.FirstOrDefault(u => u.IDX == idx);
@@ -1230,13 +1230,13 @@ namespace TugManagementSystem.Controllers
                     //    role.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                     //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                    //    role.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                    //    role.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                     //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                    //    role.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                    //    role.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                     //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                    //    role.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                    //    role.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                     role.UserDefinedCol9 = "";
                     role.UserDefinedCol10 = "";
@@ -1334,13 +1334,13 @@ namespace TugManagementSystem.Controllers
         //                    role.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
         //                if (Request.Form["UserDefinedCol6"] != "")
-        //                    role.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                    role.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
         //                if (Request.Form["UserDefinedCol7"] != "")
-        //                    role.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                    role.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
         //                if (Request.Form["UserDefinedCol8"] != "")
-        //                    role.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                    role.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
         //                role.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
         //                role.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -1371,7 +1371,7 @@ namespace TugManagementSystem.Controllers
         //        {
         //            TugDataEntities db = new TugDataEntities();
 
-        //            int idx = Convert.ToInt32(Request.Form["IDX"]);
+        //            int idx = Util.toint(Request.Form["IDX"]);
         //            Role role = db.Role.Where(u => u.IDX == idx).FirstOrDefault();
 
         //            if (role == null)
@@ -1396,13 +1396,13 @@ namespace TugManagementSystem.Controllers
         //                    role.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
         //                if (Request.Form["UserDefinedCol6"] != "")
-        //                    role.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                    role.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
         //                if (Request.Form["UserDefinedCol7"] != "")
-        //                    role.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                    role.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
         //                if (Request.Form["UserDefinedCol8"] != "")
-        //                    role.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                    role.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
         //                role.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
         //                role.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -1450,13 +1450,13 @@ namespace TugManagementSystem.Controllers
         //                    module.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
         //                if (Request.Form["UserDefinedCol6"] != "")
-        //                    module.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                    module.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
         //                if (Request.Form["UserDefinedCol7"] != "")
-        //                    module.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                    module.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
         //                if (Request.Form["UserDefinedCol8"] != "")
-        //                    module.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                    module.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
         //                module.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
         //                module.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
@@ -1487,7 +1487,7 @@ namespace TugManagementSystem.Controllers
         //        {
         //            TugDataEntities db = new TugDataEntities();
 
-        //            int idx = Convert.ToInt32(Request.Form["IDX"]);
+        //            int idx = Util.toint(Request.Form["IDX"]);
         //            FunctionModule module = db.FunctionModule.Where(u => u.IDX == idx).FirstOrDefault();
 
         //            if (module == null)
@@ -1510,13 +1510,13 @@ namespace TugManagementSystem.Controllers
         //                    module.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
         //                if (Request.Form["UserDefinedCol6"] != "")
-        //                    module.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"]);
+        //                    module.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
 
         //                if (Request.Form["UserDefinedCol7"] != "")
-        //                    module.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"]);
+        //                    module.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
 
         //                if (Request.Form["UserDefinedCol8"] != "")
-        //                    module.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"]);
+        //                    module.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
 
         //                module.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
         //                module.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
