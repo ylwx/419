@@ -208,7 +208,7 @@
                     <div id="_CustomerID" hidden>-1</div>
                     <div id="_ShipID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                    <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
                 </div>
             </div>
         </div>
@@ -462,24 +462,24 @@
                                                             <option value="">2</option>
                                                             <option value="">3</option>
                                                         </select>
-                                            </div>
+                                                    </div>
                                                     <div class="col-xs-3">
                                                         账单类型
                                                         @*<select id="sel_billing_type" class="form-control" onchange="btnClick()">
-                                                                <option value="">1</option>
-                                                                <option value="">2</option>
-                                                                <option value="">3</option>
-                                                            </select>*@
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>*@
 
                                                         <input id="edit_sel_billing_type" type="text" class="form-control" readonly />
                                                     </div>
                                                     <div class="col-xs-3">
                                                         计时方式
                                                         @*<select id="sel_time_type" class="form-control" onchange="btnClick()">
-                                                                <option value="">1</option>
-                                                                <option value="">2</option>
-                                                                <option value="">3</option>
-                                                            </select>*@
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>*@
                                                         <input id="edit_sel_time_type" type="text" class="form-control" readonly />
                                                     </div>
 
@@ -487,8 +487,8 @@
                                                         折扣
                                                         <input id="edit_txt_discount" type="text" class="form-control" readonly />
                                                     </div>
-                                            </div>
-                                            
+                                                </div>
+
                                                 <div style="margin:8px;padding:0px; width:940px;height:1px;background-color:black;overflow:hidden;"></div>
 
                                                 <div id="edit_div_services" class="col-md-12">
@@ -499,10 +499,10 @@
                                                         <p>服务项目:<br>SERVICE:</p>
                                                         <p>服务项目:<br>SERVICE:</p>
                                                         <p>服务项目:<br>SERVICE:</p>
-                                        </div>
+                                                    </div>
                                                     <div class="col-md-8">
                                                         <p>服务项目:<br>SERVICE:</p>
-                                    </div>
+                                                    </div>
                                                 </div>
 
                                                 <div style="margin: 8px; padding: 0px; width: 940px; height: 1px; background-color: black; overflow: hidden;"></div>
@@ -606,22 +606,22 @@
                                                         </tfoot>
                                                     </table>
                                                 </div>
-                                </div>
+                                            </div>
 
                                             <div class="tab-pane fade" id="edit_box_tab2">
                                                 <p>Content #2</p>
                                                 <p> There were flying cantaloupes, rainbows and songs of happiness near by, I mean I was a little frightened by the flying fruit but I'll take this any day over prison inmates. I skipped closer and closer to the festivities and when I arrived I seen all my friends I had went to high school with there were holding hands and singing Kumbayah around the camp ice.. Yes It was a giant block of ice situated on three wood logs. </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitEditVoiceModal()">提交</button>
+                    <button id ="edit_btn_sumbit" type="button" class="btn btn-primary" onclick="submitEditVoiceModal()">提交</button>
                 </div>
             </div>
         </div>
@@ -1916,6 +1916,7 @@
             var array = GetTiaoKuanTBodyData();
             jsonArrayItems = JSON.stringify(array);
         }
+        $("#add_btn_sumbit").attr("disabled", true);
 
         $.ajax({
             url: '@Url.Action("AddBill", "Finance")',
@@ -1949,6 +1950,10 @@
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                 
                // $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Finance")' });
+            },
+
+            error: function (xhr) {
+                $("#add_btn_sumbit").attr("disabled", false);
             }
         });
     }
@@ -2203,7 +2208,7 @@
 
             //7
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -2389,7 +2394,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -2796,7 +2801,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -3137,7 +3142,7 @@
 
             //7
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -3323,7 +3328,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -3730,7 +3735,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -4006,6 +4011,8 @@
     }
 </script>
 
+
+
 <!--查看模态框-->
 <script type="text/javascript">
     var g_curRowId = '';
@@ -4108,6 +4115,7 @@
     $('#view-modal').on('hidden.bs.modal', function () {
         $(this).removeData("bs.modal");
     });
+
 </script>
 
 <!--查看模态框里的生成报表-->
@@ -4343,7 +4351,7 @@
 
             //7
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -4546,7 +4554,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -5024,7 +5032,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -5418,7 +5426,7 @@
 
             //7
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -5625,7 +5633,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -6104,7 +6112,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -6539,6 +6547,103 @@
     $('#edit-modal').on('hidden.bs.modal', function () {
         $(this).removeData("bs.modal");
     });
+
+    function submitEditVoiceModal() {
+        $('#parentErrMsg').hide();
+
+
+        //提交数据库
+
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+        var customerBillingScheme = $("#edit_sel_billing_scheme").val().toString();
+
+        var billingTemplateId = customerBillingScheme.split('%')[0].split('~')[0];
+
+        var billingTypeId = customerBillingScheme.split('%')[1].split('~')[0];
+        var billingTypeValue = customerBillingScheme.split('%')[1].split('~')[1];
+        var billingTypeLabel = customerBillingScheme.split('%')[1].split('~')[2];
+
+        var timeTypeId = customerBillingScheme.split('%')[2].split('~')[0];
+        var timeTypeValue = customerBillingScheme.split('%')[2].split('~')[1];
+        var timeTypeLabel = customerBillingScheme.split('%')[2].split('~')[2];
+
+        var discount = $('#edit_txt_discount').val();
+        var amount = $('td[id="GrandTotalHKS"]').text();
+
+        var jsonArrayItems;
+        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包") {
+            var ret = CheckQuanBaoTBodyData();
+            if (ret == false) {
+                alert("存在无效数据，请检查价格输入");
+                return;
+            }
+
+            var array = GetQuanBaoTBodyData();
+            jsonArrayItems = JSON.stringify(array);
+
+        }
+        if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            var ret = CheckBanBaoTBodyData();
+
+            if (ret == false) {
+                alert("存在无效数据，请检查价格输入");
+                return;
+            }
+            var array = GetBanBaoTBodyData();
+            jsonArrayItems = JSON.stringify(array);
+        }
+        if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            var ret = CheckTiaoKuanTBodyData();
+            if (ret == false) {
+                alert("存在无效数据，请检查价格输入");
+                return;
+            }
+            var array = GetTiaoKuanTBodyData();
+            jsonArrayItems = JSON.stringify(array);
+        }
+        $("#edit_btn_sumbit").attr("disabled", true);
+
+        $.ajax({
+            url: '@Url.Action("EditBill", "Finance")',
+            type: "POST",
+            data: {
+                'orderId': dr.OrderID,
+                'billingTemplateId': billingTemplateId,
+                'billingTypeId': billingTypeId,
+                'timeTypeId': timeTypeId,
+                'discount': discount,
+                'amount': amount,
+                'jsonArrayItems': jsonArrayItems
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                $('#edit-modal').modal('hide')
+
+                alert(result.message);
+
+                $('#jqGrid').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetInvoiceData", "Finance")',
+                }).trigger('reloadGrid');
+
+                $('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+
+                // $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Finance")' });
+            },
+
+            error: function (xhr) {
+                $("#edit_btn_sumbit").attr("disabled", false);
+            }
+        });
+    }
+
 </script>
 
 <!--编辑模态框里的生成报表-->
@@ -6774,7 +6879,7 @@
 
             //7
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -6977,7 +7082,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -7455,7 +7560,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -7849,7 +7954,7 @@
 
             //7
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -8056,7 +8161,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -8535,7 +8640,7 @@
 
             //8
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle"><strong>折扣后合计港币</strong></td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
