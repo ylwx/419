@@ -22,5 +22,6 @@ namespace TugDataModel
         public string ItemName { get; set; }
         public string ItemCode { get; set; }
         public Nullable<int> SchedulerID { get; set; }
+        public string SrvCode { get; set; }
     }
 }
