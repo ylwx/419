@@ -274,13 +274,13 @@ namespace TugManagementSystem.Controllers
                     //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                     //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                    //    aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                    //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                     //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                    //    aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                    //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                     //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                    //    aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                    //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                     aScheduler.UserDefinedCol9 = "";
                     aScheduler.UserDefinedCol10 = "";
@@ -312,13 +312,13 @@ namespace TugManagementSystem.Controllers
                             //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
                             //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                            //    aScheduler.UserDefinedCol6 = Convert.ToInt32(Request.Form["UserDefinedCol6"].Trim());
+                            //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
                             //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                            //    aScheduler.UserDefinedCol7 = Convert.ToInt32(Request.Form["UserDefinedCol7"].Trim());
+                            //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
                             //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                            //    aScheduler.UserDefinedCol8 = Convert.ToInt32(Request.Form["UserDefinedCol8"].Trim());
+                            //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
                             bi.UserDefinedCol9 = "";
                             bi.UserDefinedCol10 = "";

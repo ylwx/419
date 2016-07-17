@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using TugBusinessLogic;
+using TugBusinessLogic.Module;
 using TugDataModel;
 
 namespace TugManagementSystem.Controllers
@@ -241,7 +242,7 @@ namespace TugManagementSystem.Controllers
         public ActionResult RepealSubmit(Billing data)
         {
             int id = data.IDX;
-            int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
+            int idx = Util.toint(Request.Form["data[IDX]"].Trim());
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
             Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
@@ -285,7 +286,7 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult RepealPass()
         {
-            int idx = Convert.ToInt32(Request.Form["data[IDX]"].Trim());
+            int idx = Util.toint(Request.Form["data[IDX]"].Trim());
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
             Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
