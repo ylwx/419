@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Invoice";
+    ViewBag.Title = @Resources.Language.InvoiceManage;
     ViewBag.MenuId = "menu6";
     ViewBag.SubMenuIndex = 0;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
@@ -686,7 +686,7 @@
                                     <a href="#">@Resources.Language.Finance</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.GenerateInvoice
+                                    @Resources.Language.InvoiceManage
                                 </li>
                             </ul>
                             <!-- /BREADCRUMBS -->
@@ -720,7 +720,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.Order</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.InvoiceManage</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
                                 <table id="jqGrid"></table>
@@ -789,6 +789,8 @@
                         $('#jqGrid_ilView').addClass('ui-state-disabled');
                         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilReport').addClass('ui-state-disabled');
+                        
                         
                     }
                     else {
@@ -802,6 +804,8 @@
                             $('#jqGrid_ilView').addClass('ui-state-disabled');
                             $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                             $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                            $('#jqGrid_ilReport').addClass('ui-state-disabled');
+                            
                         }
                         else {
 
@@ -809,6 +813,8 @@
                             $('#jqGrid_ilView').removeClass('ui-state-disabled');
                             $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
                             $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                            $('#jqGrid_ilReport').removeClass('ui-state-disabled');
+                            
                         }
 
                     }
@@ -884,7 +890,7 @@
                     }
                 })
                 .navButtonAdd('#jqGridPager', {
-                    caption: "清除", title: "清除搜索项", buttonicon: "ui-icon-circle-minus",
+                    caption: "", title: "清除搜索项", buttonicon: "ui-icon-circle-minus",
                     onClickButton: function () {
                         var grid = $('#jqGrid')[0];
                         grid.clearToolbar();
@@ -929,6 +935,7 @@
                                         $('#jqGrid_ilView').addClass('ui-state-disabled');
                                         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                                         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                        $('#jqGrid_ilReport').addClass('ui-state-disabled');
                                         
 
                                         $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
@@ -1064,6 +1071,37 @@
                         }
                     },
 
+                }).navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ilReport',
+                    caption: "预览", title: "报表预览", buttonicon: "ui-icon-document",
+                    onClickButton: function () {
+
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        //alert(rowid);
+                        if (rowid != null) {
+                            g_curRowId = rowid;
+
+                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                            if (cell == null || cell == "") {
+                                alert('所选记录暂无账单，无法预览！');
+                                return;
+                            }
+                            else {
+                                //查看
+                                var orderId = $(this).jqGrid('getCell', rowid, "OrderID"); //OrderID
+                                var timeTypeId = $(this).jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
+                                var billingTypeId = $(this).jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
+                                var billingTypeValue = $(this).jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
+                                var billingTypeLabel = $(this).jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+
+                                ReportPreViewInvoice(orderId, timeTypeId, billingTypeId, billingTypeValue, billingTypeLabel);
+                            }
+                        }
+                        else {
+                            alert('选中一行');
+                        }
+                    },
+
                 });
 
             //最后调用，冻结列
@@ -1079,7 +1117,9 @@
                 $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
                 $('#jqGrid_ilView').addClass('ui-state-disabled');
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                $('#jqGrid_ilEdit').addClass('ui-state-disabled');                
+                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                $('#jqGrid_ilReport').addClass('ui-state-disabled');
+                
             }
             else {
                 //alert('没有全选');
@@ -1089,6 +1129,8 @@
                 $('#jqGrid_ilView').addClass('ui-state-disabled');
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                $('#jqGrid_ilReport').addClass('ui-state-disabled');
+                
             }
         });
 
@@ -1098,6 +1140,8 @@
         $('#jqGrid_ilView').addClass('ui-state-disabled');
         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+        $('#jqGrid_ilReport').addClass('ui-state-disabled');
+        
     }
 
     function GetTableConfig() {
@@ -1949,6 +1993,7 @@
                 $('#jqGrid_ilView').addClass('ui-state-disabled');
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                $('#jqGrid_ilReport').addClass('ui-state-disabled');
                 
                // $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Finance")' });
             },
@@ -6637,6 +6682,8 @@
                 $('#jqGrid_ilView').addClass('ui-state-disabled');
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                $('#jqGrid_ilReport').addClass('ui-state-disabled');
+                
 
                 // $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Finance")' });
             },
@@ -11413,6 +11460,23 @@
             }
 
             $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+        }
+
+    }
+</script>
+
+
+
+<!--报表预览-->
+<script>
+    function ReportPreViewInvoice(orderId, timeTypeId, billingTypeId, billingTypeValue, billingTypeLabel) {
+        if(billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            alert("全包或半包报表预览");
+        }
+        
+        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            alert("条款报表预览");
         }
 
     }
