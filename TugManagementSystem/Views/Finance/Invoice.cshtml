@@ -1365,10 +1365,10 @@
               cells: function (row, col, prop) {
                   var cellProperties = {};
 
-                  if (hot.getData()[row][prop] === '创建') {
-                      cellProperties.readOnly = true;
-                  }
-
+                  //if (hot.getData()[row][prop] === '创建') {
+                  //    cellProperties.readOnly = true;
+                  //}
+                  if (row == 0 && (col == 0 || col == 1)) cellProperties.readOnly = true;
                   return cellProperties;
               }
           });
@@ -1426,7 +1426,7 @@
 
               }
               jQuery.ajax({
-                  url: '/Flow/SubmitFlow',
+                  url: '/Flow/SubmitFlow' + '?billids=' + g_submit_billIds,
                   type: "POST",
                   dataType: "json",
                   contentType: 'application/json; charset=utf-8',

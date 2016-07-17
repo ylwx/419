@@ -180,7 +180,7 @@ namespace TugManagementSystem.Controllers
         }
         public JsonResult GetInitData()
         {
-            var uName1=Session.GetDataFromSession<int>("Name1");
+            var uName1=Session.GetDataFromSession<string>("Name1");
             var jsonData = new[]
                      {
                          new[] {"创建","" + uName1,"",""},
