@@ -547,6 +547,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 帳單管理 的本地化字符串。
+        /// </summary>
+        internal static string InvoiceManage {
+            get {
+                return ResourceManager.GetString("InvoiceManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 是管理員 的本地化字符串。
         /// </summary>
         internal static string IsAdmin {
