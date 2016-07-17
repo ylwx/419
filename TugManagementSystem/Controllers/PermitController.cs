@@ -70,6 +70,10 @@ namespace TugManagementSystem.Controllers
             TugDataEntities db = new TugDataEntities();
             foreach (int id in data)
             {
+                System.Linq.Expressions.Expression<Func<UsersRole, bool>> exp = u => u.UserID == id && u.RoleID==roleId;
+                UsersRole tmpUserRole = db.UsersRole.Where(exp).FirstOrDefault();
+                if(tmpUserRole != null) continue;  //判断该用户是否已存在
+
                 UsersRole userRole = new UsersRole();
                 userRole.UserID = id;
                 userRole.RoleID = roleId;
@@ -112,6 +116,10 @@ namespace TugManagementSystem.Controllers
             TugDataEntities db = new TugDataEntities();
             foreach (int id in data)
             {
+                System.Linq.Expressions.Expression<Func<RoleModule, bool>> exp = u => u.ModuleID == id && u.RoleID == roleId;
+                RoleModule tmpUserModule = db.RoleModule.Where(exp).FirstOrDefault();
+                if (tmpUserModule != null) continue;  //判断该模块是否已存在
+
                 RoleModule roleModule = new RoleModule();
                 roleModule.ModuleID = id;
                 roleModule.RoleID = roleId;

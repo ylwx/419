@@ -23,6 +23,8 @@ namespace TugManagementSystem.Controllers
         #region 发票，条款
         public ActionResult Invoice_tk()
         {
+            int OrderID; int TimeTypeValue;
+            OrderID = 10; TimeTypeValue = 0;//临时测试用
             DataSet dataSet = null;
             SetReport();
             WebReport webReport = new WebReport(); // create object
@@ -37,20 +39,20 @@ namespace TugManagementSystem.Controllers
             FileStream stream = new FileStream(@"D:\WDoc\SRC\SHIPWAY\419\419\TugManagementSystem\Report\invoice_tk.frx", FileMode.Open);
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
-            Report_DataRegister_tk(webReport.Report);
+            Report_DataRegister_tk(webReport.Report, OrderID, TimeTypeValue);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_tk = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_tk(FastReport.Report FReport)
+        private void Report_DataRegister_tk(FastReport.Report FReport, int OrderID, int TimeTypeValue)
         {
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal;
-            string strV_Inv_Head = string.Format(" OrderID = {0}", 6);
-            string strV_Inv_OrdService = string.Format(" OrderID = {0}", 6);
-            string strMData = string.Format(" OrderID = {0}", 6);
+            string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
+            string strV_Inv_OrdService = string.Format(" OrderID = {0}", OrderID);
+            string strMData = string.Format(" OrderID = {0}", OrderID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
@@ -63,14 +65,14 @@ namespace TugManagementSystem.Controllers
             {
                 ParameterName = "@OrderID",
                 Direction = ParameterDirection.Input,
-                Value = 6,
+                Value = OrderID,
                 DbType = DbType.Int16
             };
             SqlParameter para2 = new SqlParameter()
             {
                 ParameterName = "@TimeTypeValue",
                 Direction = ParameterDirection.Input,
-                Value = 0,
+                Value = TimeTypeValue,
                 DbType = DbType.Int16
             };
             SqlParameter[] param = new SqlParameter[] { para1, para2 };
@@ -86,7 +88,7 @@ namespace TugManagementSystem.Controllers
             FReport.RegisterData(dtDData, "DData");
             //下,Total HK$
             dtTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T1'");
-            FReport.RegisterData(dtTotal, "DData");
+            FReport.RegisterData(dtTotal, "Total");
             //脚,Grand Total HK$
             //dtMData = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
             //FReport.RegisterData(dtMData, "Total");
@@ -95,8 +97,10 @@ namespace TugManagementSystem.Controllers
         #endregion
 
         #region 全包，半包+条款
-        public ActionResult Invoice_qborbb()
+        public ActionResult Invoice_qborbb()//int OrderID, int TimeTypeValue
         {
+            int OrderID; int TimeTypeValue;
+            OrderID = 10; TimeTypeValue = 0;//临时测试用
             DataSet dataSet = null;
             SetReport();
             WebReport webReport = new WebReport(); // create object
@@ -111,20 +115,20 @@ namespace TugManagementSystem.Controllers
             FileStream stream = new FileStream(@"D:\WDoc\SRC\SHIPWAY\419\419\TugManagementSystem\Report\invoice_qb.frx", FileMode.Open);
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
-            Report_DataRegister_qborbb(webReport.Report);
+            Report_DataRegister_qborbb(webReport.Report, OrderID, TimeTypeValue);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_qborbb = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_qborbb(FastReport.Report FReport)
+        private void Report_DataRegister_qborbb(FastReport.Report FReport,int OrderID,int TimeTypeValue)
         {
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal;
-            string strV_Inv_Head = string.Format(" OrderID = {0}", 6);
-            string strV_Inv_OrdService = string.Format(" OrderID = {0}", 6);
-            string strMData = string.Format(" OrderID = {0}", 6);
+            string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
+            string strV_Inv_OrdService = string.Format(" OrderID = {0}", OrderID);
+            string strMData = string.Format(" OrderID = {0}", OrderID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
@@ -137,20 +141,20 @@ namespace TugManagementSystem.Controllers
             {
                 ParameterName = "@OrderID",
                 Direction = ParameterDirection.Input,
-                Value = 6,
+                Value = OrderID,
                 DbType = DbType.Int16
             };
             SqlParameter para2 = new SqlParameter()
             {
                 ParameterName = "@TimeTypeValue",
                 Direction = ParameterDirection.Input,
-                Value = 0,
+                Value = TimeTypeValue,
                 DbType = DbType.Int16
             };
             SqlParameter[] param = new SqlParameter[] { para1, para2 };
             dtContenData = SqlHelper.GetDatatableBySP("proc_inv_item_xy", param);
             //中
-            dtMData = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode like 'A%' or ItemCode like 'B%'");
+            dtMData = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode like 'A%' or ItemCode like 'B%'","ItemCode");
             FReport.RegisterData(dtMData, "MData");
             //中，Sub-total HK$
             dtSubTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T0'");
@@ -160,7 +164,7 @@ namespace TugManagementSystem.Controllers
             FReport.RegisterData(dtDData, "DData");
             //下,Total HK$
             dtTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T1'");
-            FReport.RegisterData(dtTotal, "DData");
+            FReport.RegisterData(dtTotal, "Total");
             //脚,Grand Total HK$
             //dtMData = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
             //FReport.RegisterData(dtMData, "Total");

@@ -302,6 +302,8 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
             return View();
         }
+
+        [JsonExceptionFilterAttribute]
         public ActionResult AddUser(string UserName,string Dept,string Sec,string Name1,string Name2,string WorkNumber,string Sex,string Tel,string Email)
         {
             this.Internationalization();
@@ -309,8 +311,26 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        TugDataModel.UserInfor usobj = new UserInfor();
+                        System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == UserName;
+                        UserInfor tmpUserName = db.UserInfor.Where(exp).FirstOrDefault();
+                        if (tmpUserName != null)
+                        {
+                            //Response.StatusCode = 404;
+                            //return Json(new { message = "用户名已存在！" });
+                            throw new Exception("用户名已存在！");
+                        }
 
+                        System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp1 = u => u.Name1 == Name1;
+                        UserInfor tmpName1 = db.UserInfor.Where(exp).FirstOrDefault();
+                        if (tmpName1 != null)
+                        {
+                            Response.StatusCode = 404;
+                            //var ret = new { message = "中文名已存在！" };
+                            //return Json(ret);
+                            throw new Exception("姓名1已存在！");
+                        }
+
+                        TugDataModel.UserInfor usobj = new UserInfor();
                         usobj.UserName =UserName;
                         usobj.Pwd = "1";
                         usobj.IsGuest = "false";
@@ -334,7 +354,6 @@ namespace TugManagementSystem.Controllers
                         usobj.UserDefinedCol2 = "";
                         usobj.UserDefinedCol3 = "";
                         usobj.UserDefinedCol4 = "";
-
                         //if (Request.Form["UserDefinedCol5"] != "")
                         //    usobj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
 
@@ -353,16 +372,14 @@ namespace TugManagementSystem.Controllers
                         usobj = db.UserInfor.Add(usobj);
                         db.SaveChanges();
 
-                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        var ret1 = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                         //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                        return Json(ret);
+                        return Json(ret1);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                    return Json(ret);
+                    throw ex;
                 }
         }
         public ActionResult UserAddEdit()
