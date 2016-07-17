@@ -50,7 +50,7 @@ namespace TugBusinessLogic.Module
                         dicServiceNature.Add(ms.ServiceId, ms);
 
                         var ships = list.Where(u => u.ServiceNatureID == item.ServiceNatureID)
-                            .Select(u => new { u.TugID, u.TugName1, u.TugName2, u.TugSimpleName, u.Power }).Distinct()
+                            .Select(u => new {u.SchedulerID, u.TugID, u.TugName1, u.TugName2, u.TugSimpleName, u.Power }).Distinct()
                             .OrderBy(u => u.TugName1).ToList();
 
                         List<MyScheduler> listScheduler = new List<MyScheduler>();
@@ -66,10 +66,11 @@ namespace TugBusinessLogic.Module
                                 //sch.TugEnName = ship.TugName2;
                                 //sch.TugSimpleName = ship.TugSimpleName;
                                 sch.TugPower = ship.Power;
-                                var schedulers = list.Where(u => u.ServiceNatureID == item.ServiceNatureID && u.TugID == ship.TugID)
+                                var schedulers = list.Where(u => u.ServiceNatureID == item.ServiceNatureID && u.SchedulerID == ship.SchedulerID)
                                     .OrderBy(u => u.OrderID).OrderBy(u => u.ServiceNatureID)
                                     .Select(u => new
                                     {
+                                        u.SchedulerID,
                                         u.TugID,
                                         u.TugName1,
                                         u.TugName2,
@@ -96,6 +97,7 @@ namespace TugBusinessLogic.Module
 
                                 if (schedulers != null && schedulers.Count > 0)
                                 {
+                                    sch.SchedulerID = (int)schedulers[0].SchedulerID;
                                     //sch.InformCaptainTime = schedulers[0].InformCaptainTime;
                                     //sch.CaptainConfirmTime = schedulers[0].CaptainConfirmTime;
                                     sch.DepartBaseTime = schedulers[0].DepartBaseTime;
@@ -319,7 +321,7 @@ namespace TugBusinessLogic.Module
                                 {
                                     mySch.UnitPrice = mySch.Price = mySch.SubTotaHKS = 0;
                                 }
-                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS * _invoice.Discount, 2);
+                                mySch.DiscountSubTotalHKS = Math.Round(mySch.SubTotaHKS, 2);
                                 mySch.TotalHKs = mySch.DiscountSubTotalHKS;
                                 grandTotal += mySch.TotalHKs;
                             }
