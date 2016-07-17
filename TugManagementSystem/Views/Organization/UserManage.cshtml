@@ -9,21 +9,21 @@
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="model-dlg" class="modal-dialog" style="width:800px">
             <div class="modal-content modal-table">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box border blue">
-                                <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>@Resources.Language.UserInfor_NewUser</h4>
-                                    <div class="tools hidden-xs">
-                                        <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
-                                            <i class="fa fa-times"></i>
-                                        </a>
+                <form class="form-horizontal" role="form" method="post" onsubmit="return submitParentModal()">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box border blue">
+                                    <div class="box-title">
+                                        <h4><i class="fa fa-windows"></i>@Resources.Language.UserInfor_NewUser</h4>
+                                        <div class="tools hidden-xs">
+                                            <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="box-body big">
-                                    @*<h4 class="form-title">Supported controls</h4>*@
-                                    <form class="form-horizontal" role="form">
+                                    <div class="box-body big">
+                                        @*<h4 class="form-title">Supported controls</h4>*@
 
                                         <div class="row">
                                             <div class="col-sm-6">
@@ -43,7 +43,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -62,7 +61,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -81,7 +79,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -100,7 +97,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -111,20 +107,23 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
-                                    <div id="parentErrMsg" class="alert alert-block alert-warning fade in" hidden>
-                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
-                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                        <div id="parentErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                            @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                            <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                        <button type="submit" class="btn btn-primary">@Resources.Language.Submit</button>
+                        @*<button type="submit" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>*@
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
@@ -458,7 +457,7 @@
                 {
                     align: 'center', label: '@Resources.Language.Org_Pwd', name: "Pwd", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, colmenu: false,
-                    hidden: false,
+                    hidden: true,
                     //searchoptions: { sopt: ["cn"] }
                     //searchoptions: { sopt: ["ge", "le"] }
                 },
@@ -708,7 +707,7 @@
         //提交数据库
         $.ajax({
             type: "post",
-            url: '@Url.Action("AddUser", "Organization")',
+            url:"/Organization/AddUser",
             data: {
                 'UserName': _UserName,
                 'Dept': _Dept,
@@ -722,22 +721,24 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-
                 $('#parent-modal').modal('hide')
-                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 alert(result.message);
 
                 $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("UserGetDataForLoadOnce", "Organization")',
+                    url:"/Organization/UserGetDataForLoadOnce",
                 }).trigger('reloadGrid');
 
-                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("UserAddEdit", "Organization")' });
+                $("#jqGrid").jqGrid('setGridParam', { editurl:"/Organization/UserAddEdit"});
 
             },
+            error: function (result) {
+                console.log(result)
+                alert(result.message);
+            }
         });
+        return false;
 
     }
 </script>

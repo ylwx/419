@@ -20,11 +20,9 @@ namespace TugManagementSystem.Controllers
             {
                 int curUserId = 0;
                 TugDataEntities db = new TugDataEntities();
-                System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name;
-                UserInfor curUser = db.UserInfor.Where(exp).FirstOrDefault();
-                if (curUser != null)
-                {
-                    curUserId = curUser.IDX;
+                //System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name;
+                //UserInfor curUser = db.UserInfor.Where(exp).FirstOrDefault();
+                curUserId = Session.GetDataFromSession<int>("userid");
                     if (_search == true)
                     {
                         string s = Request.QueryString["filters"];
@@ -32,21 +30,16 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
-
+                        //List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
+                        List<V_NeedApproveOrderBilling> objs = db.V_NeedApproveOrderBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).ToList<V_NeedApproveOrderBilling>();
                         int totalRecordNum = objs.Count;
                         if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                         int pageSize = rows;
                         int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                        List<V_NeedApproveBilling> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveBilling>();
+                        List<V_NeedApproveOrderBilling> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveOrderBilling>();
                         var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
                         return Json(jsonData, JsonRequestBehavior.AllowGet);
                     }
-                }
-                else
-                {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-                }
             }
             catch (Exception)
             {
@@ -80,35 +73,40 @@ namespace TugManagementSystem.Controllers
             {
                 int curUserId = 0;
                 TugDataEntities db = new TugDataEntities();
-                System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name;
-                UserInfor curUser = db.UserInfor.Where(exp).FirstOrDefault();
-                if (curUser != null)
-                {
-                    curUserId = curUser.IDX;   //當前用戶ID
+                //System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == User.Identity.Name;
+                //UserInfor curUser = db.UserInfor.Where(exp).FirstOrDefault();
+
+                curUserId = Session.GetDataFromSession<int>("userid");   //當前用戶ID
                     List<Approve> ApproveList = db.Approve.Where(u => u.PersonID == curUserId).Select(u => u).ToList<Approve>();
                     if (ApproveList.Count != 0)
                     {
-                        List<Billing> BillList = db.Billing.Where(u => u.IDX == -1).Select(u => u).ToList<Billing>();
+                        //List<Billing> BillList = db.Billing.Where(u => u.IDX == -1).Select(u => u).ToList<Billing>();
+                        List<V_OrderBilling> BillList = db.V_OrderBilling.Where(u => u.BillingID == -1).Select(u => u).ToList<V_OrderBilling>();
 
                         foreach (Approve obj in ApproveList)
                         {
                             if (Convert.ToInt32(obj.Accept) > 2) continue;
-                            System.Linq.Expressions.Expression<Func<Billing, bool>> expB = u => u.IDX == obj.BillingID;
-                            Billing billData = db.Billing.Where(expB).FirstOrDefault();
+                            //System.Linq.Expressions.Expression<Func<Billing, bool>> expB = u => u.IDX == obj.BillingID;
+                            //Billing billData = db.Billing.Where(expB).FirstOrDefault();
+                            System.Linq.Expressions.Expression<Func<V_OrderBilling, bool>> expB = u => u.BillingID == obj.BillingID;
+                            V_OrderBilling billData = db.V_OrderBilling.Where(expB).FirstOrDefault();
+
                             if (billData != null)
                             {
                                 //撤销提交的为待提交任务
                                 if (Convert.ToInt32(billData.Phase) == 0 && billData.Status == "已撤销提交") continue;
                                 //驳回或撤销通过的为待完成任务
                                 if (Convert.ToInt32(billData.Phase) == 0 && billData.Status.ToString().Length >= 3) continue;
+                                //BillList.Add(billData);
                                 BillList.Add(billData);
                             }
+
                         }
                         int totalRecordNum = BillList.Count;
                         if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                         int pageSize = rows;
                         int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                        List<Billing> page_objs = BillList.Skip((page - 1) * rows).Take(rows).ToList<Billing>();
+                        List<V_OrderBilling> page_objs = BillList.Skip((page - 1) * rows).Take(rows).ToList<V_OrderBilling>();
                         var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
                         return Json(jsonData, JsonRequestBehavior.AllowGet);
                     }
@@ -125,11 +123,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_NeedApproveBilling> page_objs1 = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveBilling>();
                     //var jsonData1 = new { page = page, records = totalRecordNum1, total = totalPageNum1, rows = page_objs1 };
                     //return Json(jsonData1, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-                }
+               
             }
             catch (Exception)
             {
