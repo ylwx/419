@@ -26,6 +26,16 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+
+        /// <summary>
+        /// 获取账单页面账单数据
+        /// </summary>
+        /// <param name="_search"></param>
+        /// <param name="sidx"></param>
+        /// <param name="sord"></param>
+        /// <param name="page"></param>
+        /// <param name="rows"></param>
+        /// <returns></returns>
         [Authorize]
         public ActionResult GetInvoiceData(bool _search, string sidx, string sord, int page, int rows)
         {
@@ -73,6 +83,7 @@ namespace TugManagementSystem.Controllers
         }
 
 
+        
         [Authorize]
         [HttpGet]
         public ActionResult ViewInvoice(string lan, int? orderId)
@@ -87,6 +98,16 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+
+        #region 账单操作
+
+        /// <summary>
+        /// 获取账单
+        /// </summary>
+        /// <param name="lan"></param>
+        /// <param name="custId"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public ActionResult GetInvoice(string lan, int? custId, int? orderId)
@@ -121,6 +142,21 @@ namespace TugManagementSystem.Controllers
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// 新建账单
+        /// </summary>
+        /// <param name="lan"></param>
+        /// <param name="orderId"></param>
+        /// <param name="customerBillingScheme"></param>
+        /// <param name="billingTypeId"></param>
+        /// <param name="billingTypeValue"></param>
+        /// <param name="billingTypeLabel"></param>
+        /// <param name="timeTypeId"></param>
+        /// <param name="timeTypeValue"></param>
+        /// <param name="timeTypeLabel"></param>
+        /// <param name="discount"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public ActionResult NewInvoice(string lan, int? orderId, string customerBillingScheme,
@@ -174,67 +210,22 @@ namespace TugManagementSystem.Controllers
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize]
-        public ActionResult DeleteInvoice()
-        {
-            this.Internationalization();
+ 
 
-            try
-            {
-                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
-                ParameterExpression parameter = Expression.Parameter(typeof(Billing));
-
-                string strBillIds = Request.Form["billIds"];
-
-                if (strBillIds != "")
-                {
-                    List<string> listBillIds = strBillIds.Split(',').ToList();
-
-                    TugDataEntities db = new TugDataEntities();
-                    foreach (string billId in listBillIds)
-                    {
-                        Expression cdt = Expression.Equal(Expression.PropertyOrField(parameter, "IDX"), Expression.Constant(Convert.ToInt32(billId)));
-                        condition = Expression.OrElse(condition, cdt);
-
-                        //int idx = Convert.ToInt32(billId);
-                        //Billing aOrder = db.Billing.FirstOrDefault(u => u.IDX == idx);
-                        //if (aOrder != null)
-                        //{
-                        //    db.Billing.Remove(aOrder);
-                        //    db.SaveChanges();
-                        //    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                        //}
-                        //else
-                        //{
-                        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                        //}
-                    }
-
-                    var lamda = Expression.Lambda<Func<Billing, bool>>(condition, parameter);
-                    List<Billing> orders = db.Billing.Where(lamda).Select(u => u).ToList<Billing>();
-                    if (orders != null)
-                    {
-                        db.Billing.RemoveRange(orders);
-                        db.SaveChanges();
-                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                    }
-                    else
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-            }
-            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-        }
-
-
+        /// <summary>
+        /// 增加账单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="billingTemplateId"></param>
+        /// <param name="billingTypeId"></param>
+        /// <param name="timeTypeId"></param>
+        /// <param name="discount"></param>
+        /// <param name="amount"></param>
+        /// <param name="jsonArrayItems"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult AddBill(int orderId, int billingTemplateId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
+        public ActionResult AddInvoice(int orderId, int billingTemplateId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
         {
 
             this.Internationalization();
@@ -341,6 +332,260 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+
+        /// <summary>
+        /// 删除账单
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult DeleteInvoice()
+        {
+            this.Internationalization();
+
+            try
+            {
+                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                ParameterExpression parameter = Expression.Parameter(typeof(Billing));
+
+                string strBillIds = Request.Form["billIds"];
+
+                if (strBillIds != "")
+                {
+                    List<string> listBillIds = strBillIds.Split(',').ToList();
+
+                    TugDataEntities db = new TugDataEntities();
+                    foreach (string billId in listBillIds)
+                    {
+                        Expression cdt = Expression.Equal(Expression.PropertyOrField(parameter, "IDX"), Expression.Constant(Convert.ToInt32(billId)));
+                        condition = Expression.OrElse(condition, cdt);
+
+                        //int idx = Convert.ToInt32(billId);
+                        //Billing aOrder = db.Billing.FirstOrDefault(u => u.IDX == idx);
+                        //if (aOrder != null)
+                        //{
+                        //    db.Billing.Remove(aOrder);
+                        //    db.SaveChanges();
+                        //    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        //}
+                        //else
+                        //{
+                        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                        //}
+                    }
+
+                    var lamda = Expression.Lambda<Func<Billing, bool>>(condition, parameter);
+                    List<Billing> orders = db.Billing.Where(lamda).Select(u => u).ToList<Billing>();
+                    if (orders != null)
+                    {
+                        db.Billing.RemoveRange(orders);
+                        db.SaveChanges();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+
+
+        /// <summary>
+        /// 修改账单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="billingId"></param>
+        /// <param name="billingTemplateId"></param>
+        /// <param name="billingTypeId"></param>
+        /// <param name="timeTypeId"></param>
+        /// <param name="discount"></param>
+        /// <param name="amount"></param>
+        /// <param name="jsonArrayItems"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult EditInvoice(int orderId, int billingId, int billingTemplateId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
+
+                    if (oldBilling != null)
+                    {
+                        oldBilling.BillingTemplateID = billingTemplateId;
+                        oldBilling.BillingTypeID = billingTypeId;
+                        oldBilling.TimeTypeID = timeTypeId;
+                        oldBilling.Discount = discount;
+                        oldBilling.Amount = amount;
+                        oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
+                        int ret = db.SaveChanges();
+
+                        if(ret > 0)
+                        {
+                            List<BillingItem> invoiceItems = db.BillingItem.Where(u => u.BillingID == billingId).ToList();
+                            if (invoiceItems != null)
+                            {
+                                db.BillingItem.RemoveRange(invoiceItems);
+                                ret = db.SaveChanges();
+                                if (ret > 0)
+                                {
+                                    List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                                    listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                                    if (listInVoiceItems != null)
+                                    {
+                                        foreach (InVoiceItem item in listInVoiceItems)
+                                        {
+                                            BillingItem bi = new BillingItem();
+                                            bi.BillingID = billingId;
+                                            bi.SchedulerID = item.SchedulerID;
+                                            bi.ItemID = item.ItemID;
+                                            bi.UnitPrice = item.UnitPrice;
+                                            bi.Currency = item.Currency;
+                                            bi.OwnerID = -1;
+                                            bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                                            bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                            bi.UserDefinedCol1 = "";
+                                            bi.UserDefinedCol2 = "";
+                                            bi.UserDefinedCol3 = "";
+                                            bi.UserDefinedCol4 = "";
+
+                                            //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                            //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                                            //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                            //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                                            //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                            //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                                            //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                            //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                                            bi.UserDefinedCol9 = "";
+                                            bi.UserDefinedCol10 = "";
+
+                                            bi = db.BillingItem.Add(bi);
+                                            ret = db.SaveChanges();
+                                        }
+                                    }
+                                    else 
+                                    {
+                                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                }
+                                
+                            }
+                            else 
+                            {
+                                List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                                listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                                if (listInVoiceItems != null)
+                                {
+                                    foreach (InVoiceItem item in listInVoiceItems)
+                                    {
+                                        BillingItem bi = new BillingItem();
+                                        bi.BillingID = billingId;
+                                        bi.SchedulerID = item.SchedulerID;
+                                        bi.ItemID = item.ItemID;
+                                        bi.UnitPrice = item.UnitPrice;
+                                        bi.Currency = item.Currency;
+                                        bi.OwnerID = -1;
+                                        bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                                        bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                        bi.UserDefinedCol1 = "";
+                                        bi.UserDefinedCol2 = "";
+                                        bi.UserDefinedCol3 = "";
+                                        bi.UserDefinedCol4 = "";
+
+                                        //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                        //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                                        //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                        //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                                        //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                        //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                                        //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                        //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                                        bi.UserDefinedCol9 = "";
+                                        bi.UserDefinedCol10 = "";
+
+                                        bi = db.BillingItem.Add(bi);
+                                        ret = db.SaveChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+        
+        #endregion
+
+
+        #region 回扣单操作
+
+        /// <summary>
+        /// 获取回扣单数据
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetCreditData() { return null; }
+
+        /// <summary>
+        /// 新增回扣单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AddCredit() { return null; }
+
+        /// <summary>
+        /// 修改回扣单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditCredit() { return null; }
+
+        /// <summary>
+        /// 删除回扣单
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DeleteCredit() { return null; }
+
+        #endregion
     }
 
 }

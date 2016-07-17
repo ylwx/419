@@ -447,8 +447,8 @@
 
                                     <div class="tabbable header-tabs">
                                         <ul class="nav nav-tabs">
-                                            <li><a href="#edit_box_tab2" data-toggle="tab"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
-                                            <li class="active"><a href="#edit_box_tab1" data-toggle="tab"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
+                                            <li><a href="#edit_box_tab2" data-toggle="tab" onclick="editCreditTabClick()"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
+                                            <li class="active"><a href="#edit_box_tab1" data-toggle="tab" onclick="editInvoiceTabClick()"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="edit_box_tab1">
@@ -908,6 +908,7 @@
                         for (var i = 0; i < selectedIDs.length; i++) {
 
                             var cell = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
+                            var phase = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "Phase"); //Phase
                             if (cell != null && cell != "")
                                 result += cell + ",";
                         }
@@ -1964,7 +1965,7 @@
         $("#add_btn_sumbit").attr("disabled", true);
 
         $.ajax({
-            url: '@Url.Action("AddBill", "Finance")',
+            url: '@Url.Action("AddInvoice", "Finance")',
             type: "POST",
             data: {
                 'orderId': dr.OrderID,
@@ -6599,7 +6600,17 @@
     function submitEditVoiceModal() {
         $('#parentErrMsg').hide();
 
+        if (g_edit_cur_selected_tab == 0) {
+            EditVoice();
+        }
+        else {
+            EditCredit();
+        }
+        
+    }
 
+
+    function EditVoice() {
         //提交数据库
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
@@ -6653,10 +6664,11 @@
         $("#edit_btn_sumbit").attr("disabled", true);
 
         $.ajax({
-            url: '@Url.Action("EditBill", "Finance")',
+            url: '@Url.Action("EditInvoice", "Finance")',
             type: "POST",
             data: {
                 'orderId': dr.OrderID,
+                'billingId': dr.BillingID,
                 'billingTemplateId': billingTemplateId,
                 'billingTypeId': billingTypeId,
                 'timeTypeId': timeTypeId,
@@ -6683,7 +6695,7 @@
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                 $('#jqGrid_ilReport').addClass('ui-state-disabled');
-                
+
 
                 // $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Finance")' });
             },
@@ -6693,6 +6705,12 @@
             }
         });
     }
+
+
+    function EditCredit() {
+        $('#edit-modal').modal('hide');
+    }
+    
 
 </script>
 
@@ -6997,6 +7015,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
+
                         td = $('<td width="" style="text-align:center;vertical-align:middle">' + value[i].DepartBaseTime + '</td>');
                         tr.append(td)
                     }
@@ -7089,7 +7108,7 @@
                 if (result.items[ii].CustomValue.charAt(0) == 'B' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoTopCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoTopCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     tr.append(td);
 
@@ -7098,6 +7117,7 @@
                     for (key in result.invoice.Schedulers) {
 
                         var value = result.invoice.Schedulers[key];
+
 
                         //检查调度是否具有此收费项目
                         for (var i = 0; i < value.length; ++i) {
@@ -7120,6 +7140,8 @@
                                     price = value[i].BillingItems[j].Price;
                                 }
                             }
+
+
 
                             td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
 
@@ -7175,11 +7197,9 @@
                     //var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" checked="checked">' + result.items[ii].CustomLabel + '</input>');
                     //td.append(input)
                     tr.append(td);
-
                     for (key in result.invoice.Schedulers) {
 
                         var value = result.invoice.Schedulers[key];
-
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
@@ -7196,7 +7216,7 @@
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
-                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="BanbaoMidCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="BanbaoMidCheckboxChanged(this)" >' + result.items[ii].CustomLabel + '</input>');
                             td.append(checkbox);
 
                             //检查调度是否具有此收费项目
@@ -7231,13 +7251,14 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" >' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
+
 
                     var flag = true;
                     for (key in result.invoice.Schedulers) {
@@ -7308,7 +7329,7 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
@@ -7332,6 +7353,7 @@
                                 }
                             }
                         }
+
 
                         for (var i = 0; i < value.length; ++i) {
 
@@ -7368,7 +7390,7 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" >' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
@@ -7525,7 +7547,7 @@
 
                         var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
 
-                            td.append(input);
+                        td.append(input);
 
                         tr.append(td)
                     }
@@ -7569,7 +7591,7 @@
                 if (result.items[ii].CustomValue.charAt(0) == 'B' && result.items[ii].FormulaStr.charAt(2) == '1') {
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanTopCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanTopCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     tr.append(td);
 
@@ -7589,6 +7611,7 @@
                                 }
                             }
                         }
+
 
                         for (var i = 0; i < value.length; ++i) {
 
@@ -7672,7 +7695,7 @@
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
-                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="TiaoKuanMidCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="TiaoKuanMidCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                             td.append(checkbox);
 
                             //检查调度是否具有此收费项目
@@ -7707,7 +7730,7 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
@@ -7783,7 +7806,7 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
@@ -7807,6 +7830,7 @@
                                 }
                             }
                         }
+
 
                         for (var i = 0; i < value.length; ++i) {
 
@@ -7843,11 +7867,11 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -7867,6 +7891,7 @@
                                 }
                             }
                         }
+
 
                         for (var i = 0; i < value.length; ++i) {
 
@@ -7908,7 +7933,6 @@
             $('#edit_tb_detail').append(tbody);
 
         }
-
     }
 
     function DefaultQuanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
@@ -8148,7 +8172,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" ></input>');
 
                         td.append(input);
 
@@ -8165,7 +8189,7 @@
                 if (result.items[ii].CustomValue.charAt(0) == 'B' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoTopCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     tr.append(td);
 
@@ -8273,7 +8297,7 @@
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
-                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="BanbaoMidCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="BanbaoMidCheckboxChanged(this)" >' + result.items[ii].CustomLabel + '</input>');
                             td.append(checkbox);
 
                             //检查调度是否具有此收费项目
@@ -8308,11 +8332,11 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" >' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" ></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8386,11 +8410,11 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8447,11 +8471,11 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" >' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" ></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8602,7 +8626,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)"></input>');
 
                         td.append(input);
 
@@ -8648,7 +8672,7 @@
                 if (result.items[ii].CustomValue.charAt(0) == 'B' && result.items[ii].FormulaStr.charAt(2) == '1') {
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanTopCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanTopCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     tr.append(td);
 
@@ -8752,7 +8776,7 @@
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
-                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="TiaoKuanMidCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                            var checkbox = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem3600" onchange="TiaoKuanMidCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                             td.append(checkbox);
 
                             //检查调度是否具有此收费项目
@@ -8787,11 +8811,11 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8863,11 +8887,11 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8924,11 +8948,11 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
-                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8983,9 +9007,9 @@
                         td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
                         tr.append(td)
                     }
-        }
+                }
                 tbody.append(tr);
-    }
+            }
 
             $('#edit_tb_detail').append(tbody);
 
@@ -9021,7 +9045,6 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
         var customerBillingScheme = $("#edit_sel_billing_scheme").val().toString();
 
-        alert(customerBillingScheme);
         $('#edit_txt_discount').val(customerBillingScheme.split('%')[0].split('~')[1])
 
         var billingTypeId = customerBillingScheme.split('%')[1].split('~')[0];
@@ -9756,6 +9779,7 @@
 
         $('td[name="折扣后合计港币"]').each(function () {
             var self = this;
+            var discount_price = 0;
 
             if ($(self).attr("id").split('_')[0] == $(obj).attr("id").split('_')[0]) {
                 var serviceId = $(obj).attr("id").split('_')[0];
@@ -9797,6 +9821,7 @@
                 var schedulerId = $(obj).attr("id").split('_')[1];
 
                 topAndmid_total = parseFloat($('td[name="折扣后合计港币"][id="' + serviceId + '_' + schedulerId + '"]').text());
+
 
                 //获取界面上勾选中的复选框3600BHP
                 $('input[type="checkbox"][name="ckItem3600"]:checked').each(function () {
@@ -9921,7 +9946,7 @@
             }
         }
 
-        if (true == $('input[type="checkbox"][name="ckItem"][id="ckItem_' + 24 + "_" + "C82" + '"]').is(':checked')) {
+        if (true == $('input[type="checkbox"][name="ckItem"][id="ckItem_' + 43 + "_" + "C82" + '"]').is(':checked')) {
             if ($('input[name="txt折扣"]').val().length <= 0) {
                 ret = false;
             }
@@ -11164,305 +11189,6 @@
     
     }
 
-
-
-
-
-    function edit_BanbaoTopCheckboxChanged(obj) {
-
-        //alert($(obj).is(':checked'));
-
-        var itemId = $(obj).attr("id").split('_')[1];
-        var itemValue = $(obj).attr("id").split('_')[2];
-
-        //25%港外附加费
-        if (itemId == 17 || itemValue == "B10") {
-
-            var grand_total = 0;
-            var inputs = $('input[name="协议收费"]');
-
-            for (var i = 0; i < inputs.length; ++i) {
-                var serviceId = $(inputs[i]).attr("id").split("_")[0];
-                var schedulerId = $(inputs[i]).attr("id").split("_")[1];
-
-                if ($(obj).is(':checked') == true) {
-                    var v = parseFloat($(inputs[i]).val()) * 0.25;
-
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    $('td[name="百分比"][id="' + td_id + '"]').text(v.toFixed(2));
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    
-                    v = parseFloat($(sub_total).text()) + parseFloat(v);
-                    
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) + parseFloat($(inputs[i]).val()) * 0.25;
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-                }
-                else {
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    var old_v = parseFloat($('td[name="百分比"][id="' + td_id + '"]').text());
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    var v = parseFloat($(sub_total).text()) - parseFloat(old_v);
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) - old_v;
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-
-                    $('td[name="百分比"][id="' + td_id + '"]').text(0);
-                }
-
-            }
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-        }
-        //50% 18时至22时附加费
-        if (itemId == 18 || itemValue == "B11") {
-            var grand_total = 0;
-            var inputs = $('input[name="协议收费"]');
-
-            for (var i = 0; i < inputs.length; ++i) {
-                var serviceId = $(inputs[i]).attr("id").split("_")[0];
-                var schedulerId = $(inputs[i]).attr("id").split("_")[1];
-
-                if ($(obj).is(':checked') == true) {
-                    var v = parseFloat($(inputs[i]).val()) * 0.5;
-
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    $('td[name="百分比"][id="' + td_id + '"]').text(v.toFixed(2));
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    v = parseFloat($(sub_total).text()) + v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) + parseFloat($(inputs[i]).val()) * 0.5;
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-                }
-                else {
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    var old_v = $('td[name="百分比"][id="' + td_id + '"]').text();
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    var v = parseFloat($(sub_total).text()) - old_v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) - old_v;
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-
-                    $('td[name="百分比"][id="' + td_id + '"]').text(0);
-                }
-
-            }
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-        }
-        //100% 22时至08时附加费
-        if (itemId == 19 || itemValue == "B12") {
-            var grand_total = 0;
-            var inputs = $('input[name="协议收费"]');
-
-            for (var i = 0; i < inputs.length; ++i) {
-                var serviceId = $(inputs[i]).attr("id").split("_")[0];
-                var schedulerId = $(inputs[i]).attr("id").split("_")[1];
-
-                if ($(obj).is(':checked') == true) {
-                    var v = parseFloat($(inputs[i]).val());
-
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    $('td[name="百分比"][id="' + td_id + '"]').text(v.toFixed(2));
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    v = parseFloat($(sub_total).text()) + v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) + parseFloat($(inputs[i]).val());
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-                }
-                else {
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    var old_v = $('td[name="百分比"][id="' + td_id + '"]').text();
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    var v = parseFloat($(sub_total).text()) - old_v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) - old_v;
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-
-                    $('td[name="百分比"][id="' + td_id + '"]').text(0);
-                }
-
-            }
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-        }
-        //100%假日附加费
-        if (itemId == 20 || itemValue == "B13") {
-            var grand_total = 0;
-            var inputs = $('input[name="协议收费"]');
-
-            for (var i = 0; i < inputs.length; ++i) {
-                var serviceId = $(inputs[i]).attr("id").split("_")[0];
-                var schedulerId = $(inputs[i]).attr("id").split("_")[1];
-
-                if ($(obj).is(':checked') == true) {
-                    var v = parseFloat($(inputs[i]).val());
-
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    $('td[name="百分比"][id="' + td_id + '"]').text(v.toFixed(2));
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    v = parseFloat($(sub_total).text()) + v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) + parseFloat($(inputs[i]).val());
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-                }
-                else {
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    var old_v = $('td[name="百分比"][id="' + td_id + '"]').text();
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    var v = parseFloat($(sub_total).text()) - old_v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) - old_v;
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-
-                    $('td[name="百分比"][id="' + td_id + '"]').text(0);
-                }
-
-            }
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-        }
-        //100%台风附加费
-        if (itemId == 21 || itemValue == "B14") {
-            var grand_total = 0;
-            var inputs = $('input[name="协议收费"]');
-
-            for (var i = 0; i < inputs.length; ++i) {
-                var serviceId = $(inputs[i]).attr("id").split("_")[0];
-                var schedulerId = $(inputs[i]).attr("id").split("_")[1];
-
-                if ($(obj).is(':checked') == true) {
-                    var v = parseFloat($(inputs[i]).val());
-
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    $('td[name="百分比"][id="' + td_id + '"]').text(v.toFixed(2));
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    v = parseFloat($(sub_total).text()) + v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) + parseFloat($(inputs[i]).val());
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-                }
-                else {
-                    var td_id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                    var old_v = $('td[name="百分比"][id="' + td_id + '"]').text();
-
-                    var sub_total = $('td[name="合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-
-                    var v = parseFloat($(sub_total).text()) - old_v;
-                    $(sub_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    var discout_sub_total = $('td[name="折扣后合计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    //$(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) * ($('input[id="txt_discount"]').val())).toFixed(2));
-                    $(discout_sub_total).css('fontWeight', 'bold').text((parseFloat($(sub_total).text()) + parseFloat($('input[name="txt折扣"]').val()) * -1).toFixed(2));
-
-                    var total_total = $('td[name="总计港币"][id="' + serviceId + "_" + schedulerId + '"]');
-                    v = parseFloat($(total_total).text()) - old_v;
-                    $(total_total).css('fontWeight', 'bold').text(v.toFixed(2));
-
-                    grand_total += parseFloat($(total_total).text());
-
-                    $('td[name="百分比"][id="' + td_id + '"]').text(0);
-                }
-
-            }
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-        }
-
-    }
 </script>
 
 
@@ -11479,5 +11205,26 @@
             alert("条款报表预览");
         }
 
+    }
+</script>
+
+
+<!--Tab 点击-->
+<script>
+
+    var g_edit_cur_selected_tab = 0; //0:账单， 1：回扣单
+    function editInvoiceTabClick() {
+        g_edit_cur_selected_tab = 0;
+
+        $('#edit_btn_sumbit').show();
+        //alert("账单Tab 点击" + "---" + g_edit_cur_selected_tab);
+    }
+
+    function editCreditTabClick() {
+
+        g_edit_cur_selected_tab = 1;
+
+        $('#edit_btn_sumbit').hide();
+        //alert("回扣单Tab 点击" + "---" + g_edit_cur_selected_tab);
     }
 </script>
