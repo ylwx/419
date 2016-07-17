@@ -151,6 +151,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 綜合信息 的本地化字符串。
+        /// </summary>
+        internal static string BasicInformation {
+            get {
+                return ResourceManager.GetString("BasicInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 編號 的本地化字符串。
         /// </summary>
         internal static string Billing_BillingCode {
@@ -448,7 +457,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 名稱1 的本地化字符串。
+        ///   查找类似 姓名1 的本地化字符串。
         /// </summary>
         internal static string Customer_Name1 {
             get {
@@ -457,7 +466,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 名稱2 的本地化字符串。
+        ///   查找类似 姓名2 的本地化字符串。
         /// </summary>
         internal static string Customer_Name2 {
             get {
