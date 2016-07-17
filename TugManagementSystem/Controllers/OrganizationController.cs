@@ -302,6 +302,8 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
             return View();
         }
+
+        [JsonExceptionFilterAttribute]
         public ActionResult AddUser(string UserName,string Dept,string Sec,string Name1,string Name2,string WorkNumber,string Sex,string Tel,string Email)
         {
             this.Internationalization();
@@ -313,8 +315,9 @@ namespace TugManagementSystem.Controllers
                         UserInfor tmpUserName = db.UserInfor.Where(exp).FirstOrDefault();
                         if (tmpUserName != null)
                         {
-                            Response.StatusCode = 404;
-                            return Json(new { message = "用户名已存在！" });
+                            //Response.StatusCode = 404;
+                            //return Json(new { message = "用户名已存在！" });
+                            throw new Exception("用户名已存在！");
                         }
 
                         System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp1 = u => u.Name1 == Name1;
@@ -322,9 +325,9 @@ namespace TugManagementSystem.Controllers
                         if (tmpName1 != null)
                         {
                             Response.StatusCode = 404;
-                            var ret = new { message = "中文名已存在！" };
-                            return Json(ret);
-                            //return Json(new { message = "中文名已存在！" });
+                            //var ret = new { message = "中文名已存在！" };
+                            //return Json(ret);
+                            throw new Exception("姓名1已存在！");
                         }
 
                         TugDataModel.UserInfor usobj = new UserInfor();
@@ -374,11 +377,9 @@ namespace TugManagementSystem.Controllers
                         return Json(ret1);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                    return Json(ret);
+                    throw ex;
                 }
         }
         public ActionResult UserAddEdit()

@@ -9,7 +9,7 @@
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="model-dlg" class="modal-dialog" style="width:800px">
             <div class="modal-content modal-table">
-                <form class="form-horizontal" role="form" method="post" onsubmit="return submitParentModal()">
+                <form class="form-horizontal" role="form" method="post">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -119,8 +119,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
-                        <button type="submit" class="btn btn-primary">@Resources.Language.Submit</button>
-                        @*<button type="submit" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>*@
+                        @*<button type="submit" class="btn btn-primary">@Resources.Language.Submit</button>*@
+                        <button type="submit" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
                     </div>
                 </form>
 
@@ -735,7 +735,13 @@
             },
             error: function (result) {
                 console.log(result)
-                alert(result.message);
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    alert(json.errorMessage);
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
             }
         });
         return false;
