@@ -89,7 +89,7 @@ namespace TugManagementSystem.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult GetInvoice(string lan, int? orderId)
+        public ActionResult GetInvoice(string lan, int? custId, int? orderId)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
@@ -104,12 +104,18 @@ namespace TugManagementSystem.Controllers
             else if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "条款")
                 Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
 
+            //当前账单使用的计费方案的项目
             List<MyBillingItem> customerSchemeItems = null;
 
             customerSchemeItems = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemeItems(_invoice.BillingTemplateID);
-            
 
-            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems };
+            //当前账单使用的计费方案
+            V_BillingTemplate bt = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillScheme(_invoice.BillingTemplateID);
+
+            //客户的计费方案
+            List<V_BillingTemplate> customerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems, billing_template = bt, customer_billing_schemes = customerBillingSchemes };
 
 
             return Json(ret, JsonRequestBehavior.AllowGet);
