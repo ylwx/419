@@ -32,9 +32,10 @@ namespace TugManagementSystem.Controllers
             webReport.Height = 1366; // set height
 
             //读取文件到 MemoryStream
-            FileStream stream = new FileStream(@"D:\WDoc\SRC\SHIPWAY\419\419\TugManagementSystem\Report\invoice_tk.frx", FileMode.Open);
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\invoice_tk.frx"), FileMode.Open);
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
             Report_DataRegister_tk(webReport.Report, OrderID, TimeTypeValue);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
@@ -107,9 +108,10 @@ namespace TugManagementSystem.Controllers
             //Report_DataRegister(webReport.Report);
 
             //读取文件到 MemoryStream
-            FileStream stream = new FileStream(@"D:\WDoc\SRC\SHIPWAY\419\419\TugManagementSystem\Report\invoice_qb.frx", FileMode.Open);
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\invoice_qb.frx"), FileMode.Open);
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
             Report_DataRegister_qborbb(webReport.Report, OrderID, TimeTypeValue);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();

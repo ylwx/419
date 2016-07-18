@@ -675,6 +675,16 @@
                 $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "TugInfor")' });
 
             },
+            error: function (result) {
+                console.log(result)
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    alert(json.errorMessage);
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
+            }
         });
 
     }

@@ -341,7 +341,7 @@
                     },
                     errorfunc: function (rowid, xhr) {
                         alert(xhr.responseText);
-                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        //$(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
                 }
             });
@@ -709,6 +709,16 @@
                 $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "Customer")' });
 
             },
+            error: function (result) {
+                console.log(result)
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    alert(json.errorMessage);
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
+            }
         });
 
     }

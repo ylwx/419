@@ -11,12 +11,19 @@ namespace TugManagementSystem.Controllers
 {
     public class TugInforController : BaseController
     {
+        [JsonExceptionFilterAttribute]
         public ActionResult AddTug(string Code, string Name1, string Name2, string SimpleName, string Power, string Class, string Speed, string Length, string Width, string Remark)
         {
             this.Internationalization();
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
+                    System.Linq.Expressions.Expression<Func<TugInfor, bool>> exp = u => u.Name1 == Name1;
+                    TugInfor tmpName = db.TugInfor.Where(exp).FirstOrDefault();
+                    if (tmpName != null)
+                    {
+                        throw new Exception("拖轮名称1已存在！");
+                    }
                     {
                         TugDataModel.TugInfor tug = new TugInfor();
 
@@ -61,11 +68,11 @@ namespace TugManagementSystem.Controllers
                         return Json(ret);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                    return Json(ret);
+                    //var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //return Json(ret);
+                    throw ex;
                 }
         }
         public ActionResult AddEdit()
@@ -140,8 +147,16 @@ namespace TugManagementSystem.Controllers
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
-
+                    string name1 = Request.Form["Name1"];
                     int idx = Util.toint(Request.Form["IDX"]);
+                    System.Linq.Expressions.Expression<Func<TugInfor, bool>> exp = u => u.Name1 == name1 && u.IDX != idx;
+                    TugInfor tmpName = db.TugInfor.Where(exp).FirstOrDefault();
+                    if (tmpName != null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = "拖轮名称1已存在！" });//Resources.Common.ERROR_MESSAGE
+                    }
+
+
                     TugInfor tug = db.TugInfor.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (tug == null)
