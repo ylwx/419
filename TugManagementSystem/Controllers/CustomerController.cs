@@ -13,6 +13,7 @@ namespace TugManagementSystem.Controllers
     {
         private static int _DefaultPageSie = 7;
 
+        [JsonExceptionFilterAttribute]
         public ActionResult AddEdit()
         {
             this.Internationalization();
@@ -86,9 +87,16 @@ namespace TugManagementSystem.Controllers
             {
                 try
                 {
-                    TugDataEntities db = new TugDataEntities();
-
                     int idx = Util.toint(Request.Form["IDX"]);
+                    string name1 = Request.Form["Name1"];
+                    TugDataEntities db = new TugDataEntities();
+                    System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == name1 && u.IDX!=idx;
+                    Customer tmpUserName = db.Customer.Where(exp).FirstOrDefault();
+                    if (tmpUserName != null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = "客户名称已存在！" });//Resources.Common.ERROR_MESSAGE
+                    }
+
                     Customer cstmer = db.Customer.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (cstmer == null)
@@ -138,9 +146,9 @@ namespace TugManagementSystem.Controllers
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
                 }
-                catch (Exception exp)
+                catch (Exception ex)
                 {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                    throw ex;
                 }
             }
 
@@ -148,6 +156,8 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+
+       [JsonExceptionFilterAttribute]
         public ActionResult AddCustomer(string Code,string Name1,string Name2,string SimpleName,string ContactPerson,
       string Telephone, string Fax, string Email, string Address, string MailCode, string Remark)
         {
@@ -155,6 +165,12 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == Name1;
+                Customer tmpUserName = db.Customer.Where(exp).FirstOrDefault();
+                if (tmpUserName != null)
+                {
+                    throw new Exception("客户名称已存在！");
+                }
                 {
                     TugDataModel.Customer cstmer = new Customer();
 
@@ -199,11 +215,9 @@ namespace TugManagementSystem.Controllers
                     return Json(ret);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                return Json(ret);
+                throw ex;
             }
         }
 
@@ -254,7 +268,7 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
 
                 //db.Configuration.ProxyCreationEnabled = false;
-                List<Customer> customers = db.Customer.Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                List<Customer> customers = db.Customer.Where(u => u.IDX != -1 && u.Name1 != "非会员客户").Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
                 int totalRecordNum = customers.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;

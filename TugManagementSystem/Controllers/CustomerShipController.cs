@@ -12,6 +12,8 @@ namespace TugManagementSystem.Controllers
     public class CustomerShipController : BaseController
     {
         private static int _DefaultPageSie = 7;
+
+        [JsonExceptionFilterAttribute]
         public ActionResult AddEdit(int ctmId)
         {
             this.Internationalization();
@@ -85,8 +87,15 @@ namespace TugManagementSystem.Controllers
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
-
                     int idx = Util.toint(Request.Form["IDX"]);
+                    string name1 = Request.Form["Name1"];
+                    System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == name1 && u.IDX != idx;
+                    Customer tmpUserName = db.Customer.Where(exp).FirstOrDefault();
+                    if (tmpUserName != null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = "船名称已存在！" });//Resources.Common.ERROR_MESSAGE
+                    }
+                    
                     CustomerShip ship = db.CustomerShip.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (ship == null)
@@ -145,6 +154,8 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+
+        [JsonExceptionFilterAttribute]
         public ActionResult AddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, string DeadWeight, string Length,
             string Width, string TEUS, string Class, string Remark)
         {
@@ -152,6 +163,12 @@ namespace TugManagementSystem.Controllers
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
+                    System.Linq.Expressions.Expression<Func<CustomerShip, bool>> exp = u => u.Name1 == Name1;
+                    CustomerShip tmpUserName = db.CustomerShip.Where(exp).FirstOrDefault();
+                    if (tmpUserName != null)
+                    {
+                        throw new Exception("船名称已存在！");
+                    }
                     {
                         TugDataModel.CustomerShip ship = new CustomerShip();
 
@@ -197,11 +214,11 @@ namespace TugManagementSystem.Controllers
                         return Json(ret);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                    return Json(ret);
+                    throw ex;
+                    //var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //return Json(ret);
                 }
         }
         [Authorize]
