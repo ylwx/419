@@ -12,8 +12,17 @@ namespace TugBusinessLogic
     {
         public static T GetDataFromSession<T>(this HttpSessionStateBase session, string key)
         {
-            //return System.Web.HttpContext.Current.Response.Redirect("Home\Login");
-            return (T)session[key];
+            try
+            {
+                return (T)session[key];
+            }
+            catch (Exception ex)
+            {
+                //return System.Web.HttpContext.Current.Response.Redirect("Home\Login");
+                throw;
+            }
+           
+
         }
 
         public static void SetDataInSession<T>(this HttpSessionStateBase session, string key, object value)
