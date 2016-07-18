@@ -30,10 +30,6 @@ namespace TugManagementSystem.Controllers
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
             webReport.Height = 1366; // set height
-            //webReport.Report.RegisterData(dataSet, "AppData"); // data binding
-            // webReport.ReportFile = this.Server.MapPath("~/Report/orderlist.frx");  // load the report from the file
-            //webReport.ReportFile = this.Server.MapPath("~/Report/test.frx");
-            //Report_DataRegister(webReport.Report);
 
             //读取文件到 MemoryStream
             FileStream stream = new FileStream(@"D:\WDoc\SRC\SHIPWAY\419\419\TugManagementSystem\Report\invoice_tk.frx", FileMode.Open);
@@ -49,7 +45,7 @@ namespace TugManagementSystem.Controllers
         private void Report_DataRegister_tk(FastReport.Report FReport, int OrderID, int TimeTypeValue)
         {
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
-            DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal;
+            DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
             string strV_Inv_OrdService = string.Format(" OrderID = {0}", OrderID);
             string strMData = string.Format(" OrderID = {0}", OrderID);
@@ -90,9 +86,8 @@ namespace TugManagementSystem.Controllers
             dtTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T1'");
             FReport.RegisterData(dtTotal, "Total");
             //脚,Grand Total HK$
-            //dtMData = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
-            //FReport.RegisterData(dtMData, "Total");
-
+            dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
+            FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
         }
         #endregion
 
@@ -125,7 +120,7 @@ namespace TugManagementSystem.Controllers
         private void Report_DataRegister_qborbb(FastReport.Report FReport,int OrderID,int TimeTypeValue)
         {
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
-            DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal;
+            DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
             string strV_Inv_OrdService = string.Format(" OrderID = {0}", OrderID);
             string strMData = string.Format(" OrderID = {0}", OrderID);
@@ -166,8 +161,8 @@ namespace TugManagementSystem.Controllers
             dtTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T1'");
             FReport.RegisterData(dtTotal, "Total");
             //脚,Grand Total HK$
-            //dtMData = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
-            //FReport.RegisterData(dtMData, "Total");
+            dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
+            FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
 
         }
         #endregion
