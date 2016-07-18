@@ -236,7 +236,7 @@ namespace TugManagementSystem.Controllers
         public ActionResult RepealSubmit(Billing data)
         {
             int id = data.IDX;
-            int idx = Util.toint(Request.Form["data[IDX]"].Trim());
+            int idx = Util.toint(Request.Form["data[BillingID]"].Trim());
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
             Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
@@ -280,7 +280,7 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult RepealPass()
         {
-            int idx = Util.toint(Request.Form["data[IDX]"].Trim());
+            int idx = Util.toint(Request.Form["data[BillingID]"].Trim());
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
             Billing billInfor = db.Billing.Where(exp).FirstOrDefault();

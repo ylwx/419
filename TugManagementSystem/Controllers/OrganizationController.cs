@@ -470,6 +470,23 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Util.toint(Request.Form["IDX"]);
+                    string username = Request.Form["UserName"];
+                    System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == username && u.IDX != idx;
+                    UserInfor tmpUserName = db.UserInfor.Where(exp).FirstOrDefault();
+                    if (tmpUserName != null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = "用户名已存在！" });//Resources.Common.ERROR_MESSAGE
+                    }
+                    string name1 = Request.Form["Name1"];
+                    System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp1 = u => u.UserName == username && u.IDX != idx;
+                    UserInfor us = db.UserInfor.Where(exp1).FirstOrDefault();
+                    if (us != null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = "姓名1已存在！" });//Resources.Common.ERROR_MESSAGE
+                    }
+
+
+
                     UserInfor usobj = db.UserInfor.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (usobj == null)
