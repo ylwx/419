@@ -292,7 +292,7 @@ namespace TugManagementSystem.Controllers
                             bi.UnitPrice = item.UnitPrice;
                             bi.Currency = item.Currency;
                             bi.OwnerID = -1;
-                            bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                            bi.UserID = Session.GetDataFromSession<int>("userid"); 
                             bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             bi.UserDefinedCol1 = "";
                             bi.UserDefinedCol2 = "";
@@ -565,24 +565,100 @@ namespace TugManagementSystem.Controllers
         /// 获取回扣单数据
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetCreditData() { return null; }
+ 
+        [Authorize]
+        public ActionResult GetCreditData(bool _search, string sidx, string sord, int page, int rows, int billingId)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                //int idx = Util.toint(Request.Form["IDX"].Trim());
+                {
+                    List<Credit> orders = db.Credit.Where(u => u.BillingID == billingId).Select(u => u).OrderByDescending(u => u.IDX).ToList<Credit>();
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<Credit> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<Credit>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
 
         /// <summary>
         /// 新增回扣单
         /// </summary>
         /// <returns></returns>
-        public ActionResult AddCredit() { return null; }
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddCredit(int billingId, string creditContent, double creditAmount, string remark) {
+
+            this.Internationalization();
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    TugDataModel.Credit credit = new Credit();
+
+                    credit.BillingID = billingId;
+                    credit.CreditContent = creditContent;
+                    credit.CreditAmount = creditAmount;
+                    credit.Remark = remark;
+                    credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    credit.OwnerID = -1;
+                    credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
+
+                    credit.UserDefinedCol1 = "";
+                    credit.UserDefinedCol2 = "";
+                    credit.UserDefinedCol3 = "";
+                    credit.UserDefinedCol4 = "";
+                    credit.UserDefinedCol5 = 0;
+                    credit.UserDefinedCol6 = 0;
+                    credit.UserDefinedCol7 = 0;
+                    credit.UserDefinedCol8 = 0;
+
+                    credit.UserDefinedCol9 = "";
+                    credit.UserDefinedCol10 = "";
+
+                    credit = db.Credit.Add(credit);
+                    db.SaveChanges();
+                    
+                }
+
+                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         /// <summary>
         /// 修改回扣单
         /// </summary>
         /// <returns></returns>
-        public ActionResult EditCredit() { return null; }
+
+        [Authorize]
+        public ActionResult AddEditCredit() { return null; }
 
         /// <summary>
         /// 删除回扣单
         /// </summary>
         /// <returns></returns>
+
+        [Authorize]
         public ActionResult DeleteCredit() { return null; }
 
         #endregion

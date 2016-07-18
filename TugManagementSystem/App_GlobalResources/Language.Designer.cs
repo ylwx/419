@@ -241,6 +241,51 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 回扣單 的本地化字符串。
+        /// </summary>
+        internal static string Credit {
+            get {
+                return ResourceManager.GetString("Credit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 回扣單關聯帳單ID 的本地化字符串。
+        /// </summary>
+        internal static string Credit_BillingID {
+            get {
+                return ResourceManager.GetString("Credit_BillingID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 回扣單金額 的本地化字符串。
+        /// </summary>
+        internal static string Credit_CreditAmount {
+            get {
+                return ResourceManager.GetString("Credit_CreditAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 回扣單內容 的本地化字符串。
+        /// </summary>
+        internal static string Credit_CreditContent {
+            get {
+                return ResourceManager.GetString("Credit_CreditContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 回扣單ID 的本地化字符串。
+        /// </summary>
+        internal static string Credit_IDX {
+            get {
+                return ResourceManager.GetString("Credit_IDX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 客戶 的本地化字符串。
         /// </summary>
         internal static string Customer {

@@ -241,8 +241,8 @@
 
                                     <div class="tabbable header-tabs">
                                         <ul class="nav nav-tabs">
-                                            <li><a href="#box_tab2" data-toggle="tab"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
-                                            <li class="active"><a href="#box_tab1" data-toggle="tab"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
+                                            <li id="view_credit_tab"><a href="#box_tab2" data-toggle="tab" onclick="viewCreditTabClick()"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
+                                            <li id="view_invoice_tab" class="active"><a href="#box_tab1" data-toggle="tab" onclick="viewInvoiceTabClick()"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="box_tab1">
@@ -403,8 +403,23 @@
                                             </div>
 
                                             <div class="tab-pane fade" id="box_tab2">
-                                                <p>Content #2</p>
-                                                <p> There were flying cantaloupes, rainbows and songs of happiness near by, I mean I was a little frightened by the flying fruit but I'll take this any day over prison inmates. I skipped closer and closer to the festivities and when I arrived I seen all my friends I had went to high school with there were holding hands and singing Kumbayah around the camp ice.. Yes It was a giant block of ice situated on three wood logs. </p>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <!-- Edit Tab BOX -->
+                                                        <div class="box border orange">
+                                                            <div class="box-title">
+                                                                <h4><i class="fa fa-bars"></i>@Resources.Language.Credit</h4>
+                                                            </div>
+                                                            <div id="jqGridContainerBox_view_tab" class="box-body">
+                                                                <table id="jqGrid_view_tab"></table>
+                                                                <div id="jqGridPager_view_tab"></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- / Edit Tab BOX -->
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -447,8 +462,8 @@
 
                                     <div class="tabbable header-tabs">
                                         <ul class="nav nav-tabs">
-                                            <li><a href="#edit_box_tab2" data-toggle="tab" onclick="editCreditTabClick()"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
-                                            <li class="active"><a href="#edit_box_tab1" data-toggle="tab" onclick="editInvoiceTabClick()"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
+                                            <li id="edit_credit_tab"><a href="#edit_box_tab2" data-toggle="tab" onclick="editCreditTabClick()"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
+                                            <li id="edit_invoice_tab" class="active"><a href="#edit_box_tab1" data-toggle="tab" onclick="editInvoiceTabClick()"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="edit_box_tab1">
@@ -609,9 +624,25 @@
                                             </div>
 
                                             <div class="tab-pane fade" id="edit_box_tab2">
-                                                <p>Content #2</p>
-                                                <p> There were flying cantaloupes, rainbows and songs of happiness near by, I mean I was a little frightened by the flying fruit but I'll take this any day over prison inmates. I skipped closer and closer to the festivities and when I arrived I seen all my friends I had went to high school with there were holding hands and singing Kumbayah around the camp ice.. Yes It was a giant block of ice situated on three wood logs. </p>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <!-- Edit Tab BOX -->
+                                                        <div class="box border orange">
+                                                            <div class="box-title">
+                                                                <h4><i class="fa fa-bars"></i>@Resources.Language.Credit</h4>
+                                                            </div>
+                                                            <div id="jqGridContainerBox_edit_tab" class="box-body">
+                                                                <table id="jqGrid_edit_tab"></table>
+                                                                <div id="jqGridPager_edit_tab"></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- / Edit Tab BOX -->
+                                                    </div>
+                                                </div>
+
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -665,6 +696,72 @@
         </div>
     </div>
     <!-- /提交审核 MODAL FORM-->
+
+
+    <!-- Credit Add MODAL FORM-->
+    <div class="modal fade" id="credit-add-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="child-model-dlg" class="modal-dialog" style="width:500px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>新增回扣单</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#credit-add-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    @*<h4 class="form-title">Supported controls</h4>*@
+                                    <form class="form-horizontal" role="form">
+                
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditContent</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="_CreditContent" rows="3" class="form-control" placeholder="@Resources.Language.Credit_CreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditAmount</label>
+                                            <div class="col-sm-9">
+                                                <input id="_CreditAmount" type="text" class="form-control" placeholder="@Resources.Language.Credit_CreditAmount" onfocus="$(this).parent().removeClass('has-error')" onkeyup="inputCheck(this)" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                    <div id="creditErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAddCreditModal()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Credit Add MODAL FORM-->
+
 
     <div class="container">
         <div class="row">
@@ -1015,8 +1112,8 @@
                                     alert('所选账单处于流程审核中，无法新增回扣单！');
                                     return;
                                 }
-                                alert('弹出新增回扣单');
-                                //AddParent();
+                                //alert('弹出新增回扣单');
+                                AddCreditModal();
                             }
                         }
                         else {
@@ -1148,11 +1245,12 @@
                                 //查看
                                 var orderId = $(this).jqGrid('getCell', rowid, "OrderID"); //OrderID
                                 var timeTypeId = $(this).jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
+                                var timeTypeValue = $(this).jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
                                 var billingTypeId = $(this).jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
                                 var billingTypeValue = $(this).jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
                                 var billingTypeLabel = $(this).jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
 
-                                ReportPreViewInvoice(orderId, timeTypeId, billingTypeId, billingTypeValue, billingTypeLabel);
+                                ReportPreViewInvoice(orderId, timeTypeId, timeTypeValue, billingTypeId, billingTypeValue, billingTypeLabel);
                             }
                         }
                         else {
@@ -4128,6 +4226,14 @@
     function initViewInvoiceModal() {
         $('#parentErrMsg').hide();
 
+        g_view_cur_selected_tab = 0; //初始显示Tab 1，账单Tab
+        $('#view_invoice_tab').addClass("active");
+        $('#view_credit_tab').removeClass("active");
+
+        $('#box_tab1').addClass("in active");
+        $('#box_tab2').removeClass("in active");
+
+
         $('#view_sel_billing_scheme').attr('disabled', true);
         $('#view_sel_billing_type').attr('disabled', false);
         $('#view_sel_time_type').attr('disabled', false);
@@ -6558,6 +6664,14 @@
     }
 
     function initEditInvoiceModal() {
+
+        g_edit_cur_selected_tab = 0; //初始显示Tab 1，账单Tab
+        $('#edit_invoice_tab').addClass("active");
+        $('#edit_credit_tab').removeClass("active");
+
+        $('#edit_box_tab1').addClass("in active");
+        $('#edit_box_tab2').removeClass("in active");
+
         $('#parentErrMsg').hide();
 
         $('#edit_sel_billing_scheme').attr('disabled', false);
@@ -11252,17 +11366,17 @@
 
 <!--报表预览-->
 <script>
-    function ReportPreViewInvoice(orderId, timeTypeId, billingTypeId, billingTypeValue, billingTypeLabel) {
+    function ReportPreViewInvoice(orderId, timeTypeId, timeTypeValue, billingTypeId, billingTypeValue, billingTypeLabel) {
         if(billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
             || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
             //alert("全包或半包报表预览");
             //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
-            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId)
+            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
         }
         
         else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
             //alert("条款报表预览");
-            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId)
+            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
         }
 
     }
@@ -11271,8 +11385,31 @@
 
 <!--Tab 点击-->
 <script>
+    var g_view_cur_selected_tab = 0; //0:账单， 1：回扣单
 
     var g_edit_cur_selected_tab = 0; //0:账单， 1：回扣单
+
+    //查看账单界面，点击账单Tab
+    function viewInvoiceTabClick() {
+        g_view_cur_selected_tab = 0;
+
+        //$('#edit_btn_sumbit').show();
+        //alert("账单Tab 点击" + "---" + g_edit_cur_selected_tab);
+    }
+
+    //查看账单界面，点击回扣单Tab
+    function viewCreditTabClick() {
+
+        g_view_cur_selected_tab = 1;
+
+        //$('#edit_btn_sumbit').hide();
+        //alert("回扣单Tab 点击" + "---" + g_edit_cur_selected_tab);
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+        initViewTabCredit(dr.BillingID);
+    }
+
+    //编辑账单界面，点击账单Tab
     function editInvoiceTabClick() {
         g_edit_cur_selected_tab = 0;
 
@@ -11280,11 +11417,470 @@
         //alert("账单Tab 点击" + "---" + g_edit_cur_selected_tab);
     }
 
+    //编辑账单界面，点击回扣单Tab
     function editCreditTabClick() {
 
         g_edit_cur_selected_tab = 1;
 
         $('#edit_btn_sumbit').hide();
         //alert("回扣单Tab 点击" + "---" + g_edit_cur_selected_tab);
+
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+        initEditTabCredit(dr.BillingID);
+    }
+
+    
+</script>
+
+
+<!--Edit Tab 回扣单-->
+<script>
+    function initEditTabCredit(billingId) {
+        $("#jqGrid_edit_tab").jqGrid({
+            url: '@Url.Action("GetCreditData", "Finance")' + '?billingId=' + billingId,
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+                {
+                    align: 'center', label: '@Resources.Language.Credit_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_BillingID', name: "BillingID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditContent', name: "CreditContent", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditAmount', name: "CreditAmount", width: 100, editable: true, edittype: "text",
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var re = /^\d+\.?\d{0,2}$/;
+                            if (!re.test(value)) {
+                                return [false, '@Resources.Language.Credit_CreditAmount' + ": 请输入两位正小数!"];
+                            }
+                            else
+                                return [true, ""];
+
+                        },
+                        custom: true
+                    },
+                    hidden: false,
+                    editoptions: {
+                        defaultValue: 1000
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: false }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    sorttype: 'date',
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, number: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                }
+
+            ],
+            viewrecords: true,
+            height: '100%',
+            rowNum: 15,
+            autowidth: true,
+            editurl: '@Url.Action("AddEditCredit", "Finance")' + '?billingId=' + billingId,
+            pager: "#jqGridPager_edit_tab",
+            //loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            colMenu: false,         //列菜单
+
+        });
+
+        $("#jqGrid_edit_tab").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox_edit_tab').resize(function () {
+            var width = $('#jqGridContainerBox_edit_tab').width();
+            $("#jqGrid_edit_tab").setGridWidth(width);
+        });
+
+        $('#jqGrid_edit_tab').navGrid('#jqGridPager_edit_tab', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+                .navButtonAdd('#jqGridPager_edit_tab', {
+                    //id: 'jqGrid_ilrefresh',
+                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    onClickButton: function () {
+                        $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                })
+
+                .navButtonAdd('#jqGridPager_edit_tab', {
+                    //id: 'jqGrid_ildelete',
+                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
+                        var dr = jQuery("#jqGrid_edit_tab").jqGrid('getRowData', rowid);//得到该行的数据
+                        if (rowid != null) {
+                            if (confirm('确定要删除所选的记录吗?')) {
+                                var d = new Date();
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("DeleteCredit", "Finance")',
+                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
+
+                                    }
+                                    );
+                            }
+                        }
+                        else {
+                            alert('选中一行');
+                        }
+                    },
+                    position: "last"
+                });
+
+        $('#jqGrid_edit_tab').inlineNav('#jqGridPager_edit_tab',
+            {
+                refresh:false,
+                edit: true,
+                add: false,
+                del: false,
+                cancel: true,
+                editParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    url: null, //'/api/values',
+                    mtype: 'POST'
+                },
+
+                addParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    errorfunc: function (rowid, xhr) {
+                        alert(xhr.responseText);
+                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                }
+            });
+
+    }
+
+</script>
+
+
+<!--View Tab 回扣单-->
+<script>
+    function initViewTabCredit(billingId) {
+        $("#jqGrid_view_tab").jqGrid({
+            url: '@Url.Action("GetCreditData", "Finance")' + '?billingId=' + billingId,
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+                {
+                    align: 'center', label: '@Resources.Language.Credit_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_BillingID', name: "BillingID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditContent', name: "CreditContent", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditAmount', name: "CreditAmount", width: 100, editable: true, edittype: "text",
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var re = /^\d+\.?\d{0,2}$/;
+                            if (!re.test(value)) {
+                                return [false, '@Resources.Language.Credit_CreditAmount' + ": 请输入两位正小数!"];
+                            }
+                            else
+                                return [true, ""];
+
+                        },
+                        custom: true
+                    },
+                    hidden: false,
+                    editoptions: {
+                        defaultValue: 1000
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: false }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    sorttype: 'date',
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, number: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                }
+
+            ],
+            viewrecords: true,
+            height: '100%',
+            rowNum: 15,
+            autowidth: true,
+            editurl: '@Url.Action("AddEditCredit", "Finance")' + '?billingId=' + billingId,
+            pager: "#jqGridPager_view_tab",
+            //loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            colMenu: false,         //列菜单
+
+        });
+
+        $("#jqGrid_view_tab").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox_view_tab').resize(function () {
+            var width = $('#jqGridContainerBox_view_tab').width();
+            $("#jqGrid_view_tab").setGridWidth(width);
+        });
+
+        $('#jqGrid_view_tab').navGrid('#jqGridPager_view_tab', { edit: false, add: false, del: false, refresh: true, view: false, search: false });
+    }
+</script>
+
+
+<!--新增回扣单模态框-->
+<script>
+
+    //保存Grid当前选择的行号
+    var g_curRowId = '';
+
+    function AddCreditModal() {
+        $('#credit-add-modal').modal()
+    }
+
+    function initAddCreditModal() {
+
+        $('#creditErrMsg').hide();
+
+        $('#_CreditContent').parent().removeClass("has-error");
+        $('#_CreditAmount').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+        $('#_CreditContent').val("");
+        $('#_CreditAmount').val("");
+        $('#_Remark').val("");
+    }
+
+    $('#credit-add-modal').on('show.bs.modal', function (e) {
+        initAddCreditModal();
+    });
+    $('#credit-add-modal').on('shown.bs.modal', function (e) {
+
+    });
+    $('#credit-add-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+    $('#credit-add-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+    
+    function submitAddCreditModal() {
+        var maxTextLength = 25;
+        var maxTextAreaLength = 500;
+
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+        var billingId = dr.BillingID;
+        var creditContent = $('#_CreditContent').val().trim();
+        var creditAmount = $('#_CreditAmount').val().trim();
+        var remark = $('#_Remark').val().trim();
+
+
+        //校验
+        if ($("#_CreditContent").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.Credit_CreditContent' + "必填");
+            $('#_CreditContent').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+        else if ($("#_CreditContent").val().toString().trim().length > maxTextAreaLength) {
+            $('#creditErrMsg p').html('@Resources.Language.Credit_CreditContent' + "长度不能超过" + maxTextAreaLength);
+            $('#_CreditContent').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        else if ($("#_CreditAmount").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.Credit_CreditAmount' + "必填");
+            $('#_CreditAmount').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        else if ($("#_Remark").val().toString().trim().length > maxTextAreaLength) {
+            $('#creditErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#_Remark').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        //提交数据库
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("AddCredit", "Finance")',
+            data: {
+                'billingId': billingId,
+                'creditContent': creditContent,
+                'creditAmount':creditAmount,
+                'remark': remark
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                $('#credit-add-modal').modal('hide')
+                alert(result.message);
+            },
+        });
     }
 </script>
