@@ -42,15 +42,13 @@ namespace TugManagementSystem.MyClass
                 using (var sw = new StringWriter())
                 //using (var sw = new JsonTextWriter(new StringWriter()))
                 {
-                 
-
                     scriptSerializer.Serialize(sw, this.Data);
                     response.Write(sw.ToString());
                 }
             }
-            catch (Exception ex)
+            catch (OutOfMemoryException ex)
             {
-
+                
             }
         } 
     }

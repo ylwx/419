@@ -577,13 +577,222 @@ namespace TugManagementSystem.Controllers
 
                 //int idx = Util.toint(Request.Form["IDX"].Trim());
                 {
-                    List<Credit> orders = db.Credit.Where(u => u.BillingID == billingId).Select(u => u).OrderByDescending(u => u.IDX).ToList<Credit>();
+                    List<MyCredit> orders = new List<MyCredit>();
+
+                    switch (sidx)
+                    {
+                        case "":
+                            {
+                                orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditID)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                            }
+                            break;
+
+                        case "CreditContent":
+                            {
+                                if (sord == "asc") {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditContent)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditContent)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+
+                        case "CreditAmount":
+                            {
+                                if (sord == "asc") {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditAmount)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditAmount)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                        case "Remark":
+                            {
+                                if (sord == "asc") {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditRemark)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditRemark)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                        case "CreateDate":
+                            {
+                                if (sord == "asc") {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditCreateDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditCreateDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                        case "LastUpDate":
+                            {
+                                if (sord == "asc") {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditLastUpDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditLastUpDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                            
+                        default:
+                            break;
+
+                    }
+                    
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<Credit> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<Credit>();
+                    List<MyCredit> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<MyCredit>();
 
                     var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -591,7 +800,7 @@ namespace TugManagementSystem.Controllers
             }
             catch (Exception)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -618,17 +827,17 @@ namespace TugManagementSystem.Controllers
                     credit.OwnerID = -1;
                     credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
 
-                    credit.UserDefinedCol1 = "";
-                    credit.UserDefinedCol2 = "";
-                    credit.UserDefinedCol3 = "";
-                    credit.UserDefinedCol4 = "";
-                    credit.UserDefinedCol5 = 0;
-                    credit.UserDefinedCol6 = 0;
-                    credit.UserDefinedCol7 = 0;
-                    credit.UserDefinedCol8 = 0;
+                    //credit.UserDefinedCol1 = "";
+                    //credit.UserDefinedCol2 = "";
+                    //credit.UserDefinedCol3 = "";
+                    //credit.UserDefinedCol4 = "";
+                    //credit.UserDefinedCol5 = 0;
+                    //credit.UserDefinedCol6 = 0;
+                    //credit.UserDefinedCol7 = 0;
+                    //credit.UserDefinedCol8 = 0;
 
-                    credit.UserDefinedCol9 = "";
-                    credit.UserDefinedCol10 = "";
+                    //credit.UserDefinedCol9 = "";
+                    //credit.UserDefinedCol10 = "";
 
                     credit = db.Credit.Add(credit);
                     db.SaveChanges();
@@ -651,7 +860,70 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
 
         [Authorize]
-        public ActionResult AddEditCredit() { return null; }
+        public ActionResult AddEditCredit() {
+            this.Internationalization();
+
+            #region Edit
+
+            if (Request.Form["oper"].Equals("edit"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+
+                    int idx = TugBusinessLogic.Module.Util.toint(Request.Form["IDX"].Trim());
+                    Credit aOrder = db.Credit.Where(u => u.IDX == idx).FirstOrDefault();
+
+                    if (aOrder == null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                    else
+                    {
+
+                        aOrder.CreditContent = Request.Form["CreditContent"].Trim();
+                        aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        aOrder.CreditAmount = TugBusinessLogic.Module.Util.tonumeric(Request.Form["CreditAmount"].Trim());
+                        aOrder.Remark = Request.Form["Remark"].Trim();
+
+
+                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
+
+                        if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                        if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            aOrder.UserDefinedCol6 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                        if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            aOrder.UserDefinedCol7 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                        if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            aOrder.UserDefinedCol8 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+
+                        db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                }
+                catch (Exception exp)
+                {
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
+            }
+
+            #endregion Edit
+
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
 
         /// <summary>
         /// 删除回扣单
@@ -659,7 +931,27 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
 
         [Authorize]
-        public ActionResult DeleteCredit() { return null; }
+        public ActionResult DeleteCredit(int creditId) {
+
+            this.Internationalization();
+
+            TugDataEntities db = new TugDataEntities();
+
+            var list = db.Credit.Where(u => u.IDX == creditId).ToList();
+            if(list != null)
+            {
+                db.Credit.RemoveRange(list);
+                if(db.SaveChanges() > 0)
+                {
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+                else
+                {
+                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
+                }
+            }
+            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
+        }
 
         #endregion
     }

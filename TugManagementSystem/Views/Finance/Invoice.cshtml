@@ -281,6 +281,10 @@
                                                         折扣
                                                         <input id="view_txt_discount" type="text" class="form-control" readonly />
                                                     </div>
+
+                                                    <div class="col-xs-3">
+                                                        <button id="view_btn_voice_preview" style="margin-top:17px" class="btn btn-success" onclick="InvocePreview()">预览</button>
+                                                    </div>
                                                 </div>
 
                                                 <div style="margin:8px;padding:0px; width:940px;height:1px;background-color:black;overflow:hidden;"></div>
@@ -452,7 +456,7 @@
                                 <div class="box-title">
                                     <h4><i class="fa fa-windows"></i>编辑账单和回扣单</h4>
                                     <div class="tools hidden-xs">
-                                        <a href="javascript:;" class="" onclick="$('#view-modal').modal('hide');">
+                                        <a href="javascript:;" class="" onclick="$('#edit-modal').modal('hide');">
                                             <i class="fa fa-times"></i>
                                         </a>
                                     </div>
@@ -1226,39 +1230,40 @@
                         }
                     },
 
-                }).navButtonAdd('#jqGridPager', {
-                    id: 'jqGrid_ilReport',
-                    caption: "预览", title: "报表预览", buttonicon: "ui-icon-document",
-                    onClickButton: function () {
+                })
+                //.navButtonAdd('#jqGridPager', {
+                //    id: 'jqGrid_ilReport',
+                //    caption: "预览", title: "报表预览", buttonicon: "ui-icon-document",
+                //    onClickButton: function () {
 
-                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                        //alert(rowid);
-                        if (rowid != null) {
-                            g_curRowId = rowid;
+                //        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                //        //alert(rowid);
+                //        if (rowid != null) {
+                //            g_curRowId = rowid;
 
-                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                            if (cell == null || cell == "") {
-                                alert('所选记录暂无账单，无法预览！');
-                                return;
-                            }
-                            else {
-                                //查看
-                                var orderId = $(this).jqGrid('getCell', rowid, "OrderID"); //OrderID
-                                var timeTypeId = $(this).jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
-                                var timeTypeValue = $(this).jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
-                                var billingTypeId = $(this).jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
-                                var billingTypeValue = $(this).jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
-                                var billingTypeLabel = $(this).jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+                //            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                //            if (cell == null || cell == "") {
+                //                alert('所选记录暂无账单，无法预览！');
+                //                return;
+                //            }
+                //            else {
+                //                //查看
+                //                var orderId = $(this).jqGrid('getCell', rowid, "OrderID"); //OrderID
+                //                var timeTypeId = $(this).jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
+                //                var timeTypeValue = $(this).jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
+                //                var billingTypeId = $(this).jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
+                //                var billingTypeValue = $(this).jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
+                //                var billingTypeLabel = $(this).jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
 
-                                ReportPreViewInvoice(orderId, timeTypeId, timeTypeValue, billingTypeId, billingTypeValue, billingTypeLabel);
-                            }
-                        }
-                        else {
-                            alert('选中一行');
-                        }
-                    },
+                //                ReportPreViewInvoice(orderId, timeTypeId, timeTypeValue, billingTypeId, billingTypeValue, billingTypeLabel);
+                //            }
+                //        }
+                //        else {
+                //            alert('选中一行');
+                //        }
+                //    },
 
-                });
+                //});
 
             //最后调用，冻结列
             //$("#jqGrid").jqGrid("setFrozenColumns");
@@ -4214,10 +4219,17 @@
 </script>
 
 
+<!--全局变量-->
+<script>
+    var g_EditModalIsShown = false; //编辑模态框是否已经显示过
+    var g_ViewModalIsShown = false; //查看模态框是否已经显示过
+    var g_curRowId = ''; //主界面Grid当前选中的行号
+
+</script>
+
 
 <!--查看模态框-->
 <script type="text/javascript">
-    var g_curRowId = '';
 
     function ViewInvoice() {
         $('#view-modal').modal()
@@ -4304,12 +4316,15 @@
                 reGenerateViewTable(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel,
                     timeTypeId, timeTypeValue, timeTypeLabel, discount, result);
 
+                initViewTabCredit(dr.BillingID);
             },
         });
     }
 
     $('#view-modal').on('show.bs.modal', function (e) {
         initViewInvoiceModal();
+
+        
     });
     $('#view-modal').on('shown.bs.modal', function (e) {
 
@@ -6746,6 +6761,7 @@
                 reGenerateEditTable(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel,
                     timeTypeId, timeTypeValue, timeTypeLabel, discount, result);
 
+                initEditTabCredit(dr.BillingID);
             },
         });
     }
@@ -6760,7 +6776,7 @@
 
         $('#edit_div_services').empty();
         $('#edit_tb_detail').empty();
-        $('#edit_tb_detail').empty()
+        $('#edit_tb_detail').empty();
 
         $(this).removeData("bs.modal");
     });
@@ -11380,6 +11396,34 @@
         }
 
     }
+
+    function InvocePreview() {
+
+        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+
+        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
+        var timeTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
+        var timeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
+        var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
+        var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
+        var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+
+        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            //alert("全包或半包报表预览");
+            //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
+            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        }
+
+        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            //alert("条款报表预览");
+            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        }
+    }
+
+    function CreditPreview() {
+        alert("弹出回扣单报表");
+    }
 </script>
 
 
@@ -11406,7 +11450,7 @@
         //alert("回扣单Tab 点击" + "---" + g_edit_cur_selected_tab);
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
 
-        initViewTabCredit(dr.BillingID);
+        //initViewTabCredit(dr.BillingID);
     }
 
     //编辑账单界面，点击账单Tab
@@ -11427,7 +11471,7 @@
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
 
-        initEditTabCredit(dr.BillingID);
+        //initEditTabCredit(dr.BillingID);
     }
 
     
@@ -11543,6 +11587,11 @@
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date: true }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
                 }
 
             ],
@@ -11550,7 +11599,7 @@
             height: '100%',
             rowNum: 15,
             autowidth: true,
-            editurl: '@Url.Action("AddEditCredit", "Finance")' + '?billingId=' + billingId,
+            editurl: '@Url.Action("AddEditCredit", "Finance")',
             pager: "#jqGridPager_edit_tab",
             //loadonce: true,
             rowList: ['15', '20', '30', '40', '50'],
@@ -11568,47 +11617,50 @@
             $("#jqGrid_edit_tab").setGridWidth(width);
         });
 
-        $('#jqGrid_edit_tab').navGrid('#jqGridPager_edit_tab', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
-                .navButtonAdd('#jqGridPager_edit_tab', {
-                    //id: 'jqGrid_ilrefresh',
-                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
-                    onClickButton: function () {
-                        $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    }
-                })
+        if (g_EditModalIsShown == false) {
+            $('#jqGrid_edit_tab').navGrid('#jqGridPager_edit_tab', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
-                .navButtonAdd('#jqGridPager_edit_tab', {
-                    //id: 'jqGrid_ildelete',
-                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
-                    onClickButton: function () {
-                        var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
-                        var dr = jQuery("#jqGrid_edit_tab").jqGrid('getRowData', rowid);//得到该行的数据
-                        if (rowid != null) {
-                            if (confirm('确定要删除所选的记录吗?')) {
-                                var d = new Date();
-                                $.ajax(
-                                    {
-                                        type: "post",
-                                        url: '@Url.Action("DeleteCredit", "Finance")',
-                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
-                                        dataType: 'json',
-                                        success: function (result) {
-                                            alert(result.message);
-                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                                            $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                        },
+                    .navButtonAdd('#jqGridPager_edit_tab', {
+                        //id: 'jqGrid_ilrefresh',
+                        caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                        onClickButton: function () {
+                            $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    })
 
-                                    }
-                                    );
+                    .navButtonAdd('#jqGridPager_edit_tab', {
+                        //id: 'jqGrid_ildelete',
+                        caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                        onClickButton: function () {
+                            var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
+                            var dr = jQuery("#jqGrid_edit_tab").jqGrid('getRowData', rowid);//得到该行的数据
+                            var creditId = dr.IDX;
+                            if (rowid != null) {
+                                if (confirm('确定要删除所选的记录吗?')) {
+                                    $.ajax(
+                                        {
+                                            type: "post",
+                                            url: '@Url.Action("DeleteCredit", "Finance")',
+                                            data: { 'creditId': creditId },
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                alert(result.message);
+                                                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                                $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                            },
+
+                                        }
+                                        );
+                                }
                             }
-                        }
-                        else {
-                            alert('选中一行');
-                        }
-                    },
-                    position: "last"
-                });
+                            else {
+                                alert('选中一行');
+                            }
+                        },
+                        position: "last"
+                    });
+        }
 
         $('#jqGrid_edit_tab').inlineNav('#jqGridPager_edit_tab',
             {
@@ -11646,6 +11698,7 @@
                 }
             });
 
+        g_EditModalIsShown = true;
     }
 
 </script>
@@ -11767,7 +11820,7 @@
             height: '100%',
             rowNum: 15,
             autowidth: true,
-            editurl: '@Url.Action("AddEditCredit", "Finance")' + '?billingId=' + billingId,
+            editurl: '@Url.Action("AddEditCredit", "Finance")',
             pager: "#jqGridPager_view_tab",
             //loadonce: true,
             rowList: ['15', '20', '30', '40', '50'],
@@ -11785,7 +11838,35 @@
             $("#jqGrid_view_tab").setGridWidth(width);
         });
 
-        $('#jqGrid_view_tab').navGrid('#jqGridPager_view_tab', { edit: false, add: false, del: false, refresh: true, view: false, search: false });
+        if (g_ViewModalIsShown == false) {
+
+            $('#jqGrid_view_tab').navGrid('#jqGridPager_view_tab', { edit: false, add: false, del: false, refresh: true, view: false, search: false })
+            .navButtonAdd('#jqGridPager_view_tab', {
+                //id: 'jqGrid_ilAdd',
+                caption: "预览", title: "预览回扣单", buttonicon: "ui-icon-document",
+                onClickButton: function () {
+                    var rowid = jQuery('#jqGrid_view_tab').jqGrid('getGridParam', 'selrow');
+                    //alert(rowid);
+                    if (rowid != null) {
+
+                        //var cell = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "BillingID"); //BillingID
+                        //if (cell == null || cell == "")
+                        //    AddParent();
+                        //else {
+                        //    //编辑
+                        //    alert('所选记录已有账单，无需重复生成！');
+                        //}
+                        CreditPreview();
+                    }
+                    else {
+                        alert('选中一行');
+                    }
+                },
+
+            });
+        }
+
+        g_ViewModalIsShown = true;
     }
 </script>
 

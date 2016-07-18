@@ -190,4 +190,19 @@ namespace TugDataModel
 
         public string FormulaStr { get; set; }
     }
+
+    public class MyCredit
+    {
+        public int IDX { get; set; }
+        public Nullable<int> BillingID { get; set; }
+        public string CreditContent { get; set; }
+        public Nullable<double> CreditAmount { get; set; }
+        public string Remark { get; set; }
+
+        public Nullable<int> OwnerID { get; set; }
+        public string CreateDate { get; set; }
+        public Nullable<int> UserID { get; set; }
+
+        public string LastUpDate { get; set; }
+    }
 }
