@@ -854,7 +854,8 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        public ActionResult AddScheduler(int orderId, int serviceNatureId, string serviceWorkDate, string serviceWorkPlace, int tugId, int jobStateId, string ropeUsed, int ropeNum, string remark)
+        public ActionResult AddScheduler(int orderId, int serviceNatureId, string serviceWorkDate, string serviceWorkPlace, int tugId,
+            string informCaptainTime, string captainConfirmTime, int jobStateId, string ropeUsed, int ropeNum, string remark)
         {
             this.Internationalization();
 
@@ -872,6 +873,9 @@ namespace TugManagementSystem.Controllers
                     aScheduler.RopeUsed = ropeUsed;
                     aScheduler.RopeNum = ropeNum;
                     aScheduler.Remark = remark;
+
+                    aScheduler.InformCaptainTime = informCaptainTime;
+                    aScheduler.CaptainConfirmTime = captainConfirmTime;
 
                     aScheduler.OwnerID = -1;
                     aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
@@ -1239,9 +1243,9 @@ namespace TugManagementSystem.Controllers
                     {
                         aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
                         aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
-                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
+                        //aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
                         aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
-                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
+                        //aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
                         aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
                         aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
 
