@@ -214,7 +214,7 @@ namespace TugBusinessLogic.Module
                 _invoice.TimeTypeValue = list.FirstOrDefault().TimeTypeValue;
                 _invoice.TimeTypeLabel = list.FirstOrDefault().TimeTypeLabel;
 
-                _invoice.GrandTotalHKS = grandTotal;
+                _invoice.GrandTotalHKS = Math.Round(grandTotal,2);
             }
 
             return _invoice;
