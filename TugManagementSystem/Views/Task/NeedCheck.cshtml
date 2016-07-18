@@ -191,8 +191,13 @@
              var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
              if (rowData.length) {
                  for (var i = 0; i < rowData.length; i++) {
-                     ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
+                     //var t = $('#jqGrid').jqGrid('getCell', rowData[i], 'BillingID');
+                     //alert(t);
+                     ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'BillingID'));
+                     //var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                     //var cell = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
                  }
+                 alert(ids);
                  $.ajax(
                             {
                                 type: "post",
@@ -219,7 +224,7 @@
                     var rowData = $('#jqGrid').jqGrid('getGridParam', 'selarrrow');
                     if (rowData.length) {
                         for (var i = 0; i < rowData.length; i++) {
-                            ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'IDX'));
+                            ids.push($('#jqGrid').jqGrid('getCell', rowData[i], 'BillingID'));
                         }
                         $.ajax(
                                    {
@@ -417,11 +422,6 @@
                         dataUrl: '@Url.Action("GetOrderStateOfInvoicePage", "Base", new { CustomName = "OrderInfor.WorkStateID" })',
                     }
                 },
-
-
-
-
-
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', name: "BillingID", width: 100,
