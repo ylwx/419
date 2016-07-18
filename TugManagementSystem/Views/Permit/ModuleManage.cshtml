@@ -526,9 +526,9 @@
         var System = $('#_System').val();
         var Remark = $('#_Remark').val();
 
-        if (ModuleCode.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.Customer_Name1' + "@Resources.Language.IsNull");
-            $('#_ModuleCode').parent().addClass("has-error");
+        if (ModuleName.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.Module_ModuleName' + "@Resources.Language.IsNull");
+            $('#_ModuleName').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
         }
@@ -559,8 +559,15 @@
             },
             error: function (result) {
                 console.log(result)
-                alert(result.message);
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    alert(json.errorMessage);
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
             }
+
         });
 
     }

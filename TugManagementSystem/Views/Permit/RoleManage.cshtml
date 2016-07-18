@@ -558,8 +558,15 @@
             },
             error: function (result) {
                 console.log(result)
-                alert(result.message);
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    alert(json.errorMessage);
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
             }
+
         });
 
     }
