@@ -21,10 +21,10 @@ namespace TugManagementSystem.Controllers
             return View();
         }
         #region 发票，条款
-        public ActionResult Invoice_tk()
+        public ActionResult Invoice_tk(int OrderID,int TimeTypeValue)
         {
-            int OrderID; int TimeTypeValue;
-            OrderID = 10; TimeTypeValue = 0;//临时测试用
+            //int OrderID; int TimeTypeValue;
+            //OrderID = 10; TimeTypeValue = 0;//临时测试用
             DataSet dataSet = null;
             SetReport();
             WebReport webReport = new WebReport(); // create object
@@ -97,10 +97,10 @@ namespace TugManagementSystem.Controllers
         #endregion
 
         #region 全包，半包+条款
-        public ActionResult Invoice_qborbb()//int OrderID, int TimeTypeValue
+        public ActionResult Invoice_qborbb(int OrderID, int TimeTypeValue)//
         {
-            int OrderID; int TimeTypeValue;
-            OrderID = 10; TimeTypeValue = 0;//临时测试用
+            //int OrderID; int TimeTypeValue;
+            //OrderID = 10; TimeTypeValue = 0;//临时测试用
             DataSet dataSet = null;
             SetReport();
             WebReport webReport = new WebReport(); // create object
