@@ -1243,9 +1243,9 @@ namespace TugManagementSystem.Controllers
                     {
                         aScheduler.ArrivalBaseTime = Request.Form["ArrivalBaseTime"].Trim();
                         aScheduler.ArrivalShipSideTime = Request.Form["ArrivalShipSideTime"].Trim();
-                        aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
+                        //aScheduler.CaptainConfirmTime = Request.Form["CaptainConfirmTime"].Trim();
                         aScheduler.DepartBaseTime = Request.Form["DepartBaseTime"].Trim();
-                        aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
+                        //aScheduler.InformCaptainTime = Request.Form["InformCaptainTime"].Trim();
                         aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
                         aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
 
