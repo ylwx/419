@@ -1198,6 +1198,7 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+         [JsonExceptionFilterAttribute]
         public ActionResult AddRole(string RoleName, string Dept, string System, string Remark)
         {
             this.Internationalization();
@@ -1209,11 +1210,11 @@ namespace TugManagementSystem.Controllers
                     Role tmprole = db.Role.Where(exp).FirstOrDefault();
                     if (tmprole != null)
                     {
-                        Response.StatusCode = 404;
-                        return Json(new { message = RoleName + "已存在！" });
+                        //Response.StatusCode = 404;
+                        //return Json(new { message = RoleName + "已存在！" });
+                        throw new Exception(RoleName + "已存在！");
                     }
-                    else
-                    { 
+
                     TugDataModel.Role role = new Role();
                     role.RoleName = RoleName;
                     role.Dept = Dept;
@@ -1246,35 +1247,31 @@ namespace TugManagementSystem.Controllers
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     return Json(ret);
-                    }
-
                     
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                return Json(ret);
+                throw ex;
             }
+
         }
 
+         [JsonExceptionFilterAttribute]
         public ActionResult AddModule(string ModuleCode, string ModuleName, string System, string Remark)
         {
             this.Internationalization();
             try
             {
-                TugDataEntities db = new TugDataEntities();
-                {
+                    TugDataEntities db = new TugDataEntities();
                     System.Linq.Expressions.Expression<Func<FunctionModule, bool>> exp = u => u.ModuleName == ModuleName;
                     FunctionModule tmpmodule = db.FunctionModule.Where(exp).FirstOrDefault();
                     if (tmpmodule!=null)
                     {
-                        Response.StatusCode = 404;
-                        return Json(new { message = ModuleName + "已存在！" });
+                        //Response.StatusCode = 404;
+                        //return Json(new { message = ModuleName + "已存在！" });
+                        throw new Exception(ModuleName + "已存在！");
                     }
-                    else
-                    {
                     
                     TugDataModel.FunctionModule module = new FunctionModule();
                     module.ModuleCode = ModuleCode;
@@ -1295,15 +1292,12 @@ namespace TugManagementSystem.Controllers
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     return Json(ret);
-                    }
-                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                return Json(ret);
+                throw ex;
             }
+
         }
         #region 编辑Action
         //public ActionResult RoleAddEdit()

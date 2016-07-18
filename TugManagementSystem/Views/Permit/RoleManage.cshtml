@@ -94,6 +94,7 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
+                                    <i class="fa fa-briefcase fa-fw"></i>
                                     <a href="#">@Resources.Language.Role</a>
                                 </li>
                                 <li>
@@ -558,8 +559,15 @@
             },
             error: function (result) {
                 console.log(result)
-                alert(result.message);
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    alert(json.errorMessage);
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
             }
+
         });
 
     }

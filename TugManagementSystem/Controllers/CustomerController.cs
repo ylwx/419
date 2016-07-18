@@ -1020,7 +1020,7 @@ namespace TugManagementSystem.Controllers
                     //
                     List<CustomField> srcList = TugBusinessLogic.Module.CustomerLogic.GetPriceItems();
 
-                    List<CustomField> list = new List<CustomField>();
+                    List<MyCustomField> list = new List<MyCustomField>();
 
                     if (srcList != null)
                     {
@@ -1031,13 +1031,18 @@ namespace TugManagementSystem.Controllers
                                 var o = existList.FirstOrDefault(u => u.ItemID == item.IDX || u.ItemValue == item.CustomValue || u.ItemLabel == item.CustomLabel);
                                 if(o == null)
                                 {
-                                    list.Add(item);
+                                    MyCustomField mcf = new MyCustomField();
+                                    mcf.IDX = item.IDX;
+                                    mcf.CustomValue = item.CustomValue;
+                                    mcf.CustomLabel = item.CustomLabel;
+                                    mcf.FormulaStr = item.FormulaStr;
+                                    list.Add(mcf);
                                 }
                             }
                         }
                     }
 
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE, list = list }, JsonRequestBehavior.AllowGet);
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, list = list }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception)

@@ -324,7 +324,7 @@ namespace TugManagementSystem.Controllers
                         UserInfor tmpName1 = db.UserInfor.Where(exp).FirstOrDefault();
                         if (tmpName1 != null)
                         {
-                            Response.StatusCode = 404;
+                            //Response.StatusCode = 404;
                             //var ret = new { message = "中文名已存在！" };
                             //return Json(ret);
                             throw new Exception("姓名1已存在！");

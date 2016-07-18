@@ -151,20 +151,32 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        [JsonExceptionFilterAttribute]
         public ActionResult SaveNewUser()
         {
             string tmpUser = Request.Form["UserName"].ToString();
+            string name1 = Request.Form["Name1"].ToString();
             TugDataEntities db = new TugDataEntities();
-            UserInfor newUser = new UserInfor();
+            try
+            { 
+             UserInfor newUser = new UserInfor();
             System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == tmpUser;
             UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
             if (user != null)  //用户名已被占用
             {
-                Response.StatusCode = 404;
-                return Json(new { code = Resources.Common.Information_CODE, message = Resources.Common.Information_MESSAGE });
+                //Response.StatusCode = 404;
+                //return Json(new { code = Resources.Common.Information_CODE, message = Resources.Common.Information_MESSAGE });
+                throw new Exception("用户名已存在！");
             }
-            else   //注册成功
+
+            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp1 = u => u.Name1 == name1;
+            UserInfor user1 = db.UserInfor.Where(exp1).FirstOrDefault();
+            if (user1 != null)  //用户名已被占用
             {
+                //Response.StatusCode = 404;
+                //return Json(new { code = Resources.Common.Information_CODE, message = Resources.Common.Information_MESSAGE });
+                throw new Exception("中文名已存在！");
+            }
                 newUser.Name1 = Request.Form["Name1"].ToString();
                 newUser.UserName = Request.Form["UserName"].ToString();
                 newUser.Email = Request.Form["Email"].ToString();
@@ -174,6 +186,12 @@ namespace TugManagementSystem.Controllers
                 FormsAuthentication.SetAuthCookie(tmpUser, false);
                 return Json(new { message = "注册成功！" });
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+           
         }
 
         public ActionResult UpdateUserInfor(string UserName)
