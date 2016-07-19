@@ -21,10 +21,10 @@ namespace TugManagementSystem.Controllers
             return View();
         }
         #region Credit Note
-        public ActionResult CreditNotePage(/*int OrderID,int CreditID*/)
+        public ActionResult CreditNotePage(int OrderID,int CreditID)
         {
-            int OrderID; int CreditID;
-            OrderID = 10; CreditID = 1;//临时测试用
+            //int OrderID; int CreditID;
+            //OrderID = 10; CreditID = 1;//临时测试用
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
