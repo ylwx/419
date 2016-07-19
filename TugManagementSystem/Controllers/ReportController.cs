@@ -20,6 +20,42 @@ namespace TugManagementSystem.Controllers
         {
             return View();
         }
+        #region Credit Note
+        public ActionResult CreditNotePage(/*int OrderID,int CreditID*/)
+        {
+            int OrderID; int CreditID;
+            OrderID = 10; CreditID = 1;//临时测试用
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 768;  // set width
+            webReport.Height = 1366; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\invoice_credit.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_credit(webReport.Report, OrderID, CreditID);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport_credit = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_credit(FastReport.Report FReport, int OrderID, int CreditID)
+        {
+            DataTable dtV_Inv_Head = null; DataTable dt_Credit = null; 
+            string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
+            string str_Credit = string.Format(" IDX = {0}", CreditID);
+            //head
+            dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
+            FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
+            //creditnote,refundhk$
+            dt_Credit = SqlHelper.GetDataTableData("Credit", str_Credit);
+            FReport.Parameters.FindByName("CreditNote").Value = dt_Credit.Rows[0]["CreditContent"];
+            FReport.Parameters.FindByName("RefundHK$").Value = dt_Credit.Rows[0]["CreditAmount"];
+        }
+        #endregion       
         #region 发票，条款
         public ActionResult Invoice_tk(int OrderID,int TimeTypeValue)
         {

@@ -90,6 +90,39 @@
                 sortable: true,          //列可移动
                 colMenu: true,          //列菜单
                 //multiselect: true       //选择框
+                onSelectRow: function (rowid, status, e) {
+                    //alert(rowid)
+                    //alert(status);
+                    var grid = $("#jqGrid");
+                    var rowKey = grid.getGridParam("selrow");
+
+                    if (!rowKey) {
+                        $('#jqGrid_RepealSubmit').addClass('ui-state-disabled');
+                        $('#jqGrid_RepealPass').addClass('ui-state-disabled');
+                    }
+                    else {
+                        var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        var rowData = $('#jqGrid').jqGrid('getRowData', id);
+                        var curPhase = rowData.Phase;
+                        if (curPhase != -1)
+                        {
+                            $('#jqGrid_RepealSubmit').removeClass('ui-state-disabled');
+                            $('#jqGrid_RepealPass').removeClass('ui-state-disabled');
+
+                        }
+
+                        //var selectedIDs = grid.getGridParam("selarrrow");
+                        //if (selectedIDs.length != 1) {
+                        //    $('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        //    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        //}
+                        //else {
+                        //    $('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+                        //    $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        //}
+
+                    }
+                },
             });
 
             // 撤销通过
@@ -200,9 +233,9 @@
                 caption: "撤销通过", title: "撤销通过", buttonicon: "ui-icon-disk",
                 onClickButton: function () {
                     var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    var rowData = $('#jqGrid').jqGrid('getGridParam', id);
+                    var rowData = $('#jqGrid').jqGrid('getRowData', id);
                     var curPhase = rowData.Phase;
-                    if (rowData.length) {
+                    if (rowData != null) {
                         if (curPhase == -1) {
                             alert("已完成全部审核，无法撤销！");
                         }
