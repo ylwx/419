@@ -95,7 +95,7 @@
             // 撤销通过
             $("#RepealPass_btn").click(function () {
                 var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-                var rowData = $('#jqGrid').jqGrid('getGridParam', id);
+                var rowData = $('#jqGrid').jqGrid('getRowData', id);
                 var curPhase = rowData.Phase;
                 if (rowData.length) {
                     if (curPhase == -1) {
@@ -200,9 +200,9 @@
                 caption: "撤销通过", title: "撤销通过", buttonicon: "ui-icon-disk",
                 onClickButton: function () {
                     var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    var rowData = $('#jqGrid').jqGrid('getGridParam', id);
+                    var rowData = $('#jqGrid').jqGrid('getRowData', id);
                     var curPhase = rowData.Phase;
-                    if (rowData.length) {
+                    if (rowData !=null) {
                         if (curPhase == -1) {
                             alert("已完成全部审核，无法撤销！");
                         }
