@@ -664,11 +664,11 @@ namespace TugManagementSystem.Controllers
                         aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
                         aScheduler.Remark = Request.Form["Remark"].Trim(); ;
 
-                        aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
-                        if (aScheduler.RopeUsed.Equals("是"))
-                            aScheduler.RopeNum = Util.toint(Request.Form["RopeNum"].Trim());
-                        else
-                            aScheduler.RopeNum = 0;
+                        //aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
+                        //if (aScheduler.RopeUsed.Equals("是"))
+                        //    aScheduler.RopeNum = Util.toint(Request.Form["RopeNum"].Trim());
+                        //else
+                        //    aScheduler.RopeNum = 0;
 
                         aScheduler.ServiceNatureID = Util.toint(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
                         aScheduler.TugID = Util.toint(Request.Form["TugID"].Trim());
@@ -780,11 +780,11 @@ namespace TugManagementSystem.Controllers
                         aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
                         aScheduler.Remark = Request.Form["Remark".Trim()]; 
 
-                        aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
-                        if (aScheduler.RopeUsed.Equals("是"))
-                            aScheduler.RopeNum = Util.toint(Request.Form["RopeNum"].Trim());
-                        else
-                            aScheduler.RopeNum = 0;
+                        //aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
+                        //if (aScheduler.RopeUsed.Equals("是"))
+                        //    aScheduler.RopeNum = Util.toint(Request.Form["RopeNum"].Trim());
+                        //else
+                        //    aScheduler.RopeNum = 0;
 
                         aScheduler.ServiceNatureID = Util.toint(Request.Form["ServiceNatureLabel"].Trim().Split('~')[0]);
 

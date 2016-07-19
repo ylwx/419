@@ -96,7 +96,7 @@
                                             <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeUsed</label>
                                             <div id="_RopeUsed" class="col-sm-9">
                                                 <label class="checkbox-inline">
-                                                    <input type="checkbox" onfocus="$(this).parent().parent().removeClass('has-error')" onchange="ropeUsedCheck()">
+                                                    <input type="checkbox" checked onfocus="$(this).parent().parent().removeClass('has-error')" onchange="ropeUsedCheck()">
                                                 </label>
                                             </div>
                                         </div>
@@ -104,7 +104,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeNum</label>
                                             <div class="col-sm-9">
-                                                <input id="_RopeNum" type="text" value="0" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
+                                                <input id="_RopeNum" type="text" value="1" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
                                             </div>
                                         </div>
 
@@ -841,13 +841,13 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeUsed', name: "RopeUsed", width: 100, editable: true, edittype: "checkbox",
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeUsed', name: "RopeUsed", width: 100, editable: false, edittype: "checkbox",
                     editrules: { required: true }, colmenu: false,
                     editoptions: { value: "是:否" },  //yes:是， no:否
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeNum', name: "RopeNum", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_RopeNum', name: "RopeNum", width: 100, editable: false, edittype: "text",
                     editrules: {
                         required: false,
                         custom_func: function (value, column) {
@@ -2175,6 +2175,7 @@
         $('#_RopeNum').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
+        //$('#_RopeUsed input[type="checkbox"]')
 
         $('#_ServiceNatureLabel').empty();
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
@@ -2226,9 +2227,9 @@
                 $('#_ServiceWorkPlace').val(result.service_place);
                 $('#_ChooseTug').val("");
                 $("#_JobStateLabel option:first").prop("selected", 'selected');
-                $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
-                $('#_RopeNum').val("0");
-                $('#_RopeNum').attr("disabled", "disabled");
+                //$('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+                //$('#_RopeNum').val("0");
+                //$('#_RopeNum').attr("disabled", "disabled");
                 $('#_Remark').val("");
 
             },
@@ -2315,9 +2316,10 @@
         var jobStateId = $("#_JobStateLabel").val().toString().split('~')[0];
         var informCaptainTime = $('#_InformCaptainTime').val().trim();
         var captainConfirmTime = $('#_CaptainConfirmTime').val().trim();
-        var ropeUsed = "否";
-        if (true == $("#_RopeUsed").is(':checked'))
-            ropeUsed = "是"
+        //var ropeUsed = "否";
+        //if (true == $("#_RopeUsed").is(':checked'))
+        //    ropeUsed = "是"
+        var ropeUsed = "是";
 
         var ropeNum = $('#_RopeNum').val().toString().trim();
         var remark = $('#_Remark').val().toString().trim();

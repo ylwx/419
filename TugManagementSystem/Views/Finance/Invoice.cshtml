@@ -416,8 +416,8 @@
                                                                 <h4><i class="fa fa-bars"></i>@Resources.Language.Credit</h4>
                                                             </div>
                                                             <div id="jqGridContainerBox_view_tab" class="box-body">
-                                                                <table id="jqGrid_view_tab"></table>
-                                                                <div id="jqGridPager_view_tab"></div>
+                                                                @*<table id="jqGrid_view_tab"></table>
+                                                                <div id="jqGridPager_view_tab"></div>*@
                                                             </div>
                                                         </div>
                                                         <!-- / Edit Tab BOX -->
@@ -4312,9 +4312,11 @@
 
                 var discount = $('#view_txt_discount').val();
 
+                //alert(1);
                 reGenerateViewTable(dr.OrderID, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel,
                     timeTypeId, timeTypeValue, timeTypeLabel, discount, result);
 
+                //alert(dr.BillingID);
                 initViewTabCredit(dr.BillingID);
             },
         });
@@ -11422,7 +11424,11 @@
 
     function CreditPreview() {
         //jqGrid_view_tab
-        alert("弹出回扣单报表");
+
+        var rowid = jQuery('#jqGrid_view_tab').jqGrid('getGridParam', 'selrow');
+        var creditId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "IDX"); //CreditId
+        var orderId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "OrderID"); //OrderID
+        alert("orderId = " + orderId + "  creditId = " + creditId +"  弹出回扣单报表");
     }
 </script>
 
@@ -11481,6 +11487,11 @@
 <!--Edit Tab 回扣单-->
 <script>
     function initEditTabCredit(billingId) {
+        $('#jqGridContainerBox_edit_tab').empty();
+
+        var table = $('<table id="jqGrid_edit_tab"></table>');
+        var div = $('<div id="jqGridPager_edit_tab"></div>');
+
         $("#jqGrid_edit_tab").jqGrid({
             url: '@Url.Action("GetCreditData", "Finance")' + '?billingId=' + billingId,
             mtype: "GET",
@@ -11488,6 +11499,10 @@
             colModel: [
                 {
                     align: 'center', label: '@Resources.Language.Credit_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', name: "OrderID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
                 {
@@ -11618,7 +11633,7 @@
         });
 
 
-        if (g_EditModalIsShown == false) {
+        /*if (g_EditModalIsShown == false)*/ {
             $('#jqGrid_edit_tab').navGrid('#jqGridPager_edit_tab', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
                     .navButtonAdd('#jqGridPager_edit_tab', {
@@ -11707,6 +11722,14 @@
 <!--View Tab 回扣单-->
 <script>
     function initViewTabCredit(billingId) {
+
+        $('#jqGridContainerBox_view_tab').empty();
+
+        var table = $('<table id="jqGrid_view_tab"></table>');
+        var div = $('<div id="jqGridPager_view_tab"></div>');
+
+        $('#jqGridContainerBox_view_tab').append(table).append(div);
+
         $("#jqGrid_view_tab").jqGrid({
             url: '@Url.Action("GetCreditData", "Finance")' + '?billingId=' + billingId,
             mtype: "GET",
@@ -11714,6 +11737,10 @@
             colModel: [
                 {
                     align: 'center', label: '@Resources.Language.Credit_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', name: "OrderID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
                 {
@@ -11838,7 +11865,7 @@
             $("#jqGrid_view_tab").setGridWidth(width);
         });
 
-        if (g_ViewModalIsShown == false) {
+        /*if (g_ViewModalIsShown == false)*/ {
 
             $('#jqGrid_view_tab').navGrid('#jqGridPager_view_tab', { edit: false, add: false, del: false, refresh: true, view: false, search: false })
             .navButtonAdd('#jqGridPager_view_tab', {

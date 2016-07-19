@@ -588,6 +588,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -608,6 +609,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -624,6 +626,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -645,6 +648,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -661,6 +665,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -681,6 +686,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -697,6 +703,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -717,6 +724,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -733,6 +741,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -753,6 +762,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
@@ -769,6 +779,7 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
