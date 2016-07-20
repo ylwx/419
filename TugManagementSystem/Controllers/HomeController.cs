@@ -181,6 +181,7 @@ namespace TugManagementSystem.Controllers
                 newUser.UserName = Request.Form["UserName"].ToString();
                 newUser.Email = Request.Form["Email"].ToString();
                 newUser.Pwd = Request.Form["Pwd"].ToString();
+                newUser.IsGuest = "true";
                 newUser = db.UserInfor.Add(newUser);
                 db.SaveChanges();
                 FormsAuthentication.SetAuthCookie(tmpUser, false);
