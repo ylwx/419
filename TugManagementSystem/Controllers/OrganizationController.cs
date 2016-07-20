@@ -332,7 +332,7 @@ namespace TugManagementSystem.Controllers
 
                         TugDataModel.UserInfor usobj = new UserInfor();
                         usobj.UserName =UserName;
-                        usobj.Pwd = "1";
+                        usobj.Pwd = "123";
                         usobj.IsGuest = "false";
                         usobj.LanUserName ="" ;
                         usobj.Lan ="";
