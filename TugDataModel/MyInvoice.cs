@@ -195,7 +195,10 @@ namespace TugDataModel
     {
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
+
         public Nullable<int> BillingID { get; set; }
+
+        public string CreditCode { get; set; }
         public string CreditContent { get; set; }
         public Nullable<double> CreditAmount { get; set; }
         public string Remark { get; set; }

@@ -119,10 +119,10 @@ namespace TugManagementSystem.Controllers
             MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.GenerateInvoice((int)orderId);
 
             List<TugDataModel.MyCustomField> Items = new List<MyCustomField>();
-            if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "全包加特别条款")
+            if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "半包")
                 Items = TugBusinessLogic.Module.FinanceLogic.GetBanBaoShowItems();
 
-            else if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "条款")
+            else if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "计时")
                 Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
 
             //当前账单使用的计费方案的项目
@@ -175,10 +175,10 @@ namespace TugManagementSystem.Controllers
 
             //List<TugDataModel.CustomField> Items = new List<CustomField>();
             List<TugDataModel.MyCustomField> Items = new List<MyCustomField>();
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款")
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包")
                 Items = TugBusinessLogic.Module.FinanceLogic.GetBanBaoShowItems();
 
-            else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款")
+            else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时")
                 Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
 
             List<MyBillingItem> customerSchemeItems = null;
@@ -319,6 +319,17 @@ namespace TugManagementSystem.Controllers
                         }
                     }
 
+                    //更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
+                    {
+                        OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+                        if (od != null)
+                        {
+                            od.HasInvoice = "是";
+                            db.Entry(od).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                     return Json(ret, JsonRequestBehavior.AllowGet);
@@ -379,6 +390,29 @@ namespace TugManagementSystem.Controllers
                     {
                         db.Billing.RemoveRange(orders);
                         db.SaveChanges();
+
+
+                        //更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
+                        {
+                            string strOrderIds = Request.Form["orderIds"];
+                            if (strOrderIds != "")
+                            {
+                                List<string> listOrderIds = strBillIds.Split(',').ToList();
+
+                                foreach (string item in listOrderIds)
+                                {
+                                    int orderId = TugBusinessLogic.Module.Util.toint(item);
+                                    OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+                                    if (od != null)
+                                    {
+                                        od.HasInvoice = "否";
+                                        db.Entry(od).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                }
+                            }
+                        }
+
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
                     else
@@ -590,6 +624,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -598,6 +633,49 @@ namespace TugManagementSystem.Controllers
                                          UserID = u.CreditUserID,
                                          LastUpDate = u.CreditLastUpDate
                                      }).ToList<MyCredit>();
+                            }
+                            break;
+
+                        case "CreditCode":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditCode)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditCode)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         OrderID = (int)u.OrderID,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.CreditRemark,
+                                         OwnerID = u.CreditOwnerID,
+                                         CreateDate = u.CreditCreateDate,
+                                         UserID = u.CreditUserID,
+                                         LastUpDate = u.CreditLastUpDate
+                                     }).ToList<MyCredit>();
+                                }
                             }
                             break;
 
@@ -611,6 +689,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -628,6 +707,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -650,6 +730,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -667,6 +748,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -688,6 +770,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -705,6 +788,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -726,6 +810,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -743,6 +828,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -764,6 +850,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -781,6 +868,7 @@ namespace TugManagementSystem.Controllers
                                          IDX = (int)u.CreditID,
                                          OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
                                          Remark = u.CreditRemark,
@@ -821,7 +909,7 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult AddCredit(int billingId, string creditContent, double creditAmount, string remark) {
+        public ActionResult AddCredit(int billingId,string billingCode, string creditContent, double creditAmount, string remark) {
 
             this.Internationalization();
             try
@@ -831,6 +919,7 @@ namespace TugManagementSystem.Controllers
                     TugDataModel.Credit credit = new Credit();
 
                     credit.BillingID = billingId;
+                    credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
                     credit.CreditContent = creditContent;
                     credit.CreditAmount = creditAmount;
                     credit.Remark = remark;

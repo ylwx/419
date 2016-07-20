@@ -268,6 +268,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 回扣單編號 的本地化字符串。
+        /// </summary>
+        internal static string Credit_CreditCode {
+            get {
+                return ResourceManager.GetString("Credit_CreditCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 回扣單內容 的本地化字符串。
         /// </summary>
         internal static string Credit_CreditContent {
@@ -1843,6 +1852,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 作業號 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderBilling_JobNo {
+            get {
+                return ResourceManager.GetString("V_OrderBilling_JobNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 帳單月份 的本地化字符串。
         /// </summary>
         internal static string V_OrderBilling_Month {
@@ -1951,6 +1969,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 是否已有帳單 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_HasInvoice {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_HasInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 訂單ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_IDX {
@@ -2032,7 +2059,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 被拖船ID 的本地化字符串。
+        ///   查找类似 客戶船ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_ShipID {
             get {
@@ -2041,7 +2068,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 被拖船名稱 的本地化字符串。
+        ///   查找类似 客戶船名稱 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_ShipName {
             get {

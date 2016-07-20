@@ -56,7 +56,7 @@ namespace TugManagementSystem.Controllers
             FReport.Parameters.FindByName("RefundHK$").Value = dt_Credit.Rows[0]["CreditAmount"];
         }
         #endregion       
-        #region 发票，条款
+        #region 发票，计时
         public ActionResult Invoice_tk(int OrderID,int TimeTypeValue)
         {
             //int OrderID; int TimeTypeValue;
@@ -128,7 +128,7 @@ namespace TugManagementSystem.Controllers
         }
         #endregion
 
-        #region 全包，半包+条款
+        #region 全包，半包
         public ActionResult Invoice_qborbb(int OrderID, int TimeTypeValue)//
         {
             //int OrderID; int TimeTypeValue;

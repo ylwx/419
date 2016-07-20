@@ -842,6 +842,16 @@
     </div>
 </div>
 
+
+<!--全局变量-->
+<script>
+    var g_EditModalIsShown = false; //编辑模态框是否已经显示过
+    var g_ViewModalIsShown = false; //查看模态框是否已经显示过
+    var g_curRowId = ''; //主界面Grid当前选中的行号
+
+</script>
+
+
 <!-- 父Grid -->
 <script type="text/javascript">
     var tableConfig = null;
@@ -956,9 +966,7 @@
                             else { //有账单在审批流程中
                                 $("#" + ids[i] + " td").css("background-color", "orangered");
                             }
-                        }
-                           
-                            
+                        }     
 
                     }
                 },
@@ -1029,15 +1037,19 @@
 
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                         var result = ""; //保存选择的已有账单，但不在流程中的记录
+                        var orderIds_result = ""; //保存选择的已有账单，但不在流程中的记录的订单ID
+
                         var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
                         var noinvoiceResult = ""; //保存选择的没有账单的记录
                         for (var i = 0; i < selectedIDs.length; i++) {
 
                             var cell = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
+                            var orderId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "OrderID"); //BillingID
                             var phase = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "Phase"); //Phase
                             if (cell != null && cell != "") {
                                 if (phase == 0) {
                                     result += cell + ",";
+                                    orderIds_result += orderId + ",";
                                 }
                                 else {
                                     inFlowingResult += selectedIDs[i] + ","
@@ -1051,6 +1063,10 @@
                         
                         if (result != "") {
                             result = result.substr(0, result.length - 1);
+                        }
+
+                        if (orderIds_result != "") {
+                            orderIds_result = orderIds_result.substr(0, orderIds_result.length - 1);
                         }
 
                         if (noinvoiceResult != "") {
@@ -1073,7 +1089,7 @@
                                 {
                                     type: "post",
                                     url: '@Url.Action("DeleteInvoice", "Finance")',
-                                    data: { 'oper': 'delete', 'billIds': result },//"oper=delete&id=" + gr,
+                                    data: { 'oper': 'delete', 'billIds': result, 'orderIds': orderIds_result },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
                                         alert(result.message);
@@ -1342,6 +1358,17 @@
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] }
                 },
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100,
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120,
+                    editrules: { required: true }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "OrderID", name: "OrderID", width: 100,
                     hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -1429,17 +1456,7 @@
                     }
 
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100,
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120,
-                    editrules: { required: true }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-
-                },
+                
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100,
                     hidden: true,
@@ -1470,6 +1487,13 @@
                 },
 
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_JobNo', name: "JobNo", width: 100,
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+
+                {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', name: "BillingID", width: 100,
                     hidden: true,
                 },
@@ -1479,6 +1503,7 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
+
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingName', name: "BillingName", width: 100,
                     hidden: false,
@@ -2125,7 +2150,7 @@
             jsonArrayItems = JSON.stringify(array);
 
         }
-        if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
             var ret = CheckBanBaoTBodyData();
 
             if (ret == false) {
@@ -2135,7 +2160,7 @@
             var array = GetBanBaoTBodyData();
             jsonArrayItems = JSON.stringify(array);
         }
-        if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
             var ret = CheckTiaoKuanTBodyData();
             if (ret == false) {
                 alert("存在无效数据，请检查价格输入");
@@ -2279,12 +2304,12 @@
                     var tr = $('<tr></tr>')
 
                     if (colspan == 0) {
-                        var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + result.invoice.GrandTotalHKS + '<br> Grand Total HKS</strong></td>');
+                        var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + GetFloatStr(result.invoice.GrandTotalHKS) + '<br> Grand Total HKS</strong></td>');
                         tr.append(td);
                     }
                     else {
                         var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>');
-                        var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + result.invoice.GrandTotalHKS + '</strong></td>');
+                        var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
 
                         tr.append(td1);
                         tr.append(td2);
@@ -2304,10 +2329,10 @@
             if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包") {
                 DefaultQuanBaoTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
                 DefaultBanBaoTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result)
             }
-            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
                 DefaultTiaoKuanTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
         }
@@ -2315,10 +2340,10 @@
             if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包") {
                 QuanBaoTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
                 BanBaoTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result)
             }
-            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
                 TiaoKuanTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
         }
@@ -2409,7 +2434,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -2428,7 +2453,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -2444,7 +2469,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -2460,7 +2485,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -2474,7 +2499,7 @@
     function BanBaoTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
 
         //半包
-        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "半包") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -2561,7 +2586,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].Price) + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -2593,7 +2618,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -2614,7 +2639,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -2630,7 +2655,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -2662,7 +2687,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -2697,7 +2722,7 @@
                     td.append(input)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -2712,7 +2737,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -2758,7 +2783,7 @@
                     td.append(input)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -2773,7 +2798,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -2803,7 +2828,7 @@
                     td.append(input)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -2818,7 +2843,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -2839,7 +2864,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -2852,7 +2877,7 @@
     }
 
     function TiaoKuanTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
-        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "计时") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -2939,7 +2964,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -2967,7 +2992,7 @@
                         //    }
                         //}
 
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(value[i].Price) + '</td>');
 
                         //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="正常收费" value="' + value[i].Price + '"></input>');
                         //td.append(input);
@@ -3000,7 +3025,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3021,7 +3046,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3037,7 +3062,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3069,7 +3094,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -3104,7 +3129,7 @@
                     td.append(input)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -3165,7 +3190,7 @@
                     td.append(input)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -3180,7 +3205,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3210,7 +3235,7 @@
                     td.append(input)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -3225,7 +3250,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3246,7 +3271,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3343,7 +3368,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)"></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)"></input>');
 
                         td.append(input);
 
@@ -3362,7 +3387,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3378,7 +3403,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3394,7 +3419,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3408,7 +3433,7 @@
     function DefaultBanBaoTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
 
         //半包
-        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "半包") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -3495,7 +3520,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)"></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].Price) + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)"></input>');
 
                         td.append(input);
 
@@ -3527,7 +3552,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3548,7 +3573,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3564,7 +3589,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3596,7 +3621,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -3631,7 +3656,7 @@
                     td.append(input)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)"></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -3646,7 +3671,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3692,7 +3717,7 @@
                     td.append(input)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -3707,7 +3732,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3737,7 +3762,7 @@
                     td.append(input)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -3752,7 +3777,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3773,7 +3798,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3786,7 +3811,7 @@
     }
 
     function DefaultTiaoKuanTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
-        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "计时") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -3873,7 +3898,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)"></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)"></input>');
 
                         td.append(input);
 
@@ -3901,7 +3926,7 @@
                         //    }
                         //}
 
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(value[i].Price) + '</td>');
 
                         //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="正常收费" value="' + value[i].Price + '"></input>');
                         //td.append(input);
@@ -3934,7 +3959,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -3955,7 +3980,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -3971,7 +3996,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -4003,7 +4028,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -4038,7 +4063,7 @@
                     td.append(input)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)"></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -4053,7 +4078,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -4099,7 +4124,7 @@
                     td.append(input)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -4114,7 +4139,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -4144,7 +4169,7 @@
                     td.append(input)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
+                    input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -4159,7 +4184,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -4180,7 +4205,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -4240,14 +4265,6 @@
     }
 </script>
 
-
-<!--全局变量-->
-<script>
-    var g_EditModalIsShown = false; //编辑模态框是否已经显示过
-    var g_ViewModalIsShown = false; //查看模态框是否已经显示过
-    var g_curRowId = ''; //主界面Grid当前选中的行号
-
-</script>
 
 
 <!--查看模态框-->
@@ -4443,12 +4460,12 @@
                 var tr = $('<tr></tr>')
 
                 if (colspan == 0) {
-                    var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + result.invoice.GrandTotalHKS + '<br> Grand Total HKS</strong></td>');
+                    var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + GetFloatStr(result.invoice.GrandTotalHKS) + '<br> Grand Total HKS</strong></td>');
                     tr.append(td);
                 }
                 else {
                     var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>');
-                    var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + result.invoice.GrandTotalHKS + '</strong></td>');
+                    var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
 
                     tr.append(td1);
                     tr.append(td2);
@@ -4467,10 +4484,10 @@
             if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包") {
                 DefaultQuanBaoViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
                 DefaultBanBaoViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result)
             }
-            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
                 DefaultTiaoKuanViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
         }
@@ -4478,10 +4495,10 @@
             if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包") {
                 QuanBaoViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
                 BanBaoViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result)
             }
-            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
                 TiaoKuanViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
         }
@@ -4572,7 +4589,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -4591,7 +4608,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -4607,7 +4624,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -4623,7 +4640,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -4637,7 +4654,7 @@
     function BanBaoViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
 
         //半包
-        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "半包") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -4724,7 +4741,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].Price) + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -4773,7 +4790,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -4794,7 +4811,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -4810,7 +4827,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -4844,7 +4861,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -4887,7 +4904,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -4918,7 +4935,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -4964,7 +4981,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -4994,7 +5011,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -5024,7 +5041,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -5054,7 +5071,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -5075,7 +5092,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5088,7 +5105,7 @@
     }
 
     function TiaoKuanViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
-        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "计时") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -5175,7 +5192,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -5203,7 +5220,7 @@
                         //    }
                         //}
 
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(value[i].Price) + '</td>');
 
                         //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="正常收费" value="' + value[i].Price + '"></input>');
                         //td.append(input);
@@ -5251,7 +5268,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -5272,7 +5289,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5288,7 +5305,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5320,7 +5337,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -5363,7 +5380,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -5393,7 +5410,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -5439,7 +5456,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -5469,7 +5486,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -5499,7 +5516,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -5529,7 +5546,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -5550,7 +5567,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5647,7 +5664,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -5666,7 +5683,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5682,7 +5699,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5698,7 +5715,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5712,7 +5729,7 @@
     function DefaultBanBaoViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
 
         //半包
-        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "半包") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -5800,7 +5817,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].Price) + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -5852,7 +5869,7 @@
 
 
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -5873,7 +5890,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5889,7 +5906,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -5921,7 +5938,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -5964,7 +5981,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -5996,7 +6013,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -6042,7 +6059,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -6073,7 +6090,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -6103,7 +6120,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -6133,7 +6150,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -6154,7 +6171,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -6167,7 +6184,7 @@
     }
 
     function DefaultTiaoKuanViewTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
-        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "计时") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -6254,7 +6271,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -6282,7 +6299,7 @@
                         //    }
                         //}
 
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(value[i].Price) + '</td>');
 
                         //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="正常收费" value="' + value[i].Price + '"></input>');
                         //td.append(input);
@@ -6331,7 +6348,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -6352,7 +6369,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -6368,7 +6385,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -6400,7 +6417,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -6443,7 +6460,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -6473,7 +6490,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -6519,7 +6536,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -6550,7 +6567,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -6580,7 +6597,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -6611,7 +6628,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -6632,7 +6649,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -6853,7 +6870,7 @@
             jsonArrayItems = JSON.stringify(array);
 
         }
-        if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
             var ret = CheckBanBaoTBodyData();
 
             if (ret == false) {
@@ -6863,7 +6880,7 @@
             var array = GetBanBaoTBodyData();
             jsonArrayItems = JSON.stringify(array);
         }
-        if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
             var ret = CheckTiaoKuanTBodyData();
             if (ret == false) {
                 alert("存在无效数据，请检查价格输入");
@@ -7018,12 +7035,12 @@
                     var tr = $('<tr></tr>')
 
                     if (colspan == 0) {
-                        var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + result.invoice.GrandTotalHKS + '<br> Grand Total HKS</strong></td>');
+                        var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + GetFloatStr(result.invoice.GrandTotalHKS) + '<br> Grand Total HKS</strong></td>');
                         tr.append(td);
                     }
                     else {
                         var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>');
-                        var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + result.invoice.GrandTotalHKS + '</strong></td>');
+                        var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
 
                         tr.append(td1);
                         tr.append(td2);
@@ -7044,10 +7061,10 @@
             if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包") {
                 DefaultQuanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
                 DefaultBanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result)
             }
-            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
                 DefaultTiaoKuanEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
         }
@@ -7055,10 +7072,10 @@
             if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包") {
                 QuanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
-            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
                 BanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result)
             }
-            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
+            if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
                 TiaoKuanEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
             }
         }
@@ -7149,7 +7166,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -7168,7 +7185,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7184,7 +7201,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7200,7 +7217,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7214,7 +7231,7 @@
     function BanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
 
         //半包
-        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "半包") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -7302,7 +7319,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].Price) + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -7354,7 +7371,7 @@
 
 
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -7375,7 +7392,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7391,7 +7408,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7423,7 +7440,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -7466,7 +7483,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -7498,7 +7515,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -7544,7 +7561,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -7575,7 +7592,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -7605,7 +7622,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -7635,7 +7652,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -7656,7 +7673,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7669,7 +7686,7 @@
     }
 
     function TiaoKuanEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
-        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "计时") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -7756,7 +7773,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)" disabled></input>');
 
                         td.append(input);
 
@@ -7784,7 +7801,7 @@
                         //    }
                         //}
 
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(value[i].Price) + '</td>');
 
                         //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="正常收费" value="' + value[i].Price + '"></input>');
                         //td.append(input);
@@ -7833,7 +7850,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -7854,7 +7871,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7870,7 +7887,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -7902,7 +7919,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -7945,7 +7962,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -7975,7 +7992,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8021,7 +8038,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8052,7 +8069,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8082,7 +8099,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8113,7 +8130,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8134,7 +8151,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8230,7 +8247,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)"></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultQuanbao_XieYiShouFei_InputChanged(this)"></input>');
 
                         td.append(input);
 
@@ -8249,7 +8266,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8265,7 +8282,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="折扣后合计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8281,7 +8298,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="总计港币" width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8295,7 +8312,7 @@
     function DefaultBanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
 
         //半包
-        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "全包加特别条款") {
+        if (billingTypeId == 7 || billingTypeValue == 1 || billingTypeLabel == "半包") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -8383,7 +8400,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + value[i].Price + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" ></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="协议收费" value="' + GetFloatStr(value[i].Price) + '" onkeyup="DefaultBanbao_XieYiShouFei_InputChanged(this)" ></input>');
 
                         td.append(input);
 
@@ -8435,7 +8452,7 @@
 
 
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8456,7 +8473,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8472,7 +8489,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8504,7 +8521,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -8547,7 +8564,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" ></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)" ></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8579,7 +8596,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8625,7 +8642,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8656,7 +8673,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8686,7 +8703,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" ></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)" ></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -8716,7 +8733,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8737,7 +8754,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8750,7 +8767,7 @@
     }
 
     function DefaultTiaoKuanEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
-        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "条款") {
+        if (billingTypeId == 8 || billingTypeValue == 2 || billingTypeLabel == "计时") {
             var tbody = $('<tbody></tbody>')
 
             //1
@@ -8837,7 +8854,7 @@
 
                         td = $('<td width="" style="text-align:center;vertical-align:middle"></td>');
 
-                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + value[i].UnitPrice + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)"></input>');
+                        var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="每小时收费" value="' + GetFloatStr(value[i].UnitPrice) + '" onkeyup="DefaultTiaoKuan_UnitPrice_InputChanged(this)"></input>');
 
                         td.append(input);
 
@@ -8865,7 +8882,7 @@
                         //    }
                         //}
 
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + value[i].Price + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + key + '" name="正常收费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(value[i].Price) + '</td>');
 
                         //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + key + '" type="text" name="正常收费" value="' + value[i].Price + '"></input>');
                         //td.append(input);
@@ -8914,7 +8931,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -8935,7 +8952,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].SubTotaHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].SubTotaHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8951,7 +8968,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].DiscountSubTotalHKS + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="折扣后合计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].DiscountSubTotalHKS) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -8983,7 +9000,7 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比' + result.items[ii].IDX + '" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
-                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + price + '</p>');
+                            var p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</p>');
                             //alert(key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue);
                             td.append(p);
 
@@ -9026,7 +9043,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>燃油附加费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + unitPrice + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)"></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt燃油附加费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_RanYou_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -9056,7 +9073,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="燃油附加费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -9102,7 +9119,7 @@
                     td.append(checkbox)
                     var span = $('<br><span>拖缆费单价(每小时)</span>');
                     td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + unitPrice + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -9133,7 +9150,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -9163,7 +9180,7 @@
                     td.append(checkbox)
                     //var span = $('<br><span>折扣费</span>');
                     //td.append(span);
-                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + unitPrice + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
+                    var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
 
@@ -9194,7 +9211,7 @@
                                 }
                             }
 
-                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + price + '</td>');
+                            td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="折扣" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(price) + '</td>');
 
                             //var input = $('<input id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '" type="text" name="' + result.items[ii].IDX + '" value="' + price + '" onkeyup="inputCheck(this)"></input>');
                             //td.append(input);
@@ -9215,7 +9232,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + value[i].TotalHKs + '</strong></td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '" name="总计港币"  width="" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(value[i].TotalHKs) + '</strong></td>');
                         tr.append(td)
                     }
                 }
@@ -11408,14 +11425,14 @@
 <script>
     function ReportPreViewInvoice(orderId, timeTypeId, timeTypeValue, billingTypeId, billingTypeValue, billingTypeLabel) {
         if(billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
-            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
             //alert("全包或半包报表预览");
             //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
             open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
         }
         
-        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
-            //alert("条款报表预览");
+        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+            //alert("计时报表预览");
             open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
         }
 
@@ -11433,14 +11450,14 @@
         var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
 
         if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
-            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "全包加特别条款") {
+            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
             //alert("全包或半包报表预览");
             //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
             open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
         }
 
-        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "条款") {
-            //alert("条款报表预览");
+        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+            //alert("计时报表预览");
             open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
         }
     }
@@ -11532,6 +11549,10 @@
                 {
                     align: 'center', label: '@Resources.Language.Credit_BillingID', name: "BillingID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditCode', name: "CreditCode", width: 200, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: false,
                 },
                 {
                     align: 'center', label: '@Resources.Language.Credit_CreditContent', name: "CreditContent", width: 200, editable: true, edittype: "textarea",
@@ -11771,6 +11792,11 @@
                     align: 'center', label: '@Resources.Language.Credit_BillingID', name: "BillingID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
+                
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditCode', name: "CreditCode", width: 200, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                },
                 {
                     align: 'center', label: '@Resources.Language.Credit_CreditContent', name: "CreditContent", width: 200, editable: true, edittype: "textarea",
                     editrules: { required: true }, hidden: false,
@@ -11965,6 +11991,7 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
 
         var billingId = dr.BillingID;
+        var billingCode = dr.BillingCode;
         var creditContent = $('#_CreditContent').val().trim();
         var creditAmount = $('#_CreditAmount').val().trim();
         var remark = $('#_Remark').val().trim();
@@ -12004,6 +12031,7 @@
             url: '@Url.Action("AddCredit", "Finance")',
             data: {
                 'billingId': billingId,
+                'billingCode':billingCode,
                 'creditContent': creditContent,
                 'creditAmount':creditAmount,
                 'remark': remark
@@ -12015,4 +12043,25 @@
             },
         });
     }
+</script>
+
+
+<script>
+    //将传入数据转换为字符串,并清除字符串中非数字与.的字符
+    //按数字格式补全字符串
+    function GetFloatStr(num) {
+        num += '';
+        num = num.replace(/[^0-9|\.]/g, ''); //清除字符串中的非数字非.字符
+
+        if (/^0+/) //清除字符串开头的0
+            num = num.replace(/^0+/, '');
+        if (!/\./.test(num)) //为整数字符串在末尾添加.00
+            num += '.00';
+        if (/^\./.test(num)) //字符以.开头时,在开头添加0
+            num = '0' + num;
+        num += '00';        //在字符串末尾补零
+        num = num.match(/\d+\.\d{2}/)[0];
+
+        return num;
+    };
 </script>

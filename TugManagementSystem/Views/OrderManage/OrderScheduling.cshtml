@@ -439,6 +439,20 @@
                 "openicon": "ui-icon-arrowreturn-1-e"
             },
 
+            gridComplete: function () {
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+
+                    if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
+                        //$("#" + ids[i] + " td").css("background-color", "grey");
+                    }
+                    else {//有账单
+                        $("#" + ids[i] + " td").css("background-color", "yellowgreen");
+                    }
+
+                }
+            },
         });
 
         $('#jqGrid').jqGrid('filterToolbar', {
@@ -1219,31 +1233,39 @@
                 id: childGridID + 'jqGrid_ildelete',
                 caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
                 onClickButton: function () {
-                    var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
-                    
-                    if (rowid != null) {
-                        var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
 
-                        if (confirm('确定要删除所选的记录吗?')) {
-                            var d = new Date();
-                            $.ajax(
-                                {
-                                    type: "post",
-                                    url: '@Url.Action("DeleteScheduler", "OrderManage")',
-                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        alert(result.message);
-                                        //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
-                                        $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    },
+                    var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
+                    if (hasInvoice == "否") {
+                        var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
 
-                                }
-                                );
+                        if (rowid != null) {
+                            var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
+
+                            if (confirm('确定要删除所选的记录吗?')) {
+                                var d = new Date();
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("DeleteScheduler", "OrderManage")',
+                                        data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
+                                            $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
+
+                                    }
+                                    );
+                            }
+                        }
+                        else {
+                            alert('选中一行');
                         }
                     }
                     else {
-                        alert('选中一行');
+                        alert("该订单已生成账单，不能删除调度！");
+                        return;
                     }
                 },
                 position: "last"
@@ -1254,7 +1276,16 @@
                     g_cur_parentGridRowId = parentRowKey;
                     g_cur_subGridId = '#' + childGridID;
                     g_mode = "新增";
-                    AddChild();
+
+                    var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
+                    if (hasInvoice == "否") {
+                        AddChild();
+                    }
+                    else {
+                        alert("该订单已生成账单，不能再添加调度！");
+                        return;
+                    }
+                    
                 }
             })
             .navButtonAdd('#' + childGridPagerID, {
@@ -1267,7 +1298,17 @@
                         g_cur_subGridId = '#' + childGridID;
                         g_cur_subGridRowId = rowid;
                         g_mode = "编辑";
-                        EditSchedulerModal();
+
+                        var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
+                        if (hasInvoice == "否") {
+                            EditSchedulerModal();
+                        }
+                        else
+                        {
+                            alert("该订单已生成账单，不能再编辑调度！");
+                            return;
+                        }
+                        
                     }
                     else {
                         alert('选中一行');
@@ -1323,6 +1364,26 @@
                     hidden: true,
                 },
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: true, edittype: "checkbox",
                     //colmenu: false,
                     hidden: false,
@@ -1351,16 +1412,7 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
+                
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
                     hidden: false,
@@ -1437,16 +1489,7 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
+                
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
                     hidden: false,
@@ -1591,6 +1634,12 @@
                             }
                         ]
                     }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_HasInvoice', name: "HasInvoice", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",

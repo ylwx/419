@@ -163,7 +163,7 @@ namespace TugBusinessLogic
         static public double CalculateTimeConsumption(int hour, int minute, int timeTypeId, string timeTypeValue, string timeTypeLabel)
         {
             #region 一刻钟
-            if (timeTypeId == 8 || timeTypeValue == "0" || timeTypeLabel == "一刻钟")
+            if (timeTypeId == 8 || timeTypeValue == "0" || timeTypeLabel == "15分钟")
             {
                 int count = 0;
                 count += hour * 60 / 15 ;
@@ -207,7 +207,7 @@ namespace TugBusinessLogic
             #endregion
 
             #region 一刻钟/5min
-            if (timeTypeId == 11 || timeTypeValue == "3" || timeTypeLabel == "一刻钟/5min") 
+            if (timeTypeId == 11 || timeTypeValue == "3" || timeTypeLabel == "15分钟/5min") 
             {
                 int count = 0;
 

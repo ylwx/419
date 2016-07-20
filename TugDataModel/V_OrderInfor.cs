@@ -42,6 +42,7 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
+        public string HasInvoice { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }
         public string UserDefinedCol3 { get; set; }

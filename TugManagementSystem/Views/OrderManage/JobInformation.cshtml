@@ -290,6 +290,21 @@
                 "openicon": "ui-icon-arrowreturn-1-e"
             },
 
+            gridComplete: function () {
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+
+                    if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
+                        //$("#" + ids[i] + " td").css("background-color", "grey");
+                    }
+                    else {//有账单
+                        $("#" + ids[i] + " td").css("background-color", "yellowgreen");
+                    }
+
+                }
+            },
+
         });
 
         $('#jqGrid').jqGrid('filterToolbar', {
@@ -1046,6 +1061,26 @@
             //gridComplete: function () {
             //    alert(1);
             //}
+            
+            onSelectRow: function (rowid, status, e) {
+                var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
+
+                var btnEditId = childGridID + "_iledit";
+                var btnSaveId = childGridID + "_ilsave";
+                var btnCancelId = childGridID + "_ilcancel";
+
+                if (hasInvoice == "否") {
+
+                    //alert("该订单已生成账单，不能编辑调度！");
+
+                    $('#' + btnEditId).removeClass('ui-state-disabled');
+                }
+                else
+                {
+                    $('#' + btnEditId).addClass('ui-state-disabled');
+                }
+            }
+
         });
 
         $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
@@ -1081,7 +1116,8 @@
                             alert(ret.message);
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
-                    },
+                    },                 
+
                     url: null, //'/api/values',
                     mtype: 'POST'
                 },
@@ -1113,6 +1149,26 @@
                     hidden: true,
                 },
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: true, edittype: "checkbox",
                     //colmenu: false,
                     hidden: false,
@@ -1141,16 +1197,7 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
+                
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
                     hidden: false,
@@ -1227,16 +1274,7 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
-                    hidden: true
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 120, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
+                
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
                     hidden: false,
@@ -1381,6 +1419,12 @@
                             }
                         ]
                     }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_HasInvoice', name: "HasInvoice", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",

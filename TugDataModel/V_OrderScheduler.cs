@@ -23,6 +23,7 @@ namespace TugDataModel
         public string WorkDate { get; set; }
         public string WorkTime { get; set; }
         public string EstimatedCompletionTime { get; set; }
+        public string HasInvoice { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureLabel { get; set; }
         public string ServiceWorkDate { get; set; }

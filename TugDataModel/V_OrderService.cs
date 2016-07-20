@@ -40,6 +40,7 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
+        public string HasInvoice { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureValue { get; set; }
         public string ServiceNatureLabel { get; set; }

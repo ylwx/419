@@ -29,7 +29,9 @@ namespace TugDataModel
         public Nullable<int> WorkStateID { get; set; }
         public string WorkStateValue { get; set; }
         public string WorkStateLabel { get; set; }
+        public string HasInvoice { get; set; }
         public Nullable<int> BillingID { get; set; }
+        public string JobNo { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
         public string BillingCode { get; set; }
         public string BillingName { get; set; }
@@ -51,6 +53,7 @@ namespace TugDataModel
         public Nullable<int> BillingUserID { get; set; }
         public string BillingLastUpDate { get; set; }
         public Nullable<int> CreditID { get; set; }
+        public string CreditCode { get; set; }
         public Nullable<double> CreditAmount { get; set; }
         public string CreditContent { get; set; }
         public string CreditRemark { get; set; }

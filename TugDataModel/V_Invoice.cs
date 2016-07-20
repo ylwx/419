@@ -21,6 +21,7 @@ namespace TugDataModel
         public string OrderWorkDate { get; set; }
         public string OrderWorkTime { get; set; }
         public string OrderEstimatedCompletionTime { get; set; }
+        public string HasInvoice { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureLabel { get; set; }
         public string ServiceWorkDate { get; set; }
@@ -51,6 +52,7 @@ namespace TugDataModel
         public string OrderSchedulerCreateDate { get; set; }
         public string OrderSchedulerLastUpDate { get; set; }
         public int BillingID { get; set; }
+        public string JobNo { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingTypeValue { get; set; }

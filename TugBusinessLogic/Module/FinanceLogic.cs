@@ -123,7 +123,7 @@ namespace TugBusinessLogic.Module
                                     double servicePrice = (double)schedulers.FirstOrDefault(u => u.BillingItemValue.StartsWith("A")).UnitPrice;
                                     sch.UnitPrice = servicePrice;
                                     if (((int)list.FirstOrDefault().BillingTypeID == 5 || list.FirstOrDefault().BillingTypeValue == "0" || list.FirstOrDefault().BillingTypeLabel == "全包")
-                                        || ((int)list.FirstOrDefault().BillingTypeID == 6 || list.FirstOrDefault().BillingTypeValue == "1" || list.FirstOrDefault().BillingTypeLabel == "全包加特别条款"))
+                                        || ((int)list.FirstOrDefault().BillingTypeID == 6 || list.FirstOrDefault().BillingTypeValue == "1" || list.FirstOrDefault().BillingTypeLabel == "半包"))
                                         sch.Price = servicePrice;
                                     else
                                         sch.Price = servicePrice * sch.WorkTimeConsumption;
@@ -328,7 +328,7 @@ namespace TugBusinessLogic.Module
                             #endregion
 
                             #region 半包
-                            if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "全包加特别条款")
+                            if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "半包")
                             {
                                 double discount_price = 0.0, top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0;
 
@@ -490,8 +490,8 @@ namespace TugBusinessLogic.Module
                             }
                             #endregion
 
-                            #region 条款
-                            if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "条款")
+                            #region 计时
+                            if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "计时")
                             {
                                 double top_total_price = 0.0, mid_total_price = 0.0, bottom_total_price = 0.0, discount_price = 0.0;
 
@@ -854,7 +854,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.WorkStateLabel).ToList();
                         }
                         break;
-
+                    case "JobNo":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.JobNo).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.JobNo).ToList();
+                        }
+                        break;
                     case "BillingCode":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1393,6 +1400,46 @@ namespace TugBusinessLogic.Module
                             #endregion
 
 
+                            #region JobNo
+                            case "JobNo":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "JobNo"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
 
                             #region BillingCode
                             case "BillingCode":
@@ -2003,6 +2050,15 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.WorkStateLabel).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.WorkStateLabel).ToList();
+                        }
+                        break;
+
+                    case "JobNo":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.JobNo).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.JobNo).ToList();
                         }
                         break;
 

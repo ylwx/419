@@ -336,6 +336,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.ShipName = shipName;
                     aOrder.UserID = Session.GetDataFromSession<int>("userid"); 
                     aOrder.WorkPlace = workPlace;
+                    aOrder.HasInvoice = "否"; //没有账单
 
                     aOrder.ServiceNatureIDS = serviceNatureIds;
                     aOrder.ServiceNatureNames = serviceNatureNames;

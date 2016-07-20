@@ -78,6 +78,7 @@
     </Key>
     <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OrderID" Type="int" />
+    <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTemplateID" Type="int" />
     <Property Name="BillingTypeID" Type="int" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
@@ -190,6 +191,7 @@
     </Key>
     <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BillingID" Type="int" />
+    <Property Name="CreditCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CreditContent" Type="nvarchar(max)" />
     <Property Name="CreditAmount" Type="float" />
     <Property Name="Remark" Type="nvarchar" MaxLength="50" />
@@ -432,6 +434,7 @@
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
@@ -774,6 +777,7 @@
     </Key>
     <Property Name="IDX" Type="int" Nullable="false" />
     <Property Name="OrderID" Type="int" />
+    <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTemplateID" Type="int" />
     <Property Name="BillingTypeID" Type="int" />
     <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
@@ -991,6 +995,7 @@
     <Property Name="OrderWorkDate" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderWorkTime" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderEstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNatureID" Type="int" />
     <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
@@ -1021,6 +1026,7 @@
     <Property Name="OrderSchedulerCreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderSchedulerLastUpDate" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingID" Type="int" Nullable="false" />
+    <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTemplateID" Type="int" />
     <Property Name="BillingTypeID" Type="int" />
     <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
@@ -1156,7 +1162,9 @@
     <Property Name="WorkStateID" Type="int" />
     <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingID" Type="int" />
+    <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTemplateID" Type="int" />
     <Property Name="BillingTypeID" Type="int" />
     <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
@@ -1199,7 +1207,9 @@
     <Property Name="WorkStateID" Type="int" />
     <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingID" Type="int" />
+    <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTemplateID" Type="int" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
@@ -1221,6 +1231,7 @@
     <Property Name="BillingUserID" Type="int" />
     <Property Name="BillingLastUpDate" Type="nvarchar" MaxLength="50" />
     <Property Name="CreditID" Type="int" />
+    <Property Name="CreditCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CreditAmount" Type="float" />
     <Property Name="CreditContent" Type="nvarchar(max)" />
     <Property Name="CreditRemark" Type="nvarchar" MaxLength="50" />
@@ -1263,6 +1274,7 @@
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
@@ -1289,6 +1301,7 @@
     <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
     <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNatureID" Type="int" />
     <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
@@ -1362,6 +1375,7 @@
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNatureID" Type="int" />
     <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
@@ -1753,6 +1767,7 @@
       <DefiningQuery>SELECT 
     [V_Billing].[IDX] AS [IDX], 
     [V_Billing].[OrderID] AS [OrderID], 
+    [V_Billing].[JobNo] AS [JobNo], 
     [V_Billing].[BillingTemplateID] AS [BillingTemplateID], 
     [V_Billing].[BillingTypeID] AS [BillingTypeID], 
     [V_Billing].[BillingTypeValue] AS [BillingTypeValue], 
@@ -1942,6 +1957,7 @@
     [V_Invoice].[OrderWorkDate] AS [OrderWorkDate], 
     [V_Invoice].[OrderWorkTime] AS [OrderWorkTime], 
     [V_Invoice].[OrderEstimatedCompletionTime] AS [OrderEstimatedCompletionTime], 
+    [V_Invoice].[HasInvoice] AS [HasInvoice], 
     [V_Invoice].[ServiceNatureID] AS [ServiceNatureID], 
     [V_Invoice].[ServiceNatureLabel] AS [ServiceNatureLabel], 
     [V_Invoice].[ServiceWorkDate] AS [ServiceWorkDate], 
@@ -1972,6 +1988,7 @@
     [V_Invoice].[OrderSchedulerCreateDate] AS [OrderSchedulerCreateDate], 
     [V_Invoice].[OrderSchedulerLastUpDate] AS [OrderSchedulerLastUpDate], 
     [V_Invoice].[BillingID] AS [BillingID], 
+    [V_Invoice].[JobNo] AS [JobNo], 
     [V_Invoice].[BillingTemplateID] AS [BillingTemplateID], 
     [V_Invoice].[BillingTypeID] AS [BillingTypeID], 
     [V_Invoice].[BillingTypeValue] AS [BillingTypeValue], 
@@ -2095,7 +2112,9 @@
     [V_OrderBilling].[WorkStateID] AS [WorkStateID], 
     [V_OrderBilling].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBilling].[WorkStateLabel] AS [WorkStateLabel], 
+    [V_OrderBilling].[HasInvoice] AS [HasInvoice], 
     [V_OrderBilling].[BillingID] AS [BillingID], 
+    [V_OrderBilling].[JobNo] AS [JobNo], 
     [V_OrderBilling].[BillingTemplateID] AS [BillingTemplateID], 
     [V_OrderBilling].[BillingTypeID] AS [BillingTypeID], 
     [V_OrderBilling].[BillingTypeValue] AS [BillingTypeValue], 
@@ -2135,7 +2154,9 @@
     [V_OrderBillingCredit].[WorkStateID] AS [WorkStateID], 
     [V_OrderBillingCredit].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBillingCredit].[WorkStateLabel] AS [WorkStateLabel], 
+    [V_OrderBillingCredit].[HasInvoice] AS [HasInvoice], 
     [V_OrderBillingCredit].[BillingID] AS [BillingID], 
+    [V_OrderBillingCredit].[JobNo] AS [JobNo], 
     [V_OrderBillingCredit].[BillingTemplateID] AS [BillingTemplateID], 
     [V_OrderBillingCredit].[BillingCode] AS [BillingCode], 
     [V_OrderBillingCredit].[BillingName] AS [BillingName], 
@@ -2157,6 +2178,7 @@
     [V_OrderBillingCredit].[BillingUserID] AS [BillingUserID], 
     [V_OrderBillingCredit].[BillingLastUpDate] AS [BillingLastUpDate], 
     [V_OrderBillingCredit].[CreditID] AS [CreditID], 
+    [V_OrderBillingCredit].[CreditCode] AS [CreditCode], 
     [V_OrderBillingCredit].[CreditAmount] AS [CreditAmount], 
     [V_OrderBillingCredit].[CreditContent] AS [CreditContent], 
     [V_OrderBillingCredit].[CreditRemark] AS [CreditRemark], 
@@ -2196,6 +2218,7 @@
     [V_OrderInfor].[CreateDate] AS [CreateDate], 
     [V_OrderInfor].[UserID] AS [UserID], 
     [V_OrderInfor].[LastUpDate] AS [LastUpDate], 
+    [V_OrderInfor].[HasInvoice] AS [HasInvoice], 
     [V_OrderInfor].[UserDefinedCol1] AS [UserDefinedCol1], 
     [V_OrderInfor].[UserDefinedCol2] AS [UserDefinedCol2], 
     [V_OrderInfor].[UserDefinedCol3] AS [UserDefinedCol3], 
@@ -2219,6 +2242,7 @@
     [V_OrderScheduler].[WorkDate] AS [WorkDate], 
     [V_OrderScheduler].[WorkTime] AS [WorkTime], 
     [V_OrderScheduler].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
+    [V_OrderScheduler].[HasInvoice] AS [HasInvoice], 
     [V_OrderScheduler].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderScheduler].[ServiceNatureLabel] AS [ServiceNatureLabel], 
     [V_OrderScheduler].[ServiceWorkDate] AS [ServiceWorkDate], 
@@ -2289,6 +2313,7 @@
     [V_OrderService].[CreateDate] AS [CreateDate], 
     [V_OrderService].[UserID] AS [UserID], 
     [V_OrderService].[LastUpDate] AS [LastUpDate], 
+    [V_OrderService].[HasInvoice] AS [HasInvoice], 
     [V_OrderService].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderService].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_OrderService].[ServiceNatureLabel] AS [ServiceNatureLabel], 
