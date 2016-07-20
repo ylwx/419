@@ -35,7 +35,7 @@
 
                                 <div class="box-body big">
 
-                                    <div id="div_search" class="col-lg-12" style="padding-bottom:10px">
+                                    <div id="div_search" class="col-lg-12" style="padding-bottom:10px;">
 
                                         <div class="col-xs-3">
                                             选择计费方案
@@ -934,10 +934,33 @@
                 //    return true;
                 //},
 
-                subGridOptions: {
-                    "plusicon": "ui-icon-triangle-1-e",
-                    "minusicon": "ui-icon-triangle-1-s",
-                    "openicon": "ui-icon-arrowreturn-1-e"
+                //subGridOptions: {
+                //    "plusicon": "ui-icon-triangle-1-e",
+                //    "minusicon": "ui-icon-triangle-1-s",
+                //    "openicon": "ui-icon-arrowreturn-1-e"
+                //},
+
+                gridComplete: function () {
+                    var ids = $(this).getDataIDs();
+                    for (var i = 0; i < ids.length; i++) {
+                        var billingId = $(this).getCell(ids[i], 'BillingID');
+                        var phase = $(this).getCell(ids[i], 'Phase');
+
+                        if (billingId == null || billingId == "") { //没有账单
+                            //$("#" + ids[i] + " td").css("background-color", "grey");
+                        }
+                        else {
+                            if (phase == 0) { //有账单，还没进入审批流程
+                                $("#" + ids[i] + " td").css("background-color", "lightyellow");
+                            }
+                            else { //有账单在审批流程中
+                                $("#" + ids[i] + " td").css("background-color", "orangered");
+                            }
+                        }
+                           
+                            
+
+                    }
                 },
             });
 
@@ -2703,7 +2726,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -3110,7 +3133,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -3637,7 +3660,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -4044,7 +4067,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -4909,7 +4932,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -5384,7 +5407,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -5987,7 +6010,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -6464,7 +6487,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -7489,7 +7512,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -7966,7 +7989,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -8570,7 +8593,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
@@ -9047,7 +9070,7 @@
 
             //11
             {
-                var tr = $('<tr></tr>')
+                var tr = $('<tr hidden></tr>')
                 var td = $('<td width="" style="text-align:center;vertical-align:middle">拖缆数量</td>')
                 tr.append(td);
                 for (key in result.invoice.Schedulers) {
