@@ -64,7 +64,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_InformCaptainTime</label>
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_InformCaptainTime</label>
                                             <div class="col-sm-9">
                                                 <input id="_InformCaptainTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_InformCaptainTime" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
@@ -782,7 +782,7 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_InformCaptainTime', name: "InformCaptainTime", width: 100, editable: true, edittype: "text",
                     editrules: {
-                        required: true,
+                        required: false,
                         custom_func: function (value, column) {
                             var ret = value.match(/^(\d{2})(:)?(\d{2})$/);
                             if (ret == null) {
@@ -2589,12 +2589,12 @@
             return;
         }
 
-        if (informCaptainTime.length <= 0) {
+        @*if (informCaptainTime.length <= 0) {
             $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_InformCaptainTime' + "必填");
             $('#_InformCaptainTime').parent().addClass("has-error");
             $('#childErrMsg').show();
             return;
-        }
+        }*@
 
         if (captainConfirmTime.length <= 0) {
             $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_CaptainConfirmTime' + "必填");
