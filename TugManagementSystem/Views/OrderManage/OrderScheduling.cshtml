@@ -9,7 +9,7 @@
 <div id="main-content">
 
 
-    <!-- Child MODAL FORM-->
+    <!-- Add Scheduler MODAL FORM-->
     <div class="modal fade" id="child-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="child-model-dlg" class="modal-dialog" style="width:500px">
             <div class="modal-content modal-table">
@@ -126,14 +126,142 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div id="_TugID" hidden>-1</div>
+                    <div id="_TugID" >-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" onclick="submitChildModal()">提交</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /Child MODAL FORM-->
+    <!-- /Add Scheduler MODAL FORM-->
+
+
+    <!-- Edit Scheduler MODAL FORM-->
+    <div class="modal fade" id="eidt-shceduler-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="edit-scheduler-model-dlg" class="modal-dialog" style="width:500px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>编辑拖轮调度</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#eidt-shceduler-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    @*<h4 class="form-title">Supported controls</h4>*@
+                                    <form class="form-horizontal" role="form">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceNatureLabel</label>
+                                            <div class="col-sm-9">
+                                                <select id="_Edit_Scheduer_ServiceNatureLabel" class="form-control" onchange="editSchedulerServiceChanged()"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceWorkDate</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Edit_Scheduer_ServiceWorkDate" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_ServiceWorkDate" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceWorkPlace</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Edit_Scheduer_ServiceWorkPlace" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_ServiceWorkPlace" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ChooseTug</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input id="_Edit_Scheduer_ChooseTug" type="text" class="form-control" disabled>
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-success" onclick="$('#table-modal').modal()" onfocus="$(this).parent().parent().removeClass('has-error')">@Resources.Language.V_OrderScheduler_ChooseTug...</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_InformCaptainTime</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Edit_Scheduer_InformCaptainTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_InformCaptainTime" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_CaptainConfirmTime</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Edit_Scheduer_CaptainConfirmTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_CaptainConfirmTime" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_JobStateLabel</label>
+                                            <div class="col-sm-9">
+                                                <select id="_Edit_Scheduer_JobStateLabel" class="form-control">
+                                                    @{
+                                                        List<CustomField> lstEditScheduerJobStates = (List<CustomField>)ViewBag.JobStates;
+                                                        foreach (CustomField item in lstEditScheduerJobStates)
+                                                        {
+                                                            string tmp = item.IDX + "~" + item.CustomLabel;
+                                                            <option value="@tmp">@item.CustomLabel</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" hidden>
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeUsed</label>
+                                            <div id="_Edit_Scheduer_RopeUsed" class="col-sm-9">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" checked onfocus="$(this).parent().parent().removeClass('has-error')">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" hidden>
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeNum</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Edit_Scheduer_RopeNum" type="text" value="1" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="_Edit_Scheduer_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                    <div id="Edit_Scheduer_childErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="_Edit_Scheduer_OldTugID" >-1</div>
+                    <div id="_Edit_Scheduer_NewTugIDS">-1</div>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditSchedulerModal()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Scheduler MODAL FORM-->
 
 
     <!-- 拖轮选择模态框-->
@@ -176,7 +304,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseMutilTugs(g_mode)">选择</button>
                 </div>
             </div>
         </div>
@@ -1092,8 +1220,10 @@
                 caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
                 onClickButton: function () {
                     var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
-                    var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
+                    
                     if (rowid != null) {
+                        var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
+
                         if (confirm('确定要删除所选的记录吗?')) {
                             var d = new Date();
                             $.ajax(
@@ -1123,17 +1253,36 @@
                 onClickButton: function () {
                     g_cur_parentGridRowId = parentRowKey;
                     g_cur_subGridId = '#' + childGridID;
+                    g_mode = "新增";
                     AddChild();
+                }
+            })
+            .navButtonAdd('#' + childGridPagerID, {
+                //id: childGridID + '_ilrefresh',
+                caption: "", title: "编辑", buttonicon: "ui-icon-pencil",
+                onClickButton: function () {
+                    var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
+                    if (rowid != null) {
+                        g_cur_parentGridRowId = parentRowKey;
+                        g_cur_subGridId = '#' + childGridID;
+                        g_cur_subGridRowId = rowid;
+                        g_mode = "编辑";
+                        EditSchedulerModal();
+                    }
+                    else {
+                        alert('选中一行');
+                    }
                 }
             });
 
 
         $('#' + childGridID).inlineNav('#' + childGridPagerID,
             {
-                edit: true,
+                edit: false,
                 add: false,
                 del: true,
-                cancel: true,
+                save:false,
+                cancel: false,
                 editParams: {
                     keys: true,
                     successfunc: function (val) {
@@ -1574,8 +1723,8 @@
 
 
 
-    var g_cur_subGridId = '';
-    var g_cur_parentGridRowId;
+    //var g_cur_subGridId = '';
+    //var g_cur_parentGridRowId;
 
 
     $('#table-modal').on('show.bs.modal', function (e) {
@@ -1610,7 +1759,43 @@
         //alert("hidden");
     });
 
-    function chooseTug() {
+
+    function chooseMutilTugs(mode){
+        var selectedIDs = jQuery('#jqGrid2').getGridParam("selarrrow");
+
+        if (selectedIDs != null && selectedIDs.length > 0) {
+            //alert(mode);
+
+            selectedTugIDs = '';
+            selectedTugName1 = '';
+            for (var i = 0; i < selectedIDs.length; i++) {
+                var tugId = jQuery('#jqGrid2').jqGrid('getCell', selectedIDs[i], "TugID"); //TugID
+                var tugName1 = jQuery('#jqGrid2').jqGrid('getCell', selectedIDs[i], "Name1"); //Name1
+                var tugName2 = jQuery('#jqGrid2').jqGrid('getCell', selectedIDs[i], "Name2"); //Name2
+                var tugSimpleName = jQuery('#jqGrid2').jqGrid('getCell', selectedIDs[i], "SimpleName"); //SimpleName
+
+                selectedTugIDs += tugId + ",";
+                selectedTugName1 += tugName1 + ",";
+            }
+
+            if (selectedTugIDs != "") {
+                selectedTugIDs = selectedTugIDs.substr(0, selectedTugIDs.length - 1);
+            }
+            if (selectedTugName1 != "") {
+                selectedTugName1 = selectedTugName1.substr(0, selectedTugName1.length - 1);
+            }
+
+            if (mode == "新增") {
+                $('#_TugID').text(selectedTugIDs);
+                $('#_ChooseTug').val(selectedTugName1);
+            }
+            else if (mode == "编辑") {
+                $('#_Edit_Scheduer_NewTugIDS').text(selectedTugIDs);
+                $('#_Edit_Scheduer_ChooseTug').val(selectedTugName1);
+            }
+        }
+    }
+    function chooseSingleTug() {
 
         var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
         //alert(rowid);
@@ -1644,9 +1829,6 @@
             $('#_ChooseTug').val(dr.Name1);
         }
     }
-
-
-
 
 
     function modalDialogGridInit() {
@@ -1865,6 +2047,8 @@
                 "minusicon": "ui-icon-triangle-1-s",
                 "openicon": "ui-icon-arrowreturn-1-e"
             },
+
+            multiselect: true,
 
             loadComplete: function () {
                 // 设定背景色
@@ -2155,8 +2339,9 @@
 
 
 
+<!--新增调度拖轮模态框-->
 <script type="text/javascript">
-    //模态框
+    
 
     function AddChild() {
         $('#child-modal').modal()
@@ -2208,6 +2393,8 @@
             datepicker: false,
         });
         $('#_CaptainConfirmTime').val(new Date().Format("hh:mm"));
+
+        $('#_TugID').text(-1);
 
         var orderId = dr.IDX;
         var serviceNatureId = $('#_ServiceNatureLabel').val();
@@ -2384,6 +2571,7 @@
             return;
         }
 
+   
 
         //提交数据库
         $.ajax({
@@ -2428,3 +2616,273 @@
 </script>
 
 
+<!--全局变量-->
+<script>
+    var g_cur_parentGridRowId = '';     //保存父Grid 行号
+
+    var g_cur_subGridId = '';           //保存子Grid Id
+    var g_cur_subGridRowId = '';        //保存子Grid 行号
+
+    var g_mode = '新增';      //新增拖轮调度模式
+</script>
+
+
+
+<!--编辑拖轮调度对话框-->
+<script>
+    
+    function EditSchedulerModal() {
+        $('#eidt-shceduler-modal').modal()
+
+    }
+
+    function initEditSchedulerModal() {
+        $('#Edit_Scheduer_childErrMsg').hide();
+
+
+        $('#_Edit_Scheduer_ServiceWorkDate').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_ServiceWorkPlace').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_ChooseTug').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_InformCaptainTime').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_CaptainConfirmTime').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_RopeNum').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_Remark').parent().removeClass("has-error");
+
+        //$('#_RopeUsed input[type="checkbox"]')
+
+        $('#_Edit_Scheduer_ServiceNatureLabel').empty();
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到父Grid该行的数据
+
+        var serviceNatureIDS = dr.ServiceNatureIDS.split('/');
+        var serviceNatureNames = dr.ServiceNatureNames.split('/');
+        for (var i = 0; i < serviceNatureIDS.length; i++) {
+            var option = "<option value=" + serviceNatureIDS[i] + ">" + serviceNatureNames[i] + "</option>"
+            $('#_Edit_Scheduer_ServiceNatureLabel').append(option)
+        }
+
+
+        var subDr = jQuery("" + g_cur_subGridId).jqGrid('getRowData', g_cur_subGridRowId);//得到子Grid该行的数据
+
+        $("#_Edit_Scheduer_ServiceNatureLabel").val(subDr.ServiceNatureID);
+
+
+        $('#_Edit_Scheduer_ServiceWorkDate').datetimepicker({
+            value : subDr.ServiceWorkDate,
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m-d',
+            timepicker: false,
+        });
+
+        $('#_Edit_Scheduer_ServiceWorkPlace').val(subDr.ServiceWorkPlace);
+
+        $('#_Edit_Scheduer_OldTugID').text(subDr.TugID);
+        $('#_Edit_Scheduer_NewTugIDS').text(-1);
+        $('#_Edit_Scheduer_ChooseTug').val(subDr.TugName1);
+
+        $('#_Edit_Scheduer_InformCaptainTime').datetimepicker({
+            value : subDr.InformCaptainTime,
+            format: 'H:i',
+            step: 1,
+            datepicker: false,
+        });
+        //$('#_InformCaptainTime').val(new Date().Format("hh:mm"));
+
+        $('#_Edit_Scheduer_CaptainConfirmTime').datetimepicker({
+            value : subDr.CaptainConfirmTime,
+            format: 'H:i',
+            step: 1,
+            datepicker: false,
+        });
+        //$('#_CaptainConfirmTime').val(new Date().Format("hh:mm"));
+        
+        $("#_Edit_Scheduer_JobStateLabel").val(subDr.JobStateID + "~" + subDr.JobStateLabel);
+
+        $('#_Edit_Scheduer_Remark').val(subDr.Remark);
+
+    }
+
+    $('#eidt-shceduler-modal').on('show.bs.modal', function (e) {
+        initEditSchedulerModal();
+
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
+    });
+
+    $('#eidt-shceduler-modal').on('shown.bs.modal', function (e) {
+        //var invoker = $(e.relatedTarget);
+        //alert(invoker.html());
+
+    });
+    $('#eidt-shceduler-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hide");
+    });
+    $('#eidt-shceduler-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+        //alert("hidden");
+    });
+
+    function editSchedulerServiceChanged() {
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+        var orderId = dr.IDX;
+        var serviceNatureId = $('#_Edit_Scheduer_ServiceNatureLabel').val();
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetServiceDateAndPlace", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                $('#_Edit_Scheduer_ServiceWorkDate').val(new Date(result.service_date).Format("yyyy-MM-dd"));
+                $('#_Edit_Scheduer_ServiceWorkPlace').val(result.service_place);
+            },
+        });
+    }
+
+    function submitEditSchedulerModal() {
+
+        var maxTextLength = 25;
+        var maxTextAreaLength = 500;
+
+        //_ServiceWorkDate
+        $('#Edit_Scheduer_childErrMsg').hide();
+        $('#_Edit_Scheduer_ServiceWorkDate').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_ServiceWorkPlace').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_InformCaptainTime').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_CaptainConfirmTime').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_ChooseTug').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_RopeNum').parent().removeClass("has-error");
+        $('#_Edit_Scheduer_Remark').parent().removeClass("has-error");
+
+
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到父Grid该行的数据
+
+        var subDr = jQuery("" + g_cur_subGridId).jqGrid('getRowData', g_cur_subGridRowId);//得到子Grid该行的数据
+        
+
+        var orderId = dr.IDX;
+        var serviceNatureId = $('#_Edit_Scheduer_ServiceNatureLabel').val();
+        var serviceWorkDate = $('#_Edit_Scheduer_ServiceWorkDate').val().trim();
+        var serviceWorkPlace = $('#_Edit_Scheduer_ServiceWorkPlace').val().trim();
+        var oldTugId = $('#_Edit_Scheduer_OldTugID ').text();
+        var newTugIds = $('#_Edit_Scheduer_NewTugIDS ').text();
+        var jobStateId = $("#_Edit_Scheduer_JobStateLabel").val().toString().split('~')[0];
+        var informCaptainTime = $('#_Edit_Scheduer_InformCaptainTime').val().trim();
+        var captainConfirmTime = $('#_Edit_Scheduer_CaptainConfirmTime').val().trim();
+        //var ropeUsed = "否";
+        //if (true == $("#_RopeUsed").is(':checked'))
+        //    ropeUsed = "是"
+        var ropeUsed = "是";
+
+        var ropeNum = $('#_Edit_Scheduer_RopeNum').val().toString().trim();
+        var remark = $('#_Edit_Scheduer_Remark').val().toString().trim();
+
+        //校验
+
+        if ($("#_Edit_Scheduer_ServiceWorkDate").val().toString().trim().length <= 0) {
+            $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkDate' + "必填");
+            $('#_Edit_Scheduer_ServiceWorkDate').parent().addClass("has-error");
+            $('#Edit_Scheduer_childErrMsg').show();
+            return;
+        }
+
+        if ($("#_Edit_Scheduer_ServiceWorkPlace").val().toString().trim().length <= 0) {
+            $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkPlace' + "必填");
+            $('#_Edit_Scheduer_ServiceWorkPlace').parent().addClass("has-error");
+            $('#Edit_Scheduer_childErrMsg').show();
+            return;
+        }
+        if ($("#_Edit_Scheduer_ServiceWorkPlace").val().toString().trim().length > maxTextAreaLength) {
+            $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkPlace' + "长度不能超过" + maxTextAreaLength);
+            $('#_Edit_Scheduer_ServiceWorkPlace').parent().addClass("has-error");
+            $('#Edit_Scheduer_childErrMsg').show();
+            return;
+        }
+
+        if ($("#_Edit_Scheduer_ChooseTug").val().toString().trim().length <= 0) {
+            $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_ChooseTug' + ":请至少选择一个拖轮");
+            $('#_Edit_Scheduer_ChooseTug').parent().addClass("has-error");
+            $('#Edit_Scheduer_childErrMsg').show();
+            return;
+        }
+
+        if (informCaptainTime.length <= 0) {
+            $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_InformCaptainTime' + "必填");
+            $('#_Edit_Scheduer_InformCaptainTime').parent().addClass("has-error");
+            $('#Edit_Scheduer_childErrMsg').show();
+            return;
+        }
+
+        if (captainConfirmTime.length <= 0) {
+            $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_CaptainConfirmTime' + "必填");
+            $('#_Edit_Scheduer_CaptainConfirmTime').parent().addClass("has-error");
+            $('#Edit_Scheduer_childErrMsg').show();
+            return;
+        }
+
+        @*if (true == $("#_RopeUsed").is(':checked')) {
+            var r = ropeNum.match("^\\d+$");
+            if (r == null) {
+                $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_RopeNum' + ":请输入0或正整数");
+                $('#_RopeNum').parent().addClass("has-error");
+                $('#childErrMsg').show();
+                return;
+            }
+        }*@
+
+        if (remark.length > maxTextAreaLength) {
+            $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#_Edit_Scheduer_Remark').parent().addClass("has-error");
+            $('#Edit_Scheduer_childErrMsg').show();
+            return;
+        }
+
+
+        //提交数据库
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("EditScheduler", "OrderManage")',
+            data: {
+                'orderId': orderId,
+                'serviceNatureId': serviceNatureId,
+                'serviceWorkDate': serviceWorkDate,
+                'serviceWorkPlace': serviceWorkPlace,
+                'schedulerId' : subDr.IDX,
+                'oldTugId': oldTugId,
+                'newTugIds':newTugIds,
+                'informCaptainTime': informCaptainTime,
+                'captainConfirmTime': captainConfirmTime,
+                'jobStateId': jobStateId,
+                'ropeUsed': ropeUsed,
+                'ropeNum': ropeNum,
+                'remark': remark,
+
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#eidt-shceduler-modal').modal('hide')
+                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                alert(result.message);
+
+                var childGridURL = '@Url.Action("GetOrderSubSchedulerData", "OrderManage")' + "?orderId=" + orderId;
+
+                $('' + g_cur_subGridId).jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: childGridURL,
+                }).trigger('reloadGrid');
+
+                $('' + g_cur_subGridId).jqGrid('setGridParam', { editurl: '@Url.Action("AddEditScheduler", "OrderManage")' });
+
+            },
+        });
+
+    }
+
+    
+</script>

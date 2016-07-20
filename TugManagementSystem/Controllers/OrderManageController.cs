@@ -854,7 +854,7 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        public ActionResult AddScheduler(int orderId, int serviceNatureId, string serviceWorkDate, string serviceWorkPlace, int tugId,
+        public ActionResult AddScheduler(int orderId, int serviceNatureId, string serviceWorkDate, string serviceWorkPlace, string tugId,
             string informCaptainTime, string captainConfirmTime, int jobStateId, string ropeUsed, int ropeNum, string remark)
         {
             this.Internationalization();
@@ -863,51 +863,65 @@ namespace TugManagementSystem.Controllers
             {
                 TugDataEntities db = new TugDataEntities();
                 {
-                    TugDataModel.Scheduler aScheduler = new Scheduler();
+                    //插入多个调度到数据库
+                    {
+                        List<string> lstTugIds = tugId.Split(',').ToList();
+                        if (lstTugIds != null && lstTugIds.Count > 0)
+                        {
+                            List<Scheduler> lstSchedulers = new List<Scheduler>();
+                            foreach (string item in lstTugIds)
+                            {
+                                TugDataModel.Scheduler aScheduler = new Scheduler();
 
-                    aScheduler.OrderID = orderId;
-                    aScheduler.ServiceNatureID = serviceNatureId;
+                                aScheduler.OrderID = orderId;
+                                aScheduler.ServiceNatureID = serviceNatureId;
 
-                    aScheduler.TugID = tugId;
-                    aScheduler.JobStateID = jobStateId;
-                    aScheduler.RopeUsed = ropeUsed;
-                    aScheduler.RopeNum = ropeNum;
-                    aScheduler.Remark = remark;
+                                aScheduler.TugID = Util.toint(item);
+                                aScheduler.JobStateID = jobStateId;
+                                aScheduler.RopeUsed = ropeUsed;
+                                aScheduler.RopeNum = ropeNum;
+                                aScheduler.Remark = remark;
 
-                    aScheduler.InformCaptainTime = informCaptainTime;
-                    aScheduler.CaptainConfirmTime = captainConfirmTime;
+                                aScheduler.InformCaptainTime = informCaptainTime;
+                                aScheduler.CaptainConfirmTime = captainConfirmTime;
 
-                    aScheduler.OwnerID = -1;
-                    aScheduler.UserID = Session.GetDataFromSession<int>("userid"); 
-                   
-                    aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                aScheduler.OwnerID = -1;
+                                aScheduler.UserID = Session.GetDataFromSession<int>("userid");
 
-                    aScheduler.UserDefinedCol1 = "";
-                    aScheduler.UserDefinedCol2 = "";
-                    aScheduler.UserDefinedCol3 = "";
-                    aScheduler.UserDefinedCol4 = "";
+                                aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                    //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+                                aScheduler.UserDefinedCol1 = "";
+                                aScheduler.UserDefinedCol2 = "";
+                                aScheduler.UserDefinedCol3 = "";
+                                aScheduler.UserDefinedCol4 = "";
 
-                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                    //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+                                //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                    //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+                                //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
-                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                    //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+                                //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
-                    aScheduler.UserDefinedCol9 = "";
-                    aScheduler.UserDefinedCol10 = "";
+                                //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
-                    aScheduler = db.Scheduler.Add(aScheduler);
-                    db.SaveChanges();
+                                aScheduler.UserDefinedCol9 = "";
+                                aScheduler.UserDefinedCol10 = "";
+
+                                lstSchedulers.Add(aScheduler);
+                            }
+
+                            db.Scheduler.AddRange(lstSchedulers);
+                            db.SaveChanges();
+                        }
+                    }
+
 
                     {
                         //更新订单状态
-                        OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == aScheduler.OrderID).FirstOrDefault();
+                        OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
                         if (tmpOrder != null)
                         {
                             tmpOrder.WorkStateID = 3; //已排船
@@ -938,7 +952,7 @@ namespace TugManagementSystem.Controllers
                             os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
-                            
+
                         }
                     }
 
@@ -954,6 +968,162 @@ namespace TugManagementSystem.Controllers
                 return Json(ret);
             }
         }
+
+
+
+        public ActionResult EditScheduler(int orderId, int serviceNatureId, string serviceWorkDate, string serviceWorkPlace, int schedulerId, int oldTugId, string newTugIds,
+            string informCaptainTime, string captainConfirmTime, int jobStateId, string ropeUsed, int ropeNum, string remark)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    #region 修改调度时，没有重新换过拖轮
+                    if (newTugIds == "-1")
+                    {
+                        Scheduler aScheduler = db.Scheduler.Where(u => u.IDX == schedulerId).FirstOrDefault();
+                        if(aScheduler != null)
+                        {
+
+                            aScheduler.OrderID = orderId;
+                            aScheduler.ServiceNatureID = serviceNatureId;
+                            aScheduler.TugID = oldTugId;
+                            aScheduler.JobStateID = jobStateId;
+                            aScheduler.InformCaptainTime = informCaptainTime;
+                            aScheduler.CaptainConfirmTime = captainConfirmTime;
+
+                            aScheduler.Remark = remark;
+
+                            //aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
+                            //if (aScheduler.RopeUsed.Equals("是"))
+                            //    aScheduler.RopeNum = Util.toint(Request.Form["RopeNum"].Trim());
+                            //else
+                            //    aScheduler.RopeNum = 0;
+
+
+                            aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            db.Entry(aScheduler).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                    #endregion
+
+                    #region 修改调度时，重新选择了拖轮
+                    else
+                    //插入多个调度到数据库
+                    {
+                        //1.删除原来的调度
+                        db.Scheduler.RemoveRange(db.Scheduler.Where(u => u.IDX == schedulerId).ToList());
+                        db.SaveChanges();
+
+                        //2.插入新的拖轮调度
+                        List<string> lstTugIds = newTugIds.Split(',').ToList();
+                        if (lstTugIds != null && lstTugIds.Count > 0)
+                        {
+                            List<Scheduler> lstSchedulers = new List<Scheduler>();
+                            foreach (string item in lstTugIds)
+                            {
+                                TugDataModel.Scheduler aScheduler = new Scheduler();
+
+                                aScheduler.OrderID = orderId;
+                                aScheduler.ServiceNatureID = serviceNatureId;
+
+                                aScheduler.TugID = Util.toint(item);
+                                aScheduler.JobStateID = jobStateId;
+                                aScheduler.RopeUsed = ropeUsed;
+                                aScheduler.RopeNum = ropeNum;
+                                aScheduler.Remark = remark;
+
+                                aScheduler.InformCaptainTime = informCaptainTime;
+                                aScheduler.CaptainConfirmTime = captainConfirmTime;
+
+                                aScheduler.OwnerID = -1;
+                                aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+
+                                aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                                aScheduler.UserDefinedCol1 = "";
+                                aScheduler.UserDefinedCol2 = "";
+                                aScheduler.UserDefinedCol3 = "";
+                                aScheduler.UserDefinedCol4 = "";
+
+                                //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                                //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                                //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                                //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                                aScheduler.UserDefinedCol9 = "";
+                                aScheduler.UserDefinedCol10 = "";
+
+                                lstSchedulers.Add(aScheduler);
+                            }
+
+                            db.Scheduler.AddRange(lstSchedulers);
+                            db.SaveChanges();
+                        }
+                    }
+                    #endregion
+
+                    {
+                        //更新订单状态
+                        OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                        if (tmpOrder != null)
+                        {
+                            tmpOrder.WorkStateID = 3; //已排船
+                            db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
+                    {
+                        OrderService os = db.OrderService.Where(u => u.OrderID == orderId && u.ServiceNatureID == serviceNatureId).FirstOrDefault();
+                        if (os == null)
+                        {
+                            os = new OrderService();
+                            os.CreateDate = os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            os.OrderID = orderId;
+                            os.OwnerID = -1;
+                            os.ServiceNatureID = serviceNatureId;
+                            os.ServiceWorkDate = serviceWorkDate;
+                            os.ServiceWorkPlace = serviceWorkPlace;
+                            os.UserID = Session.GetDataFromSession<int>("userid");
+                            os = db.OrderService.Add(os);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            os.ServiceWorkDate = serviceWorkDate;
+                            os.ServiceWorkPlace = serviceWorkPlace;
+                            os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+
+                        }
+                    }
+
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                return Json(ret);
+            }
+        }
+
 
         public ActionResult DeleteScheduler()
         {

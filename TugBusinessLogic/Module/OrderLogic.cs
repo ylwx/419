@@ -2573,7 +2573,7 @@ namespace TugBusinessLogic.Module
                             //if (orderMethod.ToLower().Equals("asc"))
                             //    orders = orders.OrderBy(u => u.IDX).ToList();
                             //else
-                                orders = orders.OrderByDescending(u => u.IDX).ToList();
+                                orders = orders.OrderByDescending(u => u.ServiceNatureID).ToList();
                         }
                         break;
                     case "ServiceNatureLabel":
