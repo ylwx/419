@@ -326,6 +326,11 @@ namespace TugManagementSystem.Controllers
             ViewBag.CurPage = curPage;
             ViewBag.QueryName = queryName;
 
+            ViewBag.BillTemplateTypes = GetBillTemplateTypes();
+            ViewBag.BillTemplateTimeTypes = GetBillTemplateTimeTypes();
+            //ViewBag.BillTemplatePayItems = GetBillTemplatePayItems();
+            ViewBag.BillTemplatePayItemPosition = GetBillTemplatePayItemPosition();
+
             return View("BillingScheme", list);
         }
 
