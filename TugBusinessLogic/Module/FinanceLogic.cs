@@ -27,6 +27,8 @@ namespace TugBusinessLogic.Module
                 //_invoice.CustormerID = (int)list.FirstOrDefault().CustomerID;
                 //_invoice.CustomerName = list.FirstOrDefault().CustomerName;
                 _invoice.OrderID = (int)list.FirstOrDefault().OrderID;
+                _invoice.JobNo = list.FirstOrDefault().JobNo;
+                _invoice.Rmark = list.FirstOrDefault().BillingRemark;
                 //_invoice.OrderCode = list.FirstOrDefault().OrderCode;
 
                 Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();

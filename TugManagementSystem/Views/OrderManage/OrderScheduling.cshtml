@@ -76,7 +76,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" hidden>
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_JobStateLabel</label>
                                             <div class="col-sm-9">
                                                 <select id="_JobStateLabel" class="form-control">
@@ -104,7 +104,7 @@
                                         <div class="form-group" hidden>
                                             <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeNum</label>
                                             <div class="col-sm-9">
-                                                <input id="_RopeNum" type="text" value="1" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
+                                                <input id="_RopeNum" type="text" value="0" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
                                             </div>
                                         </div>
 
@@ -128,7 +128,7 @@
                 <div class="modal-footer">
                     <div id="_TugID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitChildModal()">提交</button>
+                    <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitChildModal()">提交</button>
                 </div>
             </div>
         </div>
@@ -191,7 +191,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_InformCaptainTime</label>
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_InformCaptainTime</label>
                                             <div class="col-sm-9">
                                                 <input id="_Edit_Scheduer_InformCaptainTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_InformCaptainTime" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
@@ -203,7 +203,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" hidden>
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_JobStateLabel</label>
                                             <div class="col-sm-9">
                                                 <select id="_Edit_Scheduer_JobStateLabel" class="form-control">
@@ -231,7 +231,7 @@
                                         <div class="form-group" hidden>
                                             <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_RopeNum</label>
                                             <div class="col-sm-9">
-                                                <input id="_Edit_Scheduer_RopeNum" type="text" value="1" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
+                                                <input id="_Edit_Scheduer_RopeNum" type="text" value="0" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_RopeNum" onfocus="$(this).parent().removeClass('has-error')" disabled />
                                             </div>
                                         </div>
 
@@ -256,7 +256,7 @@
                     <div id="_Edit_Scheduer_OldTugID" hidden>-1</div>
                     <div id="_Edit_Scheduer_NewTugIDS" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitEditSchedulerModal()">提交</button>
+                    <button id="edit_btn_submit" type="button" class="btn btn-primary" onclick="submitEditSchedulerModal()">提交</button>
                 </div>
             </div>
         </div>
@@ -2403,6 +2403,7 @@
     function initChildModal() {
         $('#childErrMsg').hide();
         
+        $("#add_btn_sumbit").attr("disabled", false);
         
         $('#_ServiceWorkDate').parent().removeClass("has-error");
         $('#_ServiceWorkPlace').parent().removeClass("has-error");
@@ -2466,9 +2467,9 @@
                 $('#_ServiceWorkPlace').val(result.service_place);
                 $('#_ChooseTug').val("");
                 $("#_JobStateLabel option:first").prop("selected", 'selected');
-                //$('#_RopeUsed input[type="checkbox"]').attr("checked", false);
-                //$('#_RopeNum').val("0");
-                //$('#_RopeNum').attr("disabled", "disabled");
+                $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+                $('#_RopeNum').val("0");
+                $('#_RopeNum').attr("disabled", "disabled");
                 $('#_Remark').val("");
 
             },
@@ -2555,10 +2556,10 @@
         var jobStateId = $("#_JobStateLabel").val().toString().split('~')[0];
         var informCaptainTime = $('#_InformCaptainTime').val().trim();
         var captainConfirmTime = $('#_CaptainConfirmTime').val().trim();
-        //var ropeUsed = "否";
-        //if (true == $("#_RopeUsed").is(':checked'))
-        //    ropeUsed = "是"
-        var ropeUsed = "是";
+        var ropeUsed = "否";
+        if (true == $("#_RopeUsed").is(':checked'))
+            ropeUsed = "是"
+        
 
         var ropeNum = $('#_RopeNum').val().toString().trim();
         var remark = $('#_Remark').val().toString().trim();
@@ -2622,7 +2623,8 @@
             $('#childErrMsg').show();
             return;
         }
-
+        
+        $("#add_btn_sumbit").attr("disabled", true);
    
 
         //提交数据库
@@ -2662,6 +2664,9 @@
                 $('' + g_cur_subGridId).jqGrid('setGridParam', { editurl: '@Url.Action("AddEditScheduler", "OrderManage")' });
 
             },
+            error: function (xhr) {
+                $("#add_btn_sumbit").attr("disabled", false);
+            }
         });
 
     }
@@ -2691,6 +2696,7 @@
     function initEditSchedulerModal() {
         $('#Edit_Scheduer_childErrMsg').hide();
 
+        $("#edit_btn_sumbit").attr("disabled", false);
 
         $('#_Edit_Scheduer_ServiceWorkDate').parent().removeClass("has-error");
         $('#_Edit_Scheduer_ServiceWorkPlace').parent().removeClass("has-error");
@@ -2751,6 +2757,7 @@
 
         $('#_Edit_Scheduer_Remark').val(subDr.Remark);
 
+        $('#_Edit_Scheduer_RopeUsed input[type="checkbox"]').attr("checked", false);
     }
 
     $('#eidt-shceduler-modal').on('show.bs.modal', function (e) {
@@ -2824,10 +2831,9 @@
         var jobStateId = $("#_Edit_Scheduer_JobStateLabel").val().toString().split('~')[0];
         var informCaptainTime = $('#_Edit_Scheduer_InformCaptainTime').val().trim();
         var captainConfirmTime = $('#_Edit_Scheduer_CaptainConfirmTime').val().trim();
-        //var ropeUsed = "否";
-        //if (true == $("#_RopeUsed").is(':checked'))
-        //    ropeUsed = "是"
-        var ropeUsed = "是";
+        var ropeUsed = "否";
+        if (true == $("#_Edit_Scheduer_RopeUsed").is(':checked'))
+            ropeUsed = "是"
 
         var ropeNum = $('#_Edit_Scheduer_RopeNum').val().toString().trim();
         var remark = $('#_Edit_Scheduer_Remark').val().toString().trim();
@@ -2861,12 +2867,12 @@
             return;
         }
 
-        if (informCaptainTime.length <= 0) {
+        @*if (informCaptainTime.length <= 0) {
             $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_InformCaptainTime' + "必填");
             $('#_Edit_Scheduer_InformCaptainTime').parent().addClass("has-error");
             $('#Edit_Scheduer_childErrMsg').show();
             return;
-        }
+        }*@
 
         if (captainConfirmTime.length <= 0) {
             $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.V_OrderScheduler_CaptainConfirmTime' + "必填");
@@ -2875,15 +2881,15 @@
             return;
         }
 
-        @*if (true == $("#_RopeUsed").is(':checked')) {
+        if (true == $("#_Edit_Scheduer_RopeUsed").is(':checked')) {
             var r = ropeNum.match("^\\d+$");
             if (r == null) {
                 $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_RopeNum' + ":请输入0或正整数");
-                $('#_RopeNum').parent().addClass("has-error");
+                $('#_Edit_Scheduer_RopeNum').parent().addClass("has-error");
                 $('#childErrMsg').show();
                 return;
             }
-        }*@
+        }
 
         if (remark.length > maxTextAreaLength) {
             $('#Edit_Scheduer_childErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
@@ -2892,6 +2898,7 @@
             return;
         }
 
+        $("#edit_btn_sumbit").attr("disabled", true);
 
         //提交数据库
         $.ajax({
@@ -2932,6 +2939,9 @@
                 $('' + g_cur_subGridId).jqGrid('setGridParam', { editurl: '@Url.Action("AddEditScheduler", "OrderManage")' });
 
             },
+            error: function (xhr) {
+                $("#edit_btn_sumbit").attr("disabled", false);
+            }
         });
 
     }

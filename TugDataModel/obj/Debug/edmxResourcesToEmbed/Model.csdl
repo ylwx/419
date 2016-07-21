@@ -49,6 +49,7 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
     <EntitySet Name="Approve" EntityType="Model.Approve" />
     <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
     <EntitySet Name="BaseTreeItems" EntityType="Model.BaseTreeItems" />
@@ -70,12 +71,12 @@
     <EntitySet Name="RoleMenu" EntityType="Model.RoleMenu" />
     <EntitySet Name="RoleModule" EntityType="Model.RoleModule" />
     <EntitySet Name="Scheduler" EntityType="Model.Scheduler" />
-    <EntitySet Name="sysdiagrams" EntityType="Model.sysdiagrams" />
     <EntitySet Name="testinv" EntityType="Model.testinv" />
     <EntitySet Name="TugInfor" EntityType="Model.TugInfor" />
     <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
     <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
     <EntitySet Name="V_1" EntityType="Model.V_1" />
+    <EntitySet Name="V_AmountSum_Billing" EntityType="Model.V_AmountSum_Billing" />
     <EntitySet Name="V_Arrangement" EntityType="Model.V_Arrangement" />
     <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
     <EntitySet Name="V_Billing" EntityType="Model.V_Billing" />
@@ -176,6 +177,32 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
+  <EntityType Name="AmountSum">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TugID" Type="Int32" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingID" Type="Int32" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerShipID" Type="Int32" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol5" Type="Double" />
+    <Property Name="UserDefinedCol6" Type="Int32" />
+    <Property Name="UserDefinedCol7" Type="Int32" />
+    <Property Name="UserDefinedCol8" Type="Int32" />
+    <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="Approve">
     <Key>
       <PropertyRef Name="IDX" />
@@ -402,7 +429,7 @@
     </Key>
     <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Name1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="SimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TypeID" Type="Int32" />
@@ -410,7 +437,7 @@
     <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="MailCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="OwnerID" Type="Int32" />
@@ -777,16 +804,6 @@
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_Scheduler" FromRole="Scheduler" ToRole="BillingItem" />
   </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <EntityType Name="testinv">
     <Key>
       <PropertyRef Name="ID" />
@@ -936,6 +953,22 @@
     <Property Name="Task" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="FlowUserID" Type="Int32" />
     <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="V_AmountSum_Billing">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="TugID" Type="Int32" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingID" Type="Int32" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerShipID" Type="Int32" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="BillingTypeID" Type="Int32" />
+    <Property Name="TimeTypeID" Type="Int32" />
+    <Property Name="Expr1" Type="Double" />
   </EntityType>
   <EntityType Name="V_Arrangement">
     <Key>

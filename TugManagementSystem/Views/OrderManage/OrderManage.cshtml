@@ -217,7 +217,7 @@
                     <div id="_CustomerID" hidden>-1</div>
                     <div id="_ShipID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                    <button id="btn_submit" type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
                 </div>
             </div>
         </div>
@@ -1366,6 +1366,8 @@
 
 
     function initParentModal() {
+        $("#btn_submit").attr("disabled", false);
+
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
         $('#_OrdDate').parent().removeClass("has-error");
@@ -1749,6 +1751,9 @@
             return;
         }
 
+        $("#btn_submit").attr("disabled", true);
+
+
         //提交数据库
         $.ajax({
             type: "post",
@@ -1790,6 +1795,9 @@
                 $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "OrderManage")' });
 
             },
+            error: function (xhr) {
+                $("#btn_submit").attr("disabled", false);
+            }
         });
 
     }

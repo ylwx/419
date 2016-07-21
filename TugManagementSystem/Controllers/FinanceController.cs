@@ -225,7 +225,8 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult AddInvoice(int orderId, int billingTemplateId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
+        public ActionResult AddInvoice(int orderId, int billingTemplateId, int billingTypeId, int timeTypeId,
+            string jobNo, string remark, double discount, double amount, string jsonArrayItems)
         {
 
             this.Internationalization();
@@ -253,6 +254,8 @@ namespace TugManagementSystem.Controllers
                     aScheduler.TimeTypeID = timeTypeId;
                     aScheduler.UserID = Session.GetDataFromSession<int>("userid");
                     aScheduler.Discount = discount;
+                    aScheduler.JobNo = jobNo;
+                    aScheduler.Remark = remark;
                     aScheduler.Amount = amount;
 
 
@@ -355,7 +358,7 @@ namespace TugManagementSystem.Controllers
 
             try
             {
-                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
                 ParameterExpression parameter = Expression.Parameter(typeof(Billing));
 
                 string strBillIds = Request.Form["billIds"];
@@ -397,7 +400,7 @@ namespace TugManagementSystem.Controllers
                             string strOrderIds = Request.Form["orderIds"];
                             if (strOrderIds != "")
                             {
-                                List<string> listOrderIds = strBillIds.Split(',').ToList();
+                                List<string> listOrderIds = strOrderIds.Split(',').ToList();
 
                                 foreach (string item in listOrderIds)
                                 {
@@ -443,7 +446,8 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult EditInvoice(int orderId, int billingId, int billingTemplateId, int billingTypeId, int timeTypeId, double discount, double amount, string jsonArrayItems)
+        public ActionResult EditInvoice(int orderId, int billingId, int billingTemplateId, int billingTypeId, int timeTypeId, 
+            string jobNo, string remark, double discount, double amount, string jsonArrayItems)
         {
             this.Internationalization();
 
@@ -460,6 +464,8 @@ namespace TugManagementSystem.Controllers
                         oldBilling.TimeTypeID = timeTypeId;
                         oldBilling.Discount = discount;
                         oldBilling.Amount = amount;
+                        oldBilling.JobNo = jobNo;
+                        oldBilling.Remark = remark;
                         oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;

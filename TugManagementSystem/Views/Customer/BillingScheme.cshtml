@@ -135,7 +135,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                    <button id="btn_parent_submit" type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
                 </div>
             </div>
         </div>
@@ -238,7 +238,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitChildModal(g_PrentRowId, g_ParentRowIndex, g_ChildGridId)">提交</button>
+                    <button id="btn_child_submit" type="button" class="btn btn-primary" onclick="submitChildModal(g_PrentRowId, g_ParentRowIndex, g_ChildGridId)">提交</button>
                 </div>
             </div>
         </div>
@@ -1547,6 +1547,7 @@
         $('#_TemplateCreditContent').val("");
         $('#_Remark').val("");
         
+        $("#btn_parent_submit").attr("disabled", false);
     }
 
     $('#parent-modal').on('show.bs.modal', function (e) {
@@ -1660,6 +1661,8 @@
         }
 
 
+        $("#btn_parent_submit").attr("disabled", true);
+
         //提交数据库
 
         $.ajax({
@@ -1700,6 +1703,9 @@
                     $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditCustomerBillScheme", "Customer")' + '?custId=' + $('.panel-title span:first').html() });
                 }
             },
+            error: function (xhr) {
+                $("#btn_parent_submit").attr("disabled", false);
+            }
         });
 
     }
@@ -1716,6 +1722,7 @@
         $('#childErrMsg').hide();
         $('#_UnitPrice').parent().removeClass("has-error");
         
+        $("#btn_child_submit").attr("disabled", false);
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_ParentRowIndex);//得到该行的数据
 
@@ -1814,6 +1821,7 @@
             }
         }
 
+        $("#btn_child_submit").attr("disabled", true);
 
         //提交数据库
 
@@ -1844,6 +1852,9 @@
                 $("#" + childGridId).jqGrid('setGridParam', { editurl: '@Url.Action("AddEditCustomerBillSchemeItem", "Customer")' });
 
             },
+            error: function (xhr) {
+                $("#btn_child_submit").attr("disabled", false);
+            }
         });
 
     }

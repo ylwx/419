@@ -177,6 +177,17 @@ namespace TugDataModel
         /// 共计港币
         /// </summary>
         public double GrandTotalHKS { get; set; }
+
+
+        /// <summary>
+        /// 作业号，财务手动输入
+        /// </summary>
+        public string JobNo { get; set; }
+
+        /// <summary>
+        /// 账单备注信息
+        /// </summary>
+        public string Rmark { get; set; }
     }
 
 
