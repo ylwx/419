@@ -1468,6 +1468,7 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 120,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    hidden: true,
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
                         dataInit: function (element) {
@@ -1607,7 +1608,7 @@
                     align: 'center', label: '@Resources.Language.V_OrderBilling_TimesNo', name: "TimesNo", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
-                    hidden: false
+                    hidden: true
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_Status', name: "Status", width: 100,
@@ -2066,7 +2067,7 @@
                 for (var i = 0; i < result.customer_billing_schemes.length; i++) {
 
                     //计费方案ID~计费折扣~客户Code%计费方案模板类型ID~计费方案模板类型Value~计费方案模板类型Label%计费方案模板计时方式ID~计费方案模板计时方式Value~计费方案模板计时方式Label
-                    //客户Code如果是字符串-1，则表示是非会员客户的计费方案
+                    //客户Code如果是字符串-1，则表示是非會員客戶的计费方案
                     var v = result.customer_billing_schemes[i].BillingTemplateIDX + '~' + result.customer_billing_schemes[i].Discount + '~' + result.customer_billing_schemes[i].CustomerCode
                         + "%"
                         + result.customer_billing_schemes[i].BillingTemplateTypeID + "~" + result.customer_billing_schemes[i].BillingTemplateTypeValue + "~" + result.customer_billing_schemes[i].BillingTemplateTypeLabel
@@ -2815,8 +2816,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -3222,8 +3223,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -3749,8 +3750,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
@@ -4156,8 +4157,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
@@ -4350,7 +4351,7 @@
                 for (var i = 0; i < result.customer_billing_schemes.length; i++) {
 
                     //计费方案ID~计费折扣~客户Code%计费方案模板类型ID~计费方案模板类型Value~计费方案模板类型Label%计费方案模板计时方式ID~计费方案模板计时方式Value~计费方案模板计时方式Label
-                    //客户Code如果是字符串-1，则表示是非会员客户的计费方案
+                    //客户Code如果是字符串-1，则表示是非會員客戶的计费方案
                     var v = result.customer_billing_schemes[i].BillingTemplateIDX + '~' + result.customer_billing_schemes[i].Discount + '~' + result.customer_billing_schemes[i].CustomerCode
                         + "%"
                         + result.customer_billing_schemes[i].BillingTemplateTypeID + "~" + result.customer_billing_schemes[i].BillingTemplateTypeValue + "~" + result.customer_billing_schemes[i].BillingTemplateTypeLabel
@@ -5013,8 +5014,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -5488,8 +5489,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)"  disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -6091,8 +6092,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -6568,8 +6569,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -6797,7 +6798,7 @@
                 for (var i = 0; i < result.customer_billing_schemes.length; i++) {
 
                     //计费方案ID~计费折扣~客户Code%计费方案模板类型ID~计费方案模板类型Value~计费方案模板类型Label%计费方案模板计时方式ID~计费方案模板计时方式Value~计费方案模板计时方式Label
-                    //客户Code如果是字符串-1，则表示是非会员客户的计费方案
+                    //客户Code如果是字符串-1，则表示是非會員客戶的计费方案
                     var v = result.customer_billing_schemes[i].BillingTemplateIDX + '~' + result.customer_billing_schemes[i].Discount + '~' + result.customer_billing_schemes[i].CustomerCode
                         + "%"
                         + result.customer_billing_schemes[i].BillingTemplateTypeID + "~" + result.customer_billing_schemes[i].BillingTemplateTypeValue + "~" + result.customer_billing_schemes[i].BillingTemplateTypeLabel
@@ -7593,8 +7594,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -8070,8 +8071,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)" disabled></input>');
                     td.append(input);
                     tr.append(td);
@@ -8674,8 +8675,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="BanbaoBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);
@@ -9151,8 +9152,8 @@
                     var td = $('<td width="" style="text-align:center;vertical-align:middle"></td>')
                     var checkbox = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="ckItem" onchange="TiaoKuanBottomCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                     td.append(checkbox)
-                    var span = $('<br><span>拖缆费单价(每小时)</span>');
-                    td.append(span);
+                    //var span = $('<br><span>拖缆费单价(每小时)</span>');
+                    //td.append(span);
                     var input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt拖缆费" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_TuoLan_InputChanged(this)"></input>');
                     td.append(input);
                     tr.append(td);

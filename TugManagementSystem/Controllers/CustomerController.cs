@@ -268,7 +268,7 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
 
                 //db.Configuration.ProxyCreationEnabled = false;
-                List<Customer> customers = db.Customer.Where(u => u.IDX != -1 && u.Name1 != "非会员客户").Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                List<Customer> customers = db.Customer.Where(u => u.IDX != -1 && u.Name1 != "非會員客戶").Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
                 int totalRecordNum = customers.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;

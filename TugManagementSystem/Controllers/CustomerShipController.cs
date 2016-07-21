@@ -254,11 +254,11 @@ namespace TugManagementSystem.Controllers
                 List<Customer> Customers = null;
                 if (queryName == "")
                 {
-                    Customers = db.Customer.Where(u => u.Code != "-1" && u.Name1 != "非会员客户").Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                    Customers = db.Customer.Where(u => u.Code != "-1" && u.Name1 != "非會員客戶").Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
                 }
                 else
                 {
-                    Customers = db.Customer.Where(u => u.Name1.Contains(queryName) && u.Code != "-1" && u.Name1 != "非会员客户")
+                    Customers = db.Customer.Where(u => u.Name1.Contains(queryName) && u.Code != "-1" && u.Name1 != "非會員客戶")
                         .Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
                 }
 

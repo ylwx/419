@@ -1996,7 +1996,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 聯繫人電子郵件 的本地化字符串。
+        ///   查找类似 聯繫人電郵 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_LinkEmail {
             get {
@@ -2221,7 +2221,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 拖輪中文名 的本地化字符串。
+        ///   查找类似 拖輪名稱1 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_Name1 {
             get {
@@ -2230,7 +2230,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 拖輪英文名 的本地化字符串。
+        ///   查找类似 拖輪名稱2 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_Name2 {
             get {

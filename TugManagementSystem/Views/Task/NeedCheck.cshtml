@@ -183,6 +183,34 @@
             $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
                 .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+                .navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ilView',
+                    caption: "查看", title: "查看账单和回扣单", buttonicon: "ui-icon-search",
+                    onClickButton: function () {
+
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+
+                        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
+                        var timeTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
+                        var timeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
+                        var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
+                        var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
+                        var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+
+                        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+                            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+                            //alert("全包或半包报表预览");
+                            //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
+                            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+                        }
+
+                        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+                            //alert("计时报表预览");
+                            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+                        }
+                    },
+
+                })
      .navButtonAdd('#jqGridPager', {
          id: 'jqGrid_Pass',
          caption: "通过", title: "通过", buttonicon: "ui-icon-disk",
@@ -197,7 +225,7 @@
                      //var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                      //var cell = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
                  }
-                 alert(ids);
+                 //alert(ids);
                  $.ajax(
                             {
                                 type: "post",
@@ -361,6 +389,7 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 120,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    hidden: true,
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
                         dataInit: function (element) {

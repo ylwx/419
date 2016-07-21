@@ -76,7 +76,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group" hidden>
+                                        <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_JobStateLabel</label>
                                             <div class="col-sm-9">
                                                 <select id="_JobStateLabel" class="form-control">
@@ -203,7 +203,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group" hidden>
+                                        <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_JobStateLabel</label>
                                             <div class="col-sm-9">
                                                 <select id="_Edit_Scheduer_JobStateLabel" class="form-control">
@@ -696,7 +696,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_Name2', name: "TugName2", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
+                    editrules: { required: false }, hidden: true,
                     editoptions: {
                         dataInit: function (element) {
 
@@ -719,7 +719,7 @@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_SimpleName', name: "TugSimpleName", width: 100, editable: true, edittype: 'text',
-                    editrules: { required: false, edithidden: true }, hidden: false,
+                    editrules: { required: false, edithidden: true }, hidden: true,
                     editoptions: {
                         @*custom_value: function (elem, oper, value){},
                         custom_element: function (value, editOptions) {
@@ -1013,7 +1013,7 @@
                         },
                         custom: true
                     },
-                    hidden: false,
+                    hidden: true,
                     editoptions: { defaultValue: '0' }
                 },
 
@@ -1278,7 +1278,7 @@
                     g_mode = "新增";
 
                     var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
-                    alert(hasInvoice);
+                    //alert(hasInvoice);
                     if (hasInvoice == "否" || hasInvoice == '') {
                         AddChild();
                     }
@@ -1301,7 +1301,7 @@
                         g_mode = "编辑";
 
                         var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
-                        alert(hasInvoice);
+                        //alert(hasInvoice);
                         if (hasInvoice == "否" || hasInvoice=='') {
                             EditSchedulerModal();
                         }
@@ -1388,7 +1388,7 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: true, edittype: "checkbox",
                     //colmenu: false,
-                    hidden: false,
+                    hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     stype: 'select',
 
@@ -1408,12 +1408,7 @@
                         ]
                     }
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "Code", width: 120, editable: false, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
-                },
+
                 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
@@ -1462,7 +1457,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 120,
-                    editable: true, edittype: "text", hidden: false,
+                    editable: true, edittype: "text", hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
@@ -1548,6 +1543,12 @@
 
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "Code", width: 120, editable: false, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
