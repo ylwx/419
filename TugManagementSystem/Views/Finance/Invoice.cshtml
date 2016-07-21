@@ -1031,8 +1031,41 @@
                 })
                 .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
                 .navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ilEdit',
+                    caption: "", title: "编辑账单和回扣单", buttonicon: "ui-icon-pencil",
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        //alert(rowid);
+                        if (rowid != null) {
+                            g_curRowId = rowid;
+
+                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                            var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
+
+                            if (cell == null || cell == "") {
+                                alert('所选记录暂无账单，无法编辑，请先生成账单！');
+                                return;
+                            }
+                            else {
+                                //编辑
+                                //alert('弹出编辑账单和回扣单');
+                                //AddParent();
+                                if (phase != 0) {
+                                    alert('所选账单处于流程审核中，无法编辑！');
+                                    return;
+                                }
+                                EditInvoice();
+                            }
+                        }
+                        else {
+                            alert('选中一行');
+                        }
+                    },
+
+                })
+                .navButtonAdd('#jqGridPager', {
                     id: 'jqGrid_ilDelete',
-                    caption: "删除", title: "删除账单", buttonicon: "ui-icon-trash",
+                    caption: "", title: "删除账单", buttonicon: "ui-icon-trash",
                     onClickButton: function () {
 
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
@@ -1164,39 +1197,40 @@
                         }
                     },
 
-                }).navButtonAdd('#jqGridPager', {
-                    id: 'jqGrid_ilEdit',
-                    caption: "编辑", title: "编辑账单和回扣单", buttonicon: "ui-icon-pencil",
-                    onClickButton: function () {
-                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                        //alert(rowid);
-                        if (rowid != null) {
-                            g_curRowId = rowid;
+                    })
+                    //.navButtonAdd('#jqGridPager', {
+                //    id: 'jqGrid_ilEdit',
+                //    caption: "", title: "编辑账单和回扣单", buttonicon: "ui-icon-pencil",
+                //    onClickButton: function () {
+                //        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                //        //alert(rowid);
+                //        if (rowid != null) {
+                //            g_curRowId = rowid;
 
-                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                            var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
+                //            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                //            var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
 
-                            if (cell == null || cell == "") {
-                                alert('所选记录暂无账单，无法编辑，请先生成账单！');
-                                return;
-                            }
-                            else {
-                                //编辑
-                                //alert('弹出编辑账单和回扣单');
-                                //AddParent();
-                                if (phase != 0) {
-                                    alert('所选账单处于流程审核中，无法编辑！');
-                                    return;
-                                }
-                                EditInvoice();
-                            }
-                        }
-                        else {
-                            alert('选中一行');
-                        }
-                    },
+                //            if (cell == null || cell == "") {
+                //                alert('所选记录暂无账单，无法编辑，请先生成账单！');
+                //                return;
+                //            }
+                //            else {
+                //                //编辑
+                //                //alert('弹出编辑账单和回扣单');
+                //                //AddParent();
+                //                if (phase != 0) {
+                //                    alert('所选账单处于流程审核中，无法编辑！');
+                //                    return;
+                //                }
+                //                EditInvoice();
+                //            }
+                //        }
+                //        else {
+                //            alert('选中一行');
+                //        }
+                //    },
 
-                })
+                //})
                 .navButtonAdd('#jqGridPager', {
                     id: 'jqGrid_ilSubmit',
                     caption: "审核", title: "提交审核", buttonicon: "ui-icon-circle-plus",

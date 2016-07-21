@@ -430,7 +430,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 箱 的本地化字符串。
+        ///   查找类似 箱量 的本地化字符串。
         /// </summary>
         internal static string CustomerShip_TEUS {
             get {
@@ -439,7 +439,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 寬 的本地化字符串。
+        ///   查找类似 吃水 的本地化字符串。
         /// </summary>
         internal static string CustomerShip_Width {
             get {
@@ -1177,7 +1177,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 動力 的本地化字符串。
+        ///   查找类似 馬力 的本地化字符串。
         /// </summary>
         internal static string TugInfor_Power {
             get {
@@ -2023,7 +2023,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 中拖輪數量 的本地化字符串。
+        ///   查找类似 5000BHP拖轮數量 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_MiddleTugNum {
             get {
