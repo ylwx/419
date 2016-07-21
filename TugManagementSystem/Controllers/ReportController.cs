@@ -20,6 +20,102 @@ namespace TugManagementSystem.Controllers
         {
             return View();
         }
+        #region Report 拖轮 每月汇总
+        public ActionResult Amout_Tug()//int OrderID, int CreditID
+        {
+            //int OrderID; int CreditID;
+            //OrderID = 10; CreditID = 1;//临时测试用
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 768;  // set width
+            webReport.Height = 1366; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\Amount_Tug_Month.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Amout_Tug(webReport.Report);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport_Amout_Tug = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Amout_Tug(FastReport.Report FReport)
+        {
+            DataTable dt = null;
+            string str_report = string.Format(" ID > {0}", 0);
+            //data
+            dt = SqlHelper.GetDataTableData("V_AmountSum_Billing", str_report);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion       
+
+        #region Report 拖轮 全包/半包匯總
+        public ActionResult Amount_BillType()//int OrderID, int CreditID
+        {
+            //int OrderID; int CreditID;
+            //OrderID = 10; CreditID = 1;//临时测试用
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 768;  // set width
+            webReport.Height = 1366; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\Amout_BillingType.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Amount_BillType(webReport.Report);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport_Amount_BillType = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Amount_BillType(FastReport.Report FReport)
+        {
+            DataTable dt = null;
+            string str_report = string.Format(" ID > {0}", 0);
+            //data
+            dt = SqlHelper.GetDataTableData("V_AmountSum_Billing", str_report);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion       
+
+        #region Report 拖轮 客戶汇总
+        public ActionResult Amount_Customer()//int OrderID, int CreditID
+        {
+            //int OrderID; int CreditID;
+            //OrderID = 10; CreditID = 1;//临时测试用
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 768;  // set width
+            webReport.Height = 1366; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\Amout_Customer.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Amount_Customer(webReport.Report);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport_Amount_Customer = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Amount_Customer(FastReport.Report FReport)
+        {
+            DataTable dt = null;
+            string str_report = string.Format(" ID > {0}", 0);
+            //data
+            dt = SqlHelper.GetDataTableData("V_AmountSum_Billing", str_report);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion       
+
         #region Credit Note
         public ActionResult CreditNotePage(int OrderID,int CreditID)
         {
@@ -56,6 +152,7 @@ namespace TugManagementSystem.Controllers
             FReport.Parameters.FindByName("RefundHK$").Value = dt_Credit.Rows[0]["CreditAmount"];
         }
         #endregion       
+
         #region 发票，计时
         public ActionResult Invoice_tk(int OrderID,int TimeTypeValue)
         {
