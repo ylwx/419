@@ -890,7 +890,7 @@ namespace TugManagementSystem.Controllers
                                 aScheduler.UserID = Session.GetDataFromSession<int>("userid");
 
                                 aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
+                                
                                 aScheduler.UserDefinedCol1 = "";
                                 aScheduler.UserDefinedCol2 = "";
                                 aScheduler.UserDefinedCol3 = "";
