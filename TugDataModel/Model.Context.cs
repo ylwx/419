@@ -27,6 +27,7 @@ namespace TugDataModel
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AmountSum> AmountSum { get; set; }
         public virtual DbSet<Approve> Approve { get; set; }
         public virtual DbSet<Arrangement> Arrangement { get; set; }
         public virtual DbSet<BaseTreeItems> BaseTreeItems { get; set; }
@@ -48,12 +49,12 @@ namespace TugDataModel
         public virtual DbSet<RoleMenu> RoleMenu { get; set; }
         public virtual DbSet<RoleModule> RoleModule { get; set; }
         public virtual DbSet<Scheduler> Scheduler { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<testinv> testinv { get; set; }
         public virtual DbSet<TugInfor> TugInfor { get; set; }
         public virtual DbSet<UserInfor> UserInfor { get; set; }
         public virtual DbSet<UsersRole> UsersRole { get; set; }
         public virtual DbSet<V_1> V_1 { get; set; }
+        public virtual DbSet<V_AmountSum_Billing> V_AmountSum_Billing { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
