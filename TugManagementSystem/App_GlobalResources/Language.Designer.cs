@@ -880,6 +880,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 報表分析 的本地化字符串。
+        /// </summary>
+        internal static string Report {
+            get {
+                return ResourceManager.GetString("Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 全包半包匯總 的本地化字符串。
+        /// </summary>
+        internal static string Report_BillType {
+            get {
+                return ResourceManager.GetString("Report_BillType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客戶營業額匯總 的本地化字符串。
+        /// </summary>
+        internal static string Report_Customer {
+            get {
+                return ResourceManager.GetString("Report_Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪營業額匯總 的本地化字符串。
+        /// </summary>
+        internal static string Report_Tug {
+            get {
+                return ResourceManager.GetString("Report_Tug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 角色 的本地化字符串。
         /// </summary>
         internal static string Role {
