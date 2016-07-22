@@ -180,6 +180,11 @@ namespace TugDataModel
 
 
         /// <summary>
+        /// 账单月份
+        /// </summary>
+        public string Month { get; set; }
+
+        /// <summary>
         /// 作业号，财务手动输入
         /// </summary>
         public string JobNo { get; set; }
