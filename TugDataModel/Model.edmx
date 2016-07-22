@@ -10,13 +10,15 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerShipID" Type="int" />
+          <Property Name="BillingID" Type="int" />
+          <Property Name="BillingDateTime" Type="datetime" />
+          <Property Name="SchedulerID" Type="int" />
           <Property Name="TugID" Type="int" />
           <Property Name="Amount" Type="int" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" />
-          <Property Name="Hours" Type="int" />
-          <Property Name="BillingID" Type="int" />
-          <Property Name="CustomerID" Type="int" />
-          <Property Name="CustomerShipID" Type="int" />
+          <Property Name="Hours" Type="float" />
           <Property Name="Year" Type="nvarchar" MaxLength="50" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
           <Property Name="OwnerID" Type="int" />
@@ -392,6 +394,18 @@
           <Property Name="UserDefinedCol8" Type="int" />
           <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Fuelprice">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EffectiveDate" Type="datetime" />
+          <Property Name="Price" Type="float" />
+          <Property Name="Unit" Type="nchar" MaxLength="10" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddUserID" Type="int" />
         </EntityType>
         <EntityType Name="FunctionModule">
           <Key>
@@ -1701,6 +1715,7 @@
           <EntitySet Name="CustomField" EntityType="Self.CustomField" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FileInfor" EntityType="Self.FileInfor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Flow" EntityType="Self.Flow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fuelprice" EntityType="Self.Fuelprice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FunctionModule" EntityType="Self.FunctionModule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LogProcess" EntityType="Self.LogProcess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderInfor" EntityType="Self.OrderInfor" Schema="dbo" store:Type="Tables" />
@@ -2550,6 +2565,7 @@
           <EntitySet Name="CustomField" EntityType="Model.CustomField" />
           <EntitySet Name="FileInfor" EntityType="Model.FileInfor" />
           <EntitySet Name="Flow" EntityType="Model.Flow" />
+          <EntitySet Name="Fuelprice" EntityType="Model.Fuelprice" />
           <EntitySet Name="FunctionModule" EntityType="Model.FunctionModule" />
           <EntitySet Name="LogProcess" EntityType="Model.LogProcess" />
           <EntitySet Name="OrderInfor" EntityType="Model.OrderInfor" />
@@ -2669,13 +2685,15 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerShipID" Type="Int32" />
+          <Property Name="BillingID" Type="Int32" />
+          <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
+          <Property Name="SchedulerID" Type="Int32" />
           <Property Name="TugID" Type="Int32" />
           <Property Name="Amount" Type="Int32" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Hours" Type="Int32" />
-          <Property Name="BillingID" Type="Int32" />
-          <Property Name="CustomerID" Type="Int32" />
-          <Property Name="CustomerShipID" Type="Int32" />
+          <Property Name="Hours" Type="Double" />
           <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" />
@@ -3064,6 +3082,18 @@
           <Property Name="UserDefinedCol8" Type="Int32" />
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Fuelprice">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EffectiveDate" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddUserID" Type="Int32" />
         </EntityType>
         <EntityType Name="FunctionModule">
           <Key>
@@ -4350,13 +4380,15 @@
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="CustomerShipID" ColumnName="CustomerShipID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="Hours" ColumnName="Hours" />
                 <ScalarProperty Name="Currency" ColumnName="Currency" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
+                <ScalarProperty Name="BillingDateTime" ColumnName="BillingDateTime" />
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="CustomerShipID" ColumnName="CustomerShipID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -4729,6 +4761,19 @@
                 <ScalarProperty Name="Phase" ColumnName="Phase" />
                 <ScalarProperty Name="MarkID" ColumnName="MarkID" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fuelprice">
+            <EntityTypeMapping TypeName="Model.Fuelprice">
+              <MappingFragment StoreEntitySet="Fuelprice">
+                <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>

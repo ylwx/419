@@ -5,13 +5,15 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerShipID" Type="int" />
+    <Property Name="BillingID" Type="int" />
+    <Property Name="BillingDateTime" Type="datetime" />
+    <Property Name="SchedulerID" Type="int" />
     <Property Name="TugID" Type="int" />
     <Property Name="Amount" Type="int" />
     <Property Name="Currency" Type="nvarchar" MaxLength="50" />
-    <Property Name="Hours" Type="int" />
-    <Property Name="BillingID" Type="int" />
-    <Property Name="CustomerID" Type="int" />
-    <Property Name="CustomerShipID" Type="int" />
+    <Property Name="Hours" Type="float" />
     <Property Name="Year" Type="nvarchar" MaxLength="50" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="OwnerID" Type="int" />
@@ -387,6 +389,18 @@
     <Property Name="UserDefinedCol8" Type="int" />
     <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Fuelprice">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EffectiveDate" Type="datetime" />
+    <Property Name="Price" Type="float" />
+    <Property Name="Unit" Type="nchar" MaxLength="10" />
+    <Property Name="Type" Type="nchar" MaxLength="10" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="AddUserID" Type="int" />
   </EntityType>
   <EntityType Name="FunctionModule">
     <Key>
@@ -1696,6 +1710,7 @@
     <EntitySet Name="CustomField" EntityType="Self.CustomField" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FileInfor" EntityType="Self.FileInfor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Flow" EntityType="Self.Flow" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Fuelprice" EntityType="Self.Fuelprice" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FunctionModule" EntityType="Self.FunctionModule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LogProcess" EntityType="Self.LogProcess" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderInfor" EntityType="Self.OrderInfor" Schema="dbo" store:Type="Tables" />

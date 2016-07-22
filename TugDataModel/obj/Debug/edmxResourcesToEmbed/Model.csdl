@@ -63,6 +63,7 @@
     <EntitySet Name="CustomField" EntityType="Model.CustomField" />
     <EntitySet Name="FileInfor" EntityType="Model.FileInfor" />
     <EntitySet Name="Flow" EntityType="Model.Flow" />
+    <EntitySet Name="Fuelprice" EntityType="Model.Fuelprice" />
     <EntitySet Name="FunctionModule" EntityType="Model.FunctionModule" />
     <EntitySet Name="LogProcess" EntityType="Model.LogProcess" />
     <EntitySet Name="OrderInfor" EntityType="Model.OrderInfor" />
@@ -182,13 +183,15 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerShipID" Type="Int32" />
+    <Property Name="BillingID" Type="Int32" />
+    <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
+    <Property Name="SchedulerID" Type="Int32" />
     <Property Name="TugID" Type="Int32" />
     <Property Name="Amount" Type="Int32" />
     <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Hours" Type="Int32" />
-    <Property Name="BillingID" Type="Int32" />
-    <Property Name="CustomerID" Type="Int32" />
-    <Property Name="CustomerShipID" Type="Int32" />
+    <Property Name="Hours" Type="Double" />
     <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OwnerID" Type="Int32" />
@@ -577,6 +580,18 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Fuelprice">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EffectiveDate" Type="DateTime" Precision="3" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AddUserID" Type="Int32" />
   </EntityType>
   <EntityType Name="FunctionModule">
     <Key>

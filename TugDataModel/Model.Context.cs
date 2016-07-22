@@ -41,6 +41,7 @@ namespace TugDataModel
         public virtual DbSet<CustomField> CustomField { get; set; }
         public virtual DbSet<FileInfor> FileInfor { get; set; }
         public virtual DbSet<Flow> Flow { get; set; }
+        public virtual DbSet<Fuelprice> Fuelprice { get; set; }
         public virtual DbSet<FunctionModule> FunctionModule { get; set; }
         public virtual DbSet<LogProcess> LogProcess { get; set; }
         public virtual DbSet<OrderInfor> OrderInfor { get; set; }
