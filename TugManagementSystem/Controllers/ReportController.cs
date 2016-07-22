@@ -2,17 +2,19 @@
 using FastReport.Web;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TugDataModel;
+using TugBusinessLogic;
 using TugBusinessLogic.Module;
+using System.Data.SqlClient;
+using System.Data;
+using System.IO;
 
 namespace TugManagementSystem.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         //
         // GET: /Report/
@@ -20,6 +22,67 @@ namespace TugManagementSystem.Controllers
         {
             return View();
         }
+
+        #region 金额汇总接口
+        public ActionResult AmountSumAdd_Update(int CustomerID,int CustomerShipID,int BillingID,DateTime BillingDateTime,int SchedulerID,int TugID,float Amount,float Hours)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                //先删除
+                System.Linq.Expressions.Expression<Func<AmountSum, bool>> exp = u => u.BillingID == BillingID;
+                var entitys = db.AmountSum.Where(exp);
+                entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                db.AmountSum.RemoveRange(entitys);
+                db.SaveChanges();
+                //新增
+                TugDataModel.AmountSum newobj = new AmountSum();
+                newobj.CustomerID = CustomerID;
+                newobj.CustomerShipID = CustomerShipID;
+                newobj.BillingID = BillingID;
+                newobj.BillingDateTime = BillingDateTime;
+                newobj.SchedulerID = SchedulerID;
+                newobj.TugID = TugID;
+                newobj.Amount = Amount;
+                newobj.Hours = Hours;
+                newobj.OwnerID = -1;
+                newobj.CreateDate = newobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
+                newobj.UserID = Session.GetDataFromSession<int>("userid");
+                newobj.UserDefinedCol1 = "";
+                newobj.UserDefinedCol2 = "";
+                newobj.UserDefinedCol3 = "";
+                newobj.UserDefinedCol4 = "";
+                //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                //    newobj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                //    newobj.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                //    newobj.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                //    newobj.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                newobj.UserDefinedCol9 = "";
+                newobj.UserDefinedCol10 = "";
+
+                newobj = db.AmountSum.Add(newobj);
+                db.SaveChanges();
+
+                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                return Json(ret);
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+
+        }
+#endregion
+
         #region Report 拖轮 每月汇总
         public ActionResult Amout_Tug()//int OrderID, int CreditID
         {
