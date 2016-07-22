@@ -969,8 +969,8 @@
                 //    // if custommerid begin with B, do not use subgrid
                 //    var checkbox_id = 'jqg_jqGrid_' + rowid.toString();
 
-                //    var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                //    if (cell == null || cell == "") {
+                //    var billingId = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                //    if (billingId == null || billingId == "") {
                 //        return false;
                 //    }
                 //    return true;
@@ -1068,26 +1068,76 @@
                     onClickButton: function () {
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                         //alert(rowid);
+                        //if (rowid != null) {
+                        //    g_curRowId = rowid;
+
+                        //    var billingId = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                        //    var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
+
+                        //    if (billingId == null || billingId == "") {
+                        //        alert('所选记录暂无账单，无法编辑，请先生成账单！');
+                        //        return;
+                        //    }
+                        //    else {
+                        //        //编辑
+                        //        //alert('弹出编辑账单和回扣单');
+                        //        //AddParent();
+                        //        if (phase != 0) {
+                        //            alert('所选账单处于流程审核中，无法编辑！');
+                        //            return;
+                        //        }
+                        //        EditInvoice();
+                        //    }
+                        //}
                         if (rowid != null) {
                             g_curRowId = rowid;
 
-                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                            var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
+                            var selectedOrderIDs = "";
+                            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                            var noinvoiceResult = ""; //保存选择的没有账单的记录
 
-                            if (cell == null || cell == "") {
-                                alert('所选记录暂无账单，无法编辑，请先生成账单！');
-                                return;
-                            }
-                            else {
-                                //编辑
-                                //alert('弹出编辑账单和回扣单');
-                                //AddParent();
-                                if (phase != 0) {
-                                    alert('所选账单处于流程审核中，无法编辑！');
-                                    return;
-                                }
-                                EditInvoice();
-                            }
+                            var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //BillingID
+                            selectedOrderIDs = rowid + ":" + orderId;
+
+                            $.ajax({
+                                url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
+                                type: "POST",
+                                data: {
+                                    'selectedOrderIDs': selectedOrderIDs
+                                },//"oper=delete&id=" + gr,
+                                dataType: 'json',
+                                success: function (result) {
+                                    //alert(result.message);
+
+                                    for (key in result.dic_has_no_invoice) {
+
+                                        var value = result.dic_has_no_invoice[key];
+                                        noinvoiceResult += key + ",";
+                                    }
+
+                                    if (noinvoiceResult != "") {
+                                        noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                                        alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无法编辑，请先生成账单！');
+                                        return;
+                                    }
+
+                                    for (key in result.dic_has_invoice_in_fow) {
+
+                                        var value = result.dic_has_invoice_in_fow[key];
+                                        inFlowingResult += key + ",";
+                                    }
+
+                                    if (inFlowingResult != "") {
+                                        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                        alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，无法编辑！');
+                                        return;
+                                    }
+
+                                    //编辑
+                                    EditInvoice();
+                                },
+                            });
                         }
                         else {
                             alert('选中一行');
@@ -1100,80 +1150,151 @@
                     caption: "", title: "删除账单", buttonicon: "ui-icon-trash",
                     onClickButton: function () {
 
-                        var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-                        var result = ""; //保存选择的已有账单，但不在流程中的记录
-                        var orderIds_result = ""; //保存选择的已有账单，但不在流程中的记录的订单ID
+                        //var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                        //var result = ""; //保存选择的已有账单，但不在流程中的记录
+                        //var orderIds_result = ""; //保存选择的已有账单，但不在流程中的记录的订单ID
 
+                        //var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                        //var noinvoiceResult = ""; //保存选择的没有账单的记录
+                        //for (var i = 0; i < selectedIDs.length; i++) {
+
+                        //    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
+                        //    var orderId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "OrderID"); //BillingID
+                        //    var phase = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "Phase"); //Phase
+                        //    if (billingId != null && billingId != "") {
+                        //        if (phase == 0) {
+                        //            result += billingId + ",";
+                        //            orderIds_result += orderId + ",";
+                        //        }
+                        //        else {
+                        //            inFlowingResult += selectedIDs[i] + ","
+                        //        }
+                        //    }
+                        //    else {
+                        //        noinvoiceResult += selectedIDs[i] + ",";
+                        //    }
+                        //}
+
+                        
+                        //if (result != "") {
+                        //    result = result.substr(0, result.length - 1);
+                        //}
+
+                        //if (orderIds_result != "") {
+                        //    orderIds_result = orderIds_result.substr(0, orderIds_result.length - 1);
+                        //}
+
+                        //if (noinvoiceResult != "") {
+                        //    noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                        //    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无需删除，请取消这些(条)记录！');
+                        //    return;
+                        //}
+                        //else {
+                        //    if (inFlowingResult != "") {
+                        //        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                        //        alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，不能删除，请取消这些(张)账单！');
+                        //        return;
+                        //    }
+                        //}
+                        
+
+                        var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                         var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
                         var noinvoiceResult = ""; //保存选择的没有账单的记录
-                        for (var i = 0; i < selectedIDs.length; i++) {
 
-                            var cell = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
+                        var selectedOrderIDs = "";
+                        //var selectedRowNumbers = "";
+
+                        for (var i = 0; i < selectedIDs.length; ++i) {
                             var orderId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "OrderID"); //BillingID
-                            var phase = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "Phase"); //Phase
-                            if (cell != null && cell != "") {
-                                if (phase == 0) {
-                                    result += cell + ",";
-                                    orderIds_result += orderId + ",";
-                                }
-                                else {
-                                    inFlowingResult += selectedIDs[i] + ","
-                                }
-                            }
-                            else {
-                                noinvoiceResult += selectedIDs[i] + ",";
-                            }
+                            selectedOrderIDs += selectedIDs[i].toString() + ":" + orderId + ",";
+                        }
+                        if (selectedOrderIDs != "") {                        
+                            selectedOrderIDs = selectedOrderIDs.substr(0, selectedOrderIDs.length - 1);
                         }
 
-                        
-                        if (result != "") {
-                            result = result.substr(0, result.length - 1);
-                        }
+                        $.ajax({
+                            url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
+                            type: "POST",
+                            data: {
+                                'selectedOrderIDs': selectedOrderIDs
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
+                                //alert(result.message);
 
-                        if (orderIds_result != "") {
-                            orderIds_result = orderIds_result.substr(0, orderIds_result.length - 1);
-                        }
+                                for (key in result.dic_has_no_invoice) {
 
-                        if (noinvoiceResult != "") {
-                            noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
-                            alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无需删除，请取消这些(条)记录！');
-                            return;
-                        }
-                        else {
-                            if (inFlowingResult != "") {
-                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，不能删除，请取消这些(张)账单！');
-                                return;
-                            }
-                        }
-                        
-
-                        if (confirm('确定要删除所选的记录吗?')) {
-
-                            $.ajax(
-                                {
-                                    type: "post",
-                                    url: '@Url.Action("DeleteInvoice", "Finance")',
-                                    data: { 'oper': 'delete', 'billIds': result, 'orderIds': orderIds_result },//"oper=delete&id=" + gr,
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        alert(result.message);
-                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                                        $('#jqGrid_ilAdd').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilView').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilReport').addClass('ui-state-disabled');
-                                        
-
-                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    },
+                                    var value = result.dic_has_no_invoice[key];
+                                    //alert(value);
+                                    noinvoiceResult += key + ",";
 
                                 }
-                                );
-                        }
+
+                                if (noinvoiceResult != "") {
+                                    noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                                    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无需删除，请取消这些(条)记录！');
+                                    return;
+                                }
+
+                                for (key in result.dic_has_invoice_in_fow) {
+
+                                    var value = result.dic_has_invoice_in_fow[key];
+                                    inFlowingResult += key + ",";
+                                    //alert(value);
+                                    //alert('所选的记录中，第' + key + '行账单已处于审核流程中，不能重复提交，请取消这些(张)账单！');
+                                    //return;
+                                }
+
+                                if (inFlowingResult != "") {
+                                    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                    alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，不能删除，请取消这些(张)账单！');
+                                    return;
+                                }
+
+                                for (key in result.dic_has_invoice_not_in_flow) {
+
+                                    var value = result.dic_has_invoice_not_in_flow[key];
+                                    //alert(value);
+                                    hasInvoceNotInFlowingResult += value + ",";
+                                    //hasInvoceNotInFlowingResult += value.toString().concat(",");
+                                    //alert(hasInvoceNotInFlowingResult);
+                                }
+
+                                if (hasInvoceNotInFlowingResult != "") {
+                                    hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                                }
+
+                                if (confirm('确定要删除所选的记录吗?')) {
+
+                                    $.ajax(
+                                        {
+                                            type: "post",
+                                            url: '@Url.Action("DeleteInvoice", "Finance")',
+                                            data: { 'oper': 'delete', 'billIds': result, 'orderIds': hasInvoceNotInFlowingResult },//"oper=delete&id=" + gr,
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                alert(result.message);
+                                                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                                $('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+
+                                                $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                            },
+
+                                        }
+                                        );
+                                }
+
+                            },
+                        }); 
 
                     },
                     position: "last"
@@ -1183,15 +1304,67 @@
                     onClickButton: function () {
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                         //alert(rowid);
-                        if (rowid != null) {
-                            g_curRowId = rowid;
+                        //if (rowid != null) {
+                        //    g_curRowId = rowid;
 
-                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                            if (cell == null || cell == "")
-                                AddParent();
-                            else {
-                                //编辑
-                                alert('所选记录已有账单，无需重复生成！');
+                        //    var billingId = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                        //    if (billingId == null || billingId == "")
+                        //        AddParent();
+                        //    else {
+                        //        //编辑
+                        //        alert('所选记录已有账单，无需重复生成！');
+                        //    }
+                        //}
+                        if (rowid != null) {
+                            if (rowid != null) {
+                                g_curRowId = rowid;
+
+                                var selectedOrderIDs = "";
+                                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                                var noinvoiceResult = ""; //保存选择的没有账单的记录
+
+                                var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //BillingID
+                                selectedOrderIDs = rowid + ":" + orderId;
+
+                                $.ajax({
+                                    url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
+                                    type: "POST",
+                                    data: {
+                                        'selectedOrderIDs': selectedOrderIDs
+                                    },//"oper=delete&id=" + gr,
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        //alert(result.message);
+
+                                        for (key in result.dic_has_invoice_in_fow) {
+
+                                            var value = result.dic_has_invoice_in_fow[key];
+                                            inFlowingResult += key + ",";
+                                        }
+
+                                        if (inFlowingResult != "") {
+                                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                            alert('所选的记录中，第' + inFlowingResult + '行已有账单，无需重复生成！');
+                                            return;
+                                        }
+
+                                        for (key in result.dic_has_invoice_not_in_flow) {
+
+                                            var value = result.dic_has_invoice_not_in_flow[key];
+                                            hasInvoceNotInFlowingResult += key + ",";
+                                        }
+
+                                        if (hasInvoceNotInFlowingResult != "") {
+                                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                                            alert('所选的记录中，第' + hasInvoceNotInFlowingResult + '行已有账单，无需重复生成！');
+                                            return;
+                                        }
+
+                                        //编辑
+                                        AddParent();
+                                    },
+                                });
                             }
                         }
                         else {
@@ -1205,24 +1378,78 @@
                     onClickButton: function () {
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                         //alert(rowid);
+                        //if (rowid != null) {
+                        //    g_curRowId = rowid;
+
+                        //    var billingId = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                        //    var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
+                        //    if (billingId == null || billingId == "") {
+                        //        alert('所选记录暂无账单，无法新增回扣单，请先生成账单！');
+                        //        return;
+                        //    }
+                        //    else {
+                        //        //编辑
+                        //        if (phase != 0) {
+                        //            alert('所选账单处于流程审核中，无法新增回扣单！');
+                        //            return;
+                        //        }
+                        //        //alert('弹出新增回扣单');
+                        //        AddCreditModal();
+                        //    }
+                        //}
                         if (rowid != null) {
+
                             g_curRowId = rowid;
 
-                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                            var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
-                            if (cell == null || cell == "") {
-                                alert('所选记录暂无账单，无法新增回扣单，请先生成账单！');
-                                return;
-                            }
-                            else {
-                                //编辑
-                                if (phase != 0) {
-                                    alert('所选账单处于流程审核中，无法新增回扣单！');
-                                    return;
-                                }
-                                //alert('弹出新增回扣单');
-                                AddCreditModal();
-                            }
+                            var selectedOrderIDs = "";
+                            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                            var noinvoiceResult = ""; //保存选择的没有账单的记录
+
+                            var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //BillingID
+                            selectedOrderIDs = rowid + ":" + orderId;
+
+                            $.ajax({
+                                url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
+                                type: "POST",
+                                data: {
+                                    'selectedOrderIDs': selectedOrderIDs
+                                },//"oper=delete&id=" + gr,
+                                dataType: 'json',
+                                success: function (result) {
+                                    //alert(result.message);
+
+                                    for (key in result.dic_has_no_invoice) {
+
+                                        var value = result.dic_has_no_invoice[key];
+                                        noinvoiceResult += key + ",";
+                                    }
+
+                                    if (noinvoiceResult != "") {
+                                        noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                                        alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无法新增回扣单，请先生成账单！');
+                                        return;
+                                    }
+
+                                    for (key in result.dic_has_invoice_in_fow) {
+
+                                        var value = result.dic_has_invoice_in_fow[key];
+                                        inFlowingResult += key + ",";
+                                        //alert(value);
+                                        //alert('所选的记录中，第' + key + '行账单已处于审核流程中，不能重复提交，请取消这些(张)账单！');
+                                        //return;
+                                    }
+
+                                    if (inFlowingResult != "") {
+                                        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                        alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，无法新增回扣单！');
+                                        return;
+                                    }
+
+                                    //查看
+                                    AddCreditModal();
+                                },
+                            });
                         }
                         else {
                             alert('选中一行');
@@ -1239,10 +1466,10 @@
                 //        if (rowid != null) {
                 //            g_curRowId = rowid;
 
-                //            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                //            var billingId = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
                 //            var phase = jQuery('#jqGrid').jqGrid('getCell', rowid, "Phase"); //Phase
 
-                //            if (cell == null || cell == "") {
+                //            if (billingId == null || billingId == "") {
                 //                alert('所选记录暂无账单，无法编辑，请先生成账单！');
                 //                return;
                 //            }
@@ -1268,46 +1495,128 @@
                     caption: "审核", title: "提交审核", buttonicon: "ui-icon-circle-plus",
                     onClickButton: function () {
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-                        var result = ""; //保存选择的已有账单，但不在流程中的记录
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                         var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
                         var noinvoiceResult = ""; //保存选择的没有账单的记录
-                        for (var i = 0; i < selectedIDs.length; i++) {
 
-                            var cell = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
-                            var phase = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "Phase"); //Phase
-                            if (cell != null && cell != "") {
-                                if (phase == 0) {
-                                    result += cell + ",";
+                        var selectedOrderIDs = "";
+                        //var selectedRowNumbers = "";
+
+                        for (var i = 0; i < selectedIDs.length; ++i) {
+                            var orderId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "OrderID"); //BillingID
+                            selectedOrderIDs += selectedIDs[i].toString() + ":" + orderId + ",";
+                        }
+                        if (selectedOrderIDs != "") {                        
+                            selectedOrderIDs = selectedOrderIDs.substr(0, selectedOrderIDs.length - 1);
+                        }
+
+                        $.ajax({
+                            url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
+                            type: "POST",
+                            data: {
+                                'selectedOrderIDs': selectedOrderIDs
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
+                                //alert(result.message);
+
+                                for (key in result.dic_has_no_invoice) {
+
+                                    var value = result.dic_has_no_invoice[key];
+                                    //alert(value);
+                                    noinvoiceResult += key + ",";
+                                    //alert('所选的记录中，第' + key + '行记录没有账单，不能提交审核，请取消这些(条)记录！'); 
+                                    //return;
+                                    //alert(noinvoiceResult);
                                 }
-                                else {
-                                    inFlowingResult += selectedIDs[i] + ","
+
+                                if (noinvoiceResult != "") {
+                                    noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                                    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，不能提交审核，请取消这些(条)记录！');
+                                    return;
                                 }
-                            }
-                            else {
-                                noinvoiceResult += selectedIDs[i] + ",";
-                            }
-                        }
 
-                        if (result != "") {
-                            result = result.substr(0, result.length - 1);                          
-                        }
+                                for (key in result.dic_has_invoice_in_fow) {
 
-                        if (noinvoiceResult != "") {
-                            noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
-                            alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，不能提交审核，请取消这些(条)记录！');
-                            return;
-                        }
-                        else {
-                            if (inFlowingResult != "") {
-                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，不能重复提交，请取消这些(张)账单！');
-                                return;
-                            }
-                        }
+                                    var value = result.dic_has_invoice_in_fow[key];
+                                    inFlowingResult += key + ",";
+                                    //alert(value);
+                                    //alert('所选的记录中，第' + key + '行账单已处于审核流程中，不能重复提交，请取消这些(张)账单！');
+                                    //return;
+                                }
 
-                        g_submit_billIds = result;
+                                if (inFlowingResult != "") {
+                                    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                    alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，不能重复提交，请取消这些(张)账单！');
+                                    return;
+                                }
 
-                        $('#table-modal').modal();
+                                for (key in result.dic_has_invoice_not_in_flow) {
+
+                                    var value = result.dic_has_invoice_not_in_flow[key];
+                                    //alert(value);
+                                    hasInvoceNotInFlowingResult += value + ",";
+                                    //hasInvoceNotInFlowingResult += value.toString().concat(",");
+                                    //alert(hasInvoceNotInFlowingResult);
+                                }
+
+                                if (hasInvoceNotInFlowingResult != "") {
+                                    hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                                }
+                                
+
+                                g_submit_billIds = hasInvoceNotInFlowingResult;
+
+                                $('#table-modal').modal();
+
+                                @*$('#jqGrid').jqGrid('setGridParam',
+                                {
+                                    datatype: 'json',
+                                    url: '@Url.Action("GetInvoiceData", "Finance")',
+                                }).trigger('reloadGrid');*@
+                            },
+                        });
+
+                        
+
+                        //for (var i = 0; i < selectedIDs.length; i++) {
+                            
+
+                        //    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "BillingID"); //BillingID
+                        //    var phase = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "Phase"); //Phase
+                        //    if (billingId != null && billingId != "") {
+                        //        if (phase == 0) {
+                        //            result += billingId + ",";
+                        //        }
+                        //        else {
+                        //            inFlowingResult += selectedIDs[i] + ","
+                        //        }
+                        //    }
+                        //    else {
+                        //        noinvoiceResult += selectedIDs[i] + ",";
+                        //    }
+                        //}
+
+                        //if (result != "") {
+                        //    result = result.substr(0, result.length - 1);                          
+                        //}
+
+                        //if (noinvoiceResult != "") {
+                        //    noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                        //    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，不能提交审核，请取消这些(条)记录！');
+                        //    return;
+                        //}
+                        //else {
+                        //    if (inFlowingResult != "") {
+                        //        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                        //        alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，不能重复提交，请取消这些(张)账单！');
+                        //        return;
+                        //    }
+                        //}
+
+                        //g_submit_billIds = result;
+
+                        //$('#table-modal').modal();
                     },
 
                 }).navButtonAdd('#jqGridPager', {
@@ -1316,19 +1625,55 @@
                     onClickButton: function () {
                       
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                        //alert(rowid);
+                        
+                        //if (rowid != null) {
+                        //    g_curRowId = rowid;
+
+                        //    var billingId = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                        //    if (billingId == null || billingId == "") {
+                        //        alert('所选记录暂无账单，无法查看！');
+                        //        return;
+                        //    }
+                        //    else {
+                        //        //查看
+                        //        ViewInvoice();
+                        //    }
+                        //}
                         if (rowid != null) {
                             g_curRowId = rowid;
 
-                            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                            if (cell == null || cell == "") {
-                                alert('所选记录暂无账单，无法查看！');
-                                return;
-                            }
-                            else {
-                                //查看
-                                ViewInvoice();
-                            }
+                            var selectedOrderIDs = "";
+                            var noinvoiceResult = ""; //保存选择的没有账单的记录
+
+                            var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //BillingID
+                            selectedOrderIDs = rowid + ":" + orderId;
+
+                            $.ajax({
+                                url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
+                                type: "POST",
+                                data: {
+                                    'selectedOrderIDs': selectedOrderIDs
+                                },//"oper=delete&id=" + gr,
+                                dataType: 'json',
+                                success: function (result) {
+                                    //alert(result.message);
+
+                                    for (key in result.dic_has_no_invoice) {
+
+                                        var value = result.dic_has_no_invoice[key];
+                                        noinvoiceResult += key + ",";
+                                    }
+
+                                    if (noinvoiceResult != "") {
+                                        noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                                        alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无法查看！');
+                                        return;
+                                    }
+
+                                    //查看
+                                    ViewInvoice();
+                               },
+                            });
                         }
                         else {
                             alert('选中一行');
@@ -1346,8 +1691,8 @@
                 //        if (rowid != null) {
                 //            g_curRowId = rowid;
 
-                //            var cell = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
-                //            if (cell == null || cell == "") {
+                //            var billingId = $(this).jqGrid('getCell', rowid, "BillingID"); //BillingID
+                //            if (billingId == null || billingId == "") {
                 //                alert('所选记录暂无账单，无法预览！');
                 //                return;
                 //            }
@@ -6981,16 +7326,16 @@
         if (g_edit_cur_selected_tab == 0) {
             $('#edit_job_no').parent().removeClass("has-error");
             $('#edit_remark').parent().removeClass("has-error");
-            EditVoice();
+            submitEditInvoice();
         }
         else {
-            EditCredit();
+            submitEditCredit();
         }
         
     }
 
 
-    function EditVoice() {
+    function submitEditInvoice() {
         //提交数据库
 
         var maxTextLength = 25;
@@ -7114,7 +7459,7 @@
     }
 
 
-    function EditCredit() {
+    function submitEditCredit() {
         $('#edit-modal').modal('hide');
     }
     
@@ -7124,12 +7469,12 @@
 <!--编辑模态框里的生成报表-->
 <script type="text/javascript">
 
-    function reGenerateEditTable(orderId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount) {
+    function reGenerateEditTable(orderId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount, result) {
 
         $('#edit_tb_detail').empty();
 
 
-        $.ajax({
+        @*$.ajax({
             type: "post",
             url: '@Url.Action("NewInvoice", "Finance")',
             data: {
@@ -7229,7 +7574,95 @@
                     $('#edit_tb_detail').append(tfoot);
                 }
             },
-        });
+        });*@
+
+
+
+        {
+
+            //$('#tb_detail').empty();
+            $('#edit_div_services').empty();
+
+            var div1 = $('<div class="col-md-2"><p>服务项目:<br>SERVICE:</p></div>');
+            var div2 = $('<div class="col-md-2"></div>');
+            var div3 = $('<div class="col-md-3"></div>');
+            var div4 = $('<div class="col-md-5"></div>')
+            for (key in result.invoice.ServiceNature) {
+                var value = result.invoice.ServiceNature[key];
+                var p = $('<p>' + value.ServiceName + '</p>')
+                div2.append(p);
+
+                p = $('<p>' + value.ServiceWorkDate + '</p>');
+                div3.append(p)
+
+                p = $('<p>' + value.ServiceWorkPlace + '</p>');
+                div4.append(p)
+
+            }
+
+            $('#edit_div_services').append(div1).append(div2).append(div3).append(div4);
+
+            //----生成表格
+
+            //1.表头
+            {
+                var thead = $('<thead></thead>');
+                var tr1 = $('<tr></tr>');
+                var tr2 = $('<tr></tr>');
+                var th = $('<th width="20%" rowspan="2" style="text-align:center;vertical-align:middle">拖轮</th>');
+                tr1.append(th);
+
+                for (key in result.invoice.ServiceNature) {
+                    var value = result.invoice.ServiceNature[key];
+                    //alert(result.invoice.Schedulers[key].length);
+                    var th = $('<th width="" style="text-align:center;vertical-align:middle" colspan=' + result.invoice.Schedulers[key].length + '>' + value.ServiceName + '</th>');
+                    tr1.append(th)
+                }
+                thead.append(tr1);
+
+                var colspan = 0;
+                for (key in result.invoice.Schedulers) {
+
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
+                        var th = $('<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>');
+
+                        var span1 = $('<span hidden>' + value[i].SchedulerID + '</span>');
+                        th.append(span1);
+
+                        tr2.append(th);
+                        colspan++;
+                    }
+                }
+
+                thead.append(tr2);
+                $('#edit_tb_detail').append(thead);
+            }
+
+            //2.表体
+            DynamicGenerateEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
+
+            //3.表尾
+            {
+                var tfoot = $('<tfoot></tfoot>')
+                var tr = $('<tr></tr>')
+
+                if (colspan == 0) {
+                    var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + GetFloatStr(result.invoice.GrandTotalHKS) + '<br> Grand Total HKS</strong></td>');
+                    tr.append(td);
+                }
+                else {
+                    var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>');
+                    var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
+
+                    tr.append(td1);
+                    tr.append(td2);
+                }
+                tfoot.append(tr);
+
+                $('#edit_tb_detail').append(tfoot);
+            }
+        }
        
     }
 

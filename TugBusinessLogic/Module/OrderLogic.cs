@@ -2961,5 +2961,77 @@ namespace TugBusinessLogic.Module
 
             return ret;
         }
+
+
+
+        static public void GetStatusOfOrderInvoice(string selectedOrderIDs, out Dictionary<int,int> dicHasNoInvoice, 
+            out Dictionary<int,int> dicHasInvoiceNotInFlow, out Dictionary<int,int> dicHasInvoiceInFow) {
+
+            Dictionary<int, int> dicHasNoInvoice2 = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceNotInFlow2 = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceInFow2 = new Dictionary<int, int>();
+            if (selectedOrderIDs != "")
+            {
+                List<string> list = selectedOrderIDs.Split(',').ToList(); //list中的每个元素的rowNo:orderId的格式
+                if (list != null)
+                {
+                    foreach (string item in list)
+                    {
+                        int rowNo = Util.toint(item.Split(':')[0]);
+                        int orderId = Util.toint(item.Split(':')[1]);
+
+                        string ret = GetStatusOfOrderInvoice(orderId);
+                        if (ret == ConstValue.HAS_INVOICE_IN_FLOW) {
+                            dicHasInvoiceInFow2.Add(rowNo, orderId);
+                        }
+                        else if (ret == ConstValue.HAS_INVOICE_NOT_IN_FLOW) {
+                            dicHasInvoiceNotInFlow2.Add(rowNo, orderId);
+                        }
+                        else
+                        {
+                            dicHasNoInvoice2.Add(rowNo, orderId);
+                        }
+                    }
+                }
+            }
+
+            dicHasNoInvoice = dicHasNoInvoice2;
+            dicHasInvoiceNotInFlow = dicHasInvoiceNotInFlow2;
+            dicHasInvoiceInFow = dicHasInvoiceInFow2;
+        }
+
+        
+        /// <summary>
+        /// 获取一个订单的账单状态
+        /// </summary>
+        /// <param name="orderId">订单Id</param>
+        static private string GetStatusOfOrderInvoice(int orderId)
+        {
+            string ret = ConstValue.HAS_NO_INVOICE;
+
+            TugDataEntities db = new TugDataEntities();
+
+            V_OrderBilling ob = db.V_OrderBilling.FirstOrDefault(u => u.OrderID == orderId);
+            if (ob != null)
+            {
+                if(ob.BillingID == null)
+                {
+                    ret = ConstValue.HAS_NO_INVOICE;
+                }
+                else
+                {
+                    if (ob.Phase != 0)
+                    {
+                        ret = ConstValue.HAS_INVOICE_IN_FLOW;
+                    }
+                    else
+                    {
+                        ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
+                    }
+                }
+            }
+
+            return ret;
+        }
     }
 }
