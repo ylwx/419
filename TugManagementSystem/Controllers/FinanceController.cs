@@ -595,7 +595,27 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
-        
+
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult CheckOrderInvoiceStatus(string selectedOrderIDs)
+        {
+            this.Internationalization();
+
+            Dictionary<int, int> dicHasNoInvoice = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceNotInFlow = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceInFow = new Dictionary<int, int>();
+
+            TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow);
+
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE,
+                              dic_has_no_invoice = dicHasNoInvoice,
+                              dic_has_invoice_not_in_flow = dicHasInvoiceNotInFlow,
+                              dic_has_invoice_in_fow = dicHasInvoiceInFow
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
 
@@ -1060,6 +1080,9 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion
+
+
+        
     }
 
 }
