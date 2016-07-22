@@ -16,14 +16,23 @@ namespace TugDataModel
     {
         public int ID { get; set; }
         public Nullable<int> TugID { get; set; }
+        public string TugName1 { get; set; }
         public Nullable<int> Amount { get; set; }
         public string Currency { get; set; }
+        public Nullable<int> Hours { get; set; }
         public Nullable<int> BillingID { get; set; }
+        public string BillingCode { get; set; }
         public Nullable<int> CustomerID { get; set; }
+        public string CustomerName1 { get; set; }
         public Nullable<int> CustomerShipID { get; set; }
-        public Nullable<int> OwnerID { get; set; }
+        public string CustomerShipName1 { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
+        public string BillingType { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
-        public Nullable<double> Expr1 { get; set; }
+        public string TimeType { get; set; }
+        public Nullable<double> BillTotalAmount { get; set; }
+        public string FinanceMonth { get; set; }
+        public string BillingYear { get; set; }
+        public string BillingMonth { get; set; }
     }
 }
