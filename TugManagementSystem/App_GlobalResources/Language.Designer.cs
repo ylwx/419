@@ -592,6 +592,51 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 日期 的本地化字符串。
+        /// </summary>
+        internal static string Fuelprice_EffectiveDate {
+            get {
+                return ResourceManager.GetString("Fuelprice_EffectiveDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 燃油價格管理 的本地化字符串。
+        /// </summary>
+        internal static string Fuelprice_FuelpriceManage {
+            get {
+                return ResourceManager.GetString("Fuelprice_FuelpriceManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 價格 的本地化字符串。
+        /// </summary>
+        internal static string Fuelprice_Price {
+            get {
+                return ResourceManager.GetString("Fuelprice_Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 類別 的本地化字符串。
+        /// </summary>
+        internal static string Fuelprice_Type {
+            get {
+                return ResourceManager.GetString("Fuelprice_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 單位 的本地化字符串。
+        /// </summary>
+        internal static string Fuelprice_Unit {
+            get {
+                return ResourceManager.GetString("Fuelprice_Unit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 生成帳單 的本地化字符串。
         /// </summary>
         internal static string GenerateInvoice {

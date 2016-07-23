@@ -15,11 +15,12 @@ namespace TugDataModel
     public partial class Fuelprice
     {
         public int IDX { get; set; }
-        public Nullable<System.DateTime> EffectiveDate { get; set; }
+        public string EffectiveDate { get; set; }
         public Nullable<double> Price { get; set; }
         public string Unit { get; set; }
         public string Type { get; set; }
         public string CreateDate { get; set; }
+        public string LastUpDate { get; set; }
         public Nullable<int> AddUserID { get; set; }
     }
 }

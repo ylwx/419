@@ -1420,12 +1420,12 @@ namespace TugManagementSystem.Controllers
                         aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
                         aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
 
-                        //aScheduler.JobStateID = Util.toint(Request.Form["JobStateID"].Trim()); ;
+                        aScheduler.JobStateID = Util.toint(Request.Form["JobStateID"].Trim()); ;
 
                         aScheduler.OrderID = Util.toint(Request.Form["OrderID"].Trim());
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = Session.GetDataFromSession<int>("userid");
-                        //aScheduler.Remark = Request.Form["Remark".Trim()];
+                        aScheduler.Remark = Request.Form["Remark".Trim()];
 
                         aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
                         if (aScheduler.RopeUsed.Equals("是"))

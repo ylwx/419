@@ -27,6 +27,7 @@ namespace TugDataModel
         public Nullable<int> JobStateID { get; set; }
         public string InformCaptainTime { get; set; }
         public string CaptainConfirmTime { get; set; }
+        public string IsCaptainConfirm { get; set; }
         public string DepartBaseTime { get; set; }
         public string ArrivalShipSideTime { get; set; }
         public string WorkCommencedTime { get; set; }

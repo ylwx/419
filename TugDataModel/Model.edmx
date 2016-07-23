@@ -16,7 +16,7 @@
           <Property Name="BillingDateTime" Type="datetime" />
           <Property Name="SchedulerID" Type="int" />
           <Property Name="TugID" Type="int" />
-          <Property Name="Amount" Type="int" />
+          <Property Name="Amount" Type="float" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" />
           <Property Name="Hours" Type="float" />
           <Property Name="Year" Type="nvarchar" MaxLength="50" />
@@ -400,11 +400,12 @@
             <PropertyRef Name="IDX" />
           </Key>
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EffectiveDate" Type="datetime" />
+          <Property Name="EffectiveDate" Type="nvarchar" MaxLength="50" />
           <Property Name="Price" Type="float" />
           <Property Name="Unit" Type="nchar" MaxLength="10" />
           <Property Name="Type" Type="nchar" MaxLength="10" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
           <Property Name="AddUserID" Type="int" />
         </EntityType>
         <EntityType Name="FunctionModule">
@@ -604,6 +605,7 @@
           <Property Name="JobStateID" Type="int" />
           <Property Name="InformCaptainTime" Type="nvarchar" MaxLength="50" />
           <Property Name="CaptainConfirmTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsCaptainConfirm" Type="nvarchar" MaxLength="50" />
           <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
           <Property Name="ArrivalShipSideTime" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkCommencedTime" Type="nvarchar" MaxLength="50" />
@@ -2691,7 +2693,7 @@
           <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
           <Property Name="SchedulerID" Type="Int32" />
           <Property Name="TugID" Type="Int32" />
-          <Property Name="Amount" Type="Int32" />
+          <Property Name="Amount" Type="Double" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Hours" Type="Double" />
           <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3088,11 +3090,12 @@
             <PropertyRef Name="IDX" />
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EffectiveDate" Type="DateTime" Precision="3" />
+          <Property Name="EffectiveDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Double" />
           <Property Name="Unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AddUserID" Type="Int32" />
         </EntityType>
         <EntityType Name="FunctionModule">
@@ -3299,6 +3302,7 @@
           <Property Name="JobStateID" Type="Int32" />
           <Property Name="InformCaptainTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CaptainConfirmTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsCaptainConfirm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DepartBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ArrivalShipSideTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkCommencedTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -4769,6 +4773,7 @@
             <EntityTypeMapping TypeName="Model.Fuelprice">
               <MappingFragment StoreEntitySet="Fuelprice">
                 <ScalarProperty Name="AddUserID" ColumnName="AddUserID" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
@@ -4996,6 +5001,7 @@
                 <ScalarProperty Name="WorkCommencedTime" ColumnName="WorkCommencedTime" />
                 <ScalarProperty Name="ArrivalShipSideTime" ColumnName="ArrivalShipSideTime" />
                 <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
+                <ScalarProperty Name="IsCaptainConfirm" ColumnName="IsCaptainConfirm" />
                 <ScalarProperty Name="CaptainConfirmTime" ColumnName="CaptainConfirmTime" />
                 <ScalarProperty Name="InformCaptainTime" ColumnName="InformCaptainTime" />
                 <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />

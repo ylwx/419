@@ -215,6 +215,7 @@ namespace TugBusinessLogic.Module
                 _invoice.TimeTypeID = (int)list.FirstOrDefault().TimeTypeID;
                 _invoice.TimeTypeValue = list.FirstOrDefault().TimeTypeValue;
                 _invoice.TimeTypeLabel = list.FirstOrDefault().TimeTypeLabel;
+                _invoice.Month = list.FirstOrDefault().Month;
 
                 _invoice.GrandTotalHKS = Math.Round(grandTotal,2);
             }
@@ -249,6 +250,7 @@ namespace TugBusinessLogic.Module
             _invoice.TimeTypeValue = timeTypeValue;
             _invoice.TimeTypeLabel = timeTypeLabel;
             _invoice.Discount = discount;
+            
 
             var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u);
 
@@ -2197,5 +2199,12 @@ namespace TugBusinessLogic.Module
             return orders;
         }
 
+
+        static public List<string> GetOrderSchedulerRemarks(int orderId)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<string> list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u.Remark).ToList();
+            return list;
+        }
     }
 }
