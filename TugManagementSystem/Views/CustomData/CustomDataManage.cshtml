@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "公共信息維護";
+    ViewBag.Title = @Resources.Language.Custom_CustomManage;
     ViewBag.MenuId = "menu1";
     ViewBag.SubMenuIndex = 2;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
@@ -196,12 +196,12 @@
                                                                         <div class="pull-left">
                                                                             @if (i % 2 == 0)
                                                                             {
-                                                                                <p><h6><i class="fa fa-user"></i><strong> @Model[i].Name</strong></h6></p>
+                                                                                <p><h6><i class="fa fa-user"></i><strong> @Model[i].Label</strong></h6></p>
 
                                                                             }
                                                                             else
                                                                             {
-                                                                                <p><h6><i class="fa fa-user"></i><strong> @Model[i].Name</strong></h6></p>
+                                                                                <p><h6><i class="fa fa-user"></i><strong> @Model[i].Label</strong></h6></p>
                                                                             }
                                                                         </div>
                                                                         <div class="clearfix"></div>
@@ -222,7 +222,7 @@
                                                             if (Model.Count > 0)
                                                             {
                                                                 <span hidden>@Model[0].IDX</span>
-                                                                <span>@Model[0].Name</span>
+                                                                <span>@Model[0].Label</span>
                                                             }
                                                             else
                                                             {
@@ -266,7 +266,7 @@
 
 
             $("#jqGrid").jqGrid({
-                url: "/CustomerShip/GetCustomerShips" + '?ctmName=' + $('.panel-title span:last').html(),
+                url: "/CustomerShip/GetCustomData" + '?ctmName=' + $('.panel-title span:last').html(),
                 mtype: "GET",
                 datatype: "json",
                 colModel: tableConfig.columns,

@@ -13,6 +13,7 @@ namespace TugManagementSystem.Controllers
     {
         public int IDX;
         public string Name;
+        public string Label;
     }
 
     public class CustomDataController : BaseController
@@ -33,6 +34,7 @@ namespace TugManagementSystem.Controllers
             CustomEntity ctmobj=new CustomEntity();
             ctmobj.IDX = 0;
             ctmobj.Name = "Location";
+            ctmobj.Label = "作業位置";
             list.Add(ctmobj);
 
             ViewBag.TotalPageNum = 1;

@@ -142,32 +142,32 @@ namespace TugManagementSystem.Controllers
                         aOrder.CustomerID = Util.toint(Request.Form["CustomerID"]);
                         aOrder.CustomerName = Request.Form["CustomerName"].Trim();
                         aOrder.OrdDate = Request.Form["OrdDate"].Trim();
-                        aOrder.WorkDate = Request.Form["WorkDate"].Trim();
-                        aOrder.WorkTime = Request.Form["WorkTime"].Trim();
-                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
+                        //aOrder.WorkDate = Request.Form["WorkDate"].Trim();
+                        //aOrder.WorkTime = Request.Form["WorkTime"].Trim();
+                        //aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
 
                         aOrder.IsGuest = "否"; // Request.Form["IsGuest"].Trim();
                         aOrder.LinkMan = Request.Form["LinkMan"].Trim();
                         aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
                         aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
 
-                        if (Request.Form["BigTugNum"].Trim() != "")
-                            aOrder.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());
-                        if (Request.Form["MiddleTugNum"].Trim() != "")
-                            aOrder.MiddleTugNum = Util.toint(Request.Form["MiddleTugNum"].Trim());
-                        if (Request.Form["SmallTugNum"].Trim() != "")
-                            aOrder.SmallTugNum = Util.toint(Request.Form["SmallTugNum"].Trim());
+                        //if (Request.Form["BigTugNum"].Trim() != "")
+                        //    aOrder.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());
+                        //if (Request.Form["MiddleTugNum"].Trim() != "")
+                        //    aOrder.MiddleTugNum = Util.toint(Request.Form["MiddleTugNum"].Trim());
+                        //if (Request.Form["SmallTugNum"].Trim() != "")
+                        //    aOrder.SmallTugNum = Util.toint(Request.Form["SmallTugNum"].Trim());
 
                         aOrder.OwnerID = -1;
                         aOrder.Remark = Request.Form["Remark"].Trim();
                         aOrder.ShipID = Util.toint(Request.Form["ShipID"].Trim());
                         aOrder.ShipName = Request.Form["ShipName"].Trim();
                         aOrder.UserID = Session.GetDataFromSession<int>("userid"); 
-                        aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
+                        //aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
 
                         Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
-                        aOrder.ServiceNatureIDS = dic["ids"];
-                        aOrder.ServiceNatureNames = dic["labels"];
+                        //aOrder.ServiceNatureIDS = dic["ids"];
+                        //aOrder.ServiceNatureNames = dic["labels"];
 
                         //aOrder.WorkStateID = Util.toint(Request.Form["WorkStateID"].Trim());
                         aOrder.WorkStateID = 2; //CustomField表里面的OrderInfor.WorkStateID的IDX
@@ -237,23 +237,23 @@ namespace TugManagementSystem.Controllers
                         aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
 
                         aOrder.OrdDate = Request.Form["OrdDate"].Trim();
-                        aOrder.WorkDate = Request.Form["WorkDate"].Trim();
-                        aOrder.WorkTime = Request.Form["WorkTime"].Trim();
-                        aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
+                        //aOrder.WorkDate = Request.Form["WorkDate"].Trim();
+                        //aOrder.WorkTime = Request.Form["WorkTime"].Trim();
+                        //aOrder.EstimatedCompletionTime = Request.Form["EstimatedCompletionTime"].Trim();
 
                         aOrder.ShipID = Util.toint(Request.Form["ShipID"].Trim());
                         aOrder.ShipName = Request.Form["ShipName"].Trim();
-                        if (Request.Form["BigTugNum"].Trim() != "")
-                            aOrder.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());
-                        if (Request.Form["MiddleTugNum"].Trim() != "")
-                            aOrder.MiddleTugNum = Util.toint(Request.Form["MiddleTugNum"].Trim());
-                        if (Request.Form["SmallTugNum"].Trim() != "")
-                            aOrder.SmallTugNum = Util.toint(Request.Form["SmallTugNum"].Trim());
-                        aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
+                        //if (Request.Form["BigTugNum"].Trim() != "")
+                        //    aOrder.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());
+                        //if (Request.Form["MiddleTugNum"].Trim() != "")
+                        //    aOrder.MiddleTugNum = Util.toint(Request.Form["MiddleTugNum"].Trim());
+                        //if (Request.Form["SmallTugNum"].Trim() != "")
+                        //    aOrder.SmallTugNum = Util.toint(Request.Form["SmallTugNum"].Trim());
+                        //aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
 
                         Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
-                        aOrder.ServiceNatureIDS = dic["ids"];
-                        aOrder.ServiceNatureNames = dic["labels"];
+                        //aOrder.ServiceNatureIDS = dic["ids"];
+                        //aOrder.ServiceNatureNames = dic["labels"];
 
                         //aOrder.WorkStateID = Util.toint(Request.Form["WorkStateID"].Trim());
                         
@@ -314,32 +314,32 @@ namespace TugManagementSystem.Controllers
                     aOrder.CustomerID = customerId;
                     aOrder.CustomerName = customerName;
                     aOrder.OrdDate = ordDate;
-                    aOrder.WorkDate = workDate;
-                    aOrder.WorkTime = workTime;
-                    aOrder.EstimatedCompletionTime = estimatedCompletionTime;
+                    //aOrder.WorkDate = workDate;
+                    //aOrder.WorkTime = workTime;
+                    //aOrder.EstimatedCompletionTime = estimatedCompletionTime;
 
                     aOrder.IsGuest = "否";
                     aOrder.LinkMan = linkMan;
                     aOrder.LinkPhone = linkPhone;
                     aOrder.LinkEmail = linkEmail;
 
-                    if (bigTugNum != "")
-                        aOrder.BigTugNum = Convert.ToInt32(bigTugNum);
-                    if (middleTugNum != "")
-                        aOrder.MiddleTugNum = Convert.ToInt32(middleTugNum);
-                    if (smallTugNum != "")
-                        aOrder.SmallTugNum = Convert.ToInt32(smallTugNum);
+                    //if (bigTugNum != "")
+                    //    aOrder.BigTugNum = Convert.ToInt32(bigTugNum);
+                    //if (middleTugNum != "")
+                    //    aOrder.MiddleTugNum = Convert.ToInt32(middleTugNum);
+                    //if (smallTugNum != "")
+                    //    aOrder.SmallTugNum = Convert.ToInt32(smallTugNum);
 
                     aOrder.OwnerID = -1;
                     aOrder.Remark = remark;
                     aOrder.ShipID = shipId;
                     aOrder.ShipName = shipName;
                     aOrder.UserID = Session.GetDataFromSession<int>("userid"); 
-                    aOrder.WorkPlace = workPlace;
+                    //aOrder.WorkPlace = workPlace;
                     aOrder.HasInvoice = "否"; //没有账单
 
-                    aOrder.ServiceNatureIDS = serviceNatureIds;
-                    aOrder.ServiceNatureNames = serviceNatureNames;
+                    //aOrder.ServiceNatureIDS = serviceNatureIds;
+                    //aOrder.ServiceNatureNames = serviceNatureNames;
 
                     //aOrder.WorkStateID = Util.toint(Request.Form["WorkStateID"].Trim());
                     aOrder.WorkStateID = 2; //CustomField表里面的OrderInfor.WorkStateID的IDX
