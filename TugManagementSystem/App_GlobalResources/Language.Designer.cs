@@ -565,6 +565,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 自定义数据维护 的本地化字符串。
+        /// </summary>
+        internal static string Custom_CustomManage {
+            get {
+                return ResourceManager.GetString("Custom_CustomManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 作業地點 的本地化字符串。
+        /// </summary>
+        internal static string Custom_Location {
+            get {
+                return ResourceManager.GetString("Custom_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 財務 的本地化字符串。
         /// </summary>
         internal static string Finance {
