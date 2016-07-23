@@ -165,7 +165,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.UserID = Session.GetDataFromSession<int>("userid"); 
                         //aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
 
-                        Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
+                        //Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
                         //aOrder.ServiceNatureIDS = dic["ids"];
                         //aOrder.ServiceNatureNames = dic["labels"];
 
@@ -251,7 +251,7 @@ namespace TugManagementSystem.Controllers
                         //    aOrder.SmallTugNum = Util.toint(Request.Form["SmallTugNum"].Trim());
                         //aOrder.WorkPlace = Request.Form["WorkPlace"].Trim();
 
-                        Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
+                        //Dictionary<string, string> dic = TugBusinessLogic.Utils.ResolveServices(Request.Form["ServiceNatureNames"].Trim());
                         //aOrder.ServiceNatureIDS = dic["ids"];
                         //aOrder.ServiceNatureNames = dic["labels"];
 
