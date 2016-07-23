@@ -21,7 +21,7 @@ namespace TugDataModel
         public Nullable<System.DateTime> BillingDateTime { get; set; }
         public Nullable<int> SchedulerID { get; set; }
         public Nullable<int> TugID { get; set; }
-        public Nullable<float> Amount { get; set; }
+        public Nullable<double> Amount { get; set; }
         public string Currency { get; set; }
         public Nullable<double> Hours { get; set; }
         public string Year { get; set; }
