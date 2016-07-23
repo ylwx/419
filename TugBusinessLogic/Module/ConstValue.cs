@@ -17,5 +17,11 @@ namespace TugBusinessLogic.Module
         public const string ComparisonOperator_LE = "le"; 	//小于或等于
         public const string ComparisonOperator_LT = "lt";	//小于
 
+
+        #region 订单的账单状态
+        public const string HAS_NO_INVOICE = "1";
+        public const string HAS_INVOICE_NOT_IN_FLOW = "2";
+        public const string HAS_INVOICE_IN_FLOW = "3";
+        #endregion
     }
 }

@@ -1420,12 +1420,12 @@ namespace TugManagementSystem.Controllers
                         aScheduler.WorkCommencedTime = Request.Form["WorkCommencedTime"].Trim();
                         aScheduler.WorkCompletedTime = Request.Form["WorkCompletedTime"].Trim();
 
-                        //aScheduler.JobStateID = Util.toint(Request.Form["JobStateID"].Trim()); ;
+                        aScheduler.JobStateID = Util.toint(Request.Form["JobStateID"].Trim()); ;
 
                         aScheduler.OrderID = Util.toint(Request.Form["OrderID"].Trim());
                         aScheduler.OwnerID = -1;
                         aScheduler.UserID = Session.GetDataFromSession<int>("userid");
-                        //aScheduler.Remark = Request.Form["Remark".Trim()];
+                        aScheduler.Remark = Request.Form["Remark".Trim()];
 
                         aScheduler.RopeUsed = Request.Form["RopeUsed"].Trim();
                         if (aScheduler.RopeUsed.Equals("是"))
@@ -1495,5 +1495,29 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
         #endregion
+
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult CheckOrderInvoiceStatus(int orderId)
+        {
+            this.Internationalization();
+
+            TugDataEntities db = new TugDataEntities();
+            OrderInfor order = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+
+            string ret = "否";
+            if (order != null)
+            {
+                ret = order.HasInvoice;
+            }
+
+            return Json(new
+            {
+                code = Resources.Common.SUCCESS_CODE,
+                message = Resources.Common.SUCCESS_MESSAGE,
+                has_invoice = ret
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using TugDataModel;
 using TugBusinessLogic;
+using System.Transactions;
 
 namespace TugManagementSystem.Controllers
 {
@@ -204,8 +205,19 @@ namespace TugManagementSystem.Controllers
             List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
+            string month = DateTime.Now.Month.ToString() + "月";
 
-            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, customer_billing_schemes = CustomerBillingSchemes, time_types = TimeTypes, billing_template_types = BillingTemplateTypes };
+            string remark = "";
+            List<string> list = TugBusinessLogic.Module.FinanceLogic.GetOrderSchedulerRemarks((int)orderId);
+            if (list != null)
+            {
+                foreach (string item in list)
+                {
+                    remark += item + "\r\n";
+                }
+            }
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, customer_billing_schemes = CustomerBillingSchemes, time_types = TimeTypes, billing_template_types = BillingTemplateTypes, month = month, remark = remark };
 
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
@@ -226,123 +238,132 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult AddInvoice(int orderId, int billingTemplateId, int billingTypeId, int timeTypeId,
-            string jobNo, string remark, double discount, double amount, string jsonArrayItems)
+            string jobNo, string remark, double discount, double amount, string month, string jsonArrayItems)
         {
 
             this.Internationalization();
 
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                TugDataEntities db = new TugDataEntities();
+                try
                 {
-                    TugDataModel.Billing aScheduler = new Billing();
 
-                    aScheduler.BillingTemplateID = billingTemplateId;
-                    aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
-                    aScheduler.BillingName = "";
-
-                    aScheduler.BillingTypeID = billingTypeId;
-                    aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    aScheduler.Month = DateTime.Now.Month.ToString();
-                    aScheduler.OrderID = orderId;
-                    aScheduler.OwnerID = -1;
-
-                    aScheduler.Phase = 0;
-                    aScheduler.Remark = "";
-                    aScheduler.Status = "创建";
-                    aScheduler.TimesNo = 0;
-                    aScheduler.TimeTypeID = timeTypeId;
-                    aScheduler.UserID = Session.GetDataFromSession<int>("userid");
-                    aScheduler.Discount = discount;
-                    aScheduler.JobNo = jobNo;
-                    aScheduler.Remark = remark;
-                    aScheduler.Amount = amount;
-
-
-                    aScheduler.UserDefinedCol1 = "";
-                    aScheduler.UserDefinedCol2 = "";
-                    aScheduler.UserDefinedCol3 = "";
-                    aScheduler.UserDefinedCol4 = "";
-
-                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                    //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
-
-                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                    //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
-
-                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                    //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
-
-                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                    //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
-
-                    aScheduler.UserDefinedCol9 = "";
-                    aScheduler.UserDefinedCol10 = "";
-
-                    aScheduler = db.Billing.Add(aScheduler);
-                    db.SaveChanges();
-
-                    List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
-                    listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
-                    if (listInVoiceItems != null)
+                    TugDataEntities db = new TugDataEntities();
                     {
-                        foreach (InVoiceItem item in listInVoiceItems)
+                        TugDataModel.Billing aScheduler = new Billing();
+
+                        aScheduler.BillingTemplateID = billingTemplateId;
+                        aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
+                        aScheduler.BillingName = "";
+
+                        aScheduler.BillingTypeID = billingTypeId;
+                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        aScheduler.Month = DateTime.Now.Month.ToString();
+                        aScheduler.OrderID = orderId;
+                        aScheduler.OwnerID = -1;
+
+                        aScheduler.Phase = 0;
+                        aScheduler.Remark = "";
+                        aScheduler.Status = "创建";
+                        aScheduler.TimesNo = 0;
+                        aScheduler.TimeTypeID = timeTypeId;
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+                        aScheduler.Discount = discount;
+                        aScheduler.JobNo = jobNo;
+                        aScheduler.Remark = remark;
+                        aScheduler.Amount = amount;
+                        aScheduler.Month = month;
+
+                        aScheduler.UserDefinedCol1 = "";
+                        aScheduler.UserDefinedCol2 = "";
+                        aScheduler.UserDefinedCol3 = "";
+                        aScheduler.UserDefinedCol4 = "";
+
+                        //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                        //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                        //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                        //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                        //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                        //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                        //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                        //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                        aScheduler.UserDefinedCol9 = "";
+                        aScheduler.UserDefinedCol10 = "";
+
+                        aScheduler = db.Billing.Add(aScheduler);
+                        db.SaveChanges();
+
+                        List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                        listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                        if (listInVoiceItems != null)
                         {
-                            BillingItem bi = new BillingItem();
-                            bi.BillingID = aScheduler.IDX;
-                            bi.SchedulerID = item.SchedulerID;
-                            bi.ItemID = item.ItemID;
-                            bi.UnitPrice = item.UnitPrice;
-                            bi.Currency = item.Currency;
-                            bi.OwnerID = -1;
-                            bi.UserID = Session.GetDataFromSession<int>("userid"); 
-                            bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            bi.UserDefinedCol1 = "";
-                            bi.UserDefinedCol2 = "";
-                            bi.UserDefinedCol3 = "";
-                            bi.UserDefinedCol4 = "";
+                            foreach (InVoiceItem item in listInVoiceItems)
+                            {
+                                BillingItem bi = new BillingItem();
+                                bi.BillingID = aScheduler.IDX;
+                                bi.SchedulerID = item.SchedulerID;
+                                bi.ItemID = item.ItemID;
+                                bi.UnitPrice = item.UnitPrice;
+                                bi.Currency = item.Currency;
+                                bi.OwnerID = -1;
+                                bi.UserID = Session.GetDataFromSession<int>("userid");
+                                bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                bi.UserDefinedCol1 = "";
+                                bi.UserDefinedCol2 = "";
+                                bi.UserDefinedCol3 = "";
+                                bi.UserDefinedCol4 = "";
 
-                            //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                            //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+                                //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                            //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                            //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+                                //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
-                            //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                            //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+                                //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
-                            //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                            //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+                                //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
-                            bi.UserDefinedCol9 = "";
-                            bi.UserDefinedCol10 = "";
+                                bi.UserDefinedCol9 = "";
+                                bi.UserDefinedCol10 = "";
 
-                            bi = db.BillingItem.Add(bi);
-                            db.SaveChanges();
+                                bi = db.BillingItem.Add(bi);
+                                db.SaveChanges();
+                            }
                         }
+
+                        //更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
+                        {
+                            OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+                            //throw new Exception();
+                            if (od != null)
+                            {
+                                od.HasInvoice = "是";
+                                db.Entry(od).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+
+                        trans.Complete();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret, JsonRequestBehavior.AllowGet);
                     }
 
-                    //更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
-                    {
-                        OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
-                        if (od != null)
-                        {
-                            od.HasInvoice = "是";
-                            db.Entry(od).State = System.Data.Entity.EntityState.Modified;
-                            db.SaveChanges();
-                        }
-                    }
-
-                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
-                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                }
+                catch (Exception)
+                {
+                    trans.Dispose();
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
                     return Json(ret, JsonRequestBehavior.AllowGet);
                 }
-            }
-            catch (Exception)
-            {
-                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                return Json(ret, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -361,37 +382,35 @@ namespace TugManagementSystem.Controllers
                 Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
                 ParameterExpression parameter = Expression.Parameter(typeof(Billing));
 
-                string strBillIds = Request.Form["billIds"];
+                //string strBillIds = Request.Form["billIds"];
+                string orderIds = Request.Form["orderIds"];
 
-                if (strBillIds != "")
+                if (orderIds != "")
                 {
-                    List<string> listBillIds = strBillIds.Split(',').ToList();
+                    List<string> listOrderIds = orderIds.Split(',').ToList();
 
                     TugDataEntities db = new TugDataEntities();
-                    foreach (string billId in listBillIds)
-                    {
-                        Expression cdt = Expression.Equal(Expression.PropertyOrField(parameter, "IDX"), Expression.Constant(Convert.ToInt32(billId)));
-                        condition = Expression.OrElse(condition, cdt);
 
-                        //int idx = Convert.ToInt32(billId);
-                        //Billing aOrder = db.Billing.FirstOrDefault(u => u.IDX == idx);
-                        //if (aOrder != null)
-                        //{
-                        //    db.Billing.Remove(aOrder);
-                        //    db.SaveChanges();
-                        //    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                        //}
-                        //else
-                        //{
-                        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                        //}
+                    List<Billing> deletedBillings = new List<Billing>();
+
+                    foreach (string orderId in listOrderIds)
+                    {
+                        int oid = TugBusinessLogic.Module.Util.toint(orderId);
+
+                        Billing b = db.Billing.FirstOrDefault(u => u.OrderID == oid);
+                        if (b != null)
+                        {
+                            deletedBillings.Add(b);
+                        }
+                        //Expression cdt = Expression.Equal(Expression.PropertyOrField(parameter, "OrderID"), Expression.Constant(oid));
+                        //condition = Expression.OrElse(condition, cdt);
                     }
 
-                    var lamda = Expression.Lambda<Func<Billing, bool>>(condition, parameter);
-                    List<Billing> orders = db.Billing.Where(lamda).Select(u => u).ToList<Billing>();
-                    if (orders != null)
+                    //var lamda = Expression.Lambda<Func<Billing, bool>>(condition, parameter);
+                    //List<Billing> orders = db.Billing.Where(lamda).Select(u => u).ToList<Billing>();
+                    //if (orders != null)
                     {
-                        db.Billing.RemoveRange(orders);
+                        db.Billing.RemoveRange(deletedBillings);
                         db.SaveChanges();
 
 
@@ -400,7 +419,7 @@ namespace TugManagementSystem.Controllers
                             string strOrderIds = Request.Form["orderIds"];
                             if (strOrderIds != "")
                             {
-                                List<string> listOrderIds = strOrderIds.Split(',').ToList();
+                                //List<string> listOrderIds = strOrderIds.Split(',').ToList();
 
                                 foreach (string item in listOrderIds)
                                 {
@@ -418,10 +437,10 @@ namespace TugManagementSystem.Controllers
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
-                    else
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                    }
+                    //else
+                    //{
+                    //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    //}
                 }
             }
             catch (Exception ex)
@@ -447,7 +466,7 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult EditInvoice(int orderId, int billingId, int billingTemplateId, int billingTypeId, int timeTypeId, 
-            string jobNo, string remark, double discount, double amount, string jsonArrayItems)
+            string jobNo, string remark, double discount, double amount, string month, string jsonArrayItems)
         {
             this.Internationalization();
 
@@ -466,6 +485,7 @@ namespace TugManagementSystem.Controllers
                         oldBilling.Amount = amount;
                         oldBilling.JobNo = jobNo;
                         oldBilling.Remark = remark;
+                        oldBilling.Month = month;
                         oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
@@ -595,7 +615,27 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
-        
+
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult CheckOrderInvoiceStatus(string selectedOrderIDs)
+        {
+            this.Internationalization();
+
+            Dictionary<int, int> dicHasNoInvoice = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceNotInFlow = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceInFow = new Dictionary<int, int>();
+
+            TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow);
+
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE,
+                              dic_has_no_invoice = dicHasNoInvoice,
+                              dic_has_invoice_not_in_flow = dicHasInvoiceNotInFlow,
+                              dic_has_invoice_in_fow = dicHasInvoiceInFow
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
 
@@ -1060,6 +1100,9 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion
+
+
+        
     }
 
 }

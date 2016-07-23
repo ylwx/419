@@ -299,7 +299,7 @@
                         //$("#" + ids[i] + " td").css("background-color", "grey");
                     }
                     else {//有账单
-                        $("#" + ids[i] + " td").css("background-color", "yellowgreen");
+                        $("#" + ids[i] + " td").css("background-color", "#CCFF99");
                     }
 
                 }
@@ -590,7 +590,7 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateID', name: "JobStateID", width: 100, editable: false, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateID', name: "JobStateID", width: 100, editable: true, edittype: "text",
                     editrules: {
                         required: true,
                         custom_func: function validateJobStateID(value, column) {
@@ -608,8 +608,8 @@
 
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateLabel', name: "JobStateLabel", width: 100, editable: false, edittype: "select",
-                    editrules: { required: true }, hidden: true,
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateLabel', name: "JobStateLabel", width: 100, editable: true, edittype: "select",
+                    editrules: { required: true }, hidden: false,
                     editoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "Scheduler.JobStateID" })',
                         dataEvents: [
@@ -874,7 +874,7 @@
                 },
 
                 {
-                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: false, edittype: "textarea",
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
                     editrules: { required: false }, hidden: false
                 },
                 {
@@ -1076,16 +1076,38 @@
                 var btnSaveId = childGridID + "_ilsave";
                 var btnCancelId = childGridID + "_ilcancel";
 
-                if (hasInvoice == "否") {
+                var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "IDX"); //IDX;
+                $.ajax({
+                    url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
+                    type: "POST",
+                    data: {
+                        'orderId': orderId
+                    },//"oper=delete&id=" + gr,
+                    dataType: 'json',
+                    success: function (result) {
+                        //alert(result.message);
 
-                    //alert("该订单已生成账单，不能编辑调度！");
+                        //alert(result.has_invoice);
+                        if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
+                            
+                            $('#' + btnEditId).removeClass('ui-state-disabled');
+                        }
+                        else {
+                            $('#' + btnEditId).addClass('ui-state-disabled');
+                        }
+                    }
+                });
 
-                    $('#' + btnEditId).removeClass('ui-state-disabled');
-                }
-                else
-                {
-                    $('#' + btnEditId).addClass('ui-state-disabled');
-                }
+                //if (hasInvoice == "否") {
+
+                //    //alert("该订单已生成账单，不能编辑调度！");
+
+                //    $('#' + btnEditId).removeClass('ui-state-disabled');
+                //}
+                //else
+                //{
+                //    $('#' + btnEditId).addClass('ui-state-disabled');
+                //}
             }
 
         });

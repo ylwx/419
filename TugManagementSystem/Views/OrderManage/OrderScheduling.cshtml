@@ -448,7 +448,7 @@
                         //$("#" + ids[i] + " td").css("background-color", "grey");
                     }
                     else {//有账单
-                        $("#" + ids[i] + " td").css("background-color", "yellowgreen");
+                        $("#" + ids[i] + " td").css("background-color", "#CCFF99");
                     }
 
                 }
@@ -1234,6 +1234,58 @@
                 caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
                 onClickButton: function () {
 
+                    var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "IDX"); //IDX;
+                    $.ajax({
+                        url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
+                        type: "POST",
+                        data: {
+                            'orderId': orderId
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+                            //alert(result.message);
+
+                            //alert(result.has_invoice);
+                            if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
+                                //可以删除
+                                var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
+
+                                if (rowid != null) {
+                                    var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
+
+                                    if (confirm('确定要删除所选的记录吗?')) {
+                                        var d = new Date();
+                                        $.ajax(
+                                            {
+                                                type: "post",
+                                                url: '@Url.Action("DeleteScheduler", "OrderManage")',
+                                                data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                                dataType: 'json',
+                                                success: function (result) {
+                                                    alert(result.message);
+                                                    //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
+                                                    $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                },
+
+                                            }
+                                            );
+                                    }
+                                }
+                                else {
+                                    alert('选中一行');
+                                }
+                            }
+
+                            else {
+                                alert("该订单已生成账单，不能删除调度！");
+                                return;
+                            }
+                            
+                        },
+                    });
+
+                    @*return;
+
                     var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
                     if (hasInvoice == "否") {
                         var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
@@ -1266,7 +1318,7 @@
                     else {
                         alert("该订单已生成账单，不能删除调度！");
                         return;
-                    }
+                    }*@
                 },
                 position: "last"
             }).navButtonAdd('#' + childGridPagerID, {
@@ -1277,16 +1329,38 @@
                     g_cur_subGridId = '#' + childGridID;
                     g_mode = "新增";
 
-                    var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
-                    //alert(hasInvoice);
-                    if (hasInvoice == "否" || hasInvoice == '') {
-                        AddChild();
-                    }
-                    else {
-                        alert("该订单已生成账单，不能再添加调度！");
-                        return;
-                    }
-                    
+                    //var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
+                    ////alert(hasInvoice);
+                    //if (hasInvoice == "否" || hasInvoice == '') {
+                    //    AddChild();
+                    //}
+                    //else {
+                    //    alert("该订单已生成账单，不能再添加调度！");
+                    //    return;
+                    //}
+
+                    var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "IDX"); //IDX;
+                    $.ajax({
+                        url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
+                        type: "POST",
+                        data: {
+                            'orderId': orderId
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+                            //alert(result.message);
+
+                            //alert(result.has_invoice);
+                            if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
+                                //可以新增
+                                AddChild();
+                            }
+                            else {
+                                alert("该订单已生成账单，不能再添加调度！");
+                                return;
+                            }
+                        }
+                    });
                 }
             })
             .navButtonAdd('#' + childGridPagerID, {
@@ -1300,16 +1374,39 @@
                         g_cur_subGridRowId = rowid;
                         g_mode = "编辑";
 
-                        var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
-                        //alert(hasInvoice);
-                        if (hasInvoice == "否" || hasInvoice=='') {
-                            EditSchedulerModal();
-                        }
-                        else
-                        {
-                            alert("该订单已生成账单，不能再编辑调度！");
-                            return;
-                        }
+                        //var hasInvoice = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "HasInvoice"); //HasInvoice
+                        ////alert(hasInvoice);
+                        //if (hasInvoice == "否" || hasInvoice=='') {
+                        //    EditSchedulerModal();
+                        //}
+                        //else
+                        //{
+                        //    alert("该订单已生成账单，不能再编辑调度！");
+                        //    return;
+                        //}
+
+                        var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "IDX"); //IDX;
+                        $.ajax({
+                            url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
+                            type: "POST",
+                            data: {
+                                'orderId': orderId
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
+                                //alert(result.message);
+
+                                //alert(result.has_invoice);
+                                if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
+                                    //可以编辑
+                                    EditSchedulerModal();
+                                }
+                                else {
+                                    alert("该订单已生成账单，不能再编辑调度！");
+                                    return;
+                                }
+                            }
+                        });
                         
                     }
                     else {
