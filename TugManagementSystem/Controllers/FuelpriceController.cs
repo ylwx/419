@@ -161,8 +161,6 @@ namespace TugManagementSystem.Controllers
                         price.Type = "";
                         price.CreateDate = price.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
                         price.AddUserID = Session.GetDataFromSession<int>("userid");
-                        price = db.Fuelprice.Add(price);
-
                         db.Entry(price).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 

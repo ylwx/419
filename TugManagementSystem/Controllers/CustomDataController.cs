@@ -73,11 +73,12 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
-        [JsonExceptionFilterAttribute]
-        public ActionResult AddEdit(int ctmId)
+         [JsonExceptionFilterAttribute]
+        public ActionResult AddEdit()
         {
             this.Internationalization();
-
+            string CustomName = Request.Form["CustomName"].Trim();
+            string CustomValue = Request.Form["CustomLabel"].Trim();
             #region Add
 
             if (Request.Form["oper"].Equals("add"))
@@ -86,47 +87,17 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        TugDataModel.CustomerShip ship = new CustomerShip();
-
-                        ship.CustomerID = ctmId;// Util.toint(Request.Form["CustomerID"]);
-                        ship.ShipTypeID = -1;//Util.toint(Request.Form["ShipTypeID"]);
-                        ship.Name1 = Request.Form["Name1"];
-                        ship.Name2 = Request.Form["Name2"];
-                        ship.SimpleName = Request.Form["SimpleName"];
-                        ship.DeadWeight = Util.toint(Request.Form["DeadWeight"]);
-                        ship.Length = Util.toint(Request.Form["Length"]);
-                        ship.Width = Util.toint(Request.Form["Width"]);
-                        ship.TEUS = Util.toint(Request.Form["TEUS"]);
-                        ship.Class = Request.Form["Class"];
-                        ship.Remark = Request.Form["Remark"];
-                        ship.OwnerID = -1;
-                        ship.CreateDate = ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
-                        ship.UserID = Session.GetDataFromSession<int>("userid");
-                        ship.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        ship.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        ship.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        ship.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
-
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            ship.UserDefinedCol5 = Util.tonumeric(Request.Form["UserDefinedCol5"]);
-
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            ship.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
-
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            ship.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
-
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            ship.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
-
-                        ship.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        ship.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
-
-                        ship = db.CustomerShip.Add(ship);
+                        TugDataModel.CustomField custom = new CustomField();
+                        custom.CustomName = CustomName;
+                        custom.CustomValue = "";
+                        custom.CustomLabel = CustomValue;
+                        custom.Description = "";
+                        custom.UserID = Session.GetDataFromSession<int>("userid");
+                        custom.CreateDate = custom.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        custom = db.CustomField.Add(custom);
                         db.SaveChanges();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
-                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                         return Json(ret);
                     }
                 }
@@ -148,71 +119,90 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     int idx = Util.toint(Request.Form["IDX"]);
-                    string name1 = Request.Form["Name1"];
-                    System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == name1 && u.IDX != idx;
-                    Customer tmpUserName = db.Customer.Where(exp).FirstOrDefault();
-                    if (tmpUserName != null)
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = "船名称已存在！" });//Resources.Common.ERROR_MESSAGE
-                    }
+                    CustomField customedit = db.CustomField.Where(u => u.IDX == idx).FirstOrDefault();
 
-                    CustomerShip ship = db.CustomerShip.Where(u => u.IDX == idx).FirstOrDefault();
-
-                    if (ship == null)
+                    CustomField custom = db.CustomField.Where(u => u.CustomName == CustomName && u.CustomLabel==CustomValue).FirstOrDefault();
+                    if (custom != null)
                     {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                        throw new Exception(CustomValue + "已存在！");
                     }
                     else
                     {
-                        ship.CustomerID = ctmId;// Util.toint(Request.Form["CustomerID"]);
-                        ship.ShipTypeID = -1; //Util.toint(Request.Form["ShipTypeID"]);
-                        ship.Name1 = Request.Form["Name1"];
-                        ship.Name2 = Request.Form["Name2"];
-                        ship.SimpleName = Request.Form["SimpleName"];
-                        ship.DeadWeight = Util.toint(Request.Form["DeadWeight"]);
-                        ship.Length = Util.toint(Request.Form["Length"]);
-                        ship.Width = Util.toint(Request.Form["Width"]);
-                        ship.TEUS = Util.toint(Request.Form["TEUS"]);
-                        ship.Class = Request.Form["Class"];
-                        ship.Remark = Request.Form["Remark"];
-                        ship.OwnerID = -1;
-                        ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
-                        ship.UserID = Session.GetDataFromSession<int>("userid");
-                        ship.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
-                        ship.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
-                        ship.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
-                        ship.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
-
-                        if (Request.Form["UserDefinedCol5"] != "")
-                            ship.UserDefinedCol5 = Util.tonumeric(Request.Form["UserDefinedCol5"]);
-
-                        if (Request.Form["UserDefinedCol6"] != "")
-                            ship.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
-
-                        if (Request.Form["UserDefinedCol7"] != "")
-                            ship.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
-
-                        if (Request.Form["UserDefinedCol8"] != "")
-                            ship.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
-
-                        ship.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
-                        ship.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
-
-                        db.Entry(ship).State = System.Data.Entity.EntityState.Modified;
+                        customedit.CustomLabel = CustomValue;
+                        customedit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        customedit.UserID = Session.GetDataFromSession<int>("userid");
+                        db.Entry(customedit).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
                 }
-                catch (Exception exp)
+                catch (Exception ex)
                 {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                    throw ex;
                 }
             }
 
             #endregion Edit
-
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
+        [JsonExceptionFilterAttribute]
+        public ActionResult AddCustomData(string CustomName, string CustomValue)
+        {
+            this.Internationalization();
+            TugDataEntities db = new TugDataEntities();
+            try
+            {
+            System.Linq.Expressions.Expression<Func<CustomField, bool>> exp = u => u.CustomName == CustomName && u.CustomLabel == CustomValue;
+            CustomField tmpCustom = db.CustomField.Where(exp).FirstOrDefault();
+            if (tmpCustom != null)
+            {
+                throw new Exception(CustomValue + "已存在！");
+            }
+            CustomField custom = new CustomField();
+            custom.CustomName = CustomName;
+            custom.CustomValue = "";
+            custom.CustomLabel = CustomValue;
+            custom.Description = "";
+            custom.UserID = Session.GetDataFromSession<int>("userid");
+            custom.CreateDate = custom.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); 
+            custom = db.CustomField.Add(custom);
+                db.SaveChanges();
+             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult Delete()
+        {
+            this.Internationalization();
+
+            try
+            {
+                var f = Request.Form;
+
+                int idx = Util.toint(Request.Form["data[IDX]"]);
+
+                TugDataEntities db = new TugDataEntities();
+                CustomField custom = db.CustomField.FirstOrDefault(u => u.IDX == idx);
+                if (custom != null)
+                {
+                    db.CustomField.Remove(custom);
+                    db.SaveChanges();
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+                else
+                {
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
         }
 	}
 }
