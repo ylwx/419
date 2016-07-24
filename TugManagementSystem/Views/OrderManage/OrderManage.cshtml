@@ -110,7 +110,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">服务项</label>
-                                                    <div id="flowtable" class="hot handsontable dataTable table-striped center-block col-sm-10"></div>
+                                                    <div id="flowtable" class="col-sm-10 hot handsontable dataTable table-striped center-block"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -257,9 +257,9 @@
         contextMenu: ['row_below', 'remove_row'],
         removeRowPlugin: true,
         //heigth: 500,
-        colWidths: [100, 100, 100, 50, 50, 50, 100],
-        stretchH: 'last',
-        manualColumnResize: true,
+        //colWidths: [100, 100, 100, 50, 50, 50, 100],
+        //stretchH: 'last',
+        //manualColumnResize: true,
         columns: [
           {
               type: 'dropdown',
@@ -498,9 +498,9 @@
                     //id: 'jqGrid_ilrefresh',
                     caption: "", title: "新增", buttonicon: "ui-icon-plus",
                     onClickButton: function () {
-                        AddParent();
                         $('.panel-title span:first').html("add");
                         $('.panel-title span:last').html(-1);
+                        AddParent();
                     }
                 })
                  .navButtonAdd('#jqGridPager', {
@@ -509,11 +509,11 @@
                     onClickButton: function () {
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                         //编辑
-                        EditOrder();
                         if (rowid != null) {
-                            var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID");
+                            var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
                             $('.panel-title span:first').html("edit");
                             $('.panel-title span:last').html(orderId);
+                            alert(orderId);
                             @*$.ajax({
                                 url: '@Url.Action("", "")',
                                 type: "POST",
@@ -525,6 +525,7 @@
                                     //alert(result.message);
                                 },
                             });*@
+                            EditOrder();
                         }
                         else {
                             alert('选中一行');
