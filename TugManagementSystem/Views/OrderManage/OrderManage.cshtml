@@ -4,13 +4,19 @@
     ViewBag.SubMenuIndex = 0;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
+<script src="~/Resources/handsontable-master/dist/handsontable.full.min.js"></script>
+<link href="~/Resources/handsontable-master/dist/handsontable.full.css" rel="stylesheet" />
+<script src="~/Resources/handsontable-master/demo/js/moment/moment.js"></script>
+<script src="~/Resources/handsontable-master/demo/js/pikaday/pikaday.js"></script>
+<script src="~/Resources/handsontable-master/demo/js/pikaday/css/pikaday.css"></script>
+
 @model TugDataModel.OrderInfor
 
 <div id="main-content">
 
     <!-- Parent MODAL FORM-->
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="model-dlg" class="modal-dialog" style="width:800px">
+        <div id="model-dlg" class="modal-dialog" style="width:1024px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -32,13 +38,12 @@
                                     @*<h4 class="form-title">Supported controls</h4>*@
                                     <form class="form-horizontal" role="form">
 
-
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_CustomerName</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_CustomerName" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')"/>
+                                                        <input id="_CustomerName" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -51,9 +56,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
-
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_ShipName</label>
@@ -62,7 +65,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_LinkMan</label>
@@ -71,9 +73,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
-                                                                                
+
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
@@ -93,7 +95,6 @@
                                             </div>
                                         </div>
 
-
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
@@ -101,6 +102,15 @@
                                                     <div class="col-sm-10">
                                                         <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">服务项</label>
+                                                    <div id="flowtable" class="hot handsontable dataTable table-striped center-block col-sm-10"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +130,7 @@
                     <div id="_CustomerID" hidden>-1</div>
                     <div id="_ShipID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button id="btn_submit" type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                    <button id="btn_submit" type="button" class="btn btn-primary" @*onclick="submitParentModal()"*@>提交</button>
                 </div>
             </div>
         </div>
@@ -183,6 +193,10 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
+                                <h3 class="panel-title">   @*标识增加还是修改及ID*@
+                                    <span hidden></span>
+                                    <span hidden></span>
+                                </h3>
                                 <h4><i class="fa fa-bars"></i>@Resources.Language.OrderManage</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
@@ -223,14 +237,112 @@
 </div>
 
 <script type="text/javascript">
+    //服务项，handsontable 相关
+    var
+        $$ = function (id) { return document.getElementById(id); },
+        container = $$('flowtable'),
+        //tjflow = $$('btnflow'),
+        //autosaveNotification,
+        hot;
+
+    hot = new Handsontable(container, {
+        //data: getCarData(),
+        startRows: 2,
+        startCols: 7,
+        colHeaders: ['服務項', '工作日期', '工作時間', '大拖輪', '5000BHP', '小拖輪', '工作地點'],
+        contextMenu: true,
+        minSpareRows: 1,
+        rowHeaders: true,
+        columnSorting: false,
+        contextMenu: ['row_below', 'remove_row'],
+        removeRowPlugin: true,
+        //heigth: 500,
+        colWidths: [100, 100, 100, 50, 50, 50, 100],
+        stretchH: 'last',
+        manualColumnResize: true,
+        columns: [
+          {
+              type: 'dropdown',
+              //source: ['创建', '校对', '审核', '会签'],
+              source: eval('@Html.Raw(@ViewBag.ServiceLabels)'),
+              strict: false,
+              width: 100
+          },
+          {
+              type: 'date',
+              dateFormat: 'MM/DD/YYYY',
+              correctFormat: true,
+              defaultDate: '@DateTime.Now.ToShortDateString()',
+              width: 100
+          },
+          {
+              type: 'date',
+              dateFormat: 'hh:mm',
+              correctFormat: true,
+              defaultDate: function () { var time = new Date(); return time.Format('hh:mm') },
+              width: 100
+          },
+           {
+               type: 'numeric',
+               width: 50
+           },
+            {
+                type: 'numeric',
+                width: 50
+            },
+           {
+               type: 'numeric',
+               width: 50
+           },
+           {
+               type: 'text',
+               width: 100
+           }
+        ],
+        afterChange: function (change, source) {
+            //alert(change);
+            //alert(source);
+
+            if (source === 'loadData') {
+                return; //don't save this change
+            }
+            if (change != null) {
+                var chs = change[0];
+                var rct = hot.countRows();
+                //判断是否存在
+                //if (chs[1] == 1) {
+                //    var vlperson = hot.getDataAtCell(chs[0], 1);
+                //    if (vlperson !=null && vlperson != "")
+                //    {
+                //        jQuery.ajax({
+                //            url: '/Flow/UserValid',
+                //            type: "POST",
+                //            dataType: "json",
+                //            data: { 'vlperson': vlperson },//JSON.stringify(hot.getChangeData()),
+                //            success: function (result) {
+                //                if (result.rvalid == false) {
+                //                    alert(vlperson + "不存在! ")
+                //                    hot.setDataAtRowProp(chs[0], 1, "");
+                //                }
+                //            },
+                //            error: function (xhr) {
+                //                //alert('error');
+                //            }
+                //        });
+                //    }
+                //}
+            }
+        }
+    });
+    //end 服务项，handsontable 相关
+
+
     var tableConfig = null;
 
     $(document).ready(Init);
 
     function Init() {
         {
-
-
             if (tableConfig == null) {
                 GetTableConfig();
             }
@@ -381,15 +493,48 @@
                         }
                     },
                     position: "last"
-                }).navButtonAdd('#jqGridPager', {
+                })
+                .navButtonAdd('#jqGridPager', {
                     //id: 'jqGrid_ilrefresh',
                     caption: "", title: "新增", buttonicon: "ui-icon-plus",
-                    onClickButton: AddParent
+                    onClickButton: function () {
+                        AddParent();
+                        $('.panel-title span:first').html("add");
+                        $('.panel-title span:last').html(-1);
+                    }
+                })
+                 .navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ilEdit',
+                    caption: "", title: "编辑", buttonicon: "ui-icon-pencil",
+                    onClickButton: function () {
+                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                        //编辑
+                        EditOrder();
+                        if (rowid != null) {
+                            var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID");
+                            $('.panel-title span:first').html("edit");
+                            $('.panel-title span:last').html(orderId);
+                            @*$.ajax({
+                                url: '@Url.Action("", "")',
+                                type: "POST",
+                                data: {
+                                    'orderId': orderId
+                                },
+                                dataType: 'json',
+                                success: function (result) {
+                                    //alert(result.message);
+                                },
+                            });*@
+                        }
+                        else {
+                            alert('选中一行');
+                        }
+                    }
                 });
 
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
-                    edit: true,
+                    edit: false,
                     add: false,
                     del: true,
                     cancel: true,
@@ -595,7 +740,7 @@
                         //]
                     }
                 },
-               
+
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
                     editrules: {
@@ -620,7 +765,7 @@
                     //datefmt: 'dd.mm.yyyy',
                     //sorttype: 'date',
                     editoptions: {
-                         dataInit: function (element) {
+                        dataInit: function (element) {
                             $(element).datetimepicker({
                                 format: 'Y-m-d H:i:s',
                                 //format: 'd.m.Y H:i:s',
@@ -639,7 +784,7 @@
                             $(element).datetimepicker({
                                 format: 'Y-m-d H:i:s',
                                 //format: 'd.m.Y H:i:s',
-                                validateOnBlur:true,
+                                validateOnBlur: true,
                                 step: 1,
                                 timepicker: true
                             });
@@ -829,7 +974,7 @@
                         custom_element: createServiceNatureEditElement
                     }
                 },*@
-                
+
                 @*{
                     align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
@@ -1261,12 +1406,14 @@
 
 
 
-    //模态框
+    //模态框,新增
     function AddParent() {
         $('#parent-modal').modal()
-
     }
-
+    //模态框,编辑
+    function EditOrder() {
+        $('#parent-modal').modal()
+    }
 
     function initParentModal() {
         $("#btn_submit").attr("disabled", false);
@@ -1422,17 +1569,141 @@
         $('#_Remark').val("");
     }
 
-    $('#parent-modal').on('show.bs.modal', function (e) {
-        initParentModal();
+    function initEditModal() {
+        $("#btn_submit").attr("disabled", false);
 
+        $('#parentErrMsg').hide();
+        $('#_CustomerName').parent().removeClass("has-error");
+        $('#_OrdDate').parent().removeClass("has-error");
+
+        $('#_ShipName').parent().removeClass("has-error");
+
+        $('#_LinkMan').parent().removeClass("has-error");
+        $('#_LinkPhone').parent().removeClass("has-error");
+        $('#_LinkEmail').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+        $('#_CustomerName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomer", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            return {
+                                id: item.CustomerID,
+                                label: item.CustomerName1,
+                                value: item.CustomerName1
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null)
+                    $("#_CustomerID").text(ui.item.id);
+                else
+                    $("#_CustomerID").text(-1);
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null)
+                    $("#_CustomerID").text(ui.item.id);
+                else
+                    $("#_CustomerID").text(-1);
+
+            },
+            autoFocus: true
+        });
+
+
+        $('#_ShipName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            return {
+                                id: item.ShipID,
+                                label: item.ShipName1,
+                                value: item.ShipName1
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null)
+                    $("#_ShipID").text(ui.item.id);
+                else
+                    $("#_ShipID").text(-1);
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null)
+                    $("#_ShipID").text(ui.item.id);
+                else
+                    $("#_ShipID").text(-1);
+            },
+            autoFocus: true
+        });
+
+        $('#_OrdDate').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m-d H:i:s',
+            //format: 'd.m.Y H:i:s',
+            validateOnBlur: true,
+            timepicker: true,
+        });
+
+        //赋默认值
+        $.ajax({
+            type: "get",
+            url: '@Url.Action("GetOrder", "OrderManage")',
+            data: {
+                'orderId': $('.panel-title span:last').html()
+            },
+            dataType: 'json',
+            success: function (result) {
+                $('#_CustomerID').val(result.order.CustomerID);
+                $('#_CustomerName').val(result.order.CustomerName);
+                $('#_OrdDate').val(result.order.OrdDate);
+                $('#_ShipID').val(result.order.ShipID);
+                $('#_ShipName').val(result.order.ShipName);
+                $('#_LinkMan').val(result.order.LinkMan);
+                $('#_LinkPhone').val(result.order.LinkPhone);
+                $('#_LinkEmail').val(result.order.LinkEmail);
+                $('#_Remark').val(result.order.Remark);
+            }
+        });
+    }
+
+
+    $('#parent-modal').on('show.bs.modal', function (e) {
+        if ($('.panel-title span:first').html()=='add') initParentModal();
+        else if ($('.panel-title span:first').html()=='edit') initEditModal();
         //var invoker = $(e.relatedTarget);
         //alert(invoker.html());
     });
 
     $('#parent-modal').on('shown.bs.modal', function (e) {
         //var invoker = $(e.relatedTarget);
-        //alert(invoker.html());
-
+        //alert(invoker.html());        
+        if ($('.panel-title span:first').html() == 'add') inithandsontable();//初始化handsontable
+        else if ($('.panel-title span:first').html() == 'edit') loadservicetable();
     });
     $('#parent-modal').on('hide.bs.modal', function () {
         $(this).removeData("bs.modal");
@@ -1444,8 +1715,54 @@
         //alert("hidden");
     });
 
+    function inithandsontable() {
+        jQuery.ajax({
+            url: '/OrderManage/GetInitServiceData', //Controller to Get the
+            //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            charset: "utf-8", // dataType and contentType should be json
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {      // on Success send the Json data
+                // to the table by using loaddata function""
+                //alert("ok");
+                hot.loadData(data);
+                //exampleConsole.innerHTML = 'Data loaded';
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
 
-    function submitParentModal() {
+    function loadservicetable() {
+        jQuery.ajax({
+            url: '/OrderManage/GetOrderServiceData' + '?orderId=' + $('.panel-title span:last').html(),
+            //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            charset: "utf-8", // dataType and contentType should be json
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {      // on Success send the Json data
+                // to the table by using loaddata function""
+                //alert("ok");
+                hot.loadData(data);
+                //exampleConsole.innerHTML = 'Data loaded';
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+
+    Handsontable.Dom.addEvent(btn_submit, 'click', function () {
+    //function submitParentModal() {
 
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
@@ -1502,7 +1819,7 @@
             return;
         }
 
-        @*else if (workDate.length <= 0) {
+            @*else if (workDate.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_OrdDate' + "必填");
             $('#_OrdDate').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -1522,7 +1839,7 @@
             return;
         }*@
 
-        @*else if (estimatedCompletionTime.length <= 0) {
+            @*else if (estimatedCompletionTime.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_EstimatedCompletionTime' + "必填");
             $('#_EstimatedCompletionTime').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -1542,7 +1859,7 @@
         }
 
 
-        @*else if (workPlace.length <= 0) {
+            @*else if (workPlace.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkPlace' + "必填");
             $('#_WorkPlace').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -1554,18 +1871,18 @@
             return;
         }*@
 
-        //var hasChecked = false;
-        //var serviceNatureIds = '', serviceNatureNames = '';
-        //$("input[name='serviceCheckbox']").each(function () {
-        //    if ($(this).is(':checked')) {
+            //var hasChecked = false;
+            //var serviceNatureIds = '', serviceNatureNames = '';
+            //$("input[name='serviceCheckbox']").each(function () {
+            //    if ($(this).is(':checked')) {
 
-        //        hasChecked = true;
-        //        serviceNatureIds += $(this).val().toString().split('~')[0] + '/';
-        //        serviceNatureNames += $(this).val().toString().split('~')[2] + '/';
-        //    }
-        //});
+            //        hasChecked = true;
+            //        serviceNatureIds += $(this).val().toString().split('~')[0] + '/';
+            //        serviceNatureNames += $(this).val().toString().split('~')[2] + '/';
+            //    }
+            //});
 
-        @*if (hasChecked == true){
+            @*if (hasChecked == true){
             serviceNatureIds = serviceNatureIds.substr(0, serviceNatureIds.length - 1);
             serviceNatureNames = serviceNatureNames.substr(0, serviceNatureNames.length - 1)
         }
@@ -1575,11 +1892,11 @@
             $('#parentErrMsg').show();
             return;
         }*@
-        //alert(serviceNatureIds);
-        //alert(serviceNatureNames);
-        
+            //alert(serviceNatureIds);
+            //alert(serviceNatureNames);
 
-        @*if (bigTugNum.length > 0) {
+
+            @*if (bigTugNum.length > 0) {
             var r = bigTugNum.match("^\\d+$");
             if (r == null) {
                 $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_BigTugNum' + ":请输入大于或等于0的整数");
@@ -1599,7 +1916,7 @@
             }
         }*@
 
-        @*else if (smallTugNum.length > 0) {
+            @*else if (smallTugNum.length > 0) {
             var r = smallTugNum.match("^\\d+$");
             if (r == null) {
                 $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_SmallTugNum' + ":请输入大于或等于0的整数");
@@ -1621,7 +1938,7 @@
             return;
         }
 
-        @*else if (linkPhone.length <= 0) {
+            @*else if (linkPhone.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "必填");
             $('#_LinkPhone').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -1637,7 +1954,7 @@
 
         else if (linkEmail.length > 0) {
             var util = new Util();
-            
+
             if (false == util.isEmail2(linkEmail)) {
                 $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkEmail' + ":输入的电子邮件无效");
                 $('#_LinkEmail').parent().addClass("has-error");
@@ -1660,28 +1977,15 @@
         //提交数据库
         $.ajax({
             type: "post",
-            url: '@Url.Action("AddOrder", "OrderManage")',
-            data: {
-                'customerId': customerId,
-                'customerName': customerName,
-                'ordDate':ordDate,
-                //'workDate': workDate,
-                //'workTime': workTime,
-                //'estimatedCompletionTime': estimatedCompletionTime,
-                'shipId': shipId,
-                'shipName': shipName,
-                //'workPlace': workPlace,
-                //'serviceNatureIds': serviceNatureIds,
-                //'serviceNatureNames': serviceNatureNames,
-                //'bigTugNum': bigTugNum,
-                //'middleTugNum': middleTugNum,
-                //'smallTugNum': smallTugNum,
-                'linkMan': linkMan,
-                'linkPhone': linkPhone,
-                'linkEmail': linkEmail,
-                'remark': remark,
-            },//"oper=delete&id=" + gr,
+            url: '/OrderManage/AddOrder' + '?customerId=' + customerId + '&customerName=' + customerName + '&ordDate=' + ordDate
+             + '&shipId=' + shipId + '&shipName=' + shipName + '&linkMan=' + linkMan + '&linkPhone=' + linkPhone + '&linkEmail=' + linkEmail
+             + '&remark=' + remark,
+            data: JSON.stringify(hot.getSourceData()),
             dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            processData: false,
+            cache: false,
             success: function (result) {
 
                 $('#parent-modal').modal('hide')
@@ -1703,6 +2007,6 @@
             }
         });
 
-    }
+    });
 
 </script>

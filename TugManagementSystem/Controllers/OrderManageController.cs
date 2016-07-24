@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using TugDataModel;
 using TugBusinessLogic;
 using TugBusinessLogic.Module;
+using Newtonsoft.Json;
 
 namespace TugManagementSystem.Controllers
 {
@@ -20,8 +21,71 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
 
             ViewBag.Services = TugBusinessLogic.Utils.GetServices();
+            ViewBag.ServiceLabels = GetServiceLabels();
 
             return View();
+        }
+        [HttpGet]
+        public ActionResult GetOrder(int orderId)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                if (aOrder != null)
+                {
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, order = aOrder }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_CODE }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+        public ActionResult GetOrderServiceData(int orderId)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<OrderService> list = db.OrderService.Where(u => u.OrderID == orderId).OrderBy(u => u.IDX).ToList<OrderService>();
+
+                List<string[]> jsonData = new List<string[]>();
+                foreach (var itm in list)
+                {
+                    string[] sev = new string[7] { "11", itm.ServiceWorkDate,itm.ServiceWorkTime, itm.BigTugNum.ToString(),itm.MiddleTugNum.ToString(),itm.SmallTugNum.ToString(),itm.ServiceWorkPlace};
+                    jsonData.Add(sev);
+                }
+
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+        public string GetServiceLabels()
+        {
+            string[] labels =null;
+            int i = 0;
+            if (labels == null)
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID").OrderBy(u => u.CustomValue).ToList<CustomField>();
+                labels = new string[list.Count];
+                foreach (var itm in list)
+                {
+                    labels[i] = itm.CustomLabel;
+                    i++;
+                }
+            }
+            //return labels;
+            return JsonConvert.SerializeObject(labels);
         }
         [Authorize]
         //GET: OrderScheduling
@@ -295,10 +359,18 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+        
+        public JsonResult GetInitServiceData()  //初始化服务项table
+        {
+            var jsonData = new[]
+                     {
+                         new[] {"","","","","","",""},
+                    };
 
-        public ActionResult AddOrder(int customerId, string customerName, string ordDate, string workDate, string workTime, string estimatedCompletionTime,
-            int shipId, string shipName, string workPlace, string serviceNatureIds, string serviceNatureNames, string bigTugNum,
-            string middleTugNum, string smallTugNum, string linkMan, string linkPhone, string linkEmail, string remark) 
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }    
+        public ActionResult AddOrder(int customerId, string customerName, string ordDate,
+            int shipId, string shipName, string linkMan, string linkPhone, string linkEmail, string remark,List<string[]> dataListFromTable) 
         {
             this.Internationalization();
 
@@ -366,6 +438,47 @@ namespace TugManagementSystem.Controllers
 
                     aOrder = db.OrderInfor.Add(aOrder);
                     db.SaveChanges();
+
+                    //将服务项信息写入OrderService表
+                    #region
+                    //获取服务项
+                     List<CustomField> listServ;
+                     listServ=TugBusinessLogic.Utils.GetServices();
+                    for (int i = 0; i < dataListFromTable.Count - 1; i++)//最后一行空行
+                    {
+                        TugDataModel.OrderService obj = new OrderService();
+                        obj.OrderID = aOrder.IDX;
+                        string serName = dataListFromTable[i][0];
+                        CustomField sv = listServ.Where(u => u.CustomLabel == serName).FirstOrDefault();
+                        obj.ServiceNatureID = sv.IDX;
+                        obj.ServiceWorkDate = dataListFromTable[i][1];
+                        obj.ServiceWorkTime = dataListFromTable[i][2];
+                        //obj.EstimatedCompletionTime=
+                        obj.ServiceWorkPlace = dataListFromTable[i][6];
+                        obj.BigTugNum =Util.toint(dataListFromTable[i][3]);
+                        obj.MiddleTugNum = Util.toint(dataListFromTable[i][4]);
+                        obj.SmallTugNum = Util.toint(dataListFromTable[i][5]);
+                        //obj.Remark = "";
+
+                        obj.OwnerID = -1;
+                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        obj.UserID = Session.GetDataFromSession<int>("userid");
+
+                        //obj.UserDefinedCol1 = "";
+                        //obj.UserDefinedCol2 = "";
+                        //obj.UserDefinedCol3 = "";
+                        //obj.UserDefinedCol4 = "";
+                        //if (Request.Form["UserDefinedCol5"] != "")
+                        //    obj.UserDefinedCol5 = Util.toint(Request.Form["UserDefinedCol5"]);
+                        //obj.UserDefinedCol6 =;
+                        //obj.UserDefinedCol7 =;
+                        //obj.UserDefinedCol8 =;
+                        //obj.UserDefinedCol9 = "";
+                        //obj.UserDefinedCol10 = "";
+                        obj = db.OrderService.Add(obj);
+                        db.SaveChanges();
+                    }
+                    #endregion
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);

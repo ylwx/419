@@ -28,6 +28,7 @@ namespace TugManagementSystem.Controllers
         string[] nodes;
         public ActionResult GetNodes()
         {
+
             int i = 0; 
             if(nodes==null)
             {
