@@ -24,6 +24,7 @@ namespace TugDataModel
         public Nullable<int> BigTugNum { get; set; }
         public Nullable<int> MiddleTugNum { get; set; }
         public Nullable<int> SmallTugNum { get; set; }
+        public Nullable<int> JobStateID { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }

@@ -12,7 +12,38 @@ namespace TugManagementSystem.Controllers
     public class OrderManageController : BaseController
     {
         #region 页面Action
+        [Authorize]
+        public ActionResult ServiceStatus(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+        public ActionResult GetServiceState(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
 
+            //string s = Request.QueryString[6];
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<V_OrderService> objs = db.V_OrderService.Where(u => u.JobStateLabel!="已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).ToList<V_OrderService>();
+                int totalRecordNum = objs.Count;
+                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                //List<V_OrderService> page_V_OrderServices = V_OrderServices.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<V_OrderService>();
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
         // GET: OrderManage
         [Authorize]
         public ActionResult OrderManage(string lan, int? id)

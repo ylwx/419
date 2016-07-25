@@ -44,5 +44,7 @@ namespace TugDataModel
         public Nullable<int> MiddleTugNum { get; set; }
         public Nullable<int> SmallTugNum { get; set; }
         public int OrderServiceIDX { get; set; }
+        public Nullable<int> JobStateID { get; set; }
+        public string JobStateLabel { get; set; }
     }
 }

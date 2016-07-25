@@ -331,6 +331,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 客戶名稱 的本地化字符串。
+        /// </summary>
+        internal static string CustomerName {
+            get {
+                return ResourceManager.GetString("CustomerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 客戶船 的本地化字符串。
         /// </summary>
         internal static string CustomerShip {
@@ -381,6 +390,15 @@ namespace Resources {
         internal static string CustomerShip_Length {
             get {
                 return ResourceManager.GetString("CustomerShip_Length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客戶船名稱 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_Name {
+            get {
+                return ResourceManager.GetString("CustomerShip_Name", resourceCulture);
             }
         }
         
@@ -1141,6 +1159,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 服務狀態 的本地化字符串。
+        /// </summary>
+        internal static string ServiceStatus {
+            get {
+                return ResourceManager.GetString("ServiceStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Submit 的本地化字符串。
         /// </summary>
         internal static string Submit {
@@ -1317,6 +1344,24 @@ namespace Resources {
         internal static string TugInfor_Width {
             get {
                 return ResourceManager.GetString("TugInfor_Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪名稱 的本地化字符串。
+        /// </summary>
+        internal static string TugName {
+            get {
+                return ResourceManager.GetString("TugName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪狀態 的本地化字符串。
+        /// </summary>
+        internal static string TugStatus {
+            get {
+                return ResourceManager.GetString("TugStatus", resourceCulture);
             }
         }
         

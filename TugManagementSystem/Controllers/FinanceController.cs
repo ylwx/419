@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using TugDataModel;
 using TugBusinessLogic;
 using System.Transactions;
+using Newtonsoft.Json;
 
 namespace TugManagementSystem.Controllers
 {
@@ -23,11 +24,46 @@ namespace TugManagementSystem.Controllers
             //ViewBag.Services = TugBusinessLogic.Utils.GetServices();
             ViewBag.BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             ViewBag.TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
-
+            ViewBag.Nodes = GetNodes();
+            ViewBag.Persons = GetPersons();
             return View();
         }
-
-
+        public string GetPersons()
+        {
+            string[] labels = null;
+            int i = 0;
+            if (labels == null)
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<UserInfor> list = db.UserInfor.Where(u => u.IsGuest == "false" && u.UserName != "admin").OrderBy(u => u.Name1).ToList<UserInfor>();
+                labels = new string[list.Count];
+                foreach (var itm in list)
+                {
+                    labels[i] = itm.Name1;
+                    i++;
+                }
+            }
+            //return labels;
+            return JsonConvert.SerializeObject(labels);
+        }
+        public string GetNodes()
+        {
+            string[] labels = null;
+            int i = 0;
+            if (labels == null)
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "Task.Node").OrderBy(u => u.CustomValue).ToList<CustomField>();
+                labels = new string[list.Count];
+                foreach (var itm in list)
+                {
+                    labels[i] = itm.CustomLabel;
+                    i++;
+                }
+            }
+            //return labels;
+            return JsonConvert.SerializeObject(labels);
+        }
         /// <summary>
         /// 获取账单页面账单数据
         /// </summary>

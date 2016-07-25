@@ -11,6 +11,13 @@ namespace TugManagementSystem.Controllers
 {
     public class TugInforController : BaseController
     {
+        public ActionResult TugStateBoard(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+
         [JsonExceptionFilterAttribute]
         public ActionResult AddTug(string Code, string Name1, string Name2, string SimpleName, string Power, string Class, string Speed, string Length, string Width, string Remark)
         {
@@ -243,7 +250,31 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
+        public ActionResult GetTugStateInfor(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
 
+            //string s = Request.QueryString[6];
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<V_OrderScheduler> objs = db.V_OrderScheduler.Where(u => u.JobStateLabel !="已完工").Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
+                int totalRecordNum = objs.Count;
+                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                //List<V_OrderScheduler> page_V_OrderSchedulers = V_OrderSchedulers.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<V_OrderScheduler>();
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
         public ActionResult GetDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();

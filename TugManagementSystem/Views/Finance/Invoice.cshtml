@@ -2180,44 +2180,14 @@
               {
                   type: 'dropdown',
                   //source: ['创建', '校对', '审核', '会签'],
-                  source: function (query, process) {
-                      $.ajax({
-                          //url: 'php/cars.php', // commented out because our website is hosted on static GitHub Pages
-                          url: '@Url.Action("GetNodes", "Flow")',
-                          dataType: 'json',
-                          data: {
-                              query: query
-                          },
-                          success: function (response) {
-                              console.log("response", response);
-                              //process(JSON.parse(response.data)); // JSON.parse takes string as a argument
-                              process(response);
-
-                          }
-                      });
-                  },
+                  source: eval('@Html.Raw(@ViewBag.Nodes)'),
                   strict: false,
                   width: 120
               },
               {
                   type: 'dropdown',//'autocomplete',
                   //source: ['张三', '李四', '王五', '赵六'],
-                  source: function (query, process) {
-                      $.ajax({
-                          //url: 'php/cars.php', // commented out because our website is hosted on static GitHub Pages
-                          url: '@Url.Action("GetPersons", "Flow")',
-                          dataType: 'json',
-                          data: {
-                              query: query
-                          },
-                          success: function (response) {
-                              console.log("response", response);
-                              //process(JSON.parse(response.data)); // JSON.parse takes string as a argument
-                              process(response);
-
-                          }
-                      });
-                  },
+                  source: eval('@Html.Raw(@ViewBag.Persons)'),
                   @*source: function (request, response) {
                       this.xhr = $.ajax({
                           url: '@Url.Action("GetPersons", "Flow")',

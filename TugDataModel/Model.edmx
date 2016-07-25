@@ -500,6 +500,7 @@
           <Property Name="BigTugNum" Type="int" />
           <Property Name="MiddleTugNum" Type="int" />
           <Property Name="SmallTugNum" Type="int" />
+          <Property Name="JobStateID" Type="int" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="OwnerID" Type="int" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
@@ -1393,6 +1394,8 @@
           <Property Name="SmallTugNum" Type="int" />
           <Property Name="IsCaptainConfirm" Type="nvarchar" MaxLength="50" />
           <Property Name="SchedulerWorkPlace" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipID" Type="int" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1431,6 +1434,8 @@
           <Property Name="MiddleTugNum" Type="int" />
           <Property Name="SmallTugNum" Type="int" />
           <Property Name="OrderServiceIDX" Type="int" Nullable="false" />
+          <Property Name="JobStateID" Type="int" />
+          <Property Name="JobStateLabel" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2314,7 +2319,9 @@
     [V_OrderScheduler].[MiddleTugNum] AS [MiddleTugNum], 
     [V_OrderScheduler].[SmallTugNum] AS [SmallTugNum], 
     [V_OrderScheduler].[IsCaptainConfirm] AS [IsCaptainConfirm], 
-    [V_OrderScheduler].[SchedulerWorkPlace] AS [SchedulerWorkPlace]
+    [V_OrderScheduler].[SchedulerWorkPlace] AS [SchedulerWorkPlace], 
+    [V_OrderScheduler].[ShipID] AS [ShipID], 
+    [V_OrderScheduler].[ShipName] AS [ShipName]
     FROM [dbo].[V_OrderScheduler] AS [V_OrderScheduler]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderService" EntityType="Self.V_OrderService" store:Type="Views" store:Schema="dbo">
@@ -2348,7 +2355,9 @@
     [V_OrderService].[BigTugNum] AS [BigTugNum], 
     [V_OrderService].[MiddleTugNum] AS [MiddleTugNum], 
     [V_OrderService].[SmallTugNum] AS [SmallTugNum], 
-    [V_OrderService].[OrderServiceIDX] AS [OrderServiceIDX]
+    [V_OrderService].[OrderServiceIDX] AS [OrderServiceIDX], 
+    [V_OrderService].[JobStateID] AS [JobStateID], 
+    [V_OrderService].[JobStateLabel] AS [JobStateLabel]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
@@ -3161,6 +3170,7 @@
           <Property Name="BigTugNum" Type="Int32" />
           <Property Name="MiddleTugNum" Type="Int32" />
           <Property Name="SmallTugNum" Type="Int32" />
+          <Property Name="JobStateID" Type="Int32" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -4021,6 +4031,8 @@
           <Property Name="SmallTugNum" Type="Int32" />
           <Property Name="IsCaptainConfirm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SchedulerWorkPlace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipID" Type="Int32" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderService">
           <Key>
@@ -4057,6 +4069,8 @@
           <Property Name="MiddleTugNum" Type="Int32" />
           <Property Name="SmallTugNum" Type="Int32" />
           <Property Name="OrderServiceIDX" Type="Int32" Nullable="false" />
+          <Property Name="JobStateID" Type="Int32" />
+          <Property Name="JobStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_RoleMenu">
           <Key>
@@ -4834,6 +4848,7 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
                 <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
                 <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
                 <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
@@ -5656,6 +5671,8 @@
           <EntitySetMapping Name="V_OrderScheduler">
             <EntityTypeMapping TypeName="Model.V_OrderScheduler">
               <MappingFragment StoreEntitySet="V_OrderScheduler">
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="ShipID" ColumnName="ShipID" />
                 <ScalarProperty Name="SchedulerWorkPlace" ColumnName="SchedulerWorkPlace" />
                 <ScalarProperty Name="IsCaptainConfirm" ColumnName="IsCaptainConfirm" />
                 <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
@@ -5714,6 +5731,8 @@
           <EntitySetMapping Name="V_OrderService">
             <EntityTypeMapping TypeName="Model.V_OrderService">
               <MappingFragment StoreEntitySet="V_OrderService">
+                <ScalarProperty Name="JobStateLabel" ColumnName="JobStateLabel" />
+                <ScalarProperty Name="JobStateID" ColumnName="JobStateID" />
                 <ScalarProperty Name="OrderServiceIDX" ColumnName="OrderServiceIDX" />
                 <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
                 <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />

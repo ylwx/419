@@ -495,6 +495,7 @@
     <Property Name="BigTugNum" Type="int" />
     <Property Name="MiddleTugNum" Type="int" />
     <Property Name="SmallTugNum" Type="int" />
+    <Property Name="JobStateID" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="OwnerID" Type="int" />
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
@@ -1388,6 +1389,8 @@
     <Property Name="SmallTugNum" Type="int" />
     <Property Name="IsCaptainConfirm" Type="nvarchar" MaxLength="50" />
     <Property Name="SchedulerWorkPlace" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipID" Type="int" />
+    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1426,6 +1429,8 @@
     <Property Name="MiddleTugNum" Type="int" />
     <Property Name="SmallTugNum" Type="int" />
     <Property Name="OrderServiceIDX" Type="int" Nullable="false" />
+    <Property Name="JobStateID" Type="int" />
+    <Property Name="JobStateLabel" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2309,7 +2314,9 @@
     [V_OrderScheduler].[MiddleTugNum] AS [MiddleTugNum], 
     [V_OrderScheduler].[SmallTugNum] AS [SmallTugNum], 
     [V_OrderScheduler].[IsCaptainConfirm] AS [IsCaptainConfirm], 
-    [V_OrderScheduler].[SchedulerWorkPlace] AS [SchedulerWorkPlace]
+    [V_OrderScheduler].[SchedulerWorkPlace] AS [SchedulerWorkPlace], 
+    [V_OrderScheduler].[ShipID] AS [ShipID], 
+    [V_OrderScheduler].[ShipName] AS [ShipName]
     FROM [dbo].[V_OrderScheduler] AS [V_OrderScheduler]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_OrderService" EntityType="Self.V_OrderService" store:Type="Views" store:Schema="dbo">
@@ -2343,7 +2350,9 @@
     [V_OrderService].[BigTugNum] AS [BigTugNum], 
     [V_OrderService].[MiddleTugNum] AS [MiddleTugNum], 
     [V_OrderService].[SmallTugNum] AS [SmallTugNum], 
-    [V_OrderService].[OrderServiceIDX] AS [OrderServiceIDX]
+    [V_OrderService].[OrderServiceIDX] AS [OrderServiceIDX], 
+    [V_OrderService].[JobStateID] AS [JobStateID], 
+    [V_OrderService].[JobStateLabel] AS [JobStateLabel]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">

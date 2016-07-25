@@ -66,5 +66,7 @@ namespace TugDataModel
         public Nullable<int> SmallTugNum { get; set; }
         public string IsCaptainConfirm { get; set; }
         public string SchedulerWorkPlace { get; set; }
+        public Nullable<int> ShipID { get; set; }
+        public string ShipName { get; set; }
     }
 }

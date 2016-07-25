@@ -1,0 +1,258 @@
+﻿
+@{
+    ViewBag.Title = @Resources.Language.ServiceStatus;
+    Layout = "~/Views/Shared/_ContentLayout.cshtml";
+    ViewBag.MenuId = "menu5";
+    ViewBag.SubMenuIndex = 3;
+}
+<div id="main-content">
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-lg-12">
+                <!-- PAGE HEADER-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div @*class="page-header"*@>
+                            <!-- STYLER -->
+                            <!-- /STYLER -->
+                            <!-- BREADCRUMBS -->
+                            <ul class="breadcrumb">
+                                <li>
+                                    <i class="fa fa-home"></i>
+                                    <a href="#">@Resources.Language.HomePage</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-users"></i>
+                                    <a href="#">@Resources.Language.Order</a>
+                                </li>
+                                <li>
+                                    @Resources.Language.ServiceStatus
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /PAGE HEADER -->
+                @*<div class="row">
+                        <div class="col-md-12">
+                            <div class="box border orange">
+                                <div class="box-title">
+                                </div>
+                                <div class="box-body">
+                                    <div>
+                                        <ul>
+                                            <li>@Model.Code</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <!-- SAMPLE -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BOX -->
+                        <div class="box border orange">
+                            <div class="box-title">
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.ServiceStatus</h4>
+                            </div>
+                            <div id="jqGridContainerBox" class="box-body">
+                                <table id="jqGrid"></table>
+                                <div id="jqGridPager"></div>
+                            </div>
+                        </div>
+                        <!-- /BOX -->
+                    </div>
+                </div>
+                <!-- /SAMPLE -->
+                <div class="footer-tools">
+                    <span class="go-top">
+                        <i class="fa fa-chevron-up"></i> Top
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var tableConfig = null;
+
+    $(document).ready(function () {
+
+        if (tableConfig == null) {
+            GetTableConfig();
+        }
+
+        $("#jqGrid").jqGrid({
+            //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+            url: '@Url.Action("GetServiceState", "OrderManage")',
+            mtype: "GET",
+            datatype: "json",
+            colModel: tableConfig.columns,
+            viewrecords: true,
+            //width: 780,
+            height: '100%', //height: $(window).height() - 300,
+            rowNum: 50,
+            autowidth: true,
+            editurl: '@Url.Action("", "OrderManage")',
+            pager: "#jqGridPager",
+            loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            colMenu: true          //列菜单
+        });
+
+        $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+
+        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox').resize(function () {
+            var width = $('#jqGridContainerBox').width();
+            $("#jqGrid").setGridWidth(width);
+        });
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+            .navButtonAdd('#jqGridPager', {
+                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                onClickButton: function () {
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navButtonAdd('#jqGridPager', {
+                caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+                onClickButton: function () {
+                    var grid = $('#jqGrid')[0];
+                    grid.clearToolbar();
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' });
+
+        $('#jqGrid').inlineNav('#jqGridPager',
+            {
+                edit: false,
+                add: false,
+                del: false,
+                cancel: true,
+                editParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    url: null, //'/api/values',
+                    mtype: 'POST'
+                },
+
+                addParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        //alert("111");
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    errorfunc: function (rowid, xhr) {
+                        alert(xhr.responseText);
+                        //$(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                }
+            });
+
+        //最后调用，冻结列
+        //$("#jqGrid").jqGrid("setFrozenColumns");
+    });
+
+    function GetTableConfig() {
+        tableConfig = {
+            columns: [
+
+                {
+                    align: 'center', label: '@Resources.Language.Customer_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.CustomerShip', name: "ShipName", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureLabel", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "ServiceWorkDate", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkTime', name: "ServiceWorkTime", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_WorkPlace', name: "ServiceWorkPlace", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
+                    editoptions: {
+                        defaultValue: 0
+                    },
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateLabel', name: "JobStateLabel", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                }
+            ]
+        };
+    }
+
+</script>
+
