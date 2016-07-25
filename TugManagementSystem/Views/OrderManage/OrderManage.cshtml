@@ -126,8 +126,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div id="_CustomerID" hidden>-1</div>
-                    <div id="_ShipID" hidden>-1</div>
+                    <div id="_CustomerID" >-1</div>
+                    <div id="_ShipID" >-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
                     <button id="btn_submit" type="button" class="btn btn-primary" @*onclick="submitParentModal()"*@>提交</button>
                 </div>
@@ -1426,6 +1426,7 @@
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
         $('#_OrdDate').parent().removeClass("has-error");
+        
         //$('#_WorkDate').parent().removeClass("has-error");
         //$('#_WorkTime').parent().removeClass("has-error");
         //$('#_EstimatedCompletionTime').parent().removeClass("has-error");
@@ -1443,6 +1444,10 @@
         $('#_LinkPhone').parent().removeClass("has-error");
         $('#_LinkEmail').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
+
+        $("#_ShipID").text(-1);
+        $("#_CustomerID").text(-1);
+        
 
         $('#_CustomerName').autocomplete({
             source: function (request, response) {
@@ -1683,10 +1688,12 @@
             },
             dataType: 'json',
             success: function (result) {
-                $('#_CustomerID').val(result.order.CustomerID);
+                //alert(result.order.CustomerID);
+
+                $('#_CustomerID').text(result.order.CustomerID);
                 $('#_CustomerName').val(result.order.CustomerName);
                 $('#_OrdDate').val(result.order.OrdDate);
-                $('#_ShipID').val(result.order.ShipID);
+                $('#_ShipID').text(result.order.ShipID);
                 $('#_ShipName').val(result.order.ShipName);
                 $('#_LinkMan').val(result.order.LinkMan);
                 $('#_LinkPhone').val(result.order.LinkPhone);
@@ -1698,6 +1705,8 @@
 
 
     $('#parent-modal').on('show.bs.modal', function (e) {
+
+        //alert($('.panel-title span:first').html());
         if ($('.panel-title span:first').html()=='add') initParentModal();
         else if ($('.panel-title span:first').html() == 'edit') initEditModal();
         //var invoker = $(e.relatedTarget);

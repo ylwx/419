@@ -14,6 +14,11 @@ namespace TugDataModel
     
     public partial class OrderService
     {
+        public OrderService()
+        {
+            this.Scheduler = new HashSet<Scheduler>();
+        }
+    
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
@@ -42,5 +47,6 @@ namespace TugDataModel
         public string UserDefinedCol10 { get; set; }
     
         public virtual OrderInfor OrderInfor { get; set; }
+        public virtual ICollection<Scheduler> Scheduler { get; set; }
     }
 }

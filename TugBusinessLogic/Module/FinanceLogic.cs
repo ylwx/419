@@ -20,7 +20,7 @@ namespace TugBusinessLogic.Module
 
             //List<V_Invoice> list = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u).ToList();
 
-            var list = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u);
+            var list = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderServiceID).Select(u => u);
 
             if (list != null)
             {
@@ -33,7 +33,7 @@ namespace TugBusinessLogic.Module
 
                 Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();
                 //var services2 = list.Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).ToList();
-                var services = list.Select(u => new { u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
+                var services = list.Select(u => new { u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
                 //var services = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => new {u.ServiceNatureID, u.ServiceNatureLabel}).Distinct().ToList();
 
                 Dictionary<int, List<MyScheduler>> dicSchedulers = new Dictionary<int, List<MyScheduler>>();
@@ -52,7 +52,7 @@ namespace TugBusinessLogic.Module
                         dicServiceNature.Add(ms.ServiceId, ms);
 
                         var ships = list.Where(u => u.ServiceNatureID == item.ServiceNatureID)
-                            .Select(u => new {u.SchedulerID, u.TugID, u.TugName1, u.TugName2, u.TugSimpleName, u.Power }).Distinct()
+                            .Select(u => new {u.SchedulerID, u.TugID, u.TugName1, u.TugName2 }).Distinct()
                             .OrderBy(u => u.TugName1).ToList();
 
                         List<MyScheduler> listScheduler = new List<MyScheduler>();
@@ -67,7 +67,7 @@ namespace TugBusinessLogic.Module
                                 
                                 //sch.TugEnName = ship.TugName2;
                                 //sch.TugSimpleName = ship.TugSimpleName;
-                                sch.TugPower = ship.Power;
+                                //sch.TugPower = ship.Power;
                                 var schedulers = list.Where(u => u.ServiceNatureID == item.ServiceNatureID && u.SchedulerID == ship.SchedulerID)
                                     .OrderBy(u => u.OrderID).OrderBy(u => u.ServiceNatureID)
                                     .Select(u => new
@@ -76,8 +76,6 @@ namespace TugBusinessLogic.Module
                                         u.TugID,
                                         u.TugName1,
                                         u.TugName2,
-                                        u.TugSimpleName,
-                                        u.Power,
                                         u.InformCaptainTime,
                                         u.CaptainConfirmTime,
                                         u.DepartBaseTime,
@@ -276,8 +274,6 @@ namespace TugBusinessLogic.Module
                             u.TugID,
                             u.TugName1,
                             u.TugName2,
-                            u.TugSimpleName,
-                            u.Power,
                             u.DepartBaseTime,
                             u.ArrivalBaseTime,
                             u.RopeUsed,
@@ -297,7 +293,7 @@ namespace TugBusinessLogic.Module
                             mySch.TugCnName = scheduler.TugName1;
                             //mySch.TugEnName = scheduler.TugName2;
                             //mySch.TugSimpleName = scheduler.TugSimpleName;
-                            mySch.TugPower = scheduler.Power;
+                            //mySch.TugPower = scheduler.Power;
 
                             mySch.DepartBaseTime = scheduler.DepartBaseTime;
                             mySch.ArrivalBaseTime = scheduler.ArrivalBaseTime;

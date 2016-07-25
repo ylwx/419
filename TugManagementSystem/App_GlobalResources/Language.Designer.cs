@@ -2356,6 +2356,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 船長是否確認 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_IsCaptainConfirm {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_IsCaptainConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 調度作業狀態ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_JobStateID {
@@ -2397,6 +2406,15 @@ namespace Resources {
         internal static string V_OrderScheduler_OrderID {
             get {
                 return ResourceManager.GetString("V_OrderScheduler_OrderID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 訂單服務ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_OrderServiceID {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_OrderServiceID", resourceCulture);
             }
         }
         
@@ -2460,6 +2478,15 @@ namespace Resources {
         internal static string V_OrderScheduler_ServiceWorkPlace {
             get {
                 return ResourceManager.GetString("V_OrderScheduler_ServiceWorkPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服務時間 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_ServiceWorkTime {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_ServiceWorkTime", resourceCulture);
             }
         }
         

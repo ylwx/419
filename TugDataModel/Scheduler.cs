@@ -20,8 +20,7 @@ namespace TugDataModel
         }
     
         public int IDX { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ServiceNatureID { get; set; }
+        public Nullable<int> OrderServiceID { get; set; }
         public Nullable<int> TugID { get; set; }
         public string SchedulerWorkPlace { get; set; }
         public Nullable<int> JobStateID { get; set; }
@@ -53,5 +52,6 @@ namespace TugDataModel
         public string UserDefinedCol10 { get; set; }
     
         public virtual ICollection<BillingItem> BillingItem { get; set; }
+        public virtual OrderService OrderService { get; set; }
     }
 }

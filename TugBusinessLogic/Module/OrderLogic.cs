@@ -1587,86 +1587,8 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-                    case "UserDefinedCol1":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol2":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol3":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol4":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol5":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol6":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol7":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol8":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol9":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol10":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
-                        }
-                        break;
+                    
+                   
                     default:
                         break;
                 }
@@ -1885,86 +1807,86 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-                    case "UserDefinedCol1":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol2":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol3":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol4":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol5":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol6":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol7":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol8":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol9":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol10":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
-                        }
-                        break;
+                    //case "UserDefinedCol1":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol2":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol3":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol4":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol5":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol6":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol7":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol8":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol9":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol10":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
+                    //    }
+                    //    break;
                     default:
                         break;
                 }
@@ -2170,86 +2092,86 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-                    case "UserDefinedCol1":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol2":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol3":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol4":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol5":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol6":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol7":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol8":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol9":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol10":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
-                        }
-                        break;
+                    //case "UserDefinedCol1":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol2":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol3":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol4":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol5":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol6":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol7":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol8":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol9":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol10":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
+                    //    }
+                    //    break;
                     default:
                         break;
                 }
@@ -2454,86 +2376,86 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-                    case "UserDefinedCol1":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol2":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol3":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol4":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol5":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol6":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol7":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol8":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol9":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol10":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
-                        }
-                        break;
+                    //case "UserDefinedCol1":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol2":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol3":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol4":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol5":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol6":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol7":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol8":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol9":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol10":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
+                    //    }
+                    //    break;
                     default:
                         break;
                 }
@@ -2584,6 +2506,38 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ServiceNatureLabel).ToList();
                         }
                         break;
+                    case "ServiceWorkDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceWorkDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceWorkDate).ToList();
+                        }
+                        break;
+                    case "ServiceWorkTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceWorkTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceWorkTime).ToList();
+                        }
+                        break;
+                    case "ServiceWorkPlace":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceWorkPlace).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceWorkPlace).ToList();
+                        }
+                        break;
+                    case "ServiceJobStateLabel":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceJobStateLabel).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceJobStateLabel).ToList();
+                        }
+                        break;
                     case "TugName1":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2600,20 +2554,28 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.TugName2).ToList();
                         }
                         break;
-                    case "TugSimpleName":
+                    case "SimpleName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.TugSimpleName).ToList();
+                                orders = orders.OrderBy(u => u.SimpleName).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.TugSimpleName).ToList();
+                                orders = orders.OrderByDescending(u => u.SimpleName).ToList();
                         }
                         break;
-                    case "JobStateLabel":
+                    //case "JobStateLabel":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.JobStateLabel).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.JobStateLabel).ToList();
+                    //    }
+                    //    break;
+                    case "IsCaptainConfirm":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.JobStateLabel).ToList();
+                                orders = orders.OrderBy(u => u.IsCaptainConfirm).ToList();
                             else
-                                orders = orders.OrderByDescending(u => u.JobStateLabel).ToList();
+                                orders = orders.OrderByDescending(u => u.IsCaptainConfirm).ToList();
                         }
                         break;
                     case "InformCaptainTime":
@@ -2672,6 +2634,7 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ArrivalBaseTime).ToList();
                         }
                         break;
+                    
                     case "RopeUsed":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2713,86 +2676,86 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
                         }
                         break;
-                    case "UserDefinedCol1":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol2":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol3":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol4":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol5":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol6":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol7":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol8":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol9":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
-                        }
-                        break;
-                    case "UserDefinedCol10":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
-                        }
-                        break;
+                    //case "UserDefinedCol1":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol1).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol1).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol2":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol2).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol2).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol3":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol3).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol3).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol4":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol4).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol4).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol5":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol5).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol5).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol6":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol6).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol6).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol7":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol7).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol7).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol8":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol8).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol8).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol9":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol9).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol9).ToList();
+                    //    }
+                    //    break;
+                    //case "UserDefinedCol10":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.UserDefinedCol10).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.UserDefinedCol10).ToList();
+                    //    }
+                    //    break;
                     default:
                         break;
                 }

@@ -14,29 +14,28 @@ namespace TugDataModel
     
     public partial class V_Invoice
     {
-        public Nullable<int> CustomerID { get; set; }
-        public string CustomerName { get; set; }
         public Nullable<int> OrderID { get; set; }
-        public string OrderCode { get; set; }
-        public string OrderWorkDate { get; set; }
-        public string OrderWorkTime { get; set; }
-        public string OrderEstimatedCompletionTime { get; set; }
-        public string HasInvoice { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
+        public string ServiceNatureValue { get; set; }
         public string ServiceNatureLabel { get; set; }
         public string ServiceWorkDate { get; set; }
+        public string ServiceWorkTime { get; set; }
+        public string EstimatedCompletionTime { get; set; }
         public string ServiceWorkPlace { get; set; }
+        public Nullable<int> ShipID { get; set; }
+        public string ShipName { get; set; }
+        public Nullable<int> DeadWeight { get; set; }
+        public string Class { get; set; }
+        public Nullable<int> Length { get; set; }
+        public Nullable<int> Width { get; set; }
+        public Nullable<int> TEUS { get; set; }
+        public Nullable<int> OrderServiceID { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName1 { get; set; }
         public string TugName2 { get; set; }
-        public string TugSimpleName { get; set; }
-        public string Power { get; set; }
-        public string Class { get; set; }
-        public string Speed { get; set; }
-        public string Length { get; set; }
-        public string Width { get; set; }
         public Nullable<int> JobStateID { get; set; }
         public string JobStateLabel { get; set; }
+        public string IsCaptainConfirm { get; set; }
         public string InformCaptainTime { get; set; }
         public string CaptainConfirmTime { get; set; }
         public string DepartBaseTime { get; set; }
@@ -44,6 +43,7 @@ namespace TugDataModel
         public string WorkCommencedTime { get; set; }
         public string WorkCompletedTime { get; set; }
         public string ArrivalBaseTime { get; set; }
+        public string ServiceHours { get; set; }
         public string RopeUsed { get; set; }
         public Nullable<int> RopeNum { get; set; }
         public string OrderSchedulerRemark { get; set; }
@@ -80,6 +80,7 @@ namespace TugDataModel
         public string BillingItemLabel { get; set; }
         public Nullable<double> UnitPrice { get; set; }
         public string Currency { get; set; }
+        public string IsVisible { get; set; }
         public Nullable<int> PositionTypeID { get; set; }
     }
 }

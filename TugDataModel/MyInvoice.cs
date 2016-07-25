@@ -225,4 +225,24 @@ namespace TugDataModel
 
         public string LastUpDate { get; set; }
     }
+
+
+    public class MyOrderService
+    {
+        public int OrderServiceId { get; set; }
+
+        public int ServiceNatureId{get;set;}
+
+        public string ServiceNatureValue { get; set; }
+
+        public string ServiceNatureLabel { get; set; }
+
+        public string ServiceWorkDate { get; set; }
+
+        public string ServiceWorkTime { get; set; }
+
+        public string ServiceEstimatedCompletionTime { get; set; }
+
+        public string ServiceWorkPlace { get; set; }
+    }
 }

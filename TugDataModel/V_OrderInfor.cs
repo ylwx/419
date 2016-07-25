@@ -34,15 +34,24 @@ namespace TugDataModel
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
         public string HasInvoice { get; set; }
-        public string UserDefinedCol1 { get; set; }
-        public string UserDefinedCol2 { get; set; }
-        public string UserDefinedCol3 { get; set; }
-        public string UserDefinedCol4 { get; set; }
-        public Nullable<double> UserDefinedCol5 { get; set; }
-        public Nullable<int> UserDefinedCol6 { get; set; }
-        public Nullable<int> UserDefinedCol7 { get; set; }
-        public Nullable<int> UserDefinedCol8 { get; set; }
-        public string UserDefinedCol9 { get; set; }
-        public string UserDefinedCol10 { get; set; }
+        public string CustomerCode { get; set; }
+        public string CustomerName1 { get; set; }
+        public string CustomerName2 { get; set; }
+        public string CustomerSimpleName { get; set; }
+        public Nullable<int> CustomerTypeID { get; set; }
+        public string ContactPerson { get; set; }
+        public string Telephone { get; set; }
+        public string Fax { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public string MailCode { get; set; }
+        public string ShipName1 { get; set; }
+        public string ShipName2 { get; set; }
+        public string ShipSimpleName { get; set; }
+        public Nullable<int> DeadWeight { get; set; }
+        public Nullable<int> Length { get; set; }
+        public Nullable<int> Width { get; set; }
+        public Nullable<int> TEUS { get; set; }
+        public string Class { get; set; }
     }
 }

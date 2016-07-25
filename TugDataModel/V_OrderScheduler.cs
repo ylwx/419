@@ -14,28 +14,39 @@ namespace TugDataModel
     
     public partial class V_OrderScheduler
     {
-        public int IDX { get; set; }
-        public Nullable<int> CustomerID { get; set; }
-        public string CustomerName { get; set; }
         public Nullable<int> OrderID { get; set; }
-        public string OrderCode { get; set; }
-        public string OrdDate { get; set; }
-        public string HasInvoice { get; set; }
+        public Nullable<int> OrderServiceID { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
+        public string ServiceNatureValue { get; set; }
         public string ServiceNatureLabel { get; set; }
         public string ServiceWorkDate { get; set; }
+        public string ServiceWorkTime { get; set; }
+        public string EstimatedCompletionTime { get; set; }
         public string ServiceWorkPlace { get; set; }
+        public Nullable<int> BigTugNum { get; set; }
+        public Nullable<int> MiddleTugNum { get; set; }
+        public Nullable<int> SmallTugNum { get; set; }
+        public Nullable<int> ServiceJobStateID { get; set; }
+        public string ServiceJobStateValue { get; set; }
+        public string ServiceJobStateLabel { get; set; }
+        public string OrderServiceRemark { get; set; }
+        public Nullable<int> ShipID { get; set; }
+        public string ShipName { get; set; }
+        public Nullable<int> DeadWeight { get; set; }
+        public Nullable<int> Length { get; set; }
+        public Nullable<int> Width { get; set; }
+        public Nullable<int> TEUS { get; set; }
+        public string Class { get; set; }
+        public int IDX { get; set; }
+        public string SchedulerWorkPlace { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName1 { get; set; }
         public string TugName2 { get; set; }
-        public string TugSimpleName { get; set; }
-        public string Power { get; set; }
-        public string Class { get; set; }
-        public string Speed { get; set; }
-        public string Length { get; set; }
-        public string Width { get; set; }
+        public string SimpleName { get; set; }
         public Nullable<int> JobStateID { get; set; }
+        public string JobStateValue { get; set; }
         public string JobStateLabel { get; set; }
+        public string IsCaptainConfirm { get; set; }
         public string InformCaptainTime { get; set; }
         public string CaptainConfirmTime { get; set; }
         public string DepartBaseTime { get; set; }
@@ -43,6 +54,7 @@ namespace TugDataModel
         public string WorkCommencedTime { get; set; }
         public string WorkCompletedTime { get; set; }
         public string ArrivalBaseTime { get; set; }
+        public string ServiceHours { get; set; }
         public string RopeUsed { get; set; }
         public Nullable<int> RopeNum { get; set; }
         public string Remark { get; set; }
@@ -50,23 +62,5 @@ namespace TugDataModel
         public Nullable<int> UserID { get; set; }
         public string CreateDate { get; set; }
         public string LastUpDate { get; set; }
-        public string UserDefinedCol1 { get; set; }
-        public string UserDefinedCol2 { get; set; }
-        public string UserDefinedCol3 { get; set; }
-        public string UserDefinedCol4 { get; set; }
-        public Nullable<double> UserDefinedCol5 { get; set; }
-        public Nullable<int> UserDefinedCol6 { get; set; }
-        public Nullable<int> UserDefinedCol7 { get; set; }
-        public Nullable<int> UserDefinedCol8 { get; set; }
-        public string UserDefinedCol9 { get; set; }
-        public string UserDefinedCol10 { get; set; }
-        public string ServiceWorkTime { get; set; }
-        public Nullable<int> BigTugNum { get; set; }
-        public Nullable<int> MiddleTugNum { get; set; }
-        public Nullable<int> SmallTugNum { get; set; }
-        public string IsCaptainConfirm { get; set; }
-        public string SchedulerWorkPlace { get; set; }
-        public Nullable<int> ShipID { get; set; }
-        public string ShipName { get; set; }
     }
 }

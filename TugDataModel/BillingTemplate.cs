@@ -26,6 +26,9 @@ namespace TugDataModel
         public string BillingTemplateName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
         public Nullable<double> Discount { get; set; }
+        public Nullable<int> ShipLength { get; set; }
+        public Nullable<int> ShipTEUS { get; set; }
+        public string ExpiryDate { get; set; }
         public string TemplateCreditContent { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }
