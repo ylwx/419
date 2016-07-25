@@ -120,10 +120,10 @@
                         <i class="fa fa-bell"></i>
                         <span class="badge" id="_Count"></span>
                     </a>
-                    <ul class="dropdown-menu notification">
-                        <li class="dropdown-title">
+                    @*<ul class="dropdown-menu notification">*@
+                        @*<li class="dropdown-title">
                             <span id="_Notifications"><i class="fa fa-bell"></i>Notifications</span>
-                        </li>
+                        </li>*@
                         @*<li>
                                 <a href="#">
                                     <span class="label label-success"><i class="fa fa-user"></i></span>
@@ -148,18 +148,15 @@
                                     </span>
                                 </a>
                             </li>*@
-                        <li>
+                        @*<li>
                             <a href="#">
                                 <span class="label label-warning"><i class="fa fa-lock"></i></span>
                                 <span class="body">
                                     <span class="message" id="_Approved"></span>
-                                    @*<span class="time">
-                                            <i class="fa fa-clock-o"></i>
-                                            <span>32 mins</span>
-                                        </span>*@
+
                                 </span>
                             </a>
-                        </li>
+                        </li>*@
                         @*<li>
                                 <a href="#">
                                     <span class="label label-info"><i class="fa fa-twitter"></i></span>
@@ -184,22 +181,19 @@
                                     </span>
                                 </a>
                             </li>*@
-                        <li>
+                        @*<li>
                             <a href="#">
                                 <span class="label label-warning"><i class="fa fa-exclamation-triangle"></i></span>
                                 <span class="body">
                                     <span class="message" id="_NeedApprove"></span>
-                                    @*<span class="time">
-                                            <i class="fa fa-clock-o"></i>
-                                            <span>6 hrs</span>
-                                        </span>*@
+                                   
                                 </span>
                             </a>
-                        </li>
+                        </li>*@
                         @*<li class="footer">
                             <a href="#">See all notifications <i class="fa fa-arrow-circle-right"></i></a>
                         </li>*@
-                    </ul>
+                    @*</ul>*@
                 </li>
                 <!-- END NOTIFICATION DROPDOWN -->
                 <!-- BEGIN INBOX DROPDOWN -->
@@ -613,23 +607,23 @@
                          url: "/Home/NeedApproveCount",
                          dataType: 'json',
                          success: function (result) {
-                             $("#_NeedApprove").html("待完成任务：" & result.message);
+                             //$("#_NeedApprove").html("待完成任务：" & result.message);
                              $("#_Count").html(result.message);
 
                          },
                      });
         });
-        jQuery(document).ready(function () {
-            $.ajax(
-                     {
-                         type: "post",
-                         url: "/Home/ApproveCount",
-                         dataType: 'json',
-                         success: function (result) {
-                             $("#_Approved").html("已完成任务：" & result.message);
-                         },
-                     });
-        });
+        //jQuery(document).ready(function () {
+        //    $.ajax(
+        //             {
+        //                 type: "post",
+        //                 url: "/Home/ApproveCount",
+        //                 dataType: 'json',
+        //                 success: function (result) {
+        //                     $("#_Approved").html("已完成任务：" & result.message);
+        //                 },
+        //             });
+        //});
     </script>
 </body>
 </html>
