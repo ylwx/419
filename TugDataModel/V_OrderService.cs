@@ -20,15 +20,8 @@ namespace TugDataModel
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string OrdDate { get; set; }
-        public string WorkDate { get; set; }
-        public string WorkTime { get; set; }
-        public string EstimatedCompletionTime { get; set; }
-        public string WorkPlace { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
-        public Nullable<int> BigTugNum { get; set; }
-        public Nullable<int> MiddleTugNum { get; set; }
-        public Nullable<int> SmallTugNum { get; set; }
         public string LinkMan { get; set; }
         public string LinkPhone { get; set; }
         public string LinkEmail { get; set; }
@@ -46,5 +39,10 @@ namespace TugDataModel
         public string ServiceNatureLabel { get; set; }
         public string ServiceWorkDate { get; set; }
         public string ServiceWorkPlace { get; set; }
+        public string ServiceWorkTime { get; set; }
+        public Nullable<int> BigTugNum { get; set; }
+        public Nullable<int> MiddleTugNum { get; set; }
+        public Nullable<int> SmallTugNum { get; set; }
+        public int OrderServiceIDX { get; set; }
     }
 }
