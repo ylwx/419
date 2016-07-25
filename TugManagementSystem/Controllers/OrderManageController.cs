@@ -21,8 +21,9 @@ namespace TugManagementSystem.Controllers
             ViewBag.Language = lan;
 
             ViewBag.Services = TugBusinessLogic.Utils.GetServices();
-            ViewBag.ServiceLabels = GetServiceLabels();
 
+            ViewBag.ServiceLabels = GetServiceLabels();
+            ViewBag.Locations = GetLocations();
             return View();
         }
         [HttpGet]
@@ -52,12 +53,12 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                List<OrderService> list = db.OrderService.Where(u => u.OrderID == orderId).OrderBy(u => u.IDX).ToList<OrderService>();
+                List<V_OrderService> list = db.V_OrderService.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderServiceIDX).ToList<V_OrderService>();
 
                 List<string[]> jsonData = new List<string[]>();
                 foreach (var itm in list)
                 {
-                    string[] sev = new string[7] { "11", itm.ServiceWorkDate,itm.ServiceWorkTime, itm.BigTugNum.ToString(),itm.MiddleTugNum.ToString(),itm.SmallTugNum.ToString(),itm.ServiceWorkPlace};
+                    string[] sev = new string[7] { itm.ServiceNatureLabel, itm.ServiceWorkDate,itm.ServiceWorkTime, itm.BigTugNum.ToString(),itm.MiddleTugNum.ToString(),itm.SmallTugNum.ToString(),itm.ServiceWorkPlace};
                     jsonData.Add(sev);
                 }
 
@@ -68,6 +69,24 @@ namespace TugManagementSystem.Controllers
                 
                 throw;
             }
+        }
+        public string GetLocations()
+        {
+            string[] labels =null;
+            int i = 0;
+            if (labels == null)
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderService.Location").OrderBy(u => u.CustomValue).ToList<CustomField>();
+                labels = new string[list.Count];
+                foreach (var itm in list)
+                {
+                    labels[i] = itm.CustomLabel;
+                    i++;
+                }
+            }
+            //return labels;
+            return JsonConvert.SerializeObject(labels);
         }
         public string GetServiceLabels()
         {
@@ -369,20 +388,27 @@ namespace TugManagementSystem.Controllers
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }    
-        public ActionResult AddOrder(int customerId, string customerName, string ordDate,
+        public ActionResult Add_EditOrder(string oper,int orderId,int customerId, string customerName, string ordDate,
             int shipId, string shipName, string linkMan, string linkPhone, string linkEmail, string remark,List<string[]> dataListFromTable) 
         {
+            TugDataModel.OrderInfor aOrder=null;
             this.Internationalization();
 
             try
             {
                 TugDataEntities db = new TugDataEntities();
                 {
-                    TugDataModel.OrderInfor aOrder = new OrderInfor();
-
-                    aOrder.Code = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
-
-                    aOrder.CreateDate = aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    if (oper=="add")
+                    {
+                        aOrder = new OrderInfor();
+                        aOrder.Code = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
+                        aOrder.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    }
+                    else if (oper == "edit")
+                    {
+                        aOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                    }
+                    aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     aOrder.CustomerID = customerId;
                     aOrder.CustomerName = customerName;
                     aOrder.OrdDate = ordDate;
@@ -441,9 +467,17 @@ namespace TugManagementSystem.Controllers
 
                     //将服务项信息写入OrderService表
                     #region
-                    //获取服务项
+
+                    //先删除订单下的所有服务项
+                     System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.OrderID == orderId;
+                     var entitys = db.OrderService.Where(exp);
+                     entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                     db.OrderService.RemoveRange(entitys);
+                     db.SaveChanges();
+                    //保存
+                     //获取服务项
                      List<CustomField> listServ;
-                     listServ=TugBusinessLogic.Utils.GetServices();
+                     listServ = TugBusinessLogic.Utils.GetServices();
                     for (int i = 0; i < dataListFromTable.Count - 1; i++)//最后一行空行
                     {
                         TugDataModel.OrderService obj = new OrderService();
@@ -461,7 +495,8 @@ namespace TugManagementSystem.Controllers
                         //obj.Remark = "";
 
                         obj.OwnerID = -1;
-                        obj.CreateDate = obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                        obj.CreateDate = aOrder.CreateDate;
+                        obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
                         obj.UserID = Session.GetDataFromSession<int>("userid");
 
                         //obj.UserDefinedCol1 = "";
@@ -507,6 +542,13 @@ namespace TugManagementSystem.Controllers
                 OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);
                 if (aOrder != null)
                 {
+                    //先删除订单下的所有服务项
+                    System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.OrderID == idx;
+                    var entitys = db.OrderService.Where(exp);
+                    entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                    db.OrderService.RemoveRange(entitys);
+                    db.SaveChanges();
+                    //删除订单
                     db.OrderInfor.Remove(aOrder);
                     db.SaveChanges();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });

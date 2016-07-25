@@ -495,7 +495,6 @@
     <Property Name="BigTugNum" Type="int" />
     <Property Name="MiddleTugNum" Type="int" />
     <Property Name="SmallTugNum" Type="int" />
-    <Property Name="WorkStateID" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="OwnerID" Type="int" />
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
@@ -1398,6 +1397,7 @@
   <EntityType Name="V_OrderService">
     <Key>
       <PropertyRef Name="OrderID" />
+      <PropertyRef Name="OrderServiceIDX" />
     </Key>
     <Property Name="OrderID" Type="int" Nullable="false" />
     <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
@@ -1405,15 +1405,8 @@
     <Property Name="CustomerID" Type="int" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
-    <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
-    <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
-    <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
-    <Property Name="WorkPlace" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
     <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
-    <Property Name="BigTugNum" Type="int" />
-    <Property Name="MiddleTugNum" Type="int" />
-    <Property Name="SmallTugNum" Type="int" />
     <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
     <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
     <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
@@ -1431,6 +1424,11 @@
     <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
+    <Property Name="ServiceWorkTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="BigTugNum" Type="int" />
+    <Property Name="MiddleTugNum" Type="int" />
+    <Property Name="SmallTugNum" Type="int" />
+    <Property Name="OrderServiceIDX" Type="int" Nullable="false" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2328,15 +2326,8 @@
     [V_OrderService].[CustomerID] AS [CustomerID], 
     [V_OrderService].[CustomerName] AS [CustomerName], 
     [V_OrderService].[OrdDate] AS [OrdDate], 
-    [V_OrderService].[WorkDate] AS [WorkDate], 
-    [V_OrderService].[WorkTime] AS [WorkTime], 
-    [V_OrderService].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
-    [V_OrderService].[WorkPlace] AS [WorkPlace], 
     [V_OrderService].[ShipID] AS [ShipID], 
     [V_OrderService].[ShipName] AS [ShipName], 
-    [V_OrderService].[BigTugNum] AS [BigTugNum], 
-    [V_OrderService].[MiddleTugNum] AS [MiddleTugNum], 
-    [V_OrderService].[SmallTugNum] AS [SmallTugNum], 
     [V_OrderService].[LinkMan] AS [LinkMan], 
     [V_OrderService].[LinkPhone] AS [LinkPhone], 
     [V_OrderService].[LinkEmail] AS [LinkEmail], 
@@ -2353,7 +2344,12 @@
     [V_OrderService].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_OrderService].[ServiceNatureLabel] AS [ServiceNatureLabel], 
     [V_OrderService].[ServiceWorkDate] AS [ServiceWorkDate], 
-    [V_OrderService].[ServiceWorkPlace] AS [ServiceWorkPlace]
+    [V_OrderService].[ServiceWorkPlace] AS [ServiceWorkPlace], 
+    [V_OrderService].[ServiceWorkTime] AS [ServiceWorkTime], 
+    [V_OrderService].[BigTugNum] AS [BigTugNum], 
+    [V_OrderService].[MiddleTugNum] AS [MiddleTugNum], 
+    [V_OrderService].[SmallTugNum] AS [SmallTugNum], 
+    [V_OrderService].[OrderServiceIDX] AS [OrderServiceIDX]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">

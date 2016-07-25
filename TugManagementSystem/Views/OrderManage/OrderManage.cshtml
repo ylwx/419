@@ -105,15 +105,14 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">服务项</label>
-                                                    <div id="flowtable" class="col-sm-10 hot handsontable dataTable table-striped center-block"></div>
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">服务项</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div id="flowtable" class="hot handsontable dataTable table-striped center-block"></div>
                                                 </div>
                                             </div>
-                                        </div>
 
                                     </form>
 
@@ -258,7 +257,7 @@
         removeRowPlugin: true,
         //heigth: 500,
         //colWidths: [100, 100, 100, 50, 50, 50, 100],
-        //stretchH: 'last',
+        stretchH: 'last',
         //manualColumnResize: true,
         columns: [
           {
@@ -276,27 +275,33 @@
               width: 100
           },
           {
-              type: 'date',
-              dateFormat: 'hh:mm',
-              correctFormat: true,
-              defaultDate: function () { var time = new Date(); return time.Format('hh:mm') },
+              //type: 'date',
+              //dateFormat: 'hh:mm',
+              //correctFormat: true,
+              //defaultDate: function () { var time = new Date(); return time.Format('hh:mm') },
+              type: 'text',
               width: 100
           },
            {
                type: 'numeric',
+               correctFormat: true,
                width: 50
            },
             {
                 type: 'numeric',
+                vcorrectFormat: true,
                 width: 50
             },
            {
                type: 'numeric',
+               correctFormat: true,
                width: 50
            },
            {
-               type: 'text',
-               width: 100
+               type: 'autocomplete',
+               source: eval('@Html.Raw(@ViewBag.Locations)'),
+               strict: false,
+               width: 150
            }
         ],
         afterChange: function (change, source) {
@@ -358,7 +363,7 @@
                 height: '100%', //'auto', //350,
                 rowNum: 15,
                 autowidth: true,
-                editurl: '@Url.Action("AddEdit", "OrderManage")',
+                //editurl: '@Url.Action("AddEdit", "OrderManage")',//编辑按钮是自定义的
                 pager: "#jqGridPager",
                 //loadonce: true,
                 rowList: ['15', '20', '30', '40', '50'],
@@ -513,7 +518,7 @@
                             var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
                             $('.panel-title span:first').html("edit");
                             $('.panel-title span:last').html(orderId);
-                            alert(orderId);
+                            //alert(orderId);
                             @*$.ajax({
                                 url: '@Url.Action("", "")',
                                 type: "POST",
@@ -629,7 +634,6 @@
                                         if (ui.item != null) {
                                             var customerId_id = rowid + "_CustomerID";
                                             $('#' + customerId_id).val(ui.item.id);
-
                                             //jQuery("#jqGrid").setCell(rowid, 'CustomerID', ui.item.id);
                                         }
                                         else {
@@ -1695,7 +1699,7 @@
 
     $('#parent-modal').on('show.bs.modal', function (e) {
         if ($('.panel-title span:first').html()=='add') initParentModal();
-        else if ($('.panel-title span:first').html()=='edit') initEditModal();
+        else if ($('.panel-title span:first').html() == 'edit') initEditModal();
         //var invoker = $(e.relatedTarget);
         //alert(invoker.html());
     });
@@ -1978,7 +1982,7 @@
         //提交数据库
         $.ajax({
             type: "post",
-            url: '/OrderManage/AddOrder' + '?customerId=' + customerId + '&customerName=' + customerName + '&ordDate=' + ordDate
+            url: '/OrderManage/Add_EditOrder?oper=' + $('.panel-title span:first').html() + '&orderId=' + $('.panel-title span:last').html() + '&customerId=' + customerId + '&customerName=' + customerName + '&ordDate=' + ordDate
              + '&shipId=' + shipId + '&shipName=' + shipName + '&linkMan=' + linkMan + '&linkPhone=' + linkPhone + '&linkEmail=' + linkEmail
              + '&remark=' + remark,
             data: JSON.stringify(hot.getSourceData()),
