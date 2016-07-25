@@ -33,7 +33,7 @@ namespace TugManagementSystem.Controllers
             List<CustomEntity> list = new List<CustomEntity>();
             CustomEntity ctmobj=new CustomEntity();
             ctmobj.IDX = 0;
-            ctmobj.Name = "Location";
+            ctmobj.Name = "OrderService.Location";
             ctmobj.Label = "作業位置";
             list.Add(ctmobj);
 
@@ -77,12 +77,14 @@ namespace TugManagementSystem.Controllers
         public ActionResult AddEdit()
         {
             this.Internationalization();
-            string CustomName = Request.Form["CustomName"].Trim();
-            string CustomValue = Request.Form["CustomLabel"].Trim();
+            //int idx = Util.toint(Request.Form["IDX"]);
+            //Fuelprice price = db.Fuelprice.Where(u => u.IDX == idx).FirstOrDefault();
             #region Add
-
             if (Request.Form["oper"].Equals("add"))
             {
+                string CustomName = Request.Form["CustomName"].Trim();
+                string CustomValue = Request.Form["CustomLabel"].Trim();
+
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
@@ -120,6 +122,8 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     int idx = Util.toint(Request.Form["IDX"]);
                     CustomField customedit = db.CustomField.Where(u => u.IDX == idx).FirstOrDefault();
+                    string CustomName = customedit.CustomName;
+                    string CustomValue = Request.Form["CustomLabel"].Trim();
 
                     CustomField custom = db.CustomField.Where(u => u.CustomName == CustomName && u.CustomLabel==CustomValue).FirstOrDefault();
                     if (custom != null)
