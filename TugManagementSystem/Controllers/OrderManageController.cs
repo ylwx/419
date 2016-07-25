@@ -1358,7 +1358,7 @@ namespace TugManagementSystem.Controllers
                 {
                     //string now = DateTime.Now.ToString("yyyy-MM-dd");
 
-                    List<V_OrderScheduler> schedulers = db.V_OrderScheduler.Where(u => u.TugID == tugId && u.WorkDate == workDate)
+                    List<V_OrderScheduler> schedulers = db.V_OrderScheduler.Where(u => u.TugID == tugId && u.ServiceWorkDate == workDate)
                         .Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderScheduler>();
                     //List<V_OrderScheduler> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForOrderScheduler(sidx, sord, orderId);
 

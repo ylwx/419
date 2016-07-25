@@ -808,30 +808,30 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
-                    case "WorkDate":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkDate).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkDate).ToList();
-                        }
-                        break;
-                    case "WorkTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkTime).ToList();
-                        }
-                        break;
-                    case "EstimatedCompletionTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.EstimatedCompletionTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
-                        }
-                        break;
+                    //case "WorkDate":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.WorkDate).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.WorkDate).ToList();
+                    //    }
+                    //    break;
+                    //case "WorkTime":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.WorkTime).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.WorkTime).ToList();
+                    //    }
+                    //    break;
+                    //case "EstimatedCompletionTime":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.EstimatedCompletionTime).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
+                    //    }
+                    //    break;
                     case "ShipName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -842,14 +842,14 @@ namespace TugBusinessLogic.Module
                         break;
 
 
-                    case "ServiceNatureNames":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.ServiceNatureNames).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
-                        }
-                        break;
+                    //case "ServiceNatureNames":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.ServiceNatureNames).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
+                    //    }
+                    //    break;
                     case "WorkStateLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2006,30 +2006,30 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
-                    case "WorkDate":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkDate).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkDate).ToList();
-                        }
-                        break;
-                    case "WorkTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.WorkTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.WorkTime).ToList();
-                        }
-                        break;
-                    case "EstimatedCompletionTime":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.EstimatedCompletionTime).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
-                        }
-                        break;
+                    //case "WorkDate":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.WorkDate).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.WorkDate).ToList();
+                    //    }
+                    //    break;
+                    //case "WorkTime":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.WorkTime).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.WorkTime).ToList();
+                    //    }
+                    //    break;
+                    //case "EstimatedCompletionTime":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.EstimatedCompletionTime).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.EstimatedCompletionTime).ToList();
+                    //    }
+                    //    break;
                     case "ShipName":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -2040,14 +2040,14 @@ namespace TugBusinessLogic.Module
                         break;
 
 
-                    case "ServiceNatureNames":
-                        {
-                            if (orderMethod.ToLower().Equals("asc"))
-                                orders = orders.OrderBy(u => u.ServiceNatureNames).ToList();
-                            else
-                                orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
-                        }
-                        break;
+                    //case "ServiceNatureNames":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.ServiceNatureNames).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.ServiceNatureNames).ToList();
+                    //    }
+                    //    break;
                     case "WorkStateLabel":
                         {
                             if (orderMethod.ToLower().Equals("asc"))

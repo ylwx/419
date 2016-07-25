@@ -20,15 +20,11 @@ namespace TugDataModel
         public Nullable<int> OrderID { get; set; }
         public string OrderCode { get; set; }
         public string OrdDate { get; set; }
-        public string WorkDate { get; set; }
-        public string WorkTime { get; set; }
-        public string EstimatedCompletionTime { get; set; }
         public string HasInvoice { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureLabel { get; set; }
         public string ServiceWorkDate { get; set; }
         public string ServiceWorkPlace { get; set; }
-        public string SchedulerWorkPlace { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName1 { get; set; }
         public string TugName2 { get; set; }
@@ -64,5 +60,11 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
+        public string ServiceWorkTime { get; set; }
+        public Nullable<int> BigTugNum { get; set; }
+        public Nullable<int> MiddleTugNum { get; set; }
+        public Nullable<int> SmallTugNum { get; set; }
+        public string IsCaptainConfirm { get; set; }
+        public string SchedulerWorkPlace { get; set; }
     }
 }

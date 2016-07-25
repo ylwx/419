@@ -312,8 +312,6 @@
     <!-- /拖轮选择模态框-->
 
 
-
-
     <div class="container">
         <div class="row">
             <div id="content" class="col-lg-12">
@@ -552,13 +550,13 @@
 
         var childGridURL = '@Url.Action("GetOrderSubSchedulerData", "OrderManage")' + "?orderId=" + dr.IDX;
 
-        var str_services = "";
-        var serviceNatureIds = dr.ServiceNatureIDS.split("/");
-        var serviceNatureNames = dr.ServiceNatureNames.split("/");
-        for (var i = 0; i < serviceNatureIds.length; ++i) {
-            str_services += serviceNatureIds[i] + "~" + serviceNatureNames[i] + ":" + serviceNatureNames[i] + ";"
-        }
-        if (serviceNatureIds.length > 0) str_services = str_services.substr(0, str_services.length - 1);
+        //var str_services = "";
+        //var serviceNatureIds = dr.ServiceNatureIDS.split("/");
+        //var serviceNatureNames = dr.ServiceNatureNames.split("/");
+        //for (var i = 0; i < serviceNatureIds.length; ++i) {
+        //    str_services += serviceNatureIds[i] + "~" + serviceNatureNames[i] + ":" + serviceNatureNames[i] + ";"
+        //}
+        //if (serviceNatureIds.length > 0) str_services = str_services.substr(0, str_services.length - 1);
 
 
         //alert(childGridURL);
@@ -740,7 +738,7 @@
                         ]
                     }
                 },
-                {
+                @*{
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateID', name: "JobStateID", width: 100, editable: true, edittype: "text",
                     editrules: {
                         required: true,
@@ -757,8 +755,8 @@
                         defaultValue: -1
                     }
 
-                },
-                {
+                },*@
+                @*{
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateLabel', name: "JobStateLabel", width: 100, editable: true, edittype: "select",
                     editrules: { required: true }, hidden: true,
                     editoptions: {
@@ -777,7 +775,7 @@
                             }
                         ]
                     }
-                },
+                },*@
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_InformCaptainTime', name: "InformCaptainTime", width: 100, editable: true, edittype: "text",
@@ -2515,12 +2513,12 @@
         $('#_ServiceNatureLabel').empty();
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
 
-        var serviceNatureIDS = dr.ServiceNatureIDS.split('/');
-        var serviceNatureNames = dr.ServiceNatureNames.split('/');
-        for (var i = 0; i < serviceNatureIDS.length; i++) {
-            var option = "<option value=" + serviceNatureIDS[i] + ">" + serviceNatureNames[i] + "</option>"
-            $('#_ServiceNatureLabel').append(option)
-        }
+        //var serviceNatureIDS = dr.ServiceNatureIDS.split('/');
+        //var serviceNatureNames = dr.ServiceNatureNames.split('/');
+        //for (var i = 0; i < serviceNatureIDS.length; i++) {
+        //    var option = "<option value=" + serviceNatureIDS[i] + ">" + serviceNatureNames[i] + "</option>"
+        //    $('#_ServiceNatureLabel').append(option)
+        //}
 
         $("#_ServiceNatureLabel option:first").prop("selected", 'selected');
 
@@ -2808,12 +2806,12 @@
         $('#_Edit_Scheduer_ServiceNatureLabel').empty();
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到父Grid该行的数据
 
-        var serviceNatureIDS = dr.ServiceNatureIDS.split('/');
-        var serviceNatureNames = dr.ServiceNatureNames.split('/');
-        for (var i = 0; i < serviceNatureIDS.length; i++) {
-            var option = "<option value=" + serviceNatureIDS[i] + ">" + serviceNatureNames[i] + "</option>"
-            $('#_Edit_Scheduer_ServiceNatureLabel').append(option)
-        }
+        //var serviceNatureIDS = dr.ServiceNatureIDS.split('/');
+        //var serviceNatureNames = dr.ServiceNatureNames.split('/');
+        //for (var i = 0; i < serviceNatureIDS.length; i++) {
+        //    var option = "<option value=" + serviceNatureIDS[i] + ">" + serviceNatureNames[i] + "</option>"
+        //    $('#_Edit_Scheduer_ServiceNatureLabel').append(option)
+        //}
 
 
         var subDr = jQuery("" + g_cur_subGridId).jqGrid('getRowData', g_cur_subGridRowId);//得到子Grid该行的数据
