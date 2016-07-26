@@ -15,6 +15,7 @@ namespace TugDataModel
     public partial class V_OrderService
     {
         public Nullable<int> OrderID { get; set; }
+        public string HasInvoice { get; set; }
         public string OrderCode { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }

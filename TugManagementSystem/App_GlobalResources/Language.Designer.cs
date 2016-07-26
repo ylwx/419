@@ -2446,6 +2446,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 服務狀態ID 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_ServiceJobStateID {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_ServiceJobStateID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服務狀態 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderScheduler_ServiceJobStateLabel {
+            get {
+                return ResourceManager.GetString("V_OrderScheduler_ServiceJobStateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 服務內容ID 的本地化字符串。
         /// </summary>
         internal static string V_OrderScheduler_ServiceNatureID {

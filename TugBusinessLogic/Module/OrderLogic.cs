@@ -2772,6 +2772,184 @@ namespace TugBusinessLogic.Module
 
 
 
+
+        static public List<TugDataModel.V_OrderScheduler> LoadDataForServiceScheduler(string orderField, string orderMethod, int orderServiceId)
+        {
+            List<V_OrderScheduler> orders = null;
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                orders = db.V_OrderScheduler.Where(u => u.OrderServiceID == orderServiceId).Select(u => u).ToList<V_OrderScheduler>();
+
+                //orderField = orderField.Split(',')[1];
+                orderField = orderField.Trim();
+                #region 根据排序字段和排序方式排序
+                switch (orderField)
+                {
+                    case "":
+                        {
+                            //if (orderMethod.ToLower().Equals("asc"))
+                            //    orders = orders.OrderBy(u => u.IDX).ToList();
+                            //else
+                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                        }
+                        break;
+                    
+                    case "TugName1":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TugName1).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TugName1).ToList();
+                        }
+                        break;
+                    case "TugName2":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TugName2).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TugName2).ToList();
+                        }
+                        break;
+                    case "SimpleName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.SimpleName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.SimpleName).ToList();
+                        }
+                        break;
+                    //case "JobStateLabel":
+                    //    {
+                    //        if (orderMethod.ToLower().Equals("asc"))
+                    //            orders = orders.OrderBy(u => u.JobStateLabel).ToList();
+                    //        else
+                    //            orders = orders.OrderByDescending(u => u.JobStateLabel).ToList();
+                    //    }
+                    //    break;
+                    case "IsCaptainConfirm":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.IsCaptainConfirm).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.IsCaptainConfirm).ToList();
+                        }
+                        break;
+                    case "InformCaptainTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.InformCaptainTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.InformCaptainTime).ToList();
+                        }
+                        break;
+                    case "CaptainConfirmTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CaptainConfirmTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CaptainConfirmTime).ToList();
+                        }
+                        break;
+                    case "DepartBaseTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.DepartBaseTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.DepartBaseTime).ToList();
+                        }
+                        break;
+                    case "ArrivalShipSideTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ArrivalShipSideTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ArrivalShipSideTime).ToList();
+                        }
+                        break;
+                    case "WorkCommencedTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.WorkCommencedTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.WorkCommencedTime).ToList();
+                        }
+                        break;
+                    case "WorkCompletedTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.WorkCompletedTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.WorkCompletedTime).ToList();
+                        }
+                        break;
+                    case "ArrivalBaseTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ArrivalBaseTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ArrivalBaseTime).ToList();
+                        }
+                        break;
+
+                    case "RopeUsed":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.RopeUsed).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.RopeUsed).ToList();
+                        }
+                        break;
+                    case "RopeNum":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.RopeNum).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.RopeNum).ToList();
+                        }
+                        break;
+
+                    case "Remark":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Remark).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Remark).ToList();
+                        }
+                        break;
+                    case "CreateDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CreateDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CreateDate).ToList();
+                        }
+                        break;
+                    case "LastUpDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.LastUpDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            return orders;
+        }
+
+
+
         /// <summary>
         /// 获取拖轮一日的时间安排状态
         /// </summary>

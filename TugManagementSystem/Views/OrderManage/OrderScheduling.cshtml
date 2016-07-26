@@ -46,6 +46,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceWorkTime</label>
+                                            <div class="col-sm-9">
+                                                <input id="_ServiceWorkTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_ServiceWorkTime" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ServiceWorkPlace</label>
                                             <div class="col-sm-9">
                                                 <input id="_ServiceWorkPlace" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_ServiceWorkPlace" onfocus="$(this).parent().removeClass('has-error')" />
@@ -64,13 +70,23 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_IsCaptainConfirm</label>
+                                            <div id="_IsCaptainConfirm" class="col-sm-9">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" onfocus="$(this).parent().parent().removeClass('has-error')">
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group" hidden>
                                             <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_InformCaptainTime</label>
                                             <div class="col-sm-9">
                                                 <input id="_InformCaptainTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_InformCaptainTime" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_CaptainConfirmTime</label>
+                                        <div class="form-group" hidden>
+                                            <label class="col-sm-3 control-label">@Resources.Language.V_OrderScheduler_CaptainConfirmTime</label>
                                             <div class="col-sm-9">
                                                 <input id="_CaptainConfirmTime" type="text" class="form-control" placeholder="@Resources.Language.V_OrderScheduler_CaptainConfirmTime" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
@@ -701,7 +717,7 @@
                             align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkPlace', name: "ServiceWorkPlace", width: 100, editable: true, edittype: "text",
                             editrules: { required: true }, hidden: false
                         },
-                        @*{
+                        {
                             align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceJobStateID', name: "ServiceJobStateID", width: 100, editable: true, edittype: "text",
                             editrules: {
                                 required: true,
@@ -713,15 +729,15 @@
                                         return [true, ""];
                                 },
                                 custom: true
-                            }, hidden: true,
+                            }, hidden: false,
                             editoptions: {
                                 defaultValue: -1
                             }
 
-                        },*@
-                        @*{
+                        },
+                        {
                             align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceJobStateLabel', name: "ServiceJobStateLabel", width: 100, editable: true, edittype: "select",
-                            editrules: { required: true }, hidden: true,
+                            editrules: { required: true }, hidden: false,
                             editoptions: {
                                 dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderService.JobStateID" })',
                                 dataEvents: [
@@ -737,7 +753,7 @@
                                     }
                                 ]
                             }
-                        },*@
+                        },
 
                         @*{
                             align: 'center', label: '@Resources.Language.V_OrderScheduler_SchedulerWorkPlace', name: "SchedulerWorkPlace", width: 100, editable: true, edittype: "text",
@@ -1666,7 +1682,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 100, editable: true, edittype: "text",
-                    hidden: false,
+                    hidden: true,
                     stype: "select",
                     searchoptions: {
                         dataUrl: '@Url.Action("GetOrderStateOfOrderSchedulingPage", "Base", new { CustomName = "OrderInfor.WorkStateID" })',
@@ -1919,13 +1935,16 @@
         $('#cur_operate_chid_grid').text(g_cur_subGridId);
         //alert(dr.WorkDate);
 
+        var orderServiceDate = $('#_ServiceWorkDate').val().trim();
+
         $('#jqGrid2').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + dr.WorkDate,
+                    //url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + dr.WorkDate,
+                    url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + orderServiceDate,
                 }).trigger('reloadGrid');
 
-        $("#jqGrid2").jqGrid('setCaption', '<' + dr.WorkDate + '>日拖轮调度状态');
+        $("#jqGrid2").jqGrid('setCaption', '<' + orderServiceDate + '>拖轮调度状态');
         //$('#jqGrid2').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
     });
 
@@ -2538,6 +2557,8 @@
         $("#add_btn_sumbit").attr("disabled", false);
         
         $('#_ServiceWorkDate').parent().removeClass("has-error");
+        $('#_ServiceWorkTime').parent().removeClass("has-error");
+        
         $('#_ServiceWorkPlace').parent().removeClass("has-error");
         $('#_ChooseTug').parent().removeClass("has-error");
         $('#_InformCaptainTime').parent().removeClass("has-error");
@@ -2550,6 +2571,36 @@
         $('#_ServiceNatureLabel').empty();
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
 
+
+        jQuery.ajax({
+            url: '@Url.Action("GetOrderServices", "OrderManage")', //Controller to Get the
+            //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+            type: "GET",
+            dataType: "json",
+            data: {
+                'orderId': dr.IDX
+            },
+            success: function (result) {      // on Success send the Json data
+                var str_services = "";
+                for (var i = 0; i < result.services.length; ++i) {
+
+                    var v = result.services[i].OrderServiceId + "~" + result.services[i].ServiceNatureId + "~"
+                    + result.services[i].ServiceNatureValue + "~" + result.services[i].ServiceNatureLabel;
+
+                    var option = "<option value=" + v + ">" + result.services[i].ServiceNatureLabel + "</option>"
+                    $('#_ServiceNatureLabel').append(option)
+                }
+
+                if (result.services.length > 0) {
+                    $("#_ServiceNatureLabel option:first").prop("selected", 'selected');
+
+                    $('#_ServiceWorkDate').val(result.services[0].ServiceWorkDate);
+                    $('#_ServiceWorkTime').val(result.services[0].ServiceWorkTime);
+                    $('#_ServiceWorkPlace').val(result.services[0].ServiceWorkPlace);
+                }
+            },
+        });
+
         //var serviceNatureIDS = dr.ServiceNatureIDS.split('/');
         //var serviceNatureNames = dr.ServiceNatureNames.split('/');
         //for (var i = 0; i < serviceNatureIDS.length; i++) {
@@ -2557,13 +2608,23 @@
         //    $('#_ServiceNatureLabel').append(option)
         //}
 
-        $("#_ServiceNatureLabel option:first").prop("selected", 'selected');
+        
 
         $('#_ServiceWorkDate').datetimepicker({
             //format: 'Y-m-d H:i:s',
             format: 'Y-m-d',
             timepicker: false,
         });
+
+        $('#_ServiceWorkTime').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'H:i',
+            step:1,
+            datepicker: false,
+        });
+
+        
+        $('#_ServiceWorkTime').val(new Date().Format("hh:mm"));
 
         $('#_InformCaptainTime').datetimepicker({
             format: 'H:i',
@@ -2586,7 +2647,16 @@
         //alert(serviceNatureId);
         //return;
 
-        $.ajax({
+        $('#_ChooseTug').val("");
+        $("#_JobStateLabel option:first").prop("selected", 'selected');
+        $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+        $('#_IsCaptainConfirm input[type="checkbox"]').attr("checked", false);
+
+        $('#_RopeNum').val("0");
+        $('#_RopeNum').attr("disabled", "disabled");
+        $('#_Remark').val("");
+
+        @*$.ajax({
             type: "post",
             url: '@Url.Action("GetServiceDateAndPlace", "OrderManage")',
             data: {
@@ -2597,15 +2667,8 @@
             success: function (result) {
                 $('#_ServiceWorkDate').val(new Date(result.service_date).Format("yyyy-MM-dd"));
                 $('#_ServiceWorkPlace').val(result.service_place);
-                $('#_ChooseTug').val("");
-                $("#_JobStateLabel option:first").prop("selected", 'selected');
-                $('#_RopeUsed input[type="checkbox"]').attr("checked", false);
-                $('#_RopeNum').val("0");
-                $('#_RopeNum').attr("disabled", "disabled");
-                $('#_Remark').val("");
-
             },
-        });
+        });*@
 
 
         
@@ -2642,22 +2705,33 @@
         }
     }
 
+
     function serviceChanged() {
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
+
+        var orderServiceId = $('#_ServiceNatureLabel').val().trim().split('~')[0];
+
         var orderId = dr.IDX;
         var serviceNatureId = $('#_ServiceNatureLabel').val();
 
         $.ajax({
             type: "post",
-            url: '@Url.Action("GetServiceDateAndPlace", "OrderManage")',
+            url: '@Url.Action("GetOrderService", "OrderManage")',
             data: {
-                'orderId': orderId,
-                'serviceNatureId': serviceNatureId,
+                'orderServiceId': orderServiceId,
+                //'serviceNatureId': serviceNatureId,
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-                $('#_ServiceWorkDate').val(new Date(result.service_date).Format("yyyy-MM-dd"));
-                $('#_ServiceWorkPlace').val(result.service_place);
+
+                if (result.order_service != "") {
+
+                    $('#_ServiceWorkDate').val(result.order_service.ServiceWorkDate);
+                    $('#_ServiceWorkTime').val(result.order_service.ServiceWorkTime);
+                    $('#_ServiceWorkPlace').val(result.order_service.ServiceWorkPlace);
+                }
+
+                
             },
         });
     }
@@ -2670,6 +2744,8 @@
         //_ServiceWorkDate
         $('#childErrMsg').hide();
         $('#_ServiceWorkDate').parent().removeClass("has-error");
+        $('#_ServiceWorkTime').parent().removeClass("has-error");
+        
         $('#_ServiceWorkPlace').parent().removeClass("has-error");
         $('#_InformCaptainTime').parent().removeClass("has-error");
         $('#_CaptainConfirmTime').parent().removeClass("has-error");
@@ -2681,17 +2757,25 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_cur_parentGridRowId);//得到该行的数据
 
         var orderId = dr.IDX;
-        var serviceNatureId = $('#_ServiceNatureLabel').val();
+        
+        var orderServiceId = $('#_ServiceNatureLabel').val().trim().split('~')[0];
+        var serviceNatureId = $('#_ServiceNatureLabel').val().trim().split('~')[1];
         var serviceWorkDate = $('#_ServiceWorkDate').val().trim();
+        var serviceWorkTime = $('#_ServiceWorkTime').val().trim();
         var serviceWorkPlace = $('#_ServiceWorkPlace').val().trim();
         var tugId = $('#_TugID').text();
         var jobStateId = $("#_JobStateLabel").val().toString().split('~')[0];
         var informCaptainTime = $('#_InformCaptainTime').val().trim();
         var captainConfirmTime = $('#_CaptainConfirmTime').val().trim();
         var ropeUsed = "否";
-        if (true == $("#_RopeUsed").is(':checked'))
+        if (true == $('#_RopeUsed input[type="checkbox"]').is(':checked'))
             ropeUsed = "是"
-        
+
+        var isCaptainConfirm = "否";
+        if (true == $('#_IsCaptainConfirm input[type="checkbox"]').is(':checked')) {
+            isCaptainConfirm = "是";
+        }
+
 
         var ropeNum = $('#_RopeNum').val().toString().trim();
         var remark = $('#_Remark').val().toString().trim();
@@ -2704,6 +2788,15 @@
             $('#childErrMsg').show();
             return;
         }
+
+        if ($("#_ServiceWorkTime").val().toString().trim().length <= 0) {
+            $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkTime' + "必填");
+            $('#_ServiceWorkTime').parent().addClass("has-error");
+            $('#childErrMsg').show();
+            return;
+        }
+
+        
 
         if ($("#_ServiceWorkPlace").val().toString().trim().length <= 0) {
             $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ServiceWorkPlace' + "必填");
@@ -2732,12 +2825,12 @@
             return;
         }*@
 
-        if (captainConfirmTime.length <= 0) {
+        @*if (captainConfirmTime.length <= 0) {
             $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_CaptainConfirmTime' + "必填");
             $('#_CaptainConfirmTime').parent().addClass("has-error");
             $('#childErrMsg').show();
             return;
-        }
+        }*@
 
         if (true == $("#_RopeUsed").is(':checked')) {
             var r = ropeNum.match("^\\d+$");
@@ -2765,10 +2858,13 @@
             url: '@Url.Action("AddScheduler", "OrderManage")',
             data: {
                 'orderId': orderId,
+                'orderServiceId': orderServiceId,
                 'serviceNatureId': serviceNatureId,
-                'serviceWorkDate':serviceWorkDate,
+                'serviceWorkDate': serviceWorkDate,
+                'serviceWorkTime':serviceWorkTime,
                 'serviceWorkPlace':serviceWorkPlace,
                 'tugId': tugId,
+                'isCaptainConfirm':isCaptainConfirm,
                 'informCaptainTime': informCaptainTime,
                 'captainConfirmTime':captainConfirmTime,
                 'jobStateId': jobStateId,
