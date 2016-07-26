@@ -89,6 +89,19 @@ Util.prototype.isValidDiscount = function (columnLabel, inputStrCurrency) {
     }
 }
 
+
+//验证正整数
+Util.prototype.isValidPositiveInt = function (columnLabel, inputStrCurrency) {
+    var reg = /^[1-9]*[1-9][0-9]*$/;
+    if (reg.test(inputStrCurrency)) {
+        return true;
+    }
+    else {
+        alert(columnLabel + ":输入的正整数无效)");
+        return false;
+    }
+}
+
 //验证小数 
 Util.prototype.isValidFloat = function (columnLabel, inputStrFloat) { 
     var reg = /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/;

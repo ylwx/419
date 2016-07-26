@@ -245,4 +245,12 @@ namespace TugDataModel
 
         public string ServiceWorkPlace { get; set; }
     }
+
+
+    public class MyFuelFee
+    {
+        public int IDX { get; set; }
+        public DateTime EffectiveDate { get; set; }
+        public double Price { get; set; }
+    }
 }

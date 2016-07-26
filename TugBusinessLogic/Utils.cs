@@ -422,6 +422,21 @@ namespace TugBusinessLogic
 
 
 
+
+        public static DateTime HKDateTimeToDateTime(string hkDatetime)
+        {
+            IFormatProvider cultureF = new System.Globalization.CultureInfo("fr-FR", true);
+            DateTime dt2 = DateTime.Parse(hkDatetime, cultureF, System.Globalization.DateTimeStyles.NoCurrentDateDefault);
+            return dt2;
+        }
+
+        public static DateTime CNDateTimeToDateTime(string cnDatetime)
+        {
+            IFormatProvider cultureF = new System.Globalization.CultureInfo("zh-CN", true);
+            DateTime dt2 = DateTime.Parse(cnDatetime, cultureF, System.Globalization.DateTimeStyles.NoCurrentDateDefault);
+            return dt2;
+        }
+
         public static List<T> JSONStringToList<T>(string JsonStr)
         {
             JavaScriptSerializer Serializer = new JavaScriptSerializer();

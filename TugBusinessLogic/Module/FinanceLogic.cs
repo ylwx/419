@@ -2202,5 +2202,53 @@ namespace TugBusinessLogic.Module
             List<string> list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).Select(u => u.Remark).ToList();
             return list;
         }
+
+
+        static public double GetFuelFee(string orderDate)
+        {
+            //DateTime dt = TugBusinessLogic.Utils.HKDateTimeToDateTime(orderDate);
+            DateTime dt = TugBusinessLogic.Utils.CNDateTimeToDateTime(orderDate);
+
+            TugDataEntities db = new TugDataEntities();
+            var list = db.Fuelprice.Select(u => u).ToList();
+            if (list != null)
+            {
+                List<MyFuelFee> lstFuelFee = new List<MyFuelFee>();
+                foreach (var item in list)
+                {
+                    MyFuelFee ff = new MyFuelFee();
+                    ff.IDX = item.IDX;
+                    //ff.EffectiveDate = TugBusinessLogic.Utils.HKDateTimeToDateTime(item.EffectiveDate);
+                    ff.EffectiveDate = TugBusinessLogic.Utils.CNDateTimeToDateTime(item.EffectiveDate);
+                    ff.Price = (double)item.Price;
+                    lstFuelFee.Add(ff);
+                }
+
+                List<MyFuelFee> orderedFuelFeeList = lstFuelFee.OrderBy(u => u.EffectiveDate).ToList();
+
+                int index = 0;
+
+                for (int i = 0; i < orderedFuelFeeList.Count; i++)
+                {
+                    int ret = orderedFuelFeeList[i].EffectiveDate.CompareTo(dt);
+
+                    if (ret <= 0)
+                    {
+                        index = i;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                        
+                }
+
+                double v = orderedFuelFeeList[index].Price;
+
+                return v;
+            }
+
+            return 0;
+        }
     }
 }

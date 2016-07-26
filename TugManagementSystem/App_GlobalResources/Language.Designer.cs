@@ -1762,6 +1762,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 有效期 的本地化字符串。
+        /// </summary>
+        internal static string V_BillingItemTemplate_ExpiryDate {
+            get {
+                return ResourceManager.GetString("V_BillingItemTemplate_ExpiryDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 模板項ID 的本地化字符串。
         /// </summary>
         internal static string V_BillingItemTemplate_IDX {
@@ -1794,6 +1803,24 @@ namespace Resources {
         internal static string V_BillingItemTemplate_ItemValue {
             get {
                 return ResourceManager.GetString("V_BillingItemTemplate_ItemValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 船長 的本地化字符串。
+        /// </summary>
+        internal static string V_BillingItemTemplate_ShipLength {
+            get {
+                return ResourceManager.GetString("V_BillingItemTemplate_ShipLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 箱量 的本地化字符串。
+        /// </summary>
+        internal static string V_BillingItemTemplate_ShipTEUS {
+            get {
+                return ResourceManager.GetString("V_BillingItemTemplate_ShipTEUS", resourceCulture);
             }
         }
         

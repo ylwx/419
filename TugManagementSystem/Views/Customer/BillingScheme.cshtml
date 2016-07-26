@@ -112,6 +112,27 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_BillingItemTemplate_ShipLength</label>
+                                            <div class="col-sm-9">
+                                                <input id="_ShipLength" type="text" class="form-control" placeholder="@Resources.Language.V_BillingItemTemplate_ShipLength" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_BillingItemTemplate_ShipTEUS</label>
+                                            <div class="col-sm-9">
+                                                <input id="_ShipTEUS" type="text" class="form-control" placeholder="@Resources.Language.V_BillingItemTemplate_ShipTEUS" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_BillingItemTemplate_ExpiryDate</label>
+                                            <div class="col-sm-9">
+                                                <input id="_ExpiryDate" type="text" class="form-control" placeholder="@Resources.Language.V_BillingItemTemplate_ExpiryDate" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label class="col-sm-3 control-label">@Resources.Language.V_BillingTemplate_TemplateCreditContent</label>
                                             <div class="col-sm-9">
                                                 <textarea id="_TemplateCreditContent" class="form-control" rows="3" placeholder="@Resources.Language.V_BillingTemplate_TemplateCreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
@@ -455,16 +476,26 @@
                 var util = new Util();
 
                 var ret = true;
-                
+
                 //折扣
                 if ($("#gs_Discount").val() != null && $("#gs_Discount").val() != "")
                     ret = ret && util.isValidDiscount('@Resources.Language.V_BillingItemTemplate_Discount', $("#gs_Discount").val());
 
+                if ($("#gs_ShipLength").val() != null && $("#gs_ShipLength").val() != "") {
+                    ret = ret && util.isValidPositiveInt('@Resources.Language.V_BillingItemTemplate_ShipLength', $("#gs_ShipLength").val());
+                }
+                if ($("#gs_ShipTEUS").val() != null && $("#gs_ShipTEUS").val() != "") {
+                    ret = ret && util.isValidPositiveInt('@Resources.Language.V_BillingItemTemplate_ShipTEUS', $("#gs_ShipTEUS").val());
+                }
+
                 //日期
+                if ($("#gs_ExpiryDate").val() != null && $("#gs_ExpiryDate").val() != "")
+                    ret = ret && util.isDate('@Resources.Language.V_BillingItemTemplate_ExpiryDate', $("#gs_ExpiryDate").val());
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
 
                 //自定义字段
                 if ($("#gs_UserDefinedCol5").val() != null && $("#gs_UserDefinedCol5").val() != "")
@@ -684,7 +715,7 @@
                     align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ItemLabel', name: "ItemLabel", width: 150, editable: false, edittype: "text",
                     editrules: { required: true },
                     hidden: false,
-            
+
                 },
 
                 {
@@ -983,7 +1014,7 @@
                 onClickButton: function () {
                     g_PrentRowId = parentRowID, g_ParentRowIndex = parentRowKey, g_ChildGridId = childGridID;
                     AddChild();
-                    
+
                 }
             });
 
@@ -1163,7 +1194,7 @@
                     },
                     hidden: false,
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
-                    
+
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     editoptions: {
                         defaultValue: 1.00
@@ -1176,6 +1207,96 @@
                     editrules: { required: false }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "ShipLength", width: 100, editable: true, edittype: "text",
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            //var re = /^\d+\.?\d{0,2}$/;
+                            var re = /^[1-9]*[1-9][0-9]*$/;
+                            if (!re.test(value.trim())) {
+                                return [false, '@Resources.Language.V_BillingItemTemplate_ShipLength' + ": 请输入正整数!"];
+                            }
+                            else {
+                                return [true, ""];
+                            }
+
+                        },
+                        custom: true
+                    },
+                    hidden: false,
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "ShipTEUS", width: 100, editable: true, edittype: "text",
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var re = /^[1-9]*[1-9][0-9]*$/;
+                            if (!re.test(value.trim())) {
+                                return [false, '@Resources.Language.V_BillingItemTemplate_ShipTEUS' + ": 请输入正整数!"];
+                            }
+                            else {
+                                return [true, ""];
+                            }
+
+                        },
+                        custom: true
+                    },
+                    hidden: false,
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+
+                },
+
+                {
+                    align: 'center',
+                    label: '@Resources.Language.V_BillingItemTemplate_ExpiryDate', name: "ExpiryDate", width: 150, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    //formatter: 'date',
+                    //datefmt: 'yyyy-mm-dd',
+                    //sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                format: 'Y-m-d',
+                                //step: 1,
+                                timepicker: false
+                            });
+                        }
+                    },
+
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                //id: 'orderCreateDate_datePicker',
+                                format: 'Y-m-d',
+                                //step: 1,
+                                timepicker: false
+                            });
+                        },
+                        dataEvents: [
+                            {
+
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
                 },
 
                 {
@@ -1518,7 +1639,7 @@
             return [true, ""];
     }
 
-    
+
 </script>
 
 
@@ -1538,6 +1659,11 @@
         $('#_TemplateCreditContent').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
+        $('#_ShipLength').parent().removeClass("has-error");
+        $('#_ShipTEUS').parent().removeClass("has-error");
+        $('#_ExpiryDate').parent().removeClass("has-error");
+        
+
         $("#_BillingTemplateTypeLabel option:first").prop("selected", 'selected');
         $("#_TimeTypeLabel option:first").prop("selected", 'selected');
 
@@ -1546,8 +1672,18 @@
         $('#_Discount').val("1.00");
         $('#_TemplateCreditContent').val("");
         $('#_Remark').val("");
+        $('#_ShipLength').val("");
+        $('#_ShipTEUS').val("");
         
+        $('#_ExpiryDate').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m-d',
+            timepicker: false,
+        });
+        $('#_ExpiryDate').val(new Date().Format("yyyy-MM-dd"));
+
         $("#btn_parent_submit").attr("disabled", false);
+
     }
 
     $('#parent-modal').on('show.bs.modal', function (e) {
@@ -1582,8 +1718,11 @@
         $('#_Discount').parent().removeClass("has-error");
         $('#_TemplateCreditContent').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
+        $('#_ShipLength').parent().removeClass("has-error");
+        $('#_ShipTEUS').parent().removeClass("has-error");
+        $('#_ExpiryDate').parent().removeClass("has-error");
 
-        var maxTextLength = 25;
+        var maxTextLength = 50;
         var maxTextAreaLength = 500;
 
         var custId = $('.panel-title span:first').html();
@@ -1593,6 +1732,9 @@
         var billingTemplateCode = $('#_BillingTemplateCode').val().trim();
         var billingTemplateName = $('#_BillingTemplateName').val().trim();
         var discount = $('#_Discount').val().trim();
+        var shipLength = $('#_ShipLength').val().trim();
+        var shipTEUS = $('#_ShipTEUS').val().trim();
+        var expiryDate = $('#_ExpiryDate').val().trim();
         var templateCreditContent = $('#_TemplateCreditContent').val().trim();
         var remark = $('#_Remark').val().trim();
 
@@ -1646,6 +1788,39 @@
             }
         }
 
+        if (shipLength.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_ShipLength' + "必填");
+            $('#_ShipLength').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+        else {
+            var reg = /^[1-9]*[1-9][0-9]*$/;
+            if (false == reg.test(shipLength)) {
+                $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_ShipLength' + ":" + "请输入有效的正整数");
+                $('#_ShipLength').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+        }
+
+        if (shipTEUS.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_ShipTEUS' + "必填");
+            $('#_ShipTEUS').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+        else {
+            var reg = /^[1-9]*[1-9][0-9]*$/;
+            if (false == reg.test(shipTEUS)) {
+                $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_ShipTEUS' + ":" + "请输入有效的正整数");
+                $('#_ShipTEUS').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+        }
+
+
         if (templateCreditContent.length > maxTextAreaLength) {
             $('#parentErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
             $('#_TemplateCreditContent').parent().addClass("has-error");
@@ -1675,6 +1850,9 @@
                 'billingTemplateName': billingTemplateName,
                 'timeTypeId': timeTypeId,
                 'discount': discount,
+                'shipLength': shipLength,
+                'shipTEUS': shipTEUS,
+                'expiryDate':expiryDate,
                 'templateCreditContent': templateCreditContent,
                 'remark': remark
             },//"oper=delete&id=" + gr,

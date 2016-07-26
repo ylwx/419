@@ -199,7 +199,120 @@ namespace TugBusinessLogic.Module
                                 }
                                 break;
                             #endregion
-                          
+
+                            #region ShipLength
+                            case "ShipLength":
+                                {
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                orders = orders.Where(u => u.ShipLength == Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                orders = orders.Where(u => u.ShipLength < Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                orders = orders.Where(u => u.ShipLength <= Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                orders = orders.Where(u => u.ShipLength > Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                orders = orders.Where(u => u.ShipLength >= Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region ShipTEUS
+                            case "ShipTEUS":
+                                {
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                orders = orders.Where(u => u.ShipTEUS == Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                orders = orders.Where(u => u.ShipTEUS < Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                orders = orders.Where(u => u.ShipTEUS <= Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                orders = orders.Where(u => u.ShipTEUS > Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                orders = orders.Where(u => u.ShipTEUS >= Convert.ToInt32(data)).ToList();
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                break;
+                            #endregion
+
+
+                            #region ExpiryDate
+                            case "ExpiryDate":
+                                {
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                orders = orders.Where(u => u.ExpiryDate == data).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                orders = orders.Where(u => u.ExpiryDate.CompareTo(data) == -1).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                orders = orders.Where(u => u.ExpiryDate.CompareTo(data) == -1 || u.ExpiryDate.CompareTo(data) == 0).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                orders = orders.Where(u => u.ExpiryDate.CompareTo(data) == 1).ToList();
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                orders = orders.Where(u => u.ExpiryDate.CompareTo(data) == 1 || u.ExpiryDate.CompareTo(data) == 0).ToList();
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region TemplateCreditContent
                             case "TemplateCreditContent":
                                 {
@@ -747,6 +860,30 @@ namespace TugBusinessLogic.Module
                                         orders = orders.OrderByDescending(u => u.Discount).ToList();
                                 }
                                 break;
+                            case "ShipLength":
+                                {
+                                    if (orderMethod.ToLower().Equals("asc"))
+                                        orders = orders.OrderBy(u => u.ShipLength).ToList();
+                                    else
+                                        orders = orders.OrderByDescending(u => u.ShipLength).ToList();
+                                }
+                                break;
+                            case "ShipTEUS":
+                                {
+                                    if (orderMethod.ToLower().Equals("asc"))
+                                        orders = orders.OrderBy(u => u.ShipTEUS).ToList();
+                                    else
+                                        orders = orders.OrderByDescending(u => u.ShipTEUS).ToList();
+                                }
+                                break;
+                            case "ExpiryDate":
+                                {
+                                    if (orderMethod.ToLower().Equals("asc"))
+                                        orders = orders.OrderBy(u => u.ExpiryDate).ToList();
+                                    else
+                                        orders = orders.OrderByDescending(u => u.ExpiryDate).ToList();
+                                }
+                                break;
                             case "TemplateCreditContent":
                                 {
                                     if (orderMethod.ToLower().Equals("asc"))
@@ -957,6 +1094,30 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.Discount).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Discount).ToList();
+                        }
+                        break;
+                    case "ShipLength":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ShipLength).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ShipLength).ToList();
+                        }
+                        break;
+                    case "ShipTEUS":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ShipTEUS).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ShipTEUS).ToList();
+                        }
+                        break;
+                    case "ExpiryDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ExpiryDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ExpiryDate).ToList();
                         }
                         break;
                     case "TemplateCreditContent":

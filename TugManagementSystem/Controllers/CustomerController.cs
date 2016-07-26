@@ -310,6 +310,9 @@ namespace TugManagementSystem.Controllers
             ViewBag.BillTemplateTimeTypes = GetBillTemplateTimeTypes();
             //ViewBag.BillTemplatePayItems = GetBillTemplatePayItems();
             ViewBag.BillTemplatePayItemPosition = GetBillTemplatePayItemPosition();
+
+            //TugBusinessLogic.Module.FinanceLogic.GetFuelFee("2016-07-30");
+            //TugBusinessLogic.Module.FinanceLogic.GetFuelFee("30.07.2016");
             
 
             return View(list);
@@ -520,6 +523,9 @@ namespace TugManagementSystem.Controllers
                         cstmer.TimeTypeID = Util.toint(Request.Form["TimeTypeID"].Trim());
 
                         cstmer.Discount = Convert.ToDouble(Request.Form["Discount"].Trim());
+                        cstmer.ShipLength = Util.toint(Request.Form["ShipLength"]);
+                        cstmer.ShipTEUS = Util.toint(Request.Form["ShipTEUS"]); 
+                        cstmer.ExpiryDate = Request.Form["ExpiryDate"].Trim();
 
                         cstmer.Remark = Request.Form["Remark"].Trim();
                         cstmer.OwnerID = -1;
@@ -562,7 +568,9 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
-        public ActionResult AddCustomerBillScheme(int custId, int billingTemplateTypeId, string billingTemplateCode, string billingTemplateName, int timeTypeId, double discount, string templateCreditContent, string remark)
+        public ActionResult AddCustomerBillScheme(int custId, int billingTemplateTypeId, string billingTemplateCode, 
+            string billingTemplateName, int timeTypeId, double discount, int shipLength, int shipTEUS, string expiryDate,
+            string templateCreditContent, string remark)
         {
             try
             {
@@ -579,6 +587,9 @@ namespace TugManagementSystem.Controllers
                     cstmer.BillingTemplateCode = billingTemplateCode;
                     cstmer.BillingTemplateName = billingTemplateName;
                     cstmer.BillingTemplateTypeID = billingTemplateTypeId;
+                    cstmer.ShipLength = shipLength;
+                    cstmer.ShipTEUS = shipTEUS;
+                    cstmer.ExpiryDate = expiryDate;
 
                     cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
