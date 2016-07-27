@@ -1508,10 +1508,14 @@
                     dataType: 'json',
                     success: function (data) {
                         response($.map(data.list, function (item) {
+                            //alert(item.ContactPerson)
                             return {
                                 id: item.CustomerID,
                                 label: item.CustomerName1,
-                                value: item.CustomerName1
+                                value: item.CustomerName1,
+                                contact_person: item.ContactPerson,
+                                telephone: item.Telephone,
+                                email: item.Email
                             };
                         }));
                     },
@@ -1522,17 +1526,34 @@
                 });
             },
             select: function (event, ui) {
-                if (ui.item != null)
+                if (ui.item != null) {
+                    //alert(ui.item.contact_person);
                     $("#_CustomerID").text(ui.item.id);
-                else
+                    $("#_LinkMan").val(ui.item.contact_person);
+                    $("#_LinkPhone").val(ui.item.telephone);
+                    $("#_LinkEmail").val(ui.item.email);
+                }
+                else {
                     $("#_CustomerID").text(-1);
+                    $("#_LinkMan").val("");
+                    $("#_LinkPhone").val("");
+                    $("#_LinkEmail").val("");
+                }
             },
             change: function (event, ui) {
 
-                if (ui.item != null)
+                if (ui.item != null) {
                     $("#_CustomerID").text(ui.item.id);
-                else
+                    $("#_LinkMan").val(ui.item.contact_person);
+                    $("#_LinkPhone").val(ui.item.telephone);
+                    $("#_LinkEmail").val(ui.item.email);
+                }
+                else {
                     $("#_CustomerID").text(-1);
+                    $("#_LinkMan").val("");
+                    $("#_LinkPhone").val("");
+                    $("#_LinkEmail").val("");
+                }
 
             },
             autoFocus: true

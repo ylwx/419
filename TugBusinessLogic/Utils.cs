@@ -466,5 +466,216 @@ namespace TugBusinessLogic
             return newdt;
         }
 
+
+        #region 解析计费方案中的船长和箱量值
+        public static bool GetShipLengthLessValue(string strShipLength, out int lessValue)
+        { 
+            int index = -1;
+            lessValue = Int32.MinValue;
+            index = strShipLength.Trim().IndexOf('<');
+            if (index >= 0)
+            {
+                string subString = strShipLength.Trim().Substring(index+1, strShipLength.Trim().Length - index - 1);
+
+                string strInt = "";
+                for (int i = 0; i < subString.Length; i++)
+                {
+                    if (Char.IsDigit(subString[i]))
+                    {
+                        strInt += subString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                lessValue = Module.Util.toint(strInt);
+                return true;
+            }
+            return false;
+        }
+        public static bool GetShipLengthGreaterValue(string strShipLength, out int greaterValue)
+        {
+            int index = -1;
+            greaterValue = Int32.MaxValue;
+            index = strShipLength.Trim().IndexOf('>');
+            if (index >= 0)
+            {
+                string subString = strShipLength.Trim().Substring(index+1, strShipLength.Trim().Length - index-1);
+
+                string strInt = "";
+                for (int i = 0; i < subString.Length; i++)
+                {
+                    if (Char.IsDigit(subString[i]))
+                    {
+                        strInt += subString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                greaterValue = Module.Util.toint(strInt);
+                return true;
+            }
+            return false;
+        }
+        public static bool GetShipLengthBetweenValue(string strShipLength, out int beginValue, out int endValue)
+        {
+            int index = -1;
+            beginValue = Int32.MaxValue;
+            endValue = Int32.MinValue;
+            index = strShipLength.Trim().IndexOf('-');
+
+            if (index >= 0)
+            {
+                string subBeginString = strShipLength.Trim().Substring(0, index);
+                string subEndString = strShipLength.Trim().Substring(index+1, strShipLength.Trim().Length - index-1);
+
+                string strBeginInt = "";
+                for (int i = 0; i < subBeginString.Length; i++)
+                {
+                    if (Char.IsDigit(subBeginString[i]))
+                    {
+                        strBeginInt += subBeginString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                beginValue = Module.Util.toint(strBeginInt);
+
+
+                string strEndInt = "";
+                for (int i = 0; i < subEndString.Length; i++)
+                {
+                    if (Char.IsDigit(subEndString[i]))
+                    {
+                        strEndInt += subEndString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                endValue = Module.Util.toint(strEndInt);
+                return true;
+            }
+            return false;
+        }
+
+
+        public static bool GetShipTEUSLessValue(string strShipTEUS, out int lessValue)
+        {
+            int index = -1;
+            lessValue = Int32.MinValue;
+            index = strShipTEUS.Trim().IndexOf('<');
+            if (index >= 0)
+            {
+                string subString = strShipTEUS.Trim().Substring(index + 1, strShipTEUS.Trim().Length - index - 1);
+
+                string strInt = "";
+                for (int i = 0; i < subString.Length; i++)
+                {
+                    if (Char.IsDigit(subString[i]))
+                    {
+                        strInt += subString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                lessValue = Module.Util.toint(strInt);
+                return true;
+
+            }
+
+            return false;
+        }
+        public static bool GetShipTEUSGreaterValue(string strShipTEUS, out int greaterValue)
+        {
+            int index = -1;
+            greaterValue = Int32.MaxValue;
+            index = strShipTEUS.Trim().IndexOf('>');
+            if (index >= 0)
+            {
+                string subString = strShipTEUS.Trim().Substring(index + 1, strShipTEUS.Trim().Length - index - 1);
+
+                string strInt = "";
+                for (int i = 0; i < subString.Length; i++)
+                {
+                    if (Char.IsDigit(subString[i]))
+                    {
+                        strInt += subString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                greaterValue = Module.Util.toint(strInt);
+                return true;
+            }
+
+            return false;
+        }
+        public static bool GetShipTEUSBetweenValue(string strShipTEUS, out int beginValue, out int endValue)
+        {
+            int index = -1;
+            beginValue = Int32.MaxValue;
+            endValue = Int32.MinValue;
+            index = strShipTEUS.Trim().IndexOf('-');
+
+            if (index >= 0)
+            {
+                string subBeginString = strShipTEUS.Trim().Substring(0, index);
+                string subEndString = strShipTEUS.Trim().Substring(index + 1, strShipTEUS.Trim().Length - index -1);
+
+                string strBeginInt = "";
+                for (int i = 0; i < subBeginString.Length; i++)
+                {
+                    if (Char.IsDigit(subBeginString[i]))
+                    {
+                        strBeginInt += subBeginString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                beginValue = Module.Util.toint(strBeginInt);
+
+
+                string strEndInt = "";
+                for (int i = 0; i < subEndString.Length; i++)
+                {
+                    if (Char.IsDigit(subEndString[i]))
+                    {
+                        strEndInt += subEndString[i];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                endValue = Module.Util.toint(strEndInt);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

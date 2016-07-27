@@ -939,8 +939,8 @@
           <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="Discount" Type="float" />
           <Property Name="TemplateCreditContent" Type="nvarchar(max)" />
-          <Property Name="ShipLength" Type="int" />
-          <Property Name="ShipTEUS" Type="int" />
+          <Property Name="ShipLength" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipTEUS" Type="nvarchar" MaxLength="50" />
           <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="OwnerID" Type="int" />
@@ -1556,7 +1556,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BillingItem_Billing">
-          <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
+          <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Billing">
@@ -3651,8 +3653,8 @@
           <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Discount" Type="Double" />
           <Property Name="TemplateCreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ShipLength" Type="Int32" />
-          <Property Name="ShipTEUS" Type="Int32" />
+          <Property Name="ShipLength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipTEUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OwnerID" Type="Int32" />
@@ -4230,7 +4232,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BillingItem_Billing">
-          <End Type="Model.Billing" Role="Billing" Multiplicity="0..1" />
+          <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model.BillingItem" Role="BillingItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Billing">

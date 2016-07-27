@@ -1129,8 +1129,8 @@
     <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Discount" Type="Double" />
     <Property Name="TemplateCreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="ShipLength" Type="Int32" />
-    <Property Name="ShipTEUS" Type="Int32" />
+    <Property Name="ShipLength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipTEUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="OwnerID" Type="Int32" />
@@ -1708,7 +1708,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BillingItem_Billing">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1" />
+    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="Model.BillingItem" Role="BillingItem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">

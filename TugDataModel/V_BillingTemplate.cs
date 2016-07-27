@@ -30,8 +30,8 @@ namespace TugDataModel
         public string TimeTypeLabel { get; set; }
         public Nullable<double> Discount { get; set; }
         public string TemplateCreditContent { get; set; }
-        public Nullable<int> ShipLength { get; set; }
-        public Nullable<int> ShipTEUS { get; set; }
+        public string ShipLength { get; set; }
+        public string ShipTEUS { get; set; }
         public string ExpiryDate { get; set; }
         public string Remark { get; set; }
         public Nullable<int> OwnerID { get; set; }

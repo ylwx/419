@@ -200,6 +200,10 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
+                        
+
+                            
+
                             #region ShipLength
                             case "ShipLength":
                                 {
@@ -207,27 +211,22 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                orders = orders.Where(u => u.ShipLength == Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipLength.ToLower().CompareTo(data.ToLower()) == 0).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_LT:
+                                        case ConstValue.ComparisonOperator_BW:
                                             {
-                                                orders = orders.Where(u => u.ShipLength < Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipLength.ToLower().StartsWith(data.ToLower())).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_LE:
+                                        case ConstValue.ComparisonOperator_EW:
                                             {
-                                                orders = orders.Where(u => u.ShipLength <= Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipLength.ToLower().EndsWith(data.ToLower())).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_GT:
+                                        case ConstValue.ComparisonOperator_CN:
                                             {
-                                                orders = orders.Where(u => u.ShipLength > Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.ShipLength >= Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipLength.ToLower().Contains(data.ToLower())).ToList();
                                             }
                                             break;
                                         default:
@@ -244,27 +243,22 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                orders = orders.Where(u => u.ShipTEUS == Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipTEUS.ToLower().CompareTo(data.ToLower()) == 0).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_LT:
+                                        case ConstValue.ComparisonOperator_BW:
                                             {
-                                                orders = orders.Where(u => u.ShipTEUS < Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipTEUS.ToLower().StartsWith(data.ToLower())).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_LE:
+                                        case ConstValue.ComparisonOperator_EW:
                                             {
-                                                orders = orders.Where(u => u.ShipTEUS <= Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipTEUS.ToLower().EndsWith(data.ToLower())).ToList();
                                             }
                                             break;
-                                        case ConstValue.ComparisonOperator_GT:
+                                        case ConstValue.ComparisonOperator_CN:
                                             {
-                                                orders = orders.Where(u => u.ShipTEUS > Convert.ToInt32(data)).ToList();
-                                            }
-                                            break;
-                                        case ConstValue.ComparisonOperator_GE:
-                                            {
-                                                orders = orders.Where(u => u.ShipTEUS >= Convert.ToInt32(data)).ToList();
+                                                orders = orders.Where(u => u.ShipTEUS.ToLower().Contains(data.ToLower())).ToList();
                                             }
                                             break;
                                         default:
@@ -273,7 +267,6 @@ namespace TugBusinessLogic.Module
                                 }
                                 break;
                             #endregion
-
 
                             #region ExpiryDate
                             case "ExpiryDate":

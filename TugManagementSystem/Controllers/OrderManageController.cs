@@ -619,7 +619,7 @@ namespace TugManagementSystem.Controllers
             {
                 foreach (Customer item in customers)
                 {
-                    list.Add(new { CustomerID = item.IDX, CustomerName1 = item.Name1 });
+                    list.Add(new { CustomerID = item.IDX, CustomerName1 = item.Name1, ContactPerson = item.ContactPerson, Telephone = item.Telephone, Email = item.Email});
                 }
             }
 
