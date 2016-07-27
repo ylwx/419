@@ -56,6 +56,7 @@
     <EntitySet Name="Billing" EntityType="Model.Billing" />
     <EntitySet Name="BillingItem" EntityType="Model.BillingItem" />
     <EntitySet Name="BillingItemTemplate" EntityType="Model.BillingItemTemplate" />
+    <EntitySet Name="BillingOrder" EntityType="Model.BillingOrder" />
     <EntitySet Name="BillingTemplate" EntityType="Model.BillingTemplate" />
     <EntitySet Name="Credit" EntityType="Model.Credit" />
     <EntitySet Name="Customer" EntityType="Model.Customer" />
@@ -106,17 +107,13 @@
       <End Role="TugInfor" EntitySet="TugInfor" />
       <End Role="Arrangement" EntitySet="Arrangement" />
     </AssociationSet>
-    <AssociationSet Name="FK_Billing_OrderInfor" Association="Model.FK_Billing_OrderInfor">
-      <End Role="OrderInfor" EntitySet="OrderInfor" />
-      <End Role="Billing" EntitySet="Billing" />
-    </AssociationSet>
     <AssociationSet Name="FK_BillingItem_Billing" Association="Model.FK_BillingItem_Billing">
       <End Role="Billing" EntitySet="Billing" />
       <End Role="BillingItem" EntitySet="BillingItem" />
     </AssociationSet>
-    <AssociationSet Name="FK_Credit_Credit" Association="Model.FK_Credit_Credit">
+    <AssociationSet Name="FK_BillingOrder_Billing" Association="Model.FK_BillingOrder_Billing">
       <End Role="Billing" EntitySet="Billing" />
-      <End Role="Credit" EntitySet="Credit" />
+      <End Role="BillingOrder" EntitySet="BillingOrder" />
     </AssociationSet>
     <AssociationSet Name="FK_BillingItem_CustomerField" Association="Model.FK_BillingItem_CustomerField">
       <End Role="CustomField" EntitySet="CustomField" />
@@ -129,6 +126,10 @@
     <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Model.FK_BillingItemTemplate_BillingTemplate">
       <End Role="BillingTemplate" EntitySet="BillingTemplate" />
       <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingOrder_OrderInfor" Association="Model.FK_BillingOrder_OrderInfor">
+      <End Role="OrderInfor" EntitySet="OrderInfor" />
+      <End Role="BillingOrder" EntitySet="BillingOrder" />
     </AssociationSet>
     <AssociationSet Name="FK_CustomerShip_Customer" Association="Model.FK_CustomerShip_Customer">
       <End Role="Customer" EntitySet="Customer" />
@@ -319,9 +320,8 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="OrderInfor" Relationship="Model.FK_Billing_OrderInfor" FromRole="Billing" ToRole="OrderInfor" />
     <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
-    <NavigationProperty Name="Credit" Relationship="Model.FK_Credit_Credit" FromRole="Billing" ToRole="Credit" />
+    <NavigationProperty Name="BillingOrder" Relationship="Model.FK_BillingOrder_Billing" FromRole="Billing" ToRole="BillingOrder" />
   </EntityType>
   <EntityType Name="BillingItem">
     <Key>
@@ -379,6 +379,16 @@
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BillingTemplate" Relationship="Model.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingItemTemplate" ToRole="BillingTemplate" />
   </EntityType>
+  <EntityType Name="BillingOrder">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BillingID" Type="Int32" />
+    <Property Name="OrderID" Type="Int32" />
+    <NavigationProperty Name="Billing" Relationship="Model.FK_BillingOrder_Billing" FromRole="BillingOrder" ToRole="Billing" />
+    <NavigationProperty Name="OrderInfor" Relationship="Model.FK_BillingOrder_OrderInfor" FromRole="BillingOrder" ToRole="OrderInfor" />
+  </EntityType>
   <EntityType Name="BillingTemplate">
     <Key>
       <PropertyRef Name="IDX" />
@@ -390,8 +400,8 @@
     <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TimeTypeID" Type="Int32" />
     <Property Name="Discount" Type="Double" />
-    <Property Name="ShipLength" Type="Int32" />
-    <Property Name="ShipTEUS" Type="Int32" />
+    <Property Name="ShipLength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipTEUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TemplateCreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -435,7 +445,6 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Billing" Relationship="Model.FK_Credit_Credit" FromRole="Credit" ToRole="Billing" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>
@@ -669,6 +678,7 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -679,7 +689,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Billing" Relationship="Model.FK_Billing_OrderInfor" FromRole="OrderInfor" ToRole="Billing" />
+    <NavigationProperty Name="BillingOrder" Relationship="Model.FK_BillingOrder_OrderInfor" FromRole="OrderInfor" ToRole="BillingOrder" />
     <NavigationProperty Name="OrderService" Relationship="Model.FK_OrderService_OrderInfor" FromRole="OrderInfor" ToRole="OrderService" />
   </EntityType>
   <EntityType Name="OrderService">
@@ -1396,6 +1406,7 @@
     <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingID" Type="Int32" />
     <Property Name="JobNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTemplateID" Type="Int32" />
@@ -1434,6 +1445,7 @@
     <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingID" Type="Int32" />
     <Property Name="JobNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTemplateID" Type="Int32" />
@@ -1490,6 +1502,7 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CustomerName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1515,6 +1528,8 @@
       <PropertyRef Name="IDX" />
     </Key>
     <Property Name="OrderID" Type="Int32" />
+    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrderServiceID" Type="Int32" />
     <Property Name="ServiceNatureID" Type="Int32" />
     <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1569,6 +1584,7 @@
     </Key>
     <Property Name="OrderID" Type="Int32" />
     <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerID" Type="Int32" />
     <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1691,22 +1707,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Billing_OrderInfor">
-    <End Type="Model.OrderInfor" Role="OrderInfor" Multiplicity="0..1" />
-    <End Type="Model.Billing" Role="Billing" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="OrderInfor">
-        <PropertyRef Name="IDX" />
-      </Principal>
-      <Dependent Role="Billing">
-        <PropertyRef Name="OrderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_BillingItem_Billing">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1" />
     <End Type="Model.BillingItem" Role="BillingItem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
@@ -1717,16 +1719,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Credit_Credit">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="Model.Credit" Role="Credit" Multiplicity="*" />
+  <Association Name="FK_BillingOrder_Billing">
+    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1" />
+    <End Type="Model.BillingOrder" Role="BillingOrder" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
         <PropertyRef Name="IDX" />
       </Principal>
-      <Dependent Role="Credit">
+      <Dependent Role="BillingOrder">
         <PropertyRef Name="BillingID" />
       </Dependent>
     </ReferentialConstraint>
@@ -1764,6 +1764,18 @@
       </Principal>
       <Dependent Role="BillingItemTemplate">
         <PropertyRef Name="BillingTemplateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BillingOrder_OrderInfor">
+    <End Type="Model.OrderInfor" Role="OrderInfor" Multiplicity="0..1" />
+    <End Type="Model.BillingOrder" Role="BillingOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderInfor">
+        <PropertyRef Name="IDX" />
+      </Principal>
+      <Dependent Role="BillingOrder">
+        <PropertyRef Name="OrderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

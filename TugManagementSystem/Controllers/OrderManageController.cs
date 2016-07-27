@@ -434,10 +434,15 @@ namespace TugManagementSystem.Controllers
                         aOrder = new OrderInfor();
                         aOrder.Code = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
                         aOrder.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        aOrder.HasInvoice = "否"; //没有账单
+                        aOrder.HasInFlow = "否"; //没有在流程中
+                        aOrder.IsGuest = "否";
+
                     }
                     else if (oper == "edit")
                     {
                         aOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                        
                     }
                     aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     aOrder.CustomerID = customerId;
@@ -447,7 +452,6 @@ namespace TugManagementSystem.Controllers
                     //aOrder.WorkTime = workTime;
                     //aOrder.EstimatedCompletionTime = estimatedCompletionTime;
 
-                    aOrder.IsGuest = "否";
                     aOrder.LinkMan = linkMan;
                     aOrder.LinkPhone = linkPhone;
                     aOrder.LinkEmail = linkEmail;
@@ -465,7 +469,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.ShipName = shipName;
                     aOrder.UserID = Session.GetDataFromSession<int>("userid"); 
                     //aOrder.WorkPlace = workPlace;
-                    aOrder.HasInvoice = "否"; //没有账单
+                    
 
                     //aOrder.ServiceNatureIDS = serviceNatureIds;
                     //aOrder.ServiceNatureNames = serviceNatureNames;
@@ -523,7 +527,7 @@ namespace TugManagementSystem.Controllers
                         string serName = dataListFromTable[i][0];
                         CustomField sv = listServ.Where(u => u.CustomLabel == serName).FirstOrDefault();
                         obj.ServiceNatureID = sv.IDX;
-                        obj.ServiceWorkDate = dataListFromTable[i][1];
+                        obj.ServiceWorkDate = TugBusinessLogic.Utils.CNDateTimeToDateTime(dataListFromTable[i][1]).ToString("yyyy-MM-dd");
                         obj.ServiceWorkTime = dataListFromTable[i][2];
                         //obj.EstimatedCompletionTime=
                         obj.ServiceWorkPlace = dataListFromTable[i][6];
@@ -1521,7 +1525,7 @@ namespace TugManagementSystem.Controllers
                 {
                     string searchOption = Request.QueryString["filters"];
                     //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
-                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.SearchForOrderMange(sidx, sord, searchOption);
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.SearchForJobInformation(sidx, sord, searchOption);
 
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -1663,6 +1667,7 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Util.toint(Request.Form["IDX"].Trim());
+                    int orderServiceId = Util.toint(Request.Form["OrderServiceID"].Trim());
                     int orderId = Util.toint(Request.Form["OrderID"].Trim());;
                     Scheduler aScheduler = db.Scheduler.Where(u => u.IDX == idx).FirstOrDefault();
 
@@ -1722,6 +1727,31 @@ namespace TugManagementSystem.Controllers
                         db.SaveChanges();
 
                         {
+                            //OrderService os = db.OrderService.Where(u => u.IDX == orderServiceId).FirstOrDefault();
+                            //if (os == null)
+                            //{
+                            //    os = new OrderService();
+                            //    os.CreateDate = os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            //    //os.OrderID = aScheduler.OrderID;
+                            //    os.OwnerID = -1;
+                            //    //os.ServiceNatureID = aScheduler.ServiceNatureID;
+                            //    //os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
+                            //    //os.JobStateID = Util.toint(Request.Form["ServiceJobStateID"].Trim());
+                            //    os.UserID = Session.GetDataFromSession<int>("userid");
+                            //    os = db.OrderService.Add(os);
+                            //    db.SaveChanges();
+                            //}
+                            //else
+                            //{
+                            //    //os.ServiceWorkPlace = Request.Form["ServiceWorkPlace"].Trim();
+                            //    //os.JobStateID = Util.toint(Request.Form["ServiceJobStateID"].Trim());
+                            //    os.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            //    db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                            //    db.SaveChanges();
+                            //}
+                        }
+
+                        {
                             //更新订单状态
                             OrderInfor tmpOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
                             if (tmpOrder != null)
@@ -1732,8 +1762,16 @@ namespace TugManagementSystem.Controllers
                                     db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
+                                else
+                                {
+                                    tmpOrder.WorkStateID = 2;
+                                    db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
 
                             }
+
+                            
                         }
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
@@ -1918,6 +1956,57 @@ namespace TugManagementSystem.Controllers
                 return Json(ret);
             }
         }
+        #endregion
+
+
+        #region 账单生成
+
+        public ActionResult GetDataOfGenerateInvoicce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.SearchForGenerateInvoice(sidx, sord, searchOption);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderInfor>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForGenerateInvoice(sidx, sord);
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderInfor> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderInfor>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
         #endregion
     }
 }

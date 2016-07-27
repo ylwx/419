@@ -34,6 +34,7 @@ namespace TugDataModel
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
         public string HasInvoice { get; set; }
+        public string HasInFlow { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerName1 { get; set; }
         public string CustomerName2 { get; set; }

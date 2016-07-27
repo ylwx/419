@@ -114,52 +114,7 @@
         </div>
     </div>
     <!-- /Child MODAL FORM-->
-    <!-- 拖轮选择模态框-->
-    <div class="modal fade" id="table-modal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-        <div id="table-model-dlg" class="modal-dialog" style="width:1000px">
-            <div class="modal-content modal-table">
-                @*<div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">拖轮选择</h4>
-                    </div>*@
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- BOX -->
-                            <div class="box border blue">
-                                <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>拖轮选择</h4>
-                                    <div class="tools hidden-xs">
-                                        <a href="javascript:;" class="" onclick="$('#table-modal').modal('hide');">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    <label for="search_cells">
-                                        搜索:
-                                    </label>
-                                    <input id="search_cells" type="search" class="control-group" placeholder="输入拖轮名称" />
 
-                                    <table id="jqGrid2" style="padding:inherit"></table>
-                                    <div id="jqGridPager2"></div>
-                                    <div id="cur_operate_chid_grid" hidden></div>
-
-                                </div>
-                            </div>
-                            <!-- /BOX -->
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseTug()">选择</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /拖轮选择模态框-->
 
 
 
@@ -293,12 +248,18 @@
                 var ids = $(this).getDataIDs();
                 for (var i = 0; i < ids.length; i++) {
                     var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+                    var hasInFlow = $(this).getCell(ids[i], 'HasInFlow');
 
                     if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
                         //$("#" + ids[i] + " td").css("background-color", "grey");
                     }
                     else {//有账单
-                        $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+                        if (hasInFlow == null || hasInFlow == "" || hasInFlow == "否") { //有账单，还没进入审批流程
+                            $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+                        }
+                        else { //有账单在审批流程中
+                            $("#" + ids[i] + " td").css("background-color", "#FFDDAA");
+                        }
                     }
 
                 }
@@ -323,7 +284,7 @@
 
                 //日期
                 if ($("#gs_OrdDate").val() != null && $("#gs_OrdDate").val() != "")
-                    ret = ret && util.isDate('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
+                    ret = ret && util.isDateTime('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
                 @*if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
                     ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());*@
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
@@ -384,7 +345,7 @@
                     }
                 })
 
-        modalDialogGridInit();
+        //modalDialogGridInit();
 
         //最后调用，冻结列
         //$("#jqGrid").jqGrid("setFrozenColumns");
@@ -831,7 +792,7 @@
                             return [true, ""];
                         },
                         custom: true
-                    }, hidden: false,
+                    }, hidden: true,
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datetimepicker({
@@ -860,7 +821,7 @@
                             return [true, ""];
                         },
                         custom: true
-                    }, hidden: false,
+                    }, hidden: true,
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datetimepicker({
@@ -889,7 +850,7 @@
                             return [true, ""];
                         },
                         custom: true
-                    }, hidden: false,
+                    }, hidden: true,
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datetimepicker({
@@ -1090,7 +1051,7 @@
                     }
                 })
 
-                //if (dr.HasInvoice == "否")
+                if (dr.HasInFlow == "否")
                 {
 
                     toolbar.navSeparatorAdd("#" + childGridPagerID, { sepclass: "ui-separator", sepcontent: '' })
@@ -1195,19 +1156,31 @@
 
 
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 160, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
                         sopt: ["eq", "lt", "le", "gt", "ge"],
                         dataInit: function (element) {
                             $(element).datetimepicker({
-                                format: 'Y-m-d',
+                                format: 'Y-m-d H:i:s',
                                 step: 1,
-                                timepicker: false
+                                timepicker: true
                             });
                         },
-                    }
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    },
+
                 },
                 @*{
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 120, editable: true, edittype: "text",
@@ -1424,6 +1397,12 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_HasInvoice', name: "HasInvoice", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_HasInFlow', name: "HasInFlow", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },

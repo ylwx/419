@@ -25,6 +25,7 @@ namespace TugDataModel
         public string WorkStateValue { get; set; }
         public string WorkStateLabel { get; set; }
         public string HasInvoice { get; set; }
+        public string HasInFlow { get; set; }
         public Nullable<int> BillingID { get; set; }
         public string JobNo { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }

@@ -2204,6 +2204,11 @@ namespace TugBusinessLogic.Module
         }
 
 
+        /// <summary>
+        /// 从燃油附加费方案中获取应该使用哪个附加费用
+        /// </summary>
+        /// <param name="orderDate"></param>
+        /// <returns></returns>
         static public double GetFuelFee(string orderDate)
         {
             //DateTime dt = TugBusinessLogic.Utils.HKDateTimeToDateTime(orderDate);
@@ -2249,6 +2254,149 @@ namespace TugBusinessLogic.Module
             }
 
             return 0;
+        }
+
+
+        /// <summary>
+        /// 计算燃油附加费
+        /// </summary>
+        /// <param name="orderDate"></param>
+        /// <param name="consumeTime"></param>
+        /// <returns></returns>
+        static public double CalculateFuelFee(string orderDate, double consumeTime)
+        {
+            double unitPrice = GetFuelFee(orderDate);
+            double price = unitPrice;
+
+            if (consumeTime <= 1) {
+                price = Math.Round(price, 2);
+            }
+            else
+            {
+                price = Math.Round(unitPrice + unitPrice * (consumeTime - 1), 2);
+            }
+
+            return price;
+        }
+
+
+        //合并账单用的驳回删除
+        static public void RejectInvoice2(int billingId = 1)
+        {
+            TugDataEntities db = new TugDataEntities();
+            //var orders = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
+            //if (orders != null)
+            {
+                //foreach (var order in orders)
+                {
+                    //item.OrderID;
+                    List<OrderService> services = db.OrderService.Where(u => u.OrderID == 24 /*order.OrderID*/).ToList();
+                    if (services != null)
+                    {
+                        foreach (OrderService svc in services)
+                        {
+                            List<Scheduler> schedulers = db.Scheduler.Where(u => u.OrderServiceID == svc.IDX).ToList();
+                            if (schedulers != null)
+                            {
+                                foreach (Scheduler sch in schedulers)
+                                {
+                                    sch.DepartBaseTime = "";
+                                    sch.ArrivalBaseTime = "";
+                                    db.Entry(sch).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+
+                            svc.JobStateID = 114;
+                            db.Entry(svc).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
+                    OrderInfor ord = db.OrderInfor.First(u => u.IDX == 24/*order.OrderID*/);
+                    if (ord != null)
+                    {
+                        ord.HasInvoice = "否";
+                        ord.HasInFlow = "否";
+                        ord.WorkStateID = 2;
+                        db.Entry(ord).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        static public void RejectInvoice(int orderId = 1)
+        {
+            TugDataEntities db = new TugDataEntities();
+
+            var orders = db.V_OrderBilling.Where(u => u.OrderID == orderId).ToList();
+            if (orders != null)
+            {
+                foreach (var order in orders)
+                {
+                    //item.OrderID;
+                    List<OrderService> services = db.OrderService.Where(u => u.OrderID == order.OrderID).ToList();
+                    if (services != null)
+                    {
+                        foreach (OrderService svc in services)
+                        {
+                            List<Scheduler> schedulers = db.Scheduler.Where(u => u.OrderServiceID == svc.IDX).ToList();
+                            if (schedulers != null)
+                            {
+                                foreach (Scheduler sch in schedulers)
+                                {
+                                    sch.DepartBaseTime = "";
+                                    sch.ArrivalBaseTime = "";
+                                    db.Entry(sch).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+
+                            svc.JobStateID = 114;
+                            db.Entry(svc).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
+                    OrderInfor ord = db.OrderInfor.First(u => u.IDX == order.OrderID);
+                    if (ord != null)
+                    {
+                        ord.HasInvoice = "否";
+                        ord.HasInFlow = "否";
+                        ord.WorkStateID = 2;
+                        db.Entry(ord).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        static public List<V_BillingItemTemplate> GetCustomersBillingTemplateByLengthAndTEUS(int customerId, int shipLength, int shipTEUS)
+        {
+            List<V_BillingItemTemplate> ret = new List<V_BillingItemTemplate>();
+
+            TugDataEntities db = new TugDataEntities();
+            var list = db.V_BillingTemplate.Where(u => u.CustomerID == customerId).ToList();
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    if (item.ShipLength != null)
+                    {
+
+                    }
+
+
+                    if (item.ShipTEUS != null)
+                    {
+
+                    }
+                }
+            }
+
+            return ret; 
         }
     }
 }

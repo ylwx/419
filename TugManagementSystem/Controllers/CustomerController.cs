@@ -347,13 +347,13 @@ namespace TugManagementSystem.Controllers
                 List<Customer> customers = null;
                 if (queryName == "")
                 {
-                    customers = db.Customer.Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                    customers = db.Customer.Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
                 }
                 else
                 {
                     customers = db.Customer.Where(u => u.Name1.Contains(queryName) 
                         /*|| u.Name2.Contains(queryName) || u.SimpleName.Contains(queryName)*/)
-                        .Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                        .Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
                 }
 
                 totalRecordNum = customers.Count;
@@ -523,8 +523,8 @@ namespace TugManagementSystem.Controllers
                         cstmer.TimeTypeID = Util.toint(Request.Form["TimeTypeID"].Trim());
 
                         cstmer.Discount = Convert.ToDouble(Request.Form["Discount"].Trim());
-                        cstmer.ShipLength = Util.toint(Request.Form["ShipLength"]);
-                        cstmer.ShipTEUS = Util.toint(Request.Form["ShipTEUS"]); 
+                        cstmer.ShipLength = (Request.Form["ShipLength"]);
+                        cstmer.ShipTEUS = (Request.Form["ShipTEUS"]); 
                         cstmer.ExpiryDate = Request.Form["ExpiryDate"].Trim();
 
                         cstmer.Remark = Request.Form["Remark"].Trim();
@@ -569,7 +569,7 @@ namespace TugManagementSystem.Controllers
         }
 
         public ActionResult AddCustomerBillScheme(int custId, int billingTemplateTypeId, string billingTemplateCode, 
-            string billingTemplateName, int timeTypeId, double discount, int shipLength, int shipTEUS, string expiryDate,
+            string billingTemplateName, int timeTypeId, double discount, string shipLength, string shipTEUS, string expiryDate,
             string templateCreditContent, string remark)
         {
             try

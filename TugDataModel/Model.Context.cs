@@ -34,6 +34,7 @@ namespace TugDataModel
         public virtual DbSet<Billing> Billing { get; set; }
         public virtual DbSet<BillingItem> BillingItem { get; set; }
         public virtual DbSet<BillingItemTemplate> BillingItemTemplate { get; set; }
+        public virtual DbSet<BillingOrder> BillingOrder { get; set; }
         public virtual DbSet<BillingTemplate> BillingTemplate { get; set; }
         public virtual DbSet<Credit> Credit { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }

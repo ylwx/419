@@ -28,6 +28,21 @@ namespace TugManagementSystem.Controllers
             ViewBag.Persons = GetPersons();
             return View();
         }
+
+        [Authorize]
+        public ActionResult Invoice2(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            //ViewBag.Services = TugBusinessLogic.Utils.GetServices();
+            ViewBag.BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
+            ViewBag.TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
+            ViewBag.Nodes = GetNodes();
+            ViewBag.Persons = GetPersons();
+            return View();
+        }
+
         public string GetPersons()
         {
             string[] labels = null;
@@ -438,38 +453,44 @@ namespace TugManagementSystem.Controllers
                         {
                             deletedBillings.Add(b);
                         }
-                        //Expression cdt = Expression.Equal(Expression.PropertyOrField(parameter, "OrderID"), Expression.Constant(oid));
-                        //condition = Expression.OrElse(condition, cdt);
                     }
 
-                    //var lamda = Expression.Lambda<Func<Billing, bool>>(condition, parameter);
-                    //List<Billing> orders = db.Billing.Where(lamda).Select(u => u).ToList<Billing>();
-                    //if (orders != null)
                     {
                         db.Billing.RemoveRange(deletedBillings);
                         db.SaveChanges();
 
 
-                        //更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
-                        {
-                            string strOrderIds = Request.Form["orderIds"];
-                            if (strOrderIds != "")
-                            {
-                                //List<string> listOrderIds = strOrderIds.Split(',').ToList();
+                        ////更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
+                        //{
+                        //    string strOrderIds = Request.Form["orderIds"];
+                        //    if (strOrderIds != "")
+                        //    {
+                        //        //List<string> listOrderIds = strOrderIds.Split(',').ToList();
 
-                                foreach (string item in listOrderIds)
-                                {
-                                    int orderId = TugBusinessLogic.Module.Util.toint(item);
-                                    OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
-                                    if (od != null)
-                                    {
-                                        od.HasInvoice = "否";
-                                        db.Entry(od).State = System.Data.Entity.EntityState.Modified;
-                                        db.SaveChanges();
-                                    }
-                                }
+                        //        foreach (string item in listOrderIds)
+                        //        {
+                        //            int orderId = TugBusinessLogic.Module.Util.toint(item);
+                        //            OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+                        //            if (od != null)
+                        //            {
+                        //                od.HasInvoice = "否";
+                        //                db.Entry(od).State = System.Data.Entity.EntityState.Modified;
+                        //                db.SaveChanges();
+                        //            }
+                        //        }
+                        //    }
+                        //}
+
+                        string strOrderIds = Request.Form["orderIds"];
+                        if (strOrderIds != "")
+                        {
+                            foreach (string item in listOrderIds)
+                            {
+                                int orderId = TugBusinessLogic.Module.Util.toint(item);
+                                TugBusinessLogic.Module.FinanceLogic.RejectInvoice(orderId);
                             }
                         }
+
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
@@ -1138,7 +1159,29 @@ namespace TugManagementSystem.Controllers
         #endregion
 
 
-        
+
+        #region 账单操作2
+
+       /// <summary>
+       /// 驳回账单之后，要删除账单，删除账单的同时调用此Action
+       /// </summary>
+       /// <param name="billingId"></param>
+       /// <returns></returns>
+        public ActionResult RejectBilling2(int billingId)
+        {
+            TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(billingId);
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult RejectBilling(int billingId)
+        {
+            TugBusinessLogic.Module.FinanceLogic.RejectInvoice(billingId);
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
     }
 
 }

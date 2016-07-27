@@ -189,6 +189,14 @@
     <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="BillingOrder">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BillingID" Type="int" />
+    <Property Name="OrderID" Type="int" />
+  </EntityType>
   <EntityType Name="BillingTemplate">
     <Key>
       <PropertyRef Name="IDX" />
@@ -200,8 +208,8 @@
     <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeID" Type="int" />
     <Property Name="Discount" Type="float" />
-    <Property Name="ShipLength" Type="int" />
-    <Property Name="ShipTEUS" Type="int" />
+    <Property Name="ShipLength" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipTEUS" Type="nvarchar" MaxLength="50" />
     <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
     <Property Name="TemplateCreditContent" Type="nvarchar(max)" />
     <Property Name="Remark" Type="nvarchar(max)" />
@@ -474,6 +482,7 @@
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
     <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
@@ -1224,6 +1233,7 @@
     <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
     <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingID" Type="int" />
     <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTemplateID" Type="int" />
@@ -1264,6 +1274,7 @@
     <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
     <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingID" Type="int" />
     <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTemplateID" Type="int" />
@@ -1322,6 +1333,7 @@
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
     <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerName1" Type="nvarchar(max)" />
     <Property Name="CustomerName2" Type="nvarchar" MaxLength="50" />
@@ -1349,6 +1361,8 @@
       <PropertyRef Name="IDX" />
     </Key>
     <Property Name="OrderID" Type="int" />
+    <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderServiceID" Type="int" />
     <Property Name="ServiceNatureID" Type="int" />
     <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
@@ -1405,6 +1419,7 @@
     </Key>
     <Property Name="OrderID" Type="int" />
     <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
@@ -1535,22 +1550,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Billing_OrderInfor">
-    <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
-    <End Role="Billing" Type="Self.Billing" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="OrderInfor">
-        <PropertyRef Name="IDX" />
-      </Principal>
-      <Dependent Role="Billing">
-        <PropertyRef Name="OrderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_BillingItem_Billing">
-    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
     <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
@@ -1597,17 +1598,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Credit_Credit">
-    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Credit" Type="Self.Credit" Multiplicity="*" />
+  <Association Name="FK_BillingOrder_Billing">
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
+    <End Role="BillingOrder" Type="Self.BillingOrder" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
         <PropertyRef Name="IDX" />
       </Principal>
-      <Dependent Role="Credit">
+      <Dependent Role="BillingOrder">
         <PropertyRef Name="BillingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BillingOrder_OrderInfor">
+    <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+    <End Role="BillingOrder" Type="Self.BillingOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderInfor">
+        <PropertyRef Name="IDX" />
+      </Principal>
+      <Dependent Role="BillingOrder">
+        <PropertyRef Name="OrderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1709,6 +1720,7 @@
     <EntitySet Name="Billing" EntityType="Self.Billing" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BillingItem" EntityType="Self.BillingItem" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BillingItemTemplate" EntityType="Self.BillingItemTemplate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BillingOrder" EntityType="Self.BillingOrder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BillingTemplate" EntityType="Self.BillingTemplate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Credit" EntityType="Self.Credit" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -2172,6 +2184,7 @@
     [V_OrderBilling].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBilling].[WorkStateLabel] AS [WorkStateLabel], 
     [V_OrderBilling].[HasInvoice] AS [HasInvoice], 
+    [V_OrderBilling].[HasInFlow] AS [HasInFlow], 
     [V_OrderBilling].[BillingID] AS [BillingID], 
     [V_OrderBilling].[JobNo] AS [JobNo], 
     [V_OrderBilling].[BillingTemplateID] AS [BillingTemplateID], 
@@ -2209,6 +2222,7 @@
     [V_OrderBillingCredit].[WorkStateValue] AS [WorkStateValue], 
     [V_OrderBillingCredit].[WorkStateLabel] AS [WorkStateLabel], 
     [V_OrderBillingCredit].[HasInvoice] AS [HasInvoice], 
+    [V_OrderBillingCredit].[HasInFlow] AS [HasInFlow], 
     [V_OrderBillingCredit].[BillingID] AS [BillingID], 
     [V_OrderBillingCredit].[JobNo] AS [JobNo], 
     [V_OrderBillingCredit].[BillingTemplateID] AS [BillingTemplateID], 
@@ -2264,6 +2278,7 @@
     [V_OrderInfor].[UserID] AS [UserID], 
     [V_OrderInfor].[LastUpDate] AS [LastUpDate], 
     [V_OrderInfor].[HasInvoice] AS [HasInvoice], 
+    [V_OrderInfor].[HasInFlow] AS [HasInFlow], 
     [V_OrderInfor].[CustomerCode] AS [CustomerCode], 
     [V_OrderInfor].[CustomerName1] AS [CustomerName1], 
     [V_OrderInfor].[CustomerName2] AS [CustomerName2], 
@@ -2288,6 +2303,8 @@
     <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_OrderScheduler].[OrderID] AS [OrderID], 
+    [V_OrderScheduler].[HasInvoice] AS [HasInvoice], 
+    [V_OrderScheduler].[HasInFlow] AS [HasInFlow], 
     [V_OrderScheduler].[OrderServiceID] AS [OrderServiceID], 
     [V_OrderScheduler].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderScheduler].[ServiceNatureValue] AS [ServiceNatureValue], 
@@ -2341,6 +2358,7 @@
       <DefiningQuery>SELECT 
     [V_OrderService].[OrderID] AS [OrderID], 
     [V_OrderService].[HasInvoice] AS [HasInvoice], 
+    [V_OrderService].[HasInFlow] AS [HasInFlow], 
     [V_OrderService].[OrderCode] AS [OrderCode], 
     [V_OrderService].[CustomerID] AS [CustomerID], 
     [V_OrderService].[CustomerName] AS [CustomerName], 
@@ -2446,10 +2464,6 @@
       <End Role="TugInfor" EntitySet="TugInfor" />
       <End Role="Arrangement" EntitySet="Arrangement" />
     </AssociationSet>
-    <AssociationSet Name="FK_Billing_OrderInfor" Association="Self.FK_Billing_OrderInfor">
-      <End Role="OrderInfor" EntitySet="OrderInfor" />
-      <End Role="Billing" EntitySet="Billing" />
-    </AssociationSet>
     <AssociationSet Name="FK_BillingItem_Billing" Association="Self.FK_BillingItem_Billing">
       <End Role="Billing" EntitySet="Billing" />
       <End Role="BillingItem" EntitySet="BillingItem" />
@@ -2466,9 +2480,13 @@
       <End Role="BillingTemplate" EntitySet="BillingTemplate" />
       <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
     </AssociationSet>
-    <AssociationSet Name="FK_Credit_Credit" Association="Self.FK_Credit_Credit">
+    <AssociationSet Name="FK_BillingOrder_Billing" Association="Self.FK_BillingOrder_Billing">
       <End Role="Billing" EntitySet="Billing" />
-      <End Role="Credit" EntitySet="Credit" />
+      <End Role="BillingOrder" EntitySet="BillingOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingOrder_OrderInfor" Association="Self.FK_BillingOrder_OrderInfor">
+      <End Role="OrderInfor" EntitySet="OrderInfor" />
+      <End Role="BillingOrder" EntitySet="BillingOrder" />
     </AssociationSet>
     <AssociationSet Name="FK_CustomerShip_Customer" Association="Self.FK_CustomerShip_Customer">
       <End Role="Customer" EntitySet="Customer" />

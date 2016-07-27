@@ -377,12 +377,19 @@
                     var ids = $(this).getDataIDs();
                     for (var i = 0; i < ids.length; i++) {
                         var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+                        var hasInFlow = $(this).getCell(ids[i], 'HasInFlow');
 
                         if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
                             //$("#" + ids[i] + " td").css("background-color", "grey");
                         }
                         else {//有账单
-                            $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+
+                            if (hasInFlow == null || hasInFlow == "" || hasInFlow == "否") { //有账单，还没进入审批流程
+                                $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+                            }
+                            else { //有账单在审批流程中
+                                $("#" + ids[i] + " td").css("background-color", "#FFDDAA");
+                            }
                         }
 
                     }
@@ -518,19 +525,56 @@
                             var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
                             $('.panel-title span:first').html("edit");
                             $('.panel-title span:last').html(orderId);
-                            //alert(orderId);
-                            @*$.ajax({
-                                url: '@Url.Action("", "")',
+
+
+                            var selectedOrderIDs = "";
+                            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                            var noinvoiceResult = ""; //保存选择的没有账单的记录
+
+                            selectedOrderIDs = rowid + ":" + orderId;
+
+
+                            $.ajax({
+                                url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
                                 type: "POST",
                                 data: {
-                                    'orderId': orderId
-                                },
+                                    'selectedOrderIDs': selectedOrderIDs
+                                },//"oper=delete&id=" + gr,
                                 dataType: 'json',
                                 success: function (result) {
                                     //alert(result.message);
+
+                                    //for (key in result.dic_has_no_invoice) {
+
+                                    //    var value = result.dic_has_no_invoice[key];
+                                    //    noinvoiceResult += key + ",";
+                                    //}
+
+                                    //if (noinvoiceResult != "") {
+                                    //    noinvoiceResult = noinvoiceResult.substr(0, noinvoiceResult.length - 1);
+                                    //    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无法编辑，请先生成账单！');
+                                    //    return;
+                                    //}
+
+                                    for (key in result.dic_has_invoice_in_fow) {
+
+                                        var value = result.dic_has_invoice_in_fow[key];
+                                        inFlowingResult += key + ",";
+                                    }
+
+                                    if (inFlowingResult != "") {
+                                        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                        alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，无法编辑！');
+                                        return;
+                                    }
+
+                                    //编辑
+                                    EditOrder();
                                 },
-                            });*@
-                            EditOrder();
+                            });
+
+                            
                         }
                         else {
                             alert('选中一行');
@@ -1197,6 +1241,12 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_HasInvoice', name: "HasInvoice", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_HasInFlow', name: "HasInFlow", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "cn", "bw", "ew"] },

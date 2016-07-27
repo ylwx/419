@@ -2149,6 +2149,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 是否在流程中 的本地化字符串。
+        /// </summary>
+        internal static string V_OrderInfor_HasInFlow {
+            get {
+                return ResourceManager.GetString("V_OrderInfor_HasInFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 是否已有帳單 的本地化字符串。
         /// </summary>
         internal static string V_OrderInfor_HasInvoice {

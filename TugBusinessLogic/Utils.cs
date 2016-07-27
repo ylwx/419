@@ -37,7 +37,7 @@ namespace TugBusinessLogic
                 TugDataEntities db = new TugDataEntities();
                 maxId = db.Billing.Max(u => u.IDX);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
