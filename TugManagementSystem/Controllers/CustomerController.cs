@@ -314,36 +314,36 @@ namespace TugManagementSystem.Controllers
             //TugBusinessLogic.Module.FinanceLogic.GetFuelFee("2016-07-30");
             //TugBusinessLogic.Module.FinanceLogic.GetFuelFee("30.07.2016");
 
-            var ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 5000);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 7000);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 10000);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 12000);
+            //var ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 5000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 7000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 10000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLength(40, 12000);
 
 
-            ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 200);
-            ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 300);
-            ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 350);
-            ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 12000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 200);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 300);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 350);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByTEUS(40, 12000);
 
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 200);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 300);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 350);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 12000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 200);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 300);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 350);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 5000, 12000);
 
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 200);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 300);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 350);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 12000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 200);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 300);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 350);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 7000, 12000);
 
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 200);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 300);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 350);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 12000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 200);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 300);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 350);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 10000, 12000);
 
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 200);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 300);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 350);
-            ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 12000);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 200);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 300);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 350);
+            //ll = FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(40, 12000, 12000);
 
             return View(list);
         }

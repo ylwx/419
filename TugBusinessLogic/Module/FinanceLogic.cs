@@ -1973,6 +1973,11 @@ namespace TugBusinessLogic.Module
                 }
                 #endregion
 
+                orders = orders
+                    .Where(u => u.WorkStateID == 5
+                    || u.WorkStateValue == "3"
+                    || u.WorkStateLabel == "已完工")
+                    .Select(u => u).ToList<V_OrderBilling>();
 
                 #region 对搜索结果根据排序字段和方式进行排序
                 switch (orderField)
@@ -2385,6 +2390,11 @@ namespace TugBusinessLogic.Module
         {
             List<V_BillingTemplate> retList = new List<V_BillingTemplate>();
 
+            List<V_BillingTemplate> defaultList = GetCustomerBillSchemes(-1);
+
+            if (defaultList != null)
+                retList.AddRange(defaultList);
+
             TugDataEntities db = new TugDataEntities();
             var list = db.V_BillingTemplate.Where(u => u.CustomerID == customerId).ToList();
 
@@ -2425,6 +2435,8 @@ namespace TugBusinessLogic.Module
                 }
             }
 
+            retList = retList.OrderBy(u => u.BillingTemplateName).ToList();
+
             return retList; 
         }
 
@@ -2438,6 +2450,12 @@ namespace TugBusinessLogic.Module
         static public List<V_BillingTemplate> GetCustomersBillingTemplateByTEUS(int customerId, int shipTEUS)
         {
             List<V_BillingTemplate> retList = new List<V_BillingTemplate>();
+
+            List<V_BillingTemplate> defaultList = GetCustomerBillSchemes(-1);
+
+            if (defaultList != null)
+                retList.AddRange(defaultList);
+
 
             TugDataEntities db = new TugDataEntities();
             var list = db.V_BillingTemplate.Where(u => u.CustomerID == customerId).ToList();
@@ -2479,6 +2497,8 @@ namespace TugBusinessLogic.Module
                 }
             }
 
+            retList = retList.OrderBy(u => u.BillingTemplateName).ToList();
+
             return retList;
         }
 
@@ -2493,6 +2513,11 @@ namespace TugBusinessLogic.Module
         static public List<V_BillingTemplate> GetCustomersBillingTemplateByLengthAndTEUS(int customerId, int shipLength, int shipTEUS)
         {
             List<V_BillingTemplate> retList = new List<V_BillingTemplate>();
+
+            List<V_BillingTemplate> defaultList = GetCustomerBillSchemes(-1);
+
+            if(defaultList != null)
+                retList.AddRange(defaultList);
 
             TugDataEntities db = new TugDataEntities();
             var list = db.V_BillingTemplate.Where(u => u.CustomerID == customerId).ToList();
@@ -2622,6 +2647,7 @@ namespace TugBusinessLogic.Module
                     }
                 }
             }
+            retList = retList.OrderBy(u => u.BillingTemplateName).ToList();
 
             return retList;
         }
