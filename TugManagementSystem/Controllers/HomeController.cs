@@ -142,7 +142,7 @@ namespace TugManagementSystem.Controllers
 
                 int userid = Session.GetDataFromSession<int>("userid");
                 Console.WriteLine(userid);
-                return RedirectToAction("CustomerManage", "Customer");//'/Customer/CustomerManage'
+                return RedirectToAction("OrderManage", "OrderManage");//'/OrderManage/OrderManage'
             }
             else
             {

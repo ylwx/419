@@ -21,8 +21,6 @@ namespace TugDataModel
         public string OrdDate { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
-        public Nullable<int> ShipLength { get; set; }
-        public Nullable<int> ShipTEUS { get; set; }
         public Nullable<int> WorkStateID { get; set; }
         public string WorkStateValue { get; set; }
         public string WorkStateLabel { get; set; }
