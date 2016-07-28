@@ -113,7 +113,14 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                        List<V_OrderBilling> BillList = db.V_OrderBilling.Where(u => u.BillingID == -1).Select(u => u).ToList<V_OrderBilling>();
+                        int totalRecordNum = BillList.Count;
+                        if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                        int pageSize = rows;
+                        int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+                        List<V_OrderBilling> page_objs = BillList.Skip((page - 1) * rows).Take(rows).ToList<V_OrderBilling>();
+                        var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                        return Json(jsonData, JsonRequestBehavior.AllowGet);
                     }
                     //List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
 

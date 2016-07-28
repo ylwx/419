@@ -20,11 +20,11 @@ namespace TugDataModel
         public string ServiceHours { get; set; }
         public string Name1 { get; set; }
         public string CustomLabel { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ServiceNatureID { get; set; }
         public Nullable<int> TugID { get; set; }
         public string RopeUsed { get; set; }
-        public Nullable<int> RopeNum { get; set; }
         public string CustomValue { get; set; }
+        public Nullable<int> OrderServiceID { get; set; }
+        public Nullable<int> OrderID { get; set; }
+        public Nullable<int> ServiceNatureID { get; set; }
     }
 }
