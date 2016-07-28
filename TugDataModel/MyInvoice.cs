@@ -80,6 +80,16 @@ namespace TugDataModel
 
         public List<MyBillingItem> BillingItems { get; set; }
 
+
+        /// <summary>
+        /// 燃油附加费单价
+        /// </summary>
+        public double UnitPriceOfFeulFee { get; set; }
+
+        /// <summary>
+        /// 燃油附加费价格
+        /// </summary>
+        public double PriceOfFeulFee { get; set; }
         /// <summary>
         /// 总计港币
         /// </summary>
@@ -108,6 +118,7 @@ namespace TugDataModel
         /// </summary>
         public int OrderID { get; set; }
 
+        
         /// <summary>
         /// 订单流水号
         /// </summary>

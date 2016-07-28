@@ -162,13 +162,13 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet]
-        public ActionResult GetInvoice(string lan, int? custId, int? orderId, string shipLength, string shipTEUS)
+        public ActionResult GetInvoice(string lan, int? custId, int? orderId, string orderDate, string shipLength, string shipTEUS)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
             //return RedirectToAction("Login", "Home");
 
-            MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.GenerateInvoice((int)orderId);
+            MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.GenerateInvoice((int)orderId, orderDate);
 
             List<TugDataModel.MyCustomField> Items = new List<MyCustomField>();
             if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "半包")
@@ -214,7 +214,7 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult NewInvoice(string lan, int? orderId, string customerBillingScheme,
+        public ActionResult NewInvoice(string lan, int? orderId, string orderDate, string customerBillingScheme,
             int billingTypeId, string billingTypeValue, string billingTypeLabel,
             int timeTypeId, string timeTypeValue, string timeTypeLabel, double discount)
         {
@@ -225,7 +225,7 @@ namespace TugManagementSystem.Controllers
             //List<TugDataModel.CustomField>BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             //List<TugDataModel.CustomField>TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
-            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, customerBillingScheme,
+            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, orderDate, customerBillingScheme,
             billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount);
 
             //List<TugDataModel.CustomField> Items = new List<CustomField>();
@@ -689,13 +689,15 @@ namespace TugManagementSystem.Controllers
             Dictionary<int, int> dicHasNoInvoice = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceNotInFlow = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceInFow = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceNotInFlowBills = new Dictionary<int, int>();
 
-            TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow);
+            TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow, out dicHasInvoiceNotInFlowBills);
 
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE,
                               dic_has_no_invoice = dicHasNoInvoice,
                               dic_has_invoice_not_in_flow = dicHasInvoiceNotInFlow,
-                              dic_has_invoice_in_fow = dicHasInvoiceInFow
+                              dic_has_invoice_in_fow = dicHasInvoiceInFow,
+                              dic_has_invoice_not_in_flow_bills = dicHasInvoiceNotInFlowBills
             }, JsonRequestBehavior.AllowGet);
         }
 
