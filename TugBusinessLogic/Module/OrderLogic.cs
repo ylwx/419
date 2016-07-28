@@ -6610,12 +6610,14 @@ namespace TugBusinessLogic.Module
 
 
 
-        static public void GetStatusOfOrderInvoice(string selectedOrderIDs, out Dictionary<int,int> dicHasNoInvoice, 
-            out Dictionary<int,int> dicHasInvoiceNotInFlow, out Dictionary<int,int> dicHasInvoiceInFow) {
+        static public void GetStatusOfOrderInvoice(string selectedOrderIDs, out Dictionary<int,int> dicHasNoInvoice,
+            out Dictionary<int, int> dicHasInvoiceNotInFlow, out Dictionary<int, int> dicHasInvoiceInFow, out Dictionary<int, int> dicHasInvoiceNotInFlowBills)
+        {
 
             Dictionary<int, int> dicHasNoInvoice2 = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceNotInFlow2 = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceInFow2 = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceNotInFlowBills2 = new Dictionary<int, int>();
             if (selectedOrderIDs != "")
             {
                 List<string> list = selectedOrderIDs.Split(',').ToList(); //list中的每个元素的rowNo:orderId的格式
@@ -6625,13 +6627,15 @@ namespace TugBusinessLogic.Module
                     {
                         int rowNo = Util.toint(item.Split(':')[0]);
                         int orderId = Util.toint(item.Split(':')[1]);
+                        int billId;
 
-                        string ret = GetStatusOfOrderInvoice(orderId);
+                        string ret = GetStatusOfOrderInvoice(orderId, out billId);
                         if (ret == ConstValue.HAS_INVOICE_IN_FLOW) {
                             dicHasInvoiceInFow2.Add(rowNo, orderId);
                         }
                         else if (ret == ConstValue.HAS_INVOICE_NOT_IN_FLOW) {
                             dicHasInvoiceNotInFlow2.Add(rowNo, orderId);
+                            dicHasInvoiceNotInFlowBills2.Add(rowNo, billId);
                         }
                         else
                         {
@@ -6644,6 +6648,7 @@ namespace TugBusinessLogic.Module
             dicHasNoInvoice = dicHasNoInvoice2;
             dicHasInvoiceNotInFlow = dicHasInvoiceNotInFlow2;
             dicHasInvoiceInFow = dicHasInvoiceInFow2;
+            dicHasInvoiceNotInFlowBills = dicHasInvoiceNotInFlowBills2;
         }
 
         
@@ -6651,8 +6656,10 @@ namespace TugBusinessLogic.Module
         /// 获取一个订单的账单状态
         /// </summary>
         /// <param name="orderId">订单Id</param>
-        static private string GetStatusOfOrderInvoice(int orderId)
+        static private string GetStatusOfOrderInvoice(int orderId, out int billId)
         {
+            billId = -1;
+
             string ret = ConstValue.HAS_NO_INVOICE;
 
             TugDataEntities db = new TugDataEntities();
@@ -6675,6 +6682,7 @@ namespace TugBusinessLogic.Module
                     }
                     else
                     {
+                        billId = (int)ob.BillingID;
                         ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
                     }
                 }

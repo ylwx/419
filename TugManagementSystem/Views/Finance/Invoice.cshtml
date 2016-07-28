@@ -1630,7 +1630,8 @@
                     caption: "审核", title: "提交审核", buttonicon: "ui-icon-circle-plus",
                     onClickButton: function () {
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的订单记录
+                        var hasInvoceNotInFlowingBillsResult = ""; //保存选择的已有账单，但不在流程中的账单记录
                         var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
                         var noinvoiceResult = ""; //保存选择的没有账单的记录
 
@@ -1698,9 +1699,23 @@
                                 if (hasInvoceNotInFlowingResult != "") {
                                     hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
                                 }
+
+
+                                for (key in result.dic_has_invoice_not_in_flow_bills) {
+
+                                    var value = result.dic_has_invoice_not_in_flow_bills[key];
+                                    //alert(value);
+                                    hasInvoceNotInFlowingBillsResult += value + ",";
+                                    //hasInvoceNotInFlowingResult += value.toString().concat(",");
+                                    //alert(hasInvoceNotInFlowingResult);
+                                }
+
+                                if (hasInvoceNotInFlowingBillsResult != "") {
+                                    hasInvoceNotInFlowingBillsResult = hasInvoceNotInFlowingBillsResult.substr(0, hasInvoceNotInFlowingBillsResult.length - 1);
+                                }
                                 
 
-                                g_submit_billIds = hasInvoceNotInFlowingResult;
+                                g_submit_billIds = hasInvoceNotInFlowingBillsResult;
 
                                 $('#table-modal').modal();
 

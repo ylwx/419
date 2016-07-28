@@ -689,13 +689,15 @@ namespace TugManagementSystem.Controllers
             Dictionary<int, int> dicHasNoInvoice = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceNotInFlow = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceInFow = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasInvoiceNotInFlowBills = new Dictionary<int, int>();
 
-            TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow);
+            TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow, out dicHasInvoiceNotInFlowBills);
 
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE,
                               dic_has_no_invoice = dicHasNoInvoice,
                               dic_has_invoice_not_in_flow = dicHasInvoiceNotInFlow,
-                              dic_has_invoice_in_fow = dicHasInvoiceInFow
+                              dic_has_invoice_in_fow = dicHasInvoiceInFow,
+                              dic_has_invoice_not_in_flow_bills = dicHasInvoiceNotInFlowBills
             }, JsonRequestBehavior.AllowGet);
         }
 
