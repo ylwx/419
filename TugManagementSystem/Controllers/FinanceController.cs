@@ -162,7 +162,7 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet]
-        public ActionResult GetInvoice(string lan, int? custId, int? orderId)
+        public ActionResult GetInvoice(string lan, int? custId, int? orderId, string shipLength, string shipTEUS)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
@@ -186,7 +186,10 @@ namespace TugManagementSystem.Controllers
             V_BillingTemplate bt = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillScheme(_invoice.BillingTemplateID);
 
             //客户的计费方案
-            List<V_BillingTemplate> customerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
+            int length = TugBusinessLogic.Module.Util.toint(shipLength);
+            int teus = TugBusinessLogic.Module.Util.toint(shipTEUS);
+            //List<V_BillingTemplate> customerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
+            List<TugDataModel.V_BillingTemplate> customerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS((int)custId, length, teus);
 
             var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems, billing_template = bt, customer_billing_schemes = customerBillingSchemes };
 
@@ -247,12 +250,15 @@ namespace TugManagementSystem.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult InitFilter(string lan, int? custId, int? orderId)
+        public ActionResult InitFilter(string lan, int? custId, int? orderId, string shipLength, string shipTEUS)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
 
-            List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
+            int length = TugBusinessLogic.Module.Util.toint(shipLength);
+            int teus = TugBusinessLogic.Module.Util.toint(shipTEUS);
+            //List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
+            List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS((int)custId, length, teus);
             List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
