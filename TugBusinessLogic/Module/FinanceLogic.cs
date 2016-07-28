@@ -12,7 +12,7 @@ namespace TugBusinessLogic.Module
 {
     public class FinanceLogic
     {
-        static public MyInvoice GenerateInvoice(int orderId)
+        static public MyInvoice GenerateInvoice(int orderId, string orderDate)
         {
             TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
 
@@ -151,9 +151,13 @@ namespace TugBusinessLogic.Module
                                         bit.ItemLabel = subItem.BillingItemLabel;
                                         bit.UnitPrice = subItem.UnitPrice;
 
-                                        if (subItem.ItemID == 23 || subItem.BillingItemValue == "C80" || subItem.BillingItemLabel == "燃油附加费")
-                                            bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
-                                        else if (subItem.ItemID == 24 || subItem.BillingItemValue == "C81" || subItem.BillingItemLabel == "拖缆费")
+                                        if (subItem.ItemID == 22 || subItem.BillingItemValue == "E80" || subItem.BillingItemLabel == "燃油附加费")
+                                        {
+                                            bit.UnitPrice = GetFuelFee(orderDate);
+                                            bit.Price = CalculateFuelFee(orderDate, sch.WorkTimeConsumption); 
+                                            //bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
+                                        }
+                                        else if (subItem.ItemID == 23 || subItem.BillingItemValue == "C81" || subItem.BillingItemLabel == "拖缆费")
                                             bit.Price = subItem.UnitPrice * sch.RopeNum;
                                         else
                                             bit.Price = subItem.UnitPrice;
@@ -222,7 +226,7 @@ namespace TugBusinessLogic.Module
         }
 
         
-        static public MyInvoice NewInvoice(int orderId, string customerBillingScheme,
+        static public MyInvoice NewInvoice(int orderId, string orderDate, string customerBillingScheme,
             int billingTypeId, string billingTypeValue, string billingTypeLabel,
             int timeTypeId, string timeTypeValue, string timeTypeLabel, double discount)
         {
@@ -309,6 +313,9 @@ namespace TugBusinessLogic.Module
                             mySch.RopeNum = (int)scheduler.RopeNum;
                             //mySch.Remark = scheduler.Remark;
 
+                            mySch.UnitPriceOfFeulFee = GetFuelFee(orderDate);
+                            mySch.PriceOfFeulFee = CalculateFuelFee(orderDate, mySch.WorkTimeConsumption);
+
                             #region 全包
                             if (_invoice.BillingTypeID == 6 || _invoice.BillingTypeValue == "0" || _invoice.BillingTypeLabel == "全包")
                             {
@@ -360,7 +367,7 @@ namespace TugBusinessLogic.Module
                                         MyBillingItem mbi = new MyBillingItem();
                                         if(tmp == null){
 
-                                            if (item.IDX == 17 || item.CustomValue == "B10" || item.CustomLabel == "25%港外附加费")
+                                            if (item.IDX == 16 || item.CustomValue == "B10" || item.CustomLabel == "25%港外附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -368,7 +375,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.25, 2);
                                             }
-                                            else if (item.IDX == 18 || item.CustomValue == "B11" || item.CustomLabel == "50% 18时至22时附加费")
+                                            else if (item.IDX == 17 || item.CustomValue == "B11" || item.CustomLabel == "50% 18时至22时附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -376,7 +383,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.5, 2);
                                             }
-                                            else if (item.IDX == 19 || item.CustomValue == "B12" || item.CustomLabel == "100% 22时至08时附加费")
+                                            else if (item.IDX == 18 || item.CustomValue == "B12" || item.CustomLabel == "100% 22时至08时附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -384,7 +391,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
                                             }
-                                            else if (item.IDX == 20 || item.CustomValue == "B13" || item.CustomLabel == "100%假日附加费")
+                                            else if (item.IDX == 19 || item.CustomValue == "B13" || item.CustomLabel == "100%假日附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -392,7 +399,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
                                             }
-                                            else if (item.IDX == 21 || item.CustomValue == "B14" || item.CustomLabel == "100%台风附加费")
+                                            else if (item.IDX == 20 || item.CustomValue == "B14" || item.CustomLabel == "100%台风附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -400,7 +407,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
                                             }
-                                            else if (item.IDX == 22 || item.CustomValue == "C15" || item.CustomLabel == "使用3600BHP以上的拖轮+15%")
+                                            else if (item.IDX == 21 || item.CustomValue == "C15" || item.CustomLabel == "使用3600BHP以上的拖轮+15%")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -439,15 +446,11 @@ namespace TugBusinessLogic.Module
                                             mbi.ItemLabel = tmp.ItemLabel;
                                             mbi.UnitPrice = tmp.UnitPrice;
 
-                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C80" || tmp.ItemLabel == "燃油附加费")
-                                            {
-                                                mbi.Price = tmp.UnitPrice * mySch.WorkTimeConsumption; 
-                                            }
-                                            else if (tmp.ItemID == 24 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
+                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 43 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = -tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)-tmp.UnitPrice;
@@ -477,6 +480,8 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 #endregion
+
+                                bottom_total_price += mySch.PriceOfFeulFee;
 
                                 mySch.BillingItems = lstMyBillingItems;
 
@@ -525,7 +530,7 @@ namespace TugBusinessLogic.Module
                                         if (tmp == null)
                                         {
 
-                                            if (item.IDX == 17 || item.CustomValue == "B10" || item.CustomLabel == "25%港外附加费")
+                                            if (item.IDX == 16 || item.CustomValue == "B10" || item.CustomLabel == "25%港外附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -533,7 +538,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.25, 2);
                                             }
-                                            else if (item.IDX == 18 || item.CustomValue == "B11" || item.CustomLabel == "50% 18时至22时附加费")
+                                            else if (item.IDX == 17 || item.CustomValue == "B11" || item.CustomLabel == "50% 18时至22时附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -541,7 +546,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.5, 2);
                                             }
-                                            else if (item.IDX == 19 || item.CustomValue == "B12" || item.CustomLabel == "100% 22时至08时附加费")
+                                            else if (item.IDX == 18 || item.CustomValue == "B12" || item.CustomLabel == "100% 22时至08时附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -549,7 +554,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
                                             }
-                                            else if (item.IDX == 20 || item.CustomValue == "B13" || item.CustomLabel == "100%假日附加费")
+                                            else if (item.IDX == 19 || item.CustomValue == "B13" || item.CustomLabel == "100%假日附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -557,7 +562,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
                                             }
-                                            else if (item.IDX == 21 || item.CustomValue == "B14" || item.CustomLabel == "100%台风附加费")
+                                            else if (item.IDX == 20 || item.CustomValue == "B14" || item.CustomLabel == "100%台风附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -565,7 +570,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
                                             }
-                                            else if (item.IDX == 22 || item.CustomValue == "C15" || item.CustomLabel == "使用3600BHP以上的拖轮+15%")
+                                            else if (item.IDX == 21 || item.CustomValue == "C15" || item.CustomLabel == "使用3600BHP以上的拖轮+15%")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -603,15 +608,11 @@ namespace TugBusinessLogic.Module
                                             mbi.ItemLabel = tmp.ItemLabel;
                                             mbi.UnitPrice = tmp.UnitPrice;
 
-                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C80" || tmp.ItemLabel == "燃油附加费")
-                                            {
-                                                mbi.Price = tmp.UnitPrice * mySch.WorkTimeConsumption;
-                                            }
-                                            else if (tmp.ItemID == 24 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
+                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 43 || tmp.ItemValue == "C92" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C92" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = -tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)-tmp.UnitPrice;
@@ -642,6 +643,8 @@ namespace TugBusinessLogic.Module
                                     }
                                 }
                                 #endregion
+
+                                bottom_total_price += mySch.PriceOfFeulFee;
 
                                 mySch.BillingItems = lstMyBillingItems;
 
@@ -804,14 +807,14 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
-                    //case "WorkDate":
-                    //    {
-                    //        if (orderMethod.ToLower().Equals("asc"))
-                    //            orders = orders.OrderBy(u => u.WorkDate).ToList();
-                    //        else
-                    //            orders = orders.OrderByDescending(u => u.WorkDate).ToList();
-                    //    }
-                    //    break;
+                    case "OrdDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.OrdDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.OrdDate).ToList();
+                        }
+                        break;
                     //case "WorkTime":
                     //    {
                     //        if (orderMethod.ToLower().Equals("asc"))
@@ -1133,8 +1136,8 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
-                            #region WorkDate
-                            case "WorkDate":
+                            #region OrdDate
+                            case "OrdDate":
                                 {
                                     Expression cdt = null;
                                     switch (op)
@@ -1142,35 +1145,35 @@ namespace TugBusinessLogic.Module
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate == data.Trim()).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "WorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                                 cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == -1).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "WorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == -1 || u.WorkDate.CompareTo(data.Trim()) == 0).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "WorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == 1).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "WorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.WorkDate.CompareTo(data.Trim()) == 1 || u.WorkDate.CompareTo(data.Trim()) == 0).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "WorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
@@ -2007,14 +2010,14 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
-                    //case "WorkDate":
-                    //    {
-                    //        if (orderMethod.ToLower().Equals("asc"))
-                    //            orders = orders.OrderBy(u => u.WorkDate).ToList();
-                    //        else
-                    //            orders = orders.OrderByDescending(u => u.WorkDate).ToList();
-                    //    }
-                    //    break;
+                    case "OrdDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.OrdDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.OrdDate).ToList();
+                        }
+                        break;
                     //case "WorkTime":
                     //    {
                     //        if (orderMethod.ToLower().Equals("asc"))
