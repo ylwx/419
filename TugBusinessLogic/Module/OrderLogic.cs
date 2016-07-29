@@ -2965,6 +2965,62 @@ namespace TugBusinessLogic.Module
                             //    break;
                             #endregion
 
+                            #region HasInvoice
+                            case "HasInvoice":
+                                {
+                                    Expression cdt = null;
+
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                if (data != "全部")
+                                                {
+                                                    //orders = orders.Where(u => u.IsGuest == data).ToList();
+                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "HasInvoice"), Expression.Constant(data));
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region HasInFlow
+                            case "HasInFlow":
+                                {
+                                    Expression cdt = null;
+
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                if (data != "全部")
+                                                {
+                                                    //orders = orders.Where(u => u.IsGuest == data).ToList();
+                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "HasInFlow"), Expression.Constant(data));
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region Remark
                             case "Remark":
                                 {
