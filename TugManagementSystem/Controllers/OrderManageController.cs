@@ -28,7 +28,8 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel!="已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).OrderByDescending(u=>u.ServiceWorkTime).ToList<V_OrderService>();
+                //List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel!="已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).OrderByDescending(u=>u.ServiceWorkTime).ToList<V_OrderService>();
+                List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel != "已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).ThenByDescending(u => u.ServiceWorkTime).ToList<V_OrderService>();
                 int totalRecordNum = objs.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;
@@ -1841,6 +1842,7 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
+                        //aScheduler.ServiceNatureID = TugBusinessLogic.Module.Util.toint(Request.Form["ServiceNatureID"]);
                         aScheduler.ServiceWorkDate = Request.Form["ServiceWorkDate"];
                         aScheduler.ServiceWorkPlace = Request.Form["ServiceWorkPlace"];
 
@@ -1915,6 +1917,15 @@ namespace TugManagementSystem.Controllers
             OrderService os = db.OrderService.FirstOrDefault(u => u.IDX == orderServiceId);
             if (os != null)
             {
+                int neededTotalShipNumbers = TugBusinessLogic.Module.Util.toint(os.BigTugNum) + TugBusinessLogic.Module.Util.toint(os.MiddleTugNum) + TugBusinessLogic.Module.Util.toint(os.SmallTugNum);
+                int realTotalShipNumbers = db.Scheduler.Where(u => u.OrderServiceID == os.IDX).ToList().Count;
+                if (realTotalShipNumbers != neededTotalShipNumbers)
+                {
+                    var retJson = new { code = Resources.Common.FAIL_CODE, message = "已經排的拖輪和所需的拖輪數量不等，無法完成，請檢查實際排船數量！" };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(retJson);
+                }
+
                 os.JobStateID = 116;
                 db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();

@@ -7835,7 +7835,7 @@
     function submitEditInvoice() {
         //提交数据库
 
-        var maxTextLength = 25;
+        var maxTextLength = 50;
         var maxTextAreaLength = 500;
 
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
@@ -7932,6 +7932,8 @@
             success: function (result) {
                 //$('#edit-modal').modal('hide')
                 alert(result.message);
+
+                $("#edit_btn_sumbit").attr("disabled", false);
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
                     $('#jqGrid').jqGrid('setGridParam',
