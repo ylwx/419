@@ -109,7 +109,7 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title">服务项</h3>
                                                 </div>
-                                                <div class="panel-body" style="height: 200px; overflow: auto;">
+                                                <div class="panel-body" style="height: 200px; overflow:visible;">
                                                     <div id="flowtable" class="hot handsontable dataTable table-striped center-block"></div>
                                                 </div>
                                             </div>
@@ -1897,12 +1897,13 @@
             $('#_CustomerName').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
-        } else if (customerName.length > maxTextLength) {
+        }
+        @*else if (customerName.length > maxTextLength) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "长度不能超过" + maxTextLength);
             $('#_CustomerName').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
-        }
+        }*@
 
             @*else if (workDate.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_OrdDate' + "必填");
@@ -2054,6 +2055,30 @@
             $('#_Remark').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
+        }
+        //服务内容服务项、工作日期不能为空
+        var rct = hot.countRows();
+        //alert(rct);
+        for (var i = 0; i < rct - 1; i++) {
+            //alert(hot.getDataAtCell(i, 0));//[A1,B1]
+            var vlserv = hot.getDataAtCell(i, 0)
+            //alert(vlserv);
+            if (vlserv == null || vlserv == '' || vlserv == undefined) {
+                //alert("第" + (i + 1) + "行流程节点为空! ");
+                $('#parentErrMsg p').html("第" + (i + 1) + "行服務項為空! ");
+                //$('#_XX').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+            var vldate = hot.getDataAtCell(i, 1)
+            if (vldate == null || vldate == '' || vldate == undefined) {
+                //alert("第" + (i + 1) + "行人员为空! ");
+                $('#parentErrMsg p').html("第" + (i + 1) + "工作日期為空! ");
+                //$('#_XX').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+
         }
 
         $("#btn_submit").attr("disabled", true);

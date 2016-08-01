@@ -18,8 +18,6 @@ namespace TugDataModel
         public Nullable<int> OrderID { get; set; }
         public string JobNo { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
-        public string ShipLengthRule { get; set; }
-        public string ShipTEUSRule { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingTypeValue { get; set; }
         public string BillingTypeLabel { get; set; }
