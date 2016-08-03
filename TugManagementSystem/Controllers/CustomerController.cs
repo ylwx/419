@@ -91,8 +91,8 @@ namespace TugManagementSystem.Controllers
                     string name1 = Request.Form["Name1"];
                     TugDataEntities db = new TugDataEntities();
                     System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == name1 && u.IDX!=idx;
-                    Customer tmpUserName = db.Customer.Where(exp).FirstOrDefault();
-                    if (tmpUserName != null)
+                    Customer obj = db.Customer.Where(exp).FirstOrDefault();
+                    if (obj != null)
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = "客户名称已存在！" });//Resources.Common.ERROR_MESSAGE
                     }
@@ -156,7 +156,72 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+        [JsonExceptionFilterAttribute]
+        public ActionResult AutoAddCustomer(string Code, string Name1, string Name2, string SimpleName, string ContactPerson,
+      string Telephone, string Fax, string Email, string Address, string MailCode, string Remark)
+        {
+            this.Internationalization();
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == Name1;
+                Customer obj = db.Customer.Where(exp).FirstOrDefault();
+                if (obj != null)
+                {
+                    var ret = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE, objid=obj.IDX };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                    //throw new Exception("客户名称已存在！");
+                }
+                {
+                    TugDataModel.Customer cstmer = new Customer();
 
+                    cstmer.Code = Code;
+                    cstmer.Name1 = Name1;
+                    cstmer.Name2 = Name2;
+                    cstmer.SimpleName = SimpleName;
+                    cstmer.ContactPerson = ContactPerson;
+                    cstmer.Telephone = Telephone;
+                    cstmer.Fax = Fax;
+                    cstmer.Email = Email;
+                    cstmer.Address = Address;
+                    cstmer.MailCode = MailCode;
+                    cstmer.Remark = Remark;
+                    cstmer.OwnerID = -1;
+                    cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
+                    cstmer.UserID = Session.GetDataFromSession<int>("userid");
+                    cstmer.UserDefinedCol1 = "";
+                    cstmer.UserDefinedCol2 = "";
+                    cstmer.UserDefinedCol3 = "";
+                    cstmer.UserDefinedCol4 = "";
+                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                    //    cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                    //    cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                    //    cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                    //    cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                    cstmer.UserDefinedCol9 = "";
+                    cstmer.UserDefinedCol10 = "";
+
+                    cstmer = db.Customer.Add(cstmer);
+                    db.SaveChanges();
+
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid = cstmer.IDX };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
        [JsonExceptionFilterAttribute]
         public ActionResult AddCustomer(string Code,string Name1,string Name2,string SimpleName,string ContactPerson,
       string Telephone, string Fax, string Email, string Address, string MailCode, string Remark)
@@ -166,8 +231,8 @@ namespace TugManagementSystem.Controllers
             {
                 TugDataEntities db = new TugDataEntities();
                 System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == Name1;
-                Customer tmpUserName = db.Customer.Where(exp).FirstOrDefault();
-                if (tmpUserName != null)
+                Customer obj = db.Customer.Where(exp).FirstOrDefault();
+                if (obj != null)
                 {
                     throw new Exception("客户名称已存在！");
                 }
