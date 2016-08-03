@@ -157,7 +157,7 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
         [JsonExceptionFilterAttribute]
-        public ActionResult AutoAddCustomer(string Code, string Name1, string Name2, string SimpleName, string ContactPerson,
+        public int AutoAddCustomer(string Code, string Name1, string Name2, string SimpleName, string ContactPerson,
       string Telephone, string Fax, string Email, string Address, string MailCode, string Remark)
         {
             this.Internationalization();
@@ -168,10 +168,11 @@ namespace TugManagementSystem.Controllers
                 Customer obj = db.Customer.Where(exp).FirstOrDefault();
                 if (obj != null)
                 {
-                    var ret = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE, objid=obj.IDX };
+                    //var ret = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE, objid=obj.IDX };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                    return Json(ret);
+                    //return Json(ret);
                     //throw new Exception("客户名称已存在！");
+                    return obj.IDX;
                 }
                 {
                     TugDataModel.Customer cstmer = new Customer();
@@ -212,9 +213,10 @@ namespace TugManagementSystem.Controllers
                     cstmer = db.Customer.Add(cstmer);
                     db.SaveChanges();
 
-                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid = cstmer.IDX };
+                    //var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid = cstmer.IDX };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                    return Json(ret);
+                    //return Json(ret);
+                    return cstmer.IDX;
                 }
             }
             catch (Exception ex)

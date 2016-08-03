@@ -155,7 +155,7 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
         [JsonExceptionFilterAttribute]
-        public ActionResult AutoAddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, string DeadWeight, string Length,
+        public int AutoAddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, string DeadWeight, string Length,
             string Width, string TEUS, string Class, string Remark)
         {
             this.Internationalization();
@@ -168,8 +168,9 @@ namespace TugManagementSystem.Controllers
                 {
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid = obj.IDX };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                    return Json(ret);
+                    //return Json(ret);
                     //throw new Exception("船名称已存在！");
+                    return obj.IDX;
                 }
                 {
                     TugDataModel.CustomerShip ship = new CustomerShip();
@@ -211,9 +212,10 @@ namespace TugManagementSystem.Controllers
                     ship = db.CustomerShip.Add(ship);
                     db.SaveChanges();
 
-                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid=ship.IDX };
+                    //var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid=ship.IDX };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                    return Json(ret);
+                    //return Json(ret);
+                    return ship.IDX;
                 }
             }
             catch (Exception ex)
