@@ -15,9 +15,12 @@ namespace TugDataModel
     public partial class V_Billing
     {
         public int IDX { get; set; }
-        public Nullable<int> OrderID { get; set; }
         public string JobNo { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
+        public string BillingTemplateName { get; set; }
+        public Nullable<int> ShipLength { get; set; }
+        public Nullable<int> ShipTEUS { get; set; }
+        public string ExpiryDate { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingTypeValue { get; set; }
         public string BillingTypeLabel { get; set; }
@@ -37,15 +40,5 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
-        public string UserDefinedCol1 { get; set; }
-        public string UserDefinedCol2 { get; set; }
-        public string UserDefinedCol3 { get; set; }
-        public string UserDefinedCol4 { get; set; }
-        public Nullable<double> UserDefinedCol5 { get; set; }
-        public Nullable<int> UserDefinedCol6 { get; set; }
-        public Nullable<int> UserDefinedCol7 { get; set; }
-        public Nullable<int> UserDefinedCol8 { get; set; }
-        public string UserDefinedCol9 { get; set; }
-        public string UserDefinedCol10 { get; set; }
     }
 }

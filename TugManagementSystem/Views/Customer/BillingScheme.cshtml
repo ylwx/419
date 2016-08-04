@@ -723,9 +723,9 @@
                     editrules: {
                         required: true,
                         custom_func: function (value, column) {
-                            var re = /^\d+\.?\d{0,2}$/;
+                            var re = /^[+-]?\d+\.?\d{0,2}$/;
                             if (!re.test(value)) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_UnitPrice' + ": 请输入两位正小数!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_UnitPrice' + ": 请输入两位小数!"];
                             }
                             else
                                 return [true, ""];
@@ -1991,9 +1991,9 @@
             return;
         } else{
 
-            var reg = /^\d+\.?\d{0,2}$/;
+            var reg = /^[+-]?\d+\.?\d{0,2}$/;
             if (false == reg.test(unitPrice)) {
-                $('#childErrMsg p').html('@Resources.Language.V_BillingItemTemplate_UnitPrice' + "无效的金额(如1234.56)");
+                $('#childErrMsg p').html('@Resources.Language.V_BillingItemTemplate_UnitPrice' + "无效的金额(如-1234.56)");
                 $('#_UnitPrice').parent().addClass("has-error");
                 $('#childErrMsg').show();
                 return;

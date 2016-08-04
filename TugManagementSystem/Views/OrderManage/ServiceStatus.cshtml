@@ -278,7 +278,28 @@
             },
         });
 
-        $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+        $('#jqGrid').jqGrid('filterToolbar', {
+            searchResult: true, searchOperators: true,
+            beforeSearch: function () {
+                var util = new Util();
+
+                var ret = true;
+                if ($("#gs_ServiceWorkTime").val() != null && $("#gs_ServiceWorkTime").val() != "")
+                    ret = ret && util.isTime('@Resources.Language.V_OrderScheduler_ServiceWorkTime', $("#gs_ServiceWorkTime").val());
+
+                if ($("#gs_ServiceWorkDate").val() != null && $("#gs_ServiceWorkDate").val() != "")
+                    ret = ret && util.isDateTime('@Resources.Language.V_OrderScheduler_ServiceWorkDate', $("#gs_ServiceWorkDate").val());
+
+                if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
+                if ($("#gs_MiddleTugNum").val() != null && $("#gs_MiddleTugNum").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());
+                if ($("#gs_SmallTugNum").val() != null && $("#gs_SmallTugNum").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_SmallTugNum', $("#gs_SmallTugNum").val());
+
+                return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+            },
+        });
 
         $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
@@ -300,42 +321,42 @@
                 onClickButton: function () {
                     var grid = $('#jqGrid')[0];
                     grid.clearToolbar();
-                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid'); 
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 }
             })
             .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
             .navButtonAdd('#jqGridPager', {
-            caption: "完成", title: "完成", buttonicon: "ui-icon-flag",
-            onClickButton: function () {
+                caption: "完成", title: "完成", buttonicon: "ui-icon-flag",
+                onClickButton: function () {
 
-                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                if (rowid != null) {
-                    var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
-                    var orderServiceId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderServiceID"); //OrderServiceID
+                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    if (rowid != null) {
+                        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
+                        var orderServiceId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderServiceID"); //OrderServiceID
 
-                    if (confirm('确定要更改服务状态为"已完工"吗?')) {
+                        if (confirm('确定要更改服务状态为"已完工"吗?')) {
 
-                        $.ajax(
-                            {
-                                type: "post",
-                                url: '@Url.Action("ChangeServiceStatusToComplete", "OrderManage")',
-                                data: { 'orderId': orderId, 'orderServiceId': orderServiceId },
-                                dataType: 'json',
-                                success: function (result) {
-                                    alert(result.message);
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: '@Url.Action("ChangeServiceStatusToComplete", "OrderManage")',
+                                    data: { 'orderId': orderId, 'orderServiceId': orderServiceId },
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        alert(result.message);
 
-                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                },
+                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                    },
 
-                            }
-                            );
+                                }
+                                );
+                        }
+                    }
+                    else {
+                        alert('选中一行');
                     }
                 }
-                else {
-                    alert('选中一行');
-                }
-            }
-        })
+            })
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
@@ -399,12 +420,12 @@
                     align: 'center', label: '@Resources.Language.Customer_IDX', name: "CustomerID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
-                
-                
+
+
                 {
                     align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 300, editable: false, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
@@ -414,7 +435,7 @@
                 {
                     align: 'center', label: '@Resources.Language.CustomerShip', name: "ShipName", width: 200, editable: false, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
 
@@ -428,23 +449,32 @@
                     editrules: { required: false }, hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureLabel", width: 100, editable: false, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureLabel", width: 150, editable: false, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkDate', name: "ServiceWorkDate", width: 130, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                //step: 1,
+                                timepicker: false
+                            });
+                        },
+                    },
                     editoptions: {
                         dataInit: function (element) {
                             $(element).datetimepicker({
                                 format: 'Y-m-d',
                                 step: 1,
                                 datepicker: true,
-                                timepicker:false
+                                timepicker: false
                             });
                         },
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
@@ -453,13 +483,23 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkTime', name: "ServiceWorkTime", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                step: 1,
+                                timepicker: true,
+                                datepicker:false
+                            });
+                        },
+                    },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkPlace', name: "ServiceWorkPlace", width: 200, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                     editoptions: {
                         dataInit: function (element) {
@@ -514,7 +554,7 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_BigTugNum', name: "BigTugNum", width: 120, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
@@ -523,7 +563,7 @@
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_MiddleTugNum', name: "MiddleTugNum", width: 150, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
@@ -532,7 +572,7 @@
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_SmallTugNum', name: "SmallTugNum", width: 120, editable: true, edittype: "text",
                     editrules: { required: false, integer: true, minValue: 0 }, hidden: false,
                     editoptions: {
                         defaultValue: 0
@@ -550,8 +590,25 @@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceJobStateLabel', name: "ServiceJobStateLabel", width: 100, editable: false, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+
+                    //stype: "select",
+                    searchoptions: {
+                        sopt: ["cn", "eq", "bw", "ew"],
+                        @*dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "OrderService.JobStateID" })',
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    //alert(e);
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]*@
+                    },
                 }
             ]
         };

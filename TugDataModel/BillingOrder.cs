@@ -18,7 +18,6 @@ namespace TugDataModel
         public Nullable<int> BillingID { get; set; }
         public Nullable<int> OrderID { get; set; }
     
-        public virtual Billing Billing { get; set; }
         public virtual OrderInfor OrderInfor { get; set; }
     }
 }

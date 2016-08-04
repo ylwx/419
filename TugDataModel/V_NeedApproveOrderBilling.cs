@@ -22,8 +22,13 @@ namespace TugDataModel
         public int OrderID { get; set; }
         public string OrderCode { get; set; }
         public string OrdDate { get; set; }
+        public string WorkDate { get; set; }
+        public string WorkTime { get; set; }
+        public string EstimatedCompletionTime { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
+        public string ServiceNatureIDS { get; set; }
+        public string ServiceNatureNames { get; set; }
         public Nullable<int> WorkStateID { get; set; }
         public string WorkStateValue { get; set; }
         public string WorkStateLabel { get; set; }

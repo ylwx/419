@@ -12,22 +12,26 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_OrderBilling
+    public partial class V_1
     {
+        public Nullable<int> BillingID { get; set; }
+        public Nullable<int> Phase { get; set; }
+        public Nullable<int> TimesNo { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
         public int OrderID { get; set; }
         public string OrderCode { get; set; }
         public string OrdDate { get; set; }
+        public string WorkDate { get; set; }
+        public string WorkTime { get; set; }
+        public string EstimatedCompletionTime { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
+        public string ServiceNatureIDS { get; set; }
+        public string ServiceNatureNames { get; set; }
         public Nullable<int> WorkStateID { get; set; }
         public string WorkStateValue { get; set; }
         public string WorkStateLabel { get; set; }
-        public string HasInvoice { get; set; }
-        public string HasInFlow { get; set; }
-        public Nullable<int> BillingID { get; set; }
-        public string JobNo { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingTypeValue { get; set; }
@@ -41,12 +45,16 @@ namespace TugDataModel
         public Nullable<double> Amount { get; set; }
         public string BillingRemark { get; set; }
         public string Month { get; set; }
-        public Nullable<int> TimesNo { get; set; }
         public string Status { get; set; }
-        public Nullable<int> Phase { get; set; }
         public Nullable<int> BillingOwnerID { get; set; }
         public string BillingCreateDate { get; set; }
         public Nullable<int> BillingUserID { get; set; }
         public string BillingLastUpDate { get; set; }
+        public Nullable<int> Expr1 { get; set; }
+        public Nullable<int> MarkID { get; set; }
+        public Nullable<int> Expr2 { get; set; }
+        public string Task { get; set; }
+        public Nullable<int> FlowUserID { get; set; }
+        public string System { get; set; }
     }
 }

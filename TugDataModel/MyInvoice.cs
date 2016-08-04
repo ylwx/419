@@ -23,6 +23,7 @@ namespace TugDataModel
     public class MyScheduler
     {
         public int SchedulerID { get; set; }
+        public int ServiceNatureID { get; set; }
         public int TugID { get; set; }
         public string TugCnName { get; set; }
         //public string TugEnName { get; set; }
@@ -87,6 +88,10 @@ namespace TugDataModel
         public double UnitPriceOfFeulFee { get; set; }
 
         /// <summary>
+        /// 燃油附加费折扣价
+        /// </summary>
+        public double DiscoutPriceOfFeulFee { get; set; }
+        /// <summary>
         /// 燃油附加费价格
         /// </summary>
         public double PriceOfFeulFee { get; set; }
@@ -99,6 +104,7 @@ namespace TugDataModel
 
     public class MyService
     {
+        public int OrderServicId { get; set; }
         public int ServiceId { get; set; }
 
         public string ServiceName { get; set; }
@@ -116,7 +122,8 @@ namespace TugDataModel
         /// <summary>
         /// 订单ID
         /// </summary>
-        public int OrderID { get; set; }
+        //public int OrderID { get; set; }
+        public string OrderIDs { get; set; }
 
         
         /// <summary>

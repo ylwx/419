@@ -469,13 +469,14 @@ namespace TugBusinessLogic
 
         #region 解析计费方案中的船长和箱量值
         public static bool GetShipLengthLessValue(string strShipLength, out int lessValue)
-        { 
+        {
+            string c = "<=";
             int index = -1;
             lessValue = Int32.MinValue;
-            index = strShipLength.Trim().IndexOf('<');
+            index = strShipLength.Trim().IndexOf(c);
             if (index >= 0)
             {
-                string subString = strShipLength.Trim().Substring(index+1, strShipLength.Trim().Length - index - 1);
+                string subString = strShipLength.Trim().Substring(index + c.Length, strShipLength.Trim().Length - index - c.Length);
 
                 string strInt = "";
                 for (int i = 0; i < subString.Length; i++)
@@ -497,12 +498,13 @@ namespace TugBusinessLogic
         }
         public static bool GetShipLengthGreaterValue(string strShipLength, out int greaterValue)
         {
+            string c = ">=";
             int index = -1;
             greaterValue = Int32.MaxValue;
-            index = strShipLength.Trim().IndexOf('>');
+            index = strShipLength.Trim().IndexOf(c);
             if (index >= 0)
             {
-                string subString = strShipLength.Trim().Substring(index+1, strShipLength.Trim().Length - index-1);
+                string subString = strShipLength.Trim().Substring(index + c.Length, strShipLength.Trim().Length - index - c.Length);
 
                 string strInt = "";
                 for (int i = 0; i < subString.Length; i++)
@@ -524,15 +526,16 @@ namespace TugBusinessLogic
         }
         public static bool GetShipLengthBetweenValue(string strShipLength, out int beginValue, out int endValue)
         {
+            string c = "-";
             int index = -1;
             beginValue = Int32.MaxValue;
             endValue = Int32.MinValue;
-            index = strShipLength.Trim().IndexOf('-');
+            index = strShipLength.Trim().IndexOf(c);
 
             if (index >= 0)
             {
                 string subBeginString = strShipLength.Trim().Substring(0, index);
-                string subEndString = strShipLength.Trim().Substring(index+1, strShipLength.Trim().Length - index-1);
+                string subEndString = strShipLength.Trim().Substring(index + c.Length, strShipLength.Trim().Length - index - c.Length);
 
                 string strBeginInt = "";
                 for (int i = 0; i < subBeginString.Length; i++)
@@ -572,12 +575,13 @@ namespace TugBusinessLogic
 
         public static bool GetShipTEUSLessValue(string strShipTEUS, out int lessValue)
         {
+            string c = "<=";
             int index = -1;
             lessValue = Int32.MinValue;
-            index = strShipTEUS.Trim().IndexOf('<');
+            index = strShipTEUS.Trim().IndexOf(c);
             if (index >= 0)
             {
-                string subString = strShipTEUS.Trim().Substring(index + 1, strShipTEUS.Trim().Length - index - 1);
+                string subString = strShipTEUS.Trim().Substring(index + c.Length, strShipTEUS.Trim().Length - index - c.Length);
 
                 string strInt = "";
                 for (int i = 0; i < subString.Length; i++)
@@ -601,12 +605,13 @@ namespace TugBusinessLogic
         }
         public static bool GetShipTEUSGreaterValue(string strShipTEUS, out int greaterValue)
         {
+            string c = ">=";
             int index = -1;
             greaterValue = Int32.MaxValue;
-            index = strShipTEUS.Trim().IndexOf('>');
+            index = strShipTEUS.Trim().IndexOf(c);
             if (index >= 0)
             {
-                string subString = strShipTEUS.Trim().Substring(index + 1, strShipTEUS.Trim().Length - index - 1);
+                string subString = strShipTEUS.Trim().Substring(index + c.Length, strShipTEUS.Trim().Length - index - c.Length);
 
                 string strInt = "";
                 for (int i = 0; i < subString.Length; i++)
@@ -629,15 +634,16 @@ namespace TugBusinessLogic
         }
         public static bool GetShipTEUSBetweenValue(string strShipTEUS, out int beginValue, out int endValue)
         {
+            string c = "-";
             int index = -1;
             beginValue = Int32.MaxValue;
             endValue = Int32.MinValue;
-            index = strShipTEUS.Trim().IndexOf('-');
+            index = strShipTEUS.Trim().IndexOf(c);
 
             if (index >= 0)
             {
                 string subBeginString = strShipTEUS.Trim().Substring(0, index);
-                string subEndString = strShipTEUS.Trim().Substring(index + 1, strShipTEUS.Trim().Length - index -1);
+                string subEndString = strShipTEUS.Trim().Substring(index + c.Length, strShipTEUS.Trim().Length - index - c.Length);
 
                 string strBeginInt = "";
                 for (int i = 0; i < subBeginString.Length; i++)

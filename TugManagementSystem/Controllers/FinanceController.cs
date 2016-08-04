@@ -43,6 +43,20 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult SpecialInvoice(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            //ViewBag.Services = TugBusinessLogic.Utils.GetServices();
+            //ViewBag.BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
+            //ViewBag.TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
+            //ViewBag.Nodes = GetNodes();
+            //ViewBag.Persons = GetPersons();
+            return View();
+        }
+
         public string GetPersons()
         {
             string[] labels = null;
@@ -225,7 +239,7 @@ namespace TugManagementSystem.Controllers
             //List<TugDataModel.CustomField>BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             //List<TugDataModel.CustomField>TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
-            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, orderDate, customerBillingScheme,
+            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice((int)orderId, customerBillingScheme,
             billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount);
 
             //List<TugDataModel.CustomField> Items = new List<CustomField>();
@@ -279,6 +293,8 @@ namespace TugManagementSystem.Controllers
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
+
+        
  
 
         /// <summary>
@@ -310,7 +326,7 @@ namespace TugManagementSystem.Controllers
                         TugDataModel.Billing aScheduler = new Billing();
 
                         aScheduler.BillingTemplateID = billingTemplateId;
-                        aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
+                        //aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
                         aScheduler.BillingName = "";
 
                         aScheduler.BillingTypeID = billingTypeId;
@@ -1186,6 +1202,99 @@ namespace TugManagementSystem.Controllers
         {
             TugBusinessLogic.Module.FinanceLogic.RejectInvoice(billingId);
             var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult InitFilter2(string lan, int? custId, string orderIds, string shipLength, string shipTEUS)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            int length = TugBusinessLogic.Module.Util.toint(shipLength);
+            int teus = TugBusinessLogic.Module.Util.toint(shipTEUS);
+            //List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
+            List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS((int)custId, length, teus);
+            List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
+            List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
+
+            string month = DateTime.Now.Month.ToString() + "月";
+
+            string remark = "";
+
+            List<string> orderIDs = orderIds.Split(',').ToList();
+            if (orderIDs != null)
+            {
+                foreach (var item in orderIDs)
+                {
+                    int orderId = TugBusinessLogic.Module.Util.toint(item);
+                    List<string> list = TugBusinessLogic.Module.FinanceLogic.GetOrderSchedulerRemarks((int)orderId);
+                    if (list != null)
+                    {
+                        foreach (string item2 in list)
+                        {
+                            remark += item2 + "\r\n";
+                        }
+                    }
+                }
+
+            }
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, customer_billing_schemes = CustomerBillingSchemes, time_types = TimeTypes, billing_template_types = BillingTemplateTypes, month = month, remark = remark };
+
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        /// <summary>
+        /// 新建账单
+        /// </summary>
+        /// <param name="lan"></param>
+        /// <param name="orderId"></param>
+        /// <param name="customerBillingScheme"></param>
+        /// <param name="billingTypeId"></param>
+        /// <param name="billingTypeValue"></param>
+        /// <param name="billingTypeLabel"></param>
+        /// <param name="timeTypeId"></param>
+        /// <param name="timeTypeValue"></param>
+        /// <param name="timeTypeLabel"></param>
+        /// <param name="discount"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult NewInvoice2(string lan, string orderIds, string customerBillingScheme,
+            int billingTypeId, string billingTypeValue, string billingTypeLabel,
+            int timeTypeId, string timeTypeValue, string timeTypeLabel, double discount)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            //ViewBag.CustomerBillSchemes = ;
+            //List<TugDataModel.CustomField>BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
+            //List<TugDataModel.CustomField>TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
+
+            TugDataModel.MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.NewInvoice2(orderIds, customerBillingScheme,
+            billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount);
+
+            //List<TugDataModel.CustomField> Items = new List<CustomField>();
+            List<TugDataModel.MyCustomField> Items = new List<MyCustomField>();
+            if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetBanBaoShowItems();
+
+            else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
+
+            List<MyBillingItem> customerSchemeItems = null;
+            if (customerBillingScheme != "-1")
+            {
+                customerSchemeItems = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemeItems(Convert.ToInt32(customerBillingScheme.Split('%')[0].Split('~')[0]));
+            }
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems };
+
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
 

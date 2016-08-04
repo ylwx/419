@@ -691,7 +691,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 帳單管理 的本地化字符串。
+        ///   查找类似 普通帳單 的本地化字符串。
         /// </summary>
         internal static string InvoiceManage {
             get {
@@ -1164,6 +1164,15 @@ namespace Resources {
         internal static string ServiceStatus {
             get {
                 return ResourceManager.GetString("ServiceStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 特殊帳單 的本地化字符串。
+        /// </summary>
+        internal static string SpecialInvoiceManage {
+            get {
+                return ResourceManager.GetString("SpecialInvoiceManage", resourceCulture);
             }
         }
         

@@ -55,11 +55,14 @@ namespace TugDataModel
         public virtual DbSet<TugInfor> TugInfor { get; set; }
         public virtual DbSet<UserInfor> UserInfor { get; set; }
         public virtual DbSet<UsersRole> UsersRole { get; set; }
+        public virtual DbSet<V_1> V_1 { get; set; }
         public virtual DbSet<V_AmountSum_Billing> V_AmountSum_Billing { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
+        public virtual DbSet<V_BillingItem> V_BillingItem { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
+        public virtual DbSet<V_BillingOrders> V_BillingOrders { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
         public virtual DbSet<V_CustomerShip> V_CustomerShip { get; set; }
         public virtual DbSet<V_Flow> V_Flow { get; set; }
@@ -68,6 +71,7 @@ namespace TugDataModel
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
         public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
+        public virtual DbSet<V_Invoice2> V_Invoice2 { get; set; }
         public virtual DbSet<V_Module_Role_User> V_Module_Role_User { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_NeedApproveOrderBilling> V_NeedApproveOrderBilling { get; set; }
