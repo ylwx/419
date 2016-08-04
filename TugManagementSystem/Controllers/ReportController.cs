@@ -24,7 +24,9 @@ namespace TugManagementSystem.Controllers
         }
 
         #region 金额汇总接口
-        public ActionResult AmountSumAdd_Update(int CustomerID,int CustomerShipID,int BillingID,DateTime BillingDateTime,int SchedulerID,int TugID,float Amount,float Hours)
+        //这个Tuple类型数组的amountlist中依次存储 int SchedulerID, int TugID, float Amount, float Hours
+        //一个账单调用一次
+        public ActionResult AmountSumAdd_Update(int CustomerID, int CustomerShipID, int BillingID, DateTime BillingDate, Tuple<int, int, float, float>[] amountlist) 
         {
             try
             {
@@ -36,38 +38,42 @@ namespace TugManagementSystem.Controllers
                 db.AmountSum.RemoveRange(entitys);
                 db.SaveChanges();
                 //新增
-                TugDataModel.AmountSum newobj = new AmountSum();
-                newobj.CustomerID = CustomerID;
-                newobj.CustomerShipID = CustomerShipID;
-                newobj.BillingID = BillingID;
-                newobj.BillingDateTime = BillingDateTime;
-                newobj.SchedulerID = SchedulerID;
-                newobj.TugID = TugID;
-                newobj.Amount = Amount;
-                newobj.Hours = Hours;
-                newobj.OwnerID = -1;
-                newobj.CreateDate = newobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
-                newobj.UserID = Session.GetDataFromSession<int>("userid");
-                newobj.UserDefinedCol1 = "";
-                newobj.UserDefinedCol2 = "";
-                newobj.UserDefinedCol3 = "";
-                newobj.UserDefinedCol4 = "";
-                //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                //    newobj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+                foreach(var obj in amountlist)
+                {
+                    TugDataModel.AmountSum newobj = new AmountSum();
+                    newobj.CustomerID = CustomerID;
+                    newobj.CustomerShipID = CustomerShipID;
+                    newobj.BillingID = BillingID;
+                    newobj.BillingDateTime = BillingDate;
+                    newobj.SchedulerID = obj.Item1;//SchedulerID;
+                    newobj.TugID = obj.Item2;;
+                    newobj.Amount = obj.Item3; ;
+                    newobj.Hours = obj.Item4; ;
+                    newobj.OwnerID = -1;
+                    newobj.CreateDate = newobj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
+                    newobj.UserID = Session.GetDataFromSession<int>("userid");
+                    newobj.UserDefinedCol1 = "";
+                    newobj.UserDefinedCol2 = "";
+                    newobj.UserDefinedCol3 = "";
+                    newobj.UserDefinedCol4 = "";
+                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                    //    newobj.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                //    newobj.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                    //    newobj.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
-                //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                //    newobj.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                    //    newobj.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
-                //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                //    newobj.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                    //    newobj.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
-                newobj.UserDefinedCol9 = "";
-                newobj.UserDefinedCol10 = "";
+                    newobj.UserDefinedCol9 = "";
+                    newobj.UserDefinedCol10 = "";
 
-                newobj = db.AmountSum.Add(newobj);
+                    newobj = db.AmountSum.Add(newobj);
+                }
+
                 db.SaveChanges();
 
                 var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
