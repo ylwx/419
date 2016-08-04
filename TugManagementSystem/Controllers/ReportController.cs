@@ -26,7 +26,7 @@ namespace TugManagementSystem.Controllers
         #region 金额汇总接口
         //这个Tuple类型数组的amountlist中依次存储 int SchedulerID, int TugID, float Amount, float Hours
         //一个账单调用一次
-        public ActionResult AmountSumAdd_Update(int CustomerID, int CustomerShipID, int BillingID, DateTime BillingDate, Tuple<int, int, float, float>[] amountlist) 
+        public void AmountSumAdd_Update(int CustomerID, int CustomerShipID, int BillingID, DateTime BillingDate, Tuple<int, int, float, float>[] amountlist) 
         {
             try
             {
@@ -76,9 +76,9 @@ namespace TugManagementSystem.Controllers
 
                 db.SaveChanges();
 
-                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                //var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                 //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                return Json(ret);
+                //return Json(ret);
             }
             catch (Exception ex)
             {
