@@ -5107,29 +5107,29 @@
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>单价(每小时):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '" name="燃油附加费单价">'+ FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) +'</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
                             var p1 = $('<p>燃油附加费折扣</p>')
-                            var input1 = $('<input type="text" width="50px" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '" value="' + FormatPrice(GetFloatStr(value[i].DiscoutPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
+                            var input1 = $('<input type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" value="' + FormatPrice(GetFloatStr(value[i].DiscoutPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
                             td.append(p1).append(input1);
 
                             var p2 = $('<p></p>')
                             span = $('<span>燃油附加费折扣后价格:</span>');
                             p2.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '" name="燃油附加费折扣后价格">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee + value[i].DiscoutPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费折扣后价格">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee + value[i].DiscoutPriceOfFeulFee)) + '</span>');
                             p2.append(span);
                             td.append(p2);
 
                             var p3 = $('<p>燃油附加费额外费用</p>')
-                            var input2 = $('<input type="text" name="燃油附加费额外费用" id="' + key + '_' + value[i].SchedulerID + '" value="' + FormatPrice(GetFloatStr(value[i].PriceOfFeulFee - value[i].UnitPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouExtra_InputChanged(this)">')
+                            var input2 = $('<input type="text" name="燃油附加费额外费用" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" value="' + FormatPrice(GetFloatStr(value[i].PriceOfFeulFee - value[i].UnitPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouExtra_InputChanged(this)">')
                             td.append(p3).append(input2);
 
                             var p4 = $('<p><strong>燃油附加费</strong><p>')
 
                             var feul_fee = parseFloat(ConvertToRealPrice($(span).text())) + parseFloat(ConvertToRealPrice($(input2).val()));
-                            var price_p = $('<p id="' + key + '_' + value[i].SchedulerID + '" name="燃油附加费">' +  FormatPrice(GetFloatStr(feul_fee)) + '</p>');
+                            var price_p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费">' + FormatPrice(GetFloatStr(feul_fee)) + '</p>');
                             td.append(p4).append(price_p);
 
                             tr.append(td);
@@ -5711,29 +5711,29 @@
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>单价(每小时):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
                             var p1 = $('<p>燃油附加费折扣</p>')
-                            var input1 = $('<input type="text" width="50px" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '" value="' + FormatPrice(GetFloatStr(value[i].DiscoutPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
+                            var input1 = $('<input type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" value="' + FormatPrice(GetFloatStr(value[i].DiscoutPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
                             td.append(p1).append(input1);
 
                             var p2 = $('<p></p>')
                             span = $('<span>燃油附加费折扣后价格:</span>');
                             p2.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '" name="燃油附加费折扣后价格">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee + value[i].DiscoutPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费折扣后价格">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee + value[i].DiscoutPriceOfFeulFee)) + '</span>');
                             p2.append(span);
                             td.append(p2);
 
                             var p3 = $('<p>燃油附加费额外费用</p>')
-                            var input2 = $('<input type="text" name="燃油附加费额外费用" id="' + key + '_' + value[i].SchedulerID + '" value="' + FormatPrice(GetFloatStr(value[i].PriceOfFeulFee - value[i].UnitPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouExtra_InputChanged(this)">')
+                            var input2 = $('<input type="text" name="燃油附加费额外费用" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" value="' + FormatPrice(GetFloatStr(value[i].PriceOfFeulFee - value[i].UnitPriceOfFeulFee)) + '" onkeyup="DefaultBanbao_RanYouExtra_InputChanged(this)">')
                             td.append(p3).append(input2);
 
                             var p4 = $('<p><strong>燃油附加费</strong><p>')
 
                             var feul_fee = parseFloat(ConvertToRealPrice($(span).text())) + parseFloat(ConvertToRealPrice($(input2).val()));
-                            var price_p = $('<p id="' + key + '_' + value[i].SchedulerID + '" name="燃油附加费">' + FormatPrice(GetFloatStr(feul_fee)) + '</p>');
+                            var price_p = $('<p id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费">' + FormatPrice(GetFloatStr(feul_fee)) + '</p>');
                             td.append(p4).append(price_p);
 
                             tr.append(td);
@@ -11224,7 +11224,7 @@
 
 <!--价格编辑框输入改变-->
 <script>
-
+    //全包协议价改变
     function DefaultQuanbao_XieYiShouFei_InputChanged(obj) {
 
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
@@ -11275,6 +11275,7 @@
 
     }
 
+    //半包
     function DefaultBanbao_XieYiShouFei_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
         obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
@@ -11449,7 +11450,6 @@
                 total += parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + td_id + '"]').text()));
                 
                 //2.折扣
-                //var input = $('<input id="' + element_id + '" type="text" name="折扣" value="' + FormatPrice(GetFloatStr(price)) + '" onkeyup="DefaultBanbao_ZheKou_InputChanged(this)"></input>');
                 if ($('input[name="折扣"][type="text"]').length > 0) {
                     var ele = $('input[name="折扣"][type="text"]')[0];
                     var itemId = $(ele).attr("id").split('_')[3];
@@ -11469,10 +11469,10 @@
                     total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
                 }
 
-                total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '"]').text()));
+                //4.燃油附加费
+                total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
 
-                //td = $('<td id="' + element_id + '" name="拖缆费" width="" style="text-align:center;vertical-align:middle">' + FormatPrice(GetFloatStr(price)) + '</td>');
-                //4. 拖缆费
+                //5. 拖缆费
                 if ($('td[name="拖缆费"]').length > 0) {
                     var ele = $('td[name="拖缆费"]')[0];
                     var itemId = $(ele).attr("id").split('_')[3];
@@ -11488,311 +11488,335 @@
         //共计港币
         var grand_total = 0;
         $('td[name="总计港币"]').each(function () {
-            var v = parseFloat($(this).text());
+            var v = parseFloat(ConvertToRealPrice($(this).text()));
             grand_total += v;
         });
 
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
 
     }
-
-
-
-    function DefaultBanbao_RanYou_InputChanged(obj) {
+    
+    function DefaultBanbao_18时至22时附加费50_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
         obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
         obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
         obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
         obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
 
-        var itemId = $(obj).attr("id").split('_')[1];
-        var itemValue = $(obj).attr("id").split('_')[2];
+        element_id = $(obj).attr("id");
+        var orderServiceId = element_id.split('_')[0];
+        var schedulerId = element_id.split('_')[1];
+        var serviceNatureId = element_id.split('_')[2];
+        var itemId = element_id.split('_')[3];
+        var itemValue = element_id.split('_')[4];
 
-        var checkbox_id = "ckItem_" + itemId + "_" + itemValue;
+        var xieyijiage = parseFloat(ConvertToRealPrice($('input[name="协议收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').val()));
 
-        //如果燃油附加费复选框选中
-        if ($('input[type="checkbox"][name="ckItem"][id="' + checkbox_id + '"]').is(':checked') == true) {
+        var old_price = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
+        var new_price = parseFloat(obj.value) * parseFloat(xieyijiage * 0.5);
+        if (isNaN(new_price)) new_price = 0;
 
-            $('td[name="燃油附加费"]').each(function () {
+        $('p[name="real_price"][id="' + element_id + '"]').text(FormatPrice(GetFloatStr(new_price.toFixed(2))));
 
-                var serviceId = $(this).attr("id").split('_')[0]
-                var schedulerId = $(this).attr("id").split('_')[1];
-                var id = serviceId + '_' + schedulerId;
+        var sub_total = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+        var total = parseFloat(ConvertToRealPrice($('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+        var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
 
-                var time_consume = $('td[name="换算耗时"][id="' + id + '"]').text();
-
-                var v = parseFloat($(obj).val()) * parseFloat(time_consume);
-
-                $(this).text(v.toFixed(2));
-            });
-
-            var grand_total = 0;
-            $('td[name="总计港币"]').each(function () {
-                var topAndmid_total = 0, _3600bhp = 0, ranyo_and_tuolan = 0, bottom_total = 0;
-
-                var self = this;
-
-                {
-                    var serviceId = $(self).attr("id").split('_')[0];
-                    var schedulerId = $(self).attr("id").split('_')[1];
-
-                    topAndmid_total = parseFloat($('td[name="折扣后合计港币"][id="' + serviceId + '_' + schedulerId + '"]').text());
-                    //alert(topAndmid_total);
-
-                    //获取界面上勾选中的复选框3600BHP
-                    $('input[type="checkbox"][name="ckItem3600"]:checked').each(function () {
-                        //alert($(this).is(":checked"));
-                        var self2 = this;
-
-                        var itemId = $(self2).attr("id").split('_')[2];
-                        var itemValue = $(self2).attr("id").split('_')[3];
-
-                        if (itemValue.charAt(0) == "C") {
-
-                            var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-
-                            _3600bhp = parseFloat($('p[id="' + id + '"]').text());
-
-                        }
-                    })
-
-                    //获取界面上勾选中的复选框燃油费和拖缆费
-                    $('input[type="checkbox"][name="ckItem"]:checked').each(function () {
-                        //alert($(this).is(":checked"));
-                        var itemId = $(this).attr("id").split('_')[1];
-                        var itemValue = $(this).attr("id").split('_')[2];
-
-                        if (itemValue.charAt(0) == "C" && itemValue.substr(0,3) != "C82") {
-
-                            var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                            $('td[id="' + id + '"]').each(function () {
-
-                                ranyo_and_tuolan += parseFloat($(this).text());
-                            });
-                        }
-                    })
-
-                    bottom_total = _3600bhp + ranyo_and_tuolan;
-
-                    var v = topAndmid_total + bottom_total;
-
-                    grand_total += v;
-
-                    $(this).css('fontWeight', 'bold').text(v.toFixed(2));
-                }
-            });
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-        }
+        $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
+        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
     }
 
-    function DefaultBanbao_TuoLan_InputChanged(obj) {
+    function DefaultBanbao_22时至08时附加费100_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
         obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
         obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
         obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
         obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
 
-        var itemId = $(obj).attr("id").split('_')[1];
-        var itemValue = $(obj).attr("id").split('_')[2];
+        element_id = $(obj).attr("id");
+        var orderServiceId = element_id.split('_')[0];
+        var schedulerId = element_id.split('_')[1];
+        var serviceNatureId = element_id.split('_')[2];
+        var itemId = element_id.split('_')[3];
+        var itemValue = element_id.split('_')[4];
 
-        var checkbox_id = "ckItem_" + itemId + "_" + itemValue;
+        var xieyijiage = parseFloat(ConvertToRealPrice($('input[name="协议收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').val()));
 
-        //如果拖缆费复选框选中
-        if ($('input[type="checkbox"][name="ckItem"][id="' + checkbox_id + '"]').is(':checked') == true) {
+        var old_price = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
+        var new_price = parseFloat(obj.value) * parseFloat(xieyijiage);
+        if (isNaN(new_price)) new_price = 0;
 
-            $('td[name="拖缆费"]').each(function () {
+        $('p[name="real_price"][id="' + element_id + '"]').text(FormatPrice(GetFloatStr(new_price.toFixed(2))));
 
-                var serviceId = $(this).attr("id").split('_')[0]
-                var schedulerId = $(this).attr("id").split('_')[1];
-                var id = serviceId + '_' + schedulerId;
+        var sub_total = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+        var total = parseFloat(ConvertToRealPrice($('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+        var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
 
-                var rope_num = $('td[name="拖缆数量"][id="' + id + '"]').text();
+        $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
+        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
 
-                var v = parseFloat($(obj).val()) * parseInt(rope_num);
-
-                $(this).text(v.toFixed(2));
-            });
-
-            var grand_total = 0;
-            $('td[name="总计港币"]').each(function () {
-                var topAndmid_total = 0, _3600bhp = 0, ranyo_and_tuolan = 0, bottom_total = 0;
-
-                var self = this;
-
-                {
-                    var serviceId = $(self).attr("id").split('_')[0];
-                    var schedulerId = $(self).attr("id").split('_')[1];
-
-                    topAndmid_total = parseFloat($('td[name="折扣后合计港币"][id="' + serviceId + '_' + schedulerId + '"]').text());
-                    //alert(topAndmid_total);
-
-                    //获取界面上勾选中的复选框3600BHP
-                    $('input[type="checkbox"][name="ckItem3600"]:checked').each(function () {
-                        //alert($(this).is(":checked"));
-                        var self2 = this;
-
-                        var itemId = $(self2).attr("id").split('_')[2];
-                        var itemValue = $(self2).attr("id").split('_')[3];
-
-                        if (itemValue.charAt(0) == "C") {
-
-                            var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-
-                            _3600bhp = parseFloat($('p[id="' + id + '"]').text());
-
-                        }
-                    })
-
-                    //获取界面上勾选中的复选框燃油费和拖缆费
-                    $('input[type="checkbox"][name="ckItem"]:checked').each(function () {
-                        //alert($(this).is(":checked"));
-                        var itemId = $(this).attr("id").split('_')[1];
-                        var itemValue = $(this).attr("id").split('_')[2];
-
-                        if (itemValue.charAt(0) == "C" && itemValue.substr(0,3) != "C82") {
-
-                            var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                            $('td[id="' + id + '"]').each(function () {
-
-                                ranyo_and_tuolan += parseFloat($(this).text());
-                            });
-                        }
-                    })
-
-                    bottom_total = _3600bhp + ranyo_and_tuolan;
-
-                    var v = topAndmid_total + bottom_total;
-
-                    grand_total += v;
-
-                    $(this).css('fontWeight', 'bold').text(v.toFixed(2));
-                }
-            });
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-        }
     }
 
-    function DefaultBanbao_DiscountPrice_InputChanged(obj) {
+    function DefaultBanbao_ZheKou_InputChanged(obj) {
+        var t = obj.value.charAt(0);
+
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
         obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
         obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
         obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
         obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
 
-        var itemId = $(obj).attr("id").split('_')[1];
-        var itemValue = $(obj).attr("id").split('_')[2];
-
-        var checkbox_id = "ckItem_" + itemId + "_" + itemValue;
-
-        //如果拖缆费复选框选中
-        if ($('input[type="checkbox"][name="ckItem"][id="' + checkbox_id + '"]').is(':checked') == true) {
-
-            $('td[name="折扣"]').each(function () {
-
-                var serviceId = $(this).attr("id").split('_')[0]
-                var schedulerId = $(this).attr("id").split('_')[1];
-                var id = serviceId + '_' + schedulerId;
-
-                var v = parseFloat($(obj).val()) * -1;
-
-                $(this).text(v.toFixed(2));
-            });
-
-            $('td[name="折扣后合计港币"]').each(function () {
-                var self = this;
-                var discount_price = 0;
-
-                {
-                    var serviceId = $(self).attr("id").split('_')[0];
-                    var schedulerId = $(self).attr("id").split('_')[1];
-
-                    //var v = parseFloat($('td[name="合计港币"][id="' + serviceId + '_' + schedulerId + '"]').text()) * parseFloat($('input[id="txt_discount"]').val());
-
-                    //获取界面上勾选中的折扣
-                    $('input[type="checkbox"][name="ckItem"]:checked').each(function () {
-                        //alert($(this).is(":checked"));
-                        var itemId = $(this).attr("id").split('_')[1];
-                        var itemValue = $(this).attr("id").split('_')[2];
-
-                        if (itemValue.substr(0, 3) == "C82") {
-
-                            var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                            $('td[id="' + id + '"]').each(function () {
-
-                                discount_price = parseFloat($(this).text());
-                            });
-                        }
-                    })
-
-                    var v = parseFloat($('td[name="合计港币"][id="' + serviceId + '_' + schedulerId + '"]').text()) + discount_price;
-
-                    $(this).css('fontWeight', 'bold').text(v.toFixed(2));
-                }
-
-            });
-
-            var grand_total = 0;
-            $('td[name="总计港币"]').each(function () {
-                var topAndmid_total = 0, _3600bhp = 0, ranyo_and_tuolan = 0, bottom_total = 0;
-
-                var self = this;
-
-                {
-                    var serviceId = $(self).attr("id").split('_')[0];
-                    var schedulerId = $(self).attr("id").split('_')[1];
-
-                    topAndmid_total = parseFloat($('td[name="折扣后合计港币"][id="' + serviceId + '_' + schedulerId + '"]').text());
-                    //alert(topAndmid_total);
-
-                    //获取界面上勾选中的复选框3600BHP
-                    $('input[type="checkbox"][name="ckItem3600"]:checked').each(function () {
-                        //alert($(this).is(":checked"));
-                        var self2 = this;
-
-                        var itemId = $(self2).attr("id").split('_')[2];
-                        var itemValue = $(self2).attr("id").split('_')[3];
-
-                        if (itemValue.charAt(0) == "C") {
-
-                            var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-
-                            _3600bhp = parseFloat($('p[id="' + id + '"]').text());
-
-                        }
-                    })
-
-                    //获取界面上勾选中的复选框燃油费和拖缆费
-                    $('input[type="checkbox"][name="ckItem"]:checked').each(function () {
-                        //alert($(this).is(":checked"));
-                        var itemId = $(this).attr("id").split('_')[1];
-                        var itemValue = $(this).attr("id").split('_')[2];
-
-                        if (itemValue.charAt(0) == "C" && itemValue.substr(0,3) != "C82") {
-
-                            var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
-                            $('td[id="' + id + '"]').each(function () {
-
-                                ranyo_and_tuolan += parseFloat($(this).text());
-                            });
-                        }
-                    })
-
-                    bottom_total = _3600bhp + ranyo_and_tuolan;
-
-                    var v = topAndmid_total + bottom_total;
-
-                    grand_total += v;
-
-                    $(this).css('fontWeight', 'bold').text(v.toFixed(2));
-                }
-            });
-
-            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+        //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
+        if (t == '-') {
+            obj.value = '-' + obj.value;
         }
+
+        var element_id = $(obj).attr("id");
+        var orderServiceId = element_id.split('_')[0];
+        var schedulerId = element_id.split('_')[1];
+        var serviceNatureId = element_id.split('_')[2];
+        //var itemId = element_id.split('_')[3];
+        //var itemValue = element_id.split('_')[4];
+
+        //总计港币
+        {
+            var total = 0;
+
+            //1.合计港币
+            total += parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+            //alert(total);
+
+            //2.折扣
+            var discount = parseFloat(obj.value);
+            if(isNaN(discount) || discount == "")
+                discount = 0;
+            total += discount;
+            //alert(total);
+
+            //3. 3600BHP附加费15%
+            if ($('input[name="3600BHP附加费15"][type="checkbox"]').length > 0) {
+                var ele = $('input[name="3600BHP附加费15"][type="checkbox"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
+            }
+            //alert(total);
+
+            //4.燃油附加费
+            total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+            //alert(total);
+
+            //5. 拖缆费
+            if ($('td[name="拖缆费"]').length > 0) {
+                var ele = $('td[name="拖缆费"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                total += parseFloat(ConvertToRealPrice($('td[name="拖缆费"][id="' + element_id + '"]').text()));
+            }
+            //alert(total);
+
+            $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
+
+        }
+
+        //共计港币
+        var grand_total = 0;
+        $('td[name="总计港币"]').each(function () {
+            var v = parseFloat(ConvertToRealPrice($(this).text()));
+            grand_total += v;
+        });
+
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+
+    }
+    
+    function DefaultBanbao_RanYouDiscout_InputChanged(obj) {
+        var t = obj.value.charAt(0);
+
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+        //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
+        if (t == '-') {
+            obj.value = '-' + obj.value;
+        }
+
+        var element_id = $(obj).attr("id");
+        var orderServiceId = element_id.split('_')[0];
+        var schedulerId = element_id.split('_')[1];
+        var serviceNatureId = element_id.split('_')[2];
+        //var itemId = element_id.split('_')[3];
+        //var itemValue = element_id.split('_')[4];
+
+        //燃油附加费折扣后价格 和 燃油附加费
+        {
+            var ranyou_unit_price = parseFloat(ConvertToRealPrice($('span[name="燃油附加费单价"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+            var ranyou_discout = parseFloat(obj.value);
+            if (isNaN(ranyou_discout) || ranyou_discout == "")
+                ranyou_discout = 0;
+
+            var ranyou_after_discount_price = parseFloat(ranyou_unit_price) + parseFloat(ranyou_discout);
+            $('span[name="燃油附加费折扣后价格"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text(FormatPrice(GetFloatStr(ranyou_after_discount_price.toFixed(2))));
+
+            var ranyou_extra_price = parseFloat(ConvertToRealPrice($('input[name="燃油附加费额外费用"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').val()));
+            var ranyou_price = parseFloat(ranyou_after_discount_price) + parseFloat(ranyou_extra_price);
+            $('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text(FormatPrice(GetFloatStr(ranyou_price.toFixed(2))));
+        }
+
+
+        //总计港币
+        {
+            var total = 0;
+
+            //1.合计港币
+            total += parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+            //alert(total);
+
+            //2.折扣
+            if ($('input[name="折扣"][type="text"]').length > 0) {
+                var ele = $('input[name="折扣"][type="text"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+
+                total += parseFloat(ConvertToRealPrice($('input[name="折扣"][type="text"][id="' + element_id + '"]').val()));
+
+            }
+            //alert(total);
+
+            //3. 3600BHP附加费15%
+            if ($('input[name="3600BHP附加费15"][type="checkbox"]').length > 0) {
+                var ele = $('input[name="3600BHP附加费15"][type="checkbox"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
+            }
+            //alert(total);
+
+            //4.燃油附加费
+            total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+            //alert(total);
+
+            //5. 拖缆费
+            if ($('td[name="拖缆费"]').length > 0) {
+                var ele = $('td[name="拖缆费"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                total += parseFloat(ConvertToRealPrice($('td[name="拖缆费"][id="' + element_id + '"]').text()));
+            }
+            //alert(total);
+
+            $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
+
+        }
+
+        //共计港币
+        var grand_total = 0;
+        $('td[name="总计港币"]').each(function () {
+            var v = parseFloat(ConvertToRealPrice($(this).text()));
+            grand_total += v;
+        });
+
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
     }
 
+    function DefaultBanbao_RanYouExtra_InputChanged(obj) {
+
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+        var element_id = $(obj).attr("id");
+        var orderServiceId = element_id.split('_')[0];
+        var schedulerId = element_id.split('_')[1];
+        var serviceNatureId = element_id.split('_')[2];
+        //var itemId = element_id.split('_')[3];
+        //var itemValue = element_id.split('_')[4];
+
+        //燃油附加费
+        {
+            var ranyou_after_discount_price = parseFloat(ConvertToRealPrice($('span[name="燃油附加费折扣后价格"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));            
+
+            var ranyou_extra_price = parseFloat(ConvertToRealPrice(obj.value));
+            if (isNaN(ranyou_extra_price) || ranyou_extra_price == "")
+                ranyou_extra_price = 0;
+
+            var ranyou_price = parseFloat(ranyou_after_discount_price) + parseFloat(ranyou_extra_price);
+            $('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text(FormatPrice(GetFloatStr(ranyou_price.toFixed(2))));
+        }
+
+
+        //总计港币
+        {
+            var total = 0;
+
+            //1.合计港币
+            total += parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+            //alert(total);
+
+            //2.折扣
+            if ($('input[name="折扣"][type="text"]').length > 0) {
+                var ele = $('input[name="折扣"][type="text"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+
+                total += parseFloat(ConvertToRealPrice($('input[name="折扣"][type="text"][id="' + element_id + '"]').val()));
+
+            }
+            //alert(total);
+
+            //3. 3600BHP附加费15%
+            if ($('input[name="3600BHP附加费15"][type="checkbox"]').length > 0) {
+                var ele = $('input[name="3600BHP附加费15"][type="checkbox"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
+            }
+            //alert(total);
+
+            //4.燃油附加费
+            total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+            //alert(total);
+
+            //5. 拖缆费
+            if ($('td[name="拖缆费"]').length > 0) {
+                var ele = $('td[name="拖缆费"]')[0];
+                var itemId = $(ele).attr("id").split('_')[3];
+                var itemValue = $(ele).attr("id").split('_')[4];
+                var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                total += parseFloat(ConvertToRealPrice($('td[name="拖缆费"][id="' + element_id + '"]').text()));
+            }
+            //alert(total);
+
+            $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
+
+        }
+
+        //共计港币
+        var grand_total = 0;
+        $('td[name="总计港币"]').each(function () {
+            var v = parseFloat(ConvertToRealPrice($(this).text()));
+            grand_total += v;
+        });
+
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+    }
+
+
+    //条款计时服务单价改变
     function DefaultTiaoKuan_UnitPrice_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
         obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
@@ -12000,7 +12024,7 @@
                     var itemId = $(this).attr("id").split('_')[1];
                     var itemValue = $(this).attr("id").split('_')[2];
 
-                    if (itemValue.charAt(0) == "C" && itemValue.substr(0,3) != "C82") {
+                    if (itemValue.charAt(0) == "C" && itemValue.substr(0, 3) != "C82") {
 
                         var id = serviceId + '_' + schedulerId + '_' + itemId + '_' + itemValue;
                         $('td[id="' + id + '"]').each(function () {
@@ -12026,85 +12050,6 @@
         });
 
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-    }
-
-
-
-    function DefaultBanbao_18时至22时附加费50_InputChanged(obj) {
-        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
-        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
-        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
-        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
-
-        element_id = $(obj).attr("id");
-        var serviceId = element_id.split('_')[0];
-        var schedulerId = element_id.split('_')[1];
-        var itemId = element_id.split('_')[2];
-        var itemValue = element_id.split('_')[3];
-
-        var unitPrice = $('p[name="tmp_price"][id="' + element_id + '"]').text();
-
-        var price = parseFloat(obj.value) * parseFloat(unitPrice);
-
-        $('p[name="real_price"][id="' + element_id + '"]').text(GetFloatStr(price));
-
-        //$('input[name="协议收费"]').each(function () {
-        //    if ($(this).attr("id").split('_')[0] == $(obj).attr("id").split('_')[0])
-        //        $(this).val(obj.value);
-        //});
-
-        //$('td[name="合计港币"]').each(function () {
-        //    if ($(this).attr("id").split('_')[0] == $(obj).attr("id").split('_')[0]) {
-        //        var v = parseFloat(obj.value);
-        //        $(this).css('fontWeight', 'bold').text(v.toFixed(2));
-        //    }
-        //});
-
-        //$('td[name="折扣后合计港币"]').each(function () {
-        //    if ($(this).attr("id").split('_')[0] == $(obj).attr("id").split('_')[0]) {
-        //        //var v = parseFloat($('#txt_discount').val()) * parseFloat(obj.value);
-        //        var v = parseFloat(obj.value);
-        //        $(this).css('fontWeight', 'bold').text(v.toFixed(2));
-        //    }
-        //});
-
-        //$('td[name="总计港币"]').each(function () {
-        //    if ($(this).attr("id").split('_')[0] == $(obj).attr("id").split('_')[0]) {
-        //        //var v = parseFloat($('#txt_discount').val()) * parseFloat(obj.value);
-        //        var v = parseFloat(parseFloat(obj.value));
-        //        $(this).css('fontWeight', 'bold').text(v.toFixed(2));
-        //    }
-        //});
-
-        //var grand_total = 0;
-        //$('td[name="总计港币"]').each(function () {
-        //    {
-        //        var v = parseFloat($(this).text());
-        //        grand_total += v;
-        //    }
-        //});
-        //$('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-    }
-
-    function DefaultBanbao_22时至08时附加费100_InputChanged(obj) {
-        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
-        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
-        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
-        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
-
-        element_id = $(obj).attr("id");
-        var serviceId = element_id.split('_')[0];
-        var schedulerId = element_id.split('_')[1];
-        var itemId = element_id.split('_')[2];
-        var itemValue = element_id.split('_')[3];
-
-        var unitPrice = $('p[name="tmp_price"][id="' + element_id + '"]').text();
-
-        var price = parseFloat(obj.value) * parseFloat(unitPrice);
-
-        $('p[name="real_price"][id="' + element_id + '"]').text(GetFloatStr(price));
     }
 </script>
 
