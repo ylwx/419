@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="07/20/2016 16:15:25" ReportInfo.CreatorVersion="2013.3.3.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="08/05/2016 10:50:02" ReportInfo.CreatorVersion="2013.3.3.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -104,11 +104,17 @@ namespace FastReport
       else if(Cell81.Text==&quot;T1TotalHK&quot;)
         Cell81.Text=&quot;總數港幣\r\nTOTAL HK$&quot;;      
     }
+
+    private void Text21_AfterData(object sender, EventArgs e)
+    {
+      DateTime dt = Convert.ToDateTime(Text21.Text);            
+      Text21.Text=string.Format(&quot;{0:dd.MM.yyyy}&quot;, dt);
+    }
   }
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvjvAq0cpSOBX+LYrqb68iFg==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvacZs3MlZnMk6lImBkPiFAQ==">
       <TableDataSource Name="V_Inv_Head" DataType="System.Int32" Enabled="true" TableName="V_Inv_Head">
         <Column Name="IDX" DataType="System.Int32"/>
         <Column Name="OrderID" DataType="System.Int32"/>
@@ -164,12 +170,11 @@ namespace FastReport
   </Dictionary>
   <ReportPage Name="Page1">
     <ReportTitleBand Name="ReportTitle2" Width="718.2" Height="170.1">
-      <TextObject Name="Text19" Left="113.4" Top="37.8" Width="160.65" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.CustomerName]" Font="宋体, 10pt"/>
-      <TextObject Name="Text18" Left="519.75" Top="113.4" Width="179.55" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.BillingCode]" Font="宋体, 10pt"/>
-      <TextObject Name="Text20" Left="113.4" Top="103.95" Width="160.65" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.ShipName]" Font="宋体, 10pt"/>
-      <TextObject Name="Text21" Left="519.75" Top="141.75" Width="179.55" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.CreateDate]" Font="宋体, 10pt"/>
-      <LineObject Name="Line2" Left="9.45" Top="170.1" Width="689.85" Border.Color="Red" Border.Width="2"/>
-      <RichObject Name="Rich1" Left="37.8" Top="94.5" Width="66.15" Height="28.35" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qr\fs16 CAPTAIN/OWNER:\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
+      <TextObject Name="Text19" Left="113.4" Top="37.8" Width="160.65" Height="18.9" Text="[V_Inv_Head.CustomerName]" Font="宋体, 10pt"/>
+      <TextObject Name="Text18" Left="519.75" Top="113.4" Width="179.55" Height="18.9" Text="[V_Inv_Head.BillingCode]" Font="宋体, 10pt"/>
+      <TextObject Name="Text20" Left="113.4" Top="103.95" Width="160.65" Height="18.9" Text="[V_Inv_Head.ShipName]" Font="宋体, 10pt"/>
+      <TextObject Name="Text21" Left="519.75" Top="141.75" Width="179.55" Height="18.9" AfterDataEvent="Text21_AfterData" Text="[V_Inv_Head.CreateDate]" Font="宋体, 10pt"/>
+      <RichObject Name="Rich1" Left="37.8" Top="94.5" Width="66.15" Height="28.35" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qr\fs16 CAPTAIN/ OWNER:\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
       <TextObject Name="Text1" Left="37.8" Top="132.3" Width="66.15" Height="18.9" Text="JOB NO." HorzAlign="Right"/>
       <TextObject Name="Text2" Left="113.4" Top="132.3" Width="160.65" Height="18.9" HorzAlign="Right" Font="宋体, 10pt"/>
     </ReportTitleBand>
