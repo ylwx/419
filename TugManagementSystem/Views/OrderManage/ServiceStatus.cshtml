@@ -290,13 +290,13 @@
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                 onClickButton: function () {
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 }
             })
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+                caption: "", title: "'@Resources.Language.ClearSearchFilter'", buttonicon: "ui-icon-circle-minus",
                 onClickButton: function () {
                     var grid = $('#jqGrid')[0];
                     grid.clearToolbar();
@@ -1144,7 +1144,7 @@
         var toolbar = $('#' + childGridID).navGrid('#' + childGridPagerID, { edit: false, add: false, del: false, refresh: false, view: false, search: false })
                 .navButtonAdd('#' + childGridPagerID, {
                     id: childGridID + '_ilrefresh',
-                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                     onClickButton: function () {
 
                         $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
@@ -1156,7 +1156,7 @@
             toolbar.navSeparatorAdd("#" + childGridPagerID, { sepclass: "ui-separator", sepcontent: '' })
                 .navButtonAdd('#' + childGridPagerID, {
                     id: childGridID + 'jqGrid_ildelete',
-                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                    caption: "", title: '@Resources.Language.DeleteSelectedRows', buttonicon: "ui-icon-trash",
                     onClickButton: function () {
 
                         var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
@@ -1178,7 +1178,7 @@
                                     if (rowid != null) {
                                         var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
 
-                                        if (confirm('确定要删除所选的记录吗?')) {
+                                        if (confirm('@Resources.Language.SureDelete')) {
                                             var d = new Date();
                                             $.ajax(
                                                 {
@@ -1213,11 +1213,11 @@
                     position: "last"
                 }).navButtonAdd('#' + childGridPagerID, {
                     //id: childGridID + '_ilrefresh',
-                    caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                    caption: "", title: '@Resources.Language.Add', buttonicon: "ui-icon-plus",
                     onClickButton: function () {
                         g_cur_parentGridRowId = parentRowKey;
                         g_cur_subGridId = '#' + childGridID;
-                        g_mode = "新增";
+                        g_mode = '@Resources.Language.Add';
 
 
                         var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
@@ -1736,7 +1736,7 @@
                 selectedTugName1 = selectedTugName1.substr(0, selectedTugName1.length - 1);
             }
 
-            if (mode == "新增") {
+            if (mode == '@Resources.Language.Add') {
                 $('#_TugID').text(selectedTugIDs);
                 $('#_ChooseTug').val(selectedTugName1);
             }

@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 新增 的本地化字符串。
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 通過 的本地化字符串。
         /// </summary>
         internal static string Approve_Pass {
@@ -219,6 +228,15 @@ namespace Resources {
         internal static string ChangePassword {
             get {
                 return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清空搜索條件 的本地化字符串。
+        /// </summary>
+        internal static string ClearSearchFilter {
+            get {
+                return ResourceManager.GetString("ClearSearchFilter", resourceCulture);
             }
         }
         
@@ -520,6 +538,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 客戶基本信息 的本地化字符串。
+        /// </summary>
+        internal static string Customer_Infor {
+            get {
+                return ResourceManager.GetString("Customer_Infor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 郵編 的本地化字符串。
         /// </summary>
         internal static string Customer_MailCode {
@@ -606,6 +633,15 @@ namespace Resources {
         internal static string Custom_Value {
             get {
                 return ResourceManager.GetString("Custom_Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刪除選中的行 的本地化字符串。
+        /// </summary>
+        internal static string DeleteSelectedRows {
+            get {
+                return ResourceManager.GetString("DeleteSelectedRows", resourceCulture);
             }
         }
         
@@ -961,6 +997,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 刷新 的本地化字符串。
+        /// </summary>
+        internal static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 備註 的本地化字符串。
         /// </summary>
         internal static string Remark {
@@ -1182,6 +1227,15 @@ namespace Resources {
         internal static string SubmitForApproval {
             get {
                 return ResourceManager.GetString("SubmitForApproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 確定要刪除所選記錄嗎？ 的本地化字符串。
+        /// </summary>
+        internal static string SureDelete {
+            get {
+                return ResourceManager.GetString("SureDelete", resourceCulture);
             }
         }
         

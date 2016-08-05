@@ -80,16 +80,18 @@
                 datatype: "json",
                 colModel: tableConfig.columns,
                 viewrecords: true,
-                height: '100%', //350,
-                rowNum: 30,
+                //width: 780,
+                height: '100%', //height: $(window).height() - 300,
+                rowNum: 15,
                 autowidth: true,
+                editurl: '@Url.Action("", "")',
                 pager: "#jqGridPager",
-                rowList: ['30', '50', '80', '100'],
+                loadonce: true,
+                rowList: ['15', '20', '30', '40', '50'],
                 rownumbers: true,
                 shrinkToFit: false,     //指定各列宽度
                 sortable: true,          //列可移动
                 colMenu: true,          //列菜单
-                //multiselect: true       //选择框
                 onSelectRow: function (rowid, status, e) {
                     //alert(rowid)
                     //alert(status);
@@ -186,7 +188,7 @@
                 else { alert("未选择需要操作的数据！"); }
             })
 
-            //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });//搜索框
+            $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });//搜索框
 
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
@@ -196,43 +198,57 @@
             });
 
             $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-
-            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
                 .navButtonAdd('#jqGridPager', {
-                    id: 'jqGrid_ilView',
-                    caption: "查看", title: "查看账单和回扣单", buttonicon: "ui-icon-search",
+                    caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                     onClickButton: function () {
-
-                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-
-                        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
-                        var timeTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
-                        var timeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
-                        var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
-                        var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
-                        var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
-
-                        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
-                            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
-                            //alert("全包或半包报表预览");
-                            //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
-                            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-                        }
-
-                        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
-                            //alert("计时报表预览");
-                            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-                        }
-                    },
-
+                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
                 })
-            .navButtonAdd('#jqGridPager', {
-                id: 'jqGrid_RepealSubmit',
-                caption: "撤销提交", title: "撤销提交", buttonicon: "ui-icon-disk",
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: '@Resources.Language.ClearSearchFilter', buttonicon: "ui-icon-circle-minus",
                 onClickButton: function () {
+                    var grid = $('#jqGrid')[0];
+                    grid.clearToolbar();
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+        .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilView',
+                caption: "查看", title: "查看账单和回扣单", buttonicon: "ui-icon-search",
+                onClickButton: function () {
+
                     var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    var dr = jQuery('#jqGrid').jqGrid('getRowData', rowid);//选中行的数据
-                    if (rowid != null) {
+
+                    var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
+                    var timeTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
+                    var timeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
+                    var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
+                    var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
+                    var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+
+                    if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+                        || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+                        //alert("全包或半包报表预览");
+                        //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
+                        open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+                    }
+
+                    else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+                        //alert("计时报表预览");
+                        open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+                    }
+                },
+
+            })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_RepealSubmit',
+            caption: "撤销提交", title: "撤销提交", buttonicon: "ui-icon-disk",
+            onClickButton: function () {
+                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                var dr = jQuery('#jqGrid').jqGrid('getRowData', rowid);//选中行的数据
+                if (rowid != null) {
                     if (confirm('确定要撤销提交吗?')) {
                         var d = new Date();
                         $.ajax(
@@ -253,82 +269,82 @@
                            });
                     }
                 }
-                },
+            },
 
-            })
-            .navButtonAdd('#jqGridPager', {
-                id: 'jqGrid_RepealPass',
-                caption: "撤销通过", title: "撤销通过", buttonicon: "ui-icon-disk",
-                onClickButton: function () {
-                    var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    var rowData = $('#jqGrid').jqGrid('getRowData', id);
-                    var curPhase = rowData.Phase;
-                    if (rowData != null) {
-                        if (curPhase == -1) {
-                            alert("已完成全部审核，无法撤销！");
-                        }
-                        else {
-                            $.ajax(
-                                                          {
-                                                              type: "post",
-                                                              url: "/Task/RepealPass",
-                                                              data: { 'data': rowData },
-                                                              traditional: true,
-                                                              dataType: 'json',
-                                                              success: function (result) {
-                                                                  alert(result.message);
-                                                                  $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                                              },
-                                                              error: function (result) {
-                                                                  console.log(result)
-                                                                  alert(result.message);
-                                                              }
-                                                          });
-                        }
-
+        })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_RepealPass',
+            caption: "撤销通过", title: "撤销通过", buttonicon: "ui-icon-disk",
+            onClickButton: function () {
+                var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                var rowData = $('#jqGrid').jqGrid('getRowData', id);
+                var curPhase = rowData.Phase;
+                if (rowData != null) {
+                    if (curPhase == -1) {
+                        alert("已完成全部审核，无法撤销！");
                     }
-                    else { alert("未选择需要操作的数据！"); }
-                },
+                    else {
+                        $.ajax(
+                                                      {
+                                                          type: "post",
+                                                          url: "/Task/RepealPass",
+                                                          data: { 'data': rowData },
+                                                          traditional: true,
+                                                          dataType: 'json',
+                                                          success: function (result) {
+                                                              alert(result.message);
+                                                              $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                          },
+                                                          error: function (result) {
+                                                              console.log(result)
+                                                              alert(result.message);
+                                                          }
+                                                      });
+                    }
 
-            });
+                }
+                else { alert("未选择需要操作的数据！"); }
+            },
 
-            $('#jqGrid').inlineNav('#jqGridPager',
-                {
-                    edit: false,
-                    add: false,
-                    del: false,
-                    cancel: false,
-                    editParams: {
-                        keys: true,
-                        successfunc: function (val) {
-                            if (val.responseText != "") {
-                                var ret = $.parseJSON(val.responseText);
-                                alert(ret.message);
-                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            }
-                        },
-                        url: null, //'/api/values',
-                        mtype: 'POST'
-                    },
+        });
 
-                    addParams: {
-                        keys: true,
-                        successfunc: function (val) {
-                            if (val.responseText != "") {
-                                var ret = $.parseJSON(val.responseText);
-                                alert(ret.message);
-                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                            }
-                        },
-                        errorfunc: function (rowid, xhr) {
-                            alert(xhr.responseText);
+        $('#jqGrid').inlineNav('#jqGridPager',
+            {
+                edit: false,
+                add: false,
+                del: false,
+                cancel: false,
+                editParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
-                    }
-                });
+                    },
+                    url: null, //'/api/values',
+                    mtype: 'POST'
+                },
 
-            //最后调用，冻结列
-        }
+                addParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    errorfunc: function (rowid, xhr) {
+                        alert(xhr.responseText);
+                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                }
+            });
+
+        //最后调用，冻结列
+    }
     }
     function GetTableConfig() {
         tableConfig = {
@@ -344,6 +360,22 @@
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
                 },
                 {
+                    align: 'center',
+                    label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 200,
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["lt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d H:i:s',
+                                step: 1,
+                                //timepicker: false
+                            });
+                        }
+                    }
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100,
                     hidden: true
                 },
@@ -353,6 +385,18 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
 
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "ShipLength", width: 100,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "ShipTEUS", width: 100,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                    hidden: false
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "OrderID", name: "OrderID", width: 100,
@@ -366,7 +410,7 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
                 },
-                {
+                @*{
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkDate', name: "WorkDate", width: 120,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
@@ -391,8 +435,8 @@
                             }
                         ]
                     }
-                },
-                {
+                },*@
+                @*{
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkTime', name: "WorkTime", width: 100,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
@@ -416,8 +460,8 @@
                             }
                         ]
                     }
-                },
-                {
+                },*@
+                @*{
                     align: 'center', label: '@Resources.Language.V_OrderInfor_EstimatedCompletionTime', name: "EstimatedCompletionTime", width: 120,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     hidden: true,
@@ -442,9 +486,9 @@
                         ]
                     }
 
-                },
+                },*@
 
-                {
+                @*{
                     align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureIDS', name: "ServiceNatureIDS", width: 100,
                     hidden: true,
                 },
@@ -453,7 +497,7 @@
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
+                },*@
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateID', name: "WorkStateID", width: 100,
                     hidden: true,
@@ -467,10 +511,11 @@
                     align: 'center', label: '@Resources.Language.V_OrderInfor_WorkStateLabel', name: "WorkStateLabel", width: 120,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    stype: "select",
-                    searchoptions: {
+                    //stype: "select",
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
+                    @*searchoptions: {
                         dataUrl: '@Url.Action("GetOrderStateOfInvoicePage", "Base", new { CustomName = "OrderInfor.WorkStateID" })',
-                    }
+                    }*@
                 },
 
                 {
@@ -495,27 +540,28 @@
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingName', name: "BillingName", width: 100,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeID', name: "BillingTypeID", width: 100,
                     hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeValue', name: "BillingTypeValue", width: 100,
                     hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeLabel', name: "BillingTypeLabel", width: 100,
                     hidden: false,
-                    stype: "select",
-                    searchoptions: {
+                    //stype: "select",
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
+                    @*searchoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.BillingTemplateType" })',
-                    }
+                    }*@
                 },
 
                 {
@@ -530,10 +576,11 @@
                     align: 'center', label: '@Resources.Language.V_OrderBilling_TimeTypeLabel', name: "TimeTypeLabel", width: 100,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    stype: "select",
-                    searchoptions: {
+                    //stype: "select",
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
+                    @*searchoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
-                    }
+                    }*@
                 },
 
                 {
@@ -585,26 +632,14 @@
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
-                        sopt: ["eq", "lt", "le", "gt", "ge"],
-
+                        sopt: ["lt", "ge"],
                         dataInit: function (element) {
                             $(element).datetimepicker({
                                 format: 'Y-m-d H:i:s',
                                 step: 1,
                                 //timepicker: false
                             });
-                        },
-
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var grid = $('#jqGrid')[0];
-                                    grid.triggerToolbar();
-
-                                }
-                            }
-                        ]
+                        }
                     }
                 },
                 {
@@ -617,26 +652,14 @@
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: {
-                        sopt: ["eq", "lt", "le", "gt", "ge"],
-
+                        sopt: ["lt", "ge"],
                         dataInit: function (element) {
                             $(element).datetimepicker({
                                 format: 'Y-m-d H:i:s',
                                 step: 1,
                                 //timepicker: false
                             });
-                        },
-
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var grid = $('#jqGrid')[0];
-                                    grid.triggerToolbar();
-
-                                }
-                            }
-                        ]
+                        }
                     }
                 },
 
@@ -957,5 +980,5 @@
             ]
         };
     }*@
-   
+
 </script>
