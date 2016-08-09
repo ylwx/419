@@ -403,6 +403,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 客戶船信息 的本地化字符串。
+        /// </summary>
+        internal static string CustomerShip_infor {
+            get {
+                return ResourceManager.GetString("CustomerShip_infor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 長 的本地化字符串。
         /// </summary>
         internal static string CustomerShip_Length {
@@ -1213,7 +1222,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 Submit 的本地化字符串。
+        ///   查找类似 提交 的本地化字符串。
         /// </summary>
         internal static string Submit {
             get {

@@ -11,6 +11,20 @@ namespace TugManagementSystem.Controllers
 {
     public class BaseController : Controller
     {
+        /// <summary>
+        /// 重写基类在Action之前执行的方法
+        /// </summary>
+        /// <param name="filterContext"></param>
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (filterContext.ActionDescriptor.ActionName == "Login") return;
+            base.OnActionExecuting(filterContext);
+
+            if (Session["userid"] == null || Session["username"] == null)
+            {
+                filterContext.Result = new RedirectResult("/Home/Login");
+            }
+        }
         public string Internationalization()
         {
             if (Request.Cookies["SelectedLanguage"] != null)
