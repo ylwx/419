@@ -1816,7 +1816,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 船長 的本地化字符串。
+        ///   查找类似 船長規則 的本地化字符串。
         /// </summary>
         internal static string V_BillingItemTemplate_ShipLength {
             get {
@@ -1825,7 +1825,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 箱量 的本地化字符串。
+        ///   查找类似 箱量規則 的本地化字符串。
         /// </summary>
         internal static string V_BillingItemTemplate_ShipTEUS {
             get {
@@ -1965,6 +1965,114 @@ namespace Resources {
         internal static string V_BillingTemplate_TimeTypeValue {
             get {
                 return ResourceManager.GetString("V_BillingTemplate_TimeTypeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 總價 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_Amount {
+            get {
+                return ResourceManager.GetString("V_Billing_Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單編號 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_BillingCode {
+            get {
+                return ResourceManager.GetString("V_Billing_BillingCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計費方案模板ID 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_BillingTemplateID {
+            get {
+                return ResourceManager.GetString("V_Billing_BillingTemplateID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計費方案模板名稱 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_BillingTemplateName {
+            get {
+                return ResourceManager.GetString("V_Billing_BillingTemplateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計費類型 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_BillingTemplateTypeLabel {
+            get {
+                return ResourceManager.GetString("V_Billing_BillingTemplateTypeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否顯示船長規則 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_IsShowShipLengthRule {
+            get {
+                return ResourceManager.GetString("V_Billing_IsShowShipLengthRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否顯示箱量規則 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_IsShowShipTEUSRule {
+            get {
+                return ResourceManager.GetString("V_Billing_IsShowShipTEUSRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 階段 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_Phase {
+            get {
+                return ResourceManager.GetString("V_Billing_Phase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計費方案船長規則 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_ShipLength {
+            get {
+                return ResourceManager.GetString("V_Billing_ShipLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計費方案箱量規則 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_ShipTEUS {
+            get {
+                return ResourceManager.GetString("V_Billing_ShipTEUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 狀態 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_Status {
+            get {
+                return ResourceManager.GetString("V_Billing_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計時方式 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing_TimeTypeLabel {
+            get {
+                return ResourceManager.GetString("V_Billing_TimeTypeLabel", resourceCulture);
             }
         }
         

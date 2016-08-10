@@ -12,9 +12,9 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_BillingOrders
+    public partial class V_Billing2
     {
-        public int BillingID { get; set; }
+        public int IDX { get; set; }
         public string JobNo { get; set; }
         public string InvoiceType { get; set; }
         public string IsShowShipLengthRule { get; set; }
@@ -46,16 +46,8 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
-        public int OrderID { get; set; }
         public string IsGuest { get; set; }
-        public string OrderCode { get; set; }
-        public string OrdDate { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
-        public Nullable<int> WorkStateID { get; set; }
-        public string WorkStateValue { get; set; }
-        public string WorkStateLabel { get; set; }
-        public string HasInvoice { get; set; }
-        public string HasInFlow { get; set; }
     }
 }

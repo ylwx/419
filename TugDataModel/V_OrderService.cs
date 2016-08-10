@@ -47,5 +47,6 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
+        public Nullable<int> TotalTug { get; set; }
     }
 }

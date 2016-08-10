@@ -1,10 +1,3666 @@
 ﻿
 @{
-    ViewBag.Title = "SpecialInvoice";
+    ViewBag.Title = @Resources.Language.SpecialInvoiceManage;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
     ViewBag.MenuId = "menu6";
     ViewBag.SubMenuIndex = 1;
 }
 
-<h2>SpecialInvoice</h2>
+<script src="~/Resources/handsontable-master/dist/handsontable.full.min.js"></script>
+<link href="~/Resources/handsontable-master/dist/handsontable.full.css" rel="stylesheet" />
+<script src="~/Resources/handsontable-master/demo/js/moment/moment.js"></script>
+<script src="~/Resources/handsontable-master/demo/js/pikaday/pikaday.js"></script>
+<script src="~/Resources/handsontable-master/demo/js/pikaday/css/pikaday.css"></script>
 
+<div id="main-content">
+    <!-- Add MODAL FORM-->
+    <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width:1024px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>生成账单&nbsp;<span id="add_customer">123</span></h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="box-body big">
+
+                                    <div id="div_search" class="col-lg-12">
+
+                                        <div class="col-xs-5">
+                                            燃油附加費每艘拖輪收費港幣
+                                            <input id="add_feul_unit_price" type="text" class="form-control" value="300" onkeyup="AddFeulUnitPriceInputChanged(this)" />
+                                        </div>
+
+
+                                        <div class="col-xs-5">
+                                            泊及離服務費每艘拖輪收費價格港幣
+                                            <input id="add_service_price" type="text" class="form-control" value="3050" onkeyup="AddServicePriceInputChanged(this)" />
+                                        </div>
+
+                                        <div class="col-xs-2">
+                                            账单月份
+                                            <select id="add_sel_month" class="form-control">
+                                                <option value="1月">1月</option>
+                                                <option value="2月">2月</option>
+                                                <option value="3月">3月</option>
+                                                <option value="4月">4月</option>
+                                                <option value="5月">5月</option>
+                                                <option value="6月">6月</option>
+                                                <option value="7月">7月</option>
+                                                <option value="8月">8月</option>
+                                                <option value="9月">9月</option>
+                                                <option value="10月">10月</option>
+                                                <option value="11月">11月</option>
+                                                <option value="12月">12月</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div style="margin: 8px; padding: 0px; width: 940px; height: 1px; overflow: hidden;"></div>
+
+                                    <div id="div_detail">
+                                        <table id="tb_detail" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">次數</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">服務日期</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">服務內容</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">客戶船</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">拖輪數</th>
+                                                    <th width="" data-halign="center" data-align="center" data-valign="middle">價錢</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>2016-08-08</td>
+                                                    <td>泊</td>
+                                                    <td>EISHUN</td>
+                                                    <td>5</td>
+                                                    <td>1233</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>2016-08-08</td>
+                                                    <td>泊</td>
+                                                    <td>EISHUN</td>
+                                                    <td>5</td>
+                                                    <td>1233</td>
+                                                </tr>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                    <td colspan="4" style="text-align:right"><strong>燃油附加費</strong></td>
+                                                    <td style="text-align:center;"><strong>13</strong></td>
+                                                    <td style="text-align:center;"><strong>13333</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                    <td colspan="4" style="text-align:right"><strong>泊/離服務費</strong></td>
+                                                    <td style="text-align:center;"><strong>13</strong></td>
+                                                    <td style="text-align:center;"><strong>13333</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                    <td colspan="4" style="text-align:right"><strong>燃油附加費</strong></td>
+                                                    <td style="text-align:center;"><strong>合計</strong></td>
+                                                    <td style="text-align:center;"><strong>13333</strong></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+
+                                    <div id="parentErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="_CustomerID" hidden>-1</div>
+                    <div id="_ShipID" hidden>-1</div>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                    <button id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add MODAL FORM-->
+
+    <!-- View MODAL FORM-->
+    <div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width:1024px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>查看账单和回扣单&nbsp;<span id="view_customer">123</span>-<span id="view_customer_ship">1234</span></h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#view-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="box-body big">
+
+                                    <div class="tabbable header-tabs">
+                                        <ul class="nav nav-tabs">
+                                            <li id="view_credit_tab"><a href="#box_tab2" data-toggle="tab" onclick="viewCreditTabClick()"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
+                                            <li id="view_invoice_tab" class="active"><a href="#box_tab1" data-toggle="tab" onclick="viewInvoiceTabClick()"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade in active" id="box_tab1">
+
+                                                <div id="view_div_search" class="col-lg-12" style="padding-bottom:10px">
+
+                                                    <div class="col-xs-5">
+                                                        燃油附加費每艘拖輪收費港幣
+                                                        <input id="view_feul_unit_price" type="text" class="form-control" value="300" disabled />
+                                                    </div>
+
+
+                                                    <div class="col-xs-5">
+                                                        泊及離服務費每艘拖輪收費價格港幣
+                                                        <input id="view_service_price" type="text" class="form-control" value="3050" disabled />
+                                                    </div>
+
+                                                    <div class="col-xs-2">
+                                                        账单月份
+                                                        <select id="view_sel_month" class="form-control" disabled>
+                                                            <option value="1月">1月</option>
+                                                            <option value="2月">2月</option>
+                                                            <option value="3月">3月</option>
+                                                            <option value="4月">4月</option>
+                                                            <option value="5月">5月</option>
+                                                            <option value="6月">6月</option>
+                                                            <option value="7月">7月</option>
+                                                            <option value="8月">8月</option>
+                                                            <option value="9月">9月</option>
+                                                            <option value="10月">10月</option>
+                                                            <option value="11月">11月</option>
+                                                            <option value="12月">12月</option>
+                                                        </select>
+                                                    </div>
+
+                                                    
+
+                                                </div>
+
+                                                <div style="margin:8px;padding:0px; width:940px;height:1px;overflow:hidden;"></div>
+
+                                                
+
+                                                <div id="view_div_detail">
+                                                    <table id="view_tb_detail" class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">次數</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">服務日期</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">服務內容</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">客戶船</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">拖輪數</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">價錢</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>2016-08-08</td>
+                                                                <td>泊</td>
+                                                                <td>EISHUN</td>
+                                                                <td>5</td>
+                                                                <td>1233</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td>2016-08-08</td>
+                                                                <td>泊</td>
+                                                                <td>EISHUN</td>
+                                                                <td>5</td>
+                                                                <td>1233</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                                <td colspan="4" style="text-align:right"><strong>燃油附加費</strong></td>
+                                                                <td style="text-align:center;"><strong>13</strong></td>
+                                                                <td style="text-align:center;"><strong>13333</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                                <td colspan="4" style="text-align:right"><strong>泊/離服務費</strong></td>
+                                                                <td style="text-align:center;"><strong>13</strong></td>
+                                                                <td style="text-align:center;"><strong>13333</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                                <td colspan="4" style="text-align:right"><strong>燃油附加費</strong></td>
+                                                                <td style="text-align:center;"><strong>合計</strong></td>
+                                                                <td style="text-align:center;"><strong>13333</strong></td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="box_tab2">
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <!-- View Tab BOX -->
+                                                        <div class="box border orange">
+                                                            <div class="box-title">
+                                                                <h4><i class="fa fa-bars"></i>@Resources.Language.Credit</h4>
+                                                            </div>
+                                                            <div id="jqGridContainerBox_view_tab" class="box-body">
+                                                                @*<table id="jqGrid_view_tab"></table>
+                                                                    <div id="jqGridPager_view_tab"></div>*@
+                                                            </div>
+                                                        </div>
+                                                        <!-- / Edit Tab BOX -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button id="view_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /View MODAL FORM-->
+
+    <!-- Edit MODAL FORM-->
+    <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width:1024px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>编辑账单和回扣单&nbsp;<span id="edit_customer">123</span></h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#edit-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="box-body big">
+
+                                    <div class="tabbable header-tabs">
+                                        <ul class="nav nav-tabs">
+                                            <li id="edit_credit_tab"><a href="#edit_box_tab2" data-toggle="tab" onclick="editCreditTabClick()"><i class="fa fa-dollar"></i> <span class="hidden-inline-mobile">回扣单</span></a></li>
+                                            <li id="edit_invoice_tab" class="active"><a href="#edit_box_tab1" data-toggle="tab" onclick="editInvoiceTabClick()"><i class="fa fa-credit-card"></i> <span class="hidden-inline-mobile">账单</span></a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade in active" id="edit_box_tab1">
+
+                                                <div id="edit_div_search" class="col-lg-12" style="padding-bottom:10px">
+
+                                                    <div class="col-xs-5">
+                                                        燃油附加費每艘拖輪收費港幣
+                                                        <input id="edit_feul_unit_price" type="text" class="form-control" value="300" onkeyup="EditFeulUnitPriceInputChanged(this)" />
+                                                    </div>
+
+
+                                                    <div class="col-xs-5">
+                                                        泊及離服務費每艘拖輪收費價格港幣
+                                                        <input id="edit_service_price" type="text" class="form-control" value="3050" onkeyup="EditServicePriceInputChanged(this)" />
+                                                    </div>
+
+
+                                                    <div class="col-xs-2">
+                                                        账单月份
+                                                        <select id="edit_sel_month" class="form-control">
+                                                            <option value="1月">1月</option>
+                                                            <option value="2月">2月</option>
+                                                            <option value="3月">3月</option>
+                                                            <option value="4月">4月</option>
+                                                            <option value="5月">5月</option>
+                                                            <option value="6月">6月</option>
+                                                            <option value="7月">7月</option>
+                                                            <option value="8月">8月</option>
+                                                            <option value="9月">9月</option>
+                                                            <option value="10月">10月</option>
+                                                            <option value="11月">11月</option>
+                                                            <option value="12月">12月</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+
+                                                <div style="margin: 8px; padding: 0px; width: 940px; height: 1px; overflow: hidden;"></div>
+
+  
+                                                <div id="edit_div_detail">
+                                                    <table id="edit_tb_detail" class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">次數</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">服務日期</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">服務內容</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">客戶船</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">拖輪數</th>
+                                                                <th width="" data-halign="center" data-align="center" data-valign="middle">價錢</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>2016-08-08</td>
+                                                                <td>泊</td>
+                                                                <td>EISHUN</td>
+                                                                <td>5</td>
+                                                                <td>1233</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td>2016-08-08</td>
+                                                                <td>泊</td>
+                                                                <td>EISHUN</td>
+                                                                <td>5</td>
+                                                                <td>1233</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                                <td colspan="4" style="text-align:right"><strong>燃油附加費</strong></td>
+                                                                <td style="text-align:center;"><strong>13</strong></td>
+                                                                <td style="text-align:center;"><strong>13333</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                                <td colspan="4" style="text-align:right"><strong>泊/離服務費</strong></td>
+                                                                <td style="text-align:center;"><strong>13</strong></td>
+                                                                <td style="text-align:center;"><strong>13333</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                @*<td colspan="13" style="text-align:right">共&nbsp; 计&nbsp;港&nbsp;币：12333 <br> Grand Total HKS</td>*@
+                                                                <td colspan="4" style="text-align:right"><strong>燃油附加費</strong></td>
+                                                                <td style="text-align:center;"><strong>合計</strong></td>
+                                                                <td style="text-align:center;"><strong>13333</strong></td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="edit_box_tab2">
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <!-- Edit Tab BOX -->
+                                                        <div class="box border orange">
+                                                            <div class="box-title">
+                                                                <h4><i class="fa fa-bars"></i>@Resources.Language.Credit</h4>
+                                                            </div>
+                                                            <div id="jqGridContainerBox_edit_tab" class="box-body">
+                                                                <table id="jqGrid_edit_tab"></table>
+                                                                <div id="jqGridPager_edit_tab"></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- / Edit Tab BOX -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="_edit_orderids" hidden></div>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button id="edit_btn_sumbit" type="button" class="btn btn-primary" onclick="submitEditVoiceModal()">提交</button>
+                    <button id="edit_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Edit MODAL FORM-->
+    <!-- 提交审核 MODAL FORM-->
+    <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width: 560px ;height:600px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BOX -->
+                            <div class="box border orange">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-bars"></i>创建流程</h4>
+                                </div>
+                                <div class="box-body">
+                                    <div id="flowtable" class="hot handsontable dataTable table-striped center-block">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /BOX -->
+                        </div>
+                    </div>
+                    <div id="childErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button id="btnflow" type="button" class="btn btn-primary" @*onclick="updateflowinfor()"*@>提交审核</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /提交审核 MODAL FORM-->
+    <!-- Credit Add MODAL FORM-->
+    <div class="modal fade" id="credit-add-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="child-model-dlg" class="modal-dialog" style="width:500px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>新增回扣单</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#credit-add-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    @*<h4 class="form-title">Supported controls</h4>*@
+                                    <form class="form-horizontal" role="form">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditContent</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="_CreditContent" rows="3" class="form-control" placeholder="@Resources.Language.Credit_CreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditAmount</label>
+                                            <div class="col-sm-9">
+                                                <input id="_CreditAmount" type="text" class="form-control" placeholder="@Resources.Language.Credit_CreditAmount" onfocus="$(this).parent().removeClass('has-error')" onkeyup="inputCheck(this)" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                    <div id="creditErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAddCreditModal()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Credit Add MODAL FORM-->
+
+
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-lg-12">
+                <!-- PAGE HEADER-->
+                <div class="row" style="margin-bottom:10px;">
+                    <div class="col-sm-12">
+                        <div class="">
+                            <!-- STYLER -->
+                            <!-- /STYLER -->
+                            <!-- BREADCRUMBS -->
+                            <ul class="breadcrumb">
+                                <li>
+                                    <i class="fa fa-home"></i>
+                                    <a href="#">@Resources.Language.HomePage</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-usd"></i>
+                                    <a href="#">@Resources.Language.Finance</a>
+                                </li>
+                                <li>
+                                    @Resources.Language.SpecialInvoiceManage
+                                </li>
+                            </ul>
+                            <!-- /BREADCRUMBS -->
+                            @*<div class="clearfix">
+                        <h3 class="content-title pull-left">Grid Test</h3>
+                    </div>
+                    <div class="description">Table</div>*@
+                            @*<div>
+                        <button class="btn btn-danger" onclick="AddParent()">Add Parent</button>
+                    </div>*@
+                            <div style="margin-top:10px;">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <input id="_CustomerName" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')" />
+                                    </div>
+                                    <div id="_SearchCustomerID" hidden>-1</div>
+
+                                    <div class="col-sm-3" hidden>
+                                        <input id="_CustomerShipName" class="form-control" placeholder="@Resources.Language.CustomerShip_Name" onfocus="$(this).parent().removeClass('has-error')" />
+                                    </div>
+                                    <div id="_CustomerShipID" hidden>-1</div>
+
+                                    <div class="col-sm-2">
+                                        <input id="_StartDate" class="form-control" placeholder="起始日期" onfocus="$(this).parent().removeClass('has-error')" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input id="_EndDate" class="form-control" placeholder="截止日期" onfocus="$(this).parent().removeClass('has-error')" />
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                        <input id="_ServiceStatus" class="form-control" placeholder="服務狀態" onfocus="$(this).parent().removeClass('has-error')" />
+                                    </div>*@
+                                    <div class="col-sm-2">
+                                        <button id="_SearchButton" class="btn btn-primary" onclick="OnFilter()">搜索</button>
+                                        <button id="_SearchButton" class="btn btn-danger" onclick="OnReset()">重置</button>
+                                    </div>
+                                    
+                                </div>
+
+                                @*<div class="row" style="margin-top:10px">
+                                    <div class="col-sm-3">
+                                        <input id="_CustomerName" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input id="_CustomerName" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button id="_SearchButton" class="btn btn-primary">搜索</button>
+                                    </div>
+                                </div>*@
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /PAGE HEADER -->
+              
+
+
+                <!--Order Grid -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BOX -->
+                        <div class="box border orange">
+                            <div class="box-title">
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.ServiceStatus</h4>
+                            </div>
+                            <div id="jqGridContainerBox_Order" class="box-body">
+                                <table id="jqGrid_Order"></table>
+                                <div id="jqGridPager_Order"></div>
+                            </div>
+                        </div>
+                        <!-- /BOX -->
+                    </div>
+                </div>
+                <!-- /Order Grid -->
+                <!--Invoice Grid -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BOX -->
+                        <div class="box border orange">
+                            <div class="box-title">
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.SpecialInvoiceManage</h4>
+                            </div>
+                            <div id="jqGridContainerBox" class="box-body">
+                                <table id="jqGrid"></table>
+                                <div id="jqGridPager"></div>
+                            </div>
+                        </div>
+                        <!-- /BOX -->
+                    </div>
+                </div>
+                <!-- /Invoice Grid -->
+
+
+
+                <div class="footer-tools">
+                    <span class="go-top">
+                        <i class="fa fa-chevron-up"></i> Top
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--全局变量-->
+<script>
+    var g_EditModalIsShown = false; //编辑模态框是否已经显示过
+    var g_ViewModalIsShown = false; //查看模态框是否已经显示过
+    var g_curRowId = ''; //主界面Grid当前选中的行号
+    var g_curSelectedOrderRowIds = ''; //在新生成账单时，主界面订单Grid当前选中的可以生成账单的有效行号(已经校验过),以逗号分割
+    var g_curSelectedBillingIds = ''; //主界面账单Grid当前选中的可以进行操作的有效账单ID(已经校验过),以逗号分割
+
+
+    var g_selectedServiceData = new Array();
+
+</script>
+
+<!--Main-->
+<script>
+    $(document).ready(function () {
+
+        $('#_CustomerName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomer", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            //alert(item.ContactPerson)
+                            return {
+                                id: item.CustomerID,
+                                label: item.CustomerName1,
+                                value: item.CustomerName1,
+                                contact_person: item.ContactPerson,
+                                telephone: item.Telephone,
+                                email: item.Email
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null) {
+                    //alert(ui.item.id);
+                    $("#_SearchCustomerID").text(ui.item.id);
+                }
+                else {
+                    $("#_SearchCustomerID").text(-1);
+                }
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null) {
+                    $("#_SearchCustomerID").text(ui.item.id);
+                }
+                else {
+                    $("#_SearchCustomerID").text(-1);
+                }
+
+            },
+            autoFocus: true
+        });
+
+
+        $('#_CustomerShipName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            return {
+                                id: item.ShipID,
+                                label: item.ShipName1,
+                                value: item.ShipName1
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null)
+                    $("#_CustomerShipID").text(ui.item.id);
+                else
+                    $("#_CustomerShipID").text(-1);
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null)
+                    $("#_CustomerShipID").text(ui.item.id);
+                else
+                    $("#_CustomerShipID").text(-1);
+            },
+            autoFocus: true
+        });
+
+        $('#_StartDate').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m-d',
+            //format: 'd.m.Y H:i:s',
+            validateOnBlur: true,
+            timepicker: false,
+            
+        });
+        $('#_StartDate').val(new Date().Format("yyyy-MM-dd"));
+
+        $('#_EndDate').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m-d',
+            //format: 'd.m.Y H:i:s',
+            validateOnBlur: true,
+            timepicker: false,
+        });
+        $('#_EndDate').val(new Date().Format("yyyy-MM-dd"));
+
+        ServiceGridInit();
+
+        BillingGridInit();
+    });
+</script>
+
+
+<!--服務Grid-->
+<script>
+    function ServiceGridInit() {
+        $("#jqGrid_Order").jqGrid({
+            url: '@Url.Action("GetServiceDataForLoadOnce", "Finance")',
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_IDX', index: "OrderID", name: "OrderID", width: 80, editable: true, edittype: "text",
+                    hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 300, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 200, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "Length", width: 100,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "TEUS", width: 100,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                    hidden: true
+                },
+                
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_OrderServiceID', name: "OrderServiceID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureID', name: "ServiceNatureID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureLabel', name: "ServiceNatureValue", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureLabel', name: "ServiceNatureLabel", width: 100, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    hidden: false
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkDate', name: "ServiceWorkDate", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkTime', name: "ServiceWorkTime", width: 100, editable: true, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceJobStateID', name: "ServiceJobStateID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceJobStateLabel', name: "ServiceJobStateValue", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceJobStateLabel', name: "ServiceJobStateLabel", width: 100, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    hidden: false
+                },
+
+                {
+                    align: 'center', label: '拖輪總數', name: "TotalTug", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                
+            ],
+
+            viewrecords: true,
+            height: '100%', //'auto', //350,
+            //rowNum: 2,
+            autowidth: true,
+            editurl: null,
+            pager: "#jqGridPager_Order",
+            //loadonce: true,
+            //rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            //footerrow: true,
+            colMenu: true,          //列菜单
+            pgbuttons: false,//上下按钮  
+            pginput: false,//输入框
+
+            multiselect: true,
+            //multiboxonly: true,
+
+            //gridComplete: function () {
+            //    var ids = $(this).getDataIDs();
+            //    for (var i = 0; i < ids.length; i++) {
+            //        var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+            //        var hasInFlow = $(this).getCell(ids[i], 'HasInFlow');
+
+            //        if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
+            //            //$("#" + ids[i] + " td").css("background-color", "grey");
+            //        }
+            //        else {//有账单
+
+            //            if (hasInFlow == null || hasInFlow == "" || hasInFlow == "否") { //有账单，还没进入审批流程
+            //                $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+            //            }
+            //            else { //有账单在审批流程中
+            //                $("#" + ids[i] + " td").css("background-color", "#FFDDAA");
+            //            }
+            //        }
+
+            //    }
+            //},
+
+        });
+
+
+    
+        $("#jqGrid_Order").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox_Order').resize(function () {
+            var width = $('#jqGridContainerBox_Order').width();
+            $("#jqGrid_Order").setGridWidth(width);
+        });
+
+
+        $('#jqGrid_Order').navGrid('#jqGridPager_Order', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+                .navButtonAdd('#jqGridPager_Order', {
+                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    onClickButton: function () {
+                        $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                })
+                
+                .navButtonAdd('#jqGridPager_Order', {
+                    caption: "特殊账单", title: "生成特殊账单", buttonicon: "ui-icon-plus",
+                    onClickButton: function () {
+
+                        var selectedIDs = jQuery('#jqGrid_Order').getGridParam("selarrrow");
+                        if (selectedIDs.length <= 0) {
+                            alert("请至少选择一行记录!");
+                            return;
+                        }
+
+                        g_selectedServiceData = [];
+                        for (var i = 0; i < selectedIDs.length; i++) {
+                            var dr = jQuery("#jqGrid_Order").jqGrid('getRowData', selectedIDs[i]);//得到该行的数据
+                            g_selectedServiceData.push(dr);
+                        }
+
+                        AddParent();
+
+                    }
+                })
+    }
+</script>
+
+
+<!--账单Grid-->
+<script>
+    function BillingGridInit() {
+        $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetSpecialBillingDataForLoadOnce", "Finance")',
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
+                    hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.CustomerShip_CustomerID', index: "CustomerID", name: "CustomerID", width: 80, editable: true, edittype: "text",
+                    hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 300, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+
+
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingCode', name: "BillingCode", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Status', name: "Status", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimesNo', name: "TimesNo", width: 120, editable: false, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Phase', name: "Phase", width: 120, editable: false, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d H:i:s',
+                                step: 1,
+                                //timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d H:i:s',
+                                step: 1,
+                                //timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
+                },
+
+            ],
+
+            viewrecords: true,
+            height: '100%', //'auto', //350,
+            rowNum: 15,
+            autowidth: true,
+            editurl: null,
+            pager: "#jqGridPager",
+            //loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            //footerrow: true,
+            colMenu: true,          //列菜单
+
+            multiselect: true,
+            //multiboxonly: true,
+
+            onSelectRow: function (rowid, status, e) {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey) {
+                    //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+
+                }
+                else {
+
+                    $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                    var selectedIDs = grid.getGridParam("selarrrow");
+
+                    if (selectedIDs.length != 1) {
+                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                    }
+                    else {
+
+                        //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
+
+                    }
+
+                }
+            },
+
+
+            gridComplete: function () {
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var phase = $(this).getCell(ids[i], 'Phase');
+
+                    {//有账单
+                        if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
+                            //$("#" + ids[i] + " td").css("background-color", "#CCFF99");//CCFF99
+                            //$('tr[id="' + ids[i] + '"]').css("background-color", "#FFDDAA");
+                            //$(this).find('td').css("background-color", "#CCFF99");
+                        }
+                        else { //有账单在审批流程中
+                            //$("#" + ids[i] + " td").css("background-color", "#FFDDAA");
+                            $(this).find('td').css("background-color", "#FFDDAA");
+                        }
+                    }
+
+                }
+            },
+
+        });
+
+
+        $('#jqGrid').jqGrid('filterToolbar', {
+            searchResult: true,
+            searchOperators: true,
+            beforeSearch: function () {
+                var util = new Util();
+
+                //时间
+                var ret = true;
+
+                @*if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
+                ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
+                if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
+                    ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());*@
+
+                //日期
+
+                if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
+                    ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+                if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
+                    ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
+
+                @*if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
+                ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
+                if ($("#gs_MiddleTugNum").val() != null && $("#gs_MiddleTugNum").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());*@
+                if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
+                    ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_Amount").val());
+
+                //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+            }
+        });
+
+
+        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox').resize(function () {
+            var width = $('#jqGridContainerBox').width();
+            $("#jqGrid").setGridWidth(width);
+        });
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    onClickButton: function () {
+                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                })
+                .navButtonAdd('#jqGridPager', {
+                    caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+                    onClickButton: function () {
+                        var grid = $('#jqGrid')[0];
+                        grid.clearToolbar();
+                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                }).navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+                .navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ilEdit',
+                    caption: "", title: "编辑账单和回扣单", buttonicon: "ui-icon-pencil",
+                    onClickButton: function () {
+
+                        var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                        var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                        var selectedBillingIDs = "";
+
+                        for (var i = 0; i < selectedIDs.length; ++i) {
+                            var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                            selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                        }
+                        if (selectedBillingIDs != "") {
+                            selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                        }
+
+                        $.ajax({
+                            url: '@Url.Action("CheckBillingStatus", "Finance")',
+                            type: "POST",
+                            data: {
+                                'selectedBillingIDs': selectedBillingIDs
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
+
+                                for (key in result.dic_has_invoice_in_fow) {
+
+                                    var value = result.dic_has_invoice_in_fow[key];
+                                    inFlowingResult += key + ",";
+                                }
+
+                                if (inFlowingResult != "") {
+                                    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                    alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能编辑，请取消这些(张)账单！');
+                                    return;
+                                }
+
+                                for (key in result.dic_has_invoice_not_in_flow) {
+                                    var value = result.dic_has_invoice_not_in_flow[key];
+                                    hasInvoceNotInFlowingResult += value + ",";
+                                }
+
+                                if (hasInvoceNotInFlowingResult != "") {
+                                    hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                                }
+
+                                g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+                                //alert('弹出编辑框:' + g_curSelectedBillingIds);
+                                
+                                EditInvoice();
+                            },
+                        });
+                    }
+                })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_ilDelete',
+            caption: "", title: "删除账单", buttonicon: "ui-icon-trash",
+            onClickButton: function () {
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                var selectedBillingIDs = "";
+
+                for (var i = 0; i < selectedIDs.length; ++i) {
+                    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                    selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                }
+                if (selectedBillingIDs != "") {
+                    selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                }
+
+                $.ajax({
+                    url: '@Url.Action("CheckBillingStatus", "Finance")',
+                    type: "POST",
+                    data: {
+                        'selectedBillingIDs': selectedBillingIDs
+                    },//"oper=delete&id=" + gr,
+                    dataType: 'json',
+                    success: function (result) {
+
+                        for (key in result.dic_has_invoice_in_fow) {
+
+                            var value = result.dic_has_invoice_in_fow[key];
+                            inFlowingResult += key + ",";
+                        }
+
+                        if (inFlowingResult != "") {
+                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                            alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能删除，请取消这些(张)账单！');
+                            return;
+                        }
+
+                        for (key in result.dic_has_invoice_not_in_flow) {
+                            var value = result.dic_has_invoice_not_in_flow[key];
+                            hasInvoceNotInFlowingResult += value + ",";
+                        }
+
+                        if (hasInvoceNotInFlowingResult != "") {
+                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                        }
+
+                        g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+                        //AddParent();
+                        //alert('弹出删除框:' + g_curSelectedBillingIds);
+
+                        if (confirm('确定要删除所选的记录吗?')) {
+
+                            $.ajax(
+                                {
+                                    type: "post",
+                                    url: '@Url.Action("DeleteSpecialInvoice", "Finance")',
+                                    data: { 'billIds': g_curSelectedBillingIds },//"oper=delete&id=" + gr,
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        alert(result.message);
+                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                                        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                                        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+
+                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                    },
+
+                                }
+                                );
+                        }
+                    },
+                });
+
+            },
+            position: "last"
+        })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_ilAddCredit',
+            caption: "回扣单", title: "新增回扣单", buttonicon: "ui-icon-plus",
+            onClickButton: function () {
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                var selectedBillingIDs = "";
+
+                for (var i = 0; i < selectedIDs.length; ++i) {
+                    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                    selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                }
+                if (selectedBillingIDs != "") {
+                    selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                }
+
+                $.ajax({
+                    url: '@Url.Action("CheckBillingStatus", "Finance")',
+                    type: "POST",
+                    data: {
+                        'selectedBillingIDs': selectedBillingIDs
+                    },//"oper=delete&id=" + gr,
+                    dataType: 'json',
+                    success: function (result) {
+
+                        for (key in result.dic_has_invoice_in_fow) {
+
+                            var value = result.dic_has_invoice_in_fow[key];
+                            inFlowingResult += key + ",";
+                        }
+
+                        if (inFlowingResult != "") {
+                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                            alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能新增回扣单，请取消这些(张)账单！');
+                            return;
+                        }
+
+                        for (key in result.dic_has_invoice_not_in_flow) {
+                            var value = result.dic_has_invoice_not_in_flow[key];
+                            hasInvoceNotInFlowingResult += value + ",";
+                        }
+
+                        if (hasInvoceNotInFlowingResult != "") {
+                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                        }
+
+                        g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+                        //alert('弹出新增回扣单:' + g_curSelectedBillingIds);
+                        AddCreditModal();
+                    },
+                });
+
+            },
+
+        })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_ilSubmit',
+            caption: "审核", title: "提交审核", buttonicon: "ui-icon-circle-plus",
+            onClickButton: function () {
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                var selectedBillingIDs = "";
+
+                for (var i = 0; i < selectedIDs.length; ++i) {
+                    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                    selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                }
+                if (selectedBillingIDs != "") {
+                    selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                }
+
+                $.ajax({
+                    url: '@Url.Action("CheckBillingStatus", "Finance")',
+                    type: "POST",
+                    data: {
+                        'selectedBillingIDs': selectedBillingIDs
+                    },//"oper=delete&id=" + gr,
+                    dataType: 'json',
+                    success: function (result) {
+
+                        for (key in result.dic_has_invoice_in_fow) {
+
+                            var value = result.dic_has_invoice_in_fow[key];
+                            inFlowingResult += key + ",";
+                        }
+
+                        if (inFlowingResult != "") {
+                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                            alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能编辑，请取消这些(张)账单！');
+                            return;
+                        }
+
+                        for (key in result.dic_has_invoice_not_in_flow) {
+                            var value = result.dic_has_invoice_not_in_flow[key];
+                            hasInvoceNotInFlowingResult += value + ",";
+                        }
+
+                        if (hasInvoceNotInFlowingResult != "") {
+                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                        }
+
+                        g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+
+                        g_submit_billIds = hasInvoceNotInFlowingResult;
+
+                        $('#table-modal').modal();
+                    },
+                });
+
+
+            },
+
+        })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_ilView',
+            caption: "查看", title: "查看账单和回扣单", buttonicon: "ui-icon-search",
+            onClickButton: function () {
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                var selectedBillingIDs = "";
+
+                for (var i = 0; i < selectedIDs.length; ++i) {
+                    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                    selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                }
+                if (selectedBillingIDs != "") {
+                    selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                }
+
+                g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+                //查看
+                //alert("chakan:" + g_curSelectedBillingIds);
+                ViewInvoice();
+
+            },
+
+        });
+
+
+        $('#cb_jqGrid').change(function () {
+
+            if (true == $('#cb_jqGrid').prop('checked')) {
+                //alert('全选')
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                //alert(selectedIDs.length)
+                if (selectedIDs.length == 0) {
+                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                }
+                else {
+                    if (selectedIDs.length != 1) {
+                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                    }
+                    else {
+
+                        //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
+
+                    }
+                }
+            }
+            else {
+                //alert('没有全选');
+                //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+            }
+        });
+
+        $('#jqGrid_ilAdd').addClass('ui-state-disabled');
+        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+        $('#jqGrid_ilView').addClass('ui-state-disabled');
+        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+        $('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+    }
+    </script>
+
+
+
+<!--提交审核模态框-->
+<script type="text/javascript">
+
+    var g_submit_billIds = ''; //保存需要提交审核的账单,如果有以','分割，如果没有就是空字符串""
+    //$(document).ready(Init);
+    //function Init() {}
+        // Variables declaration & to make our life easier we set our HTML tags to variables too
+        var
+            $$ = function (id) { return document.getElementById(id); },
+            container = $$('flowtable'),
+            tjflow = $$('btnflow'),
+            autosaveNotification,
+            hot;
+
+        hot = new Handsontable(container, {
+            //data: getCarData(),
+            startRows: 2,
+            startCols: 4,
+        colHeaders: ['流程节点', '人员', '起始日期', '结束日期'],
+            columnSorting: true,
+            contextMenu: true,
+            minSpareRows: 1,
+            rowHeaders: true,
+            columnSorting: false,
+            contextMenu: ['row_below', 'remove_row'],
+            removeRowPlugin: true,
+            heigth: 200,
+            columns: [
+              {
+                  type: 'dropdown',
+                  //source: ['创建', '校对', '审核', '会签'],
+                  source: eval('@Html.Raw(@ViewBag.Nodes)'),
+                  strict: false,
+                  width: 110
+              },
+              {
+                  type: 'dropdown',//'autocomplete',
+                  //source: ['张三', '李四', '王五', '赵六'],
+                  source: eval('@Html.Raw(@ViewBag.Persons)'),
+                  @*source: function (request, response) {
+                      this.xhr = $.ajax({
+                          url: '@Url.Action("GetPersons", "Flow")',
+                          data: request,
+                          type: 'GET',
+                          dataType: 'json',
+                          success: function (data) {
+                              response(data);
+                          },
+
+                          error: function (model, response, options) {
+                              response([]);
+                          }
+                      });
+                  },*@
+                  strict: false,
+                  width: 110
+              },
+              {
+                  type: 'date',
+                  dateFormat: 'MM/DD/YYYY',
+                  correctFormat: true,
+                  defaultDate: '@DateTime.Now.ToShortDateString()',
+                  width: 120
+              },
+              {
+                  type: 'date',
+                  dateFormat: 'MM/DD/YYYY',
+                  correctFormat: true,
+                  //defaultDate: '@DateTime.Now.ToShortDateString()'
+                  width: 120
+              }
+            ],
+            afterChange: function (change, source) {
+                //alert(change);
+                //alert(source);
+
+                if (source === 'loadData') {
+                    return; //don't save this change
+                }
+                if (change != null) {
+                    var chs = change[0];
+                    //判断节点是否重复
+                    var rct = hot.countRows();
+                    //alert(rct);
+                if (chs[1] == 0) {
+                        //$('#childErrMsg p').html("");
+                        //$('#childErrMsg').hide();
+                        for (var i = 0; i < rct - 1; i++) {
+                            if (i == chs[0]) continue;
+                            var vlnode = hot.getDataAtCell(i, 0)
+                        if (chs[3] == vlnode && chs[3] != "") {
+                                alert("行流程节点重复! ");
+                                hot.setDataAtRowProp(chs[0], 0, "");
+                                return;
+                            }
+                        }
+                    }
+                    //判断人员是否存在
+                    if (chs[1] == 1) {
+                        var vlperson = hot.getDataAtCell(chs[0], 1);
+                    if (vlperson != null && vlperson != "") {
+                            jQuery.ajax({
+                                url: '/Flow/UserValid',
+                                type: "POST",
+                                dataType: "json",
+                                data: { 'vlperson': vlperson },//JSON.stringify(hot.getChangeData()),
+                                success: function (result) {
+                                    if (result.rvalid == false) {
+                                        alert(vlperson + "不存在! ")
+                                        hot.setDataAtRowProp(chs[0], 1, "");
+                                    }
+                                },
+                                error: function (xhr) {
+                                    //alert('error');
+                                }
+                            });
+                        }
+                    }
+                }
+                clearTimeout(autosaveNotification);
+                jQuery.ajax({
+                    url: '@Url.Action("")',
+                    type: "POST",
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(hot.getData()),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        //exampleConsole.innerHTML = 'Changes will be autosaved';
+                        autosaveNotification = setTimeout(function () {
+                            //exampleConsole.innerHTML = 'Autosaved (' + change.length +
+                            //' ' + 'cell' +
+                            //(change.length > 1 ? 's' : '') + ')';
+                        }, 1000);
+                        //alert(data);
+                    },
+                    error: function (xhr) {
+                        //exampleConsole.innerHTML = 'Autosave: No Response from Controller';
+                        //alert('error');
+                    }
+                });
+            }
+        });
+          //创建单元格只读
+          hot.updateSettings({
+              cells: function (row, col, prop) {
+                  var cellProperties = {};
+
+                  //if (hot.getData()[row][prop] === '创建') {
+                  //    cellProperties.readOnly = true;
+                  //}
+                  if (row == 0 && (col == 0 || col == 1)) cellProperties.readOnly = true;
+                  return cellProperties;
+              }
+          });
+          //第一行不能被删除
+          hot.updateSettings({
+              contextMenu: {
+                  //callback: function (key, options) {
+                  //    if (key === 'about') {
+                  //        setTimeout(function () {
+                  //            //timeout is used to make sure the menu collapsed before alert is shown
+                  //            alert("This is a context menu with default and custom options mixed");
+                  //        }, 100);
+                  //    }
+                  //},
+                  items: {
+                      "row_below": {
+                          //disabled: function () {
+                          //    //if first row, disable this option
+                          //    return (hot.getSelected() && hot.getSelected()[0] === 0)
+                          //}
+                      },
+                      "remove_row": {
+                          name: 'Remove row',
+                          disabled: function () {
+                              //if first row, disable this option
+                              return (hot.getSelected() && hot.getSelected()[0] === 0)
+                          }
+                      }
+                  }
+              }
+          })
+
+          Handsontable.Dom.addEvent(tjflow, 'click', function () {
+              var rct = hot.countRows();
+              //alert(rct);
+              for (var i = 0; i < rct - 1; i++) {
+                  //alert(hot.getDataAtCell(i, 0));//[A1,B1]
+                  var vlnode = hot.getDataAtCell(i, 0)
+                  //alert(vlnode);
+                  if (vlnode == null || vlnode == '' || vlnode == undefined) {
+                      //alert("第" + (i + 1) + "行流程节点为空! ");
+                      $('#childErrMsg p').html("第" + (i + 1) + "行流程节点为空! ");
+                      //$('#_XX').parent().addClass("has-error");
+                      $('#childErrMsg').show();
+                      return;
+                  }
+                  var vlperson = hot.getDataAtCell(i, 1)
+                  if (vlperson == null || vlperson == '' || vlperson == undefined) {
+                      //alert("第" + (i + 1) + "行人员为空! ");
+                      $('#childErrMsg p').html("第" + (i + 1) + "行人员为空! ");
+                      //$('#_XX').parent().addClass("has-error");
+                      $('#childErrMsg').show();
+                      return;
+                  }
+
+              }
+              jQuery.ajax({
+                  url: '/Flow/SubmitFlow' + '?billids=' + g_submit_billIds,
+                  type: "POST",
+                  dataType: "json",
+                  contentType: 'application/json; charset=utf-8',
+                  data: JSON.stringify(hot.getSourceData()),
+                  async: true,
+                  processData: false,
+                  cache: false,
+                  success: function (result) {
+                      $('#table-modal').modal('hide')
+                      alert(result.message);
+                  },
+                  error: function (xhr) {
+                      alert(xhr.responseText);
+                      //exampleConsole.innerHTML = 'Save error';
+                      //alert('error');
+                  }
+              });
+          });
+
+          //
+          $('#table-modal').on('shown.bs.modal', function (e) {
+              initChildModal();
+          });
+
+          function initChildModal() {
+              $('#childErrMsg').hide();
+              //$('#_xxx').parent().removeClass("has-error");
+
+              jQuery.ajax({
+                  url: '/Flow/GetInitData', //Controller to Get the
+                  //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+                  type: "GET",
+                  dataType: "json",
+                  contentType: "application/json",
+                  charset: "utf-8", // dataType and contentType should be json
+                  async: true,
+                  processData: false,
+                  cache: false,
+                  success: function (data) {      // on Success send the Json data
+                      // to the table by using loaddata function""
+                      //alert("ok");
+                      hot.loadData(data);
+                      //exampleConsole.innerHTML = 'Data loaded';
+                  },
+                  error: function (xhr) {
+                      alert('error');
+                  }
+              });
+
+              //var rct = hot.countRows();
+              ////alert(rct);
+              //for (var i = 0; i < rct - 1; i++) {
+              //    hot.alter('remove_row',i);
+              //}
+              //hot.clear();
+
+              //$('#_ServiceNatureLabel').empty();
+              //$('#_ChooseTug').val("");
+              //$("#_JobStateLabel option:first").prop("selected", 'selected');
+              //$('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+          }
+</script>
+
+
+
+<!-- 新增模态框 -->
+<script type="text/javascript">
+
+    function AddParent() {
+        $('#parent-modal').modal()
+
+    }
+
+    function initParentModal() {
+        $('#parentErrMsg').hide();
+
+        $('#add_btn_sumbit').attr('disabled', false);
+        $('#add_btn_voice_preview').attr('disabled', true);
+
+        $('#add_customer').text(g_selectedServiceData[0].CustomerName);
+
+        var feul_unit_price = $('#add_feul_unit_price').val();
+        var service_price = $('#add_service_price').val(); 
+
+        reGenerate2(g_selectedServiceData, feul_unit_price, service_price);
+    }
+
+    $('#parent-modal').on('show.bs.modal', function (e) {
+        initParentModal();
+    });
+
+    $('#parent-modal').on('shown.bs.modal', function (e) {
+    });
+    $('#parent-modal').on('hide.bs.modal', function () {
+        $('#div_services').empty();
+        $('#tb_detail').empty();
+        $('#tb_detail').empty()
+
+        $(this).removeData("bs.modal");
+        //alert("hide");
+    });
+    $('#parent-modal').on('hidden.bs.modal', function () {
+        //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
+        $(this).removeData("bs.modal");
+        //alert("hidden");
+    });
+
+    function submitParentModal() {
+
+        var maxTextLength = 50;
+        var maxTextAreaLength = 500;
+
+        $('#parentErrMsg').hide();
+
+        //提交数据库
+
+        var ret = CheckAddDialogInput();
+        if (ret == false) {
+            alert('存在无效数据，请检查是否有未输入的数据');
+            retturn;
+        }
+
+        var jsonArrayItems;
+        var array = GetAddTBodyData();
+        jsonArrayItems = JSON.stringify(array);
+
+        var custId = g_selectedServiceData[0].CustomerID;
+        var amount = parseFloat(ConvertToRealPrice($('#Add_Grand_Total_Price').text()));
+        var month = $('#add_sel_month').val();
+
+        $("#add_btn_sumbit").attr("disabled", true);
+
+
+        $.ajax({
+            url: '@Url.Action("AddSpecialInvoice", "Finance")',
+            type: "post",
+            data: {
+                'custId':custId,
+                'amount': amount,
+                'month': month,
+                'jsonArrayItems': jsonArrayItems,
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                //$('#parent-modal').modal('hide')
+                alert(result.message);
+
+                if (result.code == '@Resources.Common.SUCCESS_CODE') {
+                    $('#add_btn_voice_preview').attr('disabled', false);
+
+                    $('#jqGrid_Order').jqGrid('setGridParam',
+                    {
+                        datatype: 'json',
+                        url: '@Url.Action("GetServiceDataForLoadOnce", "Finance")',
+                    }).trigger('reloadGrid');
+
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+
+                }
+                else {
+                    $("#add_btn_sumbit").attr("disabled", false);
+                    $('#add_btn_voice_preview').attr('disabled', true);
+                }
+            },
+
+            error: function (xhr) {
+                $("#add_btn_sumbit").attr("disabled", false);
+            }
+        });
+    }
+</script>
+
+<!--新增模态框里的生成报表-->
+<script type="text/javascript">
+
+    function reGenerate2(selectedServiceData, feul_unit_price, service_price) {
+
+        $('#tb_detail').empty();
+
+        //----生成表格
+
+        //1.表头
+        {
+            var thead = $('<thead></thead>');
+            var tr = $('<tr></tr>');
+
+            var th = $('<th width="" style="text-align:center;vertical-align:middle">' + '次數' + '</th>');
+            tr.append(th);
+
+            th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務日期' + '</th>');
+            tr.append(th);
+
+            th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務內容' + '</th>');
+            tr.append(th);
+
+            th = $('<th width="" style="text-align:center;vertical-align:middle">' + '客戶船' + '</th>');
+            tr.append(th);
+
+            th = $('<th width="" style="text-align:center;vertical-align:middle">' + '拖輪數' + '</th>');
+            tr.append(th);
+
+            th = $('<th width="" style="text-align:center;vertical-align:middle">' + '價錢' + '</th>');
+            tr.append(th);
+
+            thead.append(tr);
+            $('#tb_detail').append(thead);
+        }
+
+        //2.表体
+        DynamicGenerateTBody(selectedServiceData, feul_unit_price, service_price);
+
+        //3.表尾
+        {
+            var total_tug_number = 0;
+            var total_service_price = 0, total_feul_price = 0, grand_total_price = 0;
+
+            for (var i = 0; i < selectedServiceData.length; i++) {
+                total_tug_number += parseInt(selectedServiceData[i].TotalTug);
+            }
+            total_feul_price = total_tug_number * parseFloat(ConvertToRealPrice((feul_unit_price)));
+            total_service_price = total_tug_number * parseFloat(ConvertToRealPrice((service_price)));
+            grand_total_price = total_feul_price + total_service_price;
+
+
+            var tfoot = $('<tfoot></tfoot>')
+            var tr = $('<tr></tr>')
+            {
+                var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong>燃油附加費總計</strong></td>');
+                tr.append(td);
+
+                td = $('<td id="Add_Feul_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>' + total_tug_number + '</strong></td>');
+                tr.append(td);
+
+                td = $('<td id="Add_Feul_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(total_feul_price)) + '</strong></td>');
+                tr.append(td);
+            }
+            tfoot.append(tr);
+
+            tr = $('<tr></tr>')
+            {
+                var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong>泊/離服務費總計</strong></td>');
+                tr.append(td);
+
+                td = $('<td id="Add_Service_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>' + total_tug_number + '</strong></td>');
+                tr.append(td);
+
+                td = $('<td id="Add_Service_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(total_service_price)) + '</strong></td>');
+                tr.append(td);
+            }
+            tfoot.append(tr);
+
+            tr = $('<tr></tr>')
+            {
+                var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong></strong></td>');
+                tr.append(td);
+
+                td = $('<td id="Add_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>合&nbsp;&nbsp;共</strong></td>');
+                tr.append(td);
+
+                td = $('<td id="Add_Grand_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(grand_total_price)) + '</strong></td>');
+                tr.append(td);
+            }
+            tfoot.append(tr);
+
+            $('#tb_detail').append(tfoot);
+        }
+    }
+
+    function DynamicGenerateTBody(selectedServiceData, feul_unit_price, service_price) {
+        
+        var tbody = $('<tbody></tbody>')
+
+        for (var i = 0; i < selectedServiceData.length; i++) {
+            var tr = $('<tr></tr>')
+
+            var td = $('<td width="" style="text-align:center;vertical-align:middle">' + (i + 1).toString() + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].ServiceWorkDate + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].ServiceNatureLabel + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].ShipName + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" name="拖轮" id="' + i + '" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].TotalTug + '</td>');
+            tr.append(td);
+
+            var price = parseInt(selectedServiceData[i].TotalTug) * parseFloat(ConvertToRealPrice((service_price)));
+            td = $('<td width="" name="价钱" id="' + i + '" style="text-align:center;vertical-align:middle">' + FormatPrice(GetFloatStr(price)) + '</td>');
+            tr.append(td);
+            
+            tbody.append(tr);
+        }
+
+        $('#tb_detail').append(tbody);
+
+    }
+
+    function CheckAddDialogInput() {
+        var ret = true;
+
+        //檢查燃油單價
+        var feul_unit_price = $('#add_feul_unit_price').val().trim();
+        if (feul_unit_price.length <= 0) {
+            ret = false;
+            return ret;
+        }
+        else {
+            var input_value = parseFloat(ConvertToRealPrice(feul_unit_price));
+            //alert(input_value)
+            if (isNaN(input_value) || input_value == null) {
+                ret = false;
+                return ret;
+            }
+        }
+
+        //檢查服務價格
+        var service_price = $('#add_service_price').val().trim();
+        if (service_price.length <= 0) {
+            ret = false;
+            return ret;
+        }
+        else {
+            var input_value = parseFloat(ConvertToRealPrice(service_price));
+            //alert(input_value)
+            if (isNaN(input_value) || input_value == null) {
+                ret = false;
+                return ret;
+            }
+        }
+
+        return ret;
+    }
+
+    function AddFeulUnitPriceInputChanged(obj){
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+
+        var v = parseFloat(obj.value);
+        //$(this).css('fontWeight', 'bold').text(v.toFixed(2));
+        var total_tug_number = parseInt($('#Add_Feul_Total_Tugs').text())
+        var total_feul_price = parseFloat(v * total_tug_number);
+
+        $('#Add_Feul_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(total_feul_price.toFixed(2))));
+
+        
+        var total_service_price = parseFloat(ConvertToRealPrice($('#Add_Service_Total_Price').text()));
+
+        var grand_total_price = total_feul_price + total_service_price;
+        $('#Add_Grand_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total_price.toFixed(2))));
+    }
+
+    function AddServicePriceInputChanged(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+
+        var v = parseFloat(obj.value);
+        //$(this).css('fontWeight', 'bold').text(v.toFixed(2));
+
+        for (var i = 0; i < g_selectedServiceData.length; i++) {
+            var number = parseInt($('td[name="拖轮"][id="' + i + '"]').text());
+            var price = parseFloat(number * v);
+            $('td[name="价钱"][id="' + i + '"]').text(FormatPrice(GetFloatStr(price.toFixed(2))))
+        }
+
+
+        var total_tug_number = parseInt($('#Add_Service_Total_Tugs').text())
+
+        var total_feul_price = parseFloat(ConvertToRealPrice($('#Add_Feul_Total_Price').text()));
+
+        var total_service_price = parseFloat(v * total_tug_number);
+        $('#Add_Service_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(total_service_price.toFixed(2))));
+
+        var grand_total_price = total_feul_price + total_service_price;
+        $('#Add_Grand_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total_price.toFixed(2))));
+    }
+
+    function GetAddTBodyData() {
+        var array = new Array();
+
+        var serviceUnitPrice = parseFloat(ConvertToRealPrice($('#add_service_price').val()));
+        var feulUnitPrice = parseFloat(ConvertToRealPrice($('#add_feul_unit_price').val()));
+
+        for (var i = 0; i < g_selectedServiceData.length; i++) {
+
+            var bi = new SpecialBillingItem(g_selectedServiceData[i].ServiceWorkDate, g_selectedServiceData[i].ServiceNatureLabel, g_selectedServiceData[i].ShipName,
+                g_selectedServiceData[i].TotalTug, serviceUnitPrice, feulUnitPrice);
+            array.push(bi);
+        }
+
+        return array;
+
+    }
+</script>
+
+
+
+<!--查看模态框-->
+<script type="text/javascript">
+
+    function ViewInvoice() {
+        $('#view-modal').modal()
+    }
+
+    function initViewInvoiceModal() {
+        $('#parentErrMsg').hide();
+
+        g_view_cur_selected_tab = 0; //初始显示Tab 1，账单Tab
+
+        $('#view_btn_sumbit').attr('disabled', false);
+        $('#view_btn_voice_preview').attr('disabled', false);
+
+        //var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+        var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+        var billingId = dr.IDX;  //账单ID
+
+
+
+        $.ajax({
+            type: "get",
+            url: '@Url.Action("GetSpecialInvoice", "Finance")',
+            data: {
+                'billingId': billingId
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#view_sel_billing_scheme').empty();
+                $('#view_div_services').empty();
+                $('#view_tb_detail').empty();
+
+                $('#view_customer').text(result.invoice.CustomerName);
+                $('#view_feul_unit_price').val(result.invoice.FeulUnitPrice);
+                $('#view_service_price').val(result.invoice.ServiceUnitPrice);
+                $('#view_sel_month').val(result.invoice.Month);
+
+                g_selectedServiceData = [];
+                g_selectedServiceData = result.invoice.SpecialBillingItems;
+
+                reGenerateViewTable(result);
+
+                initViewTabCredit(billingId);
+            },
+        });
+    }
+
+    $('#view-modal').on('show.bs.modal', function (e) {
+        initViewInvoiceModal();
+
+
+    });
+    $('#view-modal').on('shown.bs.modal', function (e) {
+
+    });
+    $('#view-modal').on('hide.bs.modal', function () {
+
+        $('#view_div_services').empty();
+        $('#view_tb_detail').empty();
+        $('#view_tb_detail').empty()
+
+        $(this).removeData("bs.modal");
+    });
+    $('#view-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+
+</script>
+
+<!--查看模态框里的生成报表-->
+<script type="text/javascript">
+
+    function reGenerateViewTable(result) {
+
+        $('#view_tb_detail').empty();
+
+        {
+            
+            //----生成表格
+
+            //1.表头
+            {
+                var thead = $('<thead></thead>');
+                var tr = $('<tr></tr>');
+
+                var th = $('<th width="" style="text-align:center;vertical-align:middle">' + '次數' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務日期' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務內容' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '客戶船' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '拖輪數' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '價錢' + '</th>');
+                tr.append(th);
+
+                thead.append(tr);
+                $('#view_tb_detail').append(thead);
+            }
+
+            //2.表体
+            DynamicGenerateViewTableTBody(result);
+
+            //3.表尾
+            {
+                var total_tug_number = 0;
+                var feul_unit_price = 0, service_price = 0;
+                var total_service_price = 0, total_feul_price = 0, grand_total_price = 0;
+
+                for (var i = 0; i < result.invoice.SpecialBillingItems.length; i++) {
+                    total_tug_number += parseInt(result.invoice.SpecialBillingItems[i].TugNumber);
+
+                }
+                total_feul_price = total_tug_number * parseFloat(((result.invoice.FeulUnitPrice)));
+                total_service_price = total_tug_number * parseFloat(((result.invoice.ServiceUnitPrice)));
+                grand_total_price = total_feul_price + total_service_price;
+
+
+                var tfoot = $('<tfoot></tfoot>')
+                var tr = $('<tr></tr>')
+                {
+                    var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong>燃油附加費總計</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="View_Feul_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>' + total_tug_number + '</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="View_Feul_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(total_feul_price)) + '</strong></td>');
+                    tr.append(td);
+                }
+                tfoot.append(tr);
+
+                tr = $('<tr></tr>')
+                {
+                    var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong>泊/離服務費總計</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="View_Service_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>' + total_tug_number + '</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="View_Service_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(total_service_price)) + '</strong></td>');
+                    tr.append(td);
+                }
+                tfoot.append(tr);
+
+                tr = $('<tr></tr>')
+                {
+                    var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong></strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="View_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>合&nbsp;&nbsp;共</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="View_Grand_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(grand_total_price)) + '</strong></td>');
+                    tr.append(td);
+                }
+                tfoot.append(tr);
+
+                $('#view_tb_detail').append(tfoot);
+            }
+        }
+    }
+
+    function DynamicGenerateViewTableTBody(result) {
+        //使用计费方案
+        var tbody = $('<tbody></tbody>')
+
+        for (var i = 0; i < result.invoice.SpecialBillingItems.length; i++) {
+            var tr = $('<tr></tr>')
+
+            var td = $('<td width="" style="text-align:center;vertical-align:middle">' + (i + 1).toString() + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceDate + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNature + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].CustomerShipName + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" name="拖轮" id="' + i + '" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].TugNumber + '</td>');
+            tr.append(td);
+
+            //alert(result.invoice.SpecialBillingItems[i].TotalTug);
+            //alert(result.invoice.SpecialBillingItems[i].ServiceUnitPrice);
+
+            var price = parseInt(result.invoice.SpecialBillingItems[i].TugNumber) * parseFloat(((result.invoice.SpecialBillingItems[i].ServiceUnitPrice)));
+            td = $('<td width="" name="价钱" id="' + i + '" style="text-align:center;vertical-align:middle">' + FormatPrice(GetFloatStr(price)) + '</td>');
+            tr.append(td);
+
+            tbody.append(tr);
+        }
+
+        $('#view_tb_detail').append(tbody);
+    }
+
+</script>
+
+
+
+<!--编辑模态框-->
+<script type="text/javascript">
+    var g_curRowId = '';
+
+    function EditInvoice() {
+        $('#edit-modal').modal()
+    }
+
+    function initEditInvoiceModal() {
+
+        g_edit_cur_selected_tab = 0; //初始显示Tab 1，账单Tab
+
+        $('#edit_btn_sumbit').attr('disabled', false);
+        $('#edit_btn_voice_preview').attr('disabled', false);
+
+        var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+        var billingId = dr.IDX;  //账单ID
+
+
+
+        $.ajax({
+            type: "get",
+            url: '@Url.Action("GetSpecialInvoice", "Finance")',
+            data: {
+                'billingId': billingId
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+                $('#edit_sel_billing_scheme').empty();
+                $('#edit_div_services').empty();
+                $('#edit_tb_detail').empty();
+
+                $('#edit_customer').text(result.invoice.CustomerName);
+                $('#edit_feul_unit_price').val(result.invoice.FeulUnitPrice);
+                $('#edit_service_price').val(result.invoice.ServiceUnitPrice);
+                $('#edit_sel_month').val(result.invoice.Month);
+
+                //alert(result.invoice.ServiceUnitPrice);
+
+                g_selectedServiceData = [];
+                g_selectedServiceData = result.invoice.SpecialBillingItems;
+
+                initGenerateEditTable(result);
+
+                initEditTabCredit(billingId);
+            },
+        });
+    }
+
+    $('#edit-modal').on('show.bs.modal', function (e) {
+        initEditInvoiceModal();
+    });
+    $('#edit-modal').on('shown.bs.modal', function (e) {
+
+    });
+    $('#edit-modal').on('hide.bs.modal', function () {
+
+        $('#edit_div_services').empty();
+        $('#edit_tb_detail').empty();
+        $('#edit_tb_detail').empty();
+
+        $(this).removeData("bs.modal");
+    });
+    $('#edit-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+
+    function submitEditVoiceModal() {
+        $('#parentErrMsg').hide();
+
+
+        if (g_edit_cur_selected_tab == 0) {
+            submitEditInvoice();
+        }
+        else {
+            submitEditCredit();
+        }
+
+    }
+
+
+    function submitEditInvoice() {
+        //提交数据库
+
+        var maxTextLength = 50;
+        var maxTextAreaLength = 500;
+
+        var ret = CheckEditDialogInput();
+        if (ret == false) {
+            alert('存在无效数据，请检查是否有未输入的数据');
+            retturn;
+        }
+
+        
+
+        var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+        var billingId = dr.IDX;  //账单ID   
+
+        var amount = parseFloat(ConvertToRealPrice($('#Edit_Grand_Total_Price').text()));
+        var month = $('#edit_sel_month').val();
+
+        var jsonArrayItems;
+        var array = GetEditTBodyData();
+        jsonArrayItems = JSON.stringify(array);
+
+        //return;
+
+        $("#edit_btn_sumbit").attr("disabled", true);
+
+
+        $.ajax({
+            url: '@Url.Action("EditSpecialInvoice", "Finance")',
+            type: "POST",
+            data: {
+                'billingId': billingId,
+                'amount': amount,
+                'month': month,
+                'jsonArrayItems': jsonArrayItems
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                //$('#edit-modal').modal('hide')
+                alert(result.message);
+
+                $("#edit_btn_sumbit").attr("disabled", false);
+
+                if (result.code == '@Resources.Common.SUCCESS_CODE') {
+
+                    @*$('#jqGrid_Order').jqGrid('setGridParam',
+                    {
+                        datatype: 'json',
+                        url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
+                    }).trigger('reloadGrid');*@
+
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+
+
+                    //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                    $("#edit_btn_sumbit").attr("disabled", true);
+                }
+                else {
+                    $("#edit_btn_sumbit").attr("disabled", false);
+                }
+            },
+
+            error: function (xhr) {
+                $("#edit_btn_sumbit").attr("disabled", false);
+            }
+        });
+    }
+
+
+    function submitEditCredit() {
+        $('#edit-modal').modal('hide');
+    }
+
+
+</script>
+
+<!--编辑模态框里的生成报表-->
+<script type="text/javascript">
+
+    function initGenerateEditTable(result) {
+
+        $('#edit_tb_detail').empty();
+
+        {
+            //----生成表格
+
+            //1.表头
+            {
+                var thead = $('<thead></thead>');
+                var tr = $('<tr></tr>');
+
+                var th = $('<th width="" style="text-align:center;vertical-align:middle">' + '次數' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務日期' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務內容' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '客戶船' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '拖輪數' + '</th>');
+                tr.append(th);
+
+                th = $('<th width="" style="text-align:center;vertical-align:middle">' + '價錢' + '</th>');
+                tr.append(th);
+
+                thead.append(tr);
+                $('#edit_tb_detail').append(thead);
+            }
+
+            //2.表体
+            DynamicGenerateEditTableTBody(result);
+
+            //3.表尾
+            {
+                var total_tug_number = 0;
+                var feul_unit_price = 0, service_price = 0;
+                var total_service_price = 0, total_feul_price = 0, grand_total_price = 0;
+
+                for (var i = 0; i < result.invoice.SpecialBillingItems.length; i++) {
+                    total_tug_number += parseInt(result.invoice.SpecialBillingItems[i].TugNumber);
+                    
+                }
+                total_feul_price = total_tug_number * parseFloat(((result.invoice.FeulUnitPrice)));
+                total_service_price = total_tug_number * parseFloat(((result.invoice.ServiceUnitPrice)));
+                grand_total_price = total_feul_price + total_service_price;
+
+
+                var tfoot = $('<tfoot></tfoot>')
+                var tr = $('<tr></tr>')
+                {
+                    var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong>燃油附加費總計</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="Edit_Feul_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>' + total_tug_number + '</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="Edit_Feul_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(total_feul_price)) + '</strong></td>');
+                    tr.append(td);
+                }
+                tfoot.append(tr);
+
+                tr = $('<tr></tr>')
+                {
+                    var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong>泊/離服務費總計</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="Edit_Service_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>' + total_tug_number + '</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="Edit_Service_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(total_service_price)) + '</strong></td>');
+                    tr.append(td);
+                }
+                tfoot.append(tr);
+
+                tr = $('<tr></tr>')
+                {
+                    var td = $('<td colspan=4 style="text-align:right;vertical-align:middle"><strong></strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="Edit_Total_Tugs" style="text-align:center;vertical-align:middle"><strong>合&nbsp;&nbsp;共</strong></td>');
+                    tr.append(td);
+
+                    td = $('<td id="Edit_Grand_Total_Price" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(grand_total_price)) + '</strong></td>');
+                    tr.append(td);
+                }
+                tfoot.append(tr);
+
+                $('#edit_tb_detail').append(tfoot);
+            }
+        }
+
+    }
+
+    function DynamicGenerateEditTableTBody(result) {
+        var tbody = $('<tbody></tbody>')
+
+        for (var i = 0; i < result.invoice.SpecialBillingItems.length; i++) {
+            var tr = $('<tr></tr>')
+
+            var td = $('<td width="" style="text-align:center;vertical-align:middle">' + (i + 1).toString() + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceDate + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNature + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].CustomerShipName + '</td>');
+            tr.append(td);
+
+            td = $('<td width="" name="拖轮" id="' + i + '" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].TugNumber + '</td>');
+            tr.append(td);
+
+            //alert(result.invoice.SpecialBillingItems[i].TotalTug);
+            //alert(result.invoice.SpecialBillingItems[i].ServiceUnitPrice);
+
+            var price = parseInt(result.invoice.SpecialBillingItems[i].TugNumber) * parseFloat(((result.invoice.SpecialBillingItems[i].ServiceUnitPrice)));
+            td = $('<td width="" name="价钱" id="' + i + '" style="text-align:center;vertical-align:middle">' + FormatPrice(GetFloatStr(price)) + '</td>');
+            tr.append(td);
+
+            tbody.append(tr);
+        }
+
+        $('#edit_tb_detail').append(tbody);
+    }
+
+
+    function CheckEditDialogInput() {
+        var ret = true;
+
+        //檢查燃油單價
+        var feul_unit_price = $('#edit_feul_unit_price').val().trim();
+        if (feul_unit_price.length <= 0) {
+            ret = false;
+            return ret;
+        }
+        else {
+            var input_value = parseFloat(ConvertToRealPrice(feul_unit_price));
+            //alert(input_value)
+            if (isNaN(input_value) || input_value == null) {
+                ret = false;
+                return ret;
+            }
+        }
+
+        //檢查服務價格
+        var service_price = $('#edit_service_price').val().trim();
+        if (service_price.length <= 0) {
+            ret = false;
+            return ret;
+        }
+        else {
+            var input_value = parseFloat(ConvertToRealPrice(service_price));
+            //alert(input_value)
+            if (isNaN(input_value) || input_value == null) {
+                ret = false;
+                return ret;
+            }
+        }
+
+        return ret;
+    }
+
+    function EditFeulUnitPriceInputChanged(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+
+        var v = parseFloat(obj.value);
+        //$(this).css('fontWeight', 'bold').text(v.toFixed(2));
+        var total_tug_number = parseInt($('#Edit_Feul_Total_Tugs').text())
+        var total_feul_price = parseFloat(v * total_tug_number);
+
+        $('#Edit_Feul_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(total_feul_price.toFixed(2))));
+
+
+        var total_service_price = parseFloat(ConvertToRealPrice($('#Edit_Service_Total_Price').text()));
+
+        var grand_total_price = total_feul_price + total_service_price;
+        $('#Edit_Grand_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total_price.toFixed(2))));
+    }
+
+    function EditServicePriceInputChanged(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+
+        var v = parseFloat(obj.value);
+        //$(this).css('fontWeight', 'bold').text(v.toFixed(2));
+
+        for (var i = 0; i < g_selectedServiceData.length; i++) {
+            var number = parseInt($('td[name="拖轮"][id="' + i + '"]').text());
+            var price = parseFloat(number * v);
+            $('td[name="价钱"][id="' + i + '"]').text(FormatPrice(GetFloatStr(price.toFixed(2))))
+        }
+
+
+        var total_tug_number = parseInt($('#Edit_Service_Total_Tugs').text())
+
+        var total_feul_price = parseFloat(ConvertToRealPrice($('#Edit_Feul_Total_Price').text()));
+
+        var total_service_price = parseFloat(v * total_tug_number);
+        $('#Edit_Service_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(total_service_price.toFixed(2))));
+
+        var grand_total_price = total_feul_price + total_service_price;
+        $('#Edit_Grand_Total_Price').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total_price.toFixed(2))));
+    }
+
+    function GetEditTBodyData() {
+        var array = new Array();
+
+        var serviceUnitPrice = parseFloat(ConvertToRealPrice($('#edit_service_price').val()));
+        var feulUnitPrice = parseFloat(ConvertToRealPrice($('#edit_feul_unit_price').val()));
+
+        //alert(g_selectedServiceData.length);
+
+        for (var i = 0; i < g_selectedServiceData.length; i++) {
+
+            //alert(g_selectedServiceData[i].ServiceDate);
+
+            var bi = new SpecialBillingItem(g_selectedServiceData[i].ServiceDate, g_selectedServiceData[i].ServiceNature, g_selectedServiceData[i].CustomerShipName,
+                g_selectedServiceData[i].TugNumber, serviceUnitPrice, feulUnitPrice);
+            array.push(bi);
+        }
+
+        return array;
+
+    }
+</script>
+
+
+
+<!--报表预览-->
+<script>
+    function ReportPreViewInvoice(orderId, timeTypeId, timeTypeValue, billingTypeId, billingTypeValue, billingTypeLabel) {
+        if(billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+            //alert("全包或半包报表预览");
+            //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
+            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        }
+
+        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+            //alert("计时报表预览");
+            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        }
+
+    }
+
+    function InvoicePreview() {
+
+        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+        //var rowid = g_curRowId;
+
+        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
+        var timeTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
+        var timeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
+        var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
+        var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
+        var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+
+        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+            //alert("全包或半包报表预览");
+            //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
+            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        }
+
+        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+            //alert("计时报表预览");
+            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        }
+    }
+
+    function CreditPreview() {
+        //jqGrid_view_tab
+
+        var rowid = jQuery('#jqGrid_view_tab').jqGrid('getGridParam', 'selrow');
+        var creditId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "IDX"); //CreditId
+        var orderId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "OrderID"); //OrderID
+        open('/Report/CreditNotePage' + '?OrderID=' + orderId + '&CreditID=' + creditId)
+        //alert("orderId = " + orderId + "  creditId = " + creditId +"  弹出回扣单报表");
+    }
+
+</script>
+
+
+<!--Tab 点击-->
+<script>
+    var g_view_cur_selected_tab = 0; //0:账单， 1：回扣单
+
+    var g_edit_cur_selected_tab = 0; //0:账单， 1：回扣单
+
+    //查看账单界面，点击账单Tab
+    function viewInvoiceTabClick() {
+        g_view_cur_selected_tab = 0;
+
+        //$('#edit_btn_sumbit').show();
+        $('#view_btn_voice_preview').show();
+        //alert("账单Tab 点击" + "---" + g_edit_cur_selected_tab);
+    }
+
+    //查看账单界面，点击回扣单Tab
+    function viewCreditTabClick() {
+
+        g_view_cur_selected_tab = 1;
+
+        //$('#edit_btn_sumbit').hide();
+        $('#view_btn_voice_preview').hide();
+        //alert("回扣单Tab 点击" + "---" + g_edit_cur_selected_tab);
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+        //initViewTabCredit(dr.BillingID);
+    }
+
+    //编辑账单界面，点击账单Tab
+    function editInvoiceTabClick() {
+        g_edit_cur_selected_tab = 0;
+
+        $('#edit_btn_sumbit').show();
+        $('#edit_btn_voice_preview').show();
+        //alert("账单Tab 点击" + "---" + g_edit_cur_selected_tab);
+    }
+
+    //编辑账单界面，点击回扣单Tab
+    function editCreditTabClick() {
+
+        g_edit_cur_selected_tab = 1;
+
+        $('#edit_btn_sumbit').hide();
+        $('#edit_btn_voice_preview').hide();
+        //alert("回扣单Tab 点击" + "---" + g_edit_cur_selected_tab);
+
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+        //initEditTabCredit(dr.BillingID);
+    }
+
+
+</script>
+
+
+<!--Edit Tab 回扣单-->
+<script>
+    function initEditTabCredit(billingId) {
+
+
+        $('#jqGridContainerBox_edit_tab').empty();
+
+        var table = $('<table id="jqGrid_edit_tab"></table>');
+        var div = $('<div id="jqGridPager_edit_tab"></div>');
+
+        $('#jqGridContainerBox_edit_tab').append(table).append(div);
+
+        $("#jqGrid_edit_tab").jqGrid({
+            url: '@Url.Action("GetSpecialBillingCreditData", "Finance")' + '?billingId=' + billingId,
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+
+                {
+                    align: 'center', label: '@Resources.Language.Credit_BillingID', name: "BillingID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_IDX', name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditCode', name: "CreditCode", width: 200, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditContent', name: "CreditContent", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditAmount', name: "CreditAmount", width: 100, editable: true, edittype: "text",
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var re = /^\d+\.?\d{0,2}$/;
+                            if (!re.test(value)) {
+                                return [false, '@Resources.Language.Credit_CreditAmount' + ": 请输入两位正小数!"];
+                            }
+                            else
+                                return [true, ""];
+
+                        },
+                        custom: true
+                    },
+                    hidden: false,
+                    editoptions: {
+                        defaultValue: 1000
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: false }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    sorttype: 'date',
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                },
+                @*{
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, number: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                }*@
+
+            ],
+            viewrecords: true,
+            height: '100%',
+            rowNum: 15,
+            autowidth: true,
+            editurl: '@Url.Action("AddEditCredit", "Finance")',
+            pager: "#jqGridPager_edit_tab",
+            //loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            colMenu: false,         //列菜单
+
+        });
+
+
+        $("#jqGrid_edit_tab").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox_edit_tab').resize(function () {
+            var width = $('#jqGridContainerBox_edit_tab').width();
+            $("#jqGrid_edit_tab").setGridWidth(width);
+        });
+
+
+        {
+            $('#jqGrid_edit_tab').navGrid('#jqGridPager_edit_tab', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+                    .navButtonAdd('#jqGridPager_edit_tab', {
+                        //id: 'jqGrid_ilrefresh',
+                        caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                        onClickButton: function () {
+                            $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    })
+
+                    .navButtonAdd('#jqGridPager_edit_tab', {
+                        //id: 'jqGrid_ildelete',
+                        caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                        onClickButton: function () {
+                            var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
+                            var dr = jQuery("#jqGrid_edit_tab").jqGrid('getRowData', rowid);//得到该行的数据
+                            var creditId = dr.IDX;
+                            if (rowid != null) {
+                                if (confirm('确定要删除所选的记录吗?')) {
+                                    $.ajax(
+                                        {
+                                            type: "post",
+                                            url: '@Url.Action("DeleteCredit", "Finance")',
+                                            data: { 'creditId': creditId },
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                alert(result.message);
+                                                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                                $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                            },
+
+                                        }
+                                        );
+                                }
+                            }
+                            else {
+                                alert('选中一行');
+                            }
+                        },
+                        position: "last"
+                    });
+        }
+
+        $('#jqGrid_edit_tab').inlineNav('#jqGridPager_edit_tab',
+            {
+                refresh:false,
+                edit: true,
+                add: false,
+                del: false,
+                cancel: true,
+                editParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    url: null, //'/api/values',
+                    mtype: 'POST'
+                },
+
+                addParams: {
+                    keys: true,
+                    successfunc: function (val) {
+                        if (val.responseText != "") {
+                            var ret = $.parseJSON(val.responseText);
+                            alert(ret.message);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    },
+                    errorfunc: function (rowid, xhr) {
+                        alert(xhr.responseText);
+                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    }
+                }
+            });
+
+        g_EditModalIsShown = true;
+    }
+
+</script>
+
+
+<!--View Tab 回扣单-->
+<script>
+    function initViewTabCredit(billingId) {
+
+        $('#jqGridContainerBox_view_tab').empty();
+
+        var table = $('<table id="jqGrid_view_tab"></table>');
+        var div = $('<div id="jqGridPager_view_tab"></div>');
+
+        $('#jqGridContainerBox_view_tab').append(table).append(div);
+
+        $("#jqGrid_view_tab").jqGrid({
+            url: '@Url.Action("GetSpecialBillingCreditData", "Finance")' + '?billingId=' + billingId,
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+                {
+                    align: 'center', label: '@Resources.Language.Credit_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_BillingID', name: "BillingID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditCode', name: "CreditCode", width: 200, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditContent', name: "CreditContent", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: true }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Credit_CreditAmount', name: "CreditAmount", width: 100, editable: true, edittype: "text",
+                    editrules: {
+                        required: true,
+                        custom_func: function (value, column) {
+                            var re = /^\d+\.?\d{0,2}$/;
+                            if (!re.test(value)) {
+                                return [false, '@Resources.Language.Credit_CreditAmount' + ": 请输入两位正小数!"];
+                            }
+                            else
+                                return [true, ""];
+
+                        },
+                        custom: true
+                    },
+                    hidden: false,
+                    editoptions: {
+                        defaultValue: 1000
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                    editrules: { required: false }, hidden: false,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                    sorttype: 'date',
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    editoptions: {
+                        defaultValue: -1
+                    }
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 150, editable: false, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: false,
+                },
+                @*{
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, number: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol10', name: "UserDefinedCol10", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, date: true }, hidden: true,
+                }*@
+
+            ],
+            viewrecords: true,
+            height: '100%',
+            rowNum: 15,
+            autowidth: true,
+            editurl: '@Url.Action("AddEditCredit", "Finance")',
+            pager: "#jqGridPager_view_tab",
+            //loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            colMenu: false,         //列菜单
+
+        });
+
+        $("#jqGrid_view_tab").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox_view_tab').resize(function () {
+            var width = $('#jqGridContainerBox_view_tab').width();
+            $("#jqGrid_view_tab").setGridWidth(width);
+        });
+
+        /*if (g_ViewModalIsShown == false)*/ {
+
+            $('#jqGrid_view_tab').navGrid('#jqGridPager_view_tab', { edit: false, add: false, del: false, refresh: true, view: false, search: false })
+            .navButtonAdd('#jqGridPager_view_tab', {
+                //id: 'jqGrid_ilAdd',
+                caption: "预览", title: "预览回扣单", buttonicon: "ui-icon-document",
+                onClickButton: function () {
+                    var rowid = jQuery('#jqGrid_view_tab').jqGrid('getGridParam', 'selrow');
+                    //alert(rowid);
+                    if (rowid != null) {
+
+                        //var cell = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "BillingID"); //BillingID
+                        //if (cell == null || cell == "")
+                        //    AddParent();
+                        //else {
+                        //    //编辑
+                        //    alert('所选记录已有账单，无需重复生成！');
+                        //}
+                        CreditPreview();
+                    }
+                    else {
+                        alert('选中一行');
+                    }
+                },
+
+            });
+        }
+
+        g_ViewModalIsShown = true;
+    }
+</script>
+
+
+<!--新增回扣单模态框-->
+<script>
+
+    //保存Grid当前选择的行号
+    var g_curRowId = '';
+
+    function AddCreditModal() {
+        $('#credit-add-modal').modal()
+    }
+
+    function initAddCreditModal() {
+
+        $('#creditErrMsg').hide();
+
+        $('#_CreditContent').parent().removeClass("has-error");
+        $('#_CreditAmount').parent().removeClass("has-error");
+        $('#_Remark').parent().removeClass("has-error");
+
+        $('#_CreditContent').val("");
+        $('#_CreditAmount').val("");
+        $('#_Remark').val("");
+    }
+
+    $('#credit-add-modal').on('show.bs.modal', function (e) {
+        initAddCreditModal();
+    });
+    $('#credit-add-modal').on('shown.bs.modal', function (e) {
+
+    });
+    $('#credit-add-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+    $('#credit-add-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+
+    function submitAddCreditModal() {
+        var maxTextLength = 50;
+        var maxTextAreaLength = 500;
+
+        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+
+        var billingId = dr.IDX;
+        var billingCode = dr.BillingCode;
+        var creditContent = $('#_CreditContent').val().trim();
+        var creditAmount = $('#_CreditAmount').val().trim();
+        var remark = $('#_Remark').val().trim();
+
+
+        //校验
+        if ($("#_CreditContent").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.Credit_CreditContent' + "必填");
+            $('#_CreditContent').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+        else if ($("#_CreditContent").val().toString().trim().length > maxTextAreaLength) {
+            $('#creditErrMsg p').html('@Resources.Language.Credit_CreditContent' + "长度不能超过" + maxTextAreaLength);
+            $('#_CreditContent').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        else if ($("#_CreditAmount").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.Credit_CreditAmount' + "必填");
+            $('#_CreditAmount').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        else if ($("#_Remark").val().toString().trim().length > maxTextAreaLength) {
+            $('#creditErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#_Remark').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        //提交数据库
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("AddCredit", "Finance")',
+            data: {
+                'billingId': billingId,
+                'billingCode':billingCode,
+                'creditContent': creditContent,
+                'creditAmount':creditAmount,
+                'remark': remark
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+                $('#credit-add-modal').modal('hide')
+                alert(result.message);
+            },
+        });
+    }
+</script>
+
+
+<script>
+    //将传入数据转换为字符串,并清除字符串中非数字与.的字符
+    //按数字格式补全字符串
+    function GetFloatStr(num) {
+
+        var isMinus = false;
+        if (num < 0) {
+            isMinus = true;
+        }
+        num += '';
+        num = num.replace(/[^0-9|\.]/g, ''); //清除字符串中的非数字非.字符
+
+        if (/^0+/) //清除字符串开头的0
+            num = num.replace(/^0+/, '');
+        if (!/\./.test(num)) //为整数字符串在末尾添加.00
+            num += '.00';
+        if (/^\./.test(num)) //字符以.开头时,在开头添加0
+            num = '0' + num;
+        num += '00';        //在字符串末尾补零
+        num = num.match(/\d+\.\d{2}/)[0];
+
+        if (isMinus == true) {
+            num = "-" + num;
+        }
+
+        return num;
+    };
+
+
+    function FormatPrice(strNum) {
+        var part1 = strNum.split('.')[0]; //整数部分
+        var part2 = strNum.split('.')[1]; //小数部分
+
+
+        if (part1.length <= 3) {
+            return part1.toString() + "." + part2.toString();
+        }
+        if (!/^(\+|-)?(\d+)(\.\d+)?$/.test(part1)) {
+            return part1.toString() + "." + part2.toString();
+        }
+        var a = RegExp.$1, b = RegExp.$2, c = RegExp.$3;
+        var re = new RegExp();
+        re.compile("(\\d)(\\d{3})(,|$)");
+        while (re.test(b)) {
+            b = b.replace(re, "$1,$2$3");
+        }
+        return a + "" + b + "" + c + "." + part2.toString();
+    }
+
+    function ConvertToRealPrice(number) {
+
+        number = number.replace(/\,/g, "");
+        return parseFloat(number);
+        //if (isNaN(number) || number == "") return ;
+        //number = Math.round(number * 100) / 100;
+        //if (number < 0)
+        //    return '-' + outputdollars(Math.floor(Math.abs(number) - 0) + '') + outputcents(Math.abs(number) - 0);
+        //else
+        //    return outputdollars(Math.floor(number - 0) + '') + outputcents(number - 0);
+    }
+    //格式化金额
+    function outputdollars(number) {
+        if (number.length <= 3)
+            return (number == '' ? '0' : number);
+        else {
+            var mod = number.length % 3;
+            var output = (mod == 0 ? '' : (number.substring(0, mod)));
+            for (i = 0; i < Math.floor(number.length / 3) ; i++) {
+                if ((mod == 0) && (i == 0))
+                    output += number.substring(mod + 3 * i, mod + 3 * i + 3);
+                else
+                    output += ',' + number.substring(mod + 3 * i, mod + 3 * i + 3);
+            }
+            return (output);
+        }
+    }
+    function outputcents(amount) {
+        amount = Math.round(((amount) - Math.floor(amount)) * 100);
+        return (amount < 10 ? '.0' + amount : '.' + amount);
+    }
+</script>
+
+
+<!--过滤搜索-->
+<script>
+    function OnFilter() {
+
+        var custId = parseInt($('#_SearchCustomerID').text());
+        //var shipId = parseInt($('#_CustomerShipID').text());
+
+        var custName = $('#_CustomerName').val().trim();
+        //var shipName = $('#_CustomerShipName').val().trim();
+        if (custName.length <= 0) {
+            alert('請輸入客戶名稱');
+            return;
+        }
+        if (custId == -1) {
+            alert('沒有此客戶');
+            return;
+        }
+
+        //if (shipName.length <= 0) {
+        //    alert('請輸入客戶船名稱');
+        //    return;
+        //}
+
+        //if (shipId == -1) {
+        //    alert('沒有此客戶船');
+        //    return;
+        //}
+
+        var startDate = $('#_StartDate').val();
+        var endDate = $('#_EndDate').val();
+
+        //alert($('#_SearchCustomerID').text());
+
+        $('#jqGrid_Order').jqGrid('setGridParam',
+        {
+            datatype: 'json',
+            url: '@Url.Action("SearchServiceDataForLoadOnce", "Finance")' + '?custId=' + custId + '&startDate=' + startDate + '&endDate=' + endDate,
+        }).trigger('reloadGrid');
+    }
+
+
+    function OnReset() {
+        var custId = $('#_SearchCustomerID').text(-1);
+        //var shipId = $('#_CustomerShipID').text(-1);
+
+        var custName = $('#_CustomerName').val("");
+        //var shipName = $('#_CustomerShipName').val("");
+
+        var startDate = $('#_StartDate').val(new Date().Format("yyyy-MM-dd"));
+        var endDate = $('#_EndDate').val(new Date().Format("yyyy-MM-dd"));
+        $('#jqGrid_Order').jqGrid('setGridParam',
+        {
+            datatype: 'json',
+            url: '@Url.Action("GetServiceDataForLoadOnce", "Finance")',
+        }).trigger('reloadGrid');
+    }
+</script>

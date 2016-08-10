@@ -51,6 +51,7 @@ namespace TugDataModel
         public virtual DbSet<RoleMenu> RoleMenu { get; set; }
         public virtual DbSet<RoleModule> RoleModule { get; set; }
         public virtual DbSet<Scheduler> Scheduler { get; set; }
+        public virtual DbSet<SpecialBillingItem> SpecialBillingItem { get; set; }
         public virtual DbSet<testinv> testinv { get; set; }
         public virtual DbSet<TugInfor> TugInfor { get; set; }
         public virtual DbSet<UserInfor> UserInfor { get; set; }
@@ -60,6 +61,8 @@ namespace TugDataModel
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
+        public virtual DbSet<V_Billing2> V_Billing2 { get; set; }
+        public virtual DbSet<V_Billing3> V_Billing3 { get; set; }
         public virtual DbSet<V_BillingItem> V_BillingItem { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingOrders> V_BillingOrders { get; set; }
@@ -83,6 +86,8 @@ namespace TugDataModel
         public virtual DbSet<V_RoleMenu> V_RoleMenu { get; set; }
         public virtual DbSet<V_RoleModule> V_RoleModule { get; set; }
         public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
+        public virtual DbSet<V_SpecialBillingCredit> V_SpecialBillingCredit { get; set; }
+        public virtual DbSet<V_SpecialBillingItem> V_SpecialBillingItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     
         public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> orderID, Nullable<int> timeTypeValue)

@@ -12,13 +12,17 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class BillingOrder
+    public partial class SpecialBillingItem
     {
         public int IDX { get; set; }
-        public Nullable<int> BillingID { get; set; }
-        public Nullable<int> OrderID { get; set; }
+        public Nullable<int> SpecialBillingID { get; set; }
+        public string ServiceDate { get; set; }
+        public string ServiceNature { get; set; }
+        public string CustomerShipName { get; set; }
+        public Nullable<int> TugNumber { get; set; }
+        public Nullable<double> ServiceUnitPrice { get; set; }
+        public Nullable<double> FeulUnitPrice { get; set; }
     
         public virtual Billing Billing { get; set; }
-        public virtual OrderInfor OrderInfor { get; set; }
     }
 }

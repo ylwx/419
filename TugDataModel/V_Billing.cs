@@ -16,14 +16,18 @@ namespace TugDataModel
     {
         public int IDX { get; set; }
         public string JobNo { get; set; }
+        public string IsShowShipLengthRule { get; set; }
+        public string IsShowShipTEUSRule { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+        public string CustomerCode { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
         public string BillingTemplateName { get; set; }
-        public Nullable<int> ShipLength { get; set; }
-        public Nullable<int> ShipTEUS { get; set; }
+        public string ShipLength { get; set; }
+        public string ShipTEUS { get; set; }
         public string ExpiryDate { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
-        public string BillingTypeValue { get; set; }
-        public string BillingTypeLabel { get; set; }
+        public string BillingTemplateTypeValue { get; set; }
+        public string BillingTemplateTypeLabel { get; set; }
         public string BillingCode { get; set; }
         public string BillingName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
@@ -40,5 +44,6 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
+        public string InvoiceType { get; set; }
     }
 }

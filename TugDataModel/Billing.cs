@@ -16,12 +16,19 @@ namespace TugDataModel
     {
         public Billing()
         {
+            this.AmountSum = new HashSet<AmountSum>();
             this.BillingItem = new HashSet<BillingItem>();
+            this.BillingOrder = new HashSet<BillingOrder>();
+            this.Credit = new HashSet<Credit>();
+            this.SpecialBillingItem = new HashSet<SpecialBillingItem>();
         }
     
         public int IDX { get; set; }
+        public Nullable<int> CustomerID { get; set; }
         public Nullable<int> OrderID { get; set; }
         public string JobNo { get; set; }
+        public string IsShowShipLengthRule { get; set; }
+        public string IsShowShipTEUSRule { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
         public string BillingCode { get; set; }
@@ -30,6 +37,7 @@ namespace TugDataModel
         public Nullable<double> Discount { get; set; }
         public Nullable<double> Amount { get; set; }
         public string Remark { get; set; }
+        public string InvoiceType { get; set; }
         public string Month { get; set; }
         public Nullable<int> TimesNo { get; set; }
         public string Status { get; set; }
@@ -49,6 +57,10 @@ namespace TugDataModel
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
     
+        public virtual ICollection<AmountSum> AmountSum { get; set; }
         public virtual ICollection<BillingItem> BillingItem { get; set; }
+        public virtual ICollection<BillingOrder> BillingOrder { get; set; }
+        public virtual ICollection<Credit> Credit { get; set; }
+        public virtual ICollection<SpecialBillingItem> SpecialBillingItem { get; set; }
     }
 }

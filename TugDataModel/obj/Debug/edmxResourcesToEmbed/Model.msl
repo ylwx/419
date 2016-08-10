@@ -155,6 +155,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
           <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
           <ScalarProperty Name="Remark" ColumnName="Remark" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
@@ -163,8 +164,11 @@
           <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
           <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
           <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+          <ScalarProperty Name="IsShowShipTEUSRule" ColumnName="IsShowShipTEUSRule" />
+          <ScalarProperty Name="IsShowShipLengthRule" ColumnName="IsShowShipLengthRule" />
           <ScalarProperty Name="JobNo" ColumnName="JobNo" />
           <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
           <ScalarProperty Name="IDX" ColumnName="IDX" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -685,6 +689,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SpecialBillingItem">
+      <EntityTypeMapping TypeName="Model.SpecialBillingItem">
+        <MappingFragment StoreEntitySet="SpecialBillingItem">
+          <ScalarProperty Name="FeulUnitPrice" ColumnName="FeulUnitPrice" />
+          <ScalarProperty Name="ServiceUnitPrice" ColumnName="ServiceUnitPrice" />
+          <ScalarProperty Name="TugNumber" ColumnName="TugNumber" />
+          <ScalarProperty Name="CustomerShipName" ColumnName="CustomerShipName" />
+          <ScalarProperty Name="ServiceNature" ColumnName="ServiceNature" />
+          <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+          <ScalarProperty Name="SpecialBillingID" ColumnName="SpecialBillingID" />
+          <ScalarProperty Name="IDX" ColumnName="IDX" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="testinv">
       <EntityTypeMapping TypeName="Model.testinv">
         <MappingFragment StoreEntitySet="testinv">
@@ -894,6 +912,7 @@
     <EntitySetMapping Name="V_Billing">
       <EntityTypeMapping TypeName="Model.V_Billing">
         <MappingFragment StoreEntitySet="V_Billing">
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
           <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -910,15 +929,81 @@
           <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
           <ScalarProperty Name="BillingName" ColumnName="BillingName" />
           <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-          <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
-          <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
+          <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+          <ScalarProperty Name="BillingTemplateTypeValue" ColumnName="BillingTemplateTypeValue" />
           <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
           <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
           <ScalarProperty Name="ShipTEUS" ColumnName="ShipTEUS" />
           <ScalarProperty Name="ShipLength" ColumnName="ShipLength" />
           <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
           <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+          <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="IsShowShipTEUSRule" ColumnName="IsShowShipTEUSRule" />
+          <ScalarProperty Name="IsShowShipLengthRule" ColumnName="IsShowShipLengthRule" />
           <ScalarProperty Name="JobNo" ColumnName="JobNo" />
+          <ScalarProperty Name="IDX" ColumnName="IDX" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_Billing2">
+      <EntityTypeMapping TypeName="Model.V_Billing2">
+        <MappingFragment StoreEntitySet="V_Billing2">
+          <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+          <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+          <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
+          <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="Phase" ColumnName="Phase" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+          <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="ShipTEUS" ColumnName="ShipTEUS" />
+          <ScalarProperty Name="ShipLength" ColumnName="ShipLength" />
+          <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+          <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+          <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+          <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+          <ScalarProperty Name="BillingTemplateTypeValue" ColumnName="BillingTemplateTypeValue" />
+          <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+          <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
+          <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="IsShowShipTEUSRule" ColumnName="IsShowShipTEUSRule" />
+          <ScalarProperty Name="IsShowShipLengthRule" ColumnName="IsShowShipLengthRule" />
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+          <ScalarProperty Name="JobNo" ColumnName="JobNo" />
+          <ScalarProperty Name="IDX" ColumnName="IDX" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_Billing3">
+      <EntityTypeMapping TypeName="Model.V_Billing3">
+        <MappingFragment StoreEntitySet="V_Billing3">
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+          <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="Phase" ColumnName="Phase" />
+          <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
           <ScalarProperty Name="IDX" ColumnName="IDX" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -999,19 +1084,25 @@
           <ScalarProperty Name="Remark" ColumnName="Remark" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
-          <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
-          <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
-          <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
           <ScalarProperty Name="BillingName" ColumnName="BillingName" />
           <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-          <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
-          <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
-          <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
           <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
           <ScalarProperty Name="ShipTEUS" ColumnName="ShipTEUS" />
           <ScalarProperty Name="ShipLength" ColumnName="ShipLength" />
+          <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+          <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+          <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+          <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+          <ScalarProperty Name="BillingTemplateTypeValue" ColumnName="BillingTemplateTypeValue" />
+          <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
           <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
           <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="IsShowShipTEUSRule" ColumnName="IsShowShipTEUSRule" />
+          <ScalarProperty Name="IsShowShipLengthRule" ColumnName="IsShowShipLengthRule" />
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
           <ScalarProperty Name="JobNo" ColumnName="JobNo" />
           <ScalarProperty Name="BillingID" ColumnName="BillingID" />
         </MappingFragment>
@@ -1249,12 +1340,15 @@
           <ScalarProperty Name="TugName1" ColumnName="TugName1" />
           <ScalarProperty Name="TugID" ColumnName="TugID" />
           <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
-          <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-          <ScalarProperty Name="ShipID" ColumnName="ShipID" />
           <ScalarProperty Name="TEUS" ColumnName="TEUS" />
           <ScalarProperty Name="Width" ColumnName="Width" />
           <ScalarProperty Name="Length" ColumnName="Length" />
           <ScalarProperty Name="DeadWeight" ColumnName="DeadWeight" />
+          <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+          <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+          <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
+          <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
+          <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
           <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />
           <ScalarProperty Name="EstimatedCompletionTime" ColumnName="EstimatedCompletionTime" />
           <ScalarProperty Name="ServiceWorkTime" ColumnName="ServiceWorkTime" />
@@ -1273,19 +1367,25 @@
           <ScalarProperty Name="Remark" ColumnName="Remark" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="BillingName" ColumnName="BillingName" />
+          <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
           <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
           <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
           <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
-          <ScalarProperty Name="BillingName" ColumnName="BillingName" />
-          <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-          <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
-          <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
+          <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+          <ScalarProperty Name="BillingTemplateTypeValue" ColumnName="BillingTemplateTypeValue" />
           <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
           <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
           <ScalarProperty Name="ShipTEUS" ColumnName="ShipTEUS" />
           <ScalarProperty Name="ShipLength" ColumnName="ShipLength" />
           <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
           <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="IsShowShipTEUSRule" ColumnName="IsShowShipTEUSRule" />
+          <ScalarProperty Name="IsShowShipLengthRule" ColumnName="IsShowShipLengthRule" />
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
           <ScalarProperty Name="JobNo" ColumnName="JobNo" />
           <ScalarProperty Name="BillingID" ColumnName="BillingID" />
         </MappingFragment>
@@ -1416,49 +1516,16 @@
     <EntitySetMapping Name="V_OrderBillingCredit">
       <EntityTypeMapping TypeName="Model.V_OrderBillingCredit">
         <MappingFragment StoreEntitySet="V_OrderBillingCredit">
-          <ScalarProperty Name="CreditLastUpDate" ColumnName="CreditLastUpDate" />
-          <ScalarProperty Name="CreditUserID" ColumnName="CreditUserID" />
-          <ScalarProperty Name="CreditCreateDate" ColumnName="CreditCreateDate" />
-          <ScalarProperty Name="CreditOwnerID" ColumnName="CreditOwnerID" />
-          <ScalarProperty Name="CreditRemark" ColumnName="CreditRemark" />
-          <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
+          <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
           <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+          <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
           <ScalarProperty Name="CreditCode" ColumnName="CreditCode" />
           <ScalarProperty Name="CreditID" ColumnName="CreditID" />
-          <ScalarProperty Name="BillingLastUpDate" ColumnName="BillingLastUpDate" />
-          <ScalarProperty Name="BillingUserID" ColumnName="BillingUserID" />
-          <ScalarProperty Name="BillingCreateDate" ColumnName="BillingCreateDate" />
-          <ScalarProperty Name="BillingOwnerID" ColumnName="BillingOwnerID" />
-          <ScalarProperty Name="Phase" ColumnName="Phase" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
-          <ScalarProperty Name="Month" ColumnName="Month" />
-          <ScalarProperty Name="BillingRemark" ColumnName="BillingRemark" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="Discount" ColumnName="Discount" />
-          <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
-          <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
-          <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
-          <ScalarProperty Name="BillingTypeLabel" ColumnName="BillingTypeLabel" />
-          <ScalarProperty Name="BillingTypeValue" ColumnName="BillingTypeValue" />
-          <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
-          <ScalarProperty Name="BillingName" ColumnName="BillingName" />
-          <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-          <ScalarProperty Name="BillingTemplateID" ColumnName="BillingTemplateID" />
-          <ScalarProperty Name="JobNo" ColumnName="JobNo" />
           <ScalarProperty Name="BillingID" ColumnName="BillingID" />
-          <ScalarProperty Name="HasInFlow" ColumnName="HasInFlow" />
-          <ScalarProperty Name="HasInvoice" ColumnName="HasInvoice" />
-          <ScalarProperty Name="WorkStateLabel" ColumnName="WorkStateLabel" />
-          <ScalarProperty Name="WorkStateValue" ColumnName="WorkStateValue" />
-          <ScalarProperty Name="WorkStateID" ColumnName="WorkStateID" />
-          <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-          <ScalarProperty Name="ShipID" ColumnName="ShipID" />
-          <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
-          <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
-          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1567,6 +1634,7 @@
     <EntitySetMapping Name="V_OrderService">
       <EntityTypeMapping TypeName="Model.V_OrderService">
         <MappingFragment StoreEntitySet="V_OrderService">
+          <ScalarProperty Name="TotalTug" ColumnName="TotalTug" />
           <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -1643,6 +1711,38 @@
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="RoleName" ColumnName="RoleName" />
           <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_SpecialBillingCredit">
+      <EntityTypeMapping TypeName="Model.V_SpecialBillingCredit">
+        <MappingFragment StoreEntitySet="V_SpecialBillingCredit">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+          <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
+          <ScalarProperty Name="CreditCode" ColumnName="CreditCode" />
+          <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+          <ScalarProperty Name="IDX" ColumnName="IDX" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_SpecialBillingItem">
+      <EntityTypeMapping TypeName="Model.V_SpecialBillingItem">
+        <MappingFragment StoreEntitySet="V_SpecialBillingItem">
+          <ScalarProperty Name="OneFeulTotalPrice" ColumnName="OneFeulTotalPrice" />
+          <ScalarProperty Name="FeulUnitPrice" ColumnName="FeulUnitPrice" />
+          <ScalarProperty Name="OneServiceTotalPrice" ColumnName="OneServiceTotalPrice" />
+          <ScalarProperty Name="ServiceUnitPrice" ColumnName="ServiceUnitPrice" />
+          <ScalarProperty Name="TugNumber" ColumnName="TugNumber" />
+          <ScalarProperty Name="CustomerShipName" ColumnName="CustomerShipName" />
+          <ScalarProperty Name="ServiceNature" ColumnName="ServiceNature" />
+          <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+          <ScalarProperty Name="SpecialBillingID" ColumnName="SpecialBillingID" />
+          <ScalarProperty Name="IDX" ColumnName="IDX" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

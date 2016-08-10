@@ -50,12 +50,12 @@ namespace TugDataModel
 
 
         /// <summary>
-        /// 单价
+        /// 服务单价
         /// </summary>
         public double UnitPrice { get; set; }
 
         /// <summary>
-        /// 根据计费类型不同，显示的价格也不同。比如全包：协议收费；条款：按时间收费（WorkTimeConsumption * UnitPrice）
+        /// 根据计费类型不同，显示的服务价格也不同。比如全包：协议收费；条款：按时间收费（WorkTimeConsumption * UnitPrice）
         /// </summary>
         public double Price { get; set; }
 
@@ -116,16 +116,33 @@ namespace TugDataModel
 
     public class MyInvoice
     {
-        //public int CustormerID { get; set; }
-        //public string CustomerName { get; set; }
+        public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
 
+        public string CustomerShipName { get; set; }
         /// <summary>
         /// 订单ID
         /// </summary>
         //public int OrderID { get; set; }
+
+        /// <summary>
+        /// 多个订单ID，以','分隔
+        /// </summary>
         public string OrderIDs { get; set; }
 
-        
+        public string IsShowShipLengthRule { get; set; }
+
+        public string IsShowShipTEUSRule { get; set; }
+
+        /// <summary>
+        /// 客户船长
+        /// </summary>
+        public int CustomerShipLength { get; set; }
+
+        /// <summary>
+        /// 客户船箱量
+        /// </summary>
+        public int CustomerShipTEUS { get; set; }
         /// <summary>
         /// 订单流水号
         /// </summary>
@@ -270,5 +287,45 @@ namespace TugDataModel
         public int IDX { get; set; }
         public DateTime EffectiveDate { get; set; }
         public double Price { get; set; }
+    }
+
+    public class MySpecialInvoice{
+        public int BillingID { get; set; }
+
+        public int CustomerID { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public double Amount { get; set; }
+
+        public string Status { get; set; }
+
+        public int  Phase { get; set; }
+
+        public string InvoiceType { get; set; }
+        public string Month { get; set; }
+
+        public string BillingCode { get; set; }
+
+        public string BillingRemark { get; set; }
+
+        public double FeulUnitPrice { get; set; }
+
+        public double ServiceUnitPrice { get; set; }
+
+        public List<MySpecialBillingItem> SpecialBillingItems { get; set; }
+    }
+
+    public class MySpecialBillingItem
+    {
+        public string ServiceDate { get; set; }
+        public string ServiceNature { get; set; }
+
+        public string CustomerShipName { get; set; }
+        public int TugNumber { get; set; }
+
+        public double ServiceUnitPrice { get; set; }
+
+        public double FeulUnitPrice { get; set; }
     }
 }

@@ -34,5 +34,7 @@ namespace TugDataModel
         public Nullable<int> UserDefinedCol8 { get; set; }
         public string UserDefinedCol9 { get; set; }
         public string UserDefinedCol10 { get; set; }
+    
+        public virtual Billing Billing { get; set; }
     }
 }

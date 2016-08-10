@@ -229,7 +229,228 @@ namespace TugBusinessLogic.Module
             return _invoice;
         }
 
-        
+
+        static public MyInvoice GenerateInvoice2(int billingId)
+        {
+            TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+            MyInvoice _invoice = new MyInvoice();
+
+            //List<V_Invoice> list = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u).ToList();
+
+            var list = db.V_Invoice2.Where(u => u.BillingID == billingId).OrderBy(u => u.OrderID).ThenBy(u=>u.OrderServiceID).ThenBy(u => u.SchedulerID).Select(u => u);
+
+            string strOrderIds = "";
+            var _orderIds = list.Where(u => u.BillingID == billingId).Select(u => new { u.OrderID }).Distinct().ToList();
+            if (_orderIds != null)
+            {
+                foreach (var item in _orderIds)
+                {
+                    strOrderIds += item.OrderID.ToString() + ",";
+                }
+            }
+
+            if (strOrderIds != "")
+            {
+                strOrderIds = strOrderIds.Substring(0, strOrderIds.Length - 1);
+            }
+
+            if (list != null)
+            {
+                _invoice.CustomerID = (int)list.FirstOrDefault().CustomerID;
+                _invoice.CustomerName = list.FirstOrDefault().CustomerName;
+                _invoice.CustomerShipName = list.FirstOrDefault().ShipName;
+                _invoice.OrderIDs = strOrderIds;
+                _invoice.BillingID = list.FirstOrDefault().BillingID;
+                _invoice.IsShowShipLengthRule = list.FirstOrDefault().IsShowShipLengthRule;
+                _invoice.IsShowShipTEUSRule = list.FirstOrDefault().IsShowShipTEUSRule;
+                _invoice.CustomerShipLength = TugBusinessLogic.Module.Util.toint(list.FirstOrDefault().Length);
+                _invoice.CustomerShipTEUS = TugBusinessLogic.Module.Util.toint(list.FirstOrDefault().TEUS);
+                _invoice.BillingTemplateID = (int)list.FirstOrDefault().BillingTemplateID;
+                _invoice.BillingCode = list.FirstOrDefault().BillingCode;
+                _invoice.BillingTypeID = (int)list.FirstOrDefault().BillingTypeID;
+                _invoice.BillingTypeValue = list.FirstOrDefault().BillingTemplateTypeValue;
+                _invoice.BillingTypeLabel = list.FirstOrDefault().BillingTemplateTypeLabel;
+                _invoice.TimeTypeID = (int)list.FirstOrDefault().TimeTypeID;
+                _invoice.TimeTypeValue = list.FirstOrDefault().TimeTypeValue;
+                _invoice.TimeTypeLabel = list.FirstOrDefault().TimeTypeLabel;
+                _invoice.Discount = (double)list.FirstOrDefault().Discount;
+                
+                _invoice.Month = list.FirstOrDefault().Month;
+                _invoice.JobNo = list.FirstOrDefault().JobNo;
+                _invoice.Rmark = list.FirstOrDefault().Remark;
+
+
+                Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();
+                var services = list.Select(u => new { u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
+
+                Dictionary<int, List<MyScheduler>> dicSchedulers = new Dictionary<int, List<MyScheduler>>();
+
+                double grandTotal = 0;
+
+                if (services != null && services.Count > 0)
+                {
+                    foreach (var item in services)
+                    {
+                        MyService ms = new MyService();
+
+                        ms.OrderServicId = (int)item.OrderServiceID;
+                        ms.ServiceId = (int)item.ServiceNatureID;
+                        ms.ServiceName = item.ServiceNatureLabel;
+                        ms.ServiceWorkDate = item.ServiceWorkDate;
+                        ms.ServiceWorkPlace = item.ServiceWorkPlace;
+                        dicServiceNature.Add(ms.OrderServicId, ms);
+
+
+                        //同一个服务项下面有多少条调度
+                        var ships = list.Where(u => u.OrderServiceID == item.OrderServiceID)
+                            .Select(u => new { u.OrderServiceID, u.SchedulerID, u.ServiceNatureID, u.TugID, u.TugName1, u.TugName2 }).Distinct()
+                            .OrderBy(u => u.TugName1).ToList();
+
+                        List<MyScheduler> listScheduler = new List<MyScheduler>();
+
+                        if (ships != null)
+                        {
+                            foreach (var ship in ships)
+                            {
+
+                                MyScheduler sch = new MyScheduler();
+                                sch.TugID = (int)ship.TugID;
+                                sch.TugCnName = ship.TugName1;
+                                sch.ServiceNatureID = (int)ship.ServiceNatureID;
+
+                                //sch.TugEnName = ship.TugName2;
+                                //sch.TugSimpleName = ship.TugSimpleName;
+                                //sch.TugPower = ship.Power;
+
+                                var schedulers = list.Where(u => u.OrderServiceID == item.OrderServiceID && u.SchedulerID == ship.SchedulerID)
+                                    .OrderBy(u => u.OrderID).ThenBy(u => u.OrderServiceID).ThenBy(u => u.SchedulerID)
+                                    .Select(u => new
+                                    {
+                                        u.SchedulerID,
+                                        u.TugID,
+                                        u.TugName1,
+                                        u.TugName2,
+                                        u.DepartBaseTime,
+                                        u.ArrivalBaseTime,
+                                        u.UnitPrice,
+                                        u.RopeUsed,
+                                        u.RopeNum,
+                                        u.SchedulerRemark,
+                                        u.BillingItemIDX,
+                                        u.ItemID,
+                                        u.BillingItemValue,
+                                        u.BillingItemLabel,
+                                        u.Currency
+                                       
+                                    }).OrderBy(u => u.ItemID).ToList();
+
+                                if (schedulers != null && schedulers.Count > 0)
+                                {
+                                    sch.SchedulerID = (int)schedulers[0].SchedulerID;
+                                    sch.DepartBaseTime = schedulers[0].DepartBaseTime;
+                                    sch.ArrivalBaseTime = schedulers[0].ArrivalBaseTime;
+
+                                    int iDiffHour, iDiffMinute;
+                                    TugBusinessLogic.Utils.CalculateTimeDiff(sch.DepartBaseTime, sch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
+                                    sch.WorkTime = iDiffHour.ToString() + "h." + iDiffMinute.ToString("D2") + "m.";
+
+                                    sch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute, (int)list.FirstOrDefault().TimeTypeID, list.FirstOrDefault().TimeTypeValue, list.FirstOrDefault().TimeTypeLabel);
+
+                                    sch.RopeUsed = schedulers[0].RopeUsed;
+                                    sch.RopeNum = (int)schedulers[0].RopeNum;
+
+                                    sch.UnitPriceOfFeulFee = GetFuelFee(ms.ServiceWorkDate);
+                                    sch.DiscoutPriceOfFeulFee = GetDiscoutPriceOfFuelFee(_invoice.BillingTemplateID);
+                                    sch.PriceOfFeulFee = CalculateFuelFee(ms.ServiceWorkDate, sch.WorkTimeConsumption) + sch.DiscoutPriceOfFeulFee;
+
+                                    double servicePrice = (double)schedulers.FirstOrDefault(u => u.BillingItemValue.StartsWith("A")).UnitPrice;
+                                    sch.UnitPrice = servicePrice;
+                                    if (((int)list.FirstOrDefault().BillingTypeID == 5 || list.FirstOrDefault().BillingTemplateTypeValue == "0" || list.FirstOrDefault().BillingTemplateTypeLabel == "全包")
+                                        || ((int)list.FirstOrDefault().BillingTypeID == 6 || list.FirstOrDefault().BillingTemplateTypeValue == "1" || list.FirstOrDefault().BillingTemplateTypeLabel == "半包"))
+                                        sch.Price = servicePrice;
+                                    else
+                                        sch.Price = servicePrice * sch.WorkTimeConsumption;
+
+                                    double serviceNaturePrice = 0;
+                                    double upTotalPrice = 0;
+                                    double midTotalPrice = 0;
+                                    double discoutPrice = 0;
+
+                                    #region 一条船的费用项目
+                                    List<MyBillingItem> billingItems = new List<MyBillingItem>();
+                                    foreach (var subItem in schedulers)
+                                    {
+                                        MyBillingItem bit = new MyBillingItem();
+                                        bit.IDX = subItem.BillingItemIDX;
+                                        bit.ItemID = subItem.ItemID;
+                                        bit.ItemValue = subItem.BillingItemValue;
+                                        bit.ItemLabel = subItem.BillingItemLabel;
+                                        bit.UnitPrice = subItem.UnitPrice;
+                                        bit.Currency = subItem.Currency;
+
+                                        //if (subItem.ItemID == 22 || subItem.BillingItemValue == "E80" || subItem.BillingItemLabel == "燃油附加费")
+                                        //{
+                                        //    bit.UnitPrice = GetFuelFee(orderDate);
+                                        //    bit.Price = CalculateFuelFee(orderDate, sch.WorkTimeConsumption);
+                                        //    //bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
+                                        //}
+                                        if (subItem.ItemID == 23 || subItem.BillingItemValue == "C81" || subItem.BillingItemLabel == "拖缆费")
+                                            bit.Price = subItem.UnitPrice * sch.RopeNum;
+                                        else
+                                            bit.Price = subItem.UnitPrice;
+
+
+
+                                        if (subItem.BillingItemValue.StartsWith("A"))
+                                            serviceNaturePrice += (double)bit.Price;
+                                        else if (subItem.BillingItemValue.StartsWith("B"))
+                                            upTotalPrice += (double)bit.Price;
+                                        else if (subItem.BillingItemValue.StartsWith("C") || subItem.BillingItemValue.StartsWith("E"))
+                                        {
+                                            if (subItem.BillingItemValue.Equals("C82"))
+                                                discoutPrice += (double)bit.Price;
+                                            else if (subItem.BillingItemValue.Equals("C81") || subItem.BillingItemValue.Equals("C15") || subItem.BillingItemValue.Equals("E80"))
+                                                midTotalPrice += (double)bit.Price;
+
+                                        }
+
+                                        //totalPrice += upTotalPrice + midTotalPrice;
+
+                                        billingItems.Add(bit);
+                                    }
+                                    #endregion
+
+                                    sch.SubTotaHKS = sch.Price + upTotalPrice;
+                                    sch.DiscountSubTotalHKS = sch.SubTotaHKS + discoutPrice;
+
+                                    sch.TotalHKs = sch.DiscountSubTotalHKS + midTotalPrice;
+
+                                    sch.BillingItems = billingItems;
+
+                                    grandTotal += sch.TotalHKs;
+
+                                }
+
+                                listScheduler.Add(sch);
+                            }
+                        }
+
+                        dicSchedulers.Add((int)item.OrderServiceID, listScheduler);
+
+                    }
+                }
+
+                _invoice.ServiceNature = dicServiceNature;
+                _invoice.Schedulers = dicSchedulers;
+
+                _invoice.GrandTotalHKS = Math.Round(grandTotal, 2);
+            }
+
+            return _invoice;
+        }
+
+
         static public MyInvoice NewInvoice(int orderId, string customerBillingScheme,
             int billingTypeId, string billingTypeValue, string billingTypeLabel,
             int timeTypeId, string timeTypeValue, string timeTypeLabel, double discount)
@@ -421,6 +642,38 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
                                             }
+                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费") {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.DiscoutPriceOfFeulFee + (mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee);
+                                            }
+
+                                            else if (item.IDX == 120 || item.CustomValue == "E81" || item.CustomLabel == "燃油附加费额外费用")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee;
+                                            }
+                                            else if (item.IDX == 121 || item.CustomValue == "E82" || item.CustomLabel == "18时至22时附加费50耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0;  //存放耗时
+                                            }
+                                            else if (item.IDX == 122 || item.CustomValue == "E83" || item.CustomLabel == "22时至08时附加费100耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0; //存放耗时
+                                            }
                                             else
                                             {
                                                 mbi.Currency = "港币";
@@ -460,6 +713,10 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
+                                            }
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            {
+                                                mbi.Price = tmp.UnitPrice;
                                             }
                                             else
                                             {
@@ -576,6 +833,39 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price, 2);
                                             }
+                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.DiscoutPriceOfFeulFee + (mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee);
+                                            }
+
+                                            else if (item.IDX == 120 || item.CustomValue == "E81" || item.CustomLabel == "燃油附加费额外费用")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee;
+                                            }
+                                            else if (item.IDX == 121 || item.CustomValue == "E82" || item.CustomLabel == "18时至22时附加费50耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0;  //存放耗时
+                                            }
+                                            else if (item.IDX == 122 || item.CustomValue == "E83" || item.CustomLabel == "22时至08时附加费100耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0; //存放耗时
+                                            }
                                             else if (item.IDX == 21 || item.CustomValue == "C15" || item.CustomLabel == "使用3600BHP以上的拖轮+15%")
                                             {
                                                 mbi.Currency = "港币";
@@ -622,6 +912,10 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
+                                            }
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            {
+                                                mbi.Price = tmp.UnitPrice;
                                             }
                                             else
                                             {
@@ -888,6 +1182,39 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
                                             }
+                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.DiscoutPriceOfFeulFee + (mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee);
+                                            }
+
+                                            else if (item.IDX == 120 || item.CustomValue == "E81" || item.CustomLabel == "燃油附加费额外费用")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee;
+                                            }
+                                            else if (item.IDX == 121 || item.CustomValue == "E82" || item.CustomLabel == "18时至22时附加费50耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0;  //存放耗时
+                                            }
+                                            else if (item.IDX == 122 || item.CustomValue == "E83" || item.CustomLabel == "22时至08时附加费100耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0; //存放耗时
+                                            }
                                             else
                                             {
                                                 mbi.Currency = "港币";
@@ -927,6 +1254,10 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
+                                            }
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            {
+                                                mbi.Price = tmp.UnitPrice;
                                             }
                                             else
                                             {
@@ -1052,6 +1383,39 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
                                             }
+                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.DiscoutPriceOfFeulFee + (mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee);
+                                            }
+
+                                            else if (item.IDX == 120 || item.CustomValue == "E81" || item.CustomLabel == "燃油附加费额外费用")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee;
+                                            }
+                                            else if (item.IDX == 121 || item.CustomValue == "E82" || item.CustomLabel == "18时至22时附加费50耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0;  //存放耗时
+                                            }
+                                            else if (item.IDX == 122 || item.CustomValue == "E83" || item.CustomLabel == "22时至08时附加费100耗时")
+                                            {
+                                                mbi.Currency = "港币";
+                                                mbi.ItemID = item.IDX;
+                                                mbi.ItemValue = item.CustomValue;
+                                                mbi.ItemLabel = item.CustomLabel;
+                                                mbi.UnitPrice = mbi.Price = 0; //存放耗时
+                                            }
                                             else
                                             {
                                                 mbi.Currency = "港币";
@@ -1090,6 +1454,10 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
+                                            }
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            {
+                                                mbi.Price = tmp.UnitPrice;
                                             }
                                             else
                                             {
@@ -1145,6 +1513,44 @@ namespace TugBusinessLogic.Module
 
             _invoice.GrandTotalHKS = grandTotal;
 
+
+            return _invoice;
+        }
+
+
+        static public MySpecialInvoice GenerateSpecialInvoice(int billingId)
+        {
+            TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+
+            MySpecialInvoice _invoice = new MySpecialInvoice();
+
+            List<MySpecialBillingItem> _billingItems = new List<MySpecialBillingItem>();
+            V_Billing3 vb3 = db.V_Billing3.FirstOrDefault(u => u.IDX == billingId);
+            if (vb3 != null)
+            {
+                _invoice.BillingID = vb3.IDX;
+                _invoice.CustomerID = (int)vb3.CustomerID;
+                _invoice.CustomerName = vb3.CustomerName;
+                _invoice.Amount = (double)vb3.Amount;
+                _invoice.Status = vb3.Status;
+                _invoice.Phase = (int)vb3.Phase;
+                _invoice.InvoiceType = vb3.InvoiceType;
+                _invoice.Month = vb3.Month;
+                _invoice.BillingCode = vb3.BillingCode;
+                _invoice.BillingRemark = vb3.Remark;
+
+                _billingItems = db.V_SpecialBillingItem.Where(u => u.SpecialBillingID == billingId).Select(u => new MySpecialBillingItem
+                {
+                    ServiceDate = u.ServiceDate,
+                    ServiceNature = u.ServiceNature,
+                    CustomerShipName = u.CustomerShipName,
+                    TugNumber = (int)u.TugNumber,
+                    ServiceUnitPrice = (double)u.ServiceUnitPrice,
+                    FeulUnitPrice = (double)u.FeulUnitPrice,
+                }).ToList();
+
+                _invoice.SpecialBillingItems = _billingItems;
+            }
 
             return _invoice;
         }
@@ -2678,6 +3084,1771 @@ namespace TugBusinessLogic.Module
         }
 
 
+
+
+
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderField">排序字段</param>
+        /// <param name="orderMethod">排序方式asc升序；desc降序</param>
+        /// <returns></returns>
+        static public List<TugDataModel.V_Billing2> LoadDataForBilling(string orderField, string orderMethod)
+        {
+            List<V_Billing2> orders = null;
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单").Select(u => u).ToList<V_Billing2>();
+
+                #region 根据排序字段和排序方式排序
+                switch (orderField)
+                {
+                    case "":
+                        {
+                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                        }
+                        break;
+                    case "JobNo":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.JobNo).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.JobNo).ToList();
+                        }
+                        break;
+                    case "CustomerName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CustomerName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CustomerName).ToList();
+                        }
+                        break;
+                    case "ShipName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ShipName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ShipName).ToList();
+                        }
+                        break;
+                    case "BillingCode":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingCode).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingCode).ToList();
+                        }
+                        break;
+
+                    case "BillingTemplateName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingTemplateName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingTemplateName).ToList();
+                        }
+                        break;
+                    case "BillingTemplateTypeLabel":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingTemplateTypeLabel).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingTemplateTypeLabel).ToList();
+                        }
+                        break;
+
+                    case "TimeTypeLabel":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
+                        }
+                        break;
+
+
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
+                        }
+                        break;
+
+                    case "Status":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Status).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Status).ToList();
+                        }
+                        break;
+
+                    case "Remark":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Remark).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Remark).ToList();
+                        }
+                        break;
+
+
+                    case "CreateDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CreateDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CreateDate).ToList();
+                        }
+                        break;
+                    case "LastUpDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.LastUpDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
+                        }
+                        break;
+
+
+                    default:
+                        break;
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            return orders;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchOptions">搜索选项，格式如下</param>
+        /// <returns></returns>
+        static public List<TugDataModel.V_Billing2> SearchDataForBilling(string orderField, string orderMethod, string searchOptions)
+        {
+            List<V_Billing2> orders = null;
+            try
+            {
+                //searchOptions的Json字符串格式
+                //{
+                //    "groupOp":"AND",
+                //    "rules":[{"field":"IsGuest","op":"eq","data":"全部"}],
+                //    "groups":[
+                //        {"groupOp":"AND","groups":[],"rules":[{"data":"1","op":"ge","field":"BigTugNum"},{"data":"2","op":"le","field":"BigTugNum"}]},
+                //        {"groupOp":"AND","groups":[],"rules":[{"data":"1","op":"ge","field":"MiddleTugNum"},{"data":"2","op":"le","field":"MiddleTugNum"}]},
+                //        {"groupOp":"AND","groups":[],"rules":[{"data":"1","op":"ge","field":"SmallTugNum"},{"data":"2","op":"le","field":"SmallTugNum"}]}
+                //    ]
+
+                //}
+
+
+
+                TugDataEntities db = new TugDataEntities();
+                //orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
+
+                JObject jsonSearchOption = (JObject)JsonConvert.DeserializeObject(searchOptions);
+                string groupOp = (string)jsonSearchOption["groupOp"];
+                JArray rules = (JArray)jsonSearchOption["rules"];
+
+                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                ParameterExpression parameter = Expression.Parameter(typeof(V_Billing));
+
+                Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("普通账单"));
+                condition = Expression.AndAlso(condition, condition2);
+
+                if (rules != null)
+                {
+                    foreach (JObject item in rules)
+                    {
+                        string field = (string)item["field"];
+                        string op = (string)item["op"];
+                        string data = (string)item["data"];
+
+                        #region 根据各字段条件进行条件表达式拼接
+                        switch (field)
+                        {
+
+                            #region JobNo
+                            case "JobNo":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "JobNo"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region BillingCode
+                            case "BillingCode":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingCode"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region CustomerName
+                            case "CustomerName":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region ShipName
+                            case "ShipName":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ShipName"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region BillingTemplateName
+                            case "BillingTemplateName":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingTemplateName"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region BillingTemplateTypeLabel
+                            case "BillingTemplateTypeLabel":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                int workStateId = Convert.ToInt32(data.Split('~')[0]);
+                                                if (workStateId != -1)
+                                                {
+                                                    //orders = orders.Where(u => u.WorkStateID == workStateId).ToList();
+                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingTypeID"), Expression.Constant(workStateId, typeof(Nullable<int>)));
+                                                }
+
+                                            }
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region TimeTypeLabel
+                            case "TimeTypeLabel":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                int workStateId = Convert.ToInt32(data.Split('~')[0]);
+                                                if (workStateId != -1)
+                                                {
+                                                    //orders = orders.Where(u => u.WorkStateID == workStateId).ToList();
+                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TimeTypeID"), Expression.Constant(workStateId, typeof(Nullable<int>)));
+                                                }
+
+                                            }
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+                    
+                            #region Amount
+                            case "Amount":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region Remark
+                            case "Remark":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Remark"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+             
+                            #region Status
+                            case "Status":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Status"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region Phase
+                            case "Phase":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region CreateDate
+                            case "CreateDate":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate == data.Trim()).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1).ToList();
+                                                //cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region LastUpDate
+                            case "LastUpDate":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate == data.Trim()).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(typeof(Int32)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+
+                            default:
+                                break;
+                        }
+                        #endregion
+
+                    }
+
+                }
+
+                #region 执行查询
+                if (condition != null)
+                {
+                    var lamda = Expression.Lambda<Func<V_Billing2, bool>>(condition, parameter);
+                    orders = db.V_Billing2.Where(lamda).Select(u => u).ToList<V_Billing2>();
+                }
+                else
+                {
+                    orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单").Select(u => u).ToList<V_Billing2>();
+                }
+                #endregion
+
+                orders = orders.Select(u => u).ToList<V_Billing2>();
+
+                #region 对搜索结果根据排序字段和方式进行排序
+                switch (orderField)
+                {
+                    case "":
+                        {
+                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                        }
+                        break;
+                    case "JobNo":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.JobNo).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.JobNo).ToList();
+                        }
+                        break;
+                    case "CustomerName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CustomerName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CustomerName).ToList();
+                        }
+                        break;
+                    case "ShipName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ShipName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ShipName).ToList();
+                        }
+                        break;
+                    case "BillingCode":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingCode).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingCode).ToList();
+                        }
+                        break;
+
+                    case "BillingTemplateName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingTemplateName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingTemplateName).ToList();
+                        }
+                        break;
+                    case "BillingTemplateTypeLabel":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingTemplateTypeLabel).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingTemplateTypeLabel).ToList();
+                        }
+                        break;
+
+                    case "TimeTypeLabel":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
+                        }
+                        break;
+
+
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
+                        }
+                        break;
+
+                    case "Status":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Status).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Status).ToList();
+                        }
+                        break;
+
+                    case "Remark":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Remark).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Remark).ToList();
+                        }
+                        break;
+
+
+                    case "CreateDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CreateDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CreateDate).ToList();
+                        }
+                        break;
+                    case "LastUpDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.LastUpDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
+                        }
+                        break;
+
+
+                    default:
+                        break;
+                }
+
+                #endregion
+
+
+                JArray groups = (JArray)jsonSearchOption["groups"];
+                if (groups != null)
+                {
+                    foreach (JObject item in groups)
+                    {
+                        string item_groupOp = (string)item["groupOp"];
+                        JArray item_groups = (JArray)item["groups"];
+                        JArray item_rules = (JArray)item["rules"];
+                        string item_rule0_field = (string)(((JObject)item_rules[0])["field"]);
+                        string item_rule0_op = (string)(((JObject)item_rules[0])["op"]);
+                        string item_rule0_data = (string)(((JObject)item_rules[0])["data"]);
+
+                        string item_rule1_field = (string)(((JObject)item_rules[1])["field"]);
+                        string item_rule1_op = (string)(((JObject)item_rules[1])["op"]);
+                        string item_rule1_data = (string)(((JObject)item_rules[1])["data"]);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return orders;
+        }
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderField">排序字段</param>
+        /// <param name="orderMethod">排序方式asc升序；desc降序</param>
+        /// <returns></returns>
+        static public List<TugDataModel.V_Billing3> LoadDataForSpecialBilling(string orderField, string orderMethod)
+        {
+            List<V_Billing3> orders = null;
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                orders = db.V_Billing3.Where(u => u.InvoiceType == "特殊账单").Select(u => u).ToList<V_Billing3>();
+
+                #region 根据排序字段和排序方式排序
+                switch (orderField)
+                {
+                    case "":
+                        {
+                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                        }
+                        break;
+                    
+                    case "CustomerName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CustomerName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CustomerName).ToList();
+                        }
+                        break;
+
+                    case "BillingCode":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingCode).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingCode).ToList();
+                        }
+                        break;
+
+                    
+
+
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
+                        }
+                        break;
+
+                    case "Status":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Status).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Status).ToList();
+                        }
+                        break;
+
+                    case "Remark":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Remark).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Remark).ToList();
+                        }
+                        break;
+
+
+                    case "CreateDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CreateDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CreateDate).ToList();
+                        }
+                        break;
+                    case "LastUpDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.LastUpDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
+                        }
+                        break;
+
+
+                    default:
+                        break;
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            return orders;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchOptions">搜索选项，格式如下</param>
+        /// <returns></returns>
+        static public List<TugDataModel.V_Billing3> SearchDataForSpecialBilling(string orderField, string orderMethod, string searchOptions)
+        {
+            List<V_Billing3> orders = null;
+            try
+            {
+                //searchOptions的Json字符串格式
+                //{
+                //    "groupOp":"AND",
+                //    "rules":[{"field":"IsGuest","op":"eq","data":"全部"}],
+                //    "groups":[
+                //        {"groupOp":"AND","groups":[],"rules":[{"data":"1","op":"ge","field":"BigTugNum"},{"data":"2","op":"le","field":"BigTugNum"}]},
+                //        {"groupOp":"AND","groups":[],"rules":[{"data":"1","op":"ge","field":"MiddleTugNum"},{"data":"2","op":"le","field":"MiddleTugNum"}]},
+                //        {"groupOp":"AND","groups":[],"rules":[{"data":"1","op":"ge","field":"SmallTugNum"},{"data":"2","op":"le","field":"SmallTugNum"}]}
+                //    ]
+
+                //}
+
+
+
+                TugDataEntities db = new TugDataEntities();
+                //orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
+
+                JObject jsonSearchOption = (JObject)JsonConvert.DeserializeObject(searchOptions);
+                string groupOp = (string)jsonSearchOption["groupOp"];
+                JArray rules = (JArray)jsonSearchOption["rules"];
+
+                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                ParameterExpression parameter = Expression.Parameter(typeof(V_Billing));
+
+                Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("特殊账单"));
+                condition = Expression.AndAlso(condition, condition2);
+
+                if (rules != null)
+                {
+                    foreach (JObject item in rules)
+                    {
+                        string field = (string)item["field"];
+                        string op = (string)item["op"];
+                        string data = (string)item["data"];
+
+                        #region 根据各字段条件进行条件表达式拼接
+                        switch (field)
+                        {
+
+                            #region JobNo
+                            case "JobNo":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "JobNo"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.CustomerName.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region BillingCode
+                            case "BillingCode":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingCode"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region CustomerName
+                            case "CustomerName":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region ShipName
+                            case "ShipName":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ShipName"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region BillingTemplateName
+                            case "BillingTemplateName":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingTemplateName"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region BillingTemplateTypeLabel
+                            case "BillingTemplateTypeLabel":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                int workStateId = Convert.ToInt32(data.Split('~')[0]);
+                                                if (workStateId != -1)
+                                                {
+                                                    //orders = orders.Where(u => u.WorkStateID == workStateId).ToList();
+                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingTypeID"), Expression.Constant(workStateId, typeof(Nullable<int>)));
+                                                }
+
+                                            }
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region TimeTypeLabel
+                            case "TimeTypeLabel":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                int workStateId = Convert.ToInt32(data.Split('~')[0]);
+                                                if (workStateId != -1)
+                                                {
+                                                    //orders = orders.Where(u => u.WorkStateID == workStateId).ToList();
+                                                    cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TimeTypeID"), Expression.Constant(workStateId, typeof(Nullable<int>)));
+                                                }
+
+                                            }
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region Amount
+                            case "Amount":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region Remark
+                            case "Remark":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Remark"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.Remark.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region Status
+                            case "Status":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Status"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.WorkPlace.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region Phase
+                            case "Phase":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region CreateDate
+                            case "CreateDate":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate == data.Trim()).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1).ToList();
+                                                //cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region LastUpDate
+                            case "LastUpDate":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate == data.Trim()).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(typeof(Int32)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+
+                            default:
+                                break;
+                        }
+                        #endregion
+
+                    }
+
+                }
+
+                #region 执行查询
+                if (condition != null)
+                {
+                    var lamda = Expression.Lambda<Func<V_Billing3, bool>>(condition, parameter);
+                    orders = db.V_Billing3.Where(lamda).Select(u => u).ToList<V_Billing3>();
+                }
+                else
+                {
+                    orders = db.V_Billing3.Where(u => u.InvoiceType == "特殊账单").Select(u => u).ToList<V_Billing3>();
+                }
+                #endregion
+
+                orders = orders.Select(u => u).ToList<V_Billing3>();
+
+                #region 对搜索结果根据排序字段和方式进行排序
+                switch (orderField)
+                {
+                    case "":
+                        {
+                            orders = orders.OrderByDescending(u => u.IDX).ToList();
+                        }
+                        break;
+                    
+                    case "CustomerName":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CustomerName).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CustomerName).ToList();
+                        }
+                        break;
+
+                    case "BillingCode":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.BillingCode).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.BillingCode).ToList();
+                        }
+                        break;
+
+                    
+
+
+                    case "Amount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Amount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Amount).ToList();
+                        }
+                        break;
+
+                    case "Status":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Status).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Status).ToList();
+                        }
+                        break;
+
+                    case "Remark":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Remark).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Remark).ToList();
+                        }
+                        break;
+
+
+                    case "CreateDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.CreateDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.CreateDate).ToList();
+                        }
+                        break;
+                    case "LastUpDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.LastUpDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
+                        }
+                        break;
+
+
+                    default:
+                        break;
+                }
+
+                #endregion
+
+
+                JArray groups = (JArray)jsonSearchOption["groups"];
+                if (groups != null)
+                {
+                    foreach (JObject item in groups)
+                    {
+                        string item_groupOp = (string)item["groupOp"];
+                        JArray item_groups = (JArray)item["groups"];
+                        JArray item_rules = (JArray)item["rules"];
+                        string item_rule0_field = (string)(((JObject)item_rules[0])["field"]);
+                        string item_rule0_op = (string)(((JObject)item_rules[0])["op"]);
+                        string item_rule0_data = (string)(((JObject)item_rules[0])["data"]);
+
+                        string item_rule1_field = (string)(((JObject)item_rules[1])["field"]);
+                        string item_rule1_op = (string)(((JObject)item_rules[1])["op"]);
+                        string item_rule1_data = (string)(((JObject)item_rules[1])["data"]);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return orders;
+        }
+
+
+
+
+
+
+
         static public List<string> GetOrderSchedulerRemarks(int orderId)
         {
             TugDataEntities db = new TugDataEntities();
@@ -2782,16 +4953,16 @@ namespace TugBusinessLogic.Module
 
 
         //合并账单用的驳回删除
-        static public void RejectInvoice2(int billingId = 1)
+        static public void RejectInvoice2(int billingId)
         {
             TugDataEntities db = new TugDataEntities();
-            //var orders = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
-            //if (orders != null)
+            var orders = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
+            if (orders != null)
             {
-                //foreach (var order in orders)
+                foreach (var order in orders)
                 {
                     //item.OrderID;
-                    List<OrderService> services = db.OrderService.Where(u => u.OrderID == 24 /*order.OrderID*/).ToList();
+                    List<OrderService> services = db.OrderService.Where(u => u.OrderID == order.OrderID).ToList();
                     if (services != null)
                     {
                         foreach (OrderService svc in services)
@@ -2801,25 +4972,25 @@ namespace TugBusinessLogic.Module
                             {
                                 foreach (Scheduler sch in schedulers)
                                 {
-                                    sch.DepartBaseTime = "";
-                                    sch.ArrivalBaseTime = "";
+                                    //sch.DepartBaseTime = "";
+                                    //sch.ArrivalBaseTime = "";
                                     db.Entry(sch).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
                             }
 
-                            svc.JobStateID = 114;
+                            //svc.JobStateID = 114;
                             db.Entry(svc).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }
                     }
 
-                    OrderInfor ord = db.OrderInfor.First(u => u.IDX == 24/*order.OrderID*/);
+                    OrderInfor ord = db.OrderInfor.First(u => u.IDX == order.OrderID);
                     if (ord != null)
                     {
                         ord.HasInvoice = "否";
                         ord.HasInFlow = "否";
-                        ord.WorkStateID = 2;
+                        //ord.WorkStateID = 2;
                         db.Entry(ord).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
                     }
@@ -3148,6 +5319,68 @@ namespace TugBusinessLogic.Module
             return retList;
         }
 
+
+        static public void GetStatuOfBillings(string selectedBillingIDs, out Dictionary<int, int> dicNotInFlow,
+            out Dictionary<int, int> dicInFow)
+        {
+
+            Dictionary<int, int> dicNotInFlow2 = new Dictionary<int, int>();
+            Dictionary<int, int> dicInFow2 = new Dictionary<int, int>();
+
+            if (selectedBillingIDs != "")
+            {
+                List<string> list = selectedBillingIDs.Split(',').ToList(); //list中的每个元素的rowNo:billingId的格式
+                if (list != null)
+                {
+                    foreach (string item in list)
+                    {
+                        int rowNo = Util.toint(item.Split(':')[0]);
+                        int billId = Util.toint(item.Split(':')[1]);
+
+                        string ret = GetStatusOfBilling(billId);
+                        if (ret == ConstValue.HAS_INVOICE_IN_FLOW)
+                        {
+                            dicInFow2.Add(rowNo, billId);
+                        }
+                        else if (ret == ConstValue.HAS_INVOICE_NOT_IN_FLOW)
+                        {
+                            dicNotInFlow2.Add(rowNo, billId);
+                        }
+                    }
+                }
+            }
+
+            dicNotInFlow = dicNotInFlow2;
+            dicInFow = dicInFow2;
+        }
+
+        /// <summary>
+        /// 获取一个订单的账单状态
+        /// </summary>
+        /// <param name="orderId">订单Id</param>
+        static private string GetStatusOfBilling(int billId)
+        {
+            string ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
+
+            TugDataEntities db = new TugDataEntities();
+
+            V_Billing ob = db.V_Billing.FirstOrDefault(u => u.IDX == billId);
+            if (ob != null)
+            {
+                {
+                    if (ob.Phase != 0)
+                    {
+                        ret = ConstValue.HAS_INVOICE_IN_FLOW;
+                    }
+                    else
+                    {
+                        ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
+                    }
+                }
+            }
+
+            return ret;
+        }
 
 
     }

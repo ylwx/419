@@ -16,19 +16,25 @@ namespace TugDataModel
     {
         public int BillingID { get; set; }
         public string JobNo { get; set; }
+        public string InvoiceType { get; set; }
+        public string IsShowShipLengthRule { get; set; }
+        public string IsShowShipTEUSRule { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+        public string CustomerCode { get; set; }
+        public string CustomerName { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
         public string BillingTemplateName { get; set; }
-        public Nullable<int> ShipLength { get; set; }
-        public Nullable<int> ShipTEUS { get; set; }
+        public string ShipLength { get; set; }
+        public string ShipTEUS { get; set; }
         public string ExpiryDate { get; set; }
         public Nullable<int> BillingTypeID { get; set; }
-        public string BillingTypeValue { get; set; }
-        public string BillingTypeLabel { get; set; }
-        public string BillingCode { get; set; }
-        public string BillingName { get; set; }
+        public string BillingTemplateTypeValue { get; set; }
+        public string BillingTemplateTypeLabel { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
         public string TimeTypeValue { get; set; }
         public string TimeTypeLabel { get; set; }
+        public string BillingCode { get; set; }
+        public string BillingName { get; set; }
         public Nullable<double> Discount { get; set; }
         public Nullable<double> Amount { get; set; }
         public string Remark { get; set; }
@@ -47,12 +53,15 @@ namespace TugDataModel
         public string ServiceWorkTime { get; set; }
         public string EstimatedCompletionTime { get; set; }
         public string ServiceWorkPlace { get; set; }
+        public Nullable<int> BigTugNum { get; set; }
+        public Nullable<int> MiddleTugNum { get; set; }
+        public Nullable<int> SmallTugNum { get; set; }
+        public Nullable<int> ShipID { get; set; }
+        public string ShipName { get; set; }
         public Nullable<int> DeadWeight { get; set; }
         public Nullable<int> Length { get; set; }
         public Nullable<int> Width { get; set; }
         public Nullable<int> TEUS { get; set; }
-        public Nullable<int> ShipID { get; set; }
-        public string ShipName { get; set; }
         public int SchedulerID { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName1 { get; set; }

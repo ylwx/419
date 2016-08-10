@@ -39,6 +39,5 @@ namespace TugDataModel
     
         public virtual Billing Billing { get; set; }
         public virtual CustomField CustomField { get; set; }
-        public virtual Scheduler Scheduler { get; set; }
     }
 }

@@ -441,6 +441,10 @@ namespace TugManagementSystem.Controllers
         }
 
 
+
+        
+
+
         /// <summary>
         /// 删除账单
         /// </summary>
@@ -749,16 +753,15 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                             }
                             break;
@@ -772,16 +775,15 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                                 else
@@ -791,16 +793,15 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                             }
@@ -814,16 +815,15 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                                 else {
@@ -832,16 +832,15 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                             }
@@ -855,16 +854,15 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                                 else {
@@ -873,16 +871,15 @@ namespace TugManagementSystem.Controllers
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                             }
@@ -891,38 +888,36 @@ namespace TugManagementSystem.Controllers
                             {
                                 if (sord == "asc") {
                                     orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
-                                     .OrderBy(u => u.CreditRemark)
+                                     .OrderBy(u => u.Remark)
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                                 else {
                                     orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
-                                     .OrderByDescending(u => u.CreditRemark)
+                                     .OrderByDescending(u => u.Remark)
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                             }
@@ -931,38 +926,36 @@ namespace TugManagementSystem.Controllers
                             {
                                 if (sord == "asc") {
                                     orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
-                                     .OrderBy(u => u.CreditCreateDate)
+                                     .OrderBy(u => u.CreateDate)
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                                 else {
                                     orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
-                                     .OrderByDescending(u => u.CreditCreateDate)
+                                     .OrderByDescending(u => u.CreateDate)
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                             }
@@ -971,38 +964,36 @@ namespace TugManagementSystem.Controllers
                             {
                                 if (sord == "asc") {
                                     orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
-                                     .OrderBy(u => u.CreditLastUpDate)
+                                     .OrderBy(u => u.LastUpDate)
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                                 else {
                                     orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
-                                     .OrderByDescending(u => u.CreditLastUpDate)
+                                     .OrderByDescending(u => u.LastUpDate)
                                      .Select(u => new MyCredit
                                      {
                                          IDX = (int)u.CreditID,
-                                         OrderID = (int)u.OrderID,
                                          BillingID = u.BillingID,
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
-                                         Remark = u.CreditRemark,
-                                         OwnerID = u.CreditOwnerID,
-                                         CreateDate = u.CreditCreateDate,
-                                         UserID = u.CreditUserID,
-                                         LastUpDate = u.CreditLastUpDate
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
                                      }).ToList<MyCredit>();
                                 }
                             }
@@ -1046,7 +1037,7 @@ namespace TugManagementSystem.Controllers
                     TugDataModel.Credit credit = new Credit();
 
                     credit.BillingID = billingId;
-                    credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
+                    //credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
                     credit.CreditContent = creditContent;
                     credit.CreditAmount = creditAmount;
                     credit.Remark = remark;
@@ -1115,25 +1106,25 @@ namespace TugManagementSystem.Controllers
                         aOrder.Remark = Request.Form["Remark"].Trim();
 
 
-                        aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
-                        aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
-                        aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
-                        aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
+                        //aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                        //aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                        //aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                        //aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
-                        if (Request.Form["UserDefinedCol5"].Trim() != "")
-                            aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+                        //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                        //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        if (Request.Form["UserDefinedCol6"].Trim() != "")
-                            aOrder.UserDefinedCol6 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol6"].Trim());
+                        //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                        //    aOrder.UserDefinedCol6 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
-                        if (Request.Form["UserDefinedCol7"].Trim() != "")
-                            aOrder.UserDefinedCol7 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol7"].Trim());
+                        //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                        //    aOrder.UserDefinedCol7 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
-                        if (Request.Form["UserDefinedCol8"].Trim() != "")
-                            aOrder.UserDefinedCol8 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol8"].Trim());
+                        //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                        //    aOrder.UserDefinedCol8 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
-                        aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
-                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+                        //aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                        //aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
 
                         db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
@@ -1186,6 +1177,52 @@ namespace TugManagementSystem.Controllers
 
         #region 账单操作2
 
+
+        public ActionResult GetBillingDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.SearchForInvoice(sidx, sord, searchOption);
+                    List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.SearchDataForBilling(sidx, sord, searchOption);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_Billing2> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_Billing2>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForBilling(sidx, sord);
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_Billing2> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_Billing2>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
        /// <summary>
        /// 驳回账单之后，要删除账单，删除账单的同时调用此Action
        /// </summary>
@@ -1296,6 +1333,1269 @@ namespace TugManagementSystem.Controllers
             var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems };
 
             return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddInvoice2(int custId, int custShipId, string orderIds, int billingTemplateId, int billingTypeId, int timeTypeId,
+            string jobNo, string remark, double discount, double amount, string month, string isShowShipLengthRule, string isShowShipTEUSRule,
+            string jsonArrayItems, string jsonArraySummaryItems)
+        {
+
+            this.Internationalization();
+
+            using (TransactionScope trans = new TransactionScope())
+            {
+                try
+                {
+                    List<string> strOrderIDs = orderIds.Split(',').ToList();
+                    List<int> iOrderIDs = new List<int>();
+                    if (strOrderIDs != null)
+                    {
+                        foreach (var item in strOrderIDs)
+                        {
+                            iOrderIDs.Add(TugBusinessLogic.Module.Util.toint(item));
+                        }
+                    }
+
+
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        //1.插入账单
+                        TugDataModel.Billing aScheduler = new Billing();
+
+                        aScheduler.JobNo = jobNo;
+                        aScheduler.IsShowShipLengthRule = isShowShipLengthRule;
+                        aScheduler.IsShowShipTEUSRule = isShowShipTEUSRule;
+                        aScheduler.InvoiceType = "普通账单";
+
+                        aScheduler.BillingTemplateID = billingTemplateId;
+                        aScheduler.BillingTypeID = billingTypeId;
+                        //aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
+                        aScheduler.BillingName = "";
+                        aScheduler.TimeTypeID = timeTypeId;
+                        aScheduler.Discount = discount;
+                        aScheduler.Amount = amount;
+                        aScheduler.Remark = remark;
+                        aScheduler.Month = month;
+
+                        aScheduler.TimesNo = 0;
+                        aScheduler.Status = "创建";
+                        aScheduler.Phase = 0;
+
+                        aScheduler.OwnerID = -1;
+                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+
+
+                        aScheduler.UserDefinedCol1 = "";
+                        aScheduler.UserDefinedCol2 = "";
+                        aScheduler.UserDefinedCol3 = "";
+                        aScheduler.UserDefinedCol4 = "";
+
+                        aScheduler.UserDefinedCol9 = "";
+                        aScheduler.UserDefinedCol10 = "";
+
+                        aScheduler = db.Billing.Add(aScheduler);
+                        db.SaveChanges();
+
+
+                        //2.插入账单、多个订单
+                        List<BillingOrder> listBillingOrder = new List<BillingOrder>();
+                        foreach (int orderId in iOrderIDs)
+                        {
+                            BillingOrder bo = new BillingOrder();
+                            bo.BillingID = aScheduler.IDX;
+                            bo.OrderID = orderId;
+                            listBillingOrder.Add(bo);
+                        }
+                        db.BillingOrder.AddRange(listBillingOrder);
+                        db.SaveChanges();
+
+
+                        //3.插入账单的收费项目
+                        List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                        listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                        if (listInVoiceItems != null)
+                        {
+                            foreach (InVoiceItem item in listInVoiceItems)
+                            {
+                                BillingItem bi = new BillingItem();
+                                bi.BillingID = aScheduler.IDX;
+                                bi.SchedulerID = item.SchedulerID;
+                                bi.ItemID = item.ItemID;
+                                bi.UnitPrice = item.UnitPrice;
+                                bi.Currency = item.Currency;
+                                bi.OwnerID = -1;
+                                bi.UserID = Session.GetDataFromSession<int>("userid");
+                                bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                bi.UserDefinedCol1 = "";
+                                bi.UserDefinedCol2 = "";
+                                bi.UserDefinedCol3 = "";
+                                bi.UserDefinedCol4 = "";
+
+                                bi.UserDefinedCol9 = "";
+                                bi.UserDefinedCol10 = "";
+
+                                bi = db.BillingItem.Add(bi);
+                                db.SaveChanges();
+                            }
+                        }
+
+                        //4.插入账单的汇总项目
+                        List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
+                        listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
+                        if (listInVoiceSummaryItems != null)
+                        {
+                            foreach (InVoiceSummaryItem item in listInVoiceSummaryItems)
+                            {
+                                AmountSum amtSum = new AmountSum();
+                                amtSum.CustomerID = custId;
+                                amtSum.CustomerShipID = custShipId;
+                                amtSum.BillingID = aScheduler.IDX;
+                                amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(aScheduler.CreateDate);
+                                amtSum.SchedulerID = item.SchedulerID;
+                                amtSum.Amount = item.Amount;
+                                amtSum.Currency = item.Currency;
+                                amtSum.Hours = item.Hours;
+                                amtSum.Year = DateTime.Now.Year.ToString();
+                                amtSum.Month = aScheduler.Month;
+                                amtSum.OwnerID = -1;
+                                amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                amtSum.UserID = Session.GetDataFromSession<int>("userid");
+
+                                amtSum = db.AmountSum.Add(amtSum);
+                                db.SaveChanges();
+                            }
+                        }
+
+                        //5.更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
+                        {
+                            List<OrderInfor> odList = db.OrderInfor.Where(u => iOrderIDs.Contains(u.IDX)).ToList();
+                            //throw new Exception();
+                            if (odList != null)
+                            {
+                                foreach (OrderInfor od in odList)
+                                {
+                                    od.HasInvoice = "是";
+                                    od.HasInFlow = "否";
+                                    db.Entry(od).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+
+                        trans.Complete();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret, JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+                catch (Exception)
+                {
+                    trans.Dispose();
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 删除账单
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult DeleteInvoice2(string billIds)
+        {
+            this.Internationalization();
+
+            try
+            {
+                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
+                //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
+
+                if (billIds != "")
+                {
+                    List<string> listBillingIds = billIds.Split(',').ToList();
+
+                    TugDataEntities db = new TugDataEntities();
+
+                    foreach (string billingId in listBillingIds)
+                    {
+                        int bid = TugBusinessLogic.Module.Util.toint(billingId);
+
+                        Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
+                        if (b != null)
+                        {
+                            TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
+                            db.Billing.Remove(b);
+                            db.SaveChanges();
+                            
+                        }
+                    }
+
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+
+
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult EditInvoice2(int billingId, int billingTemplateId, int billingTypeId, int timeTypeId,
+            string jobNo, string remark, double discount, double amount, string month, string jsonArrayItems, string isShowShipLengthRule,
+            string isShowShipTEUSRule, string jsonArraySummaryItems)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
+
+                    if (oldBilling != null)
+                    {
+                        oldBilling.BillingTemplateID = billingTemplateId;
+                        oldBilling.BillingTypeID = billingTypeId;
+                        oldBilling.TimeTypeID = timeTypeId;
+                        oldBilling.Discount = discount;
+                        oldBilling.Amount = amount;
+                        oldBilling.JobNo = jobNo;
+                        oldBilling.Remark = remark;
+                        oldBilling.Month = month;
+                        oldBilling.IsShowShipLengthRule = isShowShipLengthRule;
+                        oldBilling.IsShowShipTEUSRule = isShowShipTEUSRule;
+                        oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
+                        int ret = db.SaveChanges();
+
+                        if (ret > 0)
+                        {
+                            #region 订单收费项
+                            //1.订单收费项
+                            List<BillingItem> invoiceItems = db.BillingItem.Where(u => u.BillingID == billingId).ToList();
+                            if (invoiceItems != null)
+                            {
+                                db.BillingItem.RemoveRange(invoiceItems);
+                                ret = db.SaveChanges();
+                                if (ret > 0)
+                                {
+                                    List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                                    listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                                    if (listInVoiceItems != null)
+                                    {
+                                        foreach (InVoiceItem item in listInVoiceItems)
+                                        {
+                                            BillingItem bi = new BillingItem();
+                                            bi.BillingID = billingId;
+                                            bi.SchedulerID = item.SchedulerID;
+                                            bi.ItemID = item.ItemID;
+                                            bi.UnitPrice = item.UnitPrice;
+                                            bi.Currency = item.Currency;
+                                            bi.OwnerID = -1;
+                                            bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                                            bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                            bi.UserDefinedCol1 = "";
+                                            bi.UserDefinedCol2 = "";
+                                            bi.UserDefinedCol3 = "";
+                                            bi.UserDefinedCol4 = "";
+
+                                            bi.UserDefinedCol9 = "";
+                                            bi.UserDefinedCol10 = "";
+
+                                            bi = db.BillingItem.Add(bi);
+                                            ret = db.SaveChanges();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                }
+
+                            }
+                            else
+                            {
+                                List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                                listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                                if (listInVoiceItems != null)
+                                {
+                                    foreach (InVoiceItem item in listInVoiceItems)
+                                    {
+                                        BillingItem bi = new BillingItem();
+                                        bi.BillingID = billingId;
+                                        bi.SchedulerID = item.SchedulerID;
+                                        bi.ItemID = item.ItemID;
+                                        bi.UnitPrice = item.UnitPrice;
+                                        bi.Currency = item.Currency;
+                                        bi.OwnerID = -1;
+                                        bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                                        bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                        bi.UserDefinedCol1 = "";
+                                        bi.UserDefinedCol2 = "";
+                                        bi.UserDefinedCol3 = "";
+                                        bi.UserDefinedCol4 = "";
+
+                                        bi.UserDefinedCol9 = "";
+                                        bi.UserDefinedCol10 = "";
+
+                                        bi = db.BillingItem.Add(bi);
+                                        ret = db.SaveChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+                            #endregion
+
+                            #region 账单的汇总项目
+                            //2.插入账单的汇总项目
+
+                            List<AmountSum> oldAmountSumList = db.AmountSum.Where(u => u.BillingID == oldBilling.IDX).ToList();
+                            db.AmountSum.RemoveRange(oldAmountSumList);
+                            db.SaveChanges();
+
+                            List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
+                            listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
+                            if (listInVoiceSummaryItems != null)
+                            {
+                                V_Invoice2 vi2 = db.V_Invoice2.FirstOrDefault(u => u.BillingID == oldBilling.IDX);
+
+                                foreach (InVoiceSummaryItem item in listInVoiceSummaryItems)
+                                {
+                                    AmountSum amtSum = new AmountSum();
+                                    amtSum.CustomerID = vi2.CustomerID;
+                                    amtSum.CustomerShipID = vi2.ShipID;
+                                    amtSum.BillingID = oldBilling.IDX;
+                                    amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(oldBilling.CreateDate);
+                                    amtSum.SchedulerID = item.SchedulerID;
+                                    amtSum.Amount = item.Amount;
+                                    amtSum.Currency = item.Currency;
+                                    amtSum.Hours = item.Hours;
+                                    amtSum.Year = DateTime.Now.Year.ToString();
+                                    amtSum.Month = oldBilling.Month;
+                                    amtSum.OwnerID = -1;
+                                    amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                    amtSum.UserID = Session.GetDataFromSession<int>("userid");
+
+                                    amtSum = db.AmountSum.Add(amtSum);
+                                    db.SaveChanges();
+                                }
+                            }
+                            #endregion
+                        }
+                        else
+                        {
+                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 获取账单
+        /// </summary>
+        /// <param name="lan"></param>
+        /// <param name="custId"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public ActionResult GetInvoice2(string lan, int billingId)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            //return RedirectToAction("Login", "Home");
+
+            MyInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.GenerateInvoice2((int)billingId);
+
+            List<TugDataModel.MyCustomField> Items = new List<MyCustomField>();
+            if (_invoice.BillingTypeID == 7 || _invoice.BillingTypeValue == "1" || _invoice.BillingTypeLabel == "半包")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetBanBaoShowItems();
+
+            else if (_invoice.BillingTypeID == 8 || _invoice.BillingTypeValue == "2" || _invoice.BillingTypeLabel == "计时")
+                Items = TugBusinessLogic.Module.FinanceLogic.GetTiaoKuanShowItems();
+
+            //当前账单使用的计费方案的项目
+            List<MyBillingItem> customerSchemeItems = null;
+
+            customerSchemeItems = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemeItems(_invoice.BillingTemplateID);
+
+            //当前账单使用的计费方案
+            V_BillingTemplate bt = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillScheme(_invoice.BillingTemplateID);
+
+            //客户的计费方案
+            //TugDataEntities db = new TugDataEntities();
+            //V_Invoice2 vi = db.V_Invoice2.FirstOrDefault(u => u.BillingID == billingId);
+            //int length = TugBusinessLogic.Module.Util.toint(vi.Length);
+            //int teus = TugBusinessLogic.Module.Util.toint(vi.TEUS);
+            //List<V_BillingTemplate> customerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
+            List<TugDataModel.V_BillingTemplate> customerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS(_invoice.CustomerID, _invoice.CustomerShipLength, _invoice.CustomerShipTEUS);
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice, items = Items, customer_scheme = customerSchemeItems, billing_template = bt, customer_billing_schemes = customerBillingSchemes };
+
+
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 获取账单的状态，在流程中，不在流程中
+        /// </summary>
+        /// <param name="selectedBillingIDs">行号:账单ID</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult CheckBillingStatus(string selectedBillingIDs)
+        {
+            this.Internationalization();
+
+            Dictionary<int, int> dicNotInFlow = new Dictionary<int, int>();
+            Dictionary<int, int> dicInFow = new Dictionary<int, int>();
+
+            TugBusinessLogic.Module.FinanceLogic.GetStatuOfBillings(selectedBillingIDs, out dicNotInFlow, out dicInFow);
+
+            return Json(new
+            {
+                code = Resources.Common.SUCCESS_CODE,
+                message = Resources.Common.SUCCESS_MESSAGE,
+                dic_has_invoice_not_in_flow = dicNotInFlow,
+                dic_has_invoice_in_fow = dicInFow,
+            }, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+
+        #region 特殊账单
+
+
+        public ActionResult GetServiceDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.SearchForInvoice(sidx, sord, searchOption);
+                    //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.SearchDataForSpecialBilling(sidx, sord, searchOption);
+
+                    List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => u.OrderID == -1 && (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
+                        || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头"))
+                        .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderService> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderService>();
+
+                    var jsonData = new { /*page = page,*/ records = totalRecordNum, /*total = totalPageNum*/ rows = orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
+                    List<V_OrderService> orders = db.V_OrderService.Where(u => u.OrderID == -1 && (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
+                        || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头"))
+                        .Select(u => u).OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderService> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderService>();
+
+                    var jsonData = new { /*page = page,*/ records = totalRecordNum, /*total = totalPageNum,*/ rows = orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
+        public ActionResult SearchServiceDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows, int custId,  string startDate, string endDate)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.SearchForInvoice(sidx, sord, searchOption);
+                    //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.SearchDataForSpecialBilling(sidx, sord, searchOption);
+
+                    List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
+                        || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.CustomerID == custId 
+                        && u.ServiceWorkDate.CompareTo(startDate) >= 0  && u.ServiceWorkDate.CompareTo(endDate) <= 0)
+                        .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderService> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderService>();
+
+                    var jsonData = new {/* page = page,*/ records = totalRecordNum, /*total = totalPageNum,*/ rows = orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
+                    List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
+                        || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.CustomerID == custId 
+                        && u.ServiceWorkDate.CompareTo(startDate) >= 0 && u.ServiceWorkDate.CompareTo(endDate) <= 0)
+                        .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderService> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderService>();
+
+                    var jsonData = new { /*page = page,*/ records = totalRecordNum, /*total = totalPageNum,*/ rows = orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+        
+
+        public ActionResult GetSpecialBillingDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.SearchForInvoice(sidx, sord, searchOption);
+                    List<V_Billing3> orders = TugBusinessLogic.Module.FinanceLogic.SearchDataForSpecialBilling(sidx, sord, searchOption);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_Billing3> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_Billing3>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_Billing3> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_Billing3> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_Billing3>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
+
+        public ActionResult AddSpecialInvoice(int custId, double amount, string month, string jsonArrayItems)
+        {
+
+            this.Internationalization();
+
+            using (TransactionScope trans = new TransactionScope())
+            {
+                try
+                {
+                   
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        //1.插入账单
+                        TugDataModel.Billing aScheduler = new Billing();
+
+                        aScheduler.CustomerID = custId;
+                        aScheduler.Amount = amount;
+                        aScheduler.Month = month;
+                        aScheduler.InvoiceType = "特殊账单";
+
+                        aScheduler.TimesNo = 0;
+                        aScheduler.Status = "创建";
+                        aScheduler.Phase = 0;
+
+                        aScheduler.OwnerID = -1;
+                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+
+
+                        aScheduler.UserDefinedCol1 = "";
+                        aScheduler.UserDefinedCol2 = "";
+                        aScheduler.UserDefinedCol3 = "";
+                        aScheduler.UserDefinedCol4 = "";
+
+                        aScheduler.UserDefinedCol9 = "";
+                        aScheduler.UserDefinedCol10 = "";
+
+                        aScheduler = db.Billing.Add(aScheduler);
+                        db.SaveChanges();
+
+
+
+                        //3.插入账单的收费项目
+                        List<MySpecialBillingItem> listInVoiceItems = new List<MySpecialBillingItem>();
+                        listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<MySpecialBillingItem>(jsonArrayItems);
+                        if (listInVoiceItems != null)
+                        {
+                            foreach (MySpecialBillingItem item in listInVoiceItems)
+                            {
+                                SpecialBillingItem bi = new SpecialBillingItem();
+                                bi.SpecialBillingID = aScheduler.IDX;
+                                bi.CustomerShipName = item.CustomerShipName;
+                                bi.FeulUnitPrice = item.FeulUnitPrice;
+                                bi.ServiceDate = item.ServiceDate;
+                                bi.ServiceNature = item.ServiceNature;
+                                bi.ServiceUnitPrice = item.ServiceUnitPrice;
+                                bi.TugNumber = item.TugNumber;
+
+                                bi = db.SpecialBillingItem.Add(bi);
+                                db.SaveChanges();
+                            }
+                        }
+
+                        //4.插入账单的汇总项目
+                        //List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
+                        //listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
+                        //if (listInVoiceSummaryItems != null)
+                        //{
+                        //    foreach (InVoiceSummaryItem item in listInVoiceSummaryItems)
+                        //    {
+                        //        AmountSum amtSum = new AmountSum();
+                        //        amtSum.CustomerID = custId;
+                        //        amtSum.CustomerShipID = custShipId;
+                        //        amtSum.BillingID = aScheduler.IDX;
+                        //        amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(aScheduler.CreateDate);
+                        //        amtSum.SchedulerID = item.SchedulerID;
+                        //        amtSum.Amount = item.Amount;
+                        //        amtSum.Currency = item.Currency;
+                        //        amtSum.Hours = item.Hours;
+                        //        amtSum.Year = DateTime.Now.Year.ToString();
+                        //        amtSum.Month = aScheduler.Month;
+                        //        amtSum.OwnerID = -1;
+                        //        amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        //        amtSum.UserID = Session.GetDataFromSession<int>("userid");
+
+                        //        amtSum = db.AmountSum.Add(amtSum);
+                        //        db.SaveChanges();
+                        //    }
+                        //}
+
+                        //5.更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
+                        //{
+                        //    List<OrderInfor> odList = db.OrderInfor.Where(u => iOrderIDs.Contains(u.IDX)).ToList();
+                        //    //throw new Exception();
+                        //    if (odList != null)
+                        //    {
+                        //        foreach (OrderInfor od in odList)
+                        //        {
+                        //            od.HasInvoice = "是";
+                        //            od.HasInFlow = "否";
+                        //            db.Entry(od).State = System.Data.Entity.EntityState.Modified;
+                        //            db.SaveChanges();
+                        //        }
+                        //    }
+                        //}
+
+                        trans.Complete();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret, JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    trans.Dispose();
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+
+        public ActionResult DeleteSpecialInvoice(string billIds)
+        {
+            this.Internationalization();
+
+            try
+            {
+                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
+                //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
+
+                if (billIds != "")
+                {
+                    List<string> listBillingIds = billIds.Split(',').ToList();
+
+                    TugDataEntities db = new TugDataEntities();
+
+                    foreach (string billingId in listBillingIds)
+                    {
+                        int bid = TugBusinessLogic.Module.Util.toint(billingId);
+
+                        Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
+                        if (b != null)
+                        {
+                            //TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
+                            db.Billing.Remove(b);
+                            db.SaveChanges();
+
+                        }
+                    }
+
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+
+
+
+        public ActionResult EditSpecialInvoice(int billingId, double amount, string month, string jsonArrayItems)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
+
+                    if (oldBilling != null)
+                    {
+                        oldBilling.Amount = amount;
+                        oldBilling.Month = month;
+                        oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
+                        int ret = db.SaveChanges();
+
+                        if (ret > 0)
+                        {
+                            #region 订单收费项
+                            //1.订单收费项
+                            List<SpecialBillingItem> invoiceItems = db.SpecialBillingItem.Where(u => u.SpecialBillingID == billingId).ToList();
+                            if (invoiceItems != null)
+                            {
+                                db.SpecialBillingItem.RemoveRange(invoiceItems);
+                                ret = db.SaveChanges();
+                                if (ret > 0)
+                                {
+                                    List<MySpecialBillingItem> listInVoiceItems = new List<MySpecialBillingItem>();
+                                    listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<MySpecialBillingItem>(jsonArrayItems);
+                                    if (listInVoiceItems != null)
+                                    {
+                                        foreach (MySpecialBillingItem item in listInVoiceItems)
+                                        {
+                                            SpecialBillingItem bi = new SpecialBillingItem();
+                                            bi.CustomerShipName = item.CustomerShipName;
+                                            bi.FeulUnitPrice = item.FeulUnitPrice;
+                                            bi.ServiceDate = item.ServiceDate;
+                                            bi.ServiceNature = item.ServiceNature;
+                                            bi.ServiceUnitPrice = item.ServiceUnitPrice;
+                                            bi.TugNumber = item.TugNumber;
+                                            bi.SpecialBillingID = billingId;
+
+                                            bi = db.SpecialBillingItem.Add(bi);
+                                            db.SaveChanges();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                }
+
+                            }
+                            else
+                            {
+                                List<MySpecialBillingItem> listInVoiceItems = new List<MySpecialBillingItem>();
+                                listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<MySpecialBillingItem>(jsonArrayItems);
+                                if (listInVoiceItems != null)
+                                {
+                                    foreach (MySpecialBillingItem item in listInVoiceItems)
+                                    {
+                                        SpecialBillingItem bi = new SpecialBillingItem();
+     
+                                        bi.CustomerShipName = item.CustomerShipName;
+                                        bi.FeulUnitPrice = item.FeulUnitPrice;
+                                        bi.ServiceDate = item.ServiceDate;
+                                        bi.ServiceNature = item.ServiceNature;
+                                        bi.ServiceUnitPrice = item.ServiceUnitPrice;
+                                        bi.TugNumber = item.TugNumber;
+                                        bi.SpecialBillingID = billingId;
+                                        bi = db.SpecialBillingItem.Add(bi);
+                                        db.SaveChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+                            #endregion
+
+                            //#region 账单的汇总项目
+                            ////2.插入账单的汇总项目
+
+                            //List<AmountSum> oldAmountSumList = db.AmountSum.Where(u => u.BillingID == oldBilling.IDX).ToList();
+                            //db.AmountSum.RemoveRange(oldAmountSumList);
+                            //db.SaveChanges();
+
+                            //List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
+                            //listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
+                            //if (listInVoiceSummaryItems != null)
+                            //{
+                            //    V_Invoice2 vi2 = db.V_Invoice2.FirstOrDefault(u => u.BillingID == oldBilling.IDX);
+
+                            //    foreach (InVoiceSummaryItem item in listInVoiceSummaryItems)
+                            //    {
+                            //        AmountSum amtSum = new AmountSum();
+                            //        amtSum.CustomerID = vi2.CustomerID;
+                            //        amtSum.CustomerShipID = vi2.ShipID;
+                            //        amtSum.BillingID = oldBilling.IDX;
+                            //        amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(oldBilling.CreateDate);
+                            //        amtSum.SchedulerID = item.SchedulerID;
+                            //        amtSum.Amount = item.Amount;
+                            //        amtSum.Currency = item.Currency;
+                            //        amtSum.Hours = item.Hours;
+                            //        amtSum.Year = DateTime.Now.Year.ToString();
+                            //        amtSum.Month = oldBilling.Month;
+                            //        amtSum.OwnerID = -1;
+                            //        amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            //        amtSum.UserID = Session.GetDataFromSession<int>("userid");
+
+                            //        amtSum = db.AmountSum.Add(amtSum);
+                            //        db.SaveChanges();
+                            //    }
+                            //}
+                            //#endregion
+                        }
+                        else
+                        {
+                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 获取账单
+        /// </summary>
+        /// <param name="lan"></param>
+        /// <param name="custId"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public ActionResult GetSpecialInvoice(string lan, int billingId)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            //return RedirectToAction("Login", "Home");
+
+            MySpecialInvoice _invoice = TugBusinessLogic.Module.FinanceLogic.GenerateSpecialInvoice((int)billingId);
+
+            
+            if (_invoice.SpecialBillingItems.Count >0)
+            {
+                _invoice.FeulUnitPrice = (double)_invoice.SpecialBillingItems[0].FeulUnitPrice;
+                _invoice.ServiceUnitPrice = (double)_invoice.SpecialBillingItems[0].ServiceUnitPrice;
+            }
+
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, invoice = _invoice};
+
+
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        public ActionResult GetSpecialBillingCreditData(bool _search, string sidx, string sord, int page, int rows, int billingId)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                //int idx = Util.toint(Request.Form["IDX"].Trim());
+                {
+                    List<MyCredit> orders = new List<MyCredit>();
+
+                    switch (sidx)
+                    {
+                        case "":
+                            {
+                                orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.IDX)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                            }
+                            break;
+
+                        case "CreditCode":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditCode)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditCode)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+
+                        case "CreditContent":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditContent)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditContent)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+
+                        case "CreditAmount":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreditAmount)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreditAmount)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                        case "Remark":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.Remark)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.Remark)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                        case "CreateDate":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.CreateDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.CreateDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                        case "LastUpDate":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.LastUpDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.LastUpDate)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+
+                        default:
+                            break;
+
+                    }
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<MyCredit> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<MyCredit>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         #endregion

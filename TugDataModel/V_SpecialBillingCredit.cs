@@ -12,17 +12,17 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_OrderBillingCredit
+    public partial class V_SpecialBillingCredit
     {
+        public int IDX { get; set; }
         public Nullable<int> BillingID { get; set; }
-        public int CreditID { get; set; }
         public string CreditCode { get; set; }
         public string CreditContent { get; set; }
         public Nullable<double> CreditAmount { get; set; }
         public string Remark { get; set; }
-        public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
-        public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
+        public Nullable<int> OwnerID { get; set; }
+        public Nullable<int> UserID { get; set; }
     }
 }
