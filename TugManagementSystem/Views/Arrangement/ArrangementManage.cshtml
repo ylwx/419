@@ -108,7 +108,7 @@
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                 onClickButton: function () {
                     //alert("haha");
                     @*$.ajax(
@@ -130,12 +130,12 @@
             })
             .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                caption: "", title: '@Resources.Language.DeleteSelectedRows', buttonicon: "ui-icon-trash",
                 onClickButton: function () {
                     var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                     var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
                     if (rowid != null) {
-                        if (confirm('确定要删除所选的记录吗?')) {
+                        if (confirm('@Resources.Language.SureDelete')) {
                             var d = new Date();
                             $.ajax(
                                 {

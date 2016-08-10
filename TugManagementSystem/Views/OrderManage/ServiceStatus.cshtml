@@ -96,8 +96,8 @@
             </div>
             <div class="modal-footer">
                 <div id="_TugID" hidden>-1</div>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitChildModal()">提交</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitChildModal()">@Resources.Language.Submit</button>
             </div>
         </div>
     </div>
@@ -142,7 +142,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chooseMutilTugs(g_mode)">选择</button>
             </div>
         </div>
@@ -311,52 +311,52 @@
         $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                 onClickButton: function () {
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 }
             })
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+                caption: "", title: "'@Resources.Language.ClearSearchFilter'", buttonicon: "ui-icon-circle-minus",
                 onClickButton: function () {
                     var grid = $('#jqGrid')[0];
                     grid.clearToolbar();
-                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid'); 
                 }
             })
             .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
             .navButtonAdd('#jqGridPager', {
-                caption: "完成", title: "完成", buttonicon: "ui-icon-flag",
-                onClickButton: function () {
+            caption: "完成", title: "完成", buttonicon: "ui-icon-flag",
+            onClickButton: function () {
 
-                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                    if (rowid != null) {
-                        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
-                        var orderServiceId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderServiceID"); //OrderServiceID
+                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                if (rowid != null) {
+                    var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
+                    var orderServiceId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderServiceID"); //OrderServiceID
 
-                        if (confirm('确定要更改服务状态为"已完工"吗?')) {
+                    if (confirm('确定要更改服务状态为"已完工"吗?')) {
 
-                            $.ajax(
-                                {
-                                    type: "post",
-                                    url: '@Url.Action("ChangeServiceStatusToComplete", "OrderManage")',
-                                    data: { 'orderId': orderId, 'orderServiceId': orderServiceId },
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        alert(result.message);
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: '@Url.Action("ChangeServiceStatusToComplete", "OrderManage")',
+                                data: { 'orderId': orderId, 'orderServiceId': orderServiceId },
+                                dataType: 'json',
+                                success: function (result) {
+                                    alert(result.message);
 
-                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    },
+                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                },
 
-                                }
-                                );
-                        }
-                    }
-                    else {
-                        alert('选中一行');
+                            }
+                            );
                     }
                 }
-            })
+                else {
+                    alert('选中一行');
+                }
+            }
+        })
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
@@ -420,8 +420,8 @@
                     align: 'center', label: '@Resources.Language.Customer_IDX', name: "CustomerID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
-
-
+                
+                
                 {
                     align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 300, editable: false, edittype: "text",
                     editrules: { required: true }, hidden: false,
@@ -1201,7 +1201,7 @@
         var toolbar = $('#' + childGridID).navGrid('#' + childGridPagerID, { edit: false, add: false, del: false, refresh: false, view: false, search: false })
                 .navButtonAdd('#' + childGridPagerID, {
                     id: childGridID + '_ilrefresh',
-                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                     onClickButton: function () {
 
                         $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
@@ -1213,7 +1213,7 @@
             toolbar.navSeparatorAdd("#" + childGridPagerID, { sepclass: "ui-separator", sepcontent: '' })
                 .navButtonAdd('#' + childGridPagerID, {
                     id: childGridID + 'jqGrid_ildelete',
-                    caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                    caption: "", title: '@Resources.Language.DeleteSelectedRows', buttonicon: "ui-icon-trash",
                     onClickButton: function () {
 
                         var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
@@ -1235,7 +1235,7 @@
                                     if (rowid != null) {
                                         var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
 
-                                        if (confirm('确定要删除所选的记录吗?')) {
+                                        if (confirm('@Resources.Language.SureDelete')) {
                                             var d = new Date();
                                             $.ajax(
                                                 {
@@ -1270,11 +1270,11 @@
                     position: "last"
                 }).navButtonAdd('#' + childGridPagerID, {
                     //id: childGridID + '_ilrefresh',
-                    caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                    caption: "", title: '@Resources.Language.Add', buttonicon: "ui-icon-plus",
                     onClickButton: function () {
                         g_cur_parentGridRowId = parentRowKey;
                         g_cur_subGridId = '#' + childGridID;
-                        g_mode = "新增";
+                        g_mode = '@Resources.Language.Add';
 
 
                         var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
@@ -1793,7 +1793,7 @@
                 selectedTugName1 = selectedTugName1.substr(0, selectedTugName1.length - 1);
             }
 
-            if (mode == "新增") {
+            if (mode == '@Resources.Language.Add') {
                 $('#_TugID').text(selectedTugIDs);
                 $('#_ChooseTug').val(selectedTugName1);
             }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="07/20/2016 16:15:57" ReportInfo.CreatorVersion="2013.3.3.0">
+<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="08/05/2016 13:10:25" ReportInfo.CreatorVersion="2013.3.3.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using FastReport.Dialog;
 using FastReport.Barcode;
 using FastReport.Table;
 using FastReport.Utils;
+using FastReportAdditional; 
 
 namespace FastReport
 {
@@ -113,11 +114,42 @@ namespace FastReport
       else if(Cell35.Text==&quot;T1TotalHK&quot;)
         Cell35.Text=&quot;總數港幣\r\nTOTAL HK$&quot;;       
     }
+
+    private void Text21_AfterData(object sender, EventArgs e)
+    {
+      DateTime dt = Convert.ToDateTime(Text21.Text);            
+      Text21.Text=string.Format(&quot;{0:dd.MM.yyyy}&quot;, dt);      
+    }
+
+    private void Cell8_AfterData(object sender, EventArgs e)
+    {
+      Cell8.Text=Addition.AmountFormat(Cell8.Text); 
+    }
+
+    private void Cell46_AfterData(object sender, EventArgs e)
+    {
+      Cell46.Text=Addition.AmountFormat(Cell46.Text); 
+    }
+
+    private void Cell26_AfterData(object sender, EventArgs e)
+    {
+      Cell26.Text=Addition.AmountFormat(Cell26.Text);
+    }
+
+    private void Cell36_AfterData(object sender, EventArgs e)
+    {
+     Cell36.Text=Addition.AmountFormat(Cell36.Text); 
+    }
+
+    private void Text31_AfterData(object sender, EventArgs e)
+    {
+      Text31.Text=Addition.AmountFormat(Text31.Text); 
+    }
   }
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvtcmnJzsXgfmLH2+XWU7OPA==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvyWWn5mEugqtR0ibALjP5Sg==">
       <TableDataSource Name="V_Inv_Head" DataType="System.Int32" Enabled="true" TableName="V_Inv_Head">
         <Column Name="IDX" DataType="System.Int32"/>
         <Column Name="OrderID" DataType="System.Int32"/>
@@ -173,12 +205,11 @@ namespace FastReport
   </Dictionary>
   <ReportPage Name="Page1">
     <ReportTitleBand Name="ReportTitle2" Width="718.2" Height="179.55">
-      <TextObject Name="Text19" Left="113.4" Top="28.35" Width="160.65" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.CustomerName]" Font="宋体, 10pt"/>
-      <TextObject Name="Text18" Left="519.75" Top="113.4" Width="179.55" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.BillingCode]" Font="宋体, 10pt"/>
-      <TextObject Name="Text20" Left="113.4" Top="103.95" Width="160.65" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.ShipName]" Font="宋体, 10pt"/>
-      <TextObject Name="Text21" Left="519.75" Top="141.75" Width="179.55" Height="18.9" Border.Lines="Bottom" Border.BottomLine.Style="Dash" Text="[V_Inv_Head.CreateDate]" Font="宋体, 10pt"/>
-      <LineObject Name="Line2" Left="9.45" Top="170.1" Width="689.85" Border.Color="Red" Border.Width="2"/>
-      <RichObject Name="Rich1" Left="37.8" Top="94.5" Width="66.15" Height="28.35" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qr\fs16 CAPTAIN/OWNER:\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
+      <TextObject Name="Text19" Left="113.4" Top="28.35" Width="160.65" Height="18.9" Text="[V_Inv_Head.CustomerName]" Font="宋体, 10pt"/>
+      <TextObject Name="Text18" Left="519.75" Top="113.4" Width="179.55" Height="18.9" Text="[V_Inv_Head.BillingCode]" Font="宋体, 10pt"/>
+      <TextObject Name="Text20" Left="113.4" Top="103.95" Width="160.65" Height="18.9" Text="[V_Inv_Head.ShipName]" Font="宋体, 10pt"/>
+      <TextObject Name="Text21" Left="519.75" Top="141.75" Width="179.55" Height="18.9" AfterDataEvent="Text21_AfterData" Text="[V_Inv_Head.CreateDate]" Font="宋体, 10pt"/>
+      <RichObject Name="Rich1" Left="37.8" Top="94.5" Width="66.15" Height="28.35" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qr\fs16 CAPTAIN/ OWNER:\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
       <TextObject Name="Text1" Left="37.8" Top="141.75" Width="66.15" Height="18.9" Text="JOB NO." HorzAlign="Right"/>
       <TextObject Name="Text2" Left="113.4" Top="141.75" Width="160.65" Height="18.9" HorzAlign="Right" Font="宋体, 10pt"/>
     </ReportTitleBand>
@@ -215,7 +246,7 @@ namespace FastReport
         </TableRow>
         <TableRow Name="Row3" Height="20" AutoSize="true">
           <TableCell Name="Cell7" AfterDataEvent="Cell7_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 10pt"/>
-          <TableCell Name="Cell8" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
+          <TableCell Name="Cell8" AfterDataEvent="Cell8_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
       </MatrixObject>
       <DataFooterBand Name="DataFooter3" Top="293.83" Width="718.2" Height="7.56">
@@ -246,7 +277,7 @@ namespace FastReport
         </TableRow>
         <TableRow Name="Row15" Height="20" AutoSize="true">
           <TableCell Name="Cell45" AfterDataEvent="Cell45_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 10pt"/>
-          <TableCell Name="Cell46" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
+          <TableCell Name="Cell46" AfterDataEvent="Cell46_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
       </MatrixObject>
     </DataBand>
@@ -274,7 +305,7 @@ namespace FastReport
         </TableRow>
         <TableRow Name="Row9" Height="20" AutoSize="true">
           <TableCell Name="Cell25" AfterDataEvent="Cell25_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 10pt"/>
-          <TableCell Name="Cell26" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
+          <TableCell Name="Cell26" AfterDataEvent="Cell26_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
       </MatrixObject>
       <DataFooterBand Name="DataFooter2" Top="373.87" Width="718.2" Height="7.56">
@@ -305,12 +336,12 @@ namespace FastReport
         </TableRow>
         <TableRow Name="Row12" Height="20" AutoSize="true">
           <TableCell Name="Cell35" AfterDataEvent="Cell35_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 10pt"/>
-          <TableCell Name="Cell36" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
+          <TableCell Name="Cell36" AfterDataEvent="Cell36_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
       </MatrixObject>
       <DataFooterBand Name="DataFooter4" Top="419.67" Width="718.2" Height="103.95">
         <TextObject Name="Text30" Left="387.45" Width="151.2" Height="28.35" Text="共  計  港   幣：&#13;&#10;GRAND TOTAL HK$：" Font="宋体, 10pt, style=Bold"/>
-        <TextObject Name="Text31" Left="548.1" Width="151.2" Height="28.35" Border.Lines="Bottom" Border.Style="Double" Text="[GrandTotalHK$]" Font="宋体, 10pt"/>
+        <TextObject Name="Text31" Left="548.1" Width="151.2" Height="28.35" Border.Lines="Bottom" Border.Style="Double" AfterDataEvent="Text31_AfterData" Text="[GrandTotalHK$]" Font="宋体, 10pt"/>
       </DataFooterBand>
     </DataBand>
   </ReportPage>

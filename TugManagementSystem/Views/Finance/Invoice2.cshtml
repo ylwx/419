@@ -254,8 +254,8 @@
                 <div class="modal-footer">
                     <div id="_CustomerID" hidden>-1</div>
                     <div id="_ShipID" hidden>-1</div>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                    <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
                     <button id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
                 </div>
             </div>
@@ -521,7 +521,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                     <button id="view_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
                 </div>
             </div>
@@ -640,7 +640,7 @@
 
 
                                                     
-                                                </div>
+                                                    </div>
 
                                                 <div style="margin:8px;padding:0px; width:940px;height:1px;background-color:black;overflow:hidden;"></div>
 
@@ -790,8 +790,8 @@
                 </div>
                 <div class="modal-footer">
                     <div id="_edit_orderids" hidden></div>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button id="edit_btn_sumbit" type="button" class="btn btn-primary" onclick="submitEditVoiceModal()">提交</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                    <button id="edit_btn_sumbit" type="button" class="btn btn-primary" onclick="submitEditVoiceModal()">@Resources.Language.Submit</button>
                     <button id="edit_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
                 </div>
             </div>
@@ -828,7 +828,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                     <button id="btnflow" type="button" class="btn btn-primary" @*onclick="updateflowinfor()"*@>提交审核</button>
                 </div>
             </div>
@@ -893,8 +893,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="submitAddCreditModal()">提交</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAddCreditModal()">@Resources.Language.Submit</button>
                 </div>
             </div>
         </div>
@@ -1420,11 +1420,11 @@
 
                 //日期
                 if ($("#gs_OrdDate").val() != null && $("#gs_OrdDate").val() != "")
-                    ret = ret && util.isDateTime('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
+                ret = ret && util.isDateTime('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
                 @*if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
                 ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());*@
-                if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
-                    ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+            if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
+                ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
 
@@ -1467,13 +1467,13 @@
         $('#jqGrid_Order').navGrid('#jqGridPager_Order', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
                 .navButtonAdd('#jqGridPager_Order', {
-                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                     onClickButton: function () {
                         $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
                 })
                 .navButtonAdd('#jqGridPager_Order', {
-                    caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+                    caption: "", title: "'@Resources.Language.ClearSearchFilter'", buttonicon: "ui-icon-circle-minus",
                     onClickButton: function () {
                         var grid = $('#jqGrid_Order')[0];
                         grid.clearToolbar();
@@ -1505,7 +1505,7 @@
                         if (selectedIDs.length <= 0) {
                             alert("请至少选择一个订单!");
                             return;
-                        }
+                    }
 
 
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -1601,7 +1601,7 @@
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
                     hidden: true,
                 },
-                
+
                 {
                     align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 300, editable: true, edittype: "text",
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -1677,7 +1677,7 @@
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
 
-                {
+        {
                     align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
                     hidden: true
                 },
@@ -1708,7 +1708,7 @@
                                     var grid = $('#jqGrid')[0];
                                     grid.triggerToolbar();
 
-                                }
+            }
                             }
                         ]
                     }
@@ -1751,70 +1751,70 @@
 
             ],
 
-            viewrecords: true,
-            height: '100%', //'auto', //350,
-            rowNum: 15,
-            autowidth: true,
-            editurl: null,
-            pager: "#jqGridPager",
-            //loadonce: true,
-            rowList: ['15', '20', '30', '40', '50'],
-            rownumbers: true,
-            shrinkToFit: false,     //指定各列宽度
-            sortable: true,          //列可移动
-            //footerrow: true,
-            colMenu: true,          //列菜单
+                viewrecords: true,
+                height: '100%', //'auto', //350,
+                rowNum: 15,
+                autowidth: true,
+                editurl: null,
+                pager: "#jqGridPager",
+                //loadonce: true,
+                rowList: ['15', '20', '30', '40', '50'],
+                rownumbers: true,
+                shrinkToFit: false,     //指定各列宽度
+                sortable: true,          //列可移动
+                //footerrow: true,
+                colMenu: true,          //列菜单
 
-            multiselect: true,
-            //multiboxonly: true,
+                multiselect: true,
+                //multiboxonly: true,
 
-            onSelectRow: function (rowid, status, e) {
-                var grid = $("#jqGrid");
-                var rowKey = grid.getGridParam("selrow");
+                onSelectRow: function (rowid, status, e) {
+                    var grid = $("#jqGrid");
+                    var rowKey = grid.getGridParam("selrow");
 
-                if (!rowKey) {
+                    if (!rowKey) {
                     //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
-                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
-                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilView').addClass('ui-state-disabled');
-                    $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
-                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
-
-
-                }
-                else {
-
-                    $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
-                    $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
-                    var selectedIDs = grid.getGridParam("selarrrow");
-
-                    if (selectedIDs.length != 1) {
-                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                         $('#jqGrid_ilView').addClass('ui-state-disabled');
                         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
-                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
 
                     }
                     else {
 
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        var selectedIDs = grid.getGridParam("selarrrow");
+
+                        if (selectedIDs.length != 1) {
+                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                            $('#jqGrid_ilView').addClass('ui-state-disabled');
+                            $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                            $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                        }
+                        else {
+
                         //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
-                        $('#jqGrid_ilView').removeClass('ui-state-disabled');
-                        $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
-                        $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                            $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                            $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
+                            $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
                         //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
 
+                        }
+
                     }
-
-                }
-            },
+                },
 
 
-            gridComplete: function () {
-                var ids = $(this).getDataIDs();
-                for (var i = 0; i < ids.length; i++) {
-                    var phase = $(this).getCell(ids[i], 'Phase');
+                gridComplete: function () {
+                    var ids = $(this).getDataIDs();
+                    for (var i = 0; i < ids.length; i++) {
+                        var phase = $(this).getCell(ids[i], 'Phase');
 
                     {//有账单
                         if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
@@ -1822,33 +1822,33 @@
                             //$('tr[id="' + ids[i] + '"]').css("background-color", "#FFDDAA");
                             //$(this).find('td').css("background-color", "#CCFF99");
                         }
-                        else { //有账单在审批流程中
+                            else { //有账单在审批流程中
                             //$("#" + ids[i] + " td").css("background-color", "#FFDDAA");
                             $(this).find('td').css("background-color", "#FFDDAA");
+                            }
                         }
+
                     }
+                },
 
-                }
-            },
-
-        });
+            });
 
 
         $('#jqGrid').jqGrid('filterToolbar', {
             searchResult: true,
             searchOperators: true,
-            beforeSearch: function () {
-                var util = new Util();
+                    beforeSearch: function () {
+                        var util = new Util();
 
                 //时间
-                var ret = true;
+                        var ret = true;
 
                 @*if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
-                ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
-                if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
+                            ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
+                        if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());*@
 
-                //日期
+                        //日期
 
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
@@ -1863,23 +1863,24 @@
                 if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
                     ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_Amount").val());
 
-                //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
-                return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
-            }
-        });
+                        //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                        return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+                    }
+                });
 
 
-        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+            $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
-        $('#jqGridContainerBox').resize(function () {
-            var width = $('#jqGridContainerBox').width();
-            $("#jqGrid").setGridWidth(width);
-        });
+            $('#jqGridContainerBox').resize(function () {
+                var width = $('#jqGridContainerBox').width();
+                $("#jqGrid").setGridWidth(width);
+            });
 
-        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+            $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
                 .navButtonAdd('#jqGridPager', {
-                    caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                    //id: 'jqGrid_ilRefresh',
+                    caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                     onClickButton: function () {
                         $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
@@ -1899,8 +1900,8 @@
 
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
 
-                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-                        var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
                         var selectedBillingIDs = "";
 
@@ -1912,26 +1913,26 @@
                             selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
                         }
 
-                        $.ajax({
+                            $.ajax({
                             url: '@Url.Action("CheckBillingStatus", "Finance")',
-                            type: "POST",
-                            data: {
+                                type: "POST",
+                                data: {
                                 'selectedBillingIDs': selectedBillingIDs
-                            },//"oper=delete&id=" + gr,
-                            dataType: 'json',
-                            success: function (result) {
+                                },//"oper=delete&id=" + gr,
+                                dataType: 'json',
+                                success: function (result) {
 
-                                for (key in result.dic_has_invoice_in_fow) {
+                                    for (key in result.dic_has_invoice_in_fow) {
 
-                                    var value = result.dic_has_invoice_in_fow[key];
-                                    inFlowingResult += key + ",";
-                                }
+                                        var value = result.dic_has_invoice_in_fow[key];
+                                        inFlowingResult += key + ",";
+                                    }
 
-                                if (inFlowingResult != "") {
-                                    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                    if (inFlowingResult != "") {
+                                        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
                                     alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能编辑，请取消这些(张)账单！');
-                                    return;
-                                }
+                                        return;
+                                    }
 
                                 for (key in result.dic_has_invoice_not_in_flow) {
                                     var value = result.dic_has_invoice_not_in_flow[key];
@@ -1945,103 +1946,103 @@
                                 g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
                                 //alert('弹出编辑框:' + g_curSelectedBillingIds);
-                                EditInvoice();
-                            },
-                        });
-                    }
+                                    EditInvoice();
+                                },
+                            });
+                        }
                 })
-        .navButtonAdd('#jqGridPager', {
-            id: 'jqGrid_ilDelete',
-            caption: "", title: "删除账单", buttonicon: "ui-icon-trash",
-            onClickButton: function () {
-                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                .navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ilDelete',
+                    caption: "", title: "删除账单", buttonicon: "ui-icon-trash",
+                    onClickButton: function () {
+                        var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                        var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
                 var selectedBillingIDs = "";
 
-                for (var i = 0; i < selectedIDs.length; ++i) {
+                        for (var i = 0; i < selectedIDs.length; ++i) {
                     var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
                     selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
-                }
+                        }
                 if (selectedBillingIDs != "") {
                     selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
-                }
+                        }
 
-                $.ajax({
+                        $.ajax({
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
-                    type: "POST",
-                    data: {
+                            type: "POST",
+                            data: {
                         'selectedBillingIDs': selectedBillingIDs
-                    },//"oper=delete&id=" + gr,
-                    dataType: 'json',
-                    success: function (result) {
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
 
-                        for (key in result.dic_has_invoice_in_fow) {
+                                for (key in result.dic_has_invoice_in_fow) {
 
-                            var value = result.dic_has_invoice_in_fow[key];
-                            inFlowingResult += key + ",";
-                        }
+                                    var value = result.dic_has_invoice_in_fow[key];
+                                    inFlowingResult += key + ",";
+                                }
 
-                        if (inFlowingResult != "") {
-                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                if (inFlowingResult != "") {
+                                    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
                             alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能删除，请取消这些(张)账单！');
-                            return;
-                        }
+                                    return;
+                                }
 
-                        for (key in result.dic_has_invoice_not_in_flow) {
-                            var value = result.dic_has_invoice_not_in_flow[key];
-                            hasInvoceNotInFlowingResult += value + ",";
-                        }
+                                for (key in result.dic_has_invoice_not_in_flow) {
+                                    var value = result.dic_has_invoice_not_in_flow[key];
+                                    hasInvoceNotInFlowingResult += value + ",";
+                                }
 
-                        if (hasInvoceNotInFlowingResult != "") {
-                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
-                        }
+                                if (hasInvoceNotInFlowingResult != "") {
+                                    hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                                }
 
                         g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
                         //AddParent();
                         //alert('弹出删除框:' + g_curSelectedBillingIds);
 
-                        if (confirm('确定要删除所选的记录吗?')) {
+                        if (confirm('@Resources.Language.SureDelete')) {
 
-                            $.ajax(
-                                {
-                                    type: "post",
+                                    $.ajax(
+                                        {
+                                            type: "post",
                                     url: '@Url.Action("DeleteInvoice2", "Finance")',
                                     data: { 'billIds': g_curSelectedBillingIds },//"oper=delete&id=" + gr,
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        alert(result.message);
-                                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                alert(result.message);
+                                                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
                                         //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilView').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                                         //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
 
-                                        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                                         $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    },
+                                            },
 
+                                        }
+                                        );
                                 }
-                                );
-                        }
-                    },
-                });
+                            },
+                        });
 
-            },
-            position: "last"
+                    },
+                    position: "last"
         })
         .navButtonAdd('#jqGridPager', {
             id: 'jqGrid_ilAddCredit',
             caption: "回扣单", title: "新增回扣单", buttonicon: "ui-icon-plus",
-            onClickButton: function () {
+                    onClickButton: function () {
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
                 var selectedBillingIDs = "";
 
@@ -2053,111 +2054,111 @@
                     selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
                 }
 
-                $.ajax({
+                                $.ajax({
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
-                    type: "POST",
-                    data: {
+                                    type: "POST",
+                                    data: {
                         'selectedBillingIDs': selectedBillingIDs
-                    },//"oper=delete&id=" + gr,
-                    dataType: 'json',
-                    success: function (result) {
+                                    },//"oper=delete&id=" + gr,
+                                    dataType: 'json',
+                                    success: function (result) {
 
-                        for (key in result.dic_has_invoice_in_fow) {
+                                        for (key in result.dic_has_invoice_in_fow) {
 
-                            var value = result.dic_has_invoice_in_fow[key];
-                            inFlowingResult += key + ",";
-                        }
+                                            var value = result.dic_has_invoice_in_fow[key];
+                                            inFlowingResult += key + ",";
+                                        }
 
-                        if (inFlowingResult != "") {
-                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                        if (inFlowingResult != "") {
+                                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
                             alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能新增回扣单，请取消这些(张)账单！');
-                            return;
-                        }
+                                            return;
+                                        }
 
-                        for (key in result.dic_has_invoice_not_in_flow) {
-                            var value = result.dic_has_invoice_not_in_flow[key];
+                                        for (key in result.dic_has_invoice_not_in_flow) {
+                                            var value = result.dic_has_invoice_not_in_flow[key];
                             hasInvoceNotInFlowingResult += value + ",";
-                        }
+                                        }
 
-                        if (hasInvoceNotInFlowingResult != "") {
-                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
-                        }
+                                        if (hasInvoceNotInFlowingResult != "") {
+                                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                                    }
 
                         g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
                         //alert('弹出新增回扣单:' + g_curSelectedBillingIds);
-                        AddCreditModal();
+                                    AddCreditModal();
+                                },
+                            });
+
                     },
-                });
 
-            },
-
-        })
-        .navButtonAdd('#jqGridPager', {
-            id: 'jqGrid_ilSubmit',
-            caption: "审核", title: "提交审核", buttonicon: "ui-icon-circle-plus",
-            onClickButton: function () {
-                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                    })
+                .navButtonAdd('#jqGridPager', {
+                    id: 'jqGrid_ilSubmit',
+                    caption: "审核", title: "提交审核", buttonicon: "ui-icon-circle-plus",
+                    onClickButton: function () {
+                        var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                        var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
                 var selectedBillingIDs = "";
 
-                for (var i = 0; i < selectedIDs.length; ++i) {
+                        for (var i = 0; i < selectedIDs.length; ++i) {
                     var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
                     selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
-                }
+                        }
                 if (selectedBillingIDs != "") {
                     selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
-                }
+                        }
 
-                $.ajax({
+                        $.ajax({
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
-                    type: "POST",
-                    data: {
+                            type: "POST",
+                            data: {
                         'selectedBillingIDs': selectedBillingIDs
-                    },//"oper=delete&id=" + gr,
-                    dataType: 'json',
-                    success: function (result) {
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
 
-                        for (key in result.dic_has_invoice_in_fow) {
+                                for (key in result.dic_has_invoice_in_fow) {
 
-                            var value = result.dic_has_invoice_in_fow[key];
-                            inFlowingResult += key + ",";
-                        }
+                                    var value = result.dic_has_invoice_in_fow[key];
+                                    inFlowingResult += key + ",";
+                                }
 
-                        if (inFlowingResult != "") {
-                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                if (inFlowingResult != "") {
+                                    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
                             alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能编辑，请取消这些(张)账单！');
-                            return;
-                        }
+                                    return;
+                                }
 
-                        for (key in result.dic_has_invoice_not_in_flow) {
-                            var value = result.dic_has_invoice_not_in_flow[key];
-                            hasInvoceNotInFlowingResult += value + ",";
-                        }
+                                for (key in result.dic_has_invoice_not_in_flow) {
+                                    var value = result.dic_has_invoice_not_in_flow[key];
+                                    hasInvoceNotInFlowingResult += value + ",";
+                                }
 
-                        if (hasInvoceNotInFlowingResult != "") {
-                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
-                        }
+                                if (hasInvoceNotInFlowingResult != "") {
+                                    hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                                }
 
                         g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
 
-                        g_submit_billIds = hasInvoceNotInFlowingResult;
+                                g_submit_billIds = hasInvoceNotInFlowingResult;
 
-                        $('#table-modal').modal();
+                                $('#table-modal').modal();
+                            },
+                        });
+
+
                     },
-                });
-
-
-            },
 
         })
         .navButtonAdd('#jqGridPager', {
-            id: 'jqGrid_ilView',
-            caption: "查看", title: "查看账单和回扣单", buttonicon: "ui-icon-search",
-            onClickButton: function () {
+                    id: 'jqGrid_ilView',
+                    caption: "查看", title: "查看账单和回扣单", buttonicon: "ui-icon-search",
+                    onClickButton: function () {
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                 var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                 var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
@@ -2170,17 +2171,17 @@
                 }
                 if (selectedBillingIDs != "") {
                     selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
-                }
+                                    }
 
                 g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
-                //查看
+                                    //查看
                 //alert("chakan:" + g_curSelectedBillingIds);
-                ViewInvoice();
+                                    ViewInvoice();
 
-            },
+                               },
 
-        });
+                            });
 
 
         $('#cb_jqGrid').change(function () {
@@ -2199,15 +2200,15 @@
                 else {
                     if (selectedIDs.length != 1) {
                         //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
-                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
-                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
-                        $('#jqGrid_ilView').addClass('ui-state-disabled');
-                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                         //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
-                    }
-                    else {
+            }
+            else {
 
                         //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
                         $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
@@ -4844,7 +4845,7 @@
                         var value = result.invoice.Schedulers[key];
                         for (var i = 0; i < value.length; ++i) {
 
-                            var price = 0;
+                    var price = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
@@ -4887,8 +4888,8 @@
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
 
-                        var value = result.invoice.Schedulers[key];
-                        for (var i = 0; i < value.length; ++i) {
+                    var value = result.invoice.Schedulers[key];
+                    for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
@@ -4913,8 +4914,8 @@
                             td.append(input);
 
                             tr.append(td);
-                        }
                     }
+                }
                 }
 
                 tbody.append(tr);
@@ -7077,17 +7078,17 @@
 
                             var price = 0;
                             var consume_hour = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (122 == value[i].BillingItems[j].ItemID || "E83" == value[i].BillingItems[j].ItemValue) {
                                     consume_hour = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -7146,14 +7147,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked disabled>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
+                        }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
                                 tr.append(td);
-                            }
-                        }
+                    }
+                }
                     }
                 }
 
@@ -7323,14 +7324,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)" checked disabled>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
+                        }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
                                 tr.append(td);
-                            }
-                        }
+                    }
+                }
                     }
                 }
 
@@ -7366,11 +7367,11 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var feulFee = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     feulFee = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             //var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -7388,8 +7389,8 @@
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var p1 = $('<p>燃油附加费折扣</p>')
                             var input1 = $('<input type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_119_C83' + '" value="' + FormatPrice(GetFloatStr(feulFeeDiscount)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)" disabled>')
@@ -7767,17 +7768,17 @@
 
                             var price = 0;
                             var consume_hour = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (122 == value[i].BillingItems[j].ItemID || "E83" == value[i].BillingItems[j].ItemValue) {
                                     consume_hour = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -7836,14 +7837,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked disabled>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
+                        }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
                                 tr.append(td);
-                            }
-                        }
+                    }
+                }
                     }
                 }
 
@@ -8018,10 +8019,10 @@
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
                         }
                     }
+                }
                 }
 
                 tbody.append(tr);
@@ -8056,11 +8057,11 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var feulFee = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     feulFee = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             //var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -8078,8 +8079,8 @@
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var p1 = $('<p>燃油附加费折扣</p>')
                             var input1 = $('<input type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_119_C83' + '" value="' + FormatPrice(GetFloatStr(feulFeeDiscount)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)" disabled>')
@@ -8572,10 +8573,10 @@
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
 
                     $('#jqGrid_Order').jqGrid('setGridParam',
-                    {
-                        datatype: 'json',
+                {
+                    datatype: 'json',
                         url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
-                    }).trigger('reloadGrid');
+                }).trigger('reloadGrid');
 
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
 
@@ -8617,114 +8618,6 @@
         $('#edit_tb_detail').empty();
 
         {
-
-            //$('#tb_detail').empty();
-            $('#edit_div_services').empty();
-
-            var div1 = $('<div class="col-md-2"><p>服务项目:<br>SERVICE:</p></div>');
-            var div2 = $('<div class="col-md-2"></div>');
-            var div3 = $('<div class="col-md-3"></div>');
-            var div4 = $('<div class="col-md-5"></div>')
-            for (key in result.invoice.ServiceNature) {
-                var value = result.invoice.ServiceNature[key];
-                var p = $('<p>' + value.ServiceName + '</p>')
-                div2.append(p);
-
-                p = $('<p>' + value.ServiceWorkDate + '</p>');
-                div3.append(p)
-
-                p = $('<p>' + value.ServiceWorkPlace + '</p>');
-                div4.append(p)
-
-            }
-
-            $('#edit_div_services').append(div1).append(div2).append(div3).append(div4);
-
-            //----生成表格
-
-            //1.表头
-            {
-                var thead = $('<thead></thead>');
-                var tr1 = $('<tr></tr>');
-                var tr2 = $('<tr></tr>');
-                var th = $('<th width="20%" rowspan="2" style="text-align:center;vertical-align:middle">拖轮</th>');
-                tr1.append(th);
-
-                for (key in result.invoice.ServiceNature) {
-                    var value = result.invoice.ServiceNature[key];
-                    //alert(result.invoice.Schedulers[key].length);
-                    var th = $('<th width="" style="text-align:center;vertical-align:middle" colspan=' + result.invoice.Schedulers[key].length + '>' + value.ServiceName + '</th>');
-                    tr1.append(th)
-                }
-                thead.append(tr1);
-
-                var colspan = 0;
-                for (key in result.invoice.Schedulers) {
-
-                    var value = result.invoice.Schedulers[key];
-                    for (var i = 0; i < value.length; ++i) {
-                        var th = $('<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>');
-
-                        var span1 = $('<span hidden>' + value[i].SchedulerID + '</span>');
-                        th.append(span1);
-
-                        tr2.append(th);
-                        colspan++;
-                    }
-                }
-
-                thead.append(tr2);
-                $('#edit_tb_detail').append(thead);
-            }
-
-            //2.表体
-            DynamicGenerateEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
-
-            //3.表尾
-            {
-                var tfoot = $('<tfoot></tfoot>')
-                var tr = $('<tr></tr>')
-
-                if (colspan == 0) {
-                    var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + GetFloatStr(result.invoice.GrandTotalHKS) + '<br> Grand Total HKS</strong></td>');
-                    tr.append(td);
-                }
-                else {
-                    var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>');
-                    var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
-
-                    tr.append(td1);
-                    tr.append(td2);
-                }
-                tfoot.append(tr);
-
-                $('#edit_tb_detail').append(tfoot);
-            }
-        }
-
-    }
-
-    function reGenerateEditTable(orderIds, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount, result) {
-
-        $('#edit_tb_detail').empty();
-
-
-        $.ajax({
-            type: "post",
-            url: '@Url.Action("NewInvoice2", "Finance")',
-            data: {
-                'orderIds': orderIds,
-                'customerBillingScheme': customerBillingScheme,
-                'billingTypeId': billingTypeId,
-                'billingTypeValue': billingTypeValue,
-                'billingTypeLabel': billingTypeLabel,
-                'timeTypeId': timeTypeId,
-                'timeTypeValue': timeTypeValue,
-                'timeTypeLabel': timeTypeLabel,
-                'discount': discount
-            },//"oper=delete&id=" + gr,
-            dataType: 'json',
-            success: function (result) {
 
                 //$('#tb_detail').empty();
                 $('#edit_div_services').empty();
@@ -8786,7 +8679,7 @@
                 }
 
                 //2.表体
-                DynamicGenerateEditTableNewTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
+                DynamicGenerateEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
 
                 //3.表尾
                 {
@@ -8808,6 +8701,114 @@
 
                     $('#edit_tb_detail').append(tfoot);
                 }
+        }
+
+    }
+
+    function reGenerateEditTable(orderIds, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, timeTypeId, timeTypeValue, timeTypeLabel, discount, result) {
+
+        $('#edit_tb_detail').empty();
+
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("NewInvoice2", "Finance")',
+            data: {
+                'orderIds': orderIds,
+                'customerBillingScheme': customerBillingScheme,
+                'billingTypeId': billingTypeId,
+                'billingTypeValue': billingTypeValue,
+                'billingTypeLabel': billingTypeLabel,
+                'timeTypeId': timeTypeId,
+                'timeTypeValue': timeTypeValue,
+                'timeTypeLabel': timeTypeLabel,
+                'discount': discount
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+            //$('#tb_detail').empty();
+            $('#edit_div_services').empty();
+
+        var div1 = $('<div class="col-md-2"><p>服务项目:<br>SERVICE:</p></div>');
+        var div2 = $('<div class="col-md-2"></div>');
+        var div3 = $('<div class="col-md-3"></div>');
+        var div4 = $('<div class="col-md-5"></div>')
+        for (key in result.invoice.ServiceNature) {
+            var value = result.invoice.ServiceNature[key];
+            var p = $('<p>' + value.ServiceName + '</p>')
+            div2.append(p);
+
+            p = $('<p>' + value.ServiceWorkDate + '</p>');
+            div3.append(p)
+
+            p = $('<p>' + value.ServiceWorkPlace + '</p>');
+            div4.append(p)
+
+        }
+
+        $('#edit_div_services').append(div1).append(div2).append(div3).append(div4);
+
+        //----生成表格
+
+        //1.表头
+        {
+            var thead = $('<thead></thead>');
+            var tr1 = $('<tr></tr>');
+            var tr2 = $('<tr></tr>');
+            var th = $('<th width="20%" rowspan="2" style="text-align:center;vertical-align:middle">拖轮</th>');
+            tr1.append(th);
+
+            for (key in result.invoice.ServiceNature) {
+                var value = result.invoice.ServiceNature[key];
+                //alert(result.invoice.Schedulers[key].length);
+                var th = $('<th width="" style="text-align:center;vertical-align:middle" colspan=' + result.invoice.Schedulers[key].length + '>' + value.ServiceName + '</th>');
+                tr1.append(th)
+            }
+            thead.append(tr1);
+
+            var colspan = 0;
+            for (key in result.invoice.Schedulers) {
+
+                var value = result.invoice.Schedulers[key];
+                for (var i = 0; i < value.length; ++i) {
+                    var th = $('<th width="" style="text-align:center;vertical-align:middle">' + value[i].TugCnName + '</th>');
+
+                    var span1 = $('<span hidden>' + value[i].SchedulerID + '</span>');
+                    th.append(span1);
+
+                    tr2.append(th);
+                    colspan++;
+                }
+            }
+
+            thead.append(tr2);
+            $('#edit_tb_detail').append(thead);
+        }
+
+        //2.表体
+                DynamicGenerateEditTableNewTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result);
+
+        //3.表尾
+        {
+            var tfoot = $('<tfoot></tfoot>')
+            var tr = $('<tr></tr>')
+
+            if (colspan == 0) {
+                var td = $('<td colspan=' + colspan + ' style="text-align:center;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：&nbsp;&nbsp;&nbsp;&nbsp;' + GetFloatStr(result.invoice.GrandTotalHKS) + '<br> Grand Total HKS</strong></td>');
+                tr.append(td);
+            }
+            else {
+                var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;计&nbsp;港&nbsp;币：<br> Grand Total HKS</strong></td>');
+                var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
+
+                tr.append(td1);
+                tr.append(td2);
+            }
+            tfoot.append(tr);
+
+            $('#edit_tb_detail').append(tfoot);
+        }
             },
         });
 
@@ -9198,7 +9199,7 @@
                             var input = $('<input id="' + element_id + '" value="0" type="text" name="18时至22时附加费50耗时" onkeyup="DefaultBanbao_18时至22时附加费50_InputChanged(this)" placeholder="请输入小时数"></input>');
                             td.append(input);
 
-                            tr.append(td);
+                    tr.append(td);
                         }
                     }
                 }
@@ -9267,7 +9268,7 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
                                 }
@@ -9287,12 +9288,12 @@
                             var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                             td.append(input);
                             tr.append(td);
-                        }
-                    }
-                }
+                                    }
+                                }
+                            }
 
                 tbody.append(tr);
-            }
+                        }
 
             //10 100% 台风附加费
             for (var ii = 0; ii < result.items.length; ii++) {
@@ -9797,7 +9798,7 @@
                             var input = $('<input id="' + element_id + '" value="0" type="text" name="18时至22时附加费50耗时" onkeyup="DefaultTiaoKuan_18时至22时附加费50_InputChanged(this)" placeholder="请输入小时数"></input>');
                             td.append(input);
 
-                            tr.append(td);
+                    tr.append(td);
                         }
                     }
                 }
@@ -9866,7 +9867,7 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
                                 }
@@ -9886,12 +9887,12 @@
                             var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="TiaoKuan100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                             td.append(input);
                             tr.append(td);
-                        }
-                    }
-                }
+                                    }
+                                }
+                            }
 
                 tbody.append(tr);
-            }
+                        }
 
             //10 100% 台风附加费
             for (var ii = 0; ii < result.items.length; ii++) {
@@ -10397,7 +10398,7 @@
                 }
                 tbody.append(tr);
             }
-            
+
             //3工作时间
             {
                 var tr = $('<tr></tr>')
@@ -10570,17 +10571,17 @@
 
                             var price = 0;
                             var consume_hour = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (122 == value[i].BillingItems[j].ItemID || "E83" == value[i].BillingItems[j].ItemValue) {
                                     consume_hour = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -10639,14 +10640,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
+                        }
                             else{
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
                                 tr.append(td);
-                            }
-                        }
+                    }
+                }
                     }
                 }
 
@@ -10816,14 +10817,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
+                        }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
                                 tr.append(td);
-                            }
-                        }
+                    }
+                }
                     }
                 }
 
@@ -10839,7 +10840,7 @@
                 if (result.items[ii].CustomValue.substr(0, 3) == 'E80' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var unitPrice = 0;
-                    
+
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
                         if (result.items[ii].IDX == result.customer_scheme[j].ItemID) {
                             unitPrice = result.customer_scheme[j].UnitPrice;
@@ -10859,11 +10860,11 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var feulFee = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     feulFee = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             //var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -10881,8 +10882,8 @@
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var p1 = $('<p>燃油附加费折扣</p>')
                             var input1 = $('<input type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_119_C83' + '" value="' + FormatPrice(GetFloatStr(feulFeeDiscount)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
@@ -11261,17 +11262,17 @@
 
                             var price = 0;
                             var consume_hour = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (122 == value[i].BillingItems[j].ItemID || "E83" == value[i].BillingItems[j].ItemValue) {
                                     consume_hour = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -11330,14 +11331,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
+                        }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
                                 tr.append(td);
-                            }
-                        }
+                    }
+                }
                     }
                 }
 
@@ -11507,14 +11508,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)" checked>' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
-                                tr.append(td);
-                            }
+                            tr.append(td);
+                        }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
                                 td.append(input);
                                 tr.append(td);
-                            }
-                        }
+                    }
+                }
                     }
                 }
 
@@ -11550,11 +11551,11 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var feulFee = 0;
-                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     feulFee = value[i].BillingItems[j].Price;
+                                    }
                                 }
-                            }
 
                             //var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -11572,8 +11573,8 @@
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
-                                }
                             }
+                        }
 
                             var p1 = $('<p>燃油附加费折扣</p>')
                             var input1 = $('<input type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_119_C83' + '" value="' + FormatPrice(GetFloatStr(feulFeeDiscount)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
@@ -11726,7 +11727,7 @@
         var orderIds = $('#_edit_orderids').text();
 
         var customerBillingScheme = $("#edit_sel_billing_scheme").val().toString();
-        
+
 
         $('#edit_txt_discount').val(customerBillingScheme.split('%')[0].split('~')[1])
 
@@ -11843,11 +11844,11 @@
             var itemValue = element_id.split('_')[4];
 
             if (serviceNatureId == $(obj).attr("id").split('_')[2]) {
-                {
+                    {
                     var v = (parseFloat(obj.value * 0.5) * parseFloat($(this).val())).toFixed(2);
                     $('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_17_B11' + '"]').text(FormatPrice(GetFloatStr(v)));
                 }
-            }
+                    }
         });
 
         $('input[name="22时至08时附加费100耗时"][type="text"]').each(function () {
@@ -11859,11 +11860,11 @@
             var itemValue = element_id.split('_')[4];
 
             if (serviceNatureId == $(obj).attr("id").split('_')[2]) {
-                {
+                    {
                     var v = (parseFloat(obj.value) * parseFloat($(this).val())).toFixed(2);
                     $('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_18_B12' + '"]').text(FormatPrice(GetFloatStr(v)));
                 }
-            }
+                    }
         });
 
         $('input[name="假日附加费100"][type="checkbox"]').each(function () {
@@ -11964,7 +11965,7 @@
                 $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
             }
 
-        });
+                        });
 
         //总计港币
         $('td[name="总计港币"]').each(function () {
@@ -11978,7 +11979,7 @@
 
                 //1.合计港币
                 total += parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + td_id + '"]').text()));
-                
+
                 //2.折扣
                 if ($('input[name="折扣"][type="text"]').length > 0) {
                     var ele = $('input[name="折扣"][type="text"]')[0];
@@ -11997,7 +11998,7 @@
                     var itemValue = $(ele).attr("id").split('_')[4];
                     var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
                     total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
-                }
+                    }
 
                 //4.燃油附加费
                 total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_22_E80' + '"]').text()));
@@ -12025,7 +12026,7 @@
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
 
     }
-    
+
     function DefaultBanbao_18时至22时附加费50_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
         obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
@@ -12055,7 +12056,7 @@
         $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
         $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
-    }
+            }
 
     function DefaultBanbao_22时至08时附加费100_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
@@ -12101,7 +12102,7 @@
         //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
         if (t == '-') {
             obj.value = '-' + obj.value;
-        }
+                    }
 
         var element_id = $(obj).attr("id");
         var orderServiceId = element_id.split('_')[0];
@@ -12132,7 +12133,7 @@
                 var itemValue = $(ele).attr("id").split('_')[4];
                 var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
                 total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
-            }
+                    }
             //alert(total);
 
             //4.燃油附加费
@@ -12151,7 +12152,7 @@
 
             $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
 
-        }
+            }
 
         //共计港币
         var grand_total = 0;
@@ -12163,7 +12164,7 @@
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
 
     }
-    
+
     function DefaultBanbao_RanYouDiscout_InputChanged(obj) {
         var t = obj.value.charAt(0);
 
@@ -12202,7 +12203,7 @@
 
 
         //总计港币
-        {
+                {
             var total = 0;
 
             //1.合计港币
@@ -12218,7 +12219,7 @@
 
                 total += parseFloat(ConvertToRealPrice($('input[name="折扣"][type="text"][id="' + element_id + '"]').val()));
 
-            }
+                        }
             //alert(total);
 
             //3. 3600BHP附加费15%
@@ -12242,7 +12243,7 @@
                 var itemValue = $(ele).attr("id").split('_')[4];
                 var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
                 total += parseFloat(ConvertToRealPrice($('td[name="拖缆费"][id="' + element_id + '"]').text()));
-            }
+                        }
             //alert(total);
 
             $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
@@ -12253,11 +12254,11 @@
         var grand_total = 0;
         $('td[name="总计港币"]').each(function () {
             var v = parseFloat(ConvertToRealPrice($(this).text()));
-            grand_total += v;
-        });
+                    grand_total += v;
+            });
 
-        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-    }
+            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+        }
 
     function DefaultBanbao_RanYouExtra_InputChanged(obj) {
 
@@ -12288,7 +12289,7 @@
 
 
         //总计港币
-        {
+                {
             var total = 0;
 
             //1.合计港币
@@ -12304,7 +12305,7 @@
 
                 total += parseFloat(ConvertToRealPrice($('input[name="折扣"][type="text"][id="' + element_id + '"]').val()));
 
-            }
+                        }
             //alert(total);
 
             //3. 3600BHP附加费15%
@@ -12328,7 +12329,7 @@
                 var itemValue = $(ele).attr("id").split('_')[4];
                 var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
                 total += parseFloat(ConvertToRealPrice($('td[name="拖缆费"][id="' + element_id + '"]').text()));
-            }
+                        }
             //alert(total);
 
             $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
@@ -12339,11 +12340,11 @@
         var grand_total = 0;
         $('td[name="总计港币"]').each(function () {
             var v = parseFloat(ConvertToRealPrice($(this).text()));
-            grand_total += v;
-        });
+                    grand_total += v;
+            });
 
-        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-    }
+            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+        }
 
 
     //条款计时服务单价改变
@@ -12367,7 +12368,7 @@
             var serviceNatureId = element_id.split('_')[2];
 
             if ($(this).attr("id").split('_')[2] == $(obj).attr("id").split('_')[2]) {
-                
+
                 var consume_time = parseFloat($('td[name="换算耗时"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text());
                 var unit_price = parseFloat(ConvertToRealPrice(obj.value));
                 var price = parseFloat(consume_time) * parseFloat(unit_price);
@@ -12390,7 +12391,7 @@
                     $('p[name="real_price"][id="' + element_id + '"]').text(FormatPrice(GetFloatStr(v)));
                 }
             }
-        });
+            });
 
         $('input[name="18时至22时附加费50耗时"][type="text"]').each(function () {
             var element_id = $(this).attr("id");
@@ -12442,7 +12443,7 @@
                     $('p[name="real_price"][id="' + element_id + '"]').text(FormatPrice(GetFloatStr(v)));
                 }
             }
-        });
+                            });
 
         $('input[name="台风附加费100"][type="checkbox"]').each(function () {
             var element_id = $(this).attr("id");
@@ -12459,7 +12460,7 @@
                     var v = parseFloat(price).toFixed(2);
                     $('p[name="real_price"][id="' + element_id + '"]').text(FormatPrice(GetFloatStr(v)));
                 }
-            }
+                }
         });
 
         //合计港币
@@ -12525,7 +12526,7 @@
                 }
 
                 $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
-            }
+                        }
 
         });
 
@@ -12551,7 +12552,7 @@
 
                     total += parseFloat(ConvertToRealPrice($('input[name="折扣"][type="text"][id="' + element_id + '"]').val()));
 
-                }
+                        }
 
                 //3. 3600BHP附加费15%
                 if ($('input[name="3600BHP附加费15"][type="checkbox"]').length > 0) {
@@ -12575,8 +12576,8 @@
                 }
 
                 $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
-            }
-        });
+                }
+            });
 
         //共计港币
         var grand_total = 0;
@@ -12585,7 +12586,7 @@
             grand_total += v;
         });
 
-        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+            $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
 
     }
 
@@ -12618,7 +12619,7 @@
         $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
         $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
-    }
+            }
 
     function DefaultTiaoKuan_22时至08时附加费100_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
@@ -12649,7 +12650,7 @@
         $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
         $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
-    }
+                    }
 
     function DefaultTiaoKuan_ZheKou_InputChanged(obj) {
         var t = obj.value.charAt(0);
@@ -12673,7 +12674,7 @@
         //var itemValue = element_id.split('_')[4];
 
         //总计港币
-        {
+                    {
             var total = 0;
 
             //1.合计港币
@@ -12720,10 +12721,10 @@
         $('td[name="总计港币"]').each(function () {
             var v = parseFloat(ConvertToRealPrice($(this).text()));
             grand_total += v;
-        });
+                        });
 
         $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
-    }
+                    }
 
     function DefaultTiaoKuan_RanYouDiscout_InputChanged(obj) {
         var t = obj.value.charAt(0);
@@ -12759,7 +12760,7 @@
             var ranyou_extra_price = parseFloat(ConvertToRealPrice($('input[name="燃油附加费额外费用"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_120_E81' + '"]').val()));
             var ranyou_price = parseFloat(ranyou_after_discount_price) + parseFloat(ranyou_extra_price);
             $('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_22_E80' + '"]').text(FormatPrice(GetFloatStr(ranyou_price.toFixed(2))));
-        }
+            }
 
 
         //总计港币
@@ -12789,7 +12790,7 @@
                 var itemValue = $(ele).attr("id").split('_')[4];
                 var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
                 total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
-            }
+                    }
             //alert(total);
 
             //4.燃油附加费
@@ -12874,7 +12875,7 @@
                 var itemValue = $(ele).attr("id").split('_')[4];
                 var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
                 total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
-            }
+                    }
             //alert(total);
 
             //4.燃油附加费
@@ -12893,7 +12894,7 @@
 
             $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
 
-        }
+            }
 
         //共计港币
         var grand_total = 0;
@@ -12966,8 +12967,8 @@
                 ret = false;
                 return ret;
             }
-        } 
-        
+        }
+
 
         elements = $('input[name="燃油附加费折扣"][type="text"]');
         for (var i = 0; i < elements.length; i++) {
@@ -12975,8 +12976,8 @@
 
             if (isNaN(input_value) || input_value == null) {
                 ret = false;
-                return ret;
-            }
+        return ret;
+    }
         }
 
         elements = $('input[name="燃油附加费额外费用"][type="text"]');
@@ -13044,8 +13045,8 @@
 
             if (isNaN(input_value) || input_value == null) {
                 ret = false;
-                return ret;
-            }
+        return ret;
+    }
         }
 
         elements = $('input[name="燃油附加费额外费用"][type="text"]');
@@ -13139,14 +13140,14 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_17_B11' + '"]').text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                var currency = "港币";
+                        var currency = "港币";
                 var bi = new BillingItem(schedulerId, 17, unitPrice, currency);
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
-            }
+                        array.push(bi);
+                    }
         });
 
         //3.100%港外附加费
@@ -13170,7 +13171,7 @@
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
-            }
+                }
         });
 
         //4.100%假日附加费
@@ -13203,7 +13204,7 @@
 
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
-                var currency = "港币";
+            var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -13223,8 +13224,8 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
+            var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+            array.push(bi);
             }
         });
 
@@ -13245,7 +13246,7 @@
                 array.push(bi);
             }
         });
- 
+
         //8.燃油附加费折扣
         $('input[name="燃油附加费折扣"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
@@ -13259,7 +13260,7 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                var currency = "港币";
+                        var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -13279,9 +13280,9 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
-            }
+                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                        array.push(bi);
+                    }
         });
 
         //10.燃油附加费
@@ -13297,10 +13298,10 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
-            }
+                        var currency = "港币";
+                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                        array.push(bi);
+                    }
         });
 
         //11.拖缆费
@@ -13316,10 +13317,10 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
-            }
+                        var currency = "港币";
+                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                        array.push(bi);
+                    }
         });
 
 
@@ -13356,8 +13357,8 @@
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
                 var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
+            var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+            array.push(bi);
             }
         });
 
@@ -13399,7 +13400,7 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_18_B12' + '"]').text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                var currency = "港币";
+                        var currency = "港币";
                 var bi = new BillingItem(schedulerId, 18, unitPrice, currency);
                 array.push(bi);
 
@@ -13422,9 +13423,9 @@
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
                 var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
-            }
+                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                        array.push(bi);
+                    }
         });
 
         //5.100%台风附加费
@@ -13439,7 +13440,7 @@
 
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
-                var currency = "港币";
+            var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -13459,8 +13460,8 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
+            var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+            array.push(bi);
             }
         });
 
@@ -13495,7 +13496,7 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                var currency = "港币";
+                        var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -13515,9 +13516,9 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
-            }
+                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                        array.push(bi);
+                    }
         });
 
         //10.燃油附加费
@@ -13533,7 +13534,7 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                var currency = "港币";
+                        var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -13553,13 +13554,13 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                array.push(bi);
-            }
+                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                        array.push(bi);
+                    }
         });
 
         return array;
-    }
+            }
 
     //获取汇总项
     function GetQuanBaoSummaryItems() {
@@ -13580,7 +13581,7 @@
                 var si = new SummaryItem(schedulerId, amount, fuelPrice, currency, hours)
 
                 array.push(si);
-            }
+        }
         });
 
         return array;
@@ -13601,7 +13602,7 @@
             var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
 
             {
-                var currency = "港币";
+                        var currency = "港币";
                 var amount = parseFloat(ConvertToRealPrice($('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
                 var fuelPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 var hours = parseFloat($('td[name="换算耗时"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text());
@@ -13609,7 +13610,7 @@
                 var si = new SummaryItem(schedulerId, amount, fuelPrice, currency, hours)
 
                 array.push(si);
-            }
+        }
         });
 
         return array;
@@ -13637,7 +13638,7 @@
                 var si = new SummaryItem(schedulerId, amount, fuelPrice, currency, hours)
 
                 array.push(si);
-            }
+    }
         });
 
         return array;
@@ -15502,7 +15503,7 @@
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) + parseFloat(jiarifujiafei100);
                 $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total.toFixed(2))));
-            }
+    }
             else {
                 var ck = $('input[name="all_100%假日附加费"][type="checkbox"][id="ckItem_' + itemId + '_' + itemValue + '"]');
                 ck.prop('checked', false);
@@ -16044,7 +16045,7 @@
 
                     .navButtonAdd('#jqGridPager_edit_tab', {
                         //id: 'jqGrid_ilrefresh',
-                        caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+                        caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
                         onClickButton: function () {
                             $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                         }
@@ -16052,13 +16053,13 @@
 
                     .navButtonAdd('#jqGridPager_edit_tab', {
                         //id: 'jqGrid_ildelete',
-                        caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+                        caption: "", title: '@Resources.Language.DeleteSelectedRows', buttonicon: "ui-icon-trash",
                         onClickButton: function () {
                             var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
                             var dr = jQuery("#jqGrid_edit_tab").jqGrid('getRowData', rowid);//得到该行的数据
                             var creditId = dr.IDX;
                             if (rowid != null) {
-                                if (confirm('确定要删除所选的记录吗?')) {
+                                if (confirm('@Resources.Language.SureDelete')) {
                                     $.ajax(
                                         {
                                             type: "post",
@@ -16347,7 +16348,7 @@
 
         var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
         var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
-        
+
 
         var billingId = dr.IDX;
         var billingCode = dr.BillingCode;

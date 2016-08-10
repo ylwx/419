@@ -154,13 +154,13 @@
     $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
 
         .navButtonAdd('#jqGridPager', {
-            caption: "", title: "刷新", buttonicon: "ui-icon-refresh",
+            caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
             onClickButton: function () {
                 $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
             }
         })
         .navButtonAdd('#jqGridPager', {
-            caption: "", title: "清空搜索", buttonicon: "ui-icon-circle-minus",
+            caption: "", title: "'@Resources.Language.ClearSearchFilter'", buttonicon: "ui-icon-circle-minus",
             onClickButton: function () {
                 var grid = $('#jqGrid')[0];
                 grid.clearToolbar();
@@ -170,12 +170,12 @@
         .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
         .navButtonAdd('#jqGridPager', {
             id: 'jqGrid_ildelete',
-            caption: "", title: "删除选中的行", buttonicon: "ui-icon-trash",
+            caption: "", title: '@Resources.Language.DeleteSelectedRows', buttonicon: "ui-icon-trash",
             onClickButton: function () {
                 var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                 var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
                 if (rowid != null) {
-                    if (confirm('确定要删除所选的记录吗?')) {
+                    if (confirm('@Resources.Language.SureDelete')) {
                         var d = new Date();
                         $.ajax(
                             {
@@ -201,7 +201,7 @@
         })
         .navButtonAdd('#jqGridPager', {
             //id: 'jqGrid_ilrefresh',
-            caption: "", title: "新增", buttonicon: "ui-icon-plus",
+            caption: "", title: '@Resources.Language.Add', buttonicon: "ui-icon-plus",
             onClickButton: AddParent
         });
 
