@@ -232,7 +232,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 清空搜索條件 的本地化字符串。
+        ///   查找类似 清空搜索項 的本地化字符串。
         /// </summary>
         internal static string ClearSearchFilter {
             get {
@@ -403,15 +403,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 客戶船信息 的本地化字符串。
-        /// </summary>
-        internal static string CustomerShip_infor {
-            get {
-                return ResourceManager.GetString("CustomerShip_infor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 長 的本地化字符串。
         /// </summary>
         internal static string CustomerShip_Length {
@@ -547,15 +538,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 客戶基本信息 的本地化字符串。
-        /// </summary>
-        internal static string Customer_Infor {
-            get {
-                return ResourceManager.GetString("Customer_Infor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 郵編 的本地化字符串。
         /// </summary>
         internal static string Customer_MailCode {
@@ -646,7 +628,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 刪除選中的行 的本地化字符串。
+        ///   查找类似 刪除 的本地化字符串。
         /// </summary>
         internal static string DeleteSelectedRows {
             get {
@@ -1231,7 +1213,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 Submit 的本地化字符串。
+        ///   查找类似 提交 的本地化字符串。
         /// </summary>
         internal static string Submit {
             get {
@@ -1249,7 +1231,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 確定要刪除所選記錄嗎？ 的本地化字符串。
+        ///   查找类似 確定刪除所選記錄？ 的本地化字符串。
         /// </summary>
         internal static string SureDelete {
             get {
