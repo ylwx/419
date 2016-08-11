@@ -1423,7 +1423,7 @@ namespace TugBusinessLogic.Module
         }
 
         [JsonExceptionFilterAttribute]
-        public int AutoAddCustomer(string Code, string Name1, string Name2, string SimpleName, string ContactPerson,
+        public static int AutoAddCustomer(string Code, string Name1, string Name2, string SimpleName, string ContactPerson,
       string Telephone, string Fax, string Email, string Address, string MailCode, string Remark, int UserID)
         {
             try
@@ -1490,7 +1490,7 @@ namespace TugBusinessLogic.Module
             }
         }
         [JsonExceptionFilterAttribute]
-        public int AutoAddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, string DeadWeight, string Length,
+        static public int AutoAddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, string DeadWeight, string Length,
             string Width, string TEUS, string Class, string Remark, int UserID)
         {
             try

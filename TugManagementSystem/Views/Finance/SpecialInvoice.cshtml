@@ -2895,44 +2895,29 @@
 
 <!--报表预览-->
 <script>
-    function ReportPreViewInvoice(orderId, timeTypeId, timeTypeValue, billingTypeId, billingTypeValue, billingTypeLabel) {
-        if(billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
-            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
-            //alert("全包或半包报表预览");
-            //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
-            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-        }
 
-        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
-            //alert("计时报表预览");
-            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-        }
-
-    }
 
     function InvoicePreview() {
 
         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
         //var rowid = g_curRowId;
 
-        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
-        var timeTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
-        var timeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
-        var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
-        var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
-        var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+        var billingId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX"); //BillingID
+        
 
-        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
-            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
-            //alert("全包或半包报表预览");
-            //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
-            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-        }
+        //if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+        //    || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+        //    //alert("全包或半包报表预览");
+        //    //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
+        //    open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        //}
 
-        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
-            //alert("计时报表预览");
-            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-        }
+        //else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+        //    //alert("计时报表预览");
+        //    open('/Report/Invoice_tk' + '?BillingID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        //}
+
+        open('/Report/Invoice_tk' + '?BillingID=' + billingId)
     }
 
     function CreditPreview() {
@@ -2940,8 +2925,9 @@
 
         var rowid = jQuery('#jqGrid_view_tab').jqGrid('getGridParam', 'selrow');
         var creditId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "IDX"); //CreditId
-        var orderId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "OrderID"); //OrderID
-        open('/Report/CreditNotePage' + '?OrderID=' + orderId + '&CreditID=' + creditId)
+        var billingId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "BillingID"); //BillingID
+        //open('/Report/CreditNotePage' + '?OrderID=' + orderId + '&CreditID=' + creditId)
+        open('/Report/CreditNotePage' + '?BillingID=' + billingId + '&CreditID=' + creditId)
         //alert("orderId = " + orderId + "  creditId = " + creditId +"  弹出回扣单报表");
     }
 
