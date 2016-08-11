@@ -477,10 +477,10 @@
           <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
-          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="ShipID" Type="int" />
-          <Property Name="ShipName" Type="nvarchar(max)" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
           <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
           <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
           <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
@@ -1191,6 +1191,7 @@
           <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
           <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="BillingID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2397,7 +2398,8 @@
     [V_Inv_OrdService].[ServiceWorkDate] AS [ServiceWorkDate], 
     [V_Inv_OrdService].[ServiceWorkPlace] AS [ServiceWorkPlace], 
     [V_Inv_OrdService].[CustomLabel] AS [CustomLabel], 
-    [V_Inv_OrdService].[OrderID] AS [OrderID]
+    [V_Inv_OrdService].[OrderID] AS [OrderID], 
+    [V_Inv_OrdService].[BillingID] AS [BillingID]
     FROM [dbo].[V_Inv_OrdService] AS [V_Inv_OrdService]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Inv_Scheduler" EntityType="Self.V_Inv_Scheduler" store:Type="Views" store:Schema="dbo">
@@ -3673,10 +3675,10 @@
           <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ShipID" Type="Int32" />
-          <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -4368,6 +4370,7 @@
           <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CustomLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="BillingID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Inv_Scheduler">
           <Key>
@@ -6330,6 +6333,7 @@
           <EntitySetMapping Name="V_Inv_OrdService">
             <EntityTypeMapping TypeName="Model.V_Inv_OrdService">
               <MappingFragment StoreEntitySet="V_Inv_OrdService">
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomLabel" ColumnName="CustomLabel" />
                 <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />
