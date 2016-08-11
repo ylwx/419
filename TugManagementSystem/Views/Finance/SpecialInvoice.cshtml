@@ -917,6 +917,18 @@
                 },
 
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_HasInvoice', name: "HasSpecialBilling", width: 100, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    hidden: false
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_HasInFlow', name: "HasSpecialBillingInFlow", width: 100, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    hidden: false
+                },
+
+                {
                     align: 'center', label: '拖輪總數', name: "TotalTug", width: 100, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -1990,6 +2002,7 @@
 
         $("#add_btn_sumbit").attr("disabled", true);
 
+        //return;
 
         $.ajax({
             url: '@Url.Action("AddSpecialInvoice", "Finance")',
@@ -2049,7 +2062,16 @@
             var th = $('<th width="" style="text-align:center;vertical-align:middle">' + '次數' + '</th>');
             tr.append(th);
 
+            th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '订单服务ID' + '</th>');
+            tr.append(th);
+
             th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務日期' + '</th>');
+            tr.append(th);
+
+            th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '服務项ID' + '</th>');
+            tr.append(th);
+
+            th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '服務项值' + '</th>');
             tr.append(th);
 
             th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務內容' + '</th>');
@@ -2073,6 +2095,7 @@
 
         //3.表尾
         {
+
             var total_tug_number = 0;
             var total_service_price = 0, total_feul_price = 0, grand_total_price = 0;
 
@@ -2138,7 +2161,16 @@
             var td = $('<td width="" style="text-align:center;vertical-align:middle">' + (i + 1).toString() + '</td>');
             tr.append(td);
 
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].OrderServiceID + '</td>');
+            tr.append(td);
+
             td = $('<td width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].ServiceWorkDate + '</td>');
+            tr.append(td);
+
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].ServiceNatureID + '</td>');
+            tr.append(td);
+
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].ServiceNatureValue + '</td>');
             tr.append(td);
 
             td = $('<td width="" style="text-align:center;vertical-align:middle">' + selectedServiceData[i].ServiceNatureLabel + '</td>');
@@ -2256,7 +2288,20 @@
 
         for (var i = 0; i < g_selectedServiceData.length; i++) {
 
-            var bi = new SpecialBillingItem(g_selectedServiceData[i].ServiceWorkDate, g_selectedServiceData[i].ServiceNatureLabel, g_selectedServiceData[i].ShipName,
+            //alert(g_selectedServiceData[i].OrderServiceID);
+            //alert(g_selectedServiceData[i].ServiceWorkDate);
+            //alert(g_selectedServiceData[i].ServiceNatureID);
+            //alert(g_selectedServiceData[i].ServiceNatureValue);
+            //alert(g_selectedServiceData[i].ServiceNatureLabel);
+            //alert(g_selectedServiceData[i].ShipName);
+            //alert(g_selectedServiceData[i].TotalTug);
+            //alert(serviceUnitPrice);
+            //alert(feulUnitPrice);
+
+            var bi = new SpecialBillingItem(-1, g_selectedServiceData[i].OrderServiceID,
+                g_selectedServiceData[i].ServiceWorkDate, g_selectedServiceData[i].ServiceNatureID,
+                g_selectedServiceData[i].ServiceNatureValue,
+                g_selectedServiceData[i].ServiceNatureLabel, g_selectedServiceData[i].ShipName,
                 g_selectedServiceData[i].TotalTug, serviceUnitPrice, feulUnitPrice);
             array.push(bi);
         }
@@ -2279,6 +2324,12 @@
         $('#parentErrMsg').hide();
 
         g_view_cur_selected_tab = 0; //初始显示Tab 1，账单Tab
+
+        $('#view_invoice_tab').addClass("active");
+        $('#view_credit_tab').removeClass("active");
+
+        $('#box_tab1').addClass("in active");
+        $('#box_tab2').removeClass("in active");
 
         $('#view_btn_sumbit').attr('disabled', false);
         $('#view_btn_voice_preview').attr('disabled', false);
@@ -2359,7 +2410,16 @@
                 var th = $('<th width="" style="text-align:center;vertical-align:middle">' + '次數' + '</th>');
                 tr.append(th);
 
+                th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '订单服务ID' + '</th>');
+                tr.append(th);
+
                 th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務日期' + '</th>');
+                tr.append(th);
+
+                th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '服務项ID' + '</th>');
+                tr.append(th);
+
+                th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '服務项值' + '</th>');
                 tr.append(th);
 
                 th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務內容' + '</th>');
@@ -2451,7 +2511,16 @@
             var td = $('<td width="" style="text-align:center;vertical-align:middle">' + (i + 1).toString() + '</td>');
             tr.append(td);
 
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].OrderServiceID + '</td>');
+            tr.append(td);
+
             td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceDate + '</td>');
+            tr.append(td);
+
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNatureID + '</td>');
+            tr.append(td);
+
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNatureValue + '</td>');
             tr.append(td);
 
             td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNature + '</td>');
@@ -2491,6 +2560,11 @@
     function initEditInvoiceModal() {
 
         g_edit_cur_selected_tab = 0; //初始显示Tab 1，账单Tab
+        $('#edit_invoice_tab').addClass("active");
+        $('#edit_credit_tab').removeClass("active");
+
+        $('#edit_box_tab1').addClass("in active");
+        $('#edit_box_tab2').removeClass("in active");
 
         $('#edit_btn_sumbit').attr('disabled', false);
         $('#edit_btn_voice_preview').attr('disabled', false);
@@ -2667,7 +2741,16 @@
                 var th = $('<th width="" style="text-align:center;vertical-align:middle">' + '次數' + '</th>');
                 tr.append(th);
 
+                th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '订单服务ID' + '</th>');
+                tr.append(th);
+
                 th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務日期' + '</th>');
+                tr.append(th);
+
+                th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '服務项ID' + '</th>');
+                tr.append(th);
+
+                th = $('<th hidden width="" style="text-align:center;vertical-align:middle">' + '服務项值' + '</th>');
                 tr.append(th);
 
                 th = $('<th width="" style="text-align:center;vertical-align:middle">' + '服務內容' + '</th>');
@@ -2759,7 +2842,16 @@
             var td = $('<td width="" style="text-align:center;vertical-align:middle">' + (i + 1).toString() + '</td>');
             tr.append(td);
 
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].OrderServiceID + '</td>');
+            tr.append(td);
+
             td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceDate + '</td>');
+            tr.append(td);
+
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNatureID + '</td>');
+            tr.append(td);
+
+            td = $('<td hidden width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNatureValue + '</td>');
             tr.append(td);
 
             td = $('<td width="" style="text-align:center;vertical-align:middle">' + result.invoice.SpecialBillingItems[i].ServiceNature + '</td>');
@@ -2884,7 +2976,9 @@
 
             //alert(g_selectedServiceData[i].ServiceDate);
 
-            var bi = new SpecialBillingItem(g_selectedServiceData[i].ServiceDate, g_selectedServiceData[i].ServiceNature, g_selectedServiceData[i].CustomerShipName,
+            var bi = new SpecialBillingItem(g_selectedServiceData[i].SpecialBillingID, g_selectedServiceData[i].OrderServiceID,
+                g_selectedServiceData[i].ServiceDate, g_selectedServiceData[i].ServiceNatureID, g_selectedServiceData[i].ServiceNatureValue,
+                g_selectedServiceData[i].ServiceNature, g_selectedServiceData[i].CustomerShipName,
                 g_selectedServiceData[i].TugNumber, serviceUnitPrice, feulUnitPrice);
             array.push(bi);
         }

@@ -1015,7 +1015,7 @@ namespace TugBusinessLogic.Module
 
 
             //var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderID).Select(u => u);
-            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID)).OrderBy(u => u.OrderID).Select(u => u);
+            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID) && u.HasSpecialBilling == "否" && u.HasSpecialBillingInFlow == "否").OrderBy(u => u.OrderID).Select(u => u);
 
             var services = list.Select(u => new {u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
 
@@ -1541,6 +1541,10 @@ namespace TugBusinessLogic.Module
 
                 _billingItems = db.V_SpecialBillingItem.Where(u => u.SpecialBillingID == billingId).Select(u => new MySpecialBillingItem
                 {
+                    SpecialBillingID = billingId,
+                    OrderServiceID = (int)u.OrderServiceID,
+                    ServiceNatureID = (int)u.ServiceNatureID,
+                    ServiceNatureValue = u.ServiceNatureValue,
                     ServiceDate = u.ServiceDate,
                     ServiceNature = u.ServiceNature,
                     CustomerShipName = u.CustomerShipName,
@@ -4997,6 +5001,81 @@ namespace TugBusinessLogic.Module
                 }
             }
         }
+
+
+        /// <summary>
+        /// 在普通账单删除后，需要设置其订单下，订单服务的账单有无。
+        /// </summary>
+        /// <param name="billingId"></param>
+        static public void SetOrderServiceInvoiceStatus(int billingId, string hasSpecialBilling)
+        {
+            TugDataEntities db = new TugDataEntities();
+
+            //1.获取账单下的多个订单
+            var lstBillingOrder = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
+            if (lstBillingOrder != null)
+            {
+                foreach (var bo in lstBillingOrder)
+                {
+                    //2.针对每一个订单，获取该订单下的订单服务，order_service
+                    var lstOrderService = db.OrderService.Where(u => u.OrderID == bo.OrderID).ToList();
+                    if (lstOrderService != null)
+                    {
+                        foreach (var os in lstOrderService)
+                        {
+                            //3.针对每一个订单服务，先在SpecialBillingItem表里面查询，是否有此订单服务；如果有说明该服务已经生成过
+                            //特殊账单了，不需要更改这个服务的账单有无状态；如果没有，说明该服务没有生成过特殊账单，需要将其账单有
+                            //无状态改为“否”
+                            SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
+                            if (si == null)
+                            {
+                                os.HasSpecialBilling = hasSpecialBilling;
+                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 在普通账单提交审核或驳回后，需要设置其订单下，订单服务的账单有无。
+        /// </summary>
+        /// <param name="billingId"></param>
+        static public void SetOrderServiceFlowingStatus(int billingId, string hasInFlow)
+        {
+            TugDataEntities db = new TugDataEntities();
+
+            //1.获取账单下的多个订单
+            var lstBillingOrder = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
+            if (lstBillingOrder != null)
+            {
+                foreach (var bo in lstBillingOrder)
+                {
+                    //2.针对每一个订单，获取该订单下的订单服务，order_service
+                    var lstOrderService = db.OrderService.Where(u => u.OrderID == bo.OrderID).ToList();
+                    if (lstOrderService != null)
+                    {
+                        foreach (var os in lstOrderService)
+                        {
+                            //3.针对每一个订单服务，先在SpecialBillingItem表里面查询，是否有此订单服务；如果有说明该服务已经生成过
+                            //特殊账单了，不需要更改这个服务的账单有无状态；如果没有，说明该服务没有生成过特殊账单，需要将其账单有
+                            //无状态改为“否”
+                            SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
+                            if (si == null)
+                            {
+                                os.HasSpecialBillingInFlow = hasInFlow;
+                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         static public void RejectInvoice(int orderId = 1)
         {

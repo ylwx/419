@@ -18,8 +18,12 @@ function SummaryItem(SchedulerID, Amount,FuelPrice, Currency, Hours)
 }
 
 
-function SpecialBillingItem(ServiceDate, ServiceNature, CustomerShipName, TugNumber, ServiceUnitPrice, FeulUnitPrice) {
+function SpecialBillingItem(SpecialBillingID, OrderServiceID, ServiceDate, ServiceNatureID, ServiceNatureValue,ServiceNature, CustomerShipName, TugNumber, ServiceUnitPrice, FeulUnitPrice) {
+    this.SpecialBillingID = SpecialBillingID;
+    this.OrderServiceID = OrderServiceID;
     this.ServiceDate = ServiceDate;
+    this.ServiceNatureID = ServiceNatureID;
+    this.ServiceNatureValue = ServiceNatureValue;
     this.ServiceNature = ServiceNature;
     this.CustomerShipName = CustomerShipName;
     this.TugNumber = TugNumber;

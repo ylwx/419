@@ -18,6 +18,8 @@ namespace TugDataModel
         public string HasInvoice { get; set; }
         public string HasInFlow { get; set; }
         public Nullable<int> OrderServiceID { get; set; }
+        public string HasSpecialBilling { get; set; }
+        public string HasSpecialBillingInFlow { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceNatureValue { get; set; }
         public string ServiceNatureLabel { get; set; }

@@ -472,10 +472,10 @@
     <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
     <Property Name="Code" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
-    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
-    <Property Name="ShipName" Type="nvarchar(max)" />
+    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
     <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
     <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
     <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
@@ -518,6 +518,8 @@
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasSpecialBilling" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasSpecialBillingInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
     <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
@@ -644,7 +646,10 @@
     </Key>
     <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SpecialBillingID" Type="int" />
+    <Property Name="OrderServiceID" Type="int" />
     <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
     <Property Name="TugNumber" Type="int" />
@@ -807,12 +812,11 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" Nullable="false" />
-    <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
     <Property Name="TugID" Type="int" />
     <Property Name="TugName1" Type="nvarchar" MaxLength="50" />
-    <Property Name="Amount" Type="float" />
+    <Property Name="Amount" Type="int" />
     <Property Name="Currency" Type="nvarchar" MaxLength="50" />
-    <Property Name="Hours" Type="float" />
+    <Property Name="Hours" Type="int" />
     <Property Name="BillingID" Type="int" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
@@ -827,8 +831,6 @@
     <Property Name="FinanceMonth" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingYear" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingMonth" Type="nvarchar" MaxLength="50" />
-    <Property Name="BillingDateTime" Type="datetime" />
-    <Property Name="SchedulerID" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Arrangement”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1173,8 +1175,8 @@
     <Property Name="IDX" Type="int" Nullable="false" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
-    <Property Name="CustomerName" Type="nvarchar(max)" />
-    <Property Name="ShipName" Type="nvarchar(max)" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeID" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
@@ -1563,6 +1565,8 @@
     <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderServiceID" Type="int" />
+    <Property Name="HasSpecialBilling" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasSpecialBillingInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNatureID" Type="int" />
     <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
@@ -1650,6 +1654,8 @@
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
     <Property Name="TotalTug" Type="int" />
+    <Property Name="HasSpecialBilling" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasSpecialBillingInFlow" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1727,7 +1733,10 @@
     </Key>
     <Property Name="IDX" Type="int" Nullable="false" />
     <Property Name="SpecialBillingID" Type="int" />
+    <Property Name="OrderServiceID" Type="int" />
     <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
     <Property Name="TugNumber" Type="int" />
@@ -2061,7 +2070,6 @@
     <EntitySet Name="V_AmountSum_Billing" EntityType="Self.V_AmountSum_Billing" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_AmountSum_Billing].[ID] AS [ID], 
-    [V_AmountSum_Billing].[ServiceName] AS [ServiceName], 
     [V_AmountSum_Billing].[TugID] AS [TugID], 
     [V_AmountSum_Billing].[TugName1] AS [TugName1], 
     [V_AmountSum_Billing].[Amount] AS [Amount], 
@@ -2080,9 +2088,7 @@
     [V_AmountSum_Billing].[BillTotalAmount] AS [BillTotalAmount], 
     [V_AmountSum_Billing].[FinanceMonth] AS [FinanceMonth], 
     [V_AmountSum_Billing].[BillingYear] AS [BillingYear], 
-    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth], 
-    [V_AmountSum_Billing].[BillingDateTime] AS [BillingDateTime], 
-    [V_AmountSum_Billing].[SchedulerID] AS [SchedulerID]
+    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth]
     FROM [dbo].[V_AmountSum_Billing] AS [V_AmountSum_Billing]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Arrangement" EntityType="Self.V_Arrangement" store:Type="Views" store:Schema="dbo">
@@ -2740,6 +2746,8 @@
     [V_OrderScheduler].[HasInvoice] AS [HasInvoice], 
     [V_OrderScheduler].[HasInFlow] AS [HasInFlow], 
     [V_OrderScheduler].[OrderServiceID] AS [OrderServiceID], 
+    [V_OrderScheduler].[HasSpecialBilling] AS [HasSpecialBilling], 
+    [V_OrderScheduler].[HasSpecialBillingInFlow] AS [HasSpecialBillingInFlow], 
     [V_OrderScheduler].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderScheduler].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_OrderScheduler].[ServiceNatureLabel] AS [ServiceNatureLabel], 
@@ -2823,7 +2831,9 @@
     [V_OrderService].[CreateDate] AS [CreateDate], 
     [V_OrderService].[UserID] AS [UserID], 
     [V_OrderService].[LastUpDate] AS [LastUpDate], 
-    [V_OrderService].[TotalTug] AS [TotalTug]
+    [V_OrderService].[TotalTug] AS [TotalTug], 
+    [V_OrderService].[HasSpecialBilling] AS [HasSpecialBilling], 
+    [V_OrderService].[HasSpecialBillingInFlow] AS [HasSpecialBillingInFlow]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
@@ -2881,7 +2891,10 @@
       <DefiningQuery>SELECT 
     [V_SpecialBillingItem].[IDX] AS [IDX], 
     [V_SpecialBillingItem].[SpecialBillingID] AS [SpecialBillingID], 
+    [V_SpecialBillingItem].[OrderServiceID] AS [OrderServiceID], 
     [V_SpecialBillingItem].[ServiceDate] AS [ServiceDate], 
+    [V_SpecialBillingItem].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_SpecialBillingItem].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_SpecialBillingItem].[ServiceNature] AS [ServiceNature], 
     [V_SpecialBillingItem].[CustomerShipName] AS [CustomerShipName], 
     [V_SpecialBillingItem].[TugNumber] AS [TugNumber], 

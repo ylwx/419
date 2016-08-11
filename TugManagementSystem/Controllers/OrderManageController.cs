@@ -541,6 +541,9 @@ namespace TugManagementSystem.Controllers
                             //obj.Remark = "";
                             obj.JobStateID = 114;
 
+                            obj.HasSpecialBilling = "否";
+                            obj.HasSpecialBillingInFlow = "否";
+
                             obj.OwnerID = -1;
                             obj.CreateDate = aOrder.CreateDate;
                             obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;

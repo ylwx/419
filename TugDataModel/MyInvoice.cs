@@ -318,7 +318,11 @@ namespace TugDataModel
 
     public class MySpecialBillingItem
     {
+        public int SpecialBillingID { get; set; }
+        public int OrderServiceID { get; set; }
         public string ServiceDate { get; set; }
+        public int ServiceNatureID { get; set; }
+        public string ServiceNatureValue { get; set; }
         public string ServiceNature { get; set; }
 
         public string CustomerShipName { get; set; }

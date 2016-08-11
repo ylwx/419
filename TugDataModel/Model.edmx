@@ -477,10 +477,10 @@
           <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
-          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="ShipID" Type="int" />
-          <Property Name="ShipName" Type="nvarchar(max)" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
           <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
           <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
           <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
@@ -523,6 +523,8 @@
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
           <Property Name="UserID" Type="int" />
           <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="HasSpecialBilling" Type="nvarchar" MaxLength="50" />
+          <Property Name="HasSpecialBillingInFlow" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
@@ -649,7 +651,10 @@
           </Key>
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SpecialBillingID" Type="int" />
+          <Property Name="OrderServiceID" Type="int" />
           <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceNatureID" Type="int" />
+          <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
           <Property Name="TugNumber" Type="int" />
@@ -812,12 +817,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
           <Property Name="TugID" Type="int" />
           <Property Name="TugName1" Type="nvarchar" MaxLength="50" />
-          <Property Name="Amount" Type="float" />
+          <Property Name="Amount" Type="int" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" />
-          <Property Name="Hours" Type="float" />
+          <Property Name="Hours" Type="int" />
           <Property Name="BillingID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
@@ -832,8 +836,6 @@
           <Property Name="FinanceMonth" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingYear" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingMonth" Type="nvarchar" MaxLength="50" />
-          <Property Name="BillingDateTime" Type="datetime" />
-          <Property Name="SchedulerID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Arrangement”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1178,8 +1180,8 @@
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
-          <Property Name="CustomerName" Type="nvarchar(max)" />
-          <Property Name="ShipName" Type="nvarchar(max)" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
           <Property Name="TimeTypeID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
@@ -1568,6 +1570,8 @@
           <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
           <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderServiceID" Type="int" />
+          <Property Name="HasSpecialBilling" Type="nvarchar" MaxLength="50" />
+          <Property Name="HasSpecialBillingInFlow" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNatureID" Type="int" />
           <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
@@ -1655,6 +1659,8 @@
           <Property Name="UserID" Type="int" />
           <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
           <Property Name="TotalTug" Type="int" />
+          <Property Name="HasSpecialBilling" Type="nvarchar" MaxLength="50" />
+          <Property Name="HasSpecialBillingInFlow" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1732,7 +1738,10 @@
           </Key>
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="SpecialBillingID" Type="int" />
+          <Property Name="OrderServiceID" Type="int" />
           <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceNatureID" Type="int" />
+          <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
           <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
           <Property Name="TugNumber" Type="int" />
@@ -2066,7 +2075,6 @@
           <EntitySet Name="V_AmountSum_Billing" EntityType="Self.V_AmountSum_Billing" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_AmountSum_Billing].[ID] AS [ID], 
-    [V_AmountSum_Billing].[ServiceName] AS [ServiceName], 
     [V_AmountSum_Billing].[TugID] AS [TugID], 
     [V_AmountSum_Billing].[TugName1] AS [TugName1], 
     [V_AmountSum_Billing].[Amount] AS [Amount], 
@@ -2085,9 +2093,7 @@
     [V_AmountSum_Billing].[BillTotalAmount] AS [BillTotalAmount], 
     [V_AmountSum_Billing].[FinanceMonth] AS [FinanceMonth], 
     [V_AmountSum_Billing].[BillingYear] AS [BillingYear], 
-    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth], 
-    [V_AmountSum_Billing].[BillingDateTime] AS [BillingDateTime], 
-    [V_AmountSum_Billing].[SchedulerID] AS [SchedulerID]
+    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth]
     FROM [dbo].[V_AmountSum_Billing] AS [V_AmountSum_Billing]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Arrangement" EntityType="Self.V_Arrangement" store:Type="Views" store:Schema="dbo">
@@ -2745,6 +2751,8 @@
     [V_OrderScheduler].[HasInvoice] AS [HasInvoice], 
     [V_OrderScheduler].[HasInFlow] AS [HasInFlow], 
     [V_OrderScheduler].[OrderServiceID] AS [OrderServiceID], 
+    [V_OrderScheduler].[HasSpecialBilling] AS [HasSpecialBilling], 
+    [V_OrderScheduler].[HasSpecialBillingInFlow] AS [HasSpecialBillingInFlow], 
     [V_OrderScheduler].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderScheduler].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_OrderScheduler].[ServiceNatureLabel] AS [ServiceNatureLabel], 
@@ -2828,7 +2836,9 @@
     [V_OrderService].[CreateDate] AS [CreateDate], 
     [V_OrderService].[UserID] AS [UserID], 
     [V_OrderService].[LastUpDate] AS [LastUpDate], 
-    [V_OrderService].[TotalTug] AS [TotalTug]
+    [V_OrderService].[TotalTug] AS [TotalTug], 
+    [V_OrderService].[HasSpecialBilling] AS [HasSpecialBilling], 
+    [V_OrderService].[HasSpecialBillingInFlow] AS [HasSpecialBillingInFlow]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
@@ -2886,7 +2896,10 @@
             <DefiningQuery>SELECT 
     [V_SpecialBillingItem].[IDX] AS [IDX], 
     [V_SpecialBillingItem].[SpecialBillingID] AS [SpecialBillingID], 
+    [V_SpecialBillingItem].[OrderServiceID] AS [OrderServiceID], 
     [V_SpecialBillingItem].[ServiceDate] AS [ServiceDate], 
+    [V_SpecialBillingItem].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_SpecialBillingItem].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_SpecialBillingItem].[ServiceNature] AS [ServiceNature], 
     [V_SpecialBillingItem].[CustomerShipName] AS [CustomerShipName], 
     [V_SpecialBillingItem].[TugNumber] AS [TugNumber], 
@@ -3681,10 +3694,10 @@
           <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ShipID" Type="Int32" />
-          <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3729,6 +3742,8 @@
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserID" Type="Int32" />
           <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasSpecialBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasSpecialBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -3862,7 +3877,10 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SpecialBillingID" Type="Int32" />
+          <Property Name="OrderServiceID" Type="Int32" />
           <Property Name="ServiceDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceNatureID" Type="Int32" />
+          <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerShipName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TugNumber" Type="Int32" />
@@ -4025,12 +4043,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugID" Type="Int32" />
           <Property Name="TugName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Amount" Type="Double" />
+          <Property Name="Amount" Type="Int32" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Hours" Type="Double" />
+          <Property Name="Hours" Type="Int32" />
           <Property Name="BillingID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
@@ -4045,8 +4062,6 @@
           <Property Name="FinanceMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
-          <Property Name="SchedulerID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Arrangement">
           <Key>
@@ -4365,8 +4380,8 @@
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Inv_OrdService">
@@ -4733,6 +4748,8 @@
           <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderServiceID" Type="Int32" />
+          <Property Name="HasSpecialBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasSpecialBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNatureID" Type="Int32" />
           <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -4818,6 +4835,8 @@
           <Property Name="UserID" Type="Int32" />
           <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TotalTug" Type="Int32" />
+          <Property Name="HasSpecialBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasSpecialBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_RoleMenu">
           <Key>
@@ -4885,7 +4904,10 @@
           </Key>
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="SpecialBillingID" Type="Int32" />
+          <Property Name="OrderServiceID" Type="Int32" />
           <Property Name="ServiceDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceNatureID" Type="Int32" />
+          <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ServiceNature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerShipName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TugNumber" Type="Int32" />
@@ -5682,6 +5704,8 @@
                 <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
                 <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
                 <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="HasSpecialBillingInFlow" ColumnName="HasSpecialBillingInFlow" />
+                <ScalarProperty Name="HasSpecialBilling" ColumnName="HasSpecialBilling" />
                 <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -5822,7 +5846,10 @@
                 <ScalarProperty Name="TugNumber" ColumnName="TugNumber" />
                 <ScalarProperty Name="CustomerShipName" ColumnName="CustomerShipName" />
                 <ScalarProperty Name="ServiceNature" ColumnName="ServiceNature" />
+                <ScalarProperty Name="ServiceNatureValue" ColumnName="ServiceNatureValue" />
+                <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
                 <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+                <ScalarProperty Name="OrderServiceID" ColumnName="OrderServiceID" />
                 <ScalarProperty Name="SpecialBillingID" ColumnName="SpecialBillingID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
@@ -5983,8 +6010,6 @@
           <EntitySetMapping Name="V_AmountSum_Billing">
             <EntityTypeMapping TypeName="Model.V_AmountSum_Billing">
               <MappingFragment StoreEntitySet="V_AmountSum_Billing">
-                <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
-                <ScalarProperty Name="BillingDateTime" ColumnName="BillingDateTime" />
                 <ScalarProperty Name="BillingMonth" ColumnName="BillingMonth" />
                 <ScalarProperty Name="BillingYear" ColumnName="BillingYear" />
                 <ScalarProperty Name="FinanceMonth" ColumnName="FinanceMonth" />
@@ -6004,7 +6029,6 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="TugName1" ColumnName="TugName1" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
-                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6753,6 +6777,8 @@
                 <ScalarProperty Name="ServiceNatureLabel" ColumnName="ServiceNatureLabel" />
                 <ScalarProperty Name="ServiceNatureValue" ColumnName="ServiceNatureValue" />
                 <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
+                <ScalarProperty Name="HasSpecialBillingInFlow" ColumnName="HasSpecialBillingInFlow" />
+                <ScalarProperty Name="HasSpecialBilling" ColumnName="HasSpecialBilling" />
                 <ScalarProperty Name="OrderServiceID" ColumnName="OrderServiceID" />
                 <ScalarProperty Name="HasInFlow" ColumnName="HasInFlow" />
                 <ScalarProperty Name="HasInvoice" ColumnName="HasInvoice" />
@@ -6763,6 +6789,8 @@
           <EntitySetMapping Name="V_OrderService">
             <EntityTypeMapping TypeName="Model.V_OrderService">
               <MappingFragment StoreEntitySet="V_OrderService">
+                <ScalarProperty Name="HasSpecialBillingInFlow" ColumnName="HasSpecialBillingInFlow" />
+                <ScalarProperty Name="HasSpecialBilling" ColumnName="HasSpecialBilling" />
                 <ScalarProperty Name="TotalTug" ColumnName="TotalTug" />
                 <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -6869,7 +6897,10 @@
                 <ScalarProperty Name="TugNumber" ColumnName="TugNumber" />
                 <ScalarProperty Name="CustomerShipName" ColumnName="CustomerShipName" />
                 <ScalarProperty Name="ServiceNature" ColumnName="ServiceNature" />
+                <ScalarProperty Name="ServiceNatureValue" ColumnName="ServiceNatureValue" />
+                <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
                 <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+                <ScalarProperty Name="OrderServiceID" ColumnName="OrderServiceID" />
                 <ScalarProperty Name="SpecialBillingID" ColumnName="SpecialBillingID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>

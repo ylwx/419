@@ -1338,7 +1338,7 @@ namespace TugManagementSystem.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult AddInvoice2(int custId, int custShipId, string orderIds, int billingTemplateId, int billingTypeId, int timeTypeId,
+        public ActionResult AddInvoice2(int custId, int custShipId, string orderIds, string orderServiceIds, int billingTemplateId, int billingTypeId, int timeTypeId,
             string jobNo, string remark, double discount, double amount, string month, string isShowShipLengthRule, string isShowShipTEUSRule,
             string jsonArrayItems, string jsonArraySummaryItems)
         {
@@ -1486,6 +1486,34 @@ namespace TugManagementSystem.Controllers
                             }
                         }
 
+                        //6.更新订单服务表里的字段 HasSpecialBilling、HasSpecialBillingInFlow 是否已有帳單	
+                        {
+
+                            List<string> strOrderServiceIDs = orderServiceIds.Split(',').ToList();
+                            List<int> iOrderServiceIDs = new List<int>();
+                            if (strOrderServiceIDs != null)
+                            {
+                                foreach (var item in strOrderServiceIDs)
+                                {
+                                    iOrderServiceIDs.Add(TugBusinessLogic.Module.Util.toint(item));
+                                }
+                            }
+
+
+                            List<OrderService> ordSrvList = db.OrderService.Where(u => iOrderServiceIDs.Contains((int)u.IDX)).ToList();
+                            //throw new Exception();
+                            if (ordSrvList != null)
+                            {
+                                foreach (OrderService ods in ordSrvList)
+                                {
+                                    ods.HasSpecialBilling = "是";
+                                    ods.HasSpecialBillingInFlow = "否";
+                                    db.Entry(ods).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+
                         trans.Complete();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
@@ -1532,6 +1560,7 @@ namespace TugManagementSystem.Controllers
                         if (b != null)
                         {
                             TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
+                            TugBusinessLogic.Module.FinanceLogic.SetOrderServiceInvoiceStatus(bid, "否");
                             db.Billing.Remove(b);
                             db.SaveChanges();
                             
@@ -1834,7 +1863,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
                     List<V_OrderService> orders = db.V_OrderService.Where(u => u.OrderID == -1 && (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头"))
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否")
                         .Select(u => u).OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -1869,7 +1898,7 @@ namespace TugManagementSystem.Controllers
 
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0  && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
@@ -1889,7 +1918,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0 && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
@@ -2008,15 +2037,27 @@ namespace TugManagementSystem.Controllers
                             {
                                 SpecialBillingItem bi = new SpecialBillingItem();
                                 bi.SpecialBillingID = aScheduler.IDX;
+                                bi.OrderServiceID = item.OrderServiceID;
                                 bi.CustomerShipName = item.CustomerShipName;
                                 bi.FeulUnitPrice = item.FeulUnitPrice;
                                 bi.ServiceDate = item.ServiceDate;
+                                bi.ServiceNatureID = item.ServiceNatureID;
+                                bi.ServiceNatureValue = item.ServiceNatureValue;
                                 bi.ServiceNature = item.ServiceNature;
                                 bi.ServiceUnitPrice = item.ServiceUnitPrice;
                                 bi.TugNumber = item.TugNumber;
 
                                 bi = db.SpecialBillingItem.Add(bi);
                                 db.SaveChanges();
+
+                                //更新订单服务的账单标记
+                                {
+                                    OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
+                                    os.HasSpecialBilling = "是";
+                                    os.HasSpecialBillingInFlow = "否";
+                                    db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
                             }
                         }
 
@@ -2105,6 +2146,22 @@ namespace TugManagementSystem.Controllers
                         if (b != null)
                         {
                             //TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
+                            var lstOrderServices = db.SpecialBillingItem.Where(u => u.SpecialBillingID == b.IDX).ToList();
+                            if (lstOrderServices != null)
+                            {
+                                foreach (var item in lstOrderServices)
+                                {
+                                    //更新订单服务的账单标记
+                                    {
+                                        OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
+                                        os.HasSpecialBilling = "否";
+                                        os.HasSpecialBillingInFlow = "否";
+                                        db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                }
+                            }
+
                             db.Billing.Remove(b);
                             db.SaveChanges();
 
@@ -2160,13 +2217,17 @@ namespace TugManagementSystem.Controllers
                                         foreach (MySpecialBillingItem item in listInVoiceItems)
                                         {
                                             SpecialBillingItem bi = new SpecialBillingItem();
+                                            bi.SpecialBillingID = billingId;
+                                            bi.OrderServiceID = item.OrderServiceID;
+                                            bi.ServiceNatureID = item.ServiceNatureID;
+                                            bi.ServiceNatureValue = item.ServiceNatureValue;
                                             bi.CustomerShipName = item.CustomerShipName;
                                             bi.FeulUnitPrice = item.FeulUnitPrice;
                                             bi.ServiceDate = item.ServiceDate;
                                             bi.ServiceNature = item.ServiceNature;
                                             bi.ServiceUnitPrice = item.ServiceUnitPrice;
                                             bi.TugNumber = item.TugNumber;
-                                            bi.SpecialBillingID = billingId;
+                                            
 
                                             bi = db.SpecialBillingItem.Add(bi);
                                             db.SaveChanges();
@@ -2192,14 +2253,18 @@ namespace TugManagementSystem.Controllers
                                     foreach (MySpecialBillingItem item in listInVoiceItems)
                                     {
                                         SpecialBillingItem bi = new SpecialBillingItem();
-     
+
+                                        bi.SpecialBillingID = billingId;
+                                        bi.OrderServiceID = item.OrderServiceID;
+                                        bi.ServiceNatureID = item.ServiceNatureID;
+                                        bi.ServiceNatureValue = item.ServiceNatureValue;
                                         bi.CustomerShipName = item.CustomerShipName;
                                         bi.FeulUnitPrice = item.FeulUnitPrice;
                                         bi.ServiceDate = item.ServiceDate;
                                         bi.ServiceNature = item.ServiceNature;
                                         bi.ServiceUnitPrice = item.ServiceUnitPrice;
                                         bi.TugNumber = item.TugNumber;
-                                        bi.SpecialBillingID = billingId;
+
                                         bi = db.SpecialBillingItem.Add(bi);
                                         db.SaveChanges();
                                     }

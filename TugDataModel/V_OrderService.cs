@@ -48,5 +48,7 @@ namespace TugDataModel
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
         public Nullable<int> TotalTug { get; set; }
+        public string HasSpecialBilling { get; set; }
+        public string HasSpecialBillingInFlow { get; set; }
     }
 }

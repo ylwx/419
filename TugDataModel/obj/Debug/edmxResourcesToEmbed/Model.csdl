@@ -688,10 +688,10 @@
     <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerID" Type="Int32" />
-    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -736,6 +736,8 @@
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasSpecialBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasSpecialBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -869,7 +871,10 @@
     </Key>
     <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="SpecialBillingID" Type="Int32" />
+    <Property Name="OrderServiceID" Type="Int32" />
     <Property Name="ServiceDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceNatureID" Type="Int32" />
+    <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ServiceNature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerShipName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="TugNumber" Type="Int32" />
@@ -1032,12 +1037,11 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" />
-    <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TugID" Type="Int32" />
     <Property Name="TugName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Amount" Type="Double" />
+    <Property Name="Amount" Type="Int32" />
     <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Hours" Type="Double" />
+    <Property Name="Hours" Type="Int32" />
     <Property Name="BillingID" Type="Int32" />
     <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerID" Type="Int32" />
@@ -1052,8 +1056,6 @@
     <Property Name="FinanceMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
-    <Property Name="SchedulerID" Type="Int32" />
   </EntityType>
   <EntityType Name="V_Arrangement">
     <Key>
@@ -1372,8 +1374,8 @@
     <Property Name="IDX" Type="Int32" Nullable="false" />
     <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TimeTypeID" Type="Int32" />
   </EntityType>
   <EntityType Name="V_Inv_OrdService">
@@ -1740,6 +1742,8 @@
     <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrderServiceID" Type="Int32" />
+    <Property Name="HasSpecialBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasSpecialBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ServiceNatureID" Type="Int32" />
     <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1825,6 +1829,8 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TotalTug" Type="Int32" />
+    <Property Name="HasSpecialBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasSpecialBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_RoleMenu">
     <Key>
@@ -1892,7 +1898,10 @@
     </Key>
     <Property Name="IDX" Type="Int32" Nullable="false" />
     <Property Name="SpecialBillingID" Type="Int32" />
+    <Property Name="OrderServiceID" Type="Int32" />
     <Property Name="ServiceDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceNatureID" Type="Int32" />
+    <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ServiceNature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerShipName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="TugNumber" Type="Int32" />
