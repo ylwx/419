@@ -223,7 +223,7 @@ namespace TugManagementSystem.Controllers
         #endregion       
 
         #region 发票，计时
-        public ActionResult Invoice_tk(int OrderID,int TimeTypeValue)
+        public ActionResult Invoice_tk(int BillID,int TimeTypeValue)
         {
             //int OrderID; int TimeTypeValue;
             //OrderID = 10; TimeTypeValue = 0;//临时测试用
@@ -238,7 +238,7 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_tk(webReport.Report, OrderID, TimeTypeValue);
+            Report_DataRegister_tk(webReport.Report, BillID, TimeTypeValue);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
@@ -295,7 +295,7 @@ namespace TugManagementSystem.Controllers
         #endregion
 
         #region 全包，半包
-        public ActionResult Invoice_qborbb(int OrderID, int TimeTypeValue)//
+        public ActionResult Invoice_qborbb(int BillID, int TimeTypeValue)//
         {
             //int OrderID; int TimeTypeValue;
             //OrderID = 10; TimeTypeValue = 0;//临时测试用
@@ -314,7 +314,7 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_qborbb(webReport.Report, OrderID, TimeTypeValue);
+            Report_DataRegister_qborbb(webReport.Report, BillID, TimeTypeValue);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
