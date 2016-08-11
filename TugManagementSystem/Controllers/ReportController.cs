@@ -186,7 +186,7 @@ namespace TugManagementSystem.Controllers
         #endregion       
 
         #region Credit Note
-        public ActionResult CreditNotePage(int OrderID,int CreditID)
+        public ActionResult CreditNotePage(int BillID,int CreditID)
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
@@ -200,17 +200,17 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_credit(webReport.Report, OrderID, CreditID);
+            Report_DataRegister_credit(webReport.Report, BillID, CreditID);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_credit = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_credit(FastReport.Report FReport, int OrderID, int CreditID)
+        private void Report_DataRegister_credit(FastReport.Report FReport, int BillID, int CreditID)
         {
-            DataTable dtV_Inv_Head = null; DataTable dt_Credit = null; 
-            string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
+            DataTable dtV_Inv_Head = null; DataTable dt_Credit = null;
+            string strV_Inv_Head = string.Format(" IDX = {0}", BillID);
             string str_Credit = string.Format(" IDX = {0}", CreditID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
@@ -245,13 +245,12 @@ namespace TugManagementSystem.Controllers
             ViewBag.WebReport_tk = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_tk(FastReport.Report FReport, int OrderID, int TimeTypeValue)
+        private void Report_DataRegister_tk(FastReport.Report FReport, int BillID, int TimeTypeValue)
         {
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
-            string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
-            string strV_Inv_OrdService = string.Format(" OrderID = {0}", OrderID);
-            string strMData = string.Format(" OrderID = {0}", OrderID);
+            string strV_Inv_Head = string.Format(" IDX = {0}", BillID);
+            string strV_Inv_OrdService = string.Format(" BillingID = {0}", BillID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
@@ -262,9 +261,9 @@ namespace TugManagementSystem.Controllers
             //获取内容数据，再过滤加载到内容区
             SqlParameter para1 = new SqlParameter()
             {
-                ParameterName = "@OrderID",
+                ParameterName = "@BillingID",
                 Direction = ParameterDirection.Input,
-                Value = OrderID,
+                Value = BillID,
                 DbType = DbType.Int16
             };
             SqlParameter para2 = new SqlParameter()
@@ -321,13 +320,12 @@ namespace TugManagementSystem.Controllers
             ViewBag.WebReport_qborbb = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_qborbb(FastReport.Report FReport,int OrderID,int TimeTypeValue)
+        private void Report_DataRegister_qborbb(FastReport.Report FReport,int BillID,int TimeTypeValue)
         {
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
-            string strV_Inv_Head = string.Format(" OrderID = {0}", OrderID);
-            string strV_Inv_OrdService = string.Format(" OrderID = {0}", OrderID);
-            string strMData = string.Format(" OrderID = {0}", OrderID);
+            string strV_Inv_Head = string.Format(" IDX = {0}", BillID);
+            string strV_Inv_OrdService = string.Format(" BillingID = {0}", BillID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
@@ -338,9 +336,9 @@ namespace TugManagementSystem.Controllers
             //获取内容数据，再过滤加载到内容区
             SqlParameter para1 = new SqlParameter()
             {
-                ParameterName = "@OrderID",
+                ParameterName = "@BillingID",
                 Direction = ParameterDirection.Input,
-                Value = OrderID,
+                Value = BillID,
                 DbType = DbType.Int16
             };
             SqlParameter para2 = new SqlParameter()
