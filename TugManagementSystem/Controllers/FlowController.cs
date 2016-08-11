@@ -169,6 +169,8 @@ namespace TugManagementSystem.Controllers
                     db.Entry(billobj).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     #endregion
+                    //更新orderinfor表中的HasInFlow
+                    OrderLogic.UpdateHasInFlow(idx, "是");
                 }
 
             }
