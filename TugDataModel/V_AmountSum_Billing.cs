@@ -15,11 +15,12 @@ namespace TugDataModel
     public partial class V_AmountSum_Billing
     {
         public int ID { get; set; }
+        public string ServiceName { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName1 { get; set; }
-        public Nullable<int> Amount { get; set; }
+        public Nullable<double> Amount { get; set; }
         public string Currency { get; set; }
-        public Nullable<int> Hours { get; set; }
+        public Nullable<double> Hours { get; set; }
         public Nullable<int> BillingID { get; set; }
         public string BillingCode { get; set; }
         public Nullable<int> CustomerID { get; set; }
@@ -34,5 +35,7 @@ namespace TugDataModel
         public string FinanceMonth { get; set; }
         public string BillingYear { get; set; }
         public string BillingMonth { get; set; }
+        public Nullable<System.DateTime> BillingDateTime { get; set; }
+        public Nullable<int> SchedulerID { get; set; }
     }
 }

@@ -812,11 +812,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
           <Property Name="TugID" Type="int" />
           <Property Name="TugName1" Type="nvarchar" MaxLength="50" />
-          <Property Name="Amount" Type="int" />
+          <Property Name="Amount" Type="float" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" />
-          <Property Name="Hours" Type="int" />
+          <Property Name="Hours" Type="float" />
           <Property Name="BillingID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
@@ -831,6 +832,8 @@
           <Property Name="FinanceMonth" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingYear" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingMonth" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingDateTime" Type="datetime" />
+          <Property Name="SchedulerID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Arrangement”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2062,6 +2065,7 @@
           <EntitySet Name="V_AmountSum_Billing" EntityType="Self.V_AmountSum_Billing" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_AmountSum_Billing].[ID] AS [ID], 
+    [V_AmountSum_Billing].[ServiceName] AS [ServiceName], 
     [V_AmountSum_Billing].[TugID] AS [TugID], 
     [V_AmountSum_Billing].[TugName1] AS [TugName1], 
     [V_AmountSum_Billing].[Amount] AS [Amount], 
@@ -2080,7 +2084,9 @@
     [V_AmountSum_Billing].[BillTotalAmount] AS [BillTotalAmount], 
     [V_AmountSum_Billing].[FinanceMonth] AS [FinanceMonth], 
     [V_AmountSum_Billing].[BillingYear] AS [BillingYear], 
-    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth]
+    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth], 
+    [V_AmountSum_Billing].[BillingDateTime] AS [BillingDateTime], 
+    [V_AmountSum_Billing].[SchedulerID] AS [SchedulerID]
     FROM [dbo].[V_AmountSum_Billing] AS [V_AmountSum_Billing]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Arrangement" EntityType="Self.V_Arrangement" store:Type="Views" store:Schema="dbo">
@@ -4017,11 +4023,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugID" Type="Int32" />
           <Property Name="TugName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Amount" Type="Int32" />
+          <Property Name="Amount" Type="Double" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Hours" Type="Int32" />
+          <Property Name="Hours" Type="Double" />
           <Property Name="BillingID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
@@ -4036,6 +4043,8 @@
           <Property Name="FinanceMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
+          <Property Name="SchedulerID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Arrangement">
           <Key>
@@ -5971,6 +5980,8 @@
           <EntitySetMapping Name="V_AmountSum_Billing">
             <EntityTypeMapping TypeName="Model.V_AmountSum_Billing">
               <MappingFragment StoreEntitySet="V_AmountSum_Billing">
+                <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
+                <ScalarProperty Name="BillingDateTime" ColumnName="BillingDateTime" />
                 <ScalarProperty Name="BillingMonth" ColumnName="BillingMonth" />
                 <ScalarProperty Name="BillingYear" ColumnName="BillingYear" />
                 <ScalarProperty Name="FinanceMonth" ColumnName="FinanceMonth" />
@@ -5990,6 +6001,7 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="TugName1" ColumnName="TugName1" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

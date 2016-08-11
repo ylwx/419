@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using TugDataModel;
+using System.Web.Mvc;
 
 namespace TugBusinessLogic.Module
 {
@@ -1421,6 +1422,142 @@ namespace TugBusinessLogic.Module
             return src;
         }
 
+        [JsonExceptionFilterAttribute]
+        public int AutoAddCustomer(string Code, string Name1, string Name2, string SimpleName, string ContactPerson,
+      string Telephone, string Fax, string Email, string Address, string MailCode, string Remark, int UserID)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == Name1;
+                Customer obj = db.Customer.Where(exp).FirstOrDefault();
+                if (obj != null)
+                {
+                    //var ret = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE, objid=obj.IDX };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    //return Json(ret);
+                    //throw new Exception("客户名称已存在！");
+                    return obj.IDX;
+                }
+                {
+                    TugDataModel.Customer cstmer = new Customer();
 
+                    cstmer.Code = Code;
+                    cstmer.Name1 = Name1;
+                    cstmer.Name2 = Name2;
+                    cstmer.SimpleName = SimpleName;
+                    cstmer.ContactPerson = ContactPerson;
+                    cstmer.Telephone = Telephone;
+                    cstmer.Fax = Fax;
+                    cstmer.Email = Email;
+                    cstmer.Address = Address;
+                    cstmer.MailCode = MailCode;
+                    cstmer.Remark = Remark;
+                    cstmer.OwnerID = -1;
+                    cstmer.CreateDate = cstmer.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;//.ToString("yyyy-MM-dd");
+                    cstmer.UserID = UserID;
+                    cstmer.UserDefinedCol1 = "";
+                    cstmer.UserDefinedCol2 = "";
+                    cstmer.UserDefinedCol3 = "";
+                    cstmer.UserDefinedCol4 = "";
+                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                    //    cstmer.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                    //    cstmer.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                    //    cstmer.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                    //    cstmer.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                    cstmer.UserDefinedCol9 = "";
+                    cstmer.UserDefinedCol10 = "";
+
+                    cstmer = db.Customer.Add(cstmer);
+                    db.SaveChanges();
+
+                    //var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid = cstmer.IDX };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    //return Json(ret);
+                    return cstmer.IDX;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [JsonExceptionFilterAttribute]
+        public int AutoAddCustomerShip(int ctmId, string Name1, string Name2, string SimpleName, string DeadWeight, string Length,
+            string Width, string TEUS, string Class, string Remark, int UserID)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<CustomerShip, bool>> exp = u => u.Name1 == Name1;
+                CustomerShip obj = db.CustomerShip.Where(exp).FirstOrDefault();
+                if (obj != null)
+                {
+                    //var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid = obj.IDX };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    //return Json(ret);
+                    //throw new Exception("船名称已存在！");
+                    return obj.IDX;
+                }
+                {
+                    TugDataModel.CustomerShip ship = new CustomerShip();
+
+                    ship.CustomerID = ctmId;// Util.toint(Request.Form["CustomerID"]);
+                    ship.ShipTypeID = -1;//Util.toint(Request.Form["ShipTypeID"]);
+                    ship.Name1 = Name1;
+                    ship.Name2 = Name2;
+                    ship.SimpleName = SimpleName;
+                    ship.DeadWeight = Util.toint(DeadWeight);
+                    ship.Length = Util.toint(Length);
+                    ship.Width = Util.toint(Width);
+                    ship.TEUS = Util.toint(TEUS);
+                    ship.Class = Class;
+                    ship.Remark = Remark;
+                    ship.OwnerID = -1;
+                    ship.CreateDate = ship.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
+                    ship.UserID = UserID;
+                    ship.UserDefinedCol1 = "";
+                    ship.UserDefinedCol2 = "";
+                    ship.UserDefinedCol3 = "";
+                    ship.UserDefinedCol4 = "";
+
+                    //if (Request.Form["UserDefinedCol5"] != "")
+                    //    ship.UserDefinedCol5 = Util.tonumeric(Request.Form["UserDefinedCol5"]);
+
+                    //if (Request.Form["UserDefinedCol6"] != "")
+                    //    ship.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
+
+                    //if (Request.Form["UserDefinedCol7"] != "")
+                    //    ship.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
+
+                    //if (Request.Form["UserDefinedCol8"] != "")
+                    //    ship.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
+
+                    ship.UserDefinedCol9 = "";
+                    ship.UserDefinedCol10 = "";
+
+                    ship = db.CustomerShip.Add(ship);
+                    db.SaveChanges();
+
+                    //var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, objid=ship.IDX };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    //return Json(ret);
+                    return ship.IDX;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                //return Json(ret);
+            }
+        }
     }
 }
