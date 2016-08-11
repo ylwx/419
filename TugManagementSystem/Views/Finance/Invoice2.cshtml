@@ -256,7 +256,7 @@
                     <div id="_ShipID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                     <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
-                    <button id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
+                    <button hidden id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
                 </div>
             </div>
         </div>
@@ -15810,13 +15810,13 @@
             //alert("全包或半包报表预览");
             //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
             //open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-            open('/Report/Invoice_qborbb' + '?OrderID=' + billingId + '&TimeTypeValue=' + timeTypeValue)
+            open('/Report/Invoice_qborbb' + '?BillingID=' + billingId + '&TimeTypeValue=' + timeTypeValue)
         }
 
         else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
             //alert("计时报表预览");
             //open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
-            open('/Report/Invoice_tk' + '?OrderID=' + billingId + '&TimeTypeValue=' + timeTypeValue)
+            open('/Report/Invoice_tk' + '?BillingID=' + billingId + '&TimeTypeValue=' + timeTypeValue)
         }
     }
 
@@ -15827,7 +15827,7 @@
         var creditId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "IDX"); //CreditId
         var billingId = jQuery('#jqGrid_view_tab').jqGrid('getCell', rowid, "BillingID"); //BillingID
         //open('/Report/CreditNotePage' + '?OrderID=' + orderId + '&CreditID=' + creditId)
-        open('/Report/CreditNotePage' + '?OrderID=' + billingId + '&CreditID=' + creditId)
+        open('/Report/CreditNotePage' + '?BillingID=' + billingId + '&CreditID=' + creditId)
         //alert("orderId = " + orderId + "  creditId = " + creditId +"  弹出回扣单报表");
     }
 

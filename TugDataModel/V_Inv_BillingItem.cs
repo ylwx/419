@@ -18,10 +18,11 @@ namespace TugDataModel
         public Nullable<double> UnitPrice { get; set; }
         public string Currency { get; set; }
         public string TugName { get; set; }
-        public string SrvName { get; set; }
+        public string ServiceName { get; set; }
         public string ItemName { get; set; }
         public string ItemCode { get; set; }
         public Nullable<int> SchedulerID { get; set; }
-        public string SrvCode { get; set; }
+        public Nullable<int> BillingID { get; set; }
+        public string ServiceCode { get; set; }
     }
 }

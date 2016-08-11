@@ -90,30 +90,30 @@ namespace TugDataModel
         public virtual DbSet<V_SpecialBillingItem> V_SpecialBillingItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     
-        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> orderID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
-            var orderIDParameter = orderID.HasValue ?
-                new ObjectParameter("OrderID", orderID) :
-                new ObjectParameter("OrderID", typeof(int));
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
     
             var timeTypeValueParameter = timeTypeValue.HasValue ?
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", orderIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> orderID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
-            var orderIDParameter = orderID.HasValue ?
-                new ObjectParameter("OrderID", orderID) :
-                new ObjectParameter("OrderID", typeof(int));
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
     
             var timeTypeValueParameter = timeTypeValue.HasValue ?
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", orderIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
         }
     
         public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
