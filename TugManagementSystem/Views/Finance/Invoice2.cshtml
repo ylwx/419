@@ -2563,6 +2563,7 @@
 
         $('#add_btn_sumbit').attr('disabled', false);
         $('#add_btn_voice_preview').attr('disabled', true);
+        $('#add_btn_voice_preview').hide();
 
         var selectedOrderRowIds = '';
         var selectedOrderIds = '';
@@ -2856,8 +2857,9 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-                //$('#parent-modal').modal('hide')
                 alert(result.message);
+
+                $('#parent-modal').modal('hide')
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
                     $('#add_btn_voice_preview').attr('disabled', false);
@@ -5398,6 +5400,7 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
         var billingId = dr.IDX;  //账单ID
 
+        $('#view_btn_voice_preview').show();
 
         //$('#view_customer').text(dr.CustomerName);
         //$('#view_customer_ship').text(dr.ShipName);
@@ -8293,7 +8296,9 @@
         $('#edit_sel_time_type').attr('disabled', false);
 
         $('#edit_btn_sumbit').attr('disabled', false);
+        $('#edit_btn_sumbit').show();
         $('#edit_btn_voice_preview').attr('disabled', false);
+        $('#edit_btn_voice_preview').show();
 
         $('#edit_sel_billing_type').val("");
         $('#edit_sel_time_type').val("");
