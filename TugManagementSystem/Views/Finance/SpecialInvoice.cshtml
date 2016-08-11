@@ -139,7 +139,7 @@
                     <div id="_ShipID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
                     <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">提交</button>
-                    <button id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
+                    <button hidden id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">预览</button>
                 </div>
             </div>
         </div>
@@ -1935,6 +1935,7 @@
 
         $('#add_btn_sumbit').attr('disabled', false);
         $('#add_btn_voice_preview').attr('disabled', true);
+        $('#add_btn_voice_preview').hide();
 
         $('#add_customer').text(g_selectedServiceData[0].CustomerName);
 
@@ -2001,8 +2002,10 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-                //$('#parent-modal').modal('hide')
+                
                 alert(result.message);
+
+                $('#parent-modal').modal('hide')
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
                     $('#add_btn_voice_preview').attr('disabled', false);
