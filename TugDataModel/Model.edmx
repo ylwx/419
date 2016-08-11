@@ -812,11 +812,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
           <Property Name="TugID" Type="int" />
           <Property Name="TugName1" Type="nvarchar" MaxLength="50" />
-          <Property Name="Amount" Type="int" />
+          <Property Name="Amount" Type="float" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" />
-          <Property Name="Hours" Type="int" />
+          <Property Name="Hours" Type="float" />
           <Property Name="BillingID" Type="int" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
@@ -831,6 +832,8 @@
           <Property Name="FinanceMonth" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingYear" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingMonth" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingDateTime" Type="datetime" />
+          <Property Name="SchedulerID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Arrangement”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1175,8 +1178,8 @@
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
-          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="ShipName" Type="nvarchar(max)" />
           <Property Name="TimeTypeID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
@@ -1191,6 +1194,7 @@
           <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
           <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="BillingID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2062,6 +2066,7 @@
           <EntitySet Name="V_AmountSum_Billing" EntityType="Self.V_AmountSum_Billing" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_AmountSum_Billing].[ID] AS [ID], 
+    [V_AmountSum_Billing].[ServiceName] AS [ServiceName], 
     [V_AmountSum_Billing].[TugID] AS [TugID], 
     [V_AmountSum_Billing].[TugName1] AS [TugName1], 
     [V_AmountSum_Billing].[Amount] AS [Amount], 
@@ -2080,7 +2085,9 @@
     [V_AmountSum_Billing].[BillTotalAmount] AS [BillTotalAmount], 
     [V_AmountSum_Billing].[FinanceMonth] AS [FinanceMonth], 
     [V_AmountSum_Billing].[BillingYear] AS [BillingYear], 
-    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth]
+    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth], 
+    [V_AmountSum_Billing].[BillingDateTime] AS [BillingDateTime], 
+    [V_AmountSum_Billing].[SchedulerID] AS [SchedulerID]
     FROM [dbo].[V_AmountSum_Billing] AS [V_AmountSum_Billing]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Arrangement" EntityType="Self.V_Arrangement" store:Type="Views" store:Schema="dbo">
@@ -2397,7 +2404,8 @@
     [V_Inv_OrdService].[ServiceWorkDate] AS [ServiceWorkDate], 
     [V_Inv_OrdService].[ServiceWorkPlace] AS [ServiceWorkPlace], 
     [V_Inv_OrdService].[CustomLabel] AS [CustomLabel], 
-    [V_Inv_OrdService].[OrderID] AS [OrderID]
+    [V_Inv_OrdService].[OrderID] AS [OrderID], 
+    [V_Inv_OrdService].[BillingID] AS [BillingID]
     FROM [dbo].[V_Inv_OrdService] AS [V_Inv_OrdService]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Inv_Scheduler" EntityType="Self.V_Inv_Scheduler" store:Type="Views" store:Schema="dbo">
@@ -4017,11 +4025,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugID" Type="Int32" />
           <Property Name="TugName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Amount" Type="Int32" />
+          <Property Name="Amount" Type="Double" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Hours" Type="Int32" />
+          <Property Name="Hours" Type="Double" />
           <Property Name="BillingID" Type="Int32" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
@@ -4036,6 +4045,8 @@
           <Property Name="FinanceMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
+          <Property Name="SchedulerID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Arrangement">
           <Key>
@@ -4354,8 +4365,8 @@
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TimeTypeID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Inv_OrdService">
@@ -4368,6 +4379,7 @@
           <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CustomLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderID" Type="Int32" />
+          <Property Name="BillingID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Inv_Scheduler">
           <Key>
@@ -5971,6 +5983,8 @@
           <EntitySetMapping Name="V_AmountSum_Billing">
             <EntityTypeMapping TypeName="Model.V_AmountSum_Billing">
               <MappingFragment StoreEntitySet="V_AmountSum_Billing">
+                <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
+                <ScalarProperty Name="BillingDateTime" ColumnName="BillingDateTime" />
                 <ScalarProperty Name="BillingMonth" ColumnName="BillingMonth" />
                 <ScalarProperty Name="BillingYear" ColumnName="BillingYear" />
                 <ScalarProperty Name="FinanceMonth" ColumnName="FinanceMonth" />
@@ -5990,6 +6004,7 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="TugName1" ColumnName="TugName1" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -6330,6 +6345,7 @@
           <EntitySetMapping Name="V_Inv_OrdService">
             <EntityTypeMapping TypeName="Model.V_Inv_OrdService">
               <MappingFragment StoreEntitySet="V_Inv_OrdService">
+                <ScalarProperty Name="BillingID" ColumnName="BillingID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="CustomLabel" ColumnName="CustomLabel" />
                 <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />

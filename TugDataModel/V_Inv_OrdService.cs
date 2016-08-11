@@ -20,5 +20,6 @@ namespace TugDataModel
         public string ServiceWorkPlace { get; set; }
         public string CustomLabel { get; set; }
         public Nullable<int> OrderID { get; set; }
+        public Nullable<int> BillingID { get; set; }
     }
 }
