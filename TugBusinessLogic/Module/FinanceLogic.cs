@@ -5272,8 +5272,9 @@ namespace TugBusinessLogic.Module
                         }
                         #endregion
 
-                        one.Year = one.BillingDateTime.Value.Year.ToString();
-                        one.Month = item.Month;
+                        
+                        one.Year = item.Month.Split('-')[0];//one.BillingDateTime.Value.Year.ToString();
+                        one.Month = item.Month.Split('-')[1];//item.Month;
                         one.OwnerID = -1;
                         one.CreateDate = one.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         one.UserID = userId;

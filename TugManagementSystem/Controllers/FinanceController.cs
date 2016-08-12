@@ -1459,8 +1459,8 @@ namespace TugManagementSystem.Controllers
                                 amtSum.Amount = item.Amount;
                                 amtSum.Currency = item.Currency;
                                 amtSum.Hours = item.Hours;
-                                amtSum.Year = DateTime.Now.Year.ToString();
-                                amtSum.Month = aScheduler.Month;
+                                amtSum.Year = aScheduler.Month.Split('-')[0];//DateTime.Now.Year.ToString();
+                                amtSum.Month = aScheduler.Month.Split('-')[1];// aScheduler.Month;
                                 amtSum.OwnerID = -1;
                                 amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                                 amtSum.UserID = Session.GetDataFromSession<int>("userid");
@@ -1719,8 +1719,8 @@ namespace TugManagementSystem.Controllers
                                     amtSum.Amount = item.Amount;
                                     amtSum.Currency = item.Currency;
                                     amtSum.Hours = item.Hours;
-                                    amtSum.Year = DateTime.Now.Year.ToString();
-                                    amtSum.Month = oldBilling.Month;
+                                    amtSum.Year = oldBilling.Month.Split('-')[0];//DateTime.Now.Year.ToString();
+                                    amtSum.Month = oldBilling.Month.Split('-')[1];//oldBilling.Month;
                                     amtSum.OwnerID = -1;
                                     amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                                     amtSum.UserID = Session.GetDataFromSession<int>("userid");
