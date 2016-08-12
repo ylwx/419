@@ -1015,7 +1015,7 @@ namespace TugBusinessLogic.Module
 
 
             //var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderID).Select(u => u);
-            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID) && u.HasSpecialBilling == "否" && u.HasSpecialBillingInFlow == "否").OrderBy(u => u.OrderID).Select(u => u);
+            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否").OrderBy(u => u.OrderID).Select(u => u);
 
             var services = list.Select(u => new {u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
 
@@ -5007,7 +5007,7 @@ namespace TugBusinessLogic.Module
         /// 在普通账单删除后，需要设置其订单下，订单服务的账单有无。
         /// </summary>
         /// <param name="billingId"></param>
-        static public void SetOrderServiceInvoiceStatus(int billingId, string hasSpecialBilling)
+        static public void SetOrderServiceInvoiceStatus(int billingId, string hasBilling)
         {
             TugDataEntities db = new TugDataEntities();
 
@@ -5029,7 +5029,7 @@ namespace TugBusinessLogic.Module
                             SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
                             if (si == null)
                             {
-                                os.HasSpecialBilling = hasSpecialBilling;
+                                os.HasBilling = hasBilling;
                                 db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }
@@ -5066,7 +5066,7 @@ namespace TugBusinessLogic.Module
                             SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
                             if (si == null)
                             {
-                                os.HasSpecialBillingInFlow = hasInFlow;
+                                os.HasBillingInFlow = hasInFlow;
                                 db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }
@@ -5074,6 +5074,83 @@ namespace TugBusinessLogic.Module
                     }
                 }
             }
+        }
+
+
+        /// <summary>
+        /// 新增或编辑特殊账单之后，插入汇总项目
+        /// </summary>
+        /// <param name="billingId"></param>
+        /// <param name="userId"></param>
+        static public void UpdateSpecialBillingSummarizeItems(int billingId, int userId)
+        {
+
+            TugDataEntities db = new TugDataEntities();
+
+            var lstSpecialBillingSummarize = db.AmountSum.Where(u => u.BillingID == billingId).ToList();
+            if (lstSpecialBillingSummarize != null && lstSpecialBillingSummarize.Count > 0)
+            {
+                //先删除，再插入
+                foreach (var item in lstSpecialBillingSummarize)
+                {
+                    db.AmountSum.Remove(item);
+                    db.SaveChanges();
+                }
+            }
+            //else
+            {
+                //直接插入
+                var list = db.V_SpecialBillingSummarizeItem.Where(u => u.SpecialBillingID == billingId).ToList();
+                if (list != null)
+                {
+                    List<AmountSum> ret = new List<AmountSum>();
+                    foreach (var item in list)
+                    {
+                        AmountSum one = new AmountSum();
+                        one.CustomerID = item.CustomerID;
+                        one.CustomerShipID = item.CustomerShipID;
+                        one.BillingID = billingId;
+                        one.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(item.BillingDateTime);
+                        one.SchedulerID = item.SchedulerID;
+                        one.Amount = item.Amount;
+                        one.Currency = "港币";
+
+                        int iDiffHour, iDiffMinute;
+                        TugBusinessLogic.Utils.CalculateTimeDiff(item.DepartBaseTime, item.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
+
+                        #region 按一小时换算时间
+                        {
+                            //double consumeTime = 0;
+                            //int count = 0;
+                            //count += iDiffHour * 60 / 60;
+                            //count += iDiffMinute / 60;
+                            //if (iDiffMinute % 60 > 0)
+                            //{
+                            //    count++;
+                            //}
+
+                            //consumeTime = (count * 60.0) / 60;
+
+                            double tmp = ((double)iDiffMinute) / 60;
+                            one.Hours = iDiffHour + Math.Round(tmp, 2);
+                        }
+                        #endregion
+
+                        one.Year = one.BillingDateTime.Value.Year.ToString();
+                        one.Month = item.Month;
+                        one.OwnerID = -1;
+                        one.CreateDate = one.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        one.UserID = userId;
+
+                        ret.Add(one);
+                    }
+
+                    db.AmountSum.AddRange(ret);
+                    db.SaveChanges();
+                }
+
+            }
+
         }
 
 

@@ -1486,7 +1486,7 @@ namespace TugManagementSystem.Controllers
                             }
                         }
 
-                        //6.更新订单服务表里的字段 HasSpecialBilling、HasSpecialBillingInFlow 是否已有帳單	
+                        //6.更新订单服务表里的字段 HasBilling、HasBillingInFlow 是否已有帳單	
                         {
 
                             List<string> strOrderServiceIDs = orderServiceIds.Split(',').ToList();
@@ -1506,8 +1506,8 @@ namespace TugManagementSystem.Controllers
                             {
                                 foreach (OrderService ods in ordSrvList)
                                 {
-                                    ods.HasSpecialBilling = "是";
-                                    ods.HasSpecialBillingInFlow = "否";
+                                    ods.HasBilling = "是";
+                                    ods.HasBillingInFlow = "否";
                                     db.Entry(ods).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
@@ -1863,7 +1863,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
                     List<V_OrderService> orders = db.V_OrderService.Where(u => u.OrderID == -1 && (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否")
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否")
                         .Select(u => u).OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -1898,7 +1898,7 @@ namespace TugManagementSystem.Controllers
 
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否" && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0  && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
@@ -1918,7 +1918,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否" && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0 && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
@@ -2053,8 +2053,9 @@ namespace TugManagementSystem.Controllers
                                 //更新订单服务的账单标记
                                 {
                                     OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
-                                    os.HasSpecialBilling = "是";
-                                    os.HasSpecialBillingInFlow = "否";
+                                    os.HasBilling = "是";
+                                    os.HasBillingInFlow = "否";
+                                    os.BillingType = 1;
                                     db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
@@ -2062,6 +2063,7 @@ namespace TugManagementSystem.Controllers
                         }
 
                         //4.插入账单的汇总项目
+                        TugBusinessLogic.Module.FinanceLogic.UpdateSpecialBillingSummarizeItems(aScheduler.IDX, (int)aScheduler.UserID);
                         //List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
                         //listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
                         //if (listInVoiceSummaryItems != null)
@@ -2154,8 +2156,9 @@ namespace TugManagementSystem.Controllers
                                     //更新订单服务的账单标记
                                     {
                                         OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
-                                        os.HasSpecialBilling = "否";
-                                        os.HasSpecialBillingInFlow = "否";
+                                        os.HasBilling = "否";
+                                        os.HasBillingInFlow = "否";
+                                        os.BillingType = 0;
                                         db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                         db.SaveChanges();
                                     }
@@ -2183,32 +2186,69 @@ namespace TugManagementSystem.Controllers
         public ActionResult EditSpecialInvoice(int billingId, double amount, string month, string jsonArrayItems)
         {
             this.Internationalization();
+            
 
-            try
-            {
-                TugDataEntities db = new TugDataEntities();
+                try
                 {
-                    Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
-
-                    if (oldBilling != null)
+                    TugDataEntities db = new TugDataEntities();
                     {
-                        oldBilling.Amount = amount;
-                        oldBilling.Month = month;
-                        oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
 
-                        db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
-                        int ret = db.SaveChanges();
-
-                        if (ret > 0)
+                        if (oldBilling != null)
                         {
-                            #region 订单收费项
-                            //1.订单收费项
-                            List<SpecialBillingItem> invoiceItems = db.SpecialBillingItem.Where(u => u.SpecialBillingID == billingId).ToList();
-                            if (invoiceItems != null)
+                            oldBilling.Amount = amount;
+                            oldBilling.Month = month;
+                            oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
+                            int ret = db.SaveChanges();
+
+                            if (ret > 0)
                             {
-                                db.SpecialBillingItem.RemoveRange(invoiceItems);
-                                ret = db.SaveChanges();
-                                if (ret > 0)
+                                #region 订单收费项
+                                //1.订单收费项
+                                List<SpecialBillingItem> invoiceItems = db.SpecialBillingItem.Where(u => u.SpecialBillingID == billingId).ToList();
+                                if (invoiceItems != null)
+                                {
+                                    db.SpecialBillingItem.RemoveRange(invoiceItems);
+                                    ret = db.SaveChanges();
+                                    if (ret > 0)
+                                    {
+                                        List<MySpecialBillingItem> listInVoiceItems = new List<MySpecialBillingItem>();
+                                        listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<MySpecialBillingItem>(jsonArrayItems);
+                                        if (listInVoiceItems != null)
+                                        {
+                                            foreach (MySpecialBillingItem item in listInVoiceItems)
+                                            {
+                                                SpecialBillingItem bi = new SpecialBillingItem();
+                                                bi.SpecialBillingID = billingId;
+                                                bi.OrderServiceID = item.OrderServiceID;
+                                                bi.ServiceNatureID = item.ServiceNatureID;
+                                                bi.ServiceNatureValue = item.ServiceNatureValue;
+                                                bi.CustomerShipName = item.CustomerShipName;
+                                                bi.FeulUnitPrice = item.FeulUnitPrice;
+                                                bi.ServiceDate = item.ServiceDate;
+                                                bi.ServiceNature = item.ServiceNature;
+                                                bi.ServiceUnitPrice = item.ServiceUnitPrice;
+                                                bi.TugNumber = item.TugNumber;
+
+
+                                                bi = db.SpecialBillingItem.Add(bi);
+                                                db.SaveChanges();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                    }
+
+                                }
+                                else
                                 {
                                     List<MySpecialBillingItem> listInVoiceItems = new List<MySpecialBillingItem>();
                                     listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<MySpecialBillingItem>(jsonArrayItems);
@@ -2217,6 +2257,7 @@ namespace TugManagementSystem.Controllers
                                         foreach (MySpecialBillingItem item in listInVoiceItems)
                                         {
                                             SpecialBillingItem bi = new SpecialBillingItem();
+
                                             bi.SpecialBillingID = billingId;
                                             bi.OrderServiceID = item.OrderServiceID;
                                             bi.ServiceNatureID = item.ServiceNatureID;
@@ -2227,7 +2268,6 @@ namespace TugManagementSystem.Controllers
                                             bi.ServiceNature = item.ServiceNature;
                                             bi.ServiceUnitPrice = item.ServiceUnitPrice;
                                             bi.TugNumber = item.TugNumber;
-                                            
 
                                             bi = db.SpecialBillingItem.Add(bi);
                                             db.SaveChanges();
@@ -2238,97 +2278,31 @@ namespace TugManagementSystem.Controllers
                                         return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
-                                else
-                                {
-                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
-                                }
+                                #endregion
 
+                                //2.插入账单的汇总项目
+                                TugBusinessLogic.Module.FinanceLogic.UpdateSpecialBillingSummarizeItems(billingId, Session.GetDataFromSession<int>("userid"));
                             }
                             else
                             {
-                                List<MySpecialBillingItem> listInVoiceItems = new List<MySpecialBillingItem>();
-                                listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<MySpecialBillingItem>(jsonArrayItems);
-                                if (listInVoiceItems != null)
-                                {
-                                    foreach (MySpecialBillingItem item in listInVoiceItems)
-                                    {
-                                        SpecialBillingItem bi = new SpecialBillingItem();
-
-                                        bi.SpecialBillingID = billingId;
-                                        bi.OrderServiceID = item.OrderServiceID;
-                                        bi.ServiceNatureID = item.ServiceNatureID;
-                                        bi.ServiceNatureValue = item.ServiceNatureValue;
-                                        bi.CustomerShipName = item.CustomerShipName;
-                                        bi.FeulUnitPrice = item.FeulUnitPrice;
-                                        bi.ServiceDate = item.ServiceDate;
-                                        bi.ServiceNature = item.ServiceNature;
-                                        bi.ServiceUnitPrice = item.ServiceUnitPrice;
-                                        bi.TugNumber = item.TugNumber;
-
-                                        bi = db.SpecialBillingItem.Add(bi);
-                                        db.SaveChanges();
-                                    }
-                                }
-                                else
-                                {
-                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
-                                }
+                                
+                                return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                             }
-                            #endregion
-
-                            //#region 账单的汇总项目
-                            ////2.插入账单的汇总项目
-
-                            //List<AmountSum> oldAmountSumList = db.AmountSum.Where(u => u.BillingID == oldBilling.IDX).ToList();
-                            //db.AmountSum.RemoveRange(oldAmountSumList);
-                            //db.SaveChanges();
-
-                            //List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
-                            //listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
-                            //if (listInVoiceSummaryItems != null)
-                            //{
-                            //    V_Invoice2 vi2 = db.V_Invoice2.FirstOrDefault(u => u.BillingID == oldBilling.IDX);
-
-                            //    foreach (InVoiceSummaryItem item in listInVoiceSummaryItems)
-                            //    {
-                            //        AmountSum amtSum = new AmountSum();
-                            //        amtSum.CustomerID = vi2.CustomerID;
-                            //        amtSum.CustomerShipID = vi2.ShipID;
-                            //        amtSum.BillingID = oldBilling.IDX;
-                            //        amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(oldBilling.CreateDate);
-                            //        amtSum.SchedulerID = item.SchedulerID;
-                            //        amtSum.Amount = item.Amount;
-                            //        amtSum.Currency = item.Currency;
-                            //        amtSum.Hours = item.Hours;
-                            //        amtSum.Year = DateTime.Now.Year.ToString();
-                            //        amtSum.Month = oldBilling.Month;
-                            //        amtSum.OwnerID = -1;
-                            //        amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            //        amtSum.UserID = Session.GetDataFromSession<int>("userid");
-
-                            //        amtSum = db.AmountSum.Add(amtSum);
-                            //        db.SaveChanges();
-                            //    }
-                            //}
-                            //#endregion
                         }
                         else
                         {
-                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                            
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
                         }
                     }
-                    else
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
-                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
-            }
+                catch (Exception ex)
+                {
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
 
-            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE }, JsonRequestBehavior.AllowGet);
+            
         }
 
 
