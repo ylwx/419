@@ -1257,7 +1257,7 @@ namespace TugManagementSystem.Controllers
             List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
-            string month = DateTime.Now.Month.ToString() + "月";
+            string month = DateTime.Now.ToString("yyyy-MM");
 
             string remark = "";
 
