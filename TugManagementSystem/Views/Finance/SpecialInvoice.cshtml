@@ -49,7 +49,7 @@
                                             <input id="add_service_price" type="text" class="form-control" value="3050" onkeyup="AddServicePriceInputChanged(this)" />
                                         </div>
 
-                                        <div class="col-xs-2">
+                                        @*<div class="col-xs-2">
                                             账单月份
                                             <select id="add_sel_month" class="form-control">
                                                 <option value="1月">1月</option>
@@ -65,6 +65,10 @@
                                                 <option value="11月">11月</option>
                                                 <option value="12月">12月</option>
                                             </select>
+                                        </div>*@
+                                        <div class="col-xs-2">
+                                            账单月份
+                                            <input id="add_sel_month" type="text" class="form-control" />
                                         </div>
 
                                     </div>
@@ -190,7 +194,7 @@
                                                         <input id="view_service_price" type="text" class="form-control" value="3050" disabled />
                                                     </div>
 
-                                                    <div class="col-xs-2">
+                                                    @*<div class="col-xs-2">
                                                         账单月份
                                                         <select id="view_sel_month" class="form-control" disabled>
                                                             <option value="1月">1月</option>
@@ -206,10 +210,14 @@
                                                             <option value="11月">11月</option>
                                                             <option value="12月">12月</option>
                                                         </select>
+                                                    </div>*@
+
+                                                    <div class="col-xs-2">
+                                                        账单月份
+                                                        <input id="view_sel_month" type="text" class="form-control" disabled />
                                                     </div>
 
                                                     
-
                                                 </div>
 
                                                 <div style="margin:8px;padding:0px; width:940px;height:1px;overflow:hidden;"></div>
@@ -351,7 +359,7 @@
                                                     </div>
 
 
-                                                    <div class="col-xs-2">
+                                                    @*<div class="col-xs-2">
                                                         账单月份
                                                         <select id="edit_sel_month" class="form-control">
                                                             <option value="1月">1月</option>
@@ -367,6 +375,11 @@
                                                             <option value="11月">11月</option>
                                                             <option value="12月">12月</option>
                                                         </select>
+                                                    </div>*@
+
+                                                    <div class="col-xs-2">
+                                                        账单月份
+                                                        <input id="edit_sel_month" type="text" class="form-control" />
                                                     </div>
 
                                                 </div>
@@ -693,6 +706,7 @@
         </div>
     </div>
 
+</div>
 
 <!--全局变量-->
 <script>
@@ -1079,6 +1093,39 @@
                     hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Billing_Month', name: "Month", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    //datefmt: 'yyyy-mm',
+                    //sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m',
+                                //step: 1,
+                                validateOnBlur: false,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
                 },
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
@@ -1949,6 +1996,16 @@
         $('#add_btn_voice_preview').attr('disabled', true);
         $('#add_btn_voice_preview').hide();
 
+        $('#add_sel_month').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m',
+            //format: 'd.m.Y H:i:s',
+            validateOnBlur: false,
+            timepicker: false,
+        });
+        $('#add_sel_month').val(new Date().Format("yyyy-MM"));
+
+
         $('#add_customer').text(g_selectedServiceData[0].CustomerName);
 
         var feul_unit_price = $('#add_feul_unit_price').val();
@@ -2334,6 +2391,14 @@
         $('#view_btn_sumbit').attr('disabled', false);
         $('#view_btn_voice_preview').attr('disabled', false);
 
+        $('#add_sel_month').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m',
+            //format: 'd.m.Y H:i:s',
+            validateOnBlur: false,
+            timepicker: false,
+        });
+
         //var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
         var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
         var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
@@ -2568,6 +2633,14 @@
 
         $('#edit_btn_sumbit').attr('disabled', false);
         $('#edit_btn_voice_preview').attr('disabled', false);
+
+        $('#add_sel_month').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m',
+            //format: 'd.m.Y H:i:s',
+            validateOnBlur: false,
+            timepicker: false,
+        });
 
         var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
         var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据

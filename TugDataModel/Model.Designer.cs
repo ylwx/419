@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿// 为模型“D:\WDoc\SRC\SHIPWAY\419\419\TugDataModel\Model.edmx”启用了 T4 代码生成。
+=======
+﻿// 为模型“D:\Projects\STRI\419\src\TugDataModel\Model.edmx”启用了 T4 代码生成。
+>>>>>>> c2c023c4ddf6dd9e93fa402ac21c3bea207a6a50
 // 要启用旧代码生成功能，请将“代码生成策略”设计器属性的值
 // 更改为“旧的 ObjectContext”。当在设计器中打开该模型时，此属性会出现在
 // “属性”窗口中。

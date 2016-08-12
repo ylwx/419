@@ -914,7 +914,7 @@
     <Property Name="IsShowShipTEUSRule" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
     <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" />
-    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
     <Property Name="BillingTemplateID" Type="int" />
     <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTypeID" Type="int" />
@@ -941,7 +941,7 @@
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
     <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
-    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="nvarchar(max)" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing3”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1179,6 +1179,20 @@
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head_Special”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_Head_Special">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name1" Type="nvarchar(max)" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_OrdService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2421,6 +2435,17 @@
     [V_Inv_Head].[ShipName] AS [ShipName], 
     [V_Inv_Head].[TimeTypeID] AS [TimeTypeID]
     FROM [dbo].[V_Inv_Head] AS [V_Inv_Head]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_Head_Special" EntityType="Self.V_Inv_Head_Special" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_Head_Special].[IDX] AS [IDX], 
+    [V_Inv_Head_Special].[CustomerID] AS [CustomerID], 
+    [V_Inv_Head_Special].[BillingCode] AS [BillingCode], 
+    [V_Inv_Head_Special].[InvoiceType] AS [InvoiceType], 
+    [V_Inv_Head_Special].[CreateDate] AS [CreateDate], 
+    [V_Inv_Head_Special].[Name1] AS [Name1], 
+    [V_Inv_Head_Special].[Month] AS [Month]
+    FROM [dbo].[V_Inv_Head_Special] AS [V_Inv_Head_Special]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Inv_OrdService" EntityType="Self.V_Inv_OrdService" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
