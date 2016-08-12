@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" TextQuality="Regular" ReportInfo.Description="Demonstrates how to print multiple Table rows with a script. To do this:&#13;&#10;&#13;&#10;- select the Table object;&#13;&#10;&#13;&#10;- go to the &quot;Properties&quot; window and click the &quot;Events&quot; button to view list of available events;&#13;&#10;&#13;&#10;- doubleclick the &quot;ManualBuild&quot; event;&#13;&#10;&#13;&#10;- you will see the empty event handler. You need to print rows using TableObject.PrintRow method; in each row, you must also print all columns (using PrintColumns method). See the script code for more details.&#13;&#10;&#13;&#10;When you run a report, the Table will repeat a row and fill it with data." ReportInfo.Created="01/17/2008 20:40:24" ReportInfo.Modified="08/12/2016 11:40:05" ReportInfo.CreatorVersion="2013.3.3.0">
+<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" TextQuality="Regular" ReportInfo.Description="Demonstrates how to print multiple Table rows with a script. To do this:&#13;&#10;&#13;&#10;- select the Table object;&#13;&#10;&#13;&#10;- go to the &quot;Properties&quot; window and click the &quot;Events&quot; button to view list of available events;&#13;&#10;&#13;&#10;- doubleclick the &quot;ManualBuild&quot; event;&#13;&#10;&#13;&#10;- you will see the empty event handler. You need to print rows using TableObject.PrintRow method; in each row, you must also print all columns (using PrintColumns method). See the script code for more details.&#13;&#10;&#13;&#10;When you run a report, the Table will repeat a row and fill it with data." ReportInfo.Created="01/17/2008 20:40:24" ReportInfo.Modified="08/12/2016 13:41:09" ReportInfo.CreatorVersion="2013.3.3.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,12 +13,17 @@ using FastReport.Dialog;
 using FastReport.Barcode;
 using FastReport.Table;
 using FastReport.Utils;
+using FastReportAdditional; 
 
 namespace FastReport
 {
   public class ReportScript
   {
-
+    private void Text21_AfterData(object sender, EventArgs e)
+    {
+      DateTime dt = Convert.ToDateTime(Text21.Text);            
+      Text21.Text=string.Format(&quot;{0:dd.MM.yyyy}&quot;, dt); 
+    }
     private void Table1_ManualBuild(object sender, EventArgs e)
     {
       // get the data source by its name
@@ -47,11 +52,27 @@ namespace FastReport
       Table1.PrintRow(2);
       Table1.PrintColumns();
     }
+
+    private void Cell8_AfterData(object sender, EventArgs e)
+    {
+      DateTime dt = Convert.ToDateTime(Cell8.Text);            
+      Cell8.Text=string.Format(&quot;{0:dd.MM.yyyy}&quot;, dt);       
+    }
+
+    private void Cell19_AfterData(object sender, EventArgs e)
+    {
+      Cell19.Text=Addition.AmountFormat(Cell19.Text); 
+    }
+
+    private void Cell22_AfterData(object sender, EventArgs e)
+    {
+     Cell22.Text=Addition.AmountFormat(Cell22.Text);  
+    }
   }
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvs/mJ70XKlV+AGNqPeg0LYQ==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvcTnifk3jRpSBY4x1S8BfjQ==">
       <TableDataSource Name="SpecialBillingItem" DataType="System.Int32" Enabled="true" TableName="SpecialBillingItem">
         <Column Name="IDX" DataType="System.Int32"/>
         <Column Name="SpecialBillingID" DataType="System.Int32"/>
@@ -96,10 +117,10 @@ namespace FastReport
         <TableRow Name="Row2">
           <TableCell Name="Cell6" Border.Lines="All" Text="[AbsRow#]" Padding="5, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 10pt"/>
           <TableCell Name="Cell7" Border.Lines="All" Text="[SpecialBillingItem.ServiceNature]" Padding="0, 0, 5, 0" Format="Currency" Format.UseLocale="true" HorzAlign="Right" VertAlign="Center" Font="Tahoma, 10pt"/>
-          <TableCell Name="Cell8" Border.Lines="All" Text="[SpecialBillingItem.ServiceDate]" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 10pt"/>
+          <TableCell Name="Cell8" Border.Lines="All" AfterDataEvent="Cell8_AfterData" Text="[SpecialBillingItem.ServiceDate]" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 10pt"/>
           <TableCell Name="Cell17" Border.Lines="All" Text="[SpecialBillingItem.CustomerShipName]" Font="宋体, 10pt"/>
           <TableCell Name="Cell18" Border.Lines="All" Text="[SpecialBillingItem.TugNumber]" HorzAlign="Center" Font="宋体, 10pt"/>
-          <TableCell Name="Cell19" Border.Lines="All" Text="[ToDecimal([SpecialBillingItem.ServiceUnitPrice]+[SpecialBillingItem.FeulUnitPrice])]" Font="宋体, 10pt"/>
+          <TableCell Name="Cell19" Border.Lines="All" AfterDataEvent="Cell19_AfterData" Text="[ToDecimal([SpecialBillingItem.ServiceUnitPrice]+[SpecialBillingItem.FeulUnitPrice])]" Font="宋体, 10pt"/>
         </TableRow>
         <TableRow Name="Row3">
           <TableCell Name="Cell11" Border.Lines="Left, Top, Bottom" VertAlign="Center" Font="Tahoma, 10pt"/>
@@ -107,7 +128,7 @@ namespace FastReport
           <TableCell Name="Cell13" Border.Lines="Top, Bottom" HorzAlign="Center" VertAlign="Center" Font="Tahoma, 10pt"/>
           <TableCell Name="Cell20" Border.Lines="Right, Top, Bottom" Font="宋体, 10pt"/>
           <TableCell Name="Cell21" Border.Lines="All" Text="合共" HorzAlign="Center" Font="宋体, 10pt"/>
-          <TableCell Name="Cell22" Border.Lines="All" Text="[Sum(Cell19)]" Font="宋体, 10pt"/>
+          <TableCell Name="Cell22" Border.Lines="All" AfterDataEvent="Cell22_AfterData" Text="[Sum(Cell19)]" Font="宋体, 10pt"/>
         </TableRow>
       </TableObject>
       <TextObject Name="Text19" Left="113.4" Top="47.25" Width="160.65" Height="18.9" Text="[V_Inv_Head_Special.Name1]" Font="宋体, 10pt"/>
