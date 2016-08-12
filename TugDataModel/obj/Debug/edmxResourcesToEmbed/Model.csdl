@@ -110,6 +110,7 @@
     <EntitySet Name="V_RoleUser" EntityType="Model.V_RoleUser" />
     <EntitySet Name="V_SpecialBillingCredit" EntityType="Model.V_SpecialBillingCredit" />
     <EntitySet Name="V_SpecialBillingItem" EntityType="Model.V_SpecialBillingItem" />
+    <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Model.V_SpecialBillingSummarizeItem" />
     <EntitySet Name="V_Users" EntityType="Model.V_Users" />
     <AssociationSet Name="FK_AmountSum_Billing" Association="Model.FK_AmountSum_Billing">
       <End Role="Billing" EntitySet="Billing" />
@@ -1912,6 +1913,25 @@
     <Property Name="OneServiceTotalPrice" Type="Double" />
     <Property Name="FeulUnitPrice" Type="Double" />
     <Property Name="OneFeulTotalPrice" Type="Double" />
+  </EntityType>
+  <EntityType Name="V_SpecialBillingSummarizeItem">
+    <Key>
+      <PropertyRef Name="SpecialBillingItemID" />
+      <PropertyRef Name="SchedulerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerShipID" Type="Int32" />
+    <Property Name="CustomerShipName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SpecialBillingID" Type="Int32" />
+    <Property Name="BillingDateTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderServiceID" Type="Int32" />
+    <Property Name="SpecialBillingItemID" Type="Int32" Nullable="false" />
+    <Property Name="SchedulerID" Type="Int32" Nullable="false" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="DepartBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ArrivalBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Users">
     <Key>

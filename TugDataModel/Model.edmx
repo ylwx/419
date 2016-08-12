@@ -1754,6 +1754,27 @@
           <Property Name="OneFeulTotalPrice" Type="float" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_SpecialBillingSummarizeItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_SpecialBillingSummarizeItem">
+          <Key>
+            <PropertyRef Name="SpecialBillingItemID" />
+            <PropertyRef Name="SchedulerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="CustomerShipID" Type="int" />
+          <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
+          <Property Name="SpecialBillingID" Type="int" />
+          <Property Name="BillingDateTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderServiceID" Type="int" />
+          <Property Name="SpecialBillingItemID" Type="int" Nullable="false" />
+          <Property Name="SchedulerID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Users">
           <Key>
@@ -2914,6 +2935,23 @@
     [V_SpecialBillingItem].[OneFeulTotalPrice] AS [OneFeulTotalPrice]
     FROM [dbo].[V_SpecialBillingItem] AS [V_SpecialBillingItem]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Self.V_SpecialBillingSummarizeItem" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_SpecialBillingSummarizeItem].[CustomerID] AS [CustomerID], 
+    [V_SpecialBillingSummarizeItem].[CustomerName] AS [CustomerName], 
+    [V_SpecialBillingSummarizeItem].[CustomerShipID] AS [CustomerShipID], 
+    [V_SpecialBillingSummarizeItem].[CustomerShipName] AS [CustomerShipName], 
+    [V_SpecialBillingSummarizeItem].[SpecialBillingID] AS [SpecialBillingID], 
+    [V_SpecialBillingSummarizeItem].[BillingDateTime] AS [BillingDateTime], 
+    [V_SpecialBillingSummarizeItem].[OrderServiceID] AS [OrderServiceID], 
+    [V_SpecialBillingSummarizeItem].[SpecialBillingItemID] AS [SpecialBillingItemID], 
+    [V_SpecialBillingSummarizeItem].[SchedulerID] AS [SchedulerID], 
+    [V_SpecialBillingSummarizeItem].[Amount] AS [Amount], 
+    [V_SpecialBillingSummarizeItem].[DepartBaseTime] AS [DepartBaseTime], 
+    [V_SpecialBillingSummarizeItem].[ArrivalBaseTime] AS [ArrivalBaseTime], 
+    [V_SpecialBillingSummarizeItem].[Month] AS [Month]
+    FROM [dbo].[V_SpecialBillingSummarizeItem] AS [V_SpecialBillingSummarizeItem]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_Users" EntityType="Self.V_Users" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Users].[IDX] AS [IDX], 
@@ -3121,6 +3159,7 @@
           <EntitySet Name="V_RoleUser" EntityType="Model.V_RoleUser" />
           <EntitySet Name="V_SpecialBillingCredit" EntityType="Model.V_SpecialBillingCredit" />
           <EntitySet Name="V_SpecialBillingItem" EntityType="Model.V_SpecialBillingItem" />
+          <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Model.V_SpecialBillingSummarizeItem" />
           <EntitySet Name="V_Users" EntityType="Model.V_Users" />
           <AssociationSet Name="FK_AmountSum_Billing" Association="Model.FK_AmountSum_Billing">
             <End Role="Billing" EntitySet="Billing" />
@@ -4923,6 +4962,25 @@
           <Property Name="OneServiceTotalPrice" Type="Double" />
           <Property Name="FeulUnitPrice" Type="Double" />
           <Property Name="OneFeulTotalPrice" Type="Double" />
+        </EntityType>
+        <EntityType Name="V_SpecialBillingSummarizeItem">
+          <Key>
+            <PropertyRef Name="SpecialBillingItemID" />
+            <PropertyRef Name="SchedulerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerShipID" Type="Int32" />
+          <Property Name="CustomerShipName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SpecialBillingID" Type="Int32" />
+          <Property Name="BillingDateTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderServiceID" Type="Int32" />
+          <Property Name="SpecialBillingItemID" Type="Int32" Nullable="false" />
+          <Property Name="SchedulerID" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="DepartBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Users">
           <Key>
@@ -6914,6 +6972,25 @@
                 <ScalarProperty Name="OrderServiceID" ColumnName="OrderServiceID" />
                 <ScalarProperty Name="SpecialBillingID" ColumnName="SpecialBillingID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_SpecialBillingSummarizeItem">
+            <EntityTypeMapping TypeName="Model.V_SpecialBillingSummarizeItem">
+              <MappingFragment StoreEntitySet="V_SpecialBillingSummarizeItem">
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="ArrivalBaseTime" ColumnName="ArrivalBaseTime" />
+                <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
+                <ScalarProperty Name="SpecialBillingItemID" ColumnName="SpecialBillingItemID" />
+                <ScalarProperty Name="OrderServiceID" ColumnName="OrderServiceID" />
+                <ScalarProperty Name="BillingDateTime" ColumnName="BillingDateTime" />
+                <ScalarProperty Name="SpecialBillingID" ColumnName="SpecialBillingID" />
+                <ScalarProperty Name="CustomerShipName" ColumnName="CustomerShipName" />
+                <ScalarProperty Name="CustomerShipID" ColumnName="CustomerShipID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

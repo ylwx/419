@@ -88,6 +88,7 @@ namespace TugDataModel
         public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
         public virtual DbSet<V_SpecialBillingCredit> V_SpecialBillingCredit { get; set; }
         public virtual DbSet<V_SpecialBillingItem> V_SpecialBillingItem { get; set; }
+        public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     
         public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)

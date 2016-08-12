@@ -5077,6 +5077,83 @@ namespace TugBusinessLogic.Module
         }
 
 
+        /// <summary>
+        /// 新增或编辑特殊账单之后，插入汇总项目
+        /// </summary>
+        /// <param name="billingId"></param>
+        /// <param name="userId"></param>
+        static public void UpdateSpecialBillingSummarizeItems(int billingId, int userId)
+        {
+
+            TugDataEntities db = new TugDataEntities();
+
+            var lstSpecialBillingSummarize = db.AmountSum.Where(u => u.BillingID == billingId).ToList();
+            if (lstSpecialBillingSummarize != null && lstSpecialBillingSummarize.Count > 0)
+            {
+                //先删除，再插入
+                foreach (var item in lstSpecialBillingSummarize)
+                {
+                    db.AmountSum.Remove(item);
+                    db.SaveChanges();
+                }
+            }
+            //else
+            {
+                //直接插入
+                var list = db.V_SpecialBillingSummarizeItem.Where(u => u.SpecialBillingID == billingId).ToList();
+                if (list != null)
+                {
+                    List<AmountSum> ret = new List<AmountSum>();
+                    foreach (var item in list)
+                    {
+                        AmountSum one = new AmountSum();
+                        one.CustomerID = item.CustomerID;
+                        one.CustomerShipID = item.CustomerShipID;
+                        one.BillingID = billingId;
+                        one.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(item.BillingDateTime);
+                        one.SchedulerID = item.SchedulerID;
+                        one.Amount = item.Amount;
+                        one.Currency = "港币";
+
+                        int iDiffHour, iDiffMinute;
+                        TugBusinessLogic.Utils.CalculateTimeDiff(item.DepartBaseTime, item.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
+
+                        #region 按一小时换算时间
+                        {
+                            //double consumeTime = 0;
+                            //int count = 0;
+                            //count += iDiffHour * 60 / 60;
+                            //count += iDiffMinute / 60;
+                            //if (iDiffMinute % 60 > 0)
+                            //{
+                            //    count++;
+                            //}
+
+                            //consumeTime = (count * 60.0) / 60;
+
+                            double tmp = ((double)iDiffMinute) / 60;
+                            one.Hours = iDiffHour + Math.Round(tmp, 2);
+                        }
+                        #endregion
+
+                        one.Year = one.BillingDateTime.Value.Year.ToString();
+                        one.Month = item.Month;
+                        one.OwnerID = -1;
+                        one.CreateDate = one.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        one.UserID = userId;
+
+                        ret.Add(one);
+                    }
+
+                    db.AmountSum.AddRange(ret);
+                    db.SaveChanges();
+                }
+
+            }
+
+        }
+
+
         static public void RejectInvoice(int orderId = 1)
         {
             TugDataEntities db = new TugDataEntities();
