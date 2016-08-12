@@ -1015,7 +1015,7 @@ namespace TugBusinessLogic.Module
 
 
             //var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderID).Select(u => u);
-            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID) && u.HasSpecialBilling == "否" && u.HasSpecialBillingInFlow == "否").OrderBy(u => u.OrderID).Select(u => u);
+            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否").OrderBy(u => u.OrderID).Select(u => u);
 
             var services = list.Select(u => new {u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
 
@@ -5007,7 +5007,7 @@ namespace TugBusinessLogic.Module
         /// 在普通账单删除后，需要设置其订单下，订单服务的账单有无。
         /// </summary>
         /// <param name="billingId"></param>
-        static public void SetOrderServiceInvoiceStatus(int billingId, string hasSpecialBilling)
+        static public void SetOrderServiceInvoiceStatus(int billingId, string hasBilling)
         {
             TugDataEntities db = new TugDataEntities();
 
@@ -5029,7 +5029,7 @@ namespace TugBusinessLogic.Module
                             SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
                             if (si == null)
                             {
-                                os.HasSpecialBilling = hasSpecialBilling;
+                                os.HasBilling = hasBilling;
                                 db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }
@@ -5066,7 +5066,7 @@ namespace TugBusinessLogic.Module
                             SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
                             if (si == null)
                             {
-                                os.HasSpecialBillingInFlow = hasInFlow;
+                                os.HasBillingInFlow = hasInFlow;
                                 db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }

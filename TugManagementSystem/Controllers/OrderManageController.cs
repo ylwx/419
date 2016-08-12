@@ -541,8 +541,8 @@ namespace TugManagementSystem.Controllers
                             //obj.Remark = "";
                             obj.JobStateID = 114;
 
-                            obj.HasSpecialBilling = "否";
-                            obj.HasSpecialBillingInFlow = "否";
+                            obj.HasBilling = "否";
+                            obj.HasBillingInFlow = "否";
 
                             obj.OwnerID = -1;
                             obj.CreateDate = aOrder.CreateDate;

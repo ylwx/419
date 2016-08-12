@@ -1486,7 +1486,7 @@ namespace TugManagementSystem.Controllers
                             }
                         }
 
-                        //6.更新订单服务表里的字段 HasSpecialBilling、HasSpecialBillingInFlow 是否已有帳單	
+                        //6.更新订单服务表里的字段 HasBilling、HasBillingInFlow 是否已有帳單	
                         {
 
                             List<string> strOrderServiceIDs = orderServiceIds.Split(',').ToList();
@@ -1506,8 +1506,8 @@ namespace TugManagementSystem.Controllers
                             {
                                 foreach (OrderService ods in ordSrvList)
                                 {
-                                    ods.HasSpecialBilling = "是";
-                                    ods.HasSpecialBillingInFlow = "否";
+                                    ods.HasBilling = "是";
+                                    ods.HasBillingInFlow = "否";
                                     db.Entry(ods).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
@@ -1863,7 +1863,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
                     List<V_OrderService> orders = db.V_OrderService.Where(u => u.OrderID == -1 && (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否")
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否")
                         .Select(u => u).OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
@@ -1898,7 +1898,7 @@ namespace TugManagementSystem.Controllers
 
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否" && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0  && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
@@ -1918,7 +1918,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasSpecialBilling == "否") && u.HasSpecialBillingInFlow == "否" && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0 && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
@@ -2053,8 +2053,9 @@ namespace TugManagementSystem.Controllers
                                 //更新订单服务的账单标记
                                 {
                                     OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
-                                    os.HasSpecialBilling = "是";
-                                    os.HasSpecialBillingInFlow = "否";
+                                    os.HasBilling = "是";
+                                    os.HasBillingInFlow = "否";
+                                    os.BillingType = 1;
                                     db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
@@ -2154,8 +2155,9 @@ namespace TugManagementSystem.Controllers
                                     //更新订单服务的账单标记
                                     {
                                         OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
-                                        os.HasSpecialBilling = "否";
-                                        os.HasSpecialBillingInFlow = "否";
+                                        os.HasBilling = "否";
+                                        os.HasBillingInFlow = "否";
+                                        os.BillingType = 0;
                                         db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                         db.SaveChanges();
                                     }
