@@ -71,6 +71,7 @@ namespace TugDataModel
         public virtual DbSet<V_Flow> V_Flow { get; set; }
         public virtual DbSet<V_Inv_BillingItem> V_Inv_BillingItem { get; set; }
         public virtual DbSet<V_Inv_Head> V_Inv_Head { get; set; }
+        public virtual DbSet<V_Inv_Head_Special> V_Inv_Head_Special { get; set; }
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
         public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
@@ -88,6 +89,7 @@ namespace TugDataModel
         public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
         public virtual DbSet<V_SpecialBillingCredit> V_SpecialBillingCredit { get; set; }
         public virtual DbSet<V_SpecialBillingItem> V_SpecialBillingItem { get; set; }
+        public virtual DbSet<V_SpecialBillingItem_OrderService> V_SpecialBillingItem_OrderService { get; set; }
         public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     

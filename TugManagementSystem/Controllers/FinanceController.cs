@@ -52,8 +52,8 @@ namespace TugManagementSystem.Controllers
             //ViewBag.Services = TugBusinessLogic.Utils.GetServices();
             //ViewBag.BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             //ViewBag.TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
-            //ViewBag.Nodes = GetNodes();
-            //ViewBag.Persons = GetPersons();
+            ViewBag.Nodes = GetNodes();
+            ViewBag.Persons = GetPersons();
             return View();
         }
 

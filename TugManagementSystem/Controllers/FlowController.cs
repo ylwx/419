@@ -86,7 +86,8 @@ namespace TugManagementSystem.Controllers
             var ret = new { code = Resources.Common.SUCCESS_CODE, rvalid =isvalid };
             return Json(ret);
         }
-        public ActionResult SubmitFlow(string billids,List<string[]> dataListFromTable)
+        //BillingType:0普通账单，1特殊账单
+        public ActionResult SubmitFlow(int BillingType,string billids,List<string[]> dataListFromTable)
         {
             //billid 从Invoice页面传入
             //int[] arrbillid =new int[2]{1,2};
@@ -169,8 +170,9 @@ namespace TugManagementSystem.Controllers
                     db.Entry(billobj).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     #endregion
-                    //更新orderinfor表中的HasInFlow
-                    OrderLogic.UpdateHasInFlow(idx, "是");
+                    //更新orderinfor、orderservice表中的HasInFlow
+                    //OrderLogic.UpdateHasInFlow(idx, "是");
+                    FinanceLogic.SetOrderServiceFlowingStatus(BillingType, idx, "是");
                 }
 
             }

@@ -5041,38 +5041,69 @@ namespace TugBusinessLogic.Module
 
 
         /// <summary>
-        /// 在普通账单提交审核或驳回后，需要设置其订单下，订单服务的账单有无。
+        /// 在普通账单提交审核或驳回后，需要设置。
+        /// BillingType:0普通账单；1特殊账单
         /// </summary>
         /// <param name="billingId"></param>
-        static public void SetOrderServiceFlowingStatus(int billingId, string hasInFlow)
+        static public void SetOrderServiceFlowingStatus(int BillingType, int billingId, string hasInFlow)
         {
             TugDataEntities db = new TugDataEntities();
-
-            //1.获取账单下的多个订单
-            var lstBillingOrder = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
-            if (lstBillingOrder != null)
+            if(BillingType==0)
             {
-                foreach (var bo in lstBillingOrder)
+                //获取账单下的多个订单
+                var lstBillingOrder = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
+                if (lstBillingOrder != null)
                 {
-                    //2.针对每一个订单，获取该订单下的订单服务，order_service
-                    var lstOrderService = db.OrderService.Where(u => u.OrderID == bo.OrderID).ToList();
-                    if (lstOrderService != null)
+                    foreach (var bo in lstBillingOrder)
                     {
-                        foreach (var os in lstOrderService)
+                        //更新OrderInfor
+                        int ordid = Util.toint(bo.OrderID);
+                        OrderInfor obj = db.OrderInfor.Where(u => u.IDX == ordid).FirstOrDefault();
+                        if (obj != null)
                         {
-                            //3.针对每一个订单服务，先在SpecialBillingItem表里面查询，是否有此订单服务；如果有说明该服务已经生成过
-                            //特殊账单了，不需要更改这个服务的账单有无状态；如果没有，说明该服务没有生成过特殊账单，需要将其账单有
-                            //无状态改为“否”
-                            SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
-                            if (si == null)
+                            obj.HasInFlow = hasInFlow;
+                            db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        //2.针对每一个订单，获取该订单下的订单服务，order_service
+                        var lstOrderService = db.OrderService.Where(u => u.OrderID == bo.OrderID).ToList();
+                        if (lstOrderService != null)
+                        {
+                            foreach (var os in lstOrderService)
                             {
-                                os.HasBillingInFlow = hasInFlow;
-                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
+                                //SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
+                                //if (si == null)
+                                if (os.BillingType == 0)
+                                {
+                                    os.HasBillingInFlow = hasInFlow;
+                                    db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
                             }
                         }
                     }
                 }
+
+            }
+            else
+            {
+                //特殊账单
+                var lstOrderService = db.V_SpecialBillingItem_OrderService.Where(u => u.SpecialBillingID == billingId).ToList();
+                if (lstOrderService != null)
+                {
+                    foreach (var os in lstOrderService)
+                    {
+                        int osid = Util.toint(os.OrderServiceID);
+                        OrderService obj = db.OrderService.Where(u => u.IDX == osid).FirstOrDefault();
+                        if (obj != null)
+                        {
+                            obj.HasBillingInFlow = hasInFlow;
+                            db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                }
+
             }
         }
 
