@@ -58,6 +58,7 @@ namespace TugDataModel
         public virtual DbSet<UsersRole> UsersRole { get; set; }
         public virtual DbSet<V_1> V_1 { get; set; }
         public virtual DbSet<V_AmountSum_Billing> V_AmountSum_Billing { get; set; }
+        public virtual DbSet<V_Approve_Billing> V_Approve_Billing { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
@@ -66,6 +67,7 @@ namespace TugDataModel
         public virtual DbSet<V_BillingItem> V_BillingItem { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingOrders> V_BillingOrders { get; set; }
+        public virtual DbSet<V_BillingTask> V_BillingTask { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
         public virtual DbSet<V_CustomerShip> V_CustomerShip { get; set; }
         public virtual DbSet<V_Flow> V_Flow { get; set; }
@@ -79,6 +81,7 @@ namespace TugDataModel
         public virtual DbSet<V_Module_Role_User> V_Module_Role_User { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_NeedApproveOrderBilling> V_NeedApproveOrderBilling { get; set; }
+        public virtual DbSet<V_NeedApproveOrderBillingSpecial> V_NeedApproveOrderBillingSpecial { get; set; }
         public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }
         public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }
         public virtual DbSet<V_OrderInfor> V_OrderInfor { get; set; }
@@ -254,6 +257,24 @@ namespace TugDataModel
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
         }
     }
 }

@@ -72,7 +72,7 @@ namespace TugBusinessLogic
         /// 获取最大活动编号
         /// </summary>
         /// <returns></returns>
-        static public string AutoGenerateBillCode(string msg = "")
+        static public string AutoGenerateBillCode(int billingID,string msg = "")
         {
             string ret = "";
             using (TugDataEntities db = new TugDataEntities())
@@ -81,8 +81,8 @@ namespace TugBusinessLogic
                 {
                     try
                     {
-                        ret = msg + "T" + (MaxBillId() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
-
+                        //ret = msg + "T" + (MaxBillId() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
+                        ret = msg + "T" + (billingID).ToString("00000") + "/" + DateTime.Now.Year.ToString();
                         dbContextTransaction.Commit();
                     }
                     catch (Exception)

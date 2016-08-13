@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using TugBusinessLogic;
@@ -9,6 +10,43 @@ using TugDataModel;
 
 namespace TugManagementSystem.Controllers
 {
+    public class NeedApprove
+    {
+        int IDX;
+	    string InvoiceType ;
+	    string  CustomerName ;
+	    string ShipName;
+	    string JobNo ;
+	    string BillingCode ;
+	    string BillingTemplateTypeLabel ;
+	    string TimeTypeLabel ;
+	    float Amount ;
+	    string Status ;
+	    string Remark ;
+	    string CreateDate ;
+	    string LastUpDate ;
+        int MarkID ;
+        int Phase ;
+        string Task;
+        int FlowUserID;
+        string System;
+    }
+    public class Approved
+    {
+        int IDX;
+        string InvoiceType;
+        string CustomerName;
+        string ShipName;
+        string JobNo;
+        string BillingCode;
+        string BillingTemplateTypeLabel;
+        string TimeTypeLabel;
+        float Amount;
+        string Status;
+        string Remark;
+        string CreateDate;
+        string LastUpDate;
+    }
     public class TaskController : BaseController
     {
         #region 待审核
@@ -31,15 +69,18 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        //List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
-                        List<V_NeedApproveOrderBilling> objs = db.V_NeedApproveOrderBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).ToList<V_NeedApproveOrderBilling>();
+                        List<NeedApprove> objs = new List<NeedApprove>();
+                        SqlParameter[] prams = new SqlParameter[1];
+                        prams[0] = new SqlParameter("@userID", curUserId);
+                        objs = db.Database.SqlQuery<NeedApprove>("exec dbo.proc_needapprove @userID", prams).ToList();
+                        //var result = db.CreateQuery<NeedApprove>("exec dbo.proc_needapprove @userID", prams);
                         int totalRecordNum = objs.Count;
                         if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                         int pageSize = rows;
                         int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                        List<V_NeedApproveOrderBilling> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_NeedApproveOrderBilling>();
+                        List<NeedApprove> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<NeedApprove>();
                         var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
-                        return Json(jsonData, JsonRequestBehavior.AllowGet);
+                        return Json(jsonData, JsonRequestBehavior.AllowGet);     
                     }
             }
             catch (Exception)
@@ -174,11 +215,23 @@ namespace TugManagementSystem.Controllers
                 List<Flow> flowData = db.Flow.Where(expFlow).Select(u => u).ToList<Flow>();
                 if (billInfor.Phase + 1 == flowData.Count)  //流程最后一步
                 {
+                    string billingCode = TugBusinessLogic.Utils.AutoGenerateBillCode(id); 
                     //更改Billing状态
                     billInfor.Phase = -1;
                     billInfor.Status = "完成";
+                    billInfor.BillingCode = billingCode;  //生成账单编号
                     db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
+
+                    //若账单有回扣单生成回扣单编号
+                     System.Linq.Expressions.Expression<Func<Credit, bool>> expCredit = u => u.BillingID == id;
+                     Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
+                     if (tmpCredit != null)
+                     {
+                         tmpCredit.CreditCode = "C" + billingCode.Substring(1, billingCode.Length - 1);
+                         db.Entry(tmpCredit).State = System.Data.Entity.EntityState.Modified;
+                         db.SaveChanges();
+                     }
                 }
                 else
                 {

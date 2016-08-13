@@ -10,14 +10,16 @@
 namespace TugDataModel
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class proc_inv_item_Result
+    public partial class V_Approve_Billing
     {
-        public string ItemCode { get; set; }
-        public string Item { get; set; }
-        public string Value { get; set; }
-        public string TugName { get; set; }
-        public string ServiceName { get; set; }
-        public string Code { get; set; }
+        public int IDX { get; set; }
+        public Nullable<int> BillingID { get; set; }
+        public Nullable<int> Accept { get; set; }
+        public string Status { get; set; }
+        public Nullable<int> Phase { get; set; }
+        public string InvoiceType { get; set; }
+        public Nullable<int> PersonID { get; set; }
     }
 }
