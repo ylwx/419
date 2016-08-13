@@ -43,6 +43,37 @@ namespace TugBusinessLogic
             }
             return maxId;
         }
+        static private int MaxBillCode(string year)
+        {
+            int maxCode = 0;
+            int tmpCodeNo = 0;
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.BillingCode.Substring (8) == year;
+                List<Billing> BillingList = db.Billing.Where(exp).ToList<Billing>();
+                if (BillingList.Count != 0)
+                {
+                    for (int i = 0; i < BillingList.Count - 1; i++)
+                    {
+                        int codeNo = Convert.ToInt32 ( BillingList[i].BillingCode.Substring (2,5));
+                        int codeNoNext = Convert.ToInt32(BillingList[i+1].BillingCode.Substring(2, 5));
+                        if (codeNo > codeNoNext)
+                        {
+                            tmpCodeNo = codeNo;
+                            codeNo = codeNoNext;
+                            codeNoNext = tmpCodeNo;
+                        }
+                    }
+                }
+                maxCode = tmpCodeNo;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return maxCode;
+        }
 
         static public string AutoGenerateOrderSequenceNo(string msg = "")
         {
@@ -75,6 +106,8 @@ namespace TugBusinessLogic
         static public string AutoGenerateBillCode(int billingID,string msg = "")
         {
             string ret = "";
+            MaxBillCode("2016");
+
             using (TugDataEntities db = new TugDataEntities())
             {
                 using (var dbContextTransaction = db.Database.BeginTransaction())
