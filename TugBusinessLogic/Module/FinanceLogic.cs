@@ -302,7 +302,7 @@ namespace TugBusinessLogic.Module
                         dicServiceNature.Add(ms.OrderServicId, ms);
 
 
-                        //同一个服务项下面有多少条调度
+                        //同一个服务项下面有多条调度
                         var ships = list.Where(u => u.OrderServiceID == item.OrderServiceID)
                             .Select(u => new { u.OrderServiceID, u.SchedulerID, u.ServiceNatureID, u.TugID, u.TugName1, u.TugName2 }).Distinct()
                             .OrderBy(u => u.TugName1).ToList();
@@ -408,9 +408,9 @@ namespace TugBusinessLogic.Module
                                             upTotalPrice += (double)bit.Price;
                                         else if (subItem.BillingItemValue.StartsWith("C") || subItem.BillingItemValue.StartsWith("E"))
                                         {
-                                            if (subItem.BillingItemValue.Equals("C82"))
+                                            if (subItem.BillingItemValue.Equals("C78")) //折扣
                                                 discoutPrice += (double)bit.Price;
-                                            else if (subItem.BillingItemValue.Equals("C81") || subItem.BillingItemValue.Equals("C15") || subItem.BillingItemValue.Equals("E80"))
+                                            else if (subItem.BillingItemValue.Equals("C81") || subItem.BillingItemValue.Equals("C15") || subItem.BillingItemValue.Equals("C80")) //拖缆费、3600以上、燃油费
                                                 midTotalPrice += (double)bit.Price;
 
                                         }
@@ -1182,7 +1182,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
                                             }
-                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费")
+                                            else if (item.IDX == 22 || item.CustomValue == "C80" || item.CustomLabel == "燃油附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -1232,9 +1232,9 @@ namespace TugBusinessLogic.Module
 
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78")) //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81")) //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -1250,12 +1250,12 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C78" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -1270,9 +1270,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78")) //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
 
@@ -1383,7 +1383,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
                                             }
-                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费")
+                                            else if (item.IDX == 22 || item.CustomValue == "C80" || item.CustomLabel == "燃油附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -1432,9 +1432,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78"))     //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -1450,12 +1450,12 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C78" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -1470,9 +1470,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78"))     //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
 
