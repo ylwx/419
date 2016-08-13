@@ -302,7 +302,7 @@ namespace TugBusinessLogic.Module
                         dicServiceNature.Add(ms.OrderServicId, ms);
 
 
-                        //同一个服务项下面有多少条调度
+                        //同一个服务项下面有多条调度
                         var ships = list.Where(u => u.OrderServiceID == item.OrderServiceID)
                             .Select(u => new { u.OrderServiceID, u.SchedulerID, u.ServiceNatureID, u.TugID, u.TugName1, u.TugName2 }).Distinct()
                             .OrderBy(u => u.TugName1).ToList();
@@ -408,9 +408,9 @@ namespace TugBusinessLogic.Module
                                             upTotalPrice += (double)bit.Price;
                                         else if (subItem.BillingItemValue.StartsWith("C") || subItem.BillingItemValue.StartsWith("E"))
                                         {
-                                            if (subItem.BillingItemValue.Equals("C82"))
+                                            if (subItem.BillingItemValue.Equals("C78")) //折扣
                                                 discoutPrice += (double)bit.Price;
-                                            else if (subItem.BillingItemValue.Equals("C81") || subItem.BillingItemValue.Equals("C15") || subItem.BillingItemValue.Equals("E80"))
+                                            else if (subItem.BillingItemValue.Equals("C81") || subItem.BillingItemValue.Equals("C15") || subItem.BillingItemValue.Equals("C80")) //拖缆费、3600以上、燃油费
                                                 midTotalPrice += (double)bit.Price;
 
                                         }
@@ -1015,7 +1015,7 @@ namespace TugBusinessLogic.Module
 
 
             //var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderID).Select(u => u);
-            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID)).OrderBy(u => u.OrderID).Select(u => u);
+            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否").OrderBy(u => u.OrderID).Select(u => u);
 
             var services = list.Select(u => new {u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
 
@@ -1182,7 +1182,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
                                             }
-                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费")
+                                            else if (item.IDX == 22 || item.CustomValue == "C80" || item.CustomLabel == "燃油附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -1232,9 +1232,9 @@ namespace TugBusinessLogic.Module
 
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78")) //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81")) //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -1250,12 +1250,12 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C78" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -1270,9 +1270,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78")) //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
 
@@ -1383,7 +1383,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.ItemLabel = item.CustomLabel;
                                                 mbi.UnitPrice = mbi.Price = Math.Round(mySch.Price * 0.15, 2);
                                             }
-                                            else if (item.IDX == 22 || item.CustomValue == "E80" || item.CustomLabel == "燃油附加费")
+                                            else if (item.IDX == 22 || item.CustomValue == "C80" || item.CustomLabel == "燃油附加费")
                                             {
                                                 mbi.Currency = "港币";
                                                 mbi.ItemID = item.IDX;
@@ -1432,9 +1432,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78"))     //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -1450,12 +1450,12 @@ namespace TugBusinessLogic.Module
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C78" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -1470,9 +1470,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78"))     //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
 
@@ -1541,6 +1541,10 @@ namespace TugBusinessLogic.Module
 
                 _billingItems = db.V_SpecialBillingItem.Where(u => u.SpecialBillingID == billingId).Select(u => new MySpecialBillingItem
                 {
+                    SpecialBillingID = billingId,
+                    OrderServiceID = (int)u.OrderServiceID,
+                    ServiceNatureID = (int)u.ServiceNatureID,
+                    ServiceNatureValue = u.ServiceNatureValue,
                     ServiceDate = u.ServiceDate,
                     ServiceNature = u.ServiceNature,
                     CustomerShipName = u.CustomerShipName,
@@ -3173,6 +3177,14 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
+                    case "Month":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Month).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Month).ToList();
+                        }
+                        break;
 
                     case "Amount":
                         {
@@ -3267,7 +3279,7 @@ namespace TugBusinessLogic.Module
                 JArray rules = (JArray)jsonSearchOption["rules"];
 
                 Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
-                ParameterExpression parameter = Expression.Parameter(typeof(V_Billing));
+                ParameterExpression parameter = Expression.Parameter(typeof(V_Billing2));
 
                 Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("普通账单"));
                 condition = Expression.AndAlso(condition, condition2);
@@ -3584,6 +3596,58 @@ namespace TugBusinessLogic.Module
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region Month
+                            case "Month":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate == data.Trim()).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Month"), Expression.Constant(data.Trim()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1).ToList();
+                                                //cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0));
                                             }
                                             break;
                                         default:
@@ -3921,6 +3985,14 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
+                    case "Month":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Month).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Month).ToList();
+                        }
+                        break;
 
                     case "Amount":
                         {
@@ -4072,6 +4144,15 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
+                    case "Month":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Month).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Month).ToList();
+                        }
+                        break;
+
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -4147,7 +4228,7 @@ namespace TugBusinessLogic.Module
                 JArray rules = (JArray)jsonSearchOption["rules"];
 
                 Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
-                ParameterExpression parameter = Expression.Parameter(typeof(V_Billing));
+                ParameterExpression parameter = Expression.Parameter(typeof(V_Billing3));
 
                 Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("特殊账单"));
                 condition = Expression.AndAlso(condition, condition2);
@@ -4477,6 +4558,58 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
+                            #region Month
+                            case "Month":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate == data.Trim()).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Month"), Expression.Constant(data.Trim()));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1).ToList();
+                                                //cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region Remark
                             case "Remark":
                                 {
@@ -4761,8 +4894,15 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
-                    
 
+                    case "Month":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Month).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Month).ToList();
+                        }
+                        break;
 
                     case "Amount":
                         {
@@ -4997,6 +5137,190 @@ namespace TugBusinessLogic.Module
                 }
             }
         }
+
+
+        /// <summary>
+        /// 在普通账单删除后，需要设置其订单下，订单服务的账单有无。
+        /// </summary>
+        /// <param name="billingId"></param>
+        static public void SetOrderServiceInvoiceStatus(int billingId, string hasBilling)
+        {
+            TugDataEntities db = new TugDataEntities();
+
+            //1.获取账单下的多个订单
+            var lstBillingOrder = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
+            if (lstBillingOrder != null)
+            {
+                foreach (var bo in lstBillingOrder)
+                {
+                    //2.针对每一个订单，获取该订单下的订单服务，order_service
+                    var lstOrderService = db.OrderService.Where(u => u.OrderID == bo.OrderID).ToList();
+                    if (lstOrderService != null)
+                    {
+                        foreach (var os in lstOrderService)
+                        {
+                            //3.针对每一个订单服务，先在SpecialBillingItem表里面查询，是否有此订单服务；如果有说明该服务已经生成过
+                            //特殊账单了，不需要更改这个服务的账单有无状态；如果没有，说明该服务没有生成过特殊账单，需要将其账单有
+                            //无状态改为“否”
+                            SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
+                            if (si == null)
+                            {
+                                os.HasBilling = hasBilling;
+                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 在普通账单提交审核或驳回后，需要设置。
+        /// BillingType:0普通账单；1特殊账单
+        /// </summary>
+        /// <param name="billingId"></param>
+        static public void SetOrderServiceFlowingStatus(int BillingType, int billingId, string hasInFlow)
+        {
+            TugDataEntities db = new TugDataEntities();
+            if(BillingType==0)
+            {
+                //获取账单下的多个订单
+                var lstBillingOrder = db.BillingOrder.Where(u => u.BillingID == billingId).ToList();
+                if (lstBillingOrder != null)
+                {
+                    foreach (var bo in lstBillingOrder)
+                    {
+                        //更新OrderInfor
+                        int ordid = Util.toint(bo.OrderID);
+                        OrderInfor obj = db.OrderInfor.Where(u => u.IDX == ordid).FirstOrDefault();
+                        if (obj != null)
+                        {
+                            obj.HasInFlow = hasInFlow;
+                            db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        //2.针对每一个订单，获取该订单下的订单服务，order_service
+                        var lstOrderService = db.OrderService.Where(u => u.OrderID == bo.OrderID).ToList();
+                        if (lstOrderService != null)
+                        {
+                            foreach (var os in lstOrderService)
+                            {
+                                //SpecialBillingItem si = db.SpecialBillingItem.FirstOrDefault(u => u.OrderServiceID == os.IDX);
+                                //if (si == null)
+                                if (os.BillingType == 0)
+                                {
+                                    os.HasBillingInFlow = hasInFlow;
+                                    db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                //特殊账单
+                var lstOrderService = db.V_SpecialBillingItem_OrderService.Where(u => u.SpecialBillingID == billingId).ToList();
+                if (lstOrderService != null)
+                {
+                    foreach (var os in lstOrderService)
+                    {
+                        int osid = Util.toint(os.OrderServiceID);
+                        OrderService obj = db.OrderService.Where(u => u.IDX == osid).FirstOrDefault();
+                        if (obj != null)
+                        {
+                            obj.HasBillingInFlow = hasInFlow;
+                            db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                }
+
+            }
+        }
+
+
+        /// <summary>
+        /// 新增或编辑特殊账单之后，插入汇总项目
+        /// </summary>
+        /// <param name="billingId"></param>
+        /// <param name="userId"></param>
+        static public void UpdateSpecialBillingSummarizeItems(int billingId, int userId)
+        {
+
+            TugDataEntities db = new TugDataEntities();
+
+            var lstSpecialBillingSummarize = db.AmountSum.Where(u => u.BillingID == billingId).ToList();
+            if (lstSpecialBillingSummarize != null && lstSpecialBillingSummarize.Count > 0)
+            {
+                //先删除，再插入
+                foreach (var item in lstSpecialBillingSummarize)
+                {
+                    db.AmountSum.Remove(item);
+                    db.SaveChanges();
+                }
+            }
+            //else
+            {
+                //直接插入
+                var list = db.V_SpecialBillingSummarizeItem.Where(u => u.SpecialBillingID == billingId).ToList();
+                if (list != null)
+                {
+                    List<AmountSum> ret = new List<AmountSum>();
+                    foreach (var item in list)
+                    {
+                        AmountSum one = new AmountSum();
+                        one.CustomerID = item.CustomerID;
+                        one.CustomerShipID = item.CustomerShipID;
+                        one.BillingID = billingId;
+                        one.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(item.BillingDateTime);
+                        one.SchedulerID = item.SchedulerID;
+                        one.Amount = item.Amount;
+                        one.Currency = "港币";
+
+                        int iDiffHour, iDiffMinute;
+                        TugBusinessLogic.Utils.CalculateTimeDiff(item.DepartBaseTime, item.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
+
+                        #region 按一小时换算时间
+                        {
+                            //double consumeTime = 0;
+                            //int count = 0;
+                            //count += iDiffHour * 60 / 60;
+                            //count += iDiffMinute / 60;
+                            //if (iDiffMinute % 60 > 0)
+                            //{
+                            //    count++;
+                            //}
+
+                            //consumeTime = (count * 60.0) / 60;
+
+                            double tmp = ((double)iDiffMinute) / 60;
+                            one.Hours = iDiffHour + Math.Round(tmp, 2);
+                        }
+                        #endregion
+
+                        
+                        one.Year = item.Month.Split('-')[0];//one.BillingDateTime.Value.Year.ToString();
+                        one.Month = item.Month.Split('-')[1];//item.Month;
+                        one.OwnerID = -1;
+                        one.CreateDate = one.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        one.UserID = userId;
+
+                        ret.Add(one);
+                    }
+
+                    db.AmountSum.AddRange(ret);
+                    db.SaveChanges();
+                }
+
+            }
+
+        }
+
 
         static public void RejectInvoice(int orderId = 1)
         {

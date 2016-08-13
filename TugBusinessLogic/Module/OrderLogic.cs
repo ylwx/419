@@ -6872,5 +6872,24 @@ namespace TugBusinessLogic.Module
 
             return ret;
         }
+
+        #region 更新OrderInfor的HasInFlow状态值
+        public static void UpdateHasInFlow(int billid, string HasInFlow)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<BillingOrder> list = db.BillingOrder.Where(u => u.BillingID == billid).OrderBy(u => u.IDX).ToList<BillingOrder>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                int ordid=Util.toint(list[i].OrderID);
+                OrderInfor obj = db.OrderInfor.Where(u => u.IDX ==ordid).FirstOrDefault();
+                if (obj != null)
+                {
+                    obj.HasInFlow = HasInFlow;
+                    db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+        }
+        #endregion
     }
 }
