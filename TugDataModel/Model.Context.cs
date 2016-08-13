@@ -80,7 +80,6 @@ namespace TugDataModel
         public virtual DbSet<V_Invoice2> V_Invoice2 { get; set; }
         public virtual DbSet<V_Module_Role_User> V_Module_Role_User { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
-        public virtual DbSet<V_NeedApproveOrderBilling> V_NeedApproveOrderBilling { get; set; }
         public virtual DbSet<V_NeedApproveOrderBillingSpecial> V_NeedApproveOrderBillingSpecial { get; set; }
         public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }
         public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }
