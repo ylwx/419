@@ -58,6 +58,7 @@ namespace TugDataModel
         public virtual DbSet<UsersRole> UsersRole { get; set; }
         public virtual DbSet<V_1> V_1 { get; set; }
         public virtual DbSet<V_AmountSum_Billing> V_AmountSum_Billing { get; set; }
+        public virtual DbSet<V_Approve_Billing> V_Approve_Billing { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
@@ -66,11 +67,13 @@ namespace TugDataModel
         public virtual DbSet<V_BillingItem> V_BillingItem { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingOrders> V_BillingOrders { get; set; }
+        public virtual DbSet<V_BillingTask> V_BillingTask { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
         public virtual DbSet<V_CustomerShip> V_CustomerShip { get; set; }
         public virtual DbSet<V_Flow> V_Flow { get; set; }
         public virtual DbSet<V_Inv_BillingItem> V_Inv_BillingItem { get; set; }
         public virtual DbSet<V_Inv_Head> V_Inv_Head { get; set; }
+        public virtual DbSet<V_Inv_Head_Special> V_Inv_Head_Special { get; set; }
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
         public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
@@ -78,6 +81,7 @@ namespace TugDataModel
         public virtual DbSet<V_Module_Role_User> V_Module_Role_User { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_NeedApproveOrderBilling> V_NeedApproveOrderBilling { get; set; }
+        public virtual DbSet<V_NeedApproveOrderBillingSpecial> V_NeedApproveOrderBillingSpecial { get; set; }
         public virtual DbSet<V_OrderBilling> V_OrderBilling { get; set; }
         public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }
         public virtual DbSet<V_OrderInfor> V_OrderInfor { get; set; }
@@ -88,32 +92,34 @@ namespace TugDataModel
         public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
         public virtual DbSet<V_SpecialBillingCredit> V_SpecialBillingCredit { get; set; }
         public virtual DbSet<V_SpecialBillingItem> V_SpecialBillingItem { get; set; }
+        public virtual DbSet<V_SpecialBillingItem_OrderService> V_SpecialBillingItem_OrderService { get; set; }
+        public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     
-        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> orderID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
-            var orderIDParameter = orderID.HasValue ?
-                new ObjectParameter("OrderID", orderID) :
-                new ObjectParameter("OrderID", typeof(int));
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
     
             var timeTypeValueParameter = timeTypeValue.HasValue ?
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", orderIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> orderID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
-            var orderIDParameter = orderID.HasValue ?
-                new ObjectParameter("OrderID", orderID) :
-                new ObjectParameter("OrderID", typeof(int));
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
     
             var timeTypeValueParameter = timeTypeValue.HasValue ?
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", orderIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
         }
     
         public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
@@ -251,6 +257,24 @@ namespace TugDataModel
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
         }
     }
 }

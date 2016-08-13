@@ -21,6 +21,7 @@ namespace TugDataModel
     
         public int IDX { get; set; }
         public Nullable<int> OrderID { get; set; }
+        public Nullable<int> BillingType { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
         public string ServiceWorkDate { get; set; }
         public string ServiceWorkTime { get; set; }
@@ -31,6 +32,8 @@ namespace TugDataModel
         public Nullable<int> SmallTugNum { get; set; }
         public Nullable<int> JobStateID { get; set; }
         public string Remark { get; set; }
+        public string HasBilling { get; set; }
+        public string HasBillingInFlow { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }

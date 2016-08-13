@@ -12,14 +12,14 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_Inv_OrdService
+    public partial class V_Inv_Head_Special
     {
         public int IDX { get; set; }
-        public Nullable<int> ServiceNatureID { get; set; }
-        public string ServiceWorkDate { get; set; }
-        public string ServiceWorkPlace { get; set; }
-        public string CustomLabel { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public Nullable<int> BillingID { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+        public string BillingCode { get; set; }
+        public string InvoiceType { get; set; }
+        public string CreateDate { get; set; }
+        public string Name1 { get; set; }
+        public string Month { get; set; }
     }
 }

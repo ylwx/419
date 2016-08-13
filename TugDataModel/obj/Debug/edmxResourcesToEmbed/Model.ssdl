@@ -472,10 +472,10 @@
     <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
     <Property Name="Code" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
-    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
     <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
-    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="nvarchar(max)" />
     <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
     <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
     <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
@@ -504,6 +504,7 @@
     </Key>
     <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OrderID" Type="int" />
+    <Property Name="BillingType" Type="int" />
     <Property Name="ServiceNatureID" Type="int" />
     <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceWorkTime" Type="nvarchar" MaxLength="50" />
@@ -514,6 +515,8 @@
     <Property Name="SmallTugNum" Type="int" />
     <Property Name="JobStateID" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OwnerID" Type="int" />
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="UserID" Type="int" />
@@ -644,7 +647,10 @@
     </Key>
     <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SpecialBillingID" Type="int" />
+    <Property Name="OrderServiceID" Type="int" />
     <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
     <Property Name="TugNumber" Type="int" />
@@ -807,11 +813,10 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" Nullable="false" />
-    <Property Name="TugID" Type="int" />
     <Property Name="TugName1" Type="nvarchar" MaxLength="50" />
-    <Property Name="Amount" Type="int" />
+    <Property Name="Amount" Type="float" />
     <Property Name="Currency" Type="nvarchar" MaxLength="50" />
-    <Property Name="Hours" Type="int" />
+    <Property Name="Hours" Type="float" />
     <Property Name="BillingID" Type="int" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
@@ -826,6 +831,22 @@
     <Property Name="FinanceMonth" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingYear" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingMonth" Type="nvarchar" MaxLength="50" />
+    <Property Name="SchedulerID" Type="int" />
+    <Property Name="TugID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Approve_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Approve_Billing">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="BillingID" Type="int" />
+    <Property Name="Accept" Type="int" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phase" Type="int" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="PersonID" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Arrangement”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1064,6 +1085,48 @@
     <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_BillingTask”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_BillingTask">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsShowShipLengthRule" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsShowShipTEUSRule" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="BillingTemplateID" Type="int" />
+    <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingTypeID" Type="int" />
+    <Property Name="BillingTemplateTypeValue" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingTemplateTypeLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimeTypeID" Type="int" />
+    <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipLength" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipTEUS" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Discount" Type="float" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimesNo" Type="int" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phase" Type="int" />
+    <Property Name="OwnerID" Type="int" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipID" Type="int" />
+    <Property Name="ShipName" Type="nvarchar(max)" />
+  </EntityType>
+  <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_BillingTemplate">
     <Key>
@@ -1154,11 +1217,12 @@
     <Property Name="UnitPrice" Type="float" />
     <Property Name="Currency" Type="nvarchar" MaxLength="50" />
     <Property Name="TugName" Type="nvarchar" MaxLength="50" />
-    <Property Name="SrvName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
     <Property Name="ItemName" Type="nvarchar" MaxLength="50" />
     <Property Name="ItemCode" Type="nvarchar" MaxLength="50" />
     <Property Name="SchedulerID" Type="int" />
-    <Property Name="SrvCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingID" Type="int" />
+    <Property Name="ServiceCode" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1167,12 +1231,25 @@
       <PropertyRef Name="IDX" />
     </Key>
     <Property Name="IDX" Type="int" Nullable="false" />
-    <Property Name="OrderID" Type="int" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head_Special”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_Head_Special">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name1" Type="nvarchar(max)" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_OrdService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1186,6 +1263,7 @@
     <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
     <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderID" Type="int" />
+    <Property Name="BillingID" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1196,15 +1274,15 @@
     <Property Name="IDX" Type="int" Nullable="false" />
     <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
     <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
-    <Property Name="ServiceHours" Type="nvarchar" MaxLength="50" />
-    <Property Name="Name1" Type="nvarchar" MaxLength="50" />
-    <Property Name="CustomLabel" Type="nvarchar" MaxLength="50" />
-    <Property Name="OrderID" Type="int" />
-    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="TugName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceName" Type="nvarchar" MaxLength="50" />
     <Property Name="TugID" Type="int" />
     <Property Name="RopeUsed" Type="nvarchar" MaxLength="50" />
-    <Property Name="RopeNum" Type="int" />
-    <Property Name="CustomValue" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderServiceID" Type="int" />
+    <Property Name="OrderID" Type="int" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="BillingID" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Invoice”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1399,47 +1477,74 @@
 警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveOrderBilling”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_NeedApproveOrderBilling">
     <Key>
-      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="IDX" />
     </Key>
-    <Property Name="BillingID" Type="int" />
-    <Property Name="Phase" Type="int" />
+    <Property Name="IDX" Type="int" Nullable="false" />
     <Property Name="TimesNo" Type="int" />
+    <Property Name="BillingPhase" Type="int" />
+    <Property Name="JobNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsShowShipLengthRule" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsShowShipTEUSRule" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
-    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
-    <Property Name="OrderID" Type="int" Nullable="false" />
-    <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
-    <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
-    <Property Name="WorkDate" Type="nvarchar" MaxLength="50" />
-    <Property Name="WorkTime" Type="nvarchar" MaxLength="50" />
-    <Property Name="EstimatedCompletionTime" Type="nvarchar" MaxLength="50" />
-    <Property Name="ShipID" Type="int" />
-    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
-    <Property Name="ServiceNatureIDS" Type="nvarchar" MaxLength="50" />
-    <Property Name="ServiceNatureNames" Type="nvarchar" MaxLength="50" />
-    <Property Name="WorkStateID" Type="int" />
-    <Property Name="WorkStateValue" Type="nvarchar" MaxLength="50" />
-    <Property Name="WorkStateLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
     <Property Name="BillingTemplateID" Type="int" />
+    <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingTypeID" Type="int" />
-    <Property Name="BillingTypeValue" Type="nvarchar" MaxLength="50" />
-    <Property Name="BillingTypeLabel" Type="nvarchar" MaxLength="50" />
-    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
-    <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingTemplateTypeValue" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingTemplateTypeLabel" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeID" Type="int" />
     <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
     <Property Name="TimeTypeLabel" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipLength" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipTEUS" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="Discount" Type="float" />
     <Property Name="Amount" Type="float" />
-    <Property Name="BillingRemark" Type="nvarchar(max)" />
+    <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
-    <Property Name="BillingOwnerID" Type="int" />
-    <Property Name="BillingCreateDate" Type="nvarchar" MaxLength="50" />
-    <Property Name="BillingUserID" Type="int" />
-    <Property Name="BillingLastUpDate" Type="nvarchar" MaxLength="50" />
-    <Property Name="Expr1" Type="int" />
+    <Property Name="OwnerID" Type="int" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipID" Type="int" />
+    <Property Name="ShipName" Type="nvarchar(max)" />
+    <Property Name="BillingID" Type="int" />
     <Property Name="MarkID" Type="int" />
-    <Property Name="Expr2" Type="int" />
+    <Property Name="Phase" Type="int" />
+    <Property Name="Task" Type="nvarchar" MaxLength="50" />
+    <Property Name="FlowUserID" Type="int" />
+    <Property Name="System" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveOrderBillingSpecial”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_NeedApproveOrderBillingSpecial">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimesNo" Type="int" />
+    <Property Name="BillingPhase" Type="int" />
+    <Property Name="OwnerID" Type="int" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="BillingID" Type="int" />
+    <Property Name="MarkID" Type="int" />
+    <Property Name="Phase" Type="int" />
     <Property Name="Task" Type="nvarchar" MaxLength="50" />
     <Property Name="FlowUserID" Type="int" />
     <Property Name="System" Type="nvarchar" MaxLength="50" />
@@ -1559,6 +1664,9 @@
     <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
     <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderServiceID" Type="int" />
+    <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingType" Type="int" />
     <Property Name="ServiceNatureID" Type="int" />
     <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNatureLabel" Type="nvarchar" MaxLength="50" />
@@ -1646,6 +1754,9 @@
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
     <Property Name="TotalTug" Type="int" />
+    <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingType" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1723,7 +1834,10 @@
     </Key>
     <Property Name="IDX" Type="int" Nullable="false" />
     <Property Name="SpecialBillingID" Type="int" />
+    <Property Name="OrderServiceID" Type="int" />
     <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="ServiceNatureValue" Type="nvarchar" MaxLength="50" />
     <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
     <Property Name="TugNumber" Type="int" />
@@ -1731,6 +1845,39 @@
     <Property Name="OneServiceTotalPrice" Type="float" />
     <Property Name="FeulUnitPrice" Type="float" />
     <Property Name="OneFeulTotalPrice" Type="float" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_SpecialBillingItem_OrderService”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_SpecialBillingItem_OrderService">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="SpecialBillingID" Type="int" />
+    <Property Name="OrderServiceID" Type="int" />
+    <Property Name="BillingType" Type="int" />
+    <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_SpecialBillingSummarizeItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_SpecialBillingSummarizeItem">
+    <Key>
+      <PropertyRef Name="SpecialBillingItemID" />
+      <PropertyRef Name="SchedulerID" />
+    </Key>
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="CustomerShipID" Type="int" />
+    <Property Name="CustomerShipName" Type="nvarchar" MaxLength="200" />
+    <Property Name="SpecialBillingID" Type="int" />
+    <Property Name="BillingDateTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderServiceID" Type="int" />
+    <Property Name="SpecialBillingItemID" Type="int" Nullable="false" />
+    <Property Name="SchedulerID" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1960,12 +2107,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="proc_approved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userID" Type="int" Mode="In" />
+  </Function>
   <Function Name="proc_inv_item" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="OrderID" Type="int" Mode="In" />
+    <Parameter Name="BillingID" Type="int" Mode="In" />
     <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
   </Function>
   <Function Name="proc_inv_item_xy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="OrderID" Type="int" Mode="In" />
+    <Parameter Name="BillingID" Type="int" Mode="In" />
     <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
   </Function>
   <Function Name="proc_inv_SrvHourNumeric" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1977,6 +2127,9 @@
     <Parameter Name="DepartBaseTime" Type="nvarchar" Mode="In" />
     <Parameter Name="ArrivalBaseTime" Type="nvarchar" Mode="In" />
     <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
+  </Function>
+  <Function Name="proc_needapprove" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userID" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="ModelStoreContainer">
     <EntitySet Name="AmountSum" EntityType="Self.AmountSum" Schema="dbo" store:Type="Tables" />
@@ -2057,7 +2210,6 @@
     <EntitySet Name="V_AmountSum_Billing" EntityType="Self.V_AmountSum_Billing" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_AmountSum_Billing].[ID] AS [ID], 
-    [V_AmountSum_Billing].[TugID] AS [TugID], 
     [V_AmountSum_Billing].[TugName1] AS [TugName1], 
     [V_AmountSum_Billing].[Amount] AS [Amount], 
     [V_AmountSum_Billing].[Currency] AS [Currency], 
@@ -2075,8 +2227,21 @@
     [V_AmountSum_Billing].[BillTotalAmount] AS [BillTotalAmount], 
     [V_AmountSum_Billing].[FinanceMonth] AS [FinanceMonth], 
     [V_AmountSum_Billing].[BillingYear] AS [BillingYear], 
-    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth]
+    [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth], 
+    [V_AmountSum_Billing].[SchedulerID] AS [SchedulerID], 
+    [V_AmountSum_Billing].[TugID] AS [TugID]
     FROM [dbo].[V_AmountSum_Billing] AS [V_AmountSum_Billing]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Approve_Billing" EntityType="Self.V_Approve_Billing" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Approve_Billing].[IDX] AS [IDX], 
+    [V_Approve_Billing].[BillingID] AS [BillingID], 
+    [V_Approve_Billing].[Accept] AS [Accept], 
+    [V_Approve_Billing].[Status] AS [Status], 
+    [V_Approve_Billing].[Phase] AS [Phase], 
+    [V_Approve_Billing].[InvoiceType] AS [InvoiceType], 
+    [V_Approve_Billing].[PersonID] AS [PersonID]
+    FROM [dbo].[V_Approve_Billing] AS [V_Approve_Billing]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Arrangement" EntityType="Self.V_Arrangement" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -2289,6 +2454,45 @@
     [V_BillingOrders].[HasInFlow] AS [HasInFlow]
     FROM [dbo].[V_BillingOrders] AS [V_BillingOrders]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="V_BillingTask" EntityType="Self.V_BillingTask" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_BillingTask].[IDX] AS [IDX], 
+    [V_BillingTask].[JobNo] AS [JobNo], 
+    [V_BillingTask].[InvoiceType] AS [InvoiceType], 
+    [V_BillingTask].[IsShowShipLengthRule] AS [IsShowShipLengthRule], 
+    [V_BillingTask].[IsShowShipTEUSRule] AS [IsShowShipTEUSRule], 
+    [V_BillingTask].[CustomerID] AS [CustomerID], 
+    [V_BillingTask].[CustomerCode] AS [CustomerCode], 
+    [V_BillingTask].[CustomerName] AS [CustomerName], 
+    [V_BillingTask].[BillingTemplateID] AS [BillingTemplateID], 
+    [V_BillingTask].[BillingTemplateName] AS [BillingTemplateName], 
+    [V_BillingTask].[BillingTypeID] AS [BillingTypeID], 
+    [V_BillingTask].[BillingTemplateTypeValue] AS [BillingTemplateTypeValue], 
+    [V_BillingTask].[BillingTemplateTypeLabel] AS [BillingTemplateTypeLabel], 
+    [V_BillingTask].[TimeTypeID] AS [TimeTypeID], 
+    [V_BillingTask].[TimeTypeValue] AS [TimeTypeValue], 
+    [V_BillingTask].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_BillingTask].[ShipLength] AS [ShipLength], 
+    [V_BillingTask].[ShipTEUS] AS [ShipTEUS], 
+    [V_BillingTask].[ExpiryDate] AS [ExpiryDate], 
+    [V_BillingTask].[BillingCode] AS [BillingCode], 
+    [V_BillingTask].[BillingName] AS [BillingName], 
+    [V_BillingTask].[Discount] AS [Discount], 
+    [V_BillingTask].[Amount] AS [Amount], 
+    [V_BillingTask].[Remark] AS [Remark], 
+    [V_BillingTask].[Month] AS [Month], 
+    [V_BillingTask].[TimesNo] AS [TimesNo], 
+    [V_BillingTask].[Status] AS [Status], 
+    [V_BillingTask].[Phase] AS [Phase], 
+    [V_BillingTask].[OwnerID] AS [OwnerID], 
+    [V_BillingTask].[CreateDate] AS [CreateDate], 
+    [V_BillingTask].[UserID] AS [UserID], 
+    [V_BillingTask].[LastUpDate] AS [LastUpDate], 
+    [V_BillingTask].[IsGuest] AS [IsGuest], 
+    [V_BillingTask].[ShipID] AS [ShipID], 
+    [V_BillingTask].[ShipName] AS [ShipName]
+    FROM [dbo].[V_BillingTask] AS [V_BillingTask]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="V_BillingTemplate" EntityType="Self.V_BillingTemplate" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_BillingTemplate].[CustomerID] AS [CustomerID], 
@@ -2367,23 +2571,34 @@
     [V_Inv_BillingItem].[UnitPrice] AS [UnitPrice], 
     [V_Inv_BillingItem].[Currency] AS [Currency], 
     [V_Inv_BillingItem].[TugName] AS [TugName], 
-    [V_Inv_BillingItem].[SrvName] AS [SrvName], 
+    [V_Inv_BillingItem].[ServiceName] AS [ServiceName], 
     [V_Inv_BillingItem].[ItemName] AS [ItemName], 
     [V_Inv_BillingItem].[ItemCode] AS [ItemCode], 
     [V_Inv_BillingItem].[SchedulerID] AS [SchedulerID], 
-    [V_Inv_BillingItem].[SrvCode] AS [SrvCode]
+    [V_Inv_BillingItem].[BillingID] AS [BillingID], 
+    [V_Inv_BillingItem].[ServiceCode] AS [ServiceCode]
     FROM [dbo].[V_Inv_BillingItem] AS [V_Inv_BillingItem]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Inv_Head" EntityType="Self.V_Inv_Head" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_Inv_Head].[IDX] AS [IDX], 
-    [V_Inv_Head].[OrderID] AS [OrderID], 
     [V_Inv_Head].[BillingCode] AS [BillingCode], 
     [V_Inv_Head].[CreateDate] AS [CreateDate], 
     [V_Inv_Head].[CustomerName] AS [CustomerName], 
     [V_Inv_Head].[ShipName] AS [ShipName], 
     [V_Inv_Head].[TimeTypeID] AS [TimeTypeID]
     FROM [dbo].[V_Inv_Head] AS [V_Inv_Head]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_Head_Special" EntityType="Self.V_Inv_Head_Special" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_Head_Special].[IDX] AS [IDX], 
+    [V_Inv_Head_Special].[CustomerID] AS [CustomerID], 
+    [V_Inv_Head_Special].[BillingCode] AS [BillingCode], 
+    [V_Inv_Head_Special].[InvoiceType] AS [InvoiceType], 
+    [V_Inv_Head_Special].[CreateDate] AS [CreateDate], 
+    [V_Inv_Head_Special].[Name1] AS [Name1], 
+    [V_Inv_Head_Special].[Month] AS [Month]
+    FROM [dbo].[V_Inv_Head_Special] AS [V_Inv_Head_Special]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Inv_OrdService" EntityType="Self.V_Inv_OrdService" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -2392,7 +2607,8 @@
     [V_Inv_OrdService].[ServiceWorkDate] AS [ServiceWorkDate], 
     [V_Inv_OrdService].[ServiceWorkPlace] AS [ServiceWorkPlace], 
     [V_Inv_OrdService].[CustomLabel] AS [CustomLabel], 
-    [V_Inv_OrdService].[OrderID] AS [OrderID]
+    [V_Inv_OrdService].[OrderID] AS [OrderID], 
+    [V_Inv_OrdService].[BillingID] AS [BillingID]
     FROM [dbo].[V_Inv_OrdService] AS [V_Inv_OrdService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Inv_Scheduler" EntityType="Self.V_Inv_Scheduler" store:Type="Views" store:Schema="dbo">
@@ -2400,15 +2616,15 @@
     [V_Inv_Scheduler].[IDX] AS [IDX], 
     [V_Inv_Scheduler].[DepartBaseTime] AS [DepartBaseTime], 
     [V_Inv_Scheduler].[ArrivalBaseTime] AS [ArrivalBaseTime], 
-    [V_Inv_Scheduler].[ServiceHours] AS [ServiceHours], 
-    [V_Inv_Scheduler].[Name1] AS [Name1], 
-    [V_Inv_Scheduler].[CustomLabel] AS [CustomLabel], 
-    [V_Inv_Scheduler].[OrderID] AS [OrderID], 
-    [V_Inv_Scheduler].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Inv_Scheduler].[TugName] AS [TugName], 
+    [V_Inv_Scheduler].[ServiceName] AS [ServiceName], 
     [V_Inv_Scheduler].[TugID] AS [TugID], 
     [V_Inv_Scheduler].[RopeUsed] AS [RopeUsed], 
-    [V_Inv_Scheduler].[RopeNum] AS [RopeNum], 
-    [V_Inv_Scheduler].[CustomValue] AS [CustomValue]
+    [V_Inv_Scheduler].[ServiceCode] AS [ServiceCode], 
+    [V_Inv_Scheduler].[OrderServiceID] AS [OrderServiceID], 
+    [V_Inv_Scheduler].[OrderID] AS [OrderID], 
+    [V_Inv_Scheduler].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Inv_Scheduler].[BillingID] AS [BillingID]
     FROM [dbo].[V_Inv_Scheduler] AS [V_Inv_Scheduler]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Invoice" EntityType="Self.V_Invoice" store:Type="Views" store:Schema="dbo">
@@ -2586,49 +2802,73 @@
     </EntitySet>
     <EntitySet Name="V_NeedApproveOrderBilling" EntityType="Self.V_NeedApproveOrderBilling" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
-    [V_NeedApproveOrderBilling].[BillingID] AS [BillingID], 
-    [V_NeedApproveOrderBilling].[Phase] AS [Phase], 
+    [V_NeedApproveOrderBilling].[IDX] AS [IDX], 
     [V_NeedApproveOrderBilling].[TimesNo] AS [TimesNo], 
+    [V_NeedApproveOrderBilling].[BillingPhase] AS [BillingPhase], 
+    [V_NeedApproveOrderBilling].[JobNo] AS [JobNo], 
+    [V_NeedApproveOrderBilling].[InvoiceType] AS [InvoiceType], 
+    [V_NeedApproveOrderBilling].[IsShowShipLengthRule] AS [IsShowShipLengthRule], 
+    [V_NeedApproveOrderBilling].[IsShowShipTEUSRule] AS [IsShowShipTEUSRule], 
     [V_NeedApproveOrderBilling].[CustomerID] AS [CustomerID], 
+    [V_NeedApproveOrderBilling].[CustomerCode] AS [CustomerCode], 
     [V_NeedApproveOrderBilling].[CustomerName] AS [CustomerName], 
-    [V_NeedApproveOrderBilling].[OrderID] AS [OrderID], 
-    [V_NeedApproveOrderBilling].[OrderCode] AS [OrderCode], 
-    [V_NeedApproveOrderBilling].[OrdDate] AS [OrdDate], 
-    [V_NeedApproveOrderBilling].[WorkDate] AS [WorkDate], 
-    [V_NeedApproveOrderBilling].[WorkTime] AS [WorkTime], 
-    [V_NeedApproveOrderBilling].[EstimatedCompletionTime] AS [EstimatedCompletionTime], 
-    [V_NeedApproveOrderBilling].[ShipID] AS [ShipID], 
-    [V_NeedApproveOrderBilling].[ShipName] AS [ShipName], 
-    [V_NeedApproveOrderBilling].[ServiceNatureIDS] AS [ServiceNatureIDS], 
-    [V_NeedApproveOrderBilling].[ServiceNatureNames] AS [ServiceNatureNames], 
-    [V_NeedApproveOrderBilling].[WorkStateID] AS [WorkStateID], 
-    [V_NeedApproveOrderBilling].[WorkStateValue] AS [WorkStateValue], 
-    [V_NeedApproveOrderBilling].[WorkStateLabel] AS [WorkStateLabel], 
     [V_NeedApproveOrderBilling].[BillingTemplateID] AS [BillingTemplateID], 
+    [V_NeedApproveOrderBilling].[BillingTemplateName] AS [BillingTemplateName], 
     [V_NeedApproveOrderBilling].[BillingTypeID] AS [BillingTypeID], 
-    [V_NeedApproveOrderBilling].[BillingTypeValue] AS [BillingTypeValue], 
-    [V_NeedApproveOrderBilling].[BillingTypeLabel] AS [BillingTypeLabel], 
-    [V_NeedApproveOrderBilling].[BillingCode] AS [BillingCode], 
-    [V_NeedApproveOrderBilling].[BillingName] AS [BillingName], 
+    [V_NeedApproveOrderBilling].[BillingTemplateTypeValue] AS [BillingTemplateTypeValue], 
+    [V_NeedApproveOrderBilling].[BillingTemplateTypeLabel] AS [BillingTemplateTypeLabel], 
     [V_NeedApproveOrderBilling].[TimeTypeID] AS [TimeTypeID], 
     [V_NeedApproveOrderBilling].[TimeTypeValue] AS [TimeTypeValue], 
     [V_NeedApproveOrderBilling].[TimeTypeLabel] AS [TimeTypeLabel], 
+    [V_NeedApproveOrderBilling].[ShipLength] AS [ShipLength], 
+    [V_NeedApproveOrderBilling].[ShipTEUS] AS [ShipTEUS], 
+    [V_NeedApproveOrderBilling].[ExpiryDate] AS [ExpiryDate], 
+    [V_NeedApproveOrderBilling].[BillingName] AS [BillingName], 
+    [V_NeedApproveOrderBilling].[BillingCode] AS [BillingCode], 
     [V_NeedApproveOrderBilling].[Discount] AS [Discount], 
     [V_NeedApproveOrderBilling].[Amount] AS [Amount], 
-    [V_NeedApproveOrderBilling].[BillingRemark] AS [BillingRemark], 
+    [V_NeedApproveOrderBilling].[Remark] AS [Remark], 
     [V_NeedApproveOrderBilling].[Month] AS [Month], 
     [V_NeedApproveOrderBilling].[Status] AS [Status], 
-    [V_NeedApproveOrderBilling].[BillingOwnerID] AS [BillingOwnerID], 
-    [V_NeedApproveOrderBilling].[BillingCreateDate] AS [BillingCreateDate], 
-    [V_NeedApproveOrderBilling].[BillingUserID] AS [BillingUserID], 
-    [V_NeedApproveOrderBilling].[BillingLastUpDate] AS [BillingLastUpDate], 
-    [V_NeedApproveOrderBilling].[Expr1] AS [Expr1], 
+    [V_NeedApproveOrderBilling].[OwnerID] AS [OwnerID], 
+    [V_NeedApproveOrderBilling].[CreateDate] AS [CreateDate], 
+    [V_NeedApproveOrderBilling].[UserID] AS [UserID], 
+    [V_NeedApproveOrderBilling].[LastUpDate] AS [LastUpDate], 
+    [V_NeedApproveOrderBilling].[IsGuest] AS [IsGuest], 
+    [V_NeedApproveOrderBilling].[ShipID] AS [ShipID], 
+    [V_NeedApproveOrderBilling].[ShipName] AS [ShipName], 
+    [V_NeedApproveOrderBilling].[BillingID] AS [BillingID], 
     [V_NeedApproveOrderBilling].[MarkID] AS [MarkID], 
-    [V_NeedApproveOrderBilling].[Expr2] AS [Expr2], 
+    [V_NeedApproveOrderBilling].[Phase] AS [Phase], 
     [V_NeedApproveOrderBilling].[Task] AS [Task], 
     [V_NeedApproveOrderBilling].[FlowUserID] AS [FlowUserID], 
     [V_NeedApproveOrderBilling].[System] AS [System]
     FROM [dbo].[V_NeedApproveOrderBilling] AS [V_NeedApproveOrderBilling]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_NeedApproveOrderBillingSpecial" EntityType="Self.V_NeedApproveOrderBillingSpecial" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_NeedApproveOrderBillingSpecial].[IDX] AS [IDX], 
+    [V_NeedApproveOrderBillingSpecial].[CustomerID] AS [CustomerID], 
+    [V_NeedApproveOrderBillingSpecial].[CustomerName] AS [CustomerName], 
+    [V_NeedApproveOrderBillingSpecial].[Amount] AS [Amount], 
+    [V_NeedApproveOrderBillingSpecial].[Status] AS [Status], 
+    [V_NeedApproveOrderBillingSpecial].[TimesNo] AS [TimesNo], 
+    [V_NeedApproveOrderBillingSpecial].[BillingPhase] AS [BillingPhase], 
+    [V_NeedApproveOrderBillingSpecial].[OwnerID] AS [OwnerID], 
+    [V_NeedApproveOrderBillingSpecial].[CreateDate] AS [CreateDate], 
+    [V_NeedApproveOrderBillingSpecial].[UserID] AS [UserID], 
+    [V_NeedApproveOrderBillingSpecial].[LastUpDate] AS [LastUpDate], 
+    [V_NeedApproveOrderBillingSpecial].[InvoiceType] AS [InvoiceType], 
+    [V_NeedApproveOrderBillingSpecial].[Month] AS [Month], 
+    [V_NeedApproveOrderBillingSpecial].[BillingCode] AS [BillingCode], 
+    [V_NeedApproveOrderBillingSpecial].[Remark] AS [Remark], 
+    [V_NeedApproveOrderBillingSpecial].[BillingID] AS [BillingID], 
+    [V_NeedApproveOrderBillingSpecial].[MarkID] AS [MarkID], 
+    [V_NeedApproveOrderBillingSpecial].[Phase] AS [Phase], 
+    [V_NeedApproveOrderBillingSpecial].[Task] AS [Task], 
+    [V_NeedApproveOrderBillingSpecial].[FlowUserID] AS [FlowUserID], 
+    [V_NeedApproveOrderBillingSpecial].[System] AS [System]
+    FROM [dbo].[V_NeedApproveOrderBillingSpecial] AS [V_NeedApproveOrderBillingSpecial]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_OrderBilling" EntityType="Self.V_OrderBilling" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -2732,6 +2972,9 @@
     [V_OrderScheduler].[HasInvoice] AS [HasInvoice], 
     [V_OrderScheduler].[HasInFlow] AS [HasInFlow], 
     [V_OrderScheduler].[OrderServiceID] AS [OrderServiceID], 
+    [V_OrderScheduler].[HasBilling] AS [HasBilling], 
+    [V_OrderScheduler].[HasBillingInFlow] AS [HasBillingInFlow], 
+    [V_OrderScheduler].[BillingType] AS [BillingType], 
     [V_OrderScheduler].[ServiceNatureID] AS [ServiceNatureID], 
     [V_OrderScheduler].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_OrderScheduler].[ServiceNatureLabel] AS [ServiceNatureLabel], 
@@ -2815,7 +3058,10 @@
     [V_OrderService].[CreateDate] AS [CreateDate], 
     [V_OrderService].[UserID] AS [UserID], 
     [V_OrderService].[LastUpDate] AS [LastUpDate], 
-    [V_OrderService].[TotalTug] AS [TotalTug]
+    [V_OrderService].[TotalTug] AS [TotalTug], 
+    [V_OrderService].[HasBilling] AS [HasBilling], 
+    [V_OrderService].[HasBillingInFlow] AS [HasBillingInFlow], 
+    [V_OrderService].[BillingType] AS [BillingType]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
@@ -2873,7 +3119,10 @@
       <DefiningQuery>SELECT 
     [V_SpecialBillingItem].[IDX] AS [IDX], 
     [V_SpecialBillingItem].[SpecialBillingID] AS [SpecialBillingID], 
+    [V_SpecialBillingItem].[OrderServiceID] AS [OrderServiceID], 
     [V_SpecialBillingItem].[ServiceDate] AS [ServiceDate], 
+    [V_SpecialBillingItem].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_SpecialBillingItem].[ServiceNatureValue] AS [ServiceNatureValue], 
     [V_SpecialBillingItem].[ServiceNature] AS [ServiceNature], 
     [V_SpecialBillingItem].[CustomerShipName] AS [CustomerShipName], 
     [V_SpecialBillingItem].[TugNumber] AS [TugNumber], 
@@ -2882,6 +3131,32 @@
     [V_SpecialBillingItem].[FeulUnitPrice] AS [FeulUnitPrice], 
     [V_SpecialBillingItem].[OneFeulTotalPrice] AS [OneFeulTotalPrice]
     FROM [dbo].[V_SpecialBillingItem] AS [V_SpecialBillingItem]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_SpecialBillingItem_OrderService" EntityType="Self.V_SpecialBillingItem_OrderService" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_SpecialBillingItem_OrderService].[IDX] AS [IDX], 
+    [V_SpecialBillingItem_OrderService].[SpecialBillingID] AS [SpecialBillingID], 
+    [V_SpecialBillingItem_OrderService].[OrderServiceID] AS [OrderServiceID], 
+    [V_SpecialBillingItem_OrderService].[BillingType] AS [BillingType], 
+    [V_SpecialBillingItem_OrderService].[HasBillingInFlow] AS [HasBillingInFlow]
+    FROM [dbo].[V_SpecialBillingItem_OrderService] AS [V_SpecialBillingItem_OrderService]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Self.V_SpecialBillingSummarizeItem" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_SpecialBillingSummarizeItem].[CustomerID] AS [CustomerID], 
+    [V_SpecialBillingSummarizeItem].[CustomerName] AS [CustomerName], 
+    [V_SpecialBillingSummarizeItem].[CustomerShipID] AS [CustomerShipID], 
+    [V_SpecialBillingSummarizeItem].[CustomerShipName] AS [CustomerShipName], 
+    [V_SpecialBillingSummarizeItem].[SpecialBillingID] AS [SpecialBillingID], 
+    [V_SpecialBillingSummarizeItem].[BillingDateTime] AS [BillingDateTime], 
+    [V_SpecialBillingSummarizeItem].[OrderServiceID] AS [OrderServiceID], 
+    [V_SpecialBillingSummarizeItem].[SpecialBillingItemID] AS [SpecialBillingItemID], 
+    [V_SpecialBillingSummarizeItem].[SchedulerID] AS [SchedulerID], 
+    [V_SpecialBillingSummarizeItem].[Amount] AS [Amount], 
+    [V_SpecialBillingSummarizeItem].[DepartBaseTime] AS [DepartBaseTime], 
+    [V_SpecialBillingSummarizeItem].[ArrivalBaseTime] AS [ArrivalBaseTime], 
+    [V_SpecialBillingSummarizeItem].[Month] AS [Month]
+    FROM [dbo].[V_SpecialBillingSummarizeItem] AS [V_SpecialBillingSummarizeItem]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Users" EntityType="Self.V_Users" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

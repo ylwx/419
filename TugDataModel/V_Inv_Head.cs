@@ -15,7 +15,6 @@ namespace TugDataModel
     public partial class V_Inv_Head
     {
         public int IDX { get; set; }
-        public Nullable<int> OrderID { get; set; }
         public string BillingCode { get; set; }
         public string CreateDate { get; set; }
         public string CustomerName { get; set; }

@@ -12,11 +12,9 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_NeedApproveOrderBilling
+    public partial class V_BillingTask
     {
         public int IDX { get; set; }
-        public Nullable<int> TimesNo { get; set; }
-        public Nullable<int> BillingPhase { get; set; }
         public string JobNo { get; set; }
         public string InvoiceType { get; set; }
         public string IsShowShipLengthRule { get; set; }
@@ -35,13 +33,15 @@ namespace TugDataModel
         public string ShipLength { get; set; }
         public string ShipTEUS { get; set; }
         public string ExpiryDate { get; set; }
-        public string BillingName { get; set; }
         public string BillingCode { get; set; }
+        public string BillingName { get; set; }
         public Nullable<double> Discount { get; set; }
         public Nullable<double> Amount { get; set; }
         public string Remark { get; set; }
         public string Month { get; set; }
+        public Nullable<int> TimesNo { get; set; }
         public string Status { get; set; }
+        public Nullable<int> Phase { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
@@ -49,11 +49,5 @@ namespace TugDataModel
         public string IsGuest { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
-        public Nullable<int> BillingID { get; set; }
-        public Nullable<int> MarkID { get; set; }
-        public Nullable<int> Phase { get; set; }
-        public string Task { get; set; }
-        public Nullable<int> FlowUserID { get; set; }
-        public string System { get; set; }
     }
 }

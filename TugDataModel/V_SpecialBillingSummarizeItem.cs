@@ -12,20 +12,20 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class SpecialBillingItem
+    public partial class V_SpecialBillingSummarizeItem
     {
-        public int IDX { get; set; }
-        public Nullable<int> SpecialBillingID { get; set; }
-        public Nullable<int> OrderServiceID { get; set; }
-        public string ServiceDate { get; set; }
-        public Nullable<int> ServiceNatureID { get; set; }
-        public string ServiceNatureValue { get; set; }
-        public string ServiceNature { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public Nullable<int> CustomerShipID { get; set; }
         public string CustomerShipName { get; set; }
-        public Nullable<int> TugNumber { get; set; }
-        public Nullable<double> ServiceUnitPrice { get; set; }
-        public Nullable<double> FeulUnitPrice { get; set; }
-    
-        public virtual Billing Billing { get; set; }
+        public Nullable<int> SpecialBillingID { get; set; }
+        public string BillingDateTime { get; set; }
+        public Nullable<int> OrderServiceID { get; set; }
+        public int SpecialBillingItemID { get; set; }
+        public int SchedulerID { get; set; }
+        public Nullable<double> Amount { get; set; }
+        public string DepartBaseTime { get; set; }
+        public string ArrivalBaseTime { get; set; }
+        public string Month { get; set; }
     }
 }
