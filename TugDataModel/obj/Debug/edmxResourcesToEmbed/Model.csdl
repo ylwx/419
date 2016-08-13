@@ -49,6 +49,12 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
+      <Parameter Name="userID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
+      <Parameter Name="userID" Mode="In" Type="Int32" />
+    </FunctionImport>
     <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
     <EntitySet Name="Approve" EntityType="Model.Approve" />
     <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -177,12 +183,6 @@
       <End Role="UserInfor" EntitySet="UserInfor" />
       <End Role="UsersRole" EntitySet="UsersRole" />
     </AssociationSet>
-    <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
-      <Parameter Name="userID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
-      <Parameter Name="userID" Mode="In" Type="Int32" />
-    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="proc_inv_item_Result">
     <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
@@ -210,6 +210,41 @@
     <Property Type="Int32" Name="ID" Nullable="false" />
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="proc_approved_Result">
+    <Property Type="Int32" Name="IDX" Nullable="true" />
+    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerName" Nullable="true" />
+    <Property Type="String" Name="ShipName" Nullable="true" />
+    <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="Amount" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Remark" Nullable="true" />
+    <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="proc_needapprove_Result">
+    <Property Type="Int32" Name="IDX" Nullable="true" />
+    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerName" Nullable="true" />
+    <Property Type="String" Name="ShipName" Nullable="true" />
+    <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="Amount" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Remark" Nullable="true" />
+    <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="MarkID" Nullable="true" />
+    <Property Type="Int32" Name="Phase" Nullable="true" />
+    <Property Type="String" Name="Task" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="FlowUserID" Nullable="true" />
+    <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
   </ComplexType>
   <EntityType Name="AmountSum">
     <Key>
@@ -745,12 +780,12 @@
     <Property Name="SmallTugNum" Type="Int32" />
     <Property Name="JobStateID" Type="Int32" />
     <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="HasBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OwnerID" Type="Int32" />
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1156,7 +1191,7 @@
     <Property Name="IsShowShipTEUSRule" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerID" Type="Int32" />
     <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="BillingTemplateID" Type="Int32" />
     <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTypeID" Type="Int32" />
@@ -1183,7 +1218,7 @@
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Billing3">
     <Key>
@@ -1863,7 +1898,7 @@
     <Property Name="ServiceJobStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrderServiceRemark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="DeadWeight" Type="Int32" />
     <Property Name="Length" Type="Int32" />
     <Property Name="Width" Type="Int32" />
@@ -1904,10 +1939,10 @@
     <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerID" Type="Int32" />
-    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="DeadWeight" Type="Int32" />
     <Property Name="Length" Type="Int32" />
     <Property Name="Width" Type="Int32" />
@@ -2270,39 +2305,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="proc_approved_Result">
-    <Property Type="Int32" Name="IDX" Nullable="true" />
-    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="CustomerName" Nullable="true" />
-    <Property Type="String" Name="ShipName" Nullable="true" />
-    <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
-    <Property Type="Double" Name="Amount" Nullable="true" />
-    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Remark" Nullable="true" />
-    <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="proc_needapprove_Result">
-    <Property Type="Int32" Name="IDX" Nullable="true" />
-    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="CustomerName" Nullable="true" />
-    <Property Type="String" Name="ShipName" Nullable="true" />
-    <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
-    <Property Type="Double" Name="Amount" Nullable="true" />
-    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Remark" Nullable="true" />
-    <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="MarkID" Nullable="true" />
-    <Property Type="Int32" Name="Phase" Nullable="true" />
-    <Property Type="String" Name="Task" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="FlowUserID" Nullable="true" />
-    <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
-  </ComplexType>
 </Schema>
