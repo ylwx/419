@@ -1,207 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityContainer Name="TugDataEntities" annotation:LazyLoadingEnabled="true">
-    <FunctionImport Name="proc_inv_item" ReturnType="Collection(Model.proc_inv_item_Result)">
-      <Parameter Name="BillingID" Mode="In" Type="Int32" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_inv_item_xy" ReturnType="Collection(Model.proc_inv_item_xy_Result)">
-      <Parameter Name="BillingID" Mode="In" Type="Int32" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_inv_SrvHourNumeric" ReturnType="Collection(Double)">
-      <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
-      <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_inv_SrvHourString" ReturnType="Collection(String)">
-      <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
-      <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
-      <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_alterdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_creatediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_dropdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Model.sp_helpdiagramdefinition_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Model.sp_helpdiagrams_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_renamediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="new_diagramname" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
-    <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
-    <EntitySet Name="Approve" EntityType="Model.Approve" />
-    <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
-    <EntitySet Name="BaseTreeItems" EntityType="Model.BaseTreeItems" />
-    <EntitySet Name="Billing" EntityType="Model.Billing" />
-    <EntitySet Name="BillingItem" EntityType="Model.BillingItem" />
-    <EntitySet Name="BillingItemTemplate" EntityType="Model.BillingItemTemplate" />
-    <EntitySet Name="BillingOrder" EntityType="Model.BillingOrder" />
-    <EntitySet Name="BillingTemplate" EntityType="Model.BillingTemplate" />
-    <EntitySet Name="Credit" EntityType="Model.Credit" />
-    <EntitySet Name="Customer" EntityType="Model.Customer" />
-    <EntitySet Name="CustomerShip" EntityType="Model.CustomerShip" />
-    <EntitySet Name="CustomField" EntityType="Model.CustomField" />
-    <EntitySet Name="FileInfor" EntityType="Model.FileInfor" />
-    <EntitySet Name="Flow" EntityType="Model.Flow" />
-    <EntitySet Name="Fuelprice" EntityType="Model.Fuelprice" />
-    <EntitySet Name="FunctionModule" EntityType="Model.FunctionModule" />
-    <EntitySet Name="LogProcess" EntityType="Model.LogProcess" />
-    <EntitySet Name="OrderInfor" EntityType="Model.OrderInfor" />
-    <EntitySet Name="OrderService" EntityType="Model.OrderService" />
-    <EntitySet Name="Role" EntityType="Model.Role" />
-    <EntitySet Name="RoleMenu" EntityType="Model.RoleMenu" />
-    <EntitySet Name="RoleModule" EntityType="Model.RoleModule" />
-    <EntitySet Name="Scheduler" EntityType="Model.Scheduler" />
-    <EntitySet Name="SpecialBillingItem" EntityType="Model.SpecialBillingItem" />
-    <EntitySet Name="testinv" EntityType="Model.testinv" />
-    <EntitySet Name="TugInfor" EntityType="Model.TugInfor" />
-    <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
-    <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
-    <EntitySet Name="V_1" EntityType="Model.V_1" />
-    <EntitySet Name="V_AmountSum_Billing" EntityType="Model.V_AmountSum_Billing" />
-    <EntitySet Name="V_Arrangement" EntityType="Model.V_Arrangement" />
-    <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
-    <EntitySet Name="V_Billing" EntityType="Model.V_Billing" />
-    <EntitySet Name="V_Billing2" EntityType="Model.V_Billing2" />
-    <EntitySet Name="V_Billing3" EntityType="Model.V_Billing3" />
-    <EntitySet Name="V_BillingItem" EntityType="Model.V_BillingItem" />
-    <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
-    <EntitySet Name="V_BillingOrders" EntityType="Model.V_BillingOrders" />
-    <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
-    <EntitySet Name="V_CustomerShip" EntityType="Model.V_CustomerShip" />
-    <EntitySet Name="V_Flow" EntityType="Model.V_Flow" />
-    <EntitySet Name="V_Inv_BillingItem" EntityType="Model.V_Inv_BillingItem" />
-    <EntitySet Name="V_Inv_Head" EntityType="Model.V_Inv_Head" />
-    <EntitySet Name="V_Inv_Head_Special" EntityType="Model.V_Inv_Head_Special" />
-    <EntitySet Name="V_Inv_OrdService" EntityType="Model.V_Inv_OrdService" />
-    <EntitySet Name="V_Inv_Scheduler" EntityType="Model.V_Inv_Scheduler" />
-    <EntitySet Name="V_Invoice" EntityType="Model.V_Invoice" />
-    <EntitySet Name="V_Invoice2" EntityType="Model.V_Invoice2" />
-    <EntitySet Name="V_Module_Role_User" EntityType="Model.V_Module_Role_User" />
-    <EntitySet Name="V_NeedApproveBilling" EntityType="Model.V_NeedApproveBilling" />
-    <EntitySet Name="V_NeedApproveOrderBilling" EntityType="Model.V_NeedApproveOrderBilling" />
-    <EntitySet Name="V_OrderBilling" EntityType="Model.V_OrderBilling" />
-    <EntitySet Name="V_OrderBillingCredit" EntityType="Model.V_OrderBillingCredit" />
-    <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
-    <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
-    <EntitySet Name="V_OrderService" EntityType="Model.V_OrderService" />
-    <EntitySet Name="V_RoleMenu" EntityType="Model.V_RoleMenu" />
-    <EntitySet Name="V_RoleModule" EntityType="Model.V_RoleModule" />
-    <EntitySet Name="V_RoleUser" EntityType="Model.V_RoleUser" />
-    <EntitySet Name="V_SpecialBillingCredit" EntityType="Model.V_SpecialBillingCredit" />
-    <EntitySet Name="V_SpecialBillingItem" EntityType="Model.V_SpecialBillingItem" />
-    <EntitySet Name="V_SpecialBillingItem_OrderService" EntityType="Model.V_SpecialBillingItem_OrderService" />
-    <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Model.V_SpecialBillingSummarizeItem" />
-    <EntitySet Name="V_Users" EntityType="Model.V_Users" />
-    <AssociationSet Name="FK_AmountSum_Billing" Association="Model.FK_AmountSum_Billing">
-      <End Role="Billing" EntitySet="Billing" />
-      <End Role="AmountSum" EntitySet="AmountSum" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Arrangement_TugInfor" Association="Model.FK_Arrangement_TugInfor">
-      <End Role="TugInfor" EntitySet="TugInfor" />
-      <End Role="Arrangement" EntitySet="Arrangement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BillingItem_Billing" Association="Model.FK_BillingItem_Billing">
-      <End Role="Billing" EntitySet="Billing" />
-      <End Role="BillingItem" EntitySet="BillingItem" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BillingOrder_Billing" Association="Model.FK_BillingOrder_Billing">
-      <End Role="Billing" EntitySet="Billing" />
-      <End Role="BillingOrder" EntitySet="BillingOrder" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Credit_Billing" Association="Model.FK_Credit_Billing">
-      <End Role="Billing" EntitySet="Billing" />
-      <End Role="Credit" EntitySet="Credit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SpecialBillingItem_Billing" Association="Model.FK_SpecialBillingItem_Billing">
-      <End Role="Billing" EntitySet="Billing" />
-      <End Role="SpecialBillingItem" EntitySet="SpecialBillingItem" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BillingItem_CustomerField" Association="Model.FK_BillingItem_CustomerField">
-      <End Role="CustomField" EntitySet="CustomField" />
-      <End Role="BillingItem" EntitySet="BillingItem" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Model.FK_BillingItemTemplate_BillingTemplate">
-      <End Role="BillingTemplate" EntitySet="BillingTemplate" />
-      <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BillingOrder_OrderInfor" Association="Model.FK_BillingOrder_OrderInfor">
-      <End Role="OrderInfor" EntitySet="OrderInfor" />
-      <End Role="BillingOrder" EntitySet="BillingOrder" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CustomerShip_Customer" Association="Model.FK_CustomerShip_Customer">
-      <End Role="Customer" EntitySet="Customer" />
-      <End Role="CustomerShip" EntitySet="CustomerShip" />
-    </AssociationSet>
-    <AssociationSet Name="FK_OrderService_OrderInfor" Association="Model.FK_OrderService_OrderInfor">
-      <End Role="OrderInfor" EntitySet="OrderInfor" />
-      <End Role="OrderService" EntitySet="OrderService" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Scheduler_OrderService" Association="Model.FK_Scheduler_OrderService">
-      <End Role="OrderService" EntitySet="OrderService" />
-      <End Role="Scheduler" EntitySet="Scheduler" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Role_Menu_Role" Association="Model.FK_Role_Menu_Role">
-      <End Role="Role" EntitySet="Role" />
-      <End Role="RoleMenu" EntitySet="RoleMenu" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Role_Module_Role" Association="Model.FK_Role_Module_Role">
-      <End Role="Role" EntitySet="Role" />
-      <End Role="RoleModule" EntitySet="RoleModule" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Users_Role_User_Infor" Association="Model.FK_Users_Role_User_Infor">
-      <End Role="UserInfor" EntitySet="UserInfor" />
-      <End Role="UsersRole" EntitySet="UsersRole" />
-    </AssociationSet>
-  </EntityContainer>
-  <ComplexType Name="proc_inv_item_Result">
-    <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="proc_inv_item_xy_Result">
-    <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagramdefinition_Result">
-    <Property Type="Int32" Name="version" Nullable="true" />
-    <Property Type="Binary" Name="definition" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagrams_Result">
-    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="OwnerID" Nullable="false" />
-  </ComplexType>
+<Schema Namespace="TugDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="AmountSum">
     <Key>
       <PropertyRef Name="ID" />
@@ -232,7 +30,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Billing" Relationship="Model.FK_AmountSum_Billing" FromRole="AmountSum" ToRole="Billing" />
+    <NavigationProperty Name="Billing" Relationship="Self.FK_AmountSum_Billing" FromRole="AmountSum" ToRole="Billing" />
   </EntityType>
   <EntityType Name="Approve">
     <Key>
@@ -276,7 +74,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="TugInfor" Relationship="Model.FK_Arrangement_TugInfor" FromRole="Arrangement" ToRole="TugInfor" />
+    <NavigationProperty Name="TugInfor" Relationship="Self.FK_Arrangement_TugInfor" FromRole="Arrangement" ToRole="TugInfor" />
   </EntityType>
   <EntityType Name="BaseTreeItems">
     <Key>
@@ -344,11 +142,11 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="AmountSum" Relationship="Model.FK_AmountSum_Billing" FromRole="Billing" ToRole="AmountSum" />
-    <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
-    <NavigationProperty Name="BillingOrder" Relationship="Model.FK_BillingOrder_Billing" FromRole="Billing" ToRole="BillingOrder" />
-    <NavigationProperty Name="Credit" Relationship="Model.FK_Credit_Billing" FromRole="Billing" ToRole="Credit" />
-    <NavigationProperty Name="SpecialBillingItem" Relationship="Model.FK_SpecialBillingItem_Billing" FromRole="Billing" ToRole="SpecialBillingItem" />
+    <NavigationProperty Name="AmountSum" Relationship="Self.FK_AmountSum_Billing" FromRole="Billing" ToRole="AmountSum" />
+    <NavigationProperty Name="BillingItem" Relationship="Self.FK_BillingItem_Billing" FromRole="Billing" ToRole="BillingItem" />
+    <NavigationProperty Name="BillingOrder" Relationship="Self.FK_BillingOrder_Billing" FromRole="Billing" ToRole="BillingOrder" />
+    <NavigationProperty Name="Credit" Relationship="Self.FK_Credit_Billing" FromRole="Billing" ToRole="Credit" />
+    <NavigationProperty Name="SpecialBillingItem" Relationship="Self.FK_SpecialBillingItem_Billing" FromRole="Billing" ToRole="SpecialBillingItem" />
   </EntityType>
   <EntityType Name="BillingItem">
     <Key>
@@ -376,8 +174,8 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Billing" Relationship="Model.FK_BillingItem_Billing" FromRole="BillingItem" ToRole="Billing" />
-    <NavigationProperty Name="CustomField" Relationship="Model.FK_BillingItem_CustomerField" FromRole="BillingItem" ToRole="CustomField" />
+    <NavigationProperty Name="Billing" Relationship="Self.FK_BillingItem_Billing" FromRole="BillingItem" ToRole="Billing" />
+    <NavigationProperty Name="CustomField" Relationship="Self.FK_BillingItem_CustomerField" FromRole="BillingItem" ToRole="CustomField" />
   </EntityType>
   <EntityType Name="BillingItemTemplate">
     <Key>
@@ -403,7 +201,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BillingTemplate" Relationship="Model.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingItemTemplate" ToRole="BillingTemplate" />
+    <NavigationProperty Name="BillingTemplate" Relationship="Self.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingItemTemplate" ToRole="BillingTemplate" />
   </EntityType>
   <EntityType Name="BillingOrder">
     <Key>
@@ -412,8 +210,8 @@
     <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="BillingID" Type="Int32" />
     <Property Name="OrderID" Type="Int32" />
-    <NavigationProperty Name="Billing" Relationship="Model.FK_BillingOrder_Billing" FromRole="BillingOrder" ToRole="Billing" />
-    <NavigationProperty Name="OrderInfor" Relationship="Model.FK_BillingOrder_OrderInfor" FromRole="BillingOrder" ToRole="OrderInfor" />
+    <NavigationProperty Name="Billing" Relationship="Self.FK_BillingOrder_Billing" FromRole="BillingOrder" ToRole="Billing" />
+    <NavigationProperty Name="OrderInfor" Relationship="Self.FK_BillingOrder_OrderInfor" FromRole="BillingOrder" ToRole="OrderInfor" />
   </EntityType>
   <EntityType Name="BillingTemplate">
     <Key>
@@ -445,7 +243,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BillingItemTemplate" Relationship="Model.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingTemplate" ToRole="BillingItemTemplate" />
+    <NavigationProperty Name="BillingItemTemplate" Relationship="Self.FK_BillingItemTemplate_BillingTemplate" FromRole="BillingTemplate" ToRole="BillingItemTemplate" />
   </EntityType>
   <EntityType Name="Credit">
     <Key>
@@ -471,7 +269,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Billing" Relationship="Model.FK_Credit_Billing" FromRole="Credit" ToRole="Billing" />
+    <NavigationProperty Name="Billing" Relationship="Self.FK_Credit_Billing" FromRole="Credit" ToRole="Billing" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>
@@ -504,7 +302,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="CustomerShip" Relationship="Model.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
+    <NavigationProperty Name="CustomerShip" Relationship="Self.FK_CustomerShip_Customer" FromRole="Customer" ToRole="CustomerShip" />
   </EntityType>
   <EntityType Name="CustomerShip">
     <Key>
@@ -536,7 +334,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Customer" Relationship="Model.FK_CustomerShip_Customer" FromRole="CustomerShip" ToRole="Customer" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_CustomerShip_Customer" FromRole="CustomerShip" ToRole="Customer" />
   </EntityType>
   <EntityType Name="CustomField">
     <Key>
@@ -565,7 +363,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BillingItem" Relationship="Model.FK_BillingItem_CustomerField" FromRole="CustomField" ToRole="BillingItem" />
+    <NavigationProperty Name="BillingItem" Relationship="Self.FK_BillingItem_CustomerField" FromRole="CustomField" ToRole="BillingItem" />
   </EntityType>
   <EntityType Name="FileInfor">
     <Key>
@@ -716,8 +514,8 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BillingOrder" Relationship="Model.FK_BillingOrder_OrderInfor" FromRole="OrderInfor" ToRole="BillingOrder" />
-    <NavigationProperty Name="OrderService" Relationship="Model.FK_OrderService_OrderInfor" FromRole="OrderInfor" ToRole="OrderService" />
+    <NavigationProperty Name="BillingOrder" Relationship="Self.FK_BillingOrder_OrderInfor" FromRole="OrderInfor" ToRole="BillingOrder" />
+    <NavigationProperty Name="OrderService" Relationship="Self.FK_OrderService_OrderInfor" FromRole="OrderInfor" ToRole="OrderService" />
   </EntityType>
   <EntityType Name="OrderService">
     <Key>
@@ -752,8 +550,8 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="OrderInfor" Relationship="Model.FK_OrderService_OrderInfor" FromRole="OrderService" ToRole="OrderInfor" />
-    <NavigationProperty Name="Scheduler" Relationship="Model.FK_Scheduler_OrderService" FromRole="OrderService" ToRole="Scheduler" />
+    <NavigationProperty Name="OrderInfor" Relationship="Self.FK_OrderService_OrderInfor" FromRole="OrderService" ToRole="OrderInfor" />
+    <NavigationProperty Name="Scheduler" Relationship="Self.FK_Scheduler_OrderService" FromRole="OrderService" ToRole="Scheduler" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -778,8 +576,8 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="RoleMenu" Relationship="Model.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
-    <NavigationProperty Name="RoleModule" Relationship="Model.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
+    <NavigationProperty Name="RoleMenu" Relationship="Self.FK_Role_Menu_Role" FromRole="Role" ToRole="RoleMenu" />
+    <NavigationProperty Name="RoleModule" Relationship="Self.FK_Role_Module_Role" FromRole="Role" ToRole="RoleModule" />
   </EntityType>
   <EntityType Name="RoleMenu">
     <Key>
@@ -804,7 +602,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Role" Relationship="Model.FK_Role_Menu_Role" FromRole="RoleMenu" ToRole="Role" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Role_Menu_Role" FromRole="RoleMenu" ToRole="Role" />
   </EntityType>
   <EntityType Name="RoleModule">
     <Key>
@@ -830,7 +628,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Role" Relationship="Model.FK_Role_Module_Role" FromRole="RoleModule" ToRole="Role" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Role_Module_Role" FromRole="RoleModule" ToRole="Role" />
   </EntityType>
   <EntityType Name="Scheduler">
     <Key>
@@ -867,7 +665,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="OrderService" Relationship="Model.FK_Scheduler_OrderService" FromRole="Scheduler" ToRole="OrderService" />
+    <NavigationProperty Name="OrderService" Relationship="Self.FK_Scheduler_OrderService" FromRole="Scheduler" ToRole="OrderService" />
   </EntityType>
   <EntityType Name="SpecialBillingItem">
     <Key>
@@ -884,7 +682,7 @@
     <Property Name="TugNumber" Type="Int32" />
     <Property Name="ServiceUnitPrice" Type="Double" />
     <Property Name="FeulUnitPrice" Type="Double" />
-    <NavigationProperty Name="Billing" Relationship="Model.FK_SpecialBillingItem_Billing" FromRole="SpecialBillingItem" ToRole="Billing" />
+    <NavigationProperty Name="Billing" Relationship="Self.FK_SpecialBillingItem_Billing" FromRole="SpecialBillingItem" ToRole="Billing" />
   </EntityType>
   <EntityType Name="testinv">
     <Key>
@@ -925,7 +723,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Arrangement" Relationship="Model.FK_Arrangement_TugInfor" FromRole="TugInfor" ToRole="Arrangement" />
+    <NavigationProperty Name="Arrangement" Relationship="Self.FK_Arrangement_TugInfor" FromRole="TugInfor" ToRole="Arrangement" />
   </EntityType>
   <EntityType Name="UserInfor">
     <Key>
@@ -962,7 +760,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="UsersRole" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UserInfor" ToRole="UsersRole" />
+    <NavigationProperty Name="UsersRole" Relationship="Self.FK_Users_Role_User_Infor" FromRole="UserInfor" ToRole="UsersRole" />
   </EntityType>
   <EntityType Name="UsersRole">
     <Key>
@@ -987,7 +785,7 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
+    <NavigationProperty Name="UserInfor" Relationship="Self.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
   </EntityType>
   <EntityType Name="V_1">
     <Key>
@@ -1041,11 +839,10 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" />
-    <Property Name="TugID" Type="Int32" />
     <Property Name="TugName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Amount" Type="Int32" />
+    <Property Name="Amount" Type="Double" />
     <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Hours" Type="Int32" />
+    <Property Name="Hours" Type="Double" />
     <Property Name="BillingID" Type="Int32" />
     <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerID" Type="Int32" />
@@ -1060,6 +857,8 @@
     <Property Name="FinanceMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SchedulerID" Type="Int32" />
+    <Property Name="TugID" Type="Int32" />
   </EntityType>
   <EntityType Name="V_Arrangement">
     <Key>
@@ -1992,10 +1791,10 @@
     <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_AmountSum_Billing">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Type="Model.AmountSum" Role="AmountSum" Multiplicity="*" />
+    <End Role="AmountSum" Type="Self.AmountSum" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
         <PropertyRef Name="IDX" />
@@ -2006,8 +1805,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Arrangement_TugInfor">
-    <End Type="Model.TugInfor" Role="TugInfor" Multiplicity="0..1" />
-    <End Type="Model.Arrangement" Role="Arrangement" Multiplicity="*" />
+    <End Role="TugInfor" Type="Self.TugInfor" Multiplicity="0..1" />
+    <End Role="Arrangement" Type="Self.Arrangement" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TugInfor">
         <PropertyRef Name="IDX" />
@@ -2018,10 +1817,10 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BillingItem_Billing">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Type="Model.BillingItem" Role="BillingItem" Multiplicity="*" />
+    <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
         <PropertyRef Name="IDX" />
@@ -2032,10 +1831,10 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BillingOrder_Billing">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Type="Model.BillingOrder" Role="BillingOrder" Multiplicity="*" />
+    <End Role="BillingOrder" Type="Self.BillingOrder" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
         <PropertyRef Name="IDX" />
@@ -2046,10 +1845,10 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Credit_Billing">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Type="Model.Credit" Role="Credit" Multiplicity="*" />
+    <End Role="Credit" Type="Self.Credit" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
         <PropertyRef Name="IDX" />
@@ -2060,10 +1859,10 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_SpecialBillingItem_Billing">
-    <End Type="Model.Billing" Role="Billing" Multiplicity="0..1">
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Type="Model.SpecialBillingItem" Role="SpecialBillingItem" Multiplicity="*" />
+    <End Role="SpecialBillingItem" Type="Self.SpecialBillingItem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Billing">
         <PropertyRef Name="IDX" />
@@ -2074,8 +1873,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BillingItem_CustomerField">
-    <End Type="Model.CustomField" Role="CustomField" Multiplicity="0..1" />
-    <End Type="Model.BillingItem" Role="BillingItem" Multiplicity="*" />
+    <End Role="CustomField" Type="Self.CustomField" Multiplicity="0..1" />
+    <End Role="BillingItem" Type="Self.BillingItem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CustomField">
         <PropertyRef Name="IDX" />
@@ -2086,8 +1885,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BillingItemTemplate_BillingTemplate">
-    <End Type="Model.BillingTemplate" Role="BillingTemplate" Multiplicity="0..1" />
-    <End Type="Model.BillingItemTemplate" Role="BillingItemTemplate" Multiplicity="*" />
+    <End Role="BillingTemplate" Type="Self.BillingTemplate" Multiplicity="0..1" />
+    <End Role="BillingItemTemplate" Type="Self.BillingItemTemplate" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BillingTemplate">
         <PropertyRef Name="IDX" />
@@ -2098,10 +1897,10 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BillingOrder_OrderInfor">
-    <End Type="Model.OrderInfor" Role="OrderInfor" Multiplicity="0..1">
+    <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Type="Model.BillingOrder" Role="BillingOrder" Multiplicity="*" />
+    <End Role="BillingOrder" Type="Self.BillingOrder" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderInfor">
         <PropertyRef Name="IDX" />
@@ -2112,8 +1911,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_CustomerShip_Customer">
-    <End Type="Model.Customer" Role="Customer" Multiplicity="0..1" />
-    <End Type="Model.CustomerShip" Role="CustomerShip" Multiplicity="*" />
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="CustomerShip" Type="Self.CustomerShip" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Customer">
         <PropertyRef Name="IDX" />
@@ -2124,8 +1923,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_OrderService_OrderInfor">
-    <End Type="Model.OrderInfor" Role="OrderInfor" Multiplicity="0..1" />
-    <End Type="Model.OrderService" Role="OrderService" Multiplicity="*" />
+    <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+    <End Role="OrderService" Type="Self.OrderService" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderInfor">
         <PropertyRef Name="IDX" />
@@ -2136,8 +1935,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Scheduler_OrderService">
-    <End Type="Model.OrderService" Role="OrderService" Multiplicity="0..1" />
-    <End Type="Model.Scheduler" Role="Scheduler" Multiplicity="*" />
+    <End Role="OrderService" Type="Self.OrderService" Multiplicity="0..1" />
+    <End Role="Scheduler" Type="Self.Scheduler" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderService">
         <PropertyRef Name="IDX" />
@@ -2148,8 +1947,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Role_Menu_Role">
-    <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
-    <End Type="Model.RoleMenu" Role="RoleMenu" Multiplicity="*" />
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="RoleMenu" Type="Self.RoleMenu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Role">
         <PropertyRef Name="IDX" />
@@ -2160,8 +1959,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Role_Module_Role">
-    <End Type="Model.Role" Role="Role" Multiplicity="0..1" />
-    <End Type="Model.RoleModule" Role="RoleModule" Multiplicity="*" />
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="RoleModule" Type="Self.RoleModule" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Role">
         <PropertyRef Name="IDX" />
@@ -2172,8 +1971,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Users_Role_User_Infor">
-    <End Type="Model.UserInfor" Role="UserInfor" Multiplicity="0..1" />
-    <End Type="Model.UsersRole" Role="UsersRole" Multiplicity="*" />
+    <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
+    <End Role="UsersRole" Type="Self.UsersRole" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="UserInfor">
         <PropertyRef Name="IDX" />
@@ -2183,4 +1982,131 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityContainer Name="TugDataEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AmountSum" EntityType="Self.AmountSum" />
+    <EntitySet Name="Approve" EntityType="Self.Approve" />
+    <EntitySet Name="Arrangement" EntityType="Self.Arrangement" />
+    <EntitySet Name="BaseTreeItems" EntityType="Self.BaseTreeItems" />
+    <EntitySet Name="Billing" EntityType="Self.Billing" />
+    <EntitySet Name="BillingItem" EntityType="Self.BillingItem" />
+    <EntitySet Name="BillingItemTemplate" EntityType="Self.BillingItemTemplate" />
+    <EntitySet Name="BillingOrder" EntityType="Self.BillingOrder" />
+    <EntitySet Name="BillingTemplate" EntityType="Self.BillingTemplate" />
+    <EntitySet Name="Credit" EntityType="Self.Credit" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" />
+    <EntitySet Name="CustomerShip" EntityType="Self.CustomerShip" />
+    <EntitySet Name="CustomField" EntityType="Self.CustomField" />
+    <EntitySet Name="FileInfor" EntityType="Self.FileInfor" />
+    <EntitySet Name="Flow" EntityType="Self.Flow" />
+    <EntitySet Name="Fuelprice" EntityType="Self.Fuelprice" />
+    <EntitySet Name="FunctionModule" EntityType="Self.FunctionModule" />
+    <EntitySet Name="LogProcess" EntityType="Self.LogProcess" />
+    <EntitySet Name="OrderInfor" EntityType="Self.OrderInfor" />
+    <EntitySet Name="OrderService" EntityType="Self.OrderService" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="RoleMenu" EntityType="Self.RoleMenu" />
+    <EntitySet Name="RoleModule" EntityType="Self.RoleModule" />
+    <EntitySet Name="Scheduler" EntityType="Self.Scheduler" />
+    <EntitySet Name="SpecialBillingItem" EntityType="Self.SpecialBillingItem" />
+    <EntitySet Name="testinv" EntityType="Self.testinv" />
+    <EntitySet Name="TugInfor" EntityType="Self.TugInfor" />
+    <EntitySet Name="UserInfor" EntityType="Self.UserInfor" />
+    <EntitySet Name="UsersRole" EntityType="Self.UsersRole" />
+    <EntitySet Name="V_1" EntityType="Self.V_1" />
+    <EntitySet Name="V_AmountSum_Billing" EntityType="Self.V_AmountSum_Billing" />
+    <EntitySet Name="V_Arrangement" EntityType="Self.V_Arrangement" />
+    <EntitySet Name="V_BaseTreeItems" EntityType="Self.V_BaseTreeItems" />
+    <EntitySet Name="V_Billing" EntityType="Self.V_Billing" />
+    <EntitySet Name="V_Billing2" EntityType="Self.V_Billing2" />
+    <EntitySet Name="V_Billing3" EntityType="Self.V_Billing3" />
+    <EntitySet Name="V_BillingItem" EntityType="Self.V_BillingItem" />
+    <EntitySet Name="V_BillingItemTemplate" EntityType="Self.V_BillingItemTemplate" />
+    <EntitySet Name="V_BillingOrders" EntityType="Self.V_BillingOrders" />
+    <EntitySet Name="V_BillingTemplate" EntityType="Self.V_BillingTemplate" />
+    <EntitySet Name="V_CustomerShip" EntityType="Self.V_CustomerShip" />
+    <EntitySet Name="V_Flow" EntityType="Self.V_Flow" />
+    <EntitySet Name="V_Inv_BillingItem" EntityType="Self.V_Inv_BillingItem" />
+    <EntitySet Name="V_Inv_Head" EntityType="Self.V_Inv_Head" />
+    <EntitySet Name="V_Inv_Head_Special" EntityType="Self.V_Inv_Head_Special" />
+    <EntitySet Name="V_Inv_OrdService" EntityType="Self.V_Inv_OrdService" />
+    <EntitySet Name="V_Inv_Scheduler" EntityType="Self.V_Inv_Scheduler" />
+    <EntitySet Name="V_Invoice" EntityType="Self.V_Invoice" />
+    <EntitySet Name="V_Invoice2" EntityType="Self.V_Invoice2" />
+    <EntitySet Name="V_Module_Role_User" EntityType="Self.V_Module_Role_User" />
+    <EntitySet Name="V_NeedApproveBilling" EntityType="Self.V_NeedApproveBilling" />
+    <EntitySet Name="V_NeedApproveOrderBilling" EntityType="Self.V_NeedApproveOrderBilling" />
+    <EntitySet Name="V_OrderBilling" EntityType="Self.V_OrderBilling" />
+    <EntitySet Name="V_OrderBillingCredit" EntityType="Self.V_OrderBillingCredit" />
+    <EntitySet Name="V_OrderInfor" EntityType="Self.V_OrderInfor" />
+    <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" />
+    <EntitySet Name="V_OrderService" EntityType="Self.V_OrderService" />
+    <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" />
+    <EntitySet Name="V_RoleModule" EntityType="Self.V_RoleModule" />
+    <EntitySet Name="V_RoleUser" EntityType="Self.V_RoleUser" />
+    <EntitySet Name="V_SpecialBillingCredit" EntityType="Self.V_SpecialBillingCredit" />
+    <EntitySet Name="V_SpecialBillingItem" EntityType="Self.V_SpecialBillingItem" />
+    <EntitySet Name="V_SpecialBillingItem_OrderService" EntityType="Self.V_SpecialBillingItem_OrderService" />
+    <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Self.V_SpecialBillingSummarizeItem" />
+    <EntitySet Name="V_Users" EntityType="Self.V_Users" />
+    <AssociationSet Name="FK_AmountSum_Billing" Association="Self.FK_AmountSum_Billing">
+      <End Role="Billing" EntitySet="Billing" />
+      <End Role="AmountSum" EntitySet="AmountSum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Arrangement_TugInfor" Association="Self.FK_Arrangement_TugInfor">
+      <End Role="TugInfor" EntitySet="TugInfor" />
+      <End Role="Arrangement" EntitySet="Arrangement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingItem_Billing" Association="Self.FK_BillingItem_Billing">
+      <End Role="Billing" EntitySet="Billing" />
+      <End Role="BillingItem" EntitySet="BillingItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingOrder_Billing" Association="Self.FK_BillingOrder_Billing">
+      <End Role="Billing" EntitySet="Billing" />
+      <End Role="BillingOrder" EntitySet="BillingOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Credit_Billing" Association="Self.FK_Credit_Billing">
+      <End Role="Billing" EntitySet="Billing" />
+      <End Role="Credit" EntitySet="Credit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SpecialBillingItem_Billing" Association="Self.FK_SpecialBillingItem_Billing">
+      <End Role="Billing" EntitySet="Billing" />
+      <End Role="SpecialBillingItem" EntitySet="SpecialBillingItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingItem_CustomerField" Association="Self.FK_BillingItem_CustomerField">
+      <End Role="CustomField" EntitySet="CustomField" />
+      <End Role="BillingItem" EntitySet="BillingItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingItemTemplate_BillingTemplate" Association="Self.FK_BillingItemTemplate_BillingTemplate">
+      <End Role="BillingTemplate" EntitySet="BillingTemplate" />
+      <End Role="BillingItemTemplate" EntitySet="BillingItemTemplate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BillingOrder_OrderInfor" Association="Self.FK_BillingOrder_OrderInfor">
+      <End Role="OrderInfor" EntitySet="OrderInfor" />
+      <End Role="BillingOrder" EntitySet="BillingOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerShip_Customer" Association="Self.FK_CustomerShip_Customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="CustomerShip" EntitySet="CustomerShip" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderService_OrderInfor" Association="Self.FK_OrderService_OrderInfor">
+      <End Role="OrderInfor" EntitySet="OrderInfor" />
+      <End Role="OrderService" EntitySet="OrderService" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Scheduler_OrderService" Association="Self.FK_Scheduler_OrderService">
+      <End Role="OrderService" EntitySet="OrderService" />
+      <End Role="Scheduler" EntitySet="Scheduler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Role_Menu_Role" Association="Self.FK_Role_Menu_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="RoleMenu" EntitySet="RoleMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Role_Module_Role" Association="Self.FK_Role_Module_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="RoleModule" EntitySet="RoleModule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Role_User_Infor" Association="Self.FK_Users_Role_User_Infor">
+      <End Role="UserInfor" EntitySet="UserInfor" />
+      <End Role="UsersRole" EntitySet="UsersRole" />
+    </AssociationSet>
+  </EntityContainer>
 </Schema>
