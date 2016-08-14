@@ -205,23 +205,19 @@
 
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
 
-                        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
-                        var timeTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeID"); //TimeTypeID
-                        var timeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //TimeTypeValue
-                        var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
-                        var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeValue"); //BillingTypeValue
-                        var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeLabel"); //BillingTypeLabel
+                        var BillingID = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX"); //
+                        var TimeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //
+                        var BillingTemplateTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTemplateTypeLabel"); //
 
-                        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
-                            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+                        if (BillingTemplateTypeLabel == "全包" || BillingTemplateTypeLabel == "半包") {
                             //alert("全包或半包报表预览");
                             //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
-                            open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+                            open('/Report/Invoice_qborbb' + '?BillingID=' + BillingID + '&TimeTypeValue=' + TimeTypeValue)
                         }
 
-                        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+                        else if (BillingTemplateTypeLabel == "计时") {
                             //alert("计时报表预览");
-                            open('/Report/Invoice_tk' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+                            open('/Report/Invoice_tk' + '?BillingID=' + BillingID + '&TimeTypeValue=' + TimeTypeValue)
                         }
                     },
 
@@ -380,6 +376,12 @@
                     @*searchoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.BillingTemplateType" })',
                     },*@
+                },
+                {
+                    align: 'center', label: 'TimeTypeValue', name: "TimeTypeValue", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_Billing_TimeTypeLabel', name: "TimeTypeLabel", width: 100, editable: true, edittype: "text",

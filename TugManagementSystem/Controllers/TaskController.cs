@@ -19,6 +19,7 @@ namespace TugManagementSystem.Controllers
 	    string JobNo ;
 	    string BillingCode ;
 	    string BillingTemplateTypeLabel ;
+        string TimeTypeValue;
 	    string TimeTypeLabel ;
 	    float Amount ;
 	    string Status ;
@@ -40,6 +41,7 @@ namespace TugManagementSystem.Controllers
         string JobNo;
         string BillingCode;
         string BillingTemplateTypeLabel;
+        string TimeTypeValue;
         string TimeTypeLabel;
         float Amount;
         string Status;
@@ -69,16 +71,16 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        List<NeedApprove> objs = new List<NeedApprove>();
-                        SqlParameter[] prams = new SqlParameter[1];
-                        prams[0] = new SqlParameter("@userID", curUserId);
-                        objs = db.Database.SqlQuery<NeedApprove>("exec dbo.proc_needapprove @userID", prams).ToList();
-                        //var result = db.CreateQuery<NeedApprove>("exec dbo.proc_needapprove @userID", prams);
+                        var objs = db.proc_needapprove(curUserId).ToList();
+                        //List<NeedApprove> objs = new List<NeedApprove>();
+                        //SqlParameter[] prams = new SqlParameter[1];
+                        //prams[0] = new SqlParameter("@userID", curUserId);
+                        //objs = db.Database.SqlQuery<NeedApprove>("exec dbo.proc_needapprove @userID", prams).ToList();
                         int totalRecordNum = objs.Count;
                         if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                         int pageSize = rows;
                         int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                        List<NeedApprove> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<NeedApprove>();
+                        var page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList();
                         var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
                         return Json(jsonData, JsonRequestBehavior.AllowGet);     
                     }
