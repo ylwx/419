@@ -20,6 +20,7 @@ namespace TugDataModel
         public string JobNo { get; set; }
         public string BillingCode { get; set; }
         public string BillingTemplateTypeLabel { get; set; }
+        public string TimeTypeValue { get; set; }
         public string TimeTypeLabel { get; set; }
         public Nullable<double> Amount { get; set; }
         public string Status { get; set; }

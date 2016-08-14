@@ -32,12 +32,12 @@ namespace TugDataModel
         public Nullable<int> SmallTugNum { get; set; }
         public Nullable<int> JobStateID { get; set; }
         public string Remark { get; set; }
+        public string HasBilling { get; set; }
+        public string HasBillingInFlow { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
-        public string HasBilling { get; set; }
-        public string HasBillingInFlow { get; set; }
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }
         public string UserDefinedCol3 { get; set; }
