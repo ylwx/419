@@ -323,7 +323,7 @@ namespace TugManagementSystem.Controllers
         public ActionResult RepealSubmit(Billing data)
         {
             int id = data.IDX;
-            int idx = Util.toint(Request.Form["data[BillingID]"].Trim());
+            int idx = Util.toint(Request.Form["data[IDX]"].Trim());
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
             Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
@@ -333,8 +333,8 @@ namespace TugManagementSystem.Controllers
             int curUserId = Session.GetDataFromSession<int>("userid");
             if (Phase > 1 || Phase == -1)  //流程已进入审核环节或已完成全部审核，不能撤销
             {
-                Response.StatusCode = 404;
-                return Json(new { message = "流程已进入审核环节，不能撤销！" });
+                var ret = new { code = Resources.Common.ERROR_CODE, message = "流程已进入审核环节，不能撤销！" };
+                return Json(ret);
             }
             else
             {
@@ -367,27 +367,31 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult RepealPass()
         {
-            int idx = Util.toint(Request.Form["data[BillingID]"].Trim());
+            //int idx = Util.toint(Request.Form["data[IDX]"].Trim());
+            var f = Request.Form;
+            int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
             Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
 
             int Phase = Convert.ToInt32(billInfor.Phase);
             int timeNo = Convert.ToInt32(billInfor.TimesNo);
-            string tmpUserName = Request.Form["data[UserName]"].Trim();
+            int tmpUserID =  Convert.ToInt32(Request.Form["data[UserID]"]);
             int curUserId = Session.GetDataFromSession<int>("userid");
 
             System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == idx && u.MarkID == timeNo && u.FlowUserID == curUserId;
             Flow flowData = db.Flow.Where(expF).FirstOrDefault();
-            if (tmpUserName == Session.GetDataFromSession<string>("username"))
+            if (tmpUserID == curUserId)
+            
             {
-                Response.StatusCode = 404;
                 return Json(new { message = "该记录是您的提交任务，您无法撤销通过！" });
+                //var ret = new { code = Resources.Common.ERROR_CODE, message = "该记录是您的提交任务，您无法撤销通过！" };
+                //return Json(ret);
             }
             else if (Phase > flowData.Phase + 1)  //流程已进入下一审核环节，不能撤销
             {
-                Response.StatusCode = 404;
-                return Json(new { message = "已进入下一审核环节，不能撤销！" });
+                var ret = new { code = Resources.Common.ERROR_CODE, message = "已进入下一审核环节，不能撤销！" };
+                return Json(ret);
             }
             else
             {

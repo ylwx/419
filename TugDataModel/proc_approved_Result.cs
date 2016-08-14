@@ -27,5 +27,6 @@ namespace TugDataModel
         public string Remark { get; set; }
         public string CreateDate { get; set; }
         public string LastUpDate { get; set; }
+        public Nullable<int> UserID { get; set; }
     }
 }
