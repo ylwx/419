@@ -50,20 +50,38 @@ namespace TugBusinessLogic
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.BillingCode.Substring (8) == year;
+                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.BillingCode.Substring(8) == year;
                 List<Billing> BillingList = db.Billing.Where(exp).ToList<Billing>();
                 if (BillingList.Count != 0)
                 {
+                    if (BillingList.Count == 1)
+                    {
+                        tmpCodeNo = Convert.ToInt32(BillingList[0].BillingCode.Substring(1, 5));
+                        return tmpCodeNo;
+                    }
                     for (int i = 0; i < BillingList.Count - 1; i++)
                     {
-                        int codeNo = Convert.ToInt32 ( BillingList[i].BillingCode.Substring (2,5));
-                        int codeNoNext = Convert.ToInt32(BillingList[i+1].BillingCode.Substring(2, 5));
-                        if (codeNo > codeNoNext)
+                        int codeNo = Convert.ToInt32(BillingList[i].BillingCode.Substring(1, 5));
+                        int codeNoNext = Convert.ToInt32(BillingList[i + 1].BillingCode.Substring(1, 5));
+                        if (i == 0)
                         {
-                            tmpCodeNo = codeNo;
-                            codeNo = codeNoNext;
-                            codeNoNext = tmpCodeNo;
+                            if (codeNo > codeNoNext)
+                            {
+                                tmpCodeNo = codeNo;
+                            }
+                            else
+                            {
+                                tmpCodeNo = codeNoNext;
+                            }
                         }
+                        else
+                        {
+                            if (tmpCodeNo < codeNoNext)
+                            {
+                                tmpCodeNo = codeNoNext;
+                            }
+                        }
+
                     }
                 }
                 maxCode = tmpCodeNo;
@@ -73,6 +91,7 @@ namespace TugBusinessLogic
 
             }
             return maxCode;
+
         }
 
         static public string AutoGenerateOrderSequenceNo(string msg = "")
