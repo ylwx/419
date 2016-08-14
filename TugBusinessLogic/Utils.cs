@@ -43,21 +43,24 @@ namespace TugBusinessLogic
             }
             return maxId;
         }
-        static private int MaxBillCode(string year)
+        static private int MaxBillCode()
         {
             int maxCode = 0;
             int tmpCodeNo = 0;
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.BillingCode.Substring(8) == year;
+                System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.BillingCode.Substring(7,4) == DateTime.Now.Year.ToString();
                 List<Billing> BillingList = db.Billing.Where(exp).ToList<Billing>();
-                if (BillingList.Count != 0)
-                {
+                    if (BillingList.Count == 0)
+                    {
+                        maxCode = 1;
+                        return maxCode;
+                    }
                     if (BillingList.Count == 1)
                     {
-                        tmpCodeNo = Convert.ToInt32(BillingList[0].BillingCode.Substring(1, 5));
-                        return tmpCodeNo;
+                        maxCode = Convert.ToInt32(BillingList[0].BillingCode.Substring(1, 5));
+                        return maxCode;
                     }
                     for (int i = 0; i < BillingList.Count - 1; i++)
                     {
@@ -83,7 +86,6 @@ namespace TugBusinessLogic
                         }
 
                     }
-                }
                 maxCode = tmpCodeNo;
             }
             catch (Exception ex)
@@ -122,19 +124,16 @@ namespace TugBusinessLogic
         /// 获取最大活动编号
         /// </summary>
         /// <returns></returns>
-        static public string AutoGenerateBillCode(int billingID,string msg = "")
+        static public string AutoGenerateBillCode(string msg = "")
         {
             string ret = "";
-            MaxBillCode("2016");
-
             using (TugDataEntities db = new TugDataEntities())
             {
                 using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        //ret = msg + "T" + (MaxBillId() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
-                        ret = msg + "T" + (billingID).ToString("00000") + "/" + DateTime.Now.Year.ToString();
+                        ret = msg + "T" + (MaxBillCode() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
                         dbContextTransaction.Commit();
                     }
                     catch (Exception)

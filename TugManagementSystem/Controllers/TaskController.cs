@@ -217,7 +217,7 @@ namespace TugManagementSystem.Controllers
                 List<Flow> flowData = db.Flow.Where(expFlow).Select(u => u).ToList<Flow>();
                 if (billInfor.Phase + 1 == flowData.Count)  //流程最后一步
                 {
-                    string billingCode = TugBusinessLogic.Utils.AutoGenerateBillCode(id); 
+                    string billingCode = TugBusinessLogic.Utils.AutoGenerateBillCode(); 
                     //更改Billing状态
                     billInfor.Phase = -1;
                     billInfor.Status = "完成";
