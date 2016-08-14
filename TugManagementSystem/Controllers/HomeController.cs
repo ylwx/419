@@ -127,28 +127,42 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        [JsonExceptionFilterAttribute]
         public ActionResult Login(string userName, string password)
         {
             TugDataEntities db = new TugDataEntities();
-            System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == userName && u.Pwd == password;
-            //List<UserInfor> users = db.UserInfor.Where(exp).Select(u => u).ToList<UserInfor>();
-            UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
-            if (user != null)
+            try
             {
-                FormsAuthentication.SetAuthCookie(user.UserName, false);
-                Session.SetDataInSession<int>("userid", user.IDX);
-                Session.SetDataInSession<string>("username", user.UserName);
-                Session.SetDataInSession<string>("Name1", user.Name1);
+                System.Linq.Expressions.Expression<Func<UserInfor, bool>> exp = u => u.UserName == userName && u.Pwd == password;
+                //List<UserInfor> users = db.UserInfor.Where(exp).Select(u => u).ToList<UserInfor>();
 
-                int userid = Session.GetDataFromSession<int>("userid");
-                Console.WriteLine(userid);
-                return RedirectToAction("OrderManage", "OrderManage");//'/OrderManage/OrderManage'
+                UserInfor user = db.UserInfor.Where(exp).FirstOrDefault();
+                if (user != null)
+                {
+                    FormsAuthentication.SetAuthCookie(user.UserName, false);
+                    Session.SetDataInSession<int>("userid", user.IDX);
+                    Session.SetDataInSession<string>("username", user.UserName);
+                    Session.SetDataInSession<string>("Name1", user.Name1);
+
+                    int userid = Session.GetDataFromSession<int>("userid");
+                    Console.WriteLine(userid);
+                    //return RedirectToAction("OrderManage", "OrderManage");//'/OrderManage/OrderManage'
+                    return Json(new { message = "登录成功！" });
+                }
+                else
+                {
+                    ViewBag.Message = "用户名或密码错误，登录失败！";
+                    throw new Exception("用户名或密码错误，登录失败！");
+                    //return Json(new { message = "用户名或密码错误，登录失败！" });
+                    //return View();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.Message = "用户名或密码错误，登录失败！";
-                return View();
+                
+                throw ex;
             }
+
         }
 
         [JsonExceptionFilterAttribute]

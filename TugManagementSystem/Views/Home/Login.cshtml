@@ -63,9 +63,9 @@
                             <h2 class="bigintro">@Resources.Language.UserInfor_Login</h2>
                             <div class="divide-20"></div>
                             <div class="divide-40 ">
-                                <p style="color:red; text-align:center"><strong> @ViewBag.Message</strong></p>
+                                <p id="_loginerror" style="color:red; text-align:center"><strong> @ViewBag.Message</strong></p>
                             </div>
-                            <form role="form" name="form1" method="post">
+                            <form role="form" name="form1" method="post" action="/Home/Login" onsubmit="return CheckLogin()">
                                 <div class="form-group">
                                     <label for="userName1">@Resources.Language.UserInfor_UserName</label>
                                     <i class="fa fa-user"></i>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">   </label>
-                                    <button type="submit" class="btn btn-danger" @*onclick="javascript:{this.disabled=true;document.form1.submit();}"*@>@Resources.Language.UserInfor_Login</button>
+                                    <button type="submit" class="btn btn-danger" id="btn_submit" @*onclick="javascript:{this.disabled=true;document.form1.submit();}"*@>@Resources.Language.UserInfor_Login</button>
                                 </div>
                             </form>
                             <div class="login-helpers">
@@ -191,6 +191,49 @@
                            try {
                                var json = $.parseJSON(result.responseText);
                                alert(json.errorMessage);
+                           } catch (e) {
+                               alert(e.message);
+                           }
+                           return;
+                       }
+
+
+                   }
+);
+                return false;
+            }
+        };
+
+        function CheckLogin() {
+            var uname = document.getElementById("userName1").value;
+            var passwd = document.getElementById("exampleInputPassword1").value;
+            if (uname == '') {
+                alert("用戶名不能為空！ ");
+                document.getElementById("userName1").focus();
+                return false;
+            }
+            else {
+                $("#btn_submit").attr("disabled", true);
+                var uname = document.getElementById("userName1").value;
+                var passwd = document.getElementById("exampleInputPassword1").value;
+                $.ajax(
+                   {
+                       type: "post",
+                       url: "/Home/Login",
+                       data: { userName: uname, password: passwd },
+                       dataType: 'json',
+                       success: function (result) {
+                           console.log(result)
+                           //alert(result.message);
+                           location.href = '/OrderManage/OrderManage'
+                       },
+                       error: function (result) {
+                           console.log(result)
+                           try {
+                               var json = $.parseJSON(result.responseText);
+                               $("#_loginerror").html(json.errorMessage);
+                               //alert(json.errorMessage);
+                               $("#btn_submit").attr("disabled", false);
                            } catch (e) {
                                alert(e.message);
                            }
