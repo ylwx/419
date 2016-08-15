@@ -20,7 +20,7 @@
                         <div class="col-md-12">
                             <div class="box border blue">
                                 <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>新增计费方案</h4>
+                                    <h4><i class="fa fa-windows"></i>@Resources.Language.BillingScheme_AddBillingScheme</h4>
                                     <div class="tools hidden-xs">
                                         <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
                                             <i class="fa fa-times"></i>
@@ -177,7 +177,7 @@
 
                             <div class="box border blue">
                                 <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>新增计费方案条目</h4>
+                                    <h4><i class="fa fa-windows"></i>@Resources.Language.BillingScheme_AddBillingSchemeItem</h4>
                                     <div class="tools hidden-xs">
                                         <a href="javascript:;" class="" onclick="$('#child-modal').modal('hide');">
                                             <i class="fa fa-times"></i>
@@ -316,10 +316,10 @@
                                                 <div @*class="scroller"*@ data-height="600px" data-always-visible="1" data-rail-visible="1">
                                                     <div class="padding-bottom-20">
                                                         <div class="input-group">
-                                                            <input id="searchCustomer" type="text" class="form-control" placeholder="请输入客户名称" value="@ViewBag.QueryName" onkeypress="return onKeyPress(event)">
+                                                            <input id="searchCustomer" type="text" class="form-control" placeholder="請輸入客戶名稱" value="@ViewBag.QueryName" onkeypress="return onKeyPress(event)">
                                                             <span class="input-group-btn">
-                                                                <button class="btn btn-danger" type="button" onclick="clearCustomer()">清除</button>
-                                                                <button class="btn btn-primary" type="button" onclick="searchCustomer($('#searchCustomer').val())">搜索</button>
+                                                                <button class="btn btn-danger" type="button" onclick="clearCustomer()">@Resources.Language.Clear</button>
+                                                                <button class="btn btn-primary" type="button" onclick="searchCustomer($('#searchCustomer').val())">@Resources.Language.Search</button>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -565,12 +565,12 @@
                             }
                         }
                         else {
-                            alert('选中一行');
+                            alert('@Resources.Language.Information_Tips_Select');
                         }
                     },
                     position: "last"
                 }).navButtonAdd('#jqGridPager', {
-                    caption: "", title: "添加新增", buttonicon: "ui-icon-plus",
+                    caption: "", title: "'@Resources.Language.Add'", buttonicon: "ui-icon-plus",
                     onClickButton: function () {
                         AddParent();
                     }
@@ -588,7 +588,7 @@
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
                             if (ret.code == '@Resources.Common.FAIL_CODE') {
-                                alert(ret.message + ":模板名称已存在，请重新输入");
+                                alert(ret.message + ":模板名稱已存在，請重新輸入");
                             } else {
                                 alert(ret.message);
                             }
@@ -612,7 +612,7 @@
                             var ret = $.parseJSON(val.responseText);
 
                             if (ret.code == '@Resources.Common.FAIL_CODE') {
-                                alert(ret.message + ":模板名称已存在，请重新输入");
+                                alert(ret.message + ":模板名稱已存在，請重新輸入");
                             } else {
                                 alert(ret.message);
                             }
@@ -688,7 +688,7 @@
                             var re = /^[0-9]+[0-9]*]*$/;
 
                             if (!re.test(value)) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_ItemLabel' + ": 请选择服务项!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_ItemLabel' + ": 請選擇服務項!"];
                             }
                             else
                                 return [true, ""];
@@ -725,7 +725,7 @@
                         custom_func: function (value, column) {
                             var re = /^[+-]?\d+\.?\d{0,2}$/;
                             if (!re.test(value)) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_UnitPrice' + ": 请输入两位小数!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_UnitPrice' + ": 請輸入兩位小數!"];
                             }
                             else
                                 return [true, ""];
@@ -754,7 +754,7 @@
                             var re = /^[0-9]+[0-9]*]*$/;
 
                             if (!re.test(value)) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_TypeLabel' + ": 请选择位置类型!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_TypeLabel' + ": 請選擇位置類型!"];
                             }
                             else
                                 return [true, ""];
@@ -777,7 +777,7 @@
                             var re = /^[0-9]+[0-9]*]*$/;
 
                             if (!re.test(value)) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_TypeLabel' + ": 请选择位置类型!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_TypeLabel' + ": 請選擇位置類型!"];
                             }
                             else
                                 return [true, ""];
@@ -1180,12 +1180,12 @@
                         custom_func: function (value, column) {
                             var re = /^\d+\.?\d{0,2}$/;
                             if (!re.test(value.trim())) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ": 请输入两位正小数!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ": 請輸入兩位正小數!"];
                             }
                             else {
                                 var f = parseFloat(value.toString().trim());
                                 if (f > 1 || f <= 0)
-                                    return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ': 请输入0-1之间的小数']
+                                    return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ': 請輸入0-1之間的小數']
                                 return [true, ""];
                             }
 
@@ -1528,7 +1528,7 @@
     function validateTugID(value, column) {
         var re = /^[1-9]+[0-9]*]*$/;  //判断输入是否是正整数
         if (!re.test(value))
-            return [false, "请选择一个拖轮"];
+            return [false, "請選擇一條拖輪"];
         else
             return [true, ""];
     }
@@ -1625,11 +1625,11 @@
         var message = '';
         if (column == '@Resources.Language.V_BillingTemplate_BillingTemplateTypeID'
             || column == '@Resources.Language.V_BillingTemplate_BillingTemplateTypeValue') {
-            message = "请选择一个模板类型";
+            message = "請選擇一個模板類型";
         }
         else if (column == '@Resources.Language.V_BillingTemplate_TimeTypeID'
             || column == '@Resources.Language.V_BillingTemplate_TimeTypeValue') {
-            message = "请选择一个计时方式";
+            message = "請選擇一種計時方式";
         }
 
         var re = /^[0-9]+[0-9]*]*$/;  //判断输入是否是正整数和0
@@ -1745,7 +1745,7 @@
             return;
         }*@
         if (billingTemplateCode.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateCode' + "长度不能超过" + maxTextLength);
+            $('#parentErrMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateCode' + "長度不能超過" + maxTextLength);
             $('#_BillingTemplateCode').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
@@ -1757,7 +1757,7 @@
             $('#parentErrMsg').show();
             return;
         } else if (billingTemplateName.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateName' + "长度不能超过" + maxTextLength);
+            $('#parentErrMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateName' + "長度不能超過" + maxTextLength);
             $('#_BillingTemplateName').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
@@ -1772,7 +1772,7 @@
 
             var reg = /^\d+\.?\d{0,2}$/;
             if (false == reg.test(discount)) {
-                $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "请输入0-1之间的两位小数");
+                $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "請輸入0-1之間的兩位小數");
                 $('#_Discount').parent().addClass("has-error");
                 $('#parentErrMsg').show();
                 return;
@@ -1780,7 +1780,7 @@
             else {
                 discount = parseFloat(discount);
                 if (discount > 1 || discount <= 0) {
-                    $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "请输入0-1之间的两位小数");
+                    $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "請輸入0-1之間的兩位小數");
                     $('#_Discount').parent().addClass("has-error");
                     $('#parentErrMsg').show();
                     return;
@@ -1822,14 +1822,14 @@
 
 
         if (templateCreditContent.length > maxTextAreaLength) {
-            $('#parentErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#parentErrMsg p').html('@Resources.Language.Remark' + "長度不能超過" + maxTextAreaLength);
             $('#_TemplateCreditContent').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
         }
 
         if (remark.length > maxTextAreaLength) {
-            $('#parentErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#parentErrMsg p').html('@Resources.Language.Remark' + "長度不能超過" + maxTextAreaLength);
             $('#_Remark').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
@@ -1861,7 +1861,7 @@
 
                 if (result.code == '@Resources.Common.FAIL_CODE') 
                 {
-                    $('#parentErrMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateName' + ":" + "名称已经存在");
+                    $('#parentErrMsg p').html('@Resources.Language.V_BillingTemplate_BillingTemplateName' + ":" + "名稱已經存在");
                     $('#_BillingTemplateName').parent().addClass("has-error");
                     $('#parentErrMsg').show();
                     $("#btn_parent_submit").attr("disabled", false);
@@ -1993,7 +1993,7 @@
 
             var reg = /^[+-]?\d+\.?\d{0,2}$/;
             if (false == reg.test(unitPrice)) {
-                $('#childErrMsg p').html('@Resources.Language.V_BillingItemTemplate_UnitPrice' + "无效的金额(如-1234.56)");
+                $('#childErrMsg p').html('@Resources.Language.V_BillingItemTemplate_UnitPrice' + "無效的金額(如-1234.56)");
                 $('#_UnitPrice').parent().addClass("has-error");
                 $('#childErrMsg').show();
                 return;
