@@ -287,6 +287,7 @@ namespace TugManagementSystem.Controllers
         public ActionResult ApproveReject(List<int> rejectdata, string RejectReason)
         {
             int curUserId;
+            int BillingType = 0;
             TugDataEntities db = new TugDataEntities();
             curUserId = Session.GetDataFromSession<int>("userid");
             foreach (int id in rejectdata)
@@ -294,10 +295,16 @@ namespace TugManagementSystem.Controllers
                 //更改Billing状态
                 System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == id;
                 Billing billInfor = db.Billing.Where(exp).FirstOrDefault();
+                string billtype = billInfor.InvoiceType.ToString();
+                if (billtype == "特殊账单") BillingType = 1;
+
                 billInfor.Phase = 0;
                 billInfor.Status = "已驳回";
                 db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
+
+                //修改訂單表
+                FinanceLogic.SetOrderServiceFlowingStatus(BillingType, id, "否");
 
                 //写入Approve表
                 Approve addApprove = new Approve();
@@ -369,6 +376,7 @@ namespace TugManagementSystem.Controllers
         {
             //int idx = Util.toint(Request.Form["data[IDX]"].Trim());
             var f = Request.Form;
+            int BillingType = 0;
             int idx = Convert.ToInt32(Request.Form["data[IDX]"]);
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
@@ -378,6 +386,8 @@ namespace TugManagementSystem.Controllers
             int timeNo = Convert.ToInt32(billInfor.TimesNo);
             int tmpUserID =  Convert.ToInt32(Request.Form["data[UserID]"]);
             int curUserId = Session.GetDataFromSession<int>("userid");
+            string billtype = billInfor.InvoiceType.ToString();
+            if (billtype == "特殊账单") BillingType = 1;
 
             System.Linq.Expressions.Expression<Func<Flow, bool>> expF = u => u.BillingID == idx && u.MarkID == timeNo && u.FlowUserID == curUserId;
             Flow flowData = db.Flow.Where(expF).FirstOrDefault();
@@ -396,12 +406,13 @@ namespace TugManagementSystem.Controllers
             else
             {
                 //更新Billing表状态
-               
-
-                billInfor.Phase = Phase - 1;
+                billInfor.Phase = 0;
                 billInfor.Status = "已撤销通过";
                 db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
+
+                //修改訂單表
+                FinanceLogic.SetOrderServiceFlowingStatus(BillingType, idx, "否");
 
                 //写入Approve表
                 System.Linq.Expressions.Expression<Func<Approve, bool>> expA = u => u.BillingID == idx && u.FlowMark == timeNo && u.PersonID == curUserId;
