@@ -411,7 +411,7 @@
                                 </li>
                             </ul>
                         </li>*@
-                    <li id="menu1" class="has-sub active">
+                    <li id="menu1" class="has-sub">
                         <a href="javascript:;" class="">
                             <i class="fa fa-briefcase fa-fw" id="_BasicInformation"></i> <span class="menu-text">@Resources.Language.BasicInformation<span class="badge pull-right"></span></span>
                             <span class="arrow open"></span>
@@ -467,7 +467,7 @@
                     </li>*@
                     <li id="menu5" class="has-sub">
                         <a href="javascript:;" class="">
-                            <i class="fa fa-shopping-cart fa-fw" id="_Order"></i> <span class="menu-text">@Resources.Language.Order</span>
+                            <i class="fa fa-shopping-cart fa-fw" id="_Order"></i> <span class="menu-text">@Resources.Language.Order </span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
@@ -481,8 +481,7 @@
                     </li>
                     <li id="menu6" class="has-sub">
                         <a href="javascript:;" class="">
-                            <i class="fa fa-usd fa-fw" id="_Finance"></i> <span class="menu-text">@Resources.Language.Finance</span>
-
+                            <i class="fa fa-usd fa-fw" id="_Finance"></i> <span class="menu-text">@Resources.Language.Finance<span class="badge pull-right" id="_RejectCount"></span></span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
@@ -496,7 +495,7 @@
                     </li>
                     <li id="menu7" class="has-sub">
                         <a href="#" class="">
-                            <i class="fa fa-list fa-fw" id="_TaskManage"></i> <span class="menu-text">@Resources.Language.Task_TaskManage</span>
+                            <i class="fa fa-list fa-fw" id="_TaskManage"></i> <span class="menu-text">@Resources.Language.Task_TaskManage<span class="badge pull-right" id="_TaskCount"></span></span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
@@ -605,6 +604,7 @@
                          },
                      });
         });
+        //待完成任务
         jQuery(document).ready(function () {
             $.ajax(
                      {
@@ -614,10 +614,25 @@
                          success: function (result) {
                              //$("#_NeedApprove").html("待完成任务：" & result.message);
                              $("#_Count").html(result.message);
+                             $("#_TaskCount").html(result.message);
 
                          },
                      });
         });
+
+        //被驳回账单
+        jQuery(document).ready(function () {
+            $.ajax(
+                     {
+                         type: "post",
+                         url: "/Home/RejectCount",
+                         dataType: 'json',
+                         success: function (result) {
+                             $("#_RejectCount").html(result.message);
+                         },
+                     });
+        });
+
         //jQuery(document).ready(function () {
         //    $.ajax(
         //             {
