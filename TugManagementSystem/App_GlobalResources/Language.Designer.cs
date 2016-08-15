@@ -169,6 +169,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 新增計費方案 的本地化字符串。
+        /// </summary>
+        internal static string BillingScheme_AddBillingScheme {
+            get {
+                return ResourceManager.GetString("BillingScheme_AddBillingScheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增計費方案條目 的本地化字符串。
+        /// </summary>
+        internal static string BillingScheme_AddBillingSchemeItem {
+            get {
+                return ResourceManager.GetString("BillingScheme_AddBillingSchemeItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 編號 的本地化字符串。
         /// </summary>
         internal static string Billing_BillingCode {
@@ -228,6 +246,24 @@ namespace Resources {
         internal static string ChangePassword {
             get {
                 return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 選擇 的本地化字符串。
+        /// </summary>
+        internal static string Choose {
+            get {
+                return ResourceManager.GetString("Choose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清除 的本地化字符串。
+        /// </summary>
+        internal static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
             }
         }
         
@@ -637,6 +673,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 編輯 的本地化字符串。
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 財務 的本地化字符串。
         /// </summary>
         internal static string Finance {
@@ -714,6 +759,24 @@ namespace Resources {
         internal static string IDX {
             get {
                 return ResourceManager.GetString("IDX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 請選中一行記錄 的本地化字符串。
+        /// </summary>
+        internal static string Information_Tips_Select {
+            get {
+                return ResourceManager.GetString("Information_Tips_Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 普通帳單生成 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_GenerateCommonInvoice {
+            get {
+                return ResourceManager.GetString("Invoice2_GenerateCommonInvoice", resourceCulture);
             }
         }
         
@@ -840,6 +903,24 @@ namespace Resources {
         internal static string OrderManage {
             get {
                 return ResourceManager.GetString("OrderManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增訂單 的本地化字符串。
+        /// </summary>
+        internal static string OrderManage_AddOrder {
+            get {
+                return ResourceManager.GetString("OrderManage_AddOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服務項 的本地化字符串。
+        /// </summary>
+        internal static string OrderManage_Serivces {
+            get {
+                return ResourceManager.GetString("OrderManage_Serivces", resourceCulture);
             }
         }
         
@@ -1195,11 +1276,56 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 搜索 的本地化字符串。
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 服務狀態 的本地化字符串。
         /// </summary>
         internal static string ServiceStatus {
             get {
                 return ResourceManager.GetString("ServiceStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增拖輪調度 的本地化字符串。
+        /// </summary>
+        internal static string ServiceStatus_AddScheduler {
+            get {
+                return ResourceManager.GetString("ServiceStatus_AddScheduler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 選擇拖輪 的本地化字符串。
+        /// </summary>
+        internal static string ServiceStatus_ChooseTug {
+            get {
+                return ResourceManager.GetString("ServiceStatus_ChooseTug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪調度 的本地化字符串。
+        /// </summary>
+        internal static string ServiceStatus_TugScheduler {
+            get {
+                return ResourceManager.GetString("ServiceStatus_TugScheduler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 拖輪調度狀態 的本地化字符串。
+        /// </summary>
+        internal static string ServiceStatus_TugSchedulerStatus {
+            get {
+                return ResourceManager.GetString("ServiceStatus_TugSchedulerStatus", resourceCulture);
             }
         }
         
