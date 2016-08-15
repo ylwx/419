@@ -128,7 +128,7 @@ namespace TugManagementSystem.Controllers
                 user.Pwd = newpwd;
                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return Json(new { message = "新密码已生效，请重新登陆！" });
+                return Json(new { message = "新密码已生效，请重新登录！" });
             }
             else   //原密码错误
             {
@@ -158,7 +158,7 @@ namespace TugManagementSystem.Controllers
                     int userid = Session.GetDataFromSession<int>("userid");
                     Console.WriteLine(userid);
                     //return RedirectToAction("OrderManage", "OrderManage");//'/OrderManage/OrderManage'
-                    return Json(new { message = "登录成功！" });
+                    return Json(new { message = "登錄成功！" });
                 }
                 else
                 {

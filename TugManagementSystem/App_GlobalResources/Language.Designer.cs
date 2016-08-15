@@ -1663,7 +1663,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 返回登陸頁面 的本地化字符串。
+        ///   查找类似 返回登錄頁面 的本地化字符串。
         /// </summary>
         internal static string UserInfor_BackLogin {
             get {
