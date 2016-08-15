@@ -66,9 +66,20 @@ namespace TugManagementSystem.Controllers
             int NeedApprovedCount;
             TugDataEntities db = new TugDataEntities();
             curUserId = Session.GetDataFromSession<int>("userid");
-            List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
+            List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId && u.Phase !=0).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
             NeedApprovedCount = objs.Count;
             return Json(new { message = NeedApprovedCount });
+        }
+
+        public ActionResult RejectCount()
+        {
+            int curUserId = 0;
+            int RejectCount;
+            TugDataEntities db = new TugDataEntities();
+            curUserId = Session.GetDataFromSession<int>("userid");
+            List<Billing> objs = db.Billing.Where(u => u.UserID == curUserId && u.Phase ==0 && u.Status == "已驳回").OrderByDescending(u => u.IDX).ToList<Billing>();
+            RejectCount = objs.Count;
+            return Json(new { message = RejectCount });
         }
 
         public ActionResult ApproveCount()
