@@ -772,11 +772,155 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 普通帳單生成 的本地化字符串。
+        ///   查找类似 帳單類型 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_BillingType {
+            get {
+                return ResourceManager.GetString("Invoice2_BillingType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 選擇計費方案 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_ChooseBillingScheme {
+            get {
+                return ResourceManager.GetString("Invoice2_ChooseBillingScheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 創建審核流程 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_CreateFlow {
+            get {
+                return ResourceManager.GetString("Invoice2_CreateFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客戶船長 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_CustomerShipLength {
+            get {
+                return ResourceManager.GetString("Invoice2_CustomerShipLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客戶船箱量 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_CustomerShipTEUS {
+            get {
+                return ResourceManager.GetString("Invoice2_CustomerShipTEUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 折扣 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_Discount {
+            get {
+                return ResourceManager.GetString("Invoice2_Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 編輯帳單和回扣單 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_EditCommonInvoiceAndCredit {
+            get {
+                return ResourceManager.GetString("Invoice2_EditCommonInvoiceAndCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增帳單 的本地化字符串。
         /// </summary>
         internal static string Invoice2_GenerateCommonInvoice {
             get {
                 return ResourceManager.GetString("Invoice2_GenerateCommonInvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增回扣單 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_GenerateCredit {
+            get {
+                return ResourceManager.GetString("Invoice2_GenerateCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單月份 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_InvoiceMonth {
+            get {
+                return ResourceManager.GetString("Invoice2_InvoiceMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單是否顯示船長規則 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_IsShowShipLengthRule {
+            get {
+                return ResourceManager.GetString("Invoice2_IsShowShipLengthRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 帳單是否顯示箱量規則 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_IsShowShipTEUSRule {
+            get {
+                return ResourceManager.GetString("Invoice2_IsShowShipTEUSRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 作業號(Job No.) 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_JobNo {
+            get {
+                return ResourceManager.GetString("Invoice2_JobNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 船長規則 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_ShipLengthRule {
+            get {
+                return ResourceManager.GetString("Invoice2_ShipLengthRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 箱量規則 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_ShipTEUSRule {
+            get {
+                return ResourceManager.GetString("Invoice2_ShipTEUSRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 計時方式 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_TimeType {
+            get {
+                return ResourceManager.GetString("Invoice2_TimeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 查看帳單和回扣單 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_ViewCommonInvoiceAndCredit {
+            get {
+                return ResourceManager.GetString("Invoice2_ViewCommonInvoiceAndCredit", resourceCulture);
             }
         }
         
@@ -1065,6 +1209,15 @@ namespace Resources {
         internal static string OwnerID {
             get {
                 return ResourceManager.GetString("OwnerID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 預覽 的本地化字符串。
+        /// </summary>
+        internal static string Preview {
+            get {
+                return ResourceManager.GetString("Preview", resourceCulture);
             }
         }
         
