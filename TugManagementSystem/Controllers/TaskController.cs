@@ -395,8 +395,6 @@ namespace TugManagementSystem.Controllers
             
             {
                 return Json(new { message = "该记录是您的提交任务，您无法撤销通过！" });
-                //var ret = new { code = Resources.Common.ERROR_CODE, message = "该记录是您的提交任务，您无法撤销通过！" };
-                //return Json(ret);
             }
             else if (Phase > flowData.Phase + 1)  //流程已进入下一审核环节，不能撤销
             {
