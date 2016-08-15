@@ -1277,11 +1277,13 @@
                         if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
                             //$("#" + ids[i] + " td").css("background-color", "#CCFF99");//CCFF99
                             //$('tr[id="' + ids[i] + '"]').css("background-color", "#FFDDAA");
-                            //$(this).find('td').css("background-color", "#CCFF99");
+                            $(this).find('td').css("background-color", "#CCFF99");
+                            //$(this).find('tr[id="'+ids[i]+'"]').find('td').css("background-color", "#CCFF99");
                         }
                         else { //有账单在审批流程中
                             //$("#" + ids[i] + " td").css("background-color", "#FFDDAA");
-                            $(this).find('td').css("background-color", "#FFDDAA");
+                            //$(this).find('td').css("background-color", "#FFDDAA");
+                            $(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#FFDDAA");
                         }
                     }
 
@@ -1373,7 +1375,8 @@
                             url: '@Url.Action("CheckBillingStatus", "Finance")',
                             type: "POST",
                             data: {
-                                'selectedBillingIDs': selectedBillingIDs
+                                'selectedBillingIDs': selectedBillingIDs,
+                                'billingType': '特殊账单'
                             },//"oper=delete&id=" + gr,
                             dataType: 'json',
                             success: function (result) {
@@ -1430,7 +1433,8 @@
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
                     type: "POST",
                     data: {
-                        'selectedBillingIDs': selectedBillingIDs
+                        'selectedBillingIDs': selectedBillingIDs,
+                        'billingType': '特殊账单'
                     },//"oper=delete&id=" + gr,
                     dataType: 'json',
                     success: function (result) {
@@ -1515,7 +1519,8 @@
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
                     type: "POST",
                     data: {
-                        'selectedBillingIDs': selectedBillingIDs
+                        'selectedBillingIDs': selectedBillingIDs,
+                        'billingType': '特殊账单'
                     },//"oper=delete&id=" + gr,
                     dataType: 'json',
                     success: function (result) {
@@ -1573,7 +1578,8 @@
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
                     type: "POST",
                     data: {
-                        'selectedBillingIDs': selectedBillingIDs
+                        'selectedBillingIDs': selectedBillingIDs,
+                        'billingType': '特殊账单'
                     },//"oper=delete&id=" + gr,
                     dataType: 'json',
                     success: function (result) {

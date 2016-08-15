@@ -1805,14 +1805,14 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult CheckBillingStatus(string selectedBillingIDs)
+        public ActionResult CheckBillingStatus(string selectedBillingIDs, string billingType)
         {
             this.Internationalization();
 
             Dictionary<int, int> dicNotInFlow = new Dictionary<int, int>();
             Dictionary<int, int> dicInFow = new Dictionary<int, int>();
 
-            TugBusinessLogic.Module.FinanceLogic.GetStatuOfBillings(selectedBillingIDs, out dicNotInFlow, out dicInFow);
+            TugBusinessLogic.Module.FinanceLogic.GetStatuOfBillings(selectedBillingIDs, billingType, out dicNotInFlow, out dicInFow);
 
             return Json(new
             {

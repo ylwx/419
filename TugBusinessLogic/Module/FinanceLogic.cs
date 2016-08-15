@@ -5644,7 +5644,7 @@ namespace TugBusinessLogic.Module
         }
 
 
-        static public void GetStatuOfBillings(string selectedBillingIDs, out Dictionary<int, int> dicNotInFlow,
+        static public void GetStatuOfBillings(string selectedBillingIDs, string billingType, out Dictionary<int, int> dicNotInFlow,
             out Dictionary<int, int> dicInFow)
         {
 
@@ -5661,7 +5661,7 @@ namespace TugBusinessLogic.Module
                         int rowNo = Util.toint(item.Split(':')[0]);
                         int billId = Util.toint(item.Split(':')[1]);
 
-                        string ret = GetStatusOfBilling(billId);
+                        string ret = GetStatusOfBilling(billId, billingType);
                         if (ret == ConstValue.HAS_INVOICE_IN_FLOW)
                         {
                             dicInFow2.Add(rowNo, billId);
@@ -5682,23 +5682,43 @@ namespace TugBusinessLogic.Module
         /// 获取一个订单的账单状态
         /// </summary>
         /// <param name="orderId">订单Id</param>
-        static private string GetStatusOfBilling(int billId)
+        static private string GetStatusOfBilling(int billId, string billingType)
         {
             string ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
 
             TugDataEntities db = new TugDataEntities();
 
-            V_Billing ob = db.V_Billing.FirstOrDefault(u => u.IDX == billId);
-            if (ob != null)
+            if (billingType == "普通账单")
             {
+                V_Billing2 ob = db.V_Billing2.FirstOrDefault(u => u.IDX == billId);
+                if (ob != null)
                 {
-                    if (ob.Phase != 0)
                     {
-                        ret = ConstValue.HAS_INVOICE_IN_FLOW;
+                        if (ob.Phase != 0)
+                        {
+                            ret = ConstValue.HAS_INVOICE_IN_FLOW;
+                        }
+                        else
+                        {
+                            ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
+                        }
                     }
-                    else
+                }
+            }
+            else if (billingType == "特殊账单")
+            {
+                V_Billing3 ob = db.V_Billing3.FirstOrDefault(u => u.IDX == billId);
+                if (ob != null)
+                {
                     {
-                        ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
+                        if (ob.Phase != 0)
+                        {
+                            ret = ConstValue.HAS_INVOICE_IN_FLOW;
+                        }
+                        else
+                        {
+                            ret = ConstValue.HAS_INVOICE_NOT_IN_FLOW;
+                        }
                     }
                 }
             }
