@@ -27,7 +27,7 @@
                         <div class="col-md-12">
                             <div class="box border blue">
                                 <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>新增订单</h4>
+                                    <h4><i class="fa fa-windows"></i>@Resources.Language.OrderManage_AddOrder</h4>
                                     <div class="tools hidden-xs">
                                         <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
                                             <i class="fa fa-times"></i>
@@ -107,7 +107,7 @@
                                         </div>
                                             <div class="panel panel-success">
                                                 <div class="panel-heading">
-                                                    <h3 class="panel-title">服务项</h3>
+                                                    <h3 class="panel-title">@Resources.Language.OrderManage_Serivces</h3>
                                                 </div>
                                                 <div class="panel-body" style="height: 200px; overflow:auto;">
                                                     <div id="flowtable" class="hot handsontable dataTable table-striped center-block"></div>
@@ -388,7 +388,7 @@
                                 $("#" + ids[i] + " td").css("background-color", "#CCFF99");
                             }
                             else { //有账单在审批流程中
-                                $("#" + ids[i] + " td").css("background-color", "#FFDDAA");
+                                $("#" + ids[i] + " td").css("background-color", "#99ccff");
                             }
                         }
 
@@ -517,7 +517,7 @@
                 })
                  .navButtonAdd('#jqGridPager', {
                     id: 'jqGrid_ilEdit',
-                    caption: "", title: "编辑", buttonicon: "ui-icon-pencil",
+                    caption: "", title: "'@Resources.Language.Edit'", buttonicon: "ui-icon-pencil",
                     onClickButton: function () {
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                         //编辑
@@ -565,7 +565,7 @@
 
                                     if (inFlowingResult != "") {
                                         inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                        alert('所选的记录中，第' + inFlowingResult + '行账单已处于审核流程中，无法编辑！');
+                                        alert('所選的記錄中，第' + inFlowingResult + '行帳單已處於審核流程中，無法編輯！');
                                         return;
                                     }
 
@@ -1454,7 +1454,7 @@
     function validateTugID(value, column) {
         var re = /^[0-9]+[0-9]*]*$/;  //判断输入是否是正整数和0
         if (!re.test(value))
-            return [false, "请选择一个工作状态"];
+            return [false, "請選擇一個工作狀態"];
         else
             return [true, ""];
     }
@@ -1938,7 +1938,7 @@
             $('#parentErrMsg').show();
             return;
         } else if (shipName.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ShipName' + "长度不能超过" + maxTextLength);
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_ShipName' + "長度不能超多" + maxTextLength);
             $('#_ShipName').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
@@ -2018,7 +2018,7 @@
             $('#parentErrMsg').show();
             return;
         } else if (linkMan.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "长度不能超过" + maxTextLength);
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "長度不能超多" + maxTextLength);
             $('#_LinkMan').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
@@ -2031,7 +2031,7 @@
             return;
         }*@
         else if (linkPhone.length > maxTextLength) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "长度不能超过" + maxTextLength);
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "長度不能超多" + maxTextLength);
             $('#_LinkPhone').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
@@ -2042,7 +2042,7 @@
             var util = new Util();
 
             if (false == util.isEmail2(linkEmail)) {
-                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkEmail' + ":输入的电子邮件无效");
+                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkEmail' + ":輸入的電子郵件無效");
                 $('#_LinkEmail').parent().addClass("has-error");
                 $('#parentErrMsg').show();
                 return;
@@ -2051,7 +2051,7 @@
         }
 
         else if (remark.length > maxTextAreaLength) {
-            $('#parentErrMsg p').html('@Resources.Language.Remark' + "长度不能超过" + maxTextAreaLength);
+            $('#parentErrMsg p').html('@Resources.Language.Remark' + "長度不能超多" + maxTextAreaLength);
             $('#_Remark').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
