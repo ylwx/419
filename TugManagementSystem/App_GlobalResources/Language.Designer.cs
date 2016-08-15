@@ -1573,7 +1573,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 登 陸 的本地化字符串。
+        ///   查找类似 登 錄 的本地化字符串。
         /// </summary>
         internal static string UserInfor_Login {
             get {
