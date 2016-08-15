@@ -10,15 +10,13 @@
 namespace TugDataModel
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class V_RoleModule
+    public partial class sp_helpdiagrams_Result
     {
-        public int RoleID { get; set; }
-        public string RoleName { get; set; }
-        public int IDX { get; set; }
-        public string ModuleCode { get; set; }
-        public string ModuleName { get; set; }
-        public int ModuleID { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }
