@@ -1880,15 +1880,18 @@
                     for (var i = 0; i < ids.length; i++) {
                         var phase = $(this).getCell(ids[i], 'Phase');
 
-                    {//有账单
-                        if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
-                            //$("#" + ids[i] + " td").css("background-color", "#CCFF99");//CCFF99
-                            //$('tr[id="' + ids[i] + '"]').css("background-color", "#FFDDAA");
-                            //$(this).find('td').css("background-color", "#CCFF99");
-                        }
+                        {//有账单
+                            if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
+                                //$("#" + ids[i] + " td").css("background-color", "#CCFF99");//CCFF99
+                                //$('tr[id="' + ids[i] + '"]').css("background-color", "#FFDDAA");
+                                //$(this).find('td').css("background-color", "#CCFF99");
+                                //$(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#CCFF99");
+                                //alert(phase);
+                            }
                             else { //有账单在审批流程中
-                            //$("#" + ids[i] + " td").css("background-color", "#FFDDAA");
-                            $(this).find('td').css("background-color", "#FFDDAA");
+                                //$("#" + ids[i] + " td").css("background-color", "#FFDDAA");
+                                //$(this).find('td').css("background-color", "#FFDDAA");
+                                $(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#FFDDAA");
                             }
                         }
 
@@ -1981,7 +1984,8 @@
                             url: '@Url.Action("CheckBillingStatus", "Finance")',
                                 type: "POST",
                                 data: {
-                                'selectedBillingIDs': selectedBillingIDs
+                                    'selectedBillingIDs': selectedBillingIDs,
+                                    'billingType':'普通账单'
                                 },//"oper=delete&id=" + gr,
                                 dataType: 'json',
                                 success: function (result) {
@@ -1992,6 +1996,7 @@
                                         inFlowingResult += key + ",";
                                     }
 
+                                    //alert(inFlowingResult);
                                     if (inFlowingResult != "") {
                                         inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
                                     alert('所选的记录中，第' + inFlowingResult + '行账单处于审核流程中，不能编辑，请取消这些(张)账单！');
@@ -2037,7 +2042,8 @@
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
                             type: "POST",
                             data: {
-                        'selectedBillingIDs': selectedBillingIDs
+                                'selectedBillingIDs': selectedBillingIDs,
+                                'billingType': '普通账单'
                             },//"oper=delete&id=" + gr,
                             dataType: 'json',
                             success: function (result) {
@@ -2122,7 +2128,8 @@
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
                                     type: "POST",
                                     data: {
-                        'selectedBillingIDs': selectedBillingIDs
+                                        'selectedBillingIDs': selectedBillingIDs,
+                                        'billingType': '普通账单'
                                     },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
@@ -2180,7 +2187,8 @@
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
                             type: "POST",
                             data: {
-                        'selectedBillingIDs': selectedBillingIDs
+                                'selectedBillingIDs': selectedBillingIDs,
+                                'billingType': '普通账单'
                             },//"oper=delete&id=" + gr,
                             dataType: 'json',
                             success: function (result) {

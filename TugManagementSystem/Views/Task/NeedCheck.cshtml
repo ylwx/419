@@ -206,18 +206,22 @@
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
 
                         var BillingID = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX"); //
+                        var InvoiceType = jQuery('#jqGrid').jqGrid('getCell', rowid, "InvoiceType"); //
                         var TimeTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "TimeTypeValue"); //
                         var BillingTemplateTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTemplateTypeLabel"); //
-
-                        if (BillingTemplateTypeLabel == "全包" || BillingTemplateTypeLabel == "半包") {
+                        alert(InvoiceType);
+                        if (InvoiceType == "普通账单" && (BillingTemplateTypeLabel == "全包" || BillingTemplateTypeLabel == "半包")) {
                             //alert("全包或半包报表预览");
                             //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
                             open('/Report/Invoice_qborbb' + '?BillingID=' + BillingID + '&TimeTypeValue=' + TimeTypeValue)
                         }
 
-                        else if (BillingTemplateTypeLabel == "计时") {
+                        else if (InvoiceType == "普通账单" && BillingTemplateTypeLabel == "计时") {
                             //alert("计时报表预览");
                             open('/Report/Invoice_tk' + '?BillingID=' + BillingID + '&TimeTypeValue=' + TimeTypeValue)
+                        }
+                        else if (InvoiceType == "特殊账单") {
+                            open('/Report/Invoice_Special' + '?BillingID=' + BillingID)
                         }
                     },
 
