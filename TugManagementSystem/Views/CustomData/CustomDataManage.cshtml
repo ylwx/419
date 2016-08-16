@@ -30,7 +30,8 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <label class="col-sm-4 control-label">*@Model[0].Label</label>
+                                                        
+                                                        <label class="col-sm-4 control-label" id="_CustomType">*@Model[0].Label</label>
                                                         <div class="col-sm-8">
                                                             <input id="_CustomValue" type="text" class="form-control" placeholder="@Resources.Language.Custom_Value" onfocus="$(this).parent().removeClass('has-error')" />
                                                         </div>
@@ -114,24 +115,24 @@
                                                             </div>*@
                                                         <ul class="list-unstyled">
                                                             @{
-                                                                for (int i = 0; i < Model.Count; i++)
-                                                                {
-                                                                    <li class="clearfix" onclick="loadCustomerShips($(this), '@Model[i].IDX', '@Model[i].Name')">
-                                                                        <div class="pull-left">
-                                                                            @if (i % 2 == 0)
-                                                                            {
-                                                                                <p><h6><i class="fa fa-user"></i><strong> @Model[i].Label</strong></h6></p>
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <li class="clearfix" onclick="loadCustomerShips($(this), '@Model[i].IDX', '@Model[i].Name','@Model[i].Label')">
+            <div class="pull-left">
+                @if (i % 2 == 0)
+                {
+                    <p><h6><i class="fa fa-user"></i><strong> @Model[i].Label</strong></h6></p>
 
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <p><h6><i class="fa fa-user"></i><strong> @Model[i].Label</strong></h6></p>
-                                                                            }
-                                                                        </div>
-                                                                        <div class="clearfix"></div>
-                                                                    </li>
-                                                                }
-                                                            }
+                }
+                else
+                {
+                    <p><h6><i class="fa fa-user"></i><strong> @Model[i].Label</strong></h6></p>
+                }
+            </div>
+            <div class="clearfix"></div>
+        </li>
+    }
+}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -146,8 +147,8 @@
                                                             if (Model.Count > 0)
                                                             {
                                                                 <span hidden>@Model[0].IDX</span>
-                                                            <span>@Model[0].Label</span>
-                                                            <span hidden>@Model[0].Name</span>
+                                                                 <span id="_CustomType1">@Model[0].Label</span>
+                                                                <span hidden>@Model[0].Name</span>
                                                             }
                                                             else
                                                             {
@@ -542,6 +543,10 @@
         $('#parentErrMsg').hide();
         $('#_CustomValue').parent().removeClass("has-error");
         $('#_CustomValue').val("");
+
+
+        //if (CustomValue == "OrderService.Location") { $("#_CustomType").text("*作業位置"); }
+        //if (CustomValue == "OrderService.Content") { $("#_CustomType").text("*服務內容"); }
     
     }
     function submitParentModal() {
@@ -552,7 +557,6 @@
         $('#_CustomValue').parent().removeClass("has-error");
 
         var CustomValue = $('#_CustomValue').val();
-     
 
         if (CustomValue.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.Custom_Value' + "@Resources.Language.IsNull");
@@ -599,9 +603,11 @@
     }
 
 
-    function loadCustomerShips(self, custom_id, custom_Name) {
+        function loadCustomerShips(self, custom_id, custom_Name, custom_Lable) {
+
         $('.panel-title span:first').html(custom_id);
         $('.panel-title span:last').html(custom_Name);
+        $("#_CustomType1").html(custom_Lable);
 
         $('li.clearfix').removeAttr('style');
         $(self).css('background-color', 'ButtonHighlight');
