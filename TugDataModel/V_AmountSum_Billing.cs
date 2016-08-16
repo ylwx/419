@@ -35,5 +35,6 @@ namespace TugDataModel
         public string BillingMonth { get; set; }
         public Nullable<int> SchedulerID { get; set; }
         public Nullable<int> TugID { get; set; }
+        public Nullable<System.DateTime> BillingDateTime { get; set; }
     }
 }

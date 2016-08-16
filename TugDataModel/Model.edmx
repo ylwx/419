@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AmountSum">
           <Key>
             <PropertyRef Name="ID" />
@@ -534,8 +534,8 @@
           <Property Name="UserDefinedCol6" Type="int" />
           <Property Name="UserDefinedCol7" Type="int" />
           <Property Name="UserDefinedCol8" Type="int" />
-          <Property Name="UserDefinedCol9" Type="nvarchar(max)" />
-          <Property Name="UserDefinedCol10" Type="nvarchar(max)" />
+          <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -838,6 +838,7 @@
           <Property Name="BillingMonth" Type="nvarchar" MaxLength="50" />
           <Property Name="SchedulerID" Type="int" />
           <Property Name="TugID" Type="int" />
+          <Property Name="BillingDateTime" Type="datetime" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Approve_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1730,10 +1731,10 @@
           <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
-          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
           <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
           <Property Name="ShipID" Type="int" />
-          <Property Name="ShipName" Type="nvarchar(max)" />
+          <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
           <Property Name="DeadWeight" Type="int" />
           <Property Name="Length" Type="int" />
           <Property Name="Width" Type="int" />
@@ -1762,8 +1763,6 @@
           <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
           <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingType" Type="int" />
-          <Property Name="TugIDs" Type="nvarchar(max)" />
-          <Property Name="TugNames" Type="nvarchar(max)" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2236,7 +2235,8 @@
     [V_AmountSum_Billing].[BillingYear] AS [BillingYear], 
     [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth], 
     [V_AmountSum_Billing].[SchedulerID] AS [SchedulerID], 
-    [V_AmountSum_Billing].[TugID] AS [TugID]
+    [V_AmountSum_Billing].[TugID] AS [TugID], 
+    [V_AmountSum_Billing].[BillingDateTime] AS [BillingDateTime]
     FROM [dbo].[V_AmountSum_Billing] AS [V_AmountSum_Billing]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Approve_Billing" EntityType="Self.V_Approve_Billing" store:Type="Views" store:Schema="dbo">
@@ -3068,9 +3068,7 @@
     [V_OrderService].[TotalTug] AS [TotalTug], 
     [V_OrderService].[HasBilling] AS [HasBilling], 
     [V_OrderService].[HasBillingInFlow] AS [HasBillingInFlow], 
-    [V_OrderService].[BillingType] AS [BillingType], 
-    [V_OrderService].[TugIDs] AS [TugIDs], 
-    [V_OrderService].[TugNames] AS [TugNames]
+    [V_OrderService].[BillingType] AS [BillingType]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
@@ -4129,8 +4127,8 @@
           <Property Name="UserDefinedCol6" Type="Int32" />
           <Property Name="UserDefinedCol7" Type="Int32" />
           <Property Name="UserDefinedCol8" Type="Int32" />
-          <Property Name="UserDefinedCol9" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserDefinedCol10" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderInfor" Relationship="Model.FK_OrderService_OrderInfor" FromRole="OrderService" ToRole="OrderInfor" />
           <NavigationProperty Name="Scheduler" Relationship="Model.FK_Scheduler_OrderService" FromRole="OrderService" ToRole="Scheduler" />
         </EntityType>
@@ -4440,6 +4438,7 @@
           <Property Name="BillingMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SchedulerID" Type="Int32" />
           <Property Name="TugID" Type="Int32" />
+          <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="V_Approve_Billing">
           <Key>
@@ -5274,10 +5273,10 @@
           <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ShipID" Type="Int32" />
-          <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DeadWeight" Type="Int32" />
           <Property Name="Length" Type="Int32" />
           <Property Name="Width" Type="Int32" />
@@ -5306,8 +5305,6 @@
           <Property Name="HasBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="HasBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingType" Type="Int32" />
-          <Property Name="TugIDs" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TugNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_RoleMenu">
           <Key>
@@ -6557,6 +6554,7 @@
           <EntitySetMapping Name="V_AmountSum_Billing">
             <EntityTypeMapping TypeName="Model.V_AmountSum_Billing">
               <MappingFragment StoreEntitySet="V_AmountSum_Billing">
+                <ScalarProperty Name="BillingDateTime" ColumnName="BillingDateTime" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
                 <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
                 <ScalarProperty Name="BillingMonth" ColumnName="BillingMonth" />
@@ -7431,8 +7429,6 @@
           <EntitySetMapping Name="V_OrderService">
             <EntityTypeMapping TypeName="Model.V_OrderService">
               <MappingFragment StoreEntitySet="V_OrderService">
-                <ScalarProperty Name="TugNames" ColumnName="TugNames" />
-                <ScalarProperty Name="TugIDs" ColumnName="TugIDs" />
                 <ScalarProperty Name="BillingType" ColumnName="BillingType" />
                 <ScalarProperty Name="HasBillingInFlow" ColumnName="HasBillingInFlow" />
                 <ScalarProperty Name="HasBilling" ColumnName="HasBilling" />

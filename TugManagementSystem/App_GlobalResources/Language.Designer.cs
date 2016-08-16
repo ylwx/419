@@ -1033,6 +1033,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 確定 的本地化字符串。
+        /// </summary>
+        internal static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 訂單 的本地化字符串。
         /// </summary>
         internal static string Order {
@@ -1267,11 +1276,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 結束日期 的本地化字符串。
+        /// </summary>
+        internal static string Report_EndDate {
+            get {
+                return ResourceManager.GetString("Report_EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 起始日期 的本地化字符串。
+        /// </summary>
+        internal static string Report_StartDate {
+            get {
+                return ResourceManager.GetString("Report_StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 拖輪營業額匯總 的本地化字符串。
         /// </summary>
         internal static string Report_Tug {
             get {
                 return ResourceManager.GetString("Report_Tug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重置 的本地化字符串。
+        /// </summary>
+        internal static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
             }
         }
         

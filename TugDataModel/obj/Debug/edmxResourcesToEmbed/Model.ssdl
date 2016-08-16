@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="AmountSum">
     <Key>
       <PropertyRef Name="ID" />
@@ -529,8 +529,8 @@
     <Property Name="UserDefinedCol6" Type="int" />
     <Property Name="UserDefinedCol7" Type="int" />
     <Property Name="UserDefinedCol8" Type="int" />
-    <Property Name="UserDefinedCol9" Type="nvarchar(max)" />
-    <Property Name="UserDefinedCol10" Type="nvarchar(max)" />
+    <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -833,6 +833,7 @@
     <Property Name="BillingMonth" Type="nvarchar" MaxLength="50" />
     <Property Name="SchedulerID" Type="int" />
     <Property Name="TugID" Type="int" />
+    <Property Name="BillingDateTime" Type="datetime" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Approve_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1725,10 +1726,10 @@
     <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
-    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
-    <Property Name="ShipName" Type="nvarchar(max)" />
+    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
     <Property Name="DeadWeight" Type="int" />
     <Property Name="Length" Type="int" />
     <Property Name="Width" Type="int" />
@@ -1757,8 +1758,6 @@
     <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
     <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingType" Type="int" />
-    <Property Name="TugIDs" Type="nvarchar(max)" />
-    <Property Name="TugNames" Type="nvarchar(max)" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2231,7 +2230,8 @@
     [V_AmountSum_Billing].[BillingYear] AS [BillingYear], 
     [V_AmountSum_Billing].[BillingMonth] AS [BillingMonth], 
     [V_AmountSum_Billing].[SchedulerID] AS [SchedulerID], 
-    [V_AmountSum_Billing].[TugID] AS [TugID]
+    [V_AmountSum_Billing].[TugID] AS [TugID], 
+    [V_AmountSum_Billing].[BillingDateTime] AS [BillingDateTime]
     FROM [dbo].[V_AmountSum_Billing] AS [V_AmountSum_Billing]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Approve_Billing" EntityType="Self.V_Approve_Billing" store:Type="Views" store:Schema="dbo">
@@ -3063,9 +3063,7 @@
     [V_OrderService].[TotalTug] AS [TotalTug], 
     [V_OrderService].[HasBilling] AS [HasBilling], 
     [V_OrderService].[HasBillingInFlow] AS [HasBillingInFlow], 
-    [V_OrderService].[BillingType] AS [BillingType], 
-    [V_OrderService].[TugIDs] AS [TugIDs], 
-    [V_OrderService].[TugNames] AS [TugNames]
+    [V_OrderService].[BillingType] AS [BillingType]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">

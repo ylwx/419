@@ -22,6 +22,14 @@ namespace TugManagementSystem.Controllers
         {
             return View();
         }
+        #region 报表汇总
+        public ActionResult ReportFilter(string reporttype, string reporttitile)
+        {
+            ViewBag.reporttype = reporttype;
+            ViewBag.reporttitile = reporttitile;
+            return View();
+        }
+        #endregion
 
         #region 金额汇总接口
         //这个Tuple类型数组的amountlist中依次存储 int SchedulerID, int TugID, float Amount, float Hours
@@ -90,10 +98,12 @@ namespace TugManagementSystem.Controllers
 #endregion
 
         #region Report 拖轮 每月汇总
-        public ActionResult Amout_Tug()//int OrderID, int CreditID
+        public ActionResult Amout_Tug(string startdate, string enddate)//int OrderID, int CreditID
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
+            DateTime st = Convert.ToDateTime(startdate + " 00:00:00");
+            DateTime ed = Convert.ToDateTime(enddate + " 23:59:59");
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -104,17 +114,17 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_Amout_Tug(webReport.Report);
+            Report_DataRegister_Amout_Tug(webReport.Report,st,ed);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_Amout_Tug = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_Amout_Tug(FastReport.Report FReport)
+        private void Report_DataRegister_Amout_Tug(FastReport.Report FReport,DateTime st,DateTime ed)
         {
             DataTable dt = null;
-            string str_report = string.Format(" ID > {0}", 0);
+            string str_report = string.Format(" ID > {0} and BillingDateTime>='{1}' and BillingDateTime<='{2}'", 0,st,ed);
             //data
             dt = SqlHelper.GetDataTableData("V_AmountSum_Billing", str_report);
             FReport.RegisterData(dt, dt.TableName);
@@ -122,10 +132,12 @@ namespace TugManagementSystem.Controllers
         #endregion       
 
         #region Report 拖轮 全包/半包匯總
-        public ActionResult Amount_BillType()//int OrderID, int CreditID
+        public ActionResult Amount_BillType(string startdate, string enddate)//int OrderID, int CreditID
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
+            DateTime st = Convert.ToDateTime(startdate + " 00:00:00");
+            DateTime ed = Convert.ToDateTime(enddate + " 23:59:59");
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -136,17 +148,17 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_Amount_BillType(webReport.Report);
+            Report_DataRegister_Amount_BillType(webReport.Report,st,ed);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_Amount_BillType = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_Amount_BillType(FastReport.Report FReport)
+        private void Report_DataRegister_Amount_BillType(FastReport.Report FReport, DateTime st, DateTime ed)
         {
             DataTable dt = null;
-            string str_report = string.Format(" ID > {0}", 0);
+            string str_report = string.Format(" ID > {0} and BillingDateTime>='{1}' and BillingDateTime<='{2}'", 0, st, ed);
             //data
             dt = SqlHelper.GetDataTableData("V_AmountSum_Billing", str_report);
             FReport.RegisterData(dt, dt.TableName);
@@ -154,10 +166,12 @@ namespace TugManagementSystem.Controllers
         #endregion       
 
         #region Report 拖轮 客戶汇总
-        public ActionResult Amount_Customer()//int OrderID, int CreditID
+        public ActionResult Amount_Customer(string startdate, string enddate)//int OrderID, int CreditID
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
+            DateTime st = Convert.ToDateTime(startdate + " 00:00:00");
+            DateTime ed = Convert.ToDateTime(enddate + " 23:59:59");
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -168,17 +182,17 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_Amount_Customer(webReport.Report);
+            Report_DataRegister_Amount_Customer(webReport.Report,st,ed);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_Amount_Customer = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_Amount_Customer(FastReport.Report FReport)
+        private void Report_DataRegister_Amount_Customer(FastReport.Report FReport, DateTime st, DateTime ed)
         {
             DataTable dt = null;
-            string str_report = string.Format(" ID > {0}", 0);
+            string str_report = string.Format(" ID > {0} and BillingDateTime>='{1}' and BillingDateTime<='{2}'", 0, st, ed);
             //data
             dt = SqlHelper.GetDataTableData("V_AmountSum_Billing", str_report);
             FReport.RegisterData(dt, dt.TableName);

@@ -109,7 +109,7 @@
                                                 <div class="panel-heading">
                                                     <h3 class="panel-title">@Resources.Language.OrderManage_Serivces</h3>
                                                 </div>
-                                                <div class="panel-body" style="height: 200px; overflow:auto;">
+                                                <div class="panel-body" style="height: 300px; overflow:auto;">
                                                     <div id="flowtable" class="hot handsontable dataTable table-striped center-block"></div>
                                                 </div>
                                             </div>
@@ -1674,6 +1674,8 @@
         $('#_LinkEmail').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
+
+
         $('#_CustomerName').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
@@ -1717,7 +1719,7 @@
         $('#_ShipName').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomerShips", "OrderManage")',
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")' + '?customerId=' + $("#_CustomerID").text(),
                     data: request,
                     type: 'GET',
                     dataType: 'json',
