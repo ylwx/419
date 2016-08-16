@@ -1674,6 +1674,8 @@
         $('#_LinkEmail').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
+
+
         $('#_CustomerName').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
@@ -1717,7 +1719,7 @@
         $('#_ShipName').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomerShips", "OrderManage")',
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")' + '?customerId=' + $("#_CustomerID").text(),
                     data: request,
                     type: 'GET',
                     dataType: 'json',
