@@ -437,7 +437,10 @@ namespace TugManagementSystem.Controllers
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
             //数据
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("SpecialBillingItem", strV_Inv_OrdService);
-            FReport.RegisterData(dtV_Inv_OrdService, dtV_Inv_OrdService.TableName);            
+            FReport.RegisterData(dtV_Inv_OrdService, dtV_Inv_OrdService.TableName);
+
+            FReport.Parameters.FindByName("srvprice").Value = dtV_Inv_OrdService.Rows[0]["ServiceUnitPrice"];
+            FReport.Parameters.FindByName("feulprice").Value = dtV_Inv_OrdService.Rows[0]["FeulUnitPrice"];
         }
         #endregion
 
