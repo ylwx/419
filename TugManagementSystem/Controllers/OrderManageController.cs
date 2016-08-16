@@ -700,10 +700,10 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        public ActionResult GetCustomerShips(string term)
+        public ActionResult GetCustomerShips(string term, int customerId)
         {
             TugDataEntities db = new TugDataEntities();
-            List<CustomerShip> ships = db.CustomerShip.Where(u => u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
+            List<CustomerShip> ships = db.CustomerShip.Where(u => u.CustomerID == customerId && u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
                 .Select(u => u).OrderBy(u => u.Name1).ToList<CustomerShip>();
 
             List<object> list = new List<object>();
