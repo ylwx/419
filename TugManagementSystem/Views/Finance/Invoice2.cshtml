@@ -1523,7 +1523,7 @@
                         if (selectedIDs.length <= 0) {
                             alert("请至少选择一个订单!");
                             return;
-                    }
+                        }
 
 
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -1538,6 +1538,9 @@
                         var thisCustomerId, thisShipId;
 
                         for (var i = 0; i < selectedIDs.length; ++i) {
+
+                            
+
                             thisCustomerId = jQuery('#jqGrid_Order').jqGrid('getCell', selectedIDs[i], "CustomerID"); //CustomerID
                             thisShipId = jQuery('#jqGrid_Order').jqGrid('getCell', selectedIDs[i], "ShipID"); //ShipID
 
@@ -1548,6 +1551,9 @@
 
                             var orderId = jQuery('#jqGrid_Order').jqGrid('getCell', selectedIDs[i], "IDX"); //OrderID
                             selectedOrderIDs += selectedIDs[i].toString() + ":" + orderId + ",";
+
+                            //alert(orderId);
+                            
                         }
                         if (selectedOrderIDs != "") {
                             selectedOrderIDs = selectedOrderIDs.substr(0, selectedOrderIDs.length - 1);
@@ -1596,6 +1602,7 @@
                                     //return;
                                 }
 
+                                //alert(noinvoiceResult);
                                 g_curSelectedOrderRowIds = noinvoiceResult;
                                 AddParent();
                             },
@@ -2778,6 +2785,7 @@
         var orderIds = '';
         var custId = '', custShipId = '';
 
+        //alert(g_curSelectedOrderRowIds);
         if (g_curSelectedOrderRowIds.length > 0) {
             selectedOrderRowIds = g_curSelectedOrderRowIds.split(',')
         }
@@ -2791,6 +2799,10 @@
             //shipName = dr.ShipName;
             selectedOrderIds += dr.IDX + ','
         }
+
+        //alert(selectedOrderIds);
+
+        //return;
 
         if (selectedOrderIds.length > 0) {
             orderIds = selectedOrderIds.substr(0, selectedOrderIds.length - 1);
@@ -2901,7 +2913,7 @@
         //alert(custId);
         //alert(custShipId);
         //alert(orderIds);
-        //alert(billingTemplateId);
+        //alert(orderServiceIds);
         //alert(billingTypeId);
         //alert(timeTypeId);
         //alert(jobNo);

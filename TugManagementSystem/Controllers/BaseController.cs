@@ -154,6 +154,35 @@ namespace TugManagementSystem.Controllers
 
         }
 
+
+        public string GetServiceNatures()
+        {
+            string s = string.Empty;
+
+            try
+            {
+                TugDataModel.TugDataEntities db = new TugDataModel.TugDataEntities();
+                List<TugDataModel.CustomField> list = db.CustomField
+                    .Where(u => u.CustomName == "OrderInfor.ServiceNatureID")
+                    .OrderBy(u => u.SortCode).ToList<TugDataModel.CustomField>();
+
+                if (list != null && list.Count > 0)
+                {
+                    s += "<select>";
+                    foreach (TugDataModel.CustomField item in list)
+                    {
+                        s += string.Format("<option value={0}>{1}</option>", item.IDX + "~" + item.CustomValue + "~" + item.CustomLabel, item.CustomLabel);
+                    }
+                    s += "</select>";
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return s;
+
+        }
+
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {
             return new JsonNetResult
