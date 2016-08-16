@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = @Resources.Language.ServiceStatus;
+    ViewBag.Title = @Resources.Language.ServiceScheduler;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
     ViewBag.MenuId = "menu5";
-    ViewBag.SubMenuIndex = 3;
+    ViewBag.SubMenuIndex = 2;
 }
 
 <!-- Add Scheduler MODAL FORM-->
@@ -169,7 +169,7 @@
                                     <a href="#">@Resources.Language.Order</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.ServiceStatus
+                                    @Resources.Language.ServiceScheduler
                                 </li>
                             </ul>
                         </div>
@@ -197,7 +197,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.ServiceStatus</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.ServiceScheduler</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
                                 <table id="jqGrid"></table>
@@ -232,7 +232,7 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetServiceState", "OrderManage")',
+            url: '@Url.Action("GetCompleteServiceState", "OrderManage")',
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -258,20 +258,20 @@
                 "openicon": "ui-icon-arrowreturn-1-e"
             },
 
-            //gridComplete: function () {
-            //    var ids = $(this).getDataIDs();
-            //    for (var i = 0; i < ids.length; i++) {
-            //        var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+            gridComplete: function () {
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
 
-            //        if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
-            //            //$("#" + ids[i] + " td").css("background-color", "grey");
-            //        }
-            //        else {//有账单
-            //            $("#" + ids[i] + " td").css("background-color", "#CCFF99");
-            //        }
+                    if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
+                        //$("#" + ids[i] + " td").css("background-color", "grey");
+                    }
+                    else {//有账单
+                        $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+                    }
 
-            //    }
-            //},
+                }
+            },
         });
 
         $('#jqGrid').jqGrid('filterToolbar', {
@@ -320,15 +320,45 @@
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 }
             })
-            
+            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#jqGridPager', {
+            caption: "完成", title: "完成", buttonicon: "ui-icon-flag",
+            onClickButton: function () {
+
+                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                if (rowid != null) {
+                    var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
+                    var orderServiceId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderServiceID"); //OrderServiceID
+
+                    if (confirm('确定要更改服务状态为"已完工"吗?')) {
+
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: '@Url.Action("ChangeServiceStatusToComplete", "OrderManage")',
+                                data: { 'orderId': orderId, 'orderServiceId': orderServiceId },
+                                dataType: 'json',
+                                success: function (result) {
+                                    alert(result.message);
+
+                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                },
+
+                            }
+                            );
+                    }
+                }
+                else {
+                    alert('选中一行');
+                }
+            }
+        })
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
-                edit: false,
+                edit: true,
                 add: false,
                 del: false,
-                save: false,
-                cancel:false,
 
                 editParams: {
                     keys: true,
@@ -1180,7 +1210,93 @@
         //if (dr.HasInvoice == "否")
         {
             toolbar.navSeparatorAdd("#" + childGridPagerID, { sepclass: "ui-separator", sepcontent: '' })
-                
+                .navButtonAdd('#' + childGridPagerID, {
+                    id: childGridID + 'jqGrid_ildelete',
+                    caption: "", title: '@Resources.Language.DeleteSelectedRows', buttonicon: "ui-icon-trash",
+                    onClickButton: function () {
+
+                        var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
+                        $.ajax({
+                            url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
+                            type: "POST",
+                            data: {
+                                'orderId': orderId
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
+                                //alert(result.message);
+
+                                //alert(result.has_invoice);
+                                if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
+                                    //可以删除
+                                    var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
+
+                                    if (rowid != null) {
+                                        var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
+
+                                        if (confirm('@Resources.Language.SureDelete')) {
+                                            var d = new Date();
+                                            $.ajax(
+                                                {
+                                                    type: "post",
+                                                    url: '@Url.Action("DeleteScheduler", "OrderManage")',
+                                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
+                                                    dataType: 'json',
+                                                    success: function (result) {
+                                                        alert(result.message);
+                                                        //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
+                                                        $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                    },
+
+                                                }
+                                                );
+                                        }
+                                    }
+                                    else {
+                                        alert('@Resources.Language.Information_Tips_Select');
+                                    }
+                                }
+
+                                else {
+                                    alert("該訂單已生成帳單，不能刪除調度！");
+                                    return;
+                                }
+
+                            },
+                        });
+
+                    },
+                    position: "last"
+                }).navButtonAdd('#' + childGridPagerID, {
+                    //id: childGridID + '_ilrefresh',
+                    caption: "", title: '@Resources.Language.Add', buttonicon: "ui-icon-plus",
+                    onClickButton: function () {
+                        g_cur_parentGridRowId = parentRowKey;
+                        g_cur_subGridId = '#' + childGridID;
+                        g_mode = '@Resources.Language.Add';
+
+
+                        var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
+                        $.ajax({
+                            url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
+                            type: "POST",
+                            data: {
+                                'orderId': orderId
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
+                                    //可以新增
+                                    AddChild();
+                                }
+                                else {
+                                    alert("該訂單已生成帳單，不能添加調度！");
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                })
             @*.navButtonAdd('#' + childGridPagerID, {
                         //id: childGridID + '_ilrefresh',
                         caption: "", title: "编辑", buttonicon: "ui-icon-pencil",
@@ -1228,11 +1344,11 @@
         {
             $('#' + childGridID).inlineNav('#' + childGridPagerID,
                         {
-                            edit: false,
+                            edit: true,
                             add: false,
-                            del: false,
-                            save: false,
-                            cancel: false,
+                            del: true,
+                            save: true,
+                            cancel: true,
                             editParams: {
                                 keys: true,
                                 successfunc: function (val) {
@@ -1748,7 +1864,7 @@
                     frozen: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.TugInfor_Name1', name: "Name1", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.TugInfor_Name1', name: "Name1", width: 250, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false, frozen: true,
                     searchoptions: { sopt: ["cn"] }
                 },
@@ -1931,15 +2047,17 @@
             shrinkToFit: false,     //指定各列宽度
             //sortable: true,          //列可移动
             //colMenu: true          //列菜单
-            subGrid: true,
-            subGridRowExpanded: showChildGridForModalDialog,
-            subGridOptions: {
-                "plusicon": "ui-icon-triangle-1-e",
-                "minusicon": "ui-icon-triangle-1-s",
-                "openicon": "ui-icon-arrowreturn-1-e"
-            },
+
+            //subGrid: true,
+            //subGridRowExpanded: showChildGridForModalDialog,
+            //subGridOptions: {
+            //    "plusicon": "ui-icon-triangle-1-e",
+            //    "minusicon": "ui-icon-triangle-1-s",
+            //    "openicon": "ui-icon-arrowreturn-1-e"
+            //},
 
             multiselect: true,
+            multiselectWidth : 50,
 
             loadComplete: function () {
                 // 设定背景色

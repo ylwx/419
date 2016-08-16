@@ -793,6 +793,53 @@ namespace TugBusinessLogic.Module
                             //    break;
                             #endregion
 
+                            #region SmallTugNum //已注释
+                            case "Length":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region Remark
                             case "Remark":
                                 {
@@ -1492,6 +1539,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.ShipName).ToList();
                         }
                         break;
+                    case "Length":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Length).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Length).ToList();
+                        }
+                        break;
                     case "LinkMan":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -1784,6 +1839,14 @@ namespace TugBusinessLogic.Module
                     //            orders = orders.OrderByDescending(u => u.SmallTugNum).ToList();
                     //    }
                     //    break;
+                    case "Length":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Length).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Length).ToList();
+                        }
+                        break;
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
