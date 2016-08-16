@@ -242,7 +242,7 @@
             height: '100%', //height: $(window).height() - 300,
             rowNum: 15,
             autowidth: true,
-            editurl: '@Url.Action("AddEditService", "OrderManage")',
+            editurl: '@Url.Action("AddEditService2", "OrderManage")',
             pager: "#jqGridPager",
             loadonce: true,
             rowList: ['15', '20', '30', '40', '50'],
@@ -251,13 +251,13 @@
             sortable: true,          //列可移动
             colMenu: false,          //列菜单
 
-            subGrid: true,
-            subGridRowExpanded: showChildGrid,
-            subGridOptions: {
-                "plusicon": "ui-icon-triangle-1-e",
-                "minusicon": "ui-icon-triangle-1-s",
-                "openicon": "ui-icon-arrowreturn-1-e"
-            },
+            //subGrid: true,
+            //subGridRowExpanded: showChildGrid,
+            //subGridOptions: {
+            //    "plusicon": "ui-icon-triangle-1-e",
+            //    "minusicon": "ui-icon-triangle-1-s",
+            //    "openicon": "ui-icon-arrowreturn-1-e"
+            //},
 
             gridComplete: function () {
                 var ids = $(this).getDataIDs();
@@ -285,7 +285,7 @@
                     ret = ret && util.isTime('@Resources.Language.V_OrderScheduler_ServiceWorkTime', $("#gs_ServiceWorkTime").val());
 
                 if ($("#gs_ServiceWorkDate").val() != null && $("#gs_ServiceWorkDate").val() != "")
-                    ret = ret && util.isDateTime('@Resources.Language.V_OrderScheduler_ServiceWorkDate', $("#gs_ServiceWorkDate").val());
+                    ret = ret && util.isDate('@Resources.Language.V_OrderScheduler_ServiceWorkDate', $("#gs_ServiceWorkDate").val());
 
                 if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
                     ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
@@ -322,6 +322,20 @@
                 }
             })
             .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilTug',
+                caption: "排船", title: '排船', buttonicon: "ui-icon-star",
+                onClickButton: function () {
+                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    if (rowid != null) {
+                        g_mode = "新增";
+                        $('#table-modal').modal();
+                    }
+                    else {
+                        alert('选中一行');
+                    }
+                }
+            })
             .navButtonAdd('#jqGridPager', {
             caption: "完成", title: "完成", buttonicon: "ui-icon-flag",
             onClickButton: function () {
@@ -363,6 +377,16 @@
 
                 editParams: {
                     keys: true,
+                    oneditfunc: function (rowid) {
+                        g_mode = "编辑";
+                        $('#jqGrid_ilTug').addClass('ui-state-disabled');
+                    },
+                    aftersavefunc: function (rowid, xhr) {
+                        $('#jqGrid_ilTug').removeClass('ui-state-disabled');
+                    },
+                    afterrestorefunc: function (rowid) {
+                        $('#jqGrid_ilTug').removeClass('ui-state-disabled');
+                    },
                     successfunc: function (val) {
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
@@ -426,6 +450,17 @@
                                 timepicker: false
                             });
                         },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
                     },
                     editoptions: {
                         dataInit: function (element) {
@@ -447,7 +482,28 @@
                         sopt: ["eq", "lt", "le", "gt", "ge"],
                         dataInit: function (element) {
                             $(element).datetimepicker({
-                                format: 'Y-m-d',
+                                format: 'H:i',
+                                step: 1,
+                                timepicker: true,
+                                datepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    },
+                    editoptions: {
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'H:i',
                                 step: 1,
                                 timepicker: true,
                                 datepicker: false
@@ -490,10 +546,26 @@
                     editrules: { required: false }, hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureLabel", width: 100, editable: false, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureLabel", width: 100, editable: true, edittype: "select",
                     editrules: { required: true }, hidden: false,
                     colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    //searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    editoptions: {
+                        dataUrl: '@Url.Action("GetServiceNatures", "Base")',
+                        dataEvents: [
+                                        {
+                                            type: 'change',
+                                            fn: function (e) {
+                                                var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
+                                                //alert(rowid);
+                                                if (rowid != null) {
+                                                    var serviceNatureID_id = rowid + "_ServiceNatureID";
+                                                    $('#' + serviceNatureID_id).val($(this).val().split("~")[0]);
+                                                }
+                                            }
+                                        }
+                        ]
+                    }
                 },
 
                 {
@@ -609,7 +681,36 @@
                             }
                         ]*@
                     },
-                }
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_TugID', name: "TugIDs", width: 150, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.TugName', name: "TugNames", width: 200, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    editoptions: {
+                        dataInit: function (element) {
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'focus',
+                                fn: function (e) {
+                                    $('#table-modal').modal()
+                                }
+                            }
+                        ]
+
+                    }
+
+                },
             ]
         };
     }
@@ -1000,6 +1101,8 @@
 
 
     function chooseMutilTugs(mode) {
+        //alert(mode);
+
         var selectedIDs = jQuery('#jqGrid2').getGridParam("selarrrow");
 
         if (selectedIDs != null && selectedIDs.length > 0) {
@@ -1024,50 +1127,62 @@
                 selectedTugName1 = selectedTugName1.substr(0, selectedTugName1.length - 1);
             }
 
-            if (mode == '@Resources.Language.Add') {
-                $('#_TugID').text(selectedTugIDs);
-                $('#_ChooseTug').val(selectedTugName1);
+
+
+            if (mode == '新增') {
+
+                var parentCurSelectedRow = jQuery('#jqGrid').getGridParam("selrow");
+
+                jQuery("#jqGrid").setCell(parentCurSelectedRow, 'TugIDs', selectedTugIDs);
+                jQuery("#jqGrid").setCell(parentCurSelectedRow, 'TugNames', selectedTugName1);
+
+                var orderServiceId = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'OrderServiceID');
+                var tugIds = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'TugIDs');
+                var tugNames = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'TugNames');
+
+                //ajax 插入数据库
+                //提交数据库
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("AddScheduler2", "OrderManage")',
+                    data: {
+                        'orderServiceId': orderServiceId,
+                        'tugIds': tugIds,
+                        'tugNames': tugNames
+                    },//"oper=delete&id=" + gr,
+                    dataType: 'json',
+                    success: function (result) {
+
+                        //$('#child-modal').modal('hide')
+                        //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                        //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        alert(result.message);
+
+                        jQuery("#jqGrid").jqGrid('setGridParam',
+                        {
+                            datatype: 'json',
+                            url: '@Url.Action("GetCompleteServiceState", "OrderManage")',
+                        }).trigger('reloadGrid');
+
+                        jQuery("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditService2", "OrderManage")', });
+
+                    },
+                    error: function (xhr) {
+                        $("#add_btn_sumbit").attr("disabled", false);
+                    }
+                });
+
             }
             else if (mode == "编辑") {
-                $('#_Edit_Scheduer_NewTugIDS').text(selectedTugIDs);
-                $('#_Edit_Scheduer_ChooseTug').val(selectedTugName1);
+
+                var parentCurSelectedRow = jQuery('#jqGrid').getGridParam("selrow");
+
+                $('#' + parentCurSelectedRow + '_TugIDs').val(selectedTugIDs);
+                $('#' + parentCurSelectedRow + '_TugNames').val(selectedTugName1);
             }
         }
     }
-    function chooseSingleTug() {
 
-        var rowid = jQuery('#jqGrid2').jqGrid('getGridParam', 'selrow');
-        //alert(rowid);
-        if (rowid != null) {
-            var dr = jQuery("#jqGrid2").jqGrid('getRowData', rowid);//得到该行的数据
-
-            var curChildGridId = $('#cur_operate_chid_grid').text();
-            //alert(curChildGridId);
-            var childRowid = jQuery('' + curChildGridId).jqGrid('getGridParam', 'selrow');
-
-            if (childRowid != null) {
-
-                var tugID_id = childRowid + "_TugID";
-                $('#' + tugID_id).val(dr.TugID);
-
-                var Name1_id = childRowid + "_TugName1";
-                $('#' + Name1_id).val(dr.Name1);
-                //jQuery('' + curChildGridId).setCell(childRowid, 'Name1', dr.Name1);
-
-                var Name2_id = childRowid + "_TugName2";
-                $('#' + Name2_id).val(dr.Name2);
-                //jQuery('' + curChildGridId).setCell(childRowid, 'Name2', dr.Name2);
-
-                var simpleName_id = childRowid + "_SimpleName";
-                $('#' + simpleName_id).val(dr.SimpleName);
-                //jQuery('' + curChildGridId).setCell(childRowid, 'SimpleName', dr.SimpleName);
-
-            }
-
-            $('#_TugID').text(dr.TugID);
-            $('#_ChooseTug').val(dr.Name1);
-        }
-    }
 
 
     function modalDialogGridInit() {
@@ -1289,7 +1404,7 @@
             //},
 
             multiselect: true,
-            multiselectWidth : 50,
+            multiselectWidth: 50,
 
             loadComplete: function () {
                 // 设定背景色

@@ -628,18 +628,18 @@
                                     var a = $("<a href='#" + childGridID + "' data-target='#table-modal' data-toggle='modal' class='btn btn-xs btn-success' value = '1'>" + '@Resources.Language.V_OrderScheduler_ChooseTug' + "...</a>");
                                     return a;
                                 }*@
-                                    dataEvents: [
-                                        {
-                                            type: 'focus',
-                                            fn: function (e) {
-                                                g_cur_subGridId = '#' + childGridID;
-                                                g_cur_parentGridRowId = parentRowKey;
-                                                $('#table-modal').modal()
-                                            }
+                                dataEvents: [
+                                    {
+                                        type: 'focus',
+                                        fn: function (e) {
+                                            g_cur_subGridId = '#' + childGridID;
+                                            g_cur_parentGridRowId = parentRowKey;
+                                            $('#table-modal').modal()
                                         }
-                ]
-            }
-        },
+                                    }
+                                ]
+                            }
+                        },
                 @*{
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_JobStateID', name: "JobStateID", width: 100, editable: true, edittype: "text",
                     editrules: {
@@ -1011,31 +1011,31 @@
                 },
                     ],
 
-            loadonce: false,
-        rowNum: 10,
-        //width: 500,
-        autowidth: true,
-        height: '100%',
-        shrinkToFit: false,     //指定各列宽度
-        pager: "#" + childGridPagerID,
-        grouping: true,
-        caption: "'@Resources.Language.ServiceStatus_TugScheduler'",
-        groupingView: {
-            //groupField: ["ServiceNatureLabel"],
-            groupField: ["ServiceWorkDate"],
-            groupColumnShow: [true],
-            //groupText: ['@Resources.Language.V_OrderScheduler_ServiceNatureLabel' + ": <b>{0}</b>"],
-            groupText: ['@Resources.Language.V_OrderScheduler_ServiceWorkDate' + ": <b>{0}</b>"],
-            groupOrder: ["asc"],
-            groupSummary: [false],
-            groupCollapse: false
-        },
+                    loadonce: false,
+                    rowNum: 10,
+                    //width: 500,
+                    autowidth: true,
+                    height: '100%',
+                    shrinkToFit: false,     //指定各列宽度
+                    pager: "#" + childGridPagerID,
+                    grouping: true,
+                    caption: "@Resources.Language.ServiceStatus_TugScheduler",
+                    groupingView: {
+                        //groupField: ["ServiceNatureLabel"],
+                        groupField: ["ServiceWorkDate"],
+                        groupColumnShow: [true],
+                        //groupText: ['@Resources.Language.V_OrderScheduler_ServiceNatureLabel' + ": <b>{0}</b>"],
+                        groupText: ['@Resources.Language.V_OrderScheduler_ServiceWorkDate' + ": <b>{0}</b>"],
+                        groupOrder: ["asc"],
+                        groupSummary: [false],
+                        groupCollapse: false
+                    },
 
 
-        //gridComplete: function () {
-        //    alert(1);
-        //}
-        });
+                    //gridComplete: function () {
+                    //    alert(1);
+                    //}
+                });
 
 
                 $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
@@ -1117,7 +1117,7 @@
                     hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 300, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 200, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
@@ -1127,7 +1127,7 @@
                     hidden: true
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 200, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 150, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
@@ -1319,7 +1319,7 @@
                 {
                     align: 'center',
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 120, editable: false, edittype: "text",
-                    hidden: false,
+                    hidden: true,
                     //formatter: 'date',
                     //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
                     datefmt: 'yyyy-mm-dd',
@@ -1362,7 +1362,7 @@
                 {
                     align: 'center',
                     label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 120, editable: false, edittype: "text",
-                    hidden: false,
+                    hidden: true,
                     //formatter: 'date',
                     datefmt: 'yyyy-mm-dd',
                     sorttype: 'date',

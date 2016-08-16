@@ -529,8 +529,8 @@
     <Property Name="UserDefinedCol6" Type="int" />
     <Property Name="UserDefinedCol7" Type="int" />
     <Property Name="UserDefinedCol8" Type="int" />
-    <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
-    <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserDefinedCol9" Type="nvarchar(max)" />
+    <Property Name="UserDefinedCol10" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -1725,10 +1725,10 @@
     <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
-    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
     <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
-    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="nvarchar(max)" />
     <Property Name="DeadWeight" Type="int" />
     <Property Name="Length" Type="int" />
     <Property Name="Width" Type="int" />
@@ -1757,6 +1757,8 @@
     <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
     <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingType" Type="int" />
+    <Property Name="TugIDs" Type="nvarchar(max)" />
+    <Property Name="TugNames" Type="nvarchar(max)" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -3061,7 +3063,9 @@
     [V_OrderService].[TotalTug] AS [TotalTug], 
     [V_OrderService].[HasBilling] AS [HasBilling], 
     [V_OrderService].[HasBillingInFlow] AS [HasBillingInFlow], 
-    [V_OrderService].[BillingType] AS [BillingType]
+    [V_OrderService].[BillingType] AS [BillingType], 
+    [V_OrderService].[TugIDs] AS [TugIDs], 
+    [V_OrderService].[TugNames] AS [TugNames]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
