@@ -166,7 +166,7 @@ namespace TugManagementSystem.Controllers
             if (labels == null)
             {
                 TugDataEntities db = new TugDataEntities();
-                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID").OrderBy(u => u.CustomValue).ToList<CustomField>();
+                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID").OrderBy(u => u.SortCode).ToList<CustomField>();
                 labels = new string[list.Count];
                 foreach (var itm in list)
                 {
