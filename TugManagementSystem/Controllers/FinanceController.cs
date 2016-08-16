@@ -1522,7 +1522,7 @@ namespace TugManagementSystem.Controllers
                     }
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     trans.Dispose();
                     var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
