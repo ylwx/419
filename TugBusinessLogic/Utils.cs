@@ -54,18 +54,18 @@ namespace TugBusinessLogic
                 List<Billing> BillingList = db.Billing.Where(exp).ToList<Billing>();
                     if (BillingList.Count == 0)
                     {
-                        maxCode = 1;
+                        maxCode = 0;
                         return maxCode;
                     }
                     if (BillingList.Count == 1)
                     {
-                        maxCode = Convert.ToInt32(BillingList[0].BillingCode.Substring(1, 5));
+                        maxCode = Convert.ToInt32(BillingList[0].BillingCode.Substring(2,4));
                         return maxCode;
                     }
                     for (int i = 0; i < BillingList.Count - 1; i++)
                     {
-                        int codeNo = Convert.ToInt32(BillingList[i].BillingCode.Substring(1, 5));
-                        int codeNoNext = Convert.ToInt32(BillingList[i + 1].BillingCode.Substring(1, 5));
+                        int codeNo = Convert.ToInt32(BillingList[i].BillingCode.Substring(2, 4));
+                        int codeNoNext = Convert.ToInt32(BillingList[i + 1].BillingCode.Substring(2, 4));
                         if (i == 0)
                         {
                             if (codeNo > codeNoNext)
@@ -133,7 +133,7 @@ namespace TugBusinessLogic
                 {
                     try
                     {
-                        ret = msg + "T" + (MaxBillCode() + 1).ToString("00000") + "/" + DateTime.Now.Year.ToString();
+                        ret = msg + "T-" + (MaxBillCode() + 1).ToString("0000") + "/" + DateTime.Now.Year.ToString();
                         dbContextTransaction.Commit();
                     }
                     catch (Exception)
