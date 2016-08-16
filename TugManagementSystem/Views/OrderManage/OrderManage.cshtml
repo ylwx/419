@@ -371,7 +371,7 @@
                 shrinkToFit: false,     //指定各列宽度
                 sortable: true,          //列可移动
                 //footerrow: true,
-                colMenu: true,          //列菜单
+                colMenu: false,          //列菜单
 
                 gridComplete: function () {
                     var ids = $(this).getDataIDs();
@@ -429,6 +429,8 @@
                             ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());
                         if ($("#gs_SmallTugNum").val() != null && $("#gs_SmallTugNum").val() != "")
                             ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_SmallTugNum', $("#gs_SmallTugNum").val());*@
+                        if ($("#gs_Length").val() != null && $("#gs_Length").val() != "")
+                            ret = ret && util.isValidNaturalNumber('客戶船長', $("#gs_Length").val());
 
                         //自定义字段
                         if ($("#gs_UserDefinedCol5").val() != null && $("#gs_UserDefinedCol5").val() != "")
@@ -639,7 +641,7 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 300, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 250, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
@@ -705,7 +707,7 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 200, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 150, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
@@ -763,6 +765,12 @@
 
                     }
 
+                },
+                {
+                    align: 'center', label: '客戶船長', name: "Length", width: 100, editable: false, edittype: "text",
+                    editrules: { required: false }, hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                 },
 
                 {
@@ -1058,13 +1066,13 @@
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 90, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 90, editable: true, edittype: "text",
                     editrules: { required: false, email: true }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
@@ -1147,7 +1155,8 @@
                 {
                     align: 'center',
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 200, editable: false, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: false,
+                    editrules: { required: false, date: true },
+                    hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     //searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     //formatter: 'date',
@@ -1196,7 +1205,8 @@
                 {
                     align: 'center',
                     label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 200, editable: false, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: false,
+                    editrules: { required: false, date: true },
+                    hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     //searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     //formatter: 'date',
