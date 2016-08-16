@@ -36,6 +36,7 @@ namespace TugManagementSystem.Controllers
             ctmobj.Name = "OrderService.Location";
             ctmobj.Label = "作業位置";
             list.Add(ctmobj);
+
             CustomEntity ctmobj1 = new CustomEntity();
             ctmobj1.IDX = 1;
             ctmobj1.Name = "OrderService.Content";
