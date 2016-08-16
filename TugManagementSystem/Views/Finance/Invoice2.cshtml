@@ -1967,8 +1967,8 @@
 
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
 
-                            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-                            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                        var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
                         var selectedBillingIDs = "";
 
@@ -1980,28 +1980,28 @@
                             selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
                         }
 
-                            $.ajax({
+                        $.ajax({
                             url: '@Url.Action("CheckBillingStatus", "Finance")',
-                                type: "POST",
-                                data: {
-                                    'selectedBillingIDs': selectedBillingIDs,
-                                    'billingType':'普通账单'
-                                },//"oper=delete&id=" + gr,
-                                dataType: 'json',
-                                success: function (result) {
+                            type: "POST",
+                            data: {
+                                'selectedBillingIDs': selectedBillingIDs,
+                                'billingType': '普通账单'
+                            },//"oper=delete&id=" + gr,
+                            dataType: 'json',
+                            success: function (result) {
 
-                                    for (key in result.dic_has_invoice_in_fow) {
+                                for (key in result.dic_has_invoice_in_fow) {
 
-                                        var value = result.dic_has_invoice_in_fow[key];
-                                        inFlowingResult += key + ",";
-                                    }
+                                    var value = result.dic_has_invoice_in_fow[key];
+                                    inFlowingResult += key + ",";
+                                }
 
-                                    //alert(inFlowingResult);
-                                    if (inFlowingResult != "") {
-                                        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                        alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能編輯，請取消這些(張)帳單！');
-                                        return;
-                                    }
+                                //alert(inFlowingResult);
+                                if (inFlowingResult != "") {
+                                    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                    alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能編輯，請取消這些(張)帳單！');
+                                    return;
+                                }
 
                                 for (key in result.dic_has_invoice_not_in_flow) {
                                     var value = result.dic_has_invoice_not_in_flow[key];
@@ -2015,10 +2015,10 @@
                                 g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
                                 //alert('弹出编辑框:' + g_curSelectedBillingIds);
-                                    EditInvoice();
-                                },
-                            });
-                        }
+                                EditInvoice();
+                            },
+                        });
+                    }
                 })
                 .navButtonAdd('#jqGridPager', {
                     id: 'jqGrid_ilDelete',
@@ -2028,18 +2028,18 @@
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                         var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
-                var selectedBillingIDs = "";
+                        var selectedBillingIDs = "";
 
                         for (var i = 0; i < selectedIDs.length; ++i) {
-                    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
-                    selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                            var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                            selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
                         }
-                if (selectedBillingIDs != "") {
-                    selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                        if (selectedBillingIDs != "") {
+                            selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
                         }
 
                         $.ajax({
-                    url: '@Url.Action("CheckBillingStatus", "Finance")',
+                            url: '@Url.Action("CheckBillingStatus", "Finance")',
                             type: "POST",
                             data: {
                                 'selectedBillingIDs': selectedBillingIDs,
@@ -2069,32 +2069,32 @@
                                     hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
                                 }
 
-                        g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
-                        //AddParent();
-                        //alert('弹出删除框:' + g_curSelectedBillingIds);
+                                g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+                                //AddParent();
+                                //alert('弹出删除框:' + g_curSelectedBillingIds);
 
-                        if (confirm('@Resources.Language.SureDelete')) {
+                                if (confirm('@Resources.Language.SureDelete')) {
 
                                     $.ajax(
                                         {
                                             type: "post",
-                                    url: '@Url.Action("DeleteInvoice2", "Finance")',
-                                    data: { 'billIds': g_curSelectedBillingIds },//"oper=delete&id=" + gr,
+                                            url: '@Url.Action("DeleteInvoice2", "Finance")',
+                                            data: { 'billIds': g_curSelectedBillingIds },//"oper=delete&id=" + gr,
                                             dataType: 'json',
                                             success: function (result) {
                                                 alert(result.message);
                                                 //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-                                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                                                //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilView').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
-                                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+                                                //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
 
                                                 $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                        $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                                $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                                             },
 
                                         }
@@ -2105,14 +2105,14 @@
 
                     },
                     position: "last"
-        })
+                })
         .navButtonAdd('#jqGridPager', {
             id: 'jqGrid_ilAddCredit',
             caption: "回扣單", title: "新增回扣單", buttonicon: "ui-icon-plus",
-                    onClickButton: function () {
+            onClickButton: function () {
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-                                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-                                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
                 var selectedBillingIDs = "";
 
@@ -2124,47 +2124,47 @@
                     selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
                 }
 
-                                $.ajax({
+                $.ajax({
                     url: '@Url.Action("CheckBillingStatus", "Finance")',
-                                    type: "POST",
-                                    data: {
-                                        'selectedBillingIDs': selectedBillingIDs,
-                                        'billingType': '普通账单'
-                                    },//"oper=delete&id=" + gr,
-                                    dataType: 'json',
-                                    success: function (result) {
+                    type: "POST",
+                    data: {
+                        'selectedBillingIDs': selectedBillingIDs,
+                        'billingType': '普通账单'
+                    },//"oper=delete&id=" + gr,
+                    dataType: 'json',
+                    success: function (result) {
 
-                                        for (key in result.dic_has_invoice_in_fow) {
+                        for (key in result.dic_has_invoice_in_fow) {
 
-                                            var value = result.dic_has_invoice_in_fow[key];
-                                            inFlowingResult += key + ",";
-                                        }
+                            var value = result.dic_has_invoice_in_fow[key];
+                            inFlowingResult += key + ",";
+                        }
 
-                                        if (inFlowingResult != "") {
-                                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                            alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能新增回扣單，請取消這些(張)帳單！');
-                                            return;
-                                        }
+                        if (inFlowingResult != "") {
+                            inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                            alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能新增回扣單，請取消這些(張)帳單！');
+                            return;
+                        }
 
-                                        for (key in result.dic_has_invoice_not_in_flow) {
-                                            var value = result.dic_has_invoice_not_in_flow[key];
+                        for (key in result.dic_has_invoice_not_in_flow) {
+                            var value = result.dic_has_invoice_not_in_flow[key];
                             hasInvoceNotInFlowingResult += value + ",";
-                                        }
+                        }
 
-                                        if (hasInvoceNotInFlowingResult != "") {
-                                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
-                                    }
+                        if (hasInvoceNotInFlowingResult != "") {
+                            hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                        }
 
                         g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
                         //alert('弹出新增回扣单:' + g_curSelectedBillingIds);
-                                    AddCreditModal();
-                                },
-                            });
-
+                        AddCreditModal();
                     },
+                });
 
-                    })
+            },
+
+        })
                 .navButtonAdd('#jqGridPager', {
                     id: 'jqGrid_ilSubmit',
                     caption: "審核", title: "提交審核", buttonicon: "ui-icon-circle-plus",
@@ -2173,18 +2173,18 @@
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                         var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
 
-                var selectedBillingIDs = "";
+                        var selectedBillingIDs = "";
 
                         for (var i = 0; i < selectedIDs.length; ++i) {
-                    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
-                    selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                            var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                            selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
                         }
-                if (selectedBillingIDs != "") {
-                    selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                        if (selectedBillingIDs != "") {
+                            selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
                         }
 
                         $.ajax({
-                    url: '@Url.Action("CheckBillingStatus", "Finance")',
+                            url: '@Url.Action("CheckBillingStatus", "Finance")',
                             type: "POST",
                             data: {
                                 'selectedBillingIDs': selectedBillingIDs,
@@ -2214,7 +2214,7 @@
                                     hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
                                 }
 
-                        g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+                                g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
 
                                 g_submit_billIds = hasInvoceNotInFlowingResult;
@@ -2226,11 +2226,11 @@
 
                     },
 
-        })
+                })
         .navButtonAdd('#jqGridPager', {
-                    id: 'jqGrid_ilView',
-                    caption: "查看", title: "查看帳單和回扣單", buttonicon: "ui-icon-search",
-                    onClickButton: function () {
+            id: 'jqGrid_ilView',
+            caption: "查看", title: "查看帳單和回扣單", buttonicon: "ui-icon-search",
+            onClickButton: function () {
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                 var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                 var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
@@ -2243,17 +2243,17 @@
                 }
                 if (selectedBillingIDs != "") {
                     selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
-                                    }
+                }
 
                 g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
-                                    //查看
+                //查看
                 //alert("chakan:" + g_curSelectedBillingIds);
-                                    ViewInvoice();
+                ViewInvoice();
 
-                               },
+            },
 
-                            });
+        });
 
 
         $('#cb_jqGrid').change(function () {
@@ -4782,7 +4782,7 @@
                 }
                 else {
                     var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;計&nbsp;港&nbsp;幣：<br> Grand Total HKS</strong></td>');
-                    var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
+                    var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(result.invoice.GrandTotalHKS)) + '</strong></td>');
 
                     tr.append(td1);
                     tr.append(td2);
@@ -6806,7 +6806,7 @@
                     }
                     else {
                         var td1 = $('<td colspan=' + colspan + ' style="text-align:right;vertical-align:middle"><strong>共&nbsp;計&nbsp;港&nbsp;幣：<br> Grand Total HKS</strong></td>');
-                        var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + GetFloatStr(result.invoice.GrandTotalHKS) + '</strong></td>');
+                        var td2 = $('<td id="GrandTotalHKS" style="text-align:center;vertical-align:middle"><strong>' + FormatPrice(GetFloatStr(result.invoice.GrandTotalHKS)) + '</strong></td>');
 
                         tr.append(td1);
                         tr.append(td2);

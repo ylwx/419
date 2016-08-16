@@ -1,9 +1,8 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = @Resources.Language.ServiceStatus;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
     ViewBag.MenuId = "menu5";
-    ViewBag.SubMenuIndex = 2;
+    ViewBag.SubMenuIndex = 3;
 }
 
 <!-- Add Scheduler MODAL FORM-->
@@ -30,7 +29,7 @@
                                 @*<h4 class="form-title">Supported controls</h4>*@
                                 <form class="form-horizontal" role="form">
 
-                                   
+
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">*@Resources.Language.V_OrderScheduler_ChooseTug</label>
                                         <div class="col-sm-9">
@@ -103,9 +102,6 @@
     </div>
 </div>
 <!-- /Add Scheduler MODAL FORM-->
-
-
-
 <!-- 拖轮选择模态框-->
 <div class="modal fade" id="table-modal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
     <div id="table-model-dlg" class="modal-dialog" style="width:1000px">
@@ -262,20 +258,20 @@
                 "openicon": "ui-icon-arrowreturn-1-e"
             },
 
-            gridComplete: function () {
-                var ids = $(this).getDataIDs();
-                for (var i = 0; i < ids.length; i++) {
-                    var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+            //gridComplete: function () {
+            //    var ids = $(this).getDataIDs();
+            //    for (var i = 0; i < ids.length; i++) {
+            //        var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
 
-                    if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
-                        //$("#" + ids[i] + " td").css("background-color", "grey");
-                    }
-                    else {//有账单
-                        $("#" + ids[i] + " td").css("background-color", "#CCFF99");
-                    }
+            //        if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
+            //            //$("#" + ids[i] + " td").css("background-color", "grey");
+            //        }
+            //        else {//有账单
+            //            $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+            //        }
 
-                }
-            },
+            //    }
+            //},
         });
 
         $('#jqGrid').jqGrid('filterToolbar', {
@@ -321,48 +317,18 @@
                 onClickButton: function () {
                     var grid = $('#jqGrid')[0];
                     grid.clearToolbar();
-                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid'); 
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                 }
             })
-            .navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
-            .navButtonAdd('#jqGridPager', {
-            caption: "完成", title: "完成", buttonicon: "ui-icon-flag",
-            onClickButton: function () {
-
-                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                if (rowid != null) {
-                    var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderID"); //OrderID
-                    var orderServiceId = jQuery('#jqGrid').jqGrid('getCell', rowid, "OrderServiceID"); //OrderServiceID
-
-                    if (confirm('确定要更改服务状态为"已完工"吗?')) {
-
-                        $.ajax(
-                            {
-                                type: "post",
-                                url: '@Url.Action("ChangeServiceStatusToComplete", "OrderManage")',
-                                data: { 'orderId': orderId, 'orderServiceId': orderServiceId },
-                                dataType: 'json',
-                                success: function (result) {
-                                    alert(result.message);
-
-                                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                },
-
-                            }
-                            );
-                    }
-                }
-                else {
-                    alert('选中一行');
-                }
-            }
-        })
+            
 
         $('#jqGrid').inlineNav('#jqGridPager',
             {
-                edit: true,
+                edit: false,
                 add: false,
                 del: false,
+                save: false,
+                cancel:false,
 
                 editParams: {
                     keys: true,
@@ -417,44 +383,6 @@
                     editrules: { required: true }, hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.Customer_IDX', name: "CustomerID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                },
-                
-                
-                {
-                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 300, editable: false, edittype: "text",
-                    editrules: { required: true }, hidden: false,
-                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: 'CustomerShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                },
-                {
-                    align: 'center', label: '@Resources.Language.CustomerShip', name: "ShipName", width: 200, editable: false, edittype: "text",
-                    editrules: { required: true }, hidden: false,
-                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_OrderServiceID', name: "OrderServiceID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                },
-
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureID', name: "ServiceNatureID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureLabel", width: 150, editable: false, edittype: "text",
-                    editrules: { required: true }, hidden: false,
-                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkDate', name: "ServiceWorkDate", width: 130, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -491,11 +419,52 @@
                                 format: 'Y-m-d',
                                 step: 1,
                                 timepicker: true,
-                                datepicker:false
+                                datepicker: false
                             });
                         },
                     },
                 },
+
+                {
+                    align: 'center', label: '@Resources.Language.Customer_IDX', name: "CustomerID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+
+
+
+                {
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 300, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: 'CustomerShipID', name: "ShipID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.CustomerShip', name: "ShipName", width: 200, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_OrderServiceID', name: "OrderServiceID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceNatureID', name: "ServiceNatureID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ServiceNatureNames', name: "ServiceNatureLabel", width: 150, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
                 {
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkPlace', name: "ServiceWorkPlace", width: 200, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
@@ -668,9 +637,9 @@
                     }
 
                 },
-                
 
-                
+
+
 
                 @*{
                     align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceJobStateID', name: "ServiceJobStateID", width: 100, editable: true, edittype: "text",
@@ -1177,7 +1146,7 @@
                 shrinkToFit: false,     //指定各列宽度
                 pager: "#" + childGridPagerID,
                 grouping: true,
-                caption: "'@Resources.Language.ServiceStatus_TugScheduler'",
+                caption: "@Resources.Language.ServiceStatus_TugScheduler",
                 @*groupingView: {
                     groupField: ["ServiceNatureLabel"],
                     groupColumnShow: [true],
@@ -1211,93 +1180,7 @@
         //if (dr.HasInvoice == "否")
         {
             toolbar.navSeparatorAdd("#" + childGridPagerID, { sepclass: "ui-separator", sepcontent: '' })
-                .navButtonAdd('#' + childGridPagerID, {
-                    id: childGridID + 'jqGrid_ildelete',
-                    caption: "", title: '@Resources.Language.DeleteSelectedRows', buttonicon: "ui-icon-trash",
-                    onClickButton: function () {
-
-                        var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
-                        $.ajax({
-                            url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
-                            type: "POST",
-                            data: {
-                                'orderId': orderId
-                            },//"oper=delete&id=" + gr,
-                            dataType: 'json',
-                            success: function (result) {
-                                //alert(result.message);
-
-                                //alert(result.has_invoice);
-                                if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
-                                    //可以删除
-                                    var rowid = jQuery('#' + childGridID).jqGrid('getGridParam', 'selrow');
-
-                                    if (rowid != null) {
-                                        var dr = jQuery("#" + childGridID).jqGrid('getRowData', rowid);//得到该行的数据
-
-                                        if (confirm('@Resources.Language.SureDelete')) {
-                                            var d = new Date();
-                                            $.ajax(
-                                                {
-                                                    type: "post",
-                                                    url: '@Url.Action("DeleteScheduler", "OrderManage")',
-                                                    data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
-                                                    dataType: 'json',
-                                                    success: function (result) {
-                                                        alert(result.message);
-                                                        //jQuery("#" + childGridID).jqGrid('delRowData', rowid);
-                                                        $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                                    },
-
-                                                }
-                                                );
-                                        }
-                                    }
-                                    else {
-                                        alert('@Resources.Language.Information_Tips_Select');
-                                    }
-                                }
-
-                                else {
-                                    alert("該訂單已生成帳單，不能刪除調度！");
-                                    return;
-                                }
-
-                            },
-                        });
-
-                    },
-                    position: "last"
-                }).navButtonAdd('#' + childGridPagerID, {
-                    //id: childGridID + '_ilrefresh',
-                    caption: "", title: '@Resources.Language.Add', buttonicon: "ui-icon-plus",
-                    onClickButton: function () {
-                        g_cur_parentGridRowId = parentRowKey;
-                        g_cur_subGridId = '#' + childGridID;
-                        g_mode = '@Resources.Language.Add';
-
-
-                        var orderId = jQuery('#jqGrid').jqGrid('getCell', parentRowKey, "OrderID"); //OrderID;
-                        $.ajax({
-                            url: '@Url.Action("CheckOrderInvoiceStatus", "OrderManage")',
-                            type: "POST",
-                            data: {
-                                'orderId': orderId
-                            },//"oper=delete&id=" + gr,
-                            dataType: 'json',
-                            success: function (result) {
-                                if (result.has_invoice == null || result.has_invoice == "" || result.has_invoice == "否") {
-                                    //可以新增
-                                    AddChild();
-                                }
-                                else {
-                                    alert("該訂單已生成帳單，不能添加調度！");
-                                    return;
-                                }
-                            }
-                        });
-                    }
-                })
+                
             @*.navButtonAdd('#' + childGridPagerID, {
                         //id: childGridID + '_ilrefresh',
                         caption: "", title: "编辑", buttonicon: "ui-icon-pencil",
@@ -1345,11 +1228,11 @@
         {
             $('#' + childGridID).inlineNav('#' + childGridPagerID,
                         {
-                            edit: true,
+                            edit: false,
                             add: false,
-                            del: true,
-                            save: true,
-                            cancel: true,
+                            del: false,
+                            save: false,
+                            cancel: false,
                             editParams: {
                                 keys: true,
                                 successfunc: function (val) {
@@ -1587,7 +1470,7 @@
 
         //_ServiceWorkDate
         $('#childErrMsg').hide();
-        
+
         $('#_InformCaptainTime').parent().removeClass("has-error");
         $('#_CaptainConfirmTime').parent().removeClass("has-error");
         $('#_ChooseTug').parent().removeClass("has-error");
@@ -1605,7 +1488,7 @@
         var serviceWorkTime = dr.ServiceWorkTime;
         var serviceWorkPlace = dr.ServiceWorkPlace;
         var tugId = $('#_TugID').text();
-        
+
         var informCaptainTime = $('#_InformCaptainTime').val().trim();
         var captainConfirmTime = $('#_CaptainConfirmTime').val().trim();
         var ropeUsed = "否";
@@ -1623,7 +1506,7 @@
 
         //校验
 
-        
+
 
         if ($("#_ChooseTug").val().toString().trim().length <= 0) {
             $('#childErrMsg p').html('@Resources.Language.V_OrderScheduler_ChooseTug' + ":請選擇一個拖輪");

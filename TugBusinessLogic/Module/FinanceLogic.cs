@@ -5522,7 +5522,7 @@ namespace TugBusinessLogic.Module
                         int lessValue;
                         if (true == Utils.GetShipLengthLessValue(item.ShipLength, out lessValue))
                         {
-                            if (shipLength < lessValue)
+                            if (shipLength <= lessValue)
                             {
                                 //retList.Add(item);
 
@@ -5531,7 +5531,7 @@ namespace TugBusinessLogic.Module
                                     int lessValue2;
                                     if (true == Utils.GetShipTEUSLessValue(item.ShipTEUS, out lessValue2))
                                     {
-                                        if (shipTEUS < lessValue2)
+                                        if (shipTEUS <= lessValue2)
                                         {
                                             retList.Add(item);
                                         }
@@ -5540,7 +5540,7 @@ namespace TugBusinessLogic.Module
                                     int greaterValue2;
                                     if (true == Utils.GetShipTEUSGreaterValue(item.ShipTEUS, out greaterValue2))
                                     {
-                                        if (shipTEUS > greaterValue2)
+                                        if (shipTEUS >= greaterValue2)
                                         {
                                             retList.Add(item);
                                         }
@@ -5562,7 +5562,7 @@ namespace TugBusinessLogic.Module
                         int greaterValue;
                         if (true == Utils.GetShipLengthGreaterValue(item.ShipLength, out greaterValue))
                         {
-                            if (shipLength > greaterValue)
+                            if (shipLength >= greaterValue)
                             {
                                 //retList.Add(item);
                                 if (item.ShipTEUS != null)
@@ -5570,7 +5570,7 @@ namespace TugBusinessLogic.Module
                                     int lessValue2;
                                     if (true == Utils.GetShipTEUSLessValue(item.ShipTEUS, out lessValue2))
                                     {
-                                        if (shipTEUS < lessValue2)
+                                        if (shipTEUS <= lessValue2)
                                         {
                                             retList.Add(item);
                                         }
@@ -5579,7 +5579,7 @@ namespace TugBusinessLogic.Module
                                     int greaterValue2;
                                     if (true == Utils.GetShipTEUSGreaterValue(item.ShipTEUS, out greaterValue2))
                                     {
-                                        if (shipTEUS > greaterValue2)
+                                        if (shipTEUS >= greaterValue2)
                                         {
                                             retList.Add(item);
                                         }
@@ -5608,7 +5608,7 @@ namespace TugBusinessLogic.Module
                                     int lessValue2;
                                     if (true == Utils.GetShipTEUSLessValue(item.ShipTEUS, out lessValue2))
                                     {
-                                        if (shipTEUS < lessValue2)
+                                        if (shipTEUS <= lessValue2)
                                         {
                                             retList.Add(item);
                                         }
@@ -5617,7 +5617,7 @@ namespace TugBusinessLogic.Module
                                     int greaterValue2;
                                     if (true == Utils.GetShipTEUSGreaterValue(item.ShipTEUS, out greaterValue2))
                                     {
-                                        if (shipTEUS > greaterValue2)
+                                        if (shipTEUS >= greaterValue2)
                                         {
                                             retList.Add(item);
                                         }
