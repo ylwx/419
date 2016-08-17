@@ -714,7 +714,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -913,7 +913,7 @@ namespace TugBusinessLogic.Module
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -5061,7 +5061,7 @@ namespace TugBusinessLogic.Module
 
             TugDataEntities db = new TugDataEntities();
             V_BillingItemTemplate bit = db.V_BillingItemTemplate.FirstOrDefault(u => u.BillingTemplateID == billingTemplateId 
-                && (u.ItemID == 120 || u.ItemValue == "C83" || u.ItemLabel == "燃油附加费折扣"));
+                && (u.ItemID == 119 || u.ItemValue == "E80" || u.ItemLabel == "燃油附加费折扣"));
             if (bit != null) {
                 discoutPriceOfFuelFee = (double)bit.UnitPrice;
             }
