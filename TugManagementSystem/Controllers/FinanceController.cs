@@ -710,15 +710,49 @@ namespace TugManagementSystem.Controllers
             Dictionary<int, int> dicHasInvoiceNotInFlow = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceInFow = new Dictionary<int, int>();
             Dictionary<int, int> dicHasInvoiceNotInFlowBills = new Dictionary<int, int>();
+            string ret = "";
+
+            TugDataEntities db = new TugDataEntities();
+            List<string> list = selectedOrderIDs.Split(',').ToList();
+            if (list != null)
+            {
+                foreach (string item in list)
+                {
+                    int orderId = Convert .ToInt32(item.Split(':')[1]);
+                    V_OrderService_Scheduler ob = db.V_OrderService_Scheduler.FirstOrDefault(u => u.OrderID == orderId);
+                    if (ob != null)
+                    {
+                        ret = "該訂單已排船,不可編輯！";
+                    }
+                }
+            }
 
             TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow, out dicHasInvoiceNotInFlowBills);
-
-            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE,
-                              dic_has_no_invoice = dicHasNoInvoice,
-                              dic_has_invoice_not_in_flow = dicHasInvoiceNotInFlow,
-                              dic_has_invoice_in_fow = dicHasInvoiceInFow,
-                              dic_has_invoice_not_in_flow_bills = dicHasInvoiceNotInFlowBills
+            return Json(new
+            {
+                code = Resources.Common.SUCCESS_CODE,
+                message = Resources.Common.SUCCESS_MESSAGE,
+                dic_has_no_invoice = dicHasNoInvoice,
+                dic_has_invoice_not_in_flow = dicHasInvoiceNotInFlow,
+                dic_has_invoice_in_fow = dicHasInvoiceInFow,
+                dic_has_invoice_not_in_flow_bills = dicHasInvoiceNotInFlowBills,
+                ret
             }, JsonRequestBehavior.AllowGet);
+  
+
+          
+        }
+        static private string GetStatusOfOrderScheduler(int orderId)
+        {
+
+            string ret = "";
+            TugDataEntities db = new TugDataEntities();
+            V_OrderService_Scheduler ob = db.V_OrderService_Scheduler.FirstOrDefault(u => u.OrderID == orderId);
+            if (ob != null)
+            {
+                ret = "該訂單已排船";
+            }
+            return ret;
         }
 
         #endregion
