@@ -87,6 +87,7 @@ namespace TugDataModel
         public virtual DbSet<V_OrderInfor> V_OrderInfor { get; set; }
         public virtual DbSet<V_OrderScheduler> V_OrderScheduler { get; set; }
         public virtual DbSet<V_OrderService> V_OrderService { get; set; }
+        public virtual DbSet<V_OrderService_Scheduler> V_OrderService_Scheduler { get; set; }
         public virtual DbSet<V_RoleMenu> V_RoleMenu { get; set; }
         public virtual DbSet<V_RoleModule> V_RoleModule { get; set; }
         public virtual DbSet<V_RoleUser> V_RoleUser { get; set; }
@@ -335,6 +336,84 @@ namespace TugDataModel
                 new ObjectParameter("userID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_approved1_Result1> proc_approved1(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved1_Result1>("proc_approved1", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_inv_item2_Result> proc_inv_item2(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        {
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item2_Result>("proc_inv_item2", billingIDParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<proc_inv_item_xy2_Result> proc_inv_item_xy2(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        {
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy2_Result>("proc_inv_item_xy2", billingIDParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric2(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
+        {
+            var departBaseTimeParameter = departBaseTime != null ?
+                new ObjectParameter("DepartBaseTime", departBaseTime) :
+                new ObjectParameter("DepartBaseTime", typeof(string));
+    
+            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
+                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
+                new ObjectParameter("ArrivalBaseTime", typeof(string));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("proc_inv_SrvHourNumeric2", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<string> proc_inv_SrvHourString2(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
+        {
+            var departBaseTimeParameter = departBaseTime != null ?
+                new ObjectParameter("DepartBaseTime", departBaseTime) :
+                new ObjectParameter("DepartBaseTime", typeof(string));
+    
+            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
+                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
+                new ObjectParameter("ArrivalBaseTime", typeof(string));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString2", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<proc_needapprove1_Result> proc_needapprove1(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove1_Result>("proc_needapprove1", userIDParameter);
         }
     }
 }

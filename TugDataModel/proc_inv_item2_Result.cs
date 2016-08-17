@@ -10,16 +10,14 @@
 namespace TugDataModel
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class V_Inv_Head
+    public partial class proc_inv_item2_Result
     {
-        public int IDX { get; set; }
-        public string BillingCode { get; set; }
-        public string CreateDate { get; set; }
-        public string CustomerName { get; set; }
-        public string ShipName { get; set; }
-        public Nullable<int> TimeTypeID { get; set; }
-        public string Remark { get; set; }
+        public string ItemCode { get; set; }
+        public string Item { get; set; }
+        public string Value { get; set; }
+        public string TugName { get; set; }
+        public string ServiceName { get; set; }
+        public string Code { get; set; }
     }
 }
