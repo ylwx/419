@@ -305,6 +305,15 @@ namespace TugManagementSystem.Controllers
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
+            //获取长度或箱量信息
+            if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
+            {
+                FReport.Parameters.FindByName("strRule").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]);
+            }
+            else if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipTEUSRule"]) == "是")
+            {
+                FReport.Parameters.FindByName("strRule").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
+            }
             //上
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("V_Inv_OrdService", strV_Inv_OrdService);
             FReport.RegisterData(dtV_Inv_OrdService, dtV_Inv_OrdService.TableName);
@@ -380,6 +389,15 @@ namespace TugManagementSystem.Controllers
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
+            //获取长度或箱量信息
+            if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
+            { 
+                FReport.Parameters.FindByName("strRule").Value =Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]);
+            }
+            else if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipTEUSRule"]) == "是")
+            {
+                FReport.Parameters.FindByName("strRule").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
+            }
             //上
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("V_Inv_OrdService", strV_Inv_OrdService);
             FReport.RegisterData(dtV_Inv_OrdService, dtV_Inv_OrdService.TableName);
@@ -416,7 +434,8 @@ namespace TugManagementSystem.Controllers
             //脚,Grand Total HK$
             dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
             FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
-
+             //参数
+            //FReport.Parameters.FindByName("GrandTotalHK$").Value = FinanceLogic.GetFuelFee();
         }
         #endregion
 

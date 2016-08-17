@@ -1399,6 +1399,7 @@ namespace TugManagementSystem.Controllers
                         //1.插入账单
                         TugDataModel.Billing aScheduler = new Billing();
 
+                        aScheduler.CustomerID = custId;
                         aScheduler.JobNo = jobNo;
                         aScheduler.IsShowShipLengthRule = isShowShipLengthRule;
                         aScheduler.IsShowShipTEUSRule = isShowShipTEUSRule;

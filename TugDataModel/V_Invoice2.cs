@@ -20,7 +20,6 @@ namespace TugDataModel
         public string IsShowShipLengthRule { get; set; }
         public string IsShowShipTEUSRule { get; set; }
         public Nullable<int> CustomerID { get; set; }
-        public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
         public Nullable<int> BillingTemplateID { get; set; }
         public string BillingTemplateName { get; set; }

@@ -161,7 +161,7 @@ namespace TugBusinessLogic.Module
                                         //    bit.Price = CalculateFuelFee(orderDate, sch.WorkTimeConsumption);
                                         //    //bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
                                         //}
-                                        if (subItem.ItemID == 23 || subItem.BillingItemValue == "C81" || subItem.BillingItemLabel == "拖缆费")
+                                        if (subItem.ItemID == 23 || subItem.BillingItemValue == "C82" || subItem.BillingItemLabel == "拖缆费")
                                             bit.Price = subItem.UnitPrice * sch.RopeNum;
                                         else
                                             bit.Price = subItem.UnitPrice;
@@ -176,9 +176,9 @@ namespace TugBusinessLogic.Module
                                             upTotalPrice += (double)bit.Price;
                                         else if(subItem.BillingItemValue.StartsWith("C"))
                                         {
-                                            if(subItem.BillingItemValue.Equals("C82"))
+                                            if(subItem.BillingItemValue.Equals("C78"))
                                                 discoutPrice += (double)bit.Price;
-                                            else if(subItem.BillingItemValue.Equals("C81"))
+                                            else if(subItem.BillingItemValue.Equals("C82"))
                                                 midTotalPrice += (double)bit.Price;
 
                                         }
@@ -395,7 +395,7 @@ namespace TugBusinessLogic.Module
                                         //    bit.Price = CalculateFuelFee(orderDate, sch.WorkTimeConsumption);
                                         //    //bit.Price = subItem.UnitPrice * sch.WorkTimeConsumption;
                                         //}
-                                        if (subItem.ItemID == 23 || subItem.BillingItemValue == "C81" || subItem.BillingItemLabel == "拖缆费")
+                                        if (subItem.ItemID == 23 || subItem.BillingItemValue == "C82" || subItem.BillingItemLabel == "拖缆费")
                                             bit.Price = subItem.UnitPrice * sch.RopeNum;
                                         else
                                             bit.Price = subItem.UnitPrice;
@@ -410,7 +410,7 @@ namespace TugBusinessLogic.Module
                                         {
                                             if (subItem.BillingItemValue.Equals("C78")) //折扣
                                                 discoutPrice += (double)bit.Price;
-                                            else if (subItem.BillingItemValue.Equals("C81") || subItem.BillingItemValue.Equals("C15") || subItem.BillingItemValue.Equals("C80")) //拖缆费、3600以上、燃油费
+                                            else if (subItem.BillingItemValue.Equals("C82") || subItem.BillingItemValue.Equals("C15") || subItem.BillingItemValue.Equals("C80")) //拖缆费、3600以上、燃油费
                                                 midTotalPrice += (double)bit.Price;
 
                                         }
@@ -691,9 +691,9 @@ namespace TugBusinessLogic.Module
 
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78"))
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C82"))
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -705,16 +705,16 @@ namespace TugBusinessLogic.Module
                                             mbi.ItemLabel = tmp.ItemLabel;
                                             mbi.UnitPrice = tmp.UnitPrice;
 
-                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
+                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C82" || tmp.ItemLabel == "拖缆费")
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C78" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -728,9 +728,9 @@ namespace TugBusinessLogic.Module
                                                 mid_total_price += (double)mbi.Price; 
                                             }
                                             if (item.CustomValue.StartsWith("C")) {
-                                                if (item.CustomValue.Equals("C82")) 
+                                                if (item.CustomValue.Equals("C78")) 
                                                     discount_price += (double)mbi.Price;
-                                                else if(item.CustomValue.Equals("C81"))
+                                                else if(item.CustomValue.Equals("C82"))
                                                     bottom_total_price += (double)mbi.Price; 
                                             }
 
@@ -890,9 +890,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78"))
                                                     discount_price += (double)mbi.Price;
-                                                else if(item.CustomValue.Equals("C81"))
+                                                else if(item.CustomValue.Equals("C82"))
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -904,16 +904,16 @@ namespace TugBusinessLogic.Module
                                             mbi.ItemLabel = tmp.ItemLabel;
                                             mbi.UnitPrice = tmp.UnitPrice;
 
-                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
+                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C82" || tmp.ItemLabel == "拖缆费")
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C82" || tmp.ItemLabel == "折扣")
+                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C78" || tmp.ItemLabel == "折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                                 mySch.DiscoutPrice = (double)tmp.UnitPrice;
                                             }
-                                            else if (tmp.ItemID == 40 || tmp.ItemValue == "C83" || tmp.ItemLabel == "燃油附加费折扣")
+                                            else if (tmp.ItemID == 119 || tmp.ItemValue == "E80" || tmp.ItemLabel == "燃油附加费折扣")
                                             {
                                                 mbi.Price = tmp.UnitPrice;
                                             }
@@ -928,9 +928,9 @@ namespace TugBusinessLogic.Module
                                             }
                                             if (item.CustomValue.StartsWith("C"))
                                             {
-                                                if (item.CustomValue.Equals("C82"))
+                                                if (item.CustomValue.Equals("C78"))
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))
+                                                else if (item.CustomValue.Equals("C82"))
                                                     bottom_total_price += (double)mbi.Price;
                                             }
 
@@ -1234,7 +1234,7 @@ namespace TugBusinessLogic.Module
                                             {
                                                 if (item.CustomValue.Equals("C78")) //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81")) //拖缆费
+                                                else if (item.CustomValue.Equals("C82")) //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -1246,7 +1246,7 @@ namespace TugBusinessLogic.Module
                                             mbi.ItemLabel = tmp.ItemLabel;
                                             mbi.UnitPrice = tmp.UnitPrice;
 
-                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
+                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C82" || tmp.ItemLabel == "拖缆费")
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
@@ -1272,7 +1272,7 @@ namespace TugBusinessLogic.Module
                                             {
                                                 if (item.CustomValue.Equals("C78")) //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
+                                                else if (item.CustomValue.Equals("C82"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
 
@@ -1434,7 +1434,7 @@ namespace TugBusinessLogic.Module
                                             {
                                                 if (item.CustomValue.Equals("C78"))     //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
+                                                else if (item.CustomValue.Equals("C82"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
                                         }
@@ -1446,7 +1446,7 @@ namespace TugBusinessLogic.Module
                                             mbi.ItemLabel = tmp.ItemLabel;
                                             mbi.UnitPrice = tmp.UnitPrice;
 
-                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C81" || tmp.ItemLabel == "拖缆费")
+                                            if (tmp.ItemID == 23 || tmp.ItemValue == "C82" || tmp.ItemLabel == "拖缆费")
                                             {
                                                 mbi.Price = tmp.UnitPrice * mySch.RopeNum;
                                             }
@@ -1472,7 +1472,7 @@ namespace TugBusinessLogic.Module
                                             {
                                                 if (item.CustomValue.Equals("C78"))     //折扣
                                                     discount_price += (double)mbi.Price;
-                                                else if (item.CustomValue.Equals("C81"))    //拖缆费
+                                                else if (item.CustomValue.Equals("C82"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
                                             }
 
@@ -5061,7 +5061,7 @@ namespace TugBusinessLogic.Module
 
             TugDataEntities db = new TugDataEntities();
             V_BillingItemTemplate bit = db.V_BillingItemTemplate.FirstOrDefault(u => u.BillingTemplateID == billingTemplateId 
-                && (u.ItemID == 120 || u.ItemValue == "C83" || u.ItemLabel == "燃油附加费折扣"));
+                && (u.ItemID == 119 || u.ItemValue == "E80" || u.ItemLabel == "燃油附加费折扣"));
             if (bit != null) {
                 discoutPriceOfFuelFee = (double)bit.UnitPrice;
             }
@@ -5726,6 +5726,9 @@ namespace TugBusinessLogic.Module
             return ret;
         }
 
+
+
+        
 
     }
 }

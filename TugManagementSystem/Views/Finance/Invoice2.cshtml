@@ -2629,6 +2629,7 @@
 
         $('#add_btn_sumbit').attr('disabled', false);
         $('#add_btn_voice_preview').attr('disabled', true);
+        $('#sel_billing_scheme').attr('disabled', false);
         //$('#add_btn_voice_preview').hide();
 
         var selectedOrderRowIds = '';
@@ -3746,7 +3747,7 @@
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
@@ -3799,7 +3800,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(1) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -4353,7 +4354,7 @@
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
@@ -4406,7 +4407,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(2) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(2) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -5498,17 +5499,25 @@
 
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
+                            var feulFeeUnitPrice = 0;
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (125 == value[i].BillingItems[j].ItemID || "C81" == value[i].BillingItems[j].ItemValue) {
+                                    feulFeeUnitPrice = value[i].BillingItems[j].Price;
+                                }
+                            }
+
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            //span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(feulFeeUnitPrice)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
 
                             var feulFeeDiscount = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
-                                if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
+                                if (119 == value[i].BillingItems[j].ItemID || "E80" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
                             }
                         }
@@ -5570,7 +5579,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(1) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -6188,20 +6197,28 @@
 
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
+                            var feulFeeUnitPrice = 0;
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (125 == value[i].BillingItems[j].ItemID || "C81" == value[i].BillingItems[j].ItemValue) {
+                                    feulFeeUnitPrice = value[i].BillingItems[j].Price;
+                                }
+                            }
+
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            //span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(feulFeeUnitPrice)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
 
                             var feulFeeDiscount = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
-                                if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
+                                if (119 == value[i].BillingItems[j].ItemID || "E80" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
+                                }
                             }
-                        }
 
                             var p1 = $('<p>燃油附加費折扣</p>')
                             var input1 = $('<input style="width:100px;" type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_119_E80' + '" value="' + FormatPrice(GetFloatStr(feulFeeDiscount)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)" disabled>')
@@ -6260,7 +6277,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(1) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -7624,7 +7641,7 @@
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
@@ -7677,7 +7694,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(1) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -8231,7 +8248,7 @@
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
@@ -8284,7 +8301,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(2) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(2) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -9004,20 +9021,28 @@
 
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
+                            var feulFeeUnitPrice = 0;
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (125 == value[i].BillingItems[j].ItemID || "C81" == value[i].BillingItems[j].ItemValue) {
+                                    feulFeeUnitPrice = value[i].BillingItems[j].Price;
+                                }
+                            }
+
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            //span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(feulFeeUnitPrice)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
 
                             var feulFeeDiscount = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
-                                if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
+                                if (119 == value[i].BillingItems[j].ItemID || "E80" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
+                                }
                             }
-                        }
 
                             var p1 = $('<p>燃油附加費折扣</p>')
                             var input1 = $('<input style="width:100px;" type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_119_E80' + '" value="' + FormatPrice(GetFloatStr(feulFeeDiscount)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
@@ -9076,7 +9101,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(1) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -9695,20 +9720,29 @@
 
                             td = $('<td "width="" style="text-align:center;vertical-align:middle"></td>');
 
+                            var feulFeeUnitPrice = 0;
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (125 == value[i].BillingItems[j].ItemID || "C81" == value[i].BillingItems[j].ItemValue) {
+                                    feulFeeUnitPrice = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+
                             var unit_price_p = $('<p></p>');
                             var span = $('<span>單價(每小時):</span>');
                             unit_price_p.append(span);
-                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            //span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(value[i].UnitPriceOfFeulFee)) + '</span>');
+                            span = $('<span id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_125_C81' + '" name="燃油附加费单价">' + FormatPrice(GetFloatStr(feulFeeUnitPrice)) + '</span>');
                             unit_price_p.append(span);
                             td.append(unit_price_p);
 
 
                             var feulFeeDiscount = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
-                                if (119 == value[i].BillingItems[j].ItemID || "C83" == value[i].BillingItems[j].ItemValue) {
+                                if (119 == value[i].BillingItems[j].ItemID || "E80" == value[i].BillingItems[j].ItemValue) {
                                     feulFeeDiscount = value[i].BillingItems[j].Price;
+                                }
                             }
-                        }
 
                             var p1 = $('<p>燃油附加費折扣</p>')
                             var input1 = $('<input style="width:100px;" type="text" name="燃油附加费折扣" id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_119_E80' + '" value="' + FormatPrice(GetFloatStr(feulFeeDiscount)) + '" onkeyup="DefaultBanbao_RanYouDiscout_InputChanged(this)">')
@@ -9767,7 +9801,7 @@
             for (var ii = 0; ii < result.items.length; ii++) {
                 var tr = $('<tr></tr>')
 
-                if (result.items[ii].CustomValue.substr(0, 3) == 'C81' && result.items[ii].FormulaStr.charAt(1) == '1') {
+                if (result.items[ii].CustomValue.substr(0, 3) == 'C82' && result.items[ii].FormulaStr.charAt(1) == '1') {
 
                     var unitPrice = 0;
                     for (var j = 0; j < result.customer_scheme.length; ++j) {
@@ -11381,7 +11415,26 @@
             }
         });
 
-        //8.燃油附加费折扣
+        //8.燃油附加费单价
+        $('span[name="燃油附加费单价"]').each(function () {
+            var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
+            var schedulerId = $(this).attr("id").split('_')[1]; //调度id
+            var serviceNatureId = $(this).attr("id").split('_')[2]; //服务id
+            var itemId = $(this).attr("id").split('_')[3]; //收费项id
+            var itemValue = $(this).attr("id").split('_')[4]; //收费项id
+
+            var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+
+            {
+                var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
+                var currency = "港币";
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
+        });
+
+        //9.燃油附加费折扣
         $('input[name="燃油附加费折扣"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -11400,7 +11453,7 @@
             }
         });
 
-        //9.燃油附加费额外费用
+        //10.燃油附加费额外费用
         $('input[name="燃油附加费额外费用"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -11419,7 +11472,7 @@
                     }
         });
 
-        //10.燃油附加费
+        //11.燃油附加费
         $('p[name="燃油附加费"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -11438,7 +11491,7 @@
                     }
         });
 
-        //11.拖缆费
+        //12.拖缆费
         $('td[name="拖缆费"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -11617,7 +11670,26 @@
             }
         });
 
-        //8.燃油附加费折扣
+        //8.燃油附加费单价
+        $('span[name="燃油附加费单价"]').each(function () {
+            var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
+            var schedulerId = $(this).attr("id").split('_')[1]; //调度id
+            var serviceNatureId = $(this).attr("id").split('_')[2]; //服务id
+            var itemId = $(this).attr("id").split('_')[3]; //收费项id
+            var itemValue = $(this).attr("id").split('_')[4]; //收费项id
+
+            var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+
+            {
+                var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
+                var currency = "港币";
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
+        });
+
+        //9.燃油附加费折扣
         $('input[name="燃油附加费折扣"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -11636,7 +11708,7 @@
             }
         });
 
-        //9.燃油附加费额外费用
+        //10.燃油附加费额外费用
         $('input[name="燃油附加费额外费用"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -11655,7 +11727,7 @@
                     }
         });
 
-        //10.燃油附加费
+        //11.燃油附加费
         $('p[name="燃油附加费"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -11674,7 +11746,7 @@
             }
         });
 
-        //11.拖缆费
+        //12.拖缆费
         $('td[name="拖缆费"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12301,7 +12373,7 @@
 
         //alert(($(obj).is(':checked')));
 
-        if (itemId == 23 || itemValue == "C81") {
+        if (itemId == 23 || itemValue == "C82") {
 
             var grand_total = 0;
             var inputs = $('input[name="协议收费"]');
@@ -12409,7 +12481,7 @@
 
         var element_id = $(obj).attr("id");
 
-        if (itemId == 23 || itemValue == "C81") {
+        if (itemId == 23 || itemValue == "C82") {
             if ($(obj).is(':checked') == true) {
 
                 $('p[name="real_price"][id="' + element_id + '"]').text($('p[name="tmp_price"][id="' + element_id + '"]').text());
