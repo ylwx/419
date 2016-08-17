@@ -2090,6 +2090,47 @@
                 $('#parentErrMsg').show();
                 return;
             }
+            var vltime = hot.getDataAtCell(i, 2)
+            if (vltime == null || vltime == '' || vltime == undefined) {
+                //alert("第" + (i + 1) + "行人员为空! ");
+                $('#parentErrMsg p').html("第" + (i + 1) + "工作時間為空! ");
+                //$('#_XX').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+            else
+            {
+                var err=false; 
+                var tm = vltime.split(":");
+                //alert(tm.length)
+                if (tm.length == 1)
+                    err = true;
+                else
+                {
+                    var rv1 = parseInt(tm[0]);
+                    //alert(rv1);
+                    //alert(rv1.toString() == 'NaN');
+                    if (rv1.toString()== 'NaN')
+                    { err = true; }
+                    else {
+                        if (rv1 < 0 || rv1 > 24) err = true;
+                    }
+                    var rv2 = parseInt(tm[1]);
+                    //alert(rv2);
+                    if (rv2.toString() == 'NaN')
+                    { err = true; }
+                    else {
+                        if (rv2 < 0 || rv2 > 59) err = true;
+                    }
+                }
+                //alert(err);
+                if(err==true) 
+                {
+                    $('#parentErrMsg p').html("第" + (i + 1) + "工作格式錯誤，請參照格式 13：30 ! ");
+                    $('#parentErrMsg').show();
+                    return;
+                }
+            }
 
         }
 
