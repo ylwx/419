@@ -37,11 +37,11 @@ namespace TugManagementSystem.Controllers
             ctmobj.Label = "作業位置";
             list.Add(ctmobj);
 
-            CustomEntity ctmobj1 = new CustomEntity();
-            ctmobj1.IDX = 1;
-            ctmobj1.Name = "OrderService.Content";
-            ctmobj1.Label = "服務內容";
-            list.Add(ctmobj1);
+            //CustomEntity ctmobj1 = new CustomEntity();
+            //ctmobj1.IDX = 1;
+            //ctmobj1.Name = "OrderInfor.ServiceNatureID";
+            //ctmobj1.Label = "服務內容";
+            //list.Add(ctmobj1);
 
             ViewBag.TotalPageNum = 1;
             ViewBag.CurPage = 1;
