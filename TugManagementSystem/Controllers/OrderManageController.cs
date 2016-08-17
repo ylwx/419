@@ -1984,6 +1984,7 @@ namespace TugManagementSystem.Controllers
                         //aScheduler.ServiceNatureID = TugBusinessLogic.Module.Util.toint(Request.Form["ServiceNatureID"]);
                         aScheduler.ServiceWorkDate = Request.Form["ServiceWorkDate"];
                         aScheduler.ServiceWorkPlace = Request.Form["ServiceWorkPlace"];
+                        aScheduler.ServiceWorkTime = Request.Form["ServiceWorkTime"];
 
 
                         aScheduler.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());

@@ -141,9 +141,10 @@
                 <div class="modal-footer">
                     <div id="_CustomerID" hidden>-1</div>
                     <div id="_ShipID" hidden>-1</div>
+                    <div id="_BillingID" hidden></div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                     <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
-                    <button hidden id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">@Resources.Language.Preview</button>
+                    <button id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreviewAfterAddBilling()">@Resources.Language.Preview</button>
                 </div>
             </div>
         </div>
@@ -2000,7 +2001,7 @@
 
         $('#add_btn_sumbit').attr('disabled', false);
         $('#add_btn_voice_preview').attr('disabled', true);
-        $('#add_btn_voice_preview').hide();
+        //$('#add_btn_voice_preview').hide();
 
         $('#add_sel_month').datetimepicker({
             //format: 'Y-m-d H:i:s',
@@ -2081,10 +2082,12 @@
                 
                 alert(result.message);
 
-                $('#parent-modal').modal('hide')
+                //$('#parent-modal').modal('hide')
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
                     $('#add_btn_voice_preview').attr('disabled', false);
+
+                    $('#_BillingID').text(result.billing_id);
 
                     $('#jqGrid_Order').jqGrid('setGridParam',
                     {
@@ -3072,6 +3075,28 @@
 <!--报表预览-->
 <script>
 
+    function InvoicePreviewAfterAddBilling() {
+
+        //var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+        //var rowid = g_curRowId;
+
+        //var billingId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX"); //BillingID
+        var billingId = parseInt($('#_BillingID').text());//BillingID
+
+        //if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+        //    || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+        //    //alert("全包或半包报表预览");
+        //    //location.href = '/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeId
+        //    open('/Report/Invoice_qborbb' + '?OrderID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        //}
+
+        //else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+        //    //alert("计时报表预览");
+        //    open('/Report/Invoice_tk' + '?BillingID=' + orderId + '&TimeTypeValue=' + timeTypeValue)
+        //}
+
+        open('/Report/Invoice_Special' + '?BillingID=' + billingId)
+    }
 
     function InvoicePreview() {
 
