@@ -1929,6 +1929,80 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+
+        public ActionResult RejectOrderServiceToScheduler(int orderId)
+        {
+            int ret = TugBusinessLogic.Module.OrderLogic.HasBilling(orderId);
+
+            //沒有帳單可以駁回
+            if (ret == -1) {
+
+                using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
+                {
+                    try
+                    {
+                        TugDataEntities db = new TugDataEntities();
+                        var lstOrderService = db.OrderService.Where(u => u.OrderID == orderId).ToList();
+                        if (lstOrderService != null)
+                        {
+                            foreach (var item in lstOrderService)
+                            {
+                                var lstScheduler = db.Scheduler.Where(u => u.OrderServiceID == item.IDX).ToList();
+                                if (lstScheduler != null)
+                                {
+                                    foreach (var item2 in lstScheduler)
+                                    {
+                                        item2.DepartBaseTime = "";
+                                        item2.ArrivalBaseTime = "";
+                                        item2.RopeUsed = "否";
+                                        item2.Remark = "";
+                                        db.Entry(item2).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                }
+
+                                item.JobStateID = 124;
+                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+
+                            //订单状态该为未排船
+                            {
+                                OrderInfor oi = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+                                if (oi != null)
+                                {
+                                    oi.WorkStateID = 2;  //所有服务都未完成，因此订单状态变成“未排船”
+                                    db.Entry(oi).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+
+                        trans.Complete();
+  
+                    }
+                    catch(Exception ex)
+                    {
+                        trans.Dispose();
+                        return Json(new
+                        {
+                            code = Resources.Common.EXCEPTION_CODE,
+                            message = Resources.Common.EXCEPTION_MESSAGE,
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+
+            return Json(new
+            {
+                code = Resources.Common.SUCCESS_CODE,
+                message = Resources.Common.SUCCESS_MESSAGE,
+                has_invoice = ret
+            }, JsonRequestBehavior.AllowGet);
+            
+        }
+
+
         #endregion
 
 
@@ -2199,7 +2273,7 @@ namespace TugManagementSystem.Controllers
                 if (list != null)
                 {
                     bool flag = true;
-                    foreach (var item in list)
+                    foreach (var item in list) //查看该订单下有没有未完成的服务，如果有，flag = false; 如果没有flag = true
                     {
                         if(item.ServiceJobStateID != 116 || item.ServiceJobStateValue != "2" ||item.ServiceJobStateLabel != "已完工")
                         {
@@ -2209,7 +2283,7 @@ namespace TugManagementSystem.Controllers
 
                     }
 
-                    if (flag == true)
+                    if (flag == true) //flag是true说明该订单下的所有服务都已经是完成状态，将订单状态改为已排船，否则是未排船
                     {
                         //更新订单状态为已排船
                         OrderInfor oi = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);

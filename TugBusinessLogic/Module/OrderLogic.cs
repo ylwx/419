@@ -6954,5 +6954,38 @@ namespace TugBusinessLogic.Module
             }
         }
         #endregion
+
+
+
+        /// <summary>
+        /// 判断该订单下的服务是否生成过账单，包括普通账单和特殊账单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns>-1：没有账单；1：特殊账单；其他：普通账单</returns>
+        static public int HasBilling(int orderId)
+        {
+            int ret = -1;
+
+            TugDataEntities db = new TugDataEntities();
+            OrderService os = db.OrderService.FirstOrDefault(u => u.OrderID == orderId && u.HasBilling == "是");
+            if (os != null)
+            {
+                ret = TugBusinessLogic.Module.Util.toint(os.BillingType);
+                if (ret == 1)
+                {
+                    //特殊帳單
+                }
+                else
+                {
+                    //普通帳單
+                }
+            }
+            return ret;
+        }
+
+
     }
+
+
+
 }

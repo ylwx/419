@@ -337,13 +337,59 @@
                     }
                 })
                 .navButtonAdd('#jqGridPager', {
-                    caption: "", title: "'@Resources.Language.ClearSearchFilter'", buttonicon: "ui-icon-circle-minus",
+                    caption: "", title: "@Resources.Language.ClearSearchFilter", buttonicon: "ui-icon-circle-minus",
                     onClickButton: function () {
                         var grid = $('#jqGrid')[0];
                         grid.clearToolbar();
                         $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
                 })
+        .navButtonAdd('#jqGridPager', {
+            caption: "駁回", title: '駁回', buttonicon: "ui-icon-shuffle",
+            onClickButton: function () {
+                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                if (rowid != null) {
+                    var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX"); //OrderID
+
+                    if (confirm('確定要駁回該訂單吗?')) {
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: '@Url.Action("RejectOrderServiceToScheduler", "OrderManage")',
+                                data: { 'orderId': orderId },
+                                dataType: 'json',
+                                success: function (result) {
+
+                                    if (result.code == '@Resources.Common.SUCCESS_CODE') {
+                                        if (result.has_invoice == -1) {
+
+                                            alert("駁回成功!");
+                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+
+                                        }
+                                        else {
+                                            if (result.has_invoice == 1) {
+                                                alert("該訂單下的服務項生成過特殊帳單，請先刪除其特殊帳單，再駁回!");
+                                            }
+                                            else {
+                                                alert("該訂單下的服務項生成過普通帳單，請先刪除其特殊帳單，再駁回!");
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        alert(result.message);
+                                        //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                    }
+                                },
+
+                            });
+                    }
+                }
+                else {
+                    alert('选中一行');
+                }
+            }
+        })
 
         //modalDialogGridInit();
 
