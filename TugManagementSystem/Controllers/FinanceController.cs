@@ -1365,6 +1365,7 @@ namespace TugManagementSystem.Controllers
                         //1.插入账单
                         TugDataModel.Billing aScheduler = new Billing();
 
+                        aScheduler.CustomerID = custId;
                         aScheduler.JobNo = jobNo;
                         aScheduler.IsShowShipLengthRule = isShowShipLengthRule;
                         aScheduler.IsShowShipTEUSRule = isShowShipTEUSRule;
@@ -1516,7 +1517,7 @@ namespace TugManagementSystem.Controllers
 
                         trans.Complete();
 
-                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, billing_id = aScheduler.IDX };
                         //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                         return Json(ret, JsonRequestBehavior.AllowGet);
                     }
@@ -1525,7 +1526,7 @@ namespace TugManagementSystem.Controllers
                 catch (Exception ex)
                 {
                     trans.Dispose();
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE, billing_id = -1 };
                     //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
                     return Json(ret, JsonRequestBehavior.AllowGet);
                 }
@@ -2108,7 +2109,7 @@ namespace TugManagementSystem.Controllers
 
                         trans.Complete();
 
-                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, billing_id = aScheduler.IDX };
                         //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                         return Json(ret, JsonRequestBehavior.AllowGet);
                     }
@@ -2117,7 +2118,7 @@ namespace TugManagementSystem.Controllers
                 catch (Exception ex)
                 {
                     trans.Dispose();
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE, billing_id = -1 };
                     //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
                     return Json(ret, JsonRequestBehavior.AllowGet);
                 }

@@ -10,12 +10,14 @@
 namespace TugDataModel
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class V_OrderService_Scheduler
+    public partial class proc_inv_item_xy2_Result
     {
-        public Nullable<int> OrderID { get; set; }
-        public int SchedulerID { get; set; }
-        public int OrderServiceID { get; set; }
+        public string ItemCode { get; set; }
+        public string Item { get; set; }
+        public string Value { get; set; }
+        public string TugName { get; set; }
+        public string ServiceName { get; set; }
+        public string Code { get; set; }
     }
 }

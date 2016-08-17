@@ -662,7 +662,9 @@ namespace TugManagementSystem.Controllers
         public ActionResult GetCustomer(string term)
          {
             TugDataEntities db = new TugDataEntities();
-            List<Customer> customers = db.Customer.Where(u => u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
+            List<Customer> customers = db.Customer.Where(u => (u.Name1.ToLower().Trim().Contains(term.Trim().ToLower())) 
+                || u.Code.ToLower().Trim().Contains(term.Trim().ToLower()) 
+                || u.SimpleName.ToLower().Trim().Contains(term.Trim().ToLower()))
                 .Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
 
             List<object> list = new List<object>();
@@ -1984,6 +1986,7 @@ namespace TugManagementSystem.Controllers
                         //aScheduler.ServiceNatureID = TugBusinessLogic.Module.Util.toint(Request.Form["ServiceNatureID"]);
                         aScheduler.ServiceWorkDate = Request.Form["ServiceWorkDate"];
                         aScheduler.ServiceWorkPlace = Request.Form["ServiceWorkPlace"];
+                        aScheduler.ServiceWorkTime = Request.Form["ServiceWorkTime"];
 
 
                         aScheduler.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());

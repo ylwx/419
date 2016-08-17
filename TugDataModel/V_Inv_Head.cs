@@ -20,5 +20,6 @@ namespace TugDataModel
         public string CustomerName { get; set; }
         public string ShipName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
+        public string Remark { get; set; }
     }
 }
