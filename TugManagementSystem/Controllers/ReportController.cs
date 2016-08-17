@@ -416,7 +416,8 @@ namespace TugManagementSystem.Controllers
             //脚,Grand Total HK$
             dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
             FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
-
+             //参数
+            //FReport.Parameters.FindByName("GrandTotalHK$").Value = FinanceLogic.GetFuelFee();
         }
         #endregion
 
