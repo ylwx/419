@@ -21,5 +21,16 @@ namespace TugDataModel
         public string ShipName { get; set; }
         public Nullable<int> TimeTypeID { get; set; }
         public string Remark { get; set; }
+        public Nullable<int> BillingTemplateID { get; set; }
+        public Nullable<int> BillingTemplateTypeID { get; set; }
+        public string BillingTemplateCode { get; set; }
+        public string BillingTemplateName { get; set; }
+        public Nullable<double> Discount { get; set; }
+        public string ShipLength { get; set; }
+        public string ShipTEUS { get; set; }
+        public string ExpiryDate { get; set; }
+        public string TemplateCreditContent { get; set; }
+        public string IsShowShipLengthRule { get; set; }
+        public string IsShowShipTEUSRule { get; set; }
     }
 }
