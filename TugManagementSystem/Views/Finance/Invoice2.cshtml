@@ -804,9 +804,10 @@
                 </div>
                 <div class="modal-footer">
                     <div id="_edit_orderids" hidden></div>
+                    <div id="_BillingID_AfterEdit" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                     <button id="edit_btn_sumbit" type="button" class="btn btn-primary" onclick="submitEditVoiceModal()">@Resources.Language.Submit</button>
-                    <button id="edit_btn_voice_preview" class="btn btn-success" onclick="InvoicePreview()">@Resources.Language.Preview</button>
+                    <button id="edit_btn_voice_preview" class="btn btn-success" onclick="InvoicePreviewAfterEditBilling()">@Resources.Language.Preview</button>
                 </div>
             </div>
         </div>
@@ -2439,6 +2440,11 @@
                     searchoptions: {
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.BillingTemplateType" })',
                     },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingTemplate_TimeTypeID', name: "TimeTypeID", width: 100, editable: true, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                 },
                 {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_TimeTypeValue', name: "TimeTypeValue", width: 100, editable: true, edittype: "text",
@@ -7389,6 +7395,7 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
         var billingId = dr.IDX;  //账单ID
 
+        $('#_BillingID_AfterEdit').text(billingId);
         //$('#edit_customer').text(dr.CustomerName);
         //$('#edit_customer_ship').text(dr.ShipName);
 
@@ -7546,6 +7553,7 @@
 
     function submitEditInvoice() {
         //提交数据库
+        $("#edit_btn_sumbit").attr("disabled", true);
 
         var maxTextLength = 50;
         var maxTextAreaLength = 500;
@@ -7687,8 +7695,6 @@
                     $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                     $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                     //$('#jqGrid_ilReport').addClass('ui-state-disabled');
-
-                    $("#edit_btn_sumbit").attr("disabled", true);
                 }
                 else {
                     $("#edit_btn_sumbit").attr("disabled", false);
@@ -13997,6 +14003,34 @@
         }
     }
 
+
+    function InvoicePreviewAfterEditBilling() {
+        //var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+        //var rowid = g_curRowId;
+
+        var tmp = $('#edit_sel_billing_scheme').val();
+        //alert(tmp);
+
+        var billingId = parseInt($('#_BillingID_AfterEdit').text());//BillingID
+        var timeTypeId = tmp.split('%')[2].split('~')[0]; //TimeTypeID
+        var timeTypeValue = tmp.split('%')[2].split('~')[1]; //TimeTypeValue
+        var billingTypeLabel = tmp.split('%')[2].split('~')[2]; //TimeTypeValue
+        var billingTypeId = tmp.split('%')[1].split('~')[0]; //BillingTypeID
+        var billingTypeValue = tmp.split('%')[1].split('~')[1]; //BillingTypeValue
+        var billingTypeLabel = tmp.split('%')[1].split('~')[2]; //BillingTypeLabel
+
+        if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
+            || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
+
+            open('/Report/Invoice_qborbb' + '?BillingID=' + billingId + '&TimeTypeValue=' + timeTypeValue)
+        }
+
+        else if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
+
+            open('/Report/Invoice_tk' + '?BillingID=' + billingId + '&TimeTypeValue=' + timeTypeValue)
+        }
+    }
+
     function InvoicePreview() {
 
         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
@@ -14008,6 +14042,13 @@
         var billingTypeId = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTypeID"); //BillingTypeID
         var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTemplateTypeValue"); //BillingTypeValue
         var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTemplateTypeLabel"); //BillingTypeLabel
+
+        alert(billingId);
+        alert(timeTypeId);
+        alert(timeTypeValue);
+        alert(billingTypeId);
+        alert(billingTypeValue);
+        alert(billingTypeLabel);
 
         if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
             || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
