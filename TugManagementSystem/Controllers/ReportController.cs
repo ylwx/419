@@ -11,6 +11,7 @@ using TugBusinessLogic.Module;
 using System.Data.SqlClient;
 using System.Data;
 using System.IO;
+using System.Globalization;
 
 namespace TugManagementSystem.Controllers
 {
@@ -102,8 +103,9 @@ namespace TugManagementSystem.Controllers
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
-            DateTime st = Convert.ToDateTime(startdate + " 00:00:00");
-            DateTime ed = Convert.ToDateTime(enddate + " 23:59:59");
+
+            DateTime st = DateTime.Parse(startdate + " 00:00:00"); //DateTime.Parse(startdate + " 00:00:00");
+            DateTime ed = DateTime.Parse(enddate + " 23:59:59");//DateTime.Parse(enddate + " 23:59:59");
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -136,8 +138,8 @@ namespace TugManagementSystem.Controllers
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
-            DateTime st = Convert.ToDateTime(startdate + " 00:00:00");
-            DateTime ed = Convert.ToDateTime(enddate + " 23:59:59");
+            DateTime st = DateTime.ParseExact(startdate + " 00:00:00","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(startdate + " 00:00:00");
+            DateTime ed = DateTime.ParseExact(enddate + " 23:59:59","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(enddate + " 23:59:59");
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -170,8 +172,8 @@ namespace TugManagementSystem.Controllers
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
-            DateTime st = Convert.ToDateTime(startdate + " 00:00:00");
-            DateTime ed = Convert.ToDateTime(enddate + " 23:59:59");
+            DateTime st = DateTime.ParseExact(startdate + " 00:00:00","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(startdate + " 00:00:00");
+            DateTime ed = DateTime.ParseExact(enddate + " 23:59:59","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(enddate + " 23:59:59");
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
