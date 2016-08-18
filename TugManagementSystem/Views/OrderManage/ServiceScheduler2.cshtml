@@ -239,7 +239,7 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetCompleteServiceState", "OrderManage")',
+            url: '@Url.Action("GetUnCompleteServiceState", "OrderManage")',
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -250,7 +250,7 @@
             autowidth: true,
             editurl: '@Url.Action("AddEditService2", "OrderManage")',
             pager: "#jqGridPager",
-            loadonce: true,
+            //loadonce: true,
             rowList: ['15', '20', '30', '40', '50'],
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
@@ -1173,7 +1173,7 @@
                         jQuery("#jqGrid").jqGrid('setGridParam',
                         {
                             datatype: 'json',
-                            url: '@Url.Action("GetCompleteServiceState", "OrderManage")',
+                            url: '@Url.Action("GetUnCompleteServiceState", "OrderManage")',
                         }).trigger('reloadGrid');
 
                         jQuery("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditService2", "OrderManage")', });

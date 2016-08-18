@@ -171,7 +171,24 @@ namespace TugBusinessLogic
             int iEndHour = Convert.ToInt32(strEndHour);
             int iEndMinute = Convert.ToInt32(strEndMinute);
 
-            if (iEndHour < iStartHour) return false;
+            if (iEndHour < iStartHour) {
+                iEndHour += 24;
+                //不够减，要向小时借
+                if (iEndMinute < iStartMinute)
+                {
+                    iDiffMinute = iEndMinute + 60 - iStartMinute;
+                    iDiffHour = iEndHour - 1 - iStartHour;
+                    return true;
+                }
+                if (iEndMinute >= iStartMinute)
+                {
+                    iDiffMinute = iEndMinute - iStartMinute;
+                    iDiffHour = iEndHour - iStartHour;
+                    return true;
+                }
+
+                return true; 
+            }
             if (iEndHour == iStartHour)
             {
                 if (iEndMinute < iStartMinute) return false;

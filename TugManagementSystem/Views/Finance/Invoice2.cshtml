@@ -3506,6 +3506,13 @@
                   success: function (result) {
                       $('#table-modal').modal('hide')
                       alert(result.message);
+                      $('#jqGrid_Order').jqGrid('setGridParam',
+                        {
+                            datatype: 'json',
+                            url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
+                        }).trigger('reloadGrid');
+
+                      $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                   },
                   error: function (xhr) {
                       alert(xhr.responseText);
@@ -7682,7 +7689,7 @@
                     $('#jqGrid_Order').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                        url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
+                    url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
                 }).trigger('reloadGrid');
 
                     $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
@@ -14043,12 +14050,12 @@
         var billingTypeValue = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTemplateTypeValue"); //BillingTypeValue
         var billingTypeLabel = jQuery('#jqGrid').jqGrid('getCell', rowid, "BillingTemplateTypeLabel"); //BillingTypeLabel
 
-        alert(billingId);
-        alert(timeTypeId);
-        alert(timeTypeValue);
-        alert(billingTypeId);
-        alert(billingTypeValue);
-        alert(billingTypeLabel);
+        //alert(billingId);
+        //alert(timeTypeId);
+        //alert(timeTypeValue);
+        //alert(billingTypeId);
+        //alert(billingTypeValue);
+        //alert(billingTypeLabel);
 
         if (billingTypeId == 6 || billingTypeValue == "0" || billingTypeLabel == "全包"
             || billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
