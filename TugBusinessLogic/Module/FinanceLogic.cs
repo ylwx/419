@@ -1015,7 +1015,8 @@ namespace TugBusinessLogic.Module
 
 
             //var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderID).Select(u => u);
-            var list = db.V_OrderScheduler.Where(u => iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否").OrderBy(u => u.OrderID).Select(u => u);
+            var list = db.V_OrderScheduler.Where(u => (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否")
+                || (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "是" && u.HasBillingInFlow == "否" && (u.BillingType == 0 || u.BillingType == null))).OrderBy(u => u.OrderID).Select(u => u);
 
             var services = list.Select(u => new {u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
 
