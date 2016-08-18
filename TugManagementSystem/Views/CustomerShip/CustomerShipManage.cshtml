@@ -71,7 +71,7 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.CustomerShip_Length</label>
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.CustomerShip_Length</label>
                                                     <div class="col-sm-8">
                                                         <input id="_CustomerShip_Length" type="number" class="form-control" placeholder="@Resources.Language.CustomerShip_Length" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
@@ -796,6 +796,12 @@
         if (CustomerShip_Name1.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.CustomerShip_Name1' + "@Resources.Language.IsNull");
             $('#_CustomerShip_Name1').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
+        if (CustomerShip_Length.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.CustomerShip_Length' + "@Resources.Language.IsNull");
+            $('#_CustomerShip_Length').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
         }
