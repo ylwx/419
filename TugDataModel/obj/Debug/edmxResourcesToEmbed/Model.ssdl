@@ -529,8 +529,8 @@
     <Property Name="UserDefinedCol6" Type="int" />
     <Property Name="UserDefinedCol7" Type="int" />
     <Property Name="UserDefinedCol8" Type="int" />
-    <Property Name="UserDefinedCol9" Type="nvarchar(max)" />
-    <Property Name="UserDefinedCol10" Type="nvarchar(max)" />
+    <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -1239,6 +1239,17 @@
     <Property Name="ShipName" Type="nvarchar(max)" />
     <Property Name="TimeTypeID" Type="int" />
     <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="BillingTemplateID" Type="int" />
+    <Property Name="BillingTemplateTypeID" Type="int" />
+    <Property Name="BillingTemplateCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Discount" Type="float" />
+    <Property Name="ShipLength" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipTEUS" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="TemplateCreditContent" Type="nvarchar(max)" />
+    <Property Name="IsShowShipLengthRule" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsShowShipTEUSRule" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head_Special”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1729,10 +1740,10 @@
     <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="OrderCode" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerID" Type="int" />
-    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
-    <Property Name="ShipName" Type="nvarchar(max)" />
+    <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
     <Property Name="DeadWeight" Type="int" />
     <Property Name="Length" Type="int" />
     <Property Name="Width" Type="int" />
@@ -1761,8 +1772,6 @@
     <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
     <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingType" Type="int" />
-    <Property Name="TugIDs" Type="nvarchar(max)" />
-    <Property Name="TugNames" Type="nvarchar(max)" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderService_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2047,6 +2056,18 @@
       </Principal>
       <Dependent Role="CustomerShip">
         <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderService_OrderInfor">
+    <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+    <End Role="OrderService" Type="Self.OrderService" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderInfor">
+        <PropertyRef Name="IDX" />
+      </Principal>
+      <Dependent Role="OrderService">
+        <PropertyRef Name="OrderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2594,7 +2615,18 @@
     [V_Inv_Head].[CustomerName] AS [CustomerName], 
     [V_Inv_Head].[ShipName] AS [ShipName], 
     [V_Inv_Head].[TimeTypeID] AS [TimeTypeID], 
-    [V_Inv_Head].[Remark] AS [Remark]
+    [V_Inv_Head].[Remark] AS [Remark], 
+    [V_Inv_Head].[BillingTemplateID] AS [BillingTemplateID], 
+    [V_Inv_Head].[BillingTemplateTypeID] AS [BillingTemplateTypeID], 
+    [V_Inv_Head].[BillingTemplateCode] AS [BillingTemplateCode], 
+    [V_Inv_Head].[BillingTemplateName] AS [BillingTemplateName], 
+    [V_Inv_Head].[Discount] AS [Discount], 
+    [V_Inv_Head].[ShipLength] AS [ShipLength], 
+    [V_Inv_Head].[ShipTEUS] AS [ShipTEUS], 
+    [V_Inv_Head].[ExpiryDate] AS [ExpiryDate], 
+    [V_Inv_Head].[TemplateCreditContent] AS [TemplateCreditContent], 
+    [V_Inv_Head].[IsShowShipLengthRule] AS [IsShowShipLengthRule], 
+    [V_Inv_Head].[IsShowShipTEUSRule] AS [IsShowShipTEUSRule]
     FROM [dbo].[V_Inv_Head] AS [V_Inv_Head]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Inv_Head_Special" EntityType="Self.V_Inv_Head_Special" store:Type="Views" store:Schema="dbo">
@@ -3070,9 +3102,7 @@
     [V_OrderService].[TotalTug] AS [TotalTug], 
     [V_OrderService].[HasBilling] AS [HasBilling], 
     [V_OrderService].[HasBillingInFlow] AS [HasBillingInFlow], 
-    [V_OrderService].[BillingType] AS [BillingType], 
-    [V_OrderService].[TugIDs] AS [TugIDs], 
-    [V_OrderService].[TugNames] AS [TugNames]
+    [V_OrderService].[BillingType] AS [BillingType]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_OrderService_Scheduler" EntityType="Self.V_OrderService_Scheduler" store:Type="Views" store:Schema="dbo">
@@ -3243,6 +3273,10 @@
     <AssociationSet Name="FK_CustomerShip_Customer" Association="Self.FK_CustomerShip_Customer">
       <End Role="Customer" EntitySet="Customer" />
       <End Role="CustomerShip" EntitySet="CustomerShip" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderService_OrderInfor" Association="Self.FK_OrderService_OrderInfor">
+      <End Role="OrderInfor" EntitySet="OrderInfor" />
+      <End Role="OrderService" EntitySet="OrderService" />
     </AssociationSet>
     <AssociationSet Name="FK_Role_Menu_Role" Association="Self.FK_Role_Menu_Role">
       <End Role="Role" EntitySet="Role" />
