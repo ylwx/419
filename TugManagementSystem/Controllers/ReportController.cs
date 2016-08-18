@@ -392,11 +392,11 @@ namespace TugManagementSystem.Controllers
             //获取长度或箱量信息
             if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
             { 
-                FReport.Parameters.FindByName("strRule").Value =Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]);
+                FReport.Parameters.FindByName("strRule").Value ="船長" + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]);
             }
             else if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipTEUSRule"]) == "是")
             {
-                FReport.Parameters.FindByName("strRule").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
+                FReport.Parameters.FindByName("strRule").Value = "箱量" + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
             }
             //上
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("V_Inv_OrdService", strV_Inv_OrdService);

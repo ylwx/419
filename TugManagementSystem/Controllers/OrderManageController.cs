@@ -640,6 +640,7 @@ namespace TugManagementSystem.Controllers
                 {
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單已排船，無法刪除！"});
                 }
+
                 OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);
                 if (aOrder != null)
                 {

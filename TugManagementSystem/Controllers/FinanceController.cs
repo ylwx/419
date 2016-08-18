@@ -726,7 +726,6 @@ namespace TugManagementSystem.Controllers
                     }
                 }
             }
-
             TugBusinessLogic.Module.OrderLogic.GetStatusOfOrderInvoice(selectedOrderIDs, out dicHasNoInvoice, out dicHasInvoiceNotInFlow, out dicHasInvoiceInFow, out dicHasInvoiceNotInFlowBills);
             return Json(new
             {
