@@ -56,5 +56,7 @@ namespace TugDataModel
         public string WorkStateLabel { get; set; }
         public string HasInvoice { get; set; }
         public string HasInFlow { get; set; }
+        public Nullable<int> Length { get; set; }
+        public Nullable<int> TEUS { get; set; }
     }
 }

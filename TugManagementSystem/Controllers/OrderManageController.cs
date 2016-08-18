@@ -2378,6 +2378,63 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+
+        /// <summary>
+        /// 获取普通账单关联的订单
+        /// </summary>
+        /// <param name="_search"></param>
+        /// <param name="sidx"></param>
+        /// <param name="sord"></param>
+        /// <param name="page"></param>
+        /// <param name="rows"></param>
+        /// <returns></returns>
+        public ActionResult GetOrdersOfCommonInvoicce(bool _search, string sidx, string sord, int page, int rows, int billingId)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    List<V_BillingOrders> orders = db.V_BillingOrders.Where(u => u.BillingID == billingId)
+                        .Select(u => u).OrderByDescending(u => u.OrdDate).ToList<V_BillingOrders>();
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_BillingOrders> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_BillingOrders>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    List<V_BillingOrders> orders = db.V_BillingOrders.Where(u => u.BillingID == billingId)
+                        .Select(u => u).OrderByDescending(u => u.OrdDate).ToList<V_BillingOrders>();
+                    //List<V_OrderInfor> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForGenerateInvoice(sidx, sord);
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_BillingOrders> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_BillingOrders>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
         #endregion
     }
 }

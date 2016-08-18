@@ -1074,13 +1074,13 @@
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "Length", width: 80,
+                    align: 'center', label: '@Resources.Language.Invoice2_CustomerShipLength', name: "Length", width: 80,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     hidden: false
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "TEUS", width: 80,
+                    align: 'center', label: '@Resources.Language.Invoice2_CustomerShipTEUS', name: "TEUS", width: 80,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                     hidden: false
@@ -2455,6 +2455,18 @@
                     },
                 },
                 {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "ShipLength", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "ShipTEUS", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -2602,6 +2614,14 @@
 
                 multiselect: true,
                 //multiboxonly: true,
+                subGrid: true,
+                subGridRowExpanded: showChildGrid2,
+                subGridOptions: {
+                    "plusicon": "ui-icon-triangle-1-e",
+                    "minusicon": "ui-icon-triangle-1-s",
+                    "openicon": "ui-icon-arrowreturn-1-e"
+                },
+
 
                 onSelectRow: function (rowid, status, e) {
                     var grid = $("#jqGrid");
@@ -3101,172 +3121,158 @@
         var dr = jQuery("#jqGrid").jqGrid('getRowData', parentRowKey);
         //alert(dr.IDX);
 
-        var childGridURL = '@Url.Action("GetOrderSubSchedulerData", "OrderManage")' + "?orderId=" + dr.IDX;
+        var childGridURL = '@Url.Action("GetOrdersOfCommonInvoicce", "OrderManage")' + "?billingId=" + dr.IDX;
 
         $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + ' class=scroll></div>');
+        $("#" + childGridID).jqGrid({
+            url: childGridURL,
+            mtype: "GET",
+            datatype: "json",
+            //page: 1,
+            viewrecords: true,
+            editurl: null,
+            colModel: [
+                {
+                    align: 'center', label: '@Resources.Language.Credit_BillingID', index: "BillingID", name: "BillingID", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
 
-        jQuery.ajax({
-            url: '@Url.Action("GetOrderServices", "OrderManage")', //Controller to Get the
-            //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
-            type: "GET",
-            dataType: "json",
-            data: {
-                'orderId': dr.IDX
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_OrderID', name: "OrderID", width: 100, editable: false, edittype: "text",
+                    editrules: { required: true }, hidden: true,
+                },
+
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CustomerShip_CustomerID', name: "CustomerID", width: 80, editable: false, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: true,
+
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.V_OrderInfor_CustomerName', name: "CustomerName", width: 200, editable: false, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: false,
+
+                },
+
+                {
+                    align: 'center',
+                    label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 80, editable: false, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: true,
+
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 150, editable: false, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: false,
+
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Invoice2_CustomerShipLength', name: "Length", width: 100, editable: false, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: false,
+
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Invoice2_CustomerShipTEUS', name: "TEUS", width: 100, editable: false, edittype: "text",
+                    editrules: { required: true, date: true }, hidden: false,
+
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 120, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+
+
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "OrderCode", width: 120, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false,
+                },
+
+
+
+                
+
+            ],
+
+            loadonce: false,
+            rowNum: 10,
+            //width: 500,
+            autowidth: true,
+            height: '100%',
+            shrinkToFit: false,     //指定各列宽度
+            pager: "#" + childGridPagerID,
+            grouping: true,
+            caption: "@Resources.Language.Order",
+            groupingView: {
+                //groupField: ["ServiceNatureLabel"],
+                //groupField: ["ServiceWorkDate"],
+                //groupColumnShow: [true],
+                //groupText: ['@Resources.Language.V_OrderScheduler_ServiceNatureLabel' + ": <b>{0}</b>"],
+                @*groupText: ['@Resources.Language.V_OrderScheduler_ServiceWorkDate' + ": <b>{0}</b>"],
+                groupOrder: ["asc"],
+                groupSummary: [false],
+                groupCollapse: false*@
             },
-            success: function (result) {      // on Success send the Json data
-                var str_services = "";
-                for (var i = 0; i < result.services.length; ++i) {
-                    str_services += result.services[i].OrderServiceId + "~" + result.services[i].ServiceNatureId + "~"
-                    + result.services[i].ServiceNatureValue + "~" + result.services[i].ServiceNatureLabel
-                    + ":" + result.services[i].ServiceNatureLabel + ";";
-                }
-
-                if (str_services.length > 0) str_services = str_services.substr(0, str_services.length - 1);
 
 
-                $("#" + childGridID).jqGrid({
-                    url: childGridURL,
-                    mtype: "GET",
-                    datatype: "json",
-                    //page: 1,
-                    viewrecords: true,
-                    editurl: '@Url.Action("AddEditJobInformation", "OrderManage")',
-                    colModel: [
-                        {
-                            align: 'center', label: '@Resources.Language.Credit_BillingID', index: "BillingID", name: "BillingID", width: 100, editable: true, edittype: "text",
-                            editrules: { required: false }, hidden: true,
+            //gridComplete: function () {
+            //    alert(1);
+            //}
+        });
+
+
+        $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#pg_' + childGridPagerID).css("background-color", "lightblue"); //更改子Grid导航的背景色
+
+        //subGridPager
+        var toolbar = $('#' + childGridID).navGrid('#' + childGridPagerID, { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+        .navButtonAdd('#' + childGridPagerID, {
+            id: childGridID + '_ilrefresh',
+            caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
+            onClickButton: function () {
+
+                $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+            }
+        })
+
+        $('#' + childGridID).inlineNav('#' + childGridPagerID,
+                {
+                    edit: false,
+                    add: false,
+                    del: false,
+                    save: false,
+                    cancel: false,
+                    editParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            }
                         },
-
-                        {
-                            align: 'center', label: '@Resources.Language.V_OrderScheduler_OrderID', name: "OrderID", width: 100, editable: false, edittype: "text",
-                            editrules: { required: true }, hidden: true,
-                        },
-
-                        {
-                            align: 'center',
-                            label: '@Resources.Language.CustomerShip_CustomerID', name: "CustomerID", width: 80, editable: false, edittype: "text",
-                            editrules: { required: true, date: true }, hidden: true,
-
-                        },
-                        {
-                            align: 'center',
-                            label: '@Resources.Language.Custom_Name', name: "CustomerName", width: 80, editable: false, edittype: "text",
-                            editrules: { required: true, date: true }, hidden: false,
-
-                        },
-
-                        {
-                            align: 'center',
-                            label: '@Resources.Language.V_OrderInfor_ShipID', name: "ShipID", width: 80, editable: false, edittype: "text",
-                            editrules: { required: true, date: true }, hidden: true,
-
-                        },
-                        {
-                            align: 'center',
-                            label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 80, editable: false, edittype: "text",
-                            editrules: { required: true, date: true }, hidden: false,
-
-                        },
-                        {
-                            align: 'center', label: '@Resources.Language.V_OrderInfor_Code', name: "OrderCode", width: 100, editable: true, edittype: "text",
-                            editrules: { required: false }, hidden: false,
-                        },
-
-
-
-                        {
-                            align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 100, editable: true, edittype: "text",
-                            editrules: { required: true }, hidden: false,
-
-
-                        },
-                        
-
- 
-                    ],
-
-                    loadonce: false,
-                    rowNum: 10,
-                    //width: 500,
-                    autowidth: true,
-                    height: '100%',
-                    shrinkToFit: false,     //指定各列宽度
-                    pager: "#" + childGridPagerID,
-                    grouping: true,
-                    caption: "@Resources.Language.Order",
-                    groupingView: {
-                        //groupField: ["ServiceNatureLabel"],
-                        //groupField: ["ServiceWorkDate"],
-                        //groupColumnShow: [true],
-                        //groupText: ['@Resources.Language.V_OrderScheduler_ServiceNatureLabel' + ": <b>{0}</b>"],
-                        @*groupText: ['@Resources.Language.V_OrderScheduler_ServiceWorkDate' + ": <b>{0}</b>"],
-                        groupOrder: ["asc"],
-                        groupSummary: [false],
-                        groupCollapse: false*@
+                        url: null, //'/api/values',
+                        mtype: 'POST'
                     },
 
-
-                    //gridComplete: function () {
-                    //    alert(1);
-                    //}
-                });
-
-
-                $("#" + childGridID).jqGrid('bindKeys');  //光标可以控制上下移动
-
-                $('#pg_' + childGridPagerID).css("background-color", "lightblue"); //更改子Grid导航的背景色
-
-                //subGridPager
-                var toolbar = $('#' + childGridID).navGrid('#' + childGridPagerID, { edit: false, add: false, del: false, refresh: false, view: false, search: false })
-                .navButtonAdd('#' + childGridPagerID, {
-                    id: childGridID + '_ilrefresh',
-                    caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
-                    onClickButton: function () {
-
-                        $('#' + childGridID).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                    }
-                })
-
-                $('#' + childGridID).inlineNav('#' + childGridPagerID,
-                        {
-                            edit: false,
-                            add: false,
-                            del: false,
-                            save: false,
-                            cancel: false,
-                            editParams: {
-                                keys: true,
-                                successfunc: function (val) {
-                                    if (val.responseText != "") {
-                                        var ret = $.parseJSON(val.responseText);
-                                        alert(ret.message);
-                                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    }
-                                },
-                                url: null, //'/api/values',
-                                mtype: 'POST'
-                            },
-
-                            addParams: {
-                                keys: true,
-                                successfunc: function (val) {
-                                    if (val.responseText != "") {
-                                        var ret = $.parseJSON(val.responseText);
-                                        alert(ret.message);
-                                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                    }
-                                },
-                                errorfunc: function (rowid, xhr) {
-                                    alert(xhr.responseText);
-                                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-                                }
+                    addParams: {
+                        keys: true,
+                        successfunc: function (val) {
+                            if (val.responseText != "") {
+                                var ret = $.parseJSON(val.responseText);
+                                alert(ret.message);
+                                $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                             }
-                        });
-            },
-            error: function (xhr) {
-                alert('error');
-            }
-        });
+                        },
+                        errorfunc: function (rowid, xhr) {
+                            alert(xhr.responseText);
+                            $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    }
+                });
 
     }
 </script>
