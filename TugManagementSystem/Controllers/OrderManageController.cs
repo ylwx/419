@@ -56,7 +56,7 @@ namespace TugManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetCompleteServiceState(bool _search, string sidx, string sord, int page, int rows)
+        public ActionResult GetUnCompleteServiceState(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
 
@@ -65,17 +65,60 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                //List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel!="已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).OrderByDescending(u=>u.ServiceWorkTime).ToList<V_OrderService>();
-                List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel != "已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).ThenByDescending(u => u.ServiceWorkTime).ToList<V_OrderService>();
-                int totalRecordNum = objs.Count;
-                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
-                int pageSize = rows;
-                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                //List<V_OrderService> page_V_OrderServices = V_OrderServices.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<V_OrderService>();
+                ////List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel!="已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).OrderByDescending(u=>u.ServiceWorkTime).ToList<V_OrderService>();
+                //List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel != "已完工").Select(u => u).OrderByDescending(u => u.ServiceWorkDate).ThenByDescending(u => u.ServiceWorkTime).ToList<V_OrderService>();
+                //int totalRecordNum = objs.Count;
+                //if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                //int pageSize = rows;
+                //int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                ////List<V_OrderService> page_V_OrderServices = V_OrderServices.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<V_OrderService>();
+
+                //var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
+                //return Json(jsonData, JsonRequestBehavior.AllowGet);
+
+
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel != "已完工").Select(u => u)
+                    //    .OrderByDescending(u => u.ServiceWorkDate).ThenByDescending(u => u.ServiceWorkTime).ToList<V_OrderService>();
+
+                    List<V_OrderService> objs = TugBusinessLogic.Module.OrderLogic.SearchForServiceScheduler2(sidx, sord, searchOption);
+
+                    int totalRecordNum = objs.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderService> page_orders = objs.Skip((page - 1) * rows).Take(rows).ToList<V_OrderService>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    //List<V_OrderService> objs = db.V_OrderService.Where(u => u.ServiceJobStateLabel != "已完工")
+                    //    .Select(u => u).OrderByDescending(u => u.ServiceWorkDate).ThenByDescending(u => u.ServiceWorkTime).ToList<V_OrderService>();
+
+                    List<V_OrderService> objs = TugBusinessLogic.Module.OrderLogic.LoadDataForServiceScheduler2(sidx, sord);
+
+                    int totalRecordNum = objs.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_OrderService> page_orders = objs.Skip((page - 1) * rows).Take(rows).ToList<V_OrderService>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+
+
             }
             catch (Exception)
             {

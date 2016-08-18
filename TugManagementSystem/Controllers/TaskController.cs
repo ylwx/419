@@ -252,12 +252,16 @@ namespace TugManagementSystem.Controllers
 
                     //若账单有回扣单生成回扣单编号
                      System.Linq.Expressions.Expression<Func<Credit, bool>> expCredit = u => u.BillingID == id;
-                     Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
-                     if (tmpCredit != null)
+                     List<Credit> tmpCredit = db.Credit.Where(expCredit).Select(u => u).ToList<Credit>();
+                     //Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
+                     if (tmpCredit.Count  != 0)
                      {
-                         tmpCredit.CreditCode = "C" + billingCode.Substring(1, billingCode.Length - 1);
-                         db.Entry(tmpCredit).State = System.Data.Entity.EntityState.Modified;
-                         db.SaveChanges();
+                         foreach (var item in tmpCredit)
+                         {
+                             item.CreditCode = "C" + billingCode.Substring(1, billingCode.Length - 1);
+                             db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                             db.SaveChanges();
+                         }
                      }
                 }
                 else
