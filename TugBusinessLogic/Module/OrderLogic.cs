@@ -4395,6 +4395,25 @@ namespace TugBusinessLogic.Module
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
+
+                                        case ConstValue.ComparisonOperator_BW:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_EW:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_CN:
+                                            {
+                                                //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                            }
+                                            break;
                                         default:
                                             break;
                                     }

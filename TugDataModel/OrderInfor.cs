@@ -17,7 +17,6 @@ namespace TugDataModel
         public OrderInfor()
         {
             this.BillingOrder = new HashSet<BillingOrder>();
-            this.OrderService = new HashSet<OrderService>();
         }
     
         public int IDX { get; set; }
@@ -51,6 +50,5 @@ namespace TugDataModel
         public string UserDefinedCol10 { get; set; }
     
         public virtual ICollection<BillingOrder> BillingOrder { get; set; }
-        public virtual ICollection<OrderService> OrderService { get; set; }
     }
 }
