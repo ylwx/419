@@ -51,5 +51,7 @@ namespace TugDataModel
         public string HasBilling { get; set; }
         public string HasBillingInFlow { get; set; }
         public Nullable<int> BillingType { get; set; }
+        public string TugIDs { get; set; }
+        public string TugNames { get; set; }
     }
 }
