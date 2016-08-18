@@ -634,6 +634,13 @@ namespace TugManagementSystem.Controllers
                 int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
+                List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
+                if (schedulerInfor.Count != 0)
+                {
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單已排船，無法刪除！"});
+                }
+
                 OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);
                 if (aOrder != null)
                 {

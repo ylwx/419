@@ -545,8 +545,6 @@
                                 },//"oper=delete&id=" + gr,
                                 dataType: 'json',
                                 success: function (result) {
-                                    //alert(result.message);
-
                                     //for (key in result.dic_has_no_invoice) {
 
                                     //    var value = result.dic_has_no_invoice[key];
@@ -558,7 +556,10 @@
                                     //    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无法编辑，请先生成账单！');
                                     //    return;
                                     //}
-
+                                    if (result.message == "該訂單已排船,不可編輯！") {
+                                        alert(result.message);
+                                        return;
+                                    }
                                     for (key in result.dic_has_invoice_in_fow) {
 
                                         var value = result.dic_has_invoice_in_fow[key];
@@ -570,7 +571,11 @@
                                         alert('所選的記錄中，第' + inFlowingResult + '行帳單已處於審核流程中，無法編輯！');
                                         return;
                                     }
-
+                                    else if (result.ret == "該訂單已排船,不可編輯！")
+                                    {
+                                        alert("該訂單已排船,不可編輯！");
+                                        return;
+                                    }
                                     //编辑
                                     EditOrder();
                                 },
