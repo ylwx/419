@@ -1142,16 +1142,30 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         public ActionResult GetOrderServices(int orderId)
         {
-            TugDataEntities db = new TugDataEntities();
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
 
-            List<MyOrderService> orderServices = db.V_OrderService.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderServiceID)
-                .Select(u => new MyOrderService { OrderServiceId = u.OrderServiceID, ServiceNatureId = (int)u.ServiceNatureID,
-                 ServiceNatureValue = u.ServiceNatureValue, ServiceNatureLabel = u.ServiceNatureLabel,
-                 ServiceWorkDate = u.ServiceWorkDate, ServiceWorkTime = u.ServiceWorkTime,
-                 ServiceEstimatedCompletionTime = u.EstimatedCompletionTime, ServiceWorkPlace = u.ServiceWorkPlace}).ToList<MyOrderService>();
+                List<MyOrderService> orderServices = db.V_OrderService.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderServiceID)
+                    .Select(u => new MyOrderService
+                    {
+                        OrderServiceId = u.OrderServiceID,
+                        ServiceNatureId = (int)u.ServiceNatureID,
+                        ServiceNatureValue = u.ServiceNatureValue,
+                        ServiceNatureLabel = u.ServiceNatureLabel,
+                        ServiceWorkDate = u.ServiceWorkDate,
+                        ServiceWorkTime = u.ServiceWorkTime,
+                        ServiceEstimatedCompletionTime = u.EstimatedCompletionTime,
+                        ServiceWorkPlace = u.ServiceWorkPlace
+                    }).ToList<MyOrderService>();
 
-            var jsonData = new { services = orderServices };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+                var jsonData = new { services = orderServices };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+            }
         }
 
         public ActionResult AddScheduler(int orderId, int orderServiceId, int serviceNatureId, string serviceWorkDate, string serviceWorkTime, string serviceWorkPlace, string tugId,
