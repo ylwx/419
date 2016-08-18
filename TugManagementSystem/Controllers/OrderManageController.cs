@@ -13,7 +13,7 @@ namespace TugManagementSystem.Controllers
     {
         #region 页面Action
         [Authorize]
-        public ActionResult ServiceScheduler(string lan, int? id)
+        public ActionResult ServiceScheduler2(string lan, int? id)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
