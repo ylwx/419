@@ -103,9 +103,10 @@ namespace TugManagementSystem.Controllers
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
-
-            DateTime st = DateTime.Parse(startdate + " 00:00:00"); //DateTime.Parse(startdate + " 00:00:00");
-            DateTime ed = DateTime.Parse(enddate + " 23:59:59");//DateTime.Parse(enddate + " 23:59:59");
+            //DateTime st = DateTime.Parse(startdate + " 00:00:00");
+            //DateTime ed =DateTime.Parse(enddate + " 23:59:59");
+            startdate = startdate + " 00:00:00";
+            enddate = enddate + " 23:59:59";
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -116,14 +117,14 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_Amout_Tug(webReport.Report,st,ed);
+            Report_DataRegister_Amout_Tug(webReport.Report, startdate, enddate);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_Amout_Tug = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_Amout_Tug(FastReport.Report FReport,DateTime st,DateTime ed)
+        private void Report_DataRegister_Amout_Tug(FastReport.Report FReport, string st, string ed)
         {
             DataTable dt = null;
             string str_report = string.Format(" ID > {0} and BillingDateTime>='{1}' and BillingDateTime<='{2}'", 0,st,ed);
@@ -138,8 +139,8 @@ namespace TugManagementSystem.Controllers
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
-            DateTime st = DateTime.ParseExact(startdate + " 00:00:00","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(startdate + " 00:00:00");
-            DateTime ed = DateTime.ParseExact(enddate + " 23:59:59","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(enddate + " 23:59:59");
+            startdate = startdate + " 00:00:00";
+            enddate = enddate + " 23:59:59";
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -150,14 +151,14 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_Amount_BillType(webReport.Report,st,ed);
+            Report_DataRegister_Amount_BillType(webReport.Report, startdate, enddate);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_Amount_BillType = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_Amount_BillType(FastReport.Report FReport, DateTime st, DateTime ed)
+        private void Report_DataRegister_Amount_BillType(FastReport.Report FReport, string st, string ed)
         {
             DataTable dt = null;
             string str_report = string.Format(" ID > {0} and BillingDateTime>='{1}' and BillingDateTime<='{2}'", 0, st, ed);
@@ -172,8 +173,8 @@ namespace TugManagementSystem.Controllers
         {
             //int OrderID; int CreditID;
             //OrderID = 10; CreditID = 1;//临时测试用
-            DateTime st = DateTime.ParseExact(startdate + " 00:00:00","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(startdate + " 00:00:00");
-            DateTime ed = DateTime.ParseExact(enddate + " 23:59:59","yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.CurrentCulture);//DateTime.Parse(enddate + " 23:59:59");
+            startdate = startdate + " 00:00:00";
+            enddate = enddate + " 23:59:59";
             SetReport();
             WebReport webReport = new WebReport(); // create object
             webReport.Width = 768;  // set width
@@ -184,14 +185,14 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_Amount_Customer(webReport.Report,st,ed);
+            Report_DataRegister_Amount_Customer(webReport.Report, startdate, enddate);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport_Amount_Customer = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_Amount_Customer(FastReport.Report FReport, DateTime st, DateTime ed)
+        private void Report_DataRegister_Amount_Customer(FastReport.Report FReport, string st, string ed)
         {
             DataTable dt = null;
             string str_report = string.Format(" ID > {0} and BillingDateTime>='{1}' and BillingDateTime<='{2}'", 0, st, ed);
