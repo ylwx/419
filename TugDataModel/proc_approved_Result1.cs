@@ -10,24 +10,23 @@
 namespace TugDataModel
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class V_Billing3
+    public partial class proc_approved_Result1
     {
-        public int IDX { get; set; }
-        public Nullable<int> CustomerID { get; set; }
+        public Nullable<int> IDX { get; set; }
+        public string InvoiceType { get; set; }
         public string CustomerName { get; set; }
+        public string ShipName { get; set; }
+        public string JobNo { get; set; }
+        public string BillingCode { get; set; }
+        public string BillingTemplateTypeLabel { get; set; }
+        public string TimeTypeValue { get; set; }
+        public string TimeTypeLabel { get; set; }
         public Nullable<double> Amount { get; set; }
         public string Status { get; set; }
-        public Nullable<int> TimesNo { get; set; }
-        public Nullable<int> Phase { get; set; }
-        public Nullable<int> OwnerID { get; set; }
-        public string CreateDate { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public string LastUpDate { get; set; }
-        public string InvoiceType { get; set; }
-        public string Month { get; set; }
-        public string BillingCode { get; set; }
         public string Remark { get; set; }
+        public string CreateDate { get; set; }
+        public string LastUpDate { get; set; }
+        public Nullable<int> UserID { get; set; }
     }
 }
