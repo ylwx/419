@@ -143,6 +143,17 @@ namespace TugManagementSystem.Controllers
                         db.Entry(cstmer).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
+                        var orderList = db.OrderInfor.Where(u => u.CustomerID == idx).ToList();
+                        if (orderList != null)
+                        {
+                            foreach (var item in orderList)
+                            {
+                                item.CustomerName = cstmer.Name1;
+                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
                 }
