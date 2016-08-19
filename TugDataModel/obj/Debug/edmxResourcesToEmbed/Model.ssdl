@@ -529,8 +529,8 @@
     <Property Name="UserDefinedCol6" Type="int" />
     <Property Name="UserDefinedCol7" Type="int" />
     <Property Name="UserDefinedCol8" Type="int" />
-    <Property Name="UserDefinedCol9" Type="nvarchar(max)" />
-    <Property Name="UserDefinedCol10" Type="nvarchar(max)" />
+    <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -1251,6 +1251,9 @@
     <Property Name="TemplateCreditContent" Type="nvarchar(max)" />
     <Property Name="IsShowShipLengthRule" Type="nvarchar" MaxLength="50" />
     <Property Name="IsShowShipTEUSRule" Type="nvarchar" MaxLength="50" />
+    <Property Name="Length" Type="int" />
+    <Property Name="TEUS" Type="int" />
+    <Property Name="ShipID" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head_Special”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1773,8 +1776,8 @@
     <Property Name="HasBilling" Type="nvarchar" MaxLength="50" />
     <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingType" Type="int" />
-    <Property Name="TugIDs" Type="nvarchar(max)" />
-    <Property Name="TugNames" Type="nvarchar(max)" />
+    <Property Name="TugIDs" Type="nvarchar" MaxLength="50" />
+    <Property Name="TugNames" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderService_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2059,6 +2062,18 @@
       </Principal>
       <Dependent Role="CustomerShip">
         <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderService_OrderInfor">
+    <End Role="OrderInfor" Type="Self.OrderInfor" Multiplicity="0..1" />
+    <End Role="OrderService" Type="Self.OrderService" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderInfor">
+        <PropertyRef Name="IDX" />
+      </Principal>
+      <Dependent Role="OrderService">
+        <PropertyRef Name="OrderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2618,7 +2633,10 @@
     [V_Inv_Head].[ExpiryDate] AS [ExpiryDate], 
     [V_Inv_Head].[TemplateCreditContent] AS [TemplateCreditContent], 
     [V_Inv_Head].[IsShowShipLengthRule] AS [IsShowShipLengthRule], 
-    [V_Inv_Head].[IsShowShipTEUSRule] AS [IsShowShipTEUSRule]
+    [V_Inv_Head].[IsShowShipTEUSRule] AS [IsShowShipTEUSRule], 
+    [V_Inv_Head].[Length] AS [Length], 
+    [V_Inv_Head].[TEUS] AS [TEUS], 
+    [V_Inv_Head].[ShipID] AS [ShipID]
     FROM [dbo].[V_Inv_Head] AS [V_Inv_Head]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Inv_Head_Special" EntityType="Self.V_Inv_Head_Special" store:Type="Views" store:Schema="dbo">
@@ -3267,6 +3285,10 @@
     <AssociationSet Name="FK_CustomerShip_Customer" Association="Self.FK_CustomerShip_Customer">
       <End Role="Customer" EntitySet="Customer" />
       <End Role="CustomerShip" EntitySet="CustomerShip" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderService_OrderInfor" Association="Self.FK_OrderService_OrderInfor">
+      <End Role="OrderInfor" EntitySet="OrderInfor" />
+      <End Role="OrderService" EntitySet="OrderService" />
     </AssociationSet>
     <AssociationSet Name="FK_Role_Menu_Role" Association="Self.FK_Role_Menu_Role">
       <End Role="Role" EntitySet="Role" />
