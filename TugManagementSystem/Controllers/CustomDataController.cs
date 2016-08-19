@@ -68,7 +68,7 @@ namespace TugManagementSystem.Controllers
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<CustomField> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<CustomField>();
+                    //List<CustomField> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<CustomField>();
 
                     var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);

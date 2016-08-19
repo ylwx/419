@@ -328,9 +328,9 @@ namespace TugManagementSystem.Controllers
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<Role> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<Role>();
+                    //List<Role> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<Role>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -554,9 +554,9 @@ namespace TugManagementSystem.Controllers
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<FunctionModule> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<FunctionModule>();
+                    //List<FunctionModule> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<FunctionModule>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -753,9 +753,9 @@ namespace TugManagementSystem.Controllers
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<V_RoleUser> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_RoleUser>();
+                    //List<V_RoleUser> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_RoleUser>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -956,9 +956,9 @@ namespace TugManagementSystem.Controllers
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<V_RoleModule> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_RoleModule>();
+                    //List<V_RoleModule> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_RoleModule>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -1021,9 +1021,9 @@ namespace TugManagementSystem.Controllers
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<V_RoleMenu> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_RoleMenu>();
+                    //List<V_RoleMenu> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<V_RoleMenu>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
