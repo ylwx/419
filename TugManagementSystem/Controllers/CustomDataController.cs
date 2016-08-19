@@ -70,7 +70,7 @@ namespace TugManagementSystem.Controllers
 
                     List<CustomField> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<CustomField>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
