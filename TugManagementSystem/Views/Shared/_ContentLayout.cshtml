@@ -281,9 +281,10 @@
 
                 <!-- BEGIN TODO DROPDOWN -->
                 <li class="dropdown  pull-right " id="header-tasks" title="將當前頁設置為首頁">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" id="_HomePage" onclick="setHomePage()">
-                        <i class="fa fa-home"></i>
-                        <span class="badge"></span>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="_HomePage" onclick="setHomePage()">
+                        <i class="fa fa-tasks"></i>
+                        <span id="_control" class="badge" style='display:none;'>@ViewContext.RouteData.Values["Controller"].ToString()</span>
+                        <span id="_action" class="badge" style='display:none;'>@ViewContext.RouteData.Values["Action"].ToString()</span>
                     </a>
                     @*<ul class="dropdown-menu tasks">
                 <li class="dropdown-title">
@@ -647,16 +648,18 @@
 
 
         function setHomePage() {
-            alert(ViewContext.RouteData.Values["controller"]);
-            alert(ViewContext.RouteData.Values["action"]);
+            var control = $('#_control').html();
+            var action = $('#_action').html();
+            //alert(control);
+            //alert(action);
             //提交数据库
             $.ajax({
                 type: "post",
                 url: '@Url.Action("SetHomePage", "Home")',
                 data: {
-                    'controller': ViewContext.RouteData.Values["controller"],
-                    'action': ViewContext.RouteData.Values["action"]
-                },//"oper=delete&id=" + gr,
+                'controller': control,//ViewContext.RouteData.Values["controller"],
+                'action': action,//ViewContext.RouteData.Values["action"]
+            },
                 dataType: 'json',
                 success: function (result) {
                     alert(result.message);
