@@ -279,9 +279,10 @@
 
                 <!-- BEGIN TODO DROPDOWN -->
                 <li class="dropdown  pull-right " id="header-tasks" title="將當前頁設置為首頁">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" id="_HomePage" onclick="setHomePage()">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="_HomePage" onclick="setHomePage()">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge"></span>
+                        <span id="_control" class="badge" style='display:none;'>@ViewContext.RouteData.Values["Controller"].ToString()</span>
+                        <span id="_action" class="badge" style='display:none;'>@ViewContext.RouteData.Values["Action"].ToString()</span>
                     </a>
                     @*<ul class="dropdown-menu tasks">
                 <li class="dropdown-title">
@@ -567,14 +568,14 @@
 
     <!-- DATE TIME PICKER -->
     <script src="~/Resources/Frame/js/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-
+    
     <script>
-        jQuery(document).ready(function () {
-            //App.setPage("widgets_box");  //Set current page
-            App.init(); //Initialise plugins and elements
+    jQuery(document).ready(function () {
+        //App.setPage("widgets_box");  //Set current page
+        App.init(); //Initialise plugins and elements
 
-            var menu_id = "#" + '@ViewBag.MenuId';
-            var submenu_index = '@ViewBag.SubMenuIndex';
+        var menu_id = "#" + '@ViewBag.MenuId';
+        var submenu_index = '@ViewBag.SubMenuIndex';
 
             //var div1 = document.getElementById("_RoleManage");
             //div1.style.display = 'none';
@@ -598,7 +599,7 @@
    );
 
         });
-  
+
 
         jQuery(document).ready(function (request, response) {
             $.ajax(
@@ -606,7 +607,7 @@
                          type: "post",
                          url: "/Home/SetMenuHidden",
                          dataType: 'json',
-                         success: function (result) {                         
+                         success: function (result) {
                              response($.map(result.list, function (item) {
                                  //alert(item.menuid);
                                  $("#" + item.menuid).css("display", item.display)
@@ -645,32 +646,34 @@
 
 
         function setHomePage() {
-            alert(ViewContext.RouteData.Values["controller"]);
-            alert(ViewContext.RouteData.Values["action"]);
+            var control = $('#_control').html();
+            var action = $('#_action').html();
+            //alert(control);
+            //alert(action);
             //提交数据库
             $.ajax({
                 type: "post",
                 url: '@Url.Action("SetHomePage", "Home")',
-                data: {
-                    'controller': ViewContext.RouteData.Values["controller"],
-                    'action': ViewContext.RouteData.Values["action"]
-                },//"oper=delete&id=" + gr,
-                dataType: 'json',
-                success: function (result) {
-                    alert(result.message);
-                },
-                error: function (result) {
-                    console.log(result)
-                    try {
-                        var json = $.parseJSON(result.responseText);
-                        alert(json.errorMessage);
-                    } catch (e) {
-                        alert(e.message);
-                    }
-                    return;
+            data: {
+                'controller': control,//ViewContext.RouteData.Values["controller"],
+                'action': action,//ViewContext.RouteData.Values["action"]
+            },
+            dataType: 'json',
+            success: function (result) {
+                alert(result.message);
+            },
+            error: function (result) {
+                console.log(result)
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    alert(json.errorMessage);
+                } catch (e) {
+                    alert(e.message);
                 }
-            });
-        }
+                return;
+            }
+        });
+    }
     </script>
 </body>
 </html>

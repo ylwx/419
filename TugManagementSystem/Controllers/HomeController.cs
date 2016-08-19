@@ -87,12 +87,13 @@ namespace TugManagementSystem.Controllers
         }
         public ActionResult SetHomePage(string controller, string action)
         {
+            //string v = ControllerContext.RouteData.Values["action"].ToString();
             int curUserId = 0;
             TugDataEntities db = new TugDataEntities();
             curUserId = Session.GetDataFromSession<int>("userid");
             UserInfor objs = db.UserInfor.Where(u => u.IDX == curUserId).FirstOrDefault();
             //objs.UserDefinedCol1 = Session.GetDataFromSession<string>("HomePage");
-            objs.UserDefinedCol1 = "/" + controller + "/" + action;
+            objs.UserDefinedCol2 = "/" + controller + "/" + action;
             db.Entry(objs).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
             return Json(new { message = "恁已設置當前頁為首頁！" });
@@ -173,7 +174,8 @@ namespace TugManagementSystem.Controllers
                     int userid = Session.GetDataFromSession<int>("userid");
                     Console.WriteLine(userid);
                     //return RedirectToAction("OrderManage", "OrderManage");//'/OrderManage/OrderManage'
-                    return Json(new { message = "登錄成功！" });
+                    string ad = Util.checkdbnull(user.UserDefinedCol2) == "" ? "/OrderManage/OrderManage" : user.UserDefinedCol2;
+                    return Json(new { message = ad });
                 }
                 else
                 {
