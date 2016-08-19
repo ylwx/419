@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using TugDataModel;
 using TugBusinessLogic;
 using TugBusinessLogic.Module;
-using Newtonsoft.Json;
 
 namespace TugManagementSystem.Controllers
 {
@@ -143,17 +142,6 @@ namespace TugManagementSystem.Controllers
 
                         db.Entry(cstmer).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
-
-                        var orderList = db.OrderInfor.Where(u => u.CustomerID == idx).ToList();
-                        if (orderList != null)
-                        {
-                            foreach (var item in orderList)
-                            {
-                                item.CustomerName = cstmer.Name1;
-                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
-                            }
-                        }
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
@@ -307,43 +295,12 @@ namespace TugManagementSystem.Controllers
 
 
         #region 计费方案 Written By lg
-        public JsonResult GetInitServiceData()  //初始化收费项table
-        {
-            string[,] labels = null;//
-            int i = 0;
-            if (labels == null)
-            {
-                TugDataEntities db = new TugDataEntities();
-                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
-                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C78" || u.IDX == 40 || u.CustomLabel == "折扣"))
-                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C82" || u.IDX == 23 || u.CustomLabel == "拖缆费"))
-                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "E80" || u.IDX == 119 || u.CustomLabel == "燃油附加费折扣")))
-                    .OrderBy(u => u.CustomValue).ToList<CustomField>();
-                labels = new string[list.Count, 4];
-                foreach (var itm in list)
-                {
-                    labels[i, 0] = itm.IDX.ToString();
-                    labels[i, 1] = itm.CustomLabel;
-                    labels[i, 3] = "港幣";
-                    i++;
-                }
-            }
-            //return labels;
-            return Json(labels, JsonRequestBehavior.AllowGet);
-
-            //var jsonData = new[]
-            //         {
-            //             new[] {"","",""},
-            //        };
-
-            //return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }  
 
         public ActionResult BillingScheme(string lan, int? id)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
-            //ViewBag.ServiceLabels = CustomerLogic.GetBillingTemplateItems();
+
             int totalRecordNum, totalPageNum;
             List<Customer> list = GetCustomers(1, _DefaultPageSie, out totalRecordNum, out totalPageNum);
             ViewBag.TotalPageNum = totalPageNum;
@@ -643,7 +600,7 @@ namespace TugManagementSystem.Controllers
 
         public ActionResult AddCustomerBillScheme(int custId, int billingTemplateTypeId, string billingTemplateCode, 
             string billingTemplateName, int timeTypeId, double discount, string shipLength, string shipTEUS, string expiryDate,
-            string templateCreditContent, string remark, List<string[]> dataListFromTable)
+            string templateCreditContent, string remark)
         {
             try
             {
@@ -696,47 +653,6 @@ namespace TugManagementSystem.Controllers
 
                     cstmer = db.BillingTemplate.Add(cstmer);
                     db.SaveChanges();
-
-                    //保存收费项
-                    for (int i = 0; i < dataListFromTable.Count - 1; i++)//最后一行空行
-                    {
-                        if (Util.checkdbnull(dataListFromTable[i][2]) == "") continue;
-                        TugDataModel.BillingItemTemplate aScheduler = new BillingItemTemplate();
-                        aScheduler.BillingTemplateID = cstmer.IDX;
-                        aScheduler.ItemID =Util.toint(dataListFromTable[i][0]);
-                        aScheduler.UnitPrice = Util.tonumeric(dataListFromTable[i][2]);
-                        aScheduler.Currency = dataListFromTable[i][3];
-                        aScheduler.TypeID = 13;
-
-                        aScheduler.OwnerID = -1;
-                        aScheduler.UserID = Session.GetDataFromSession<int>("userid");
-
-                        aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        aScheduler.UserDefinedCol1 = "";
-                        aScheduler.UserDefinedCol2 = "";
-                        aScheduler.UserDefinedCol3 = "";
-                        aScheduler.UserDefinedCol4 = "";
-
-                        //if (Request.Form["UserDefinedCol5"] != "")
-                        //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
-
-                        //if (Request.Form["UserDefinedCol6"] != "")
-                        //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
-
-                        //if (Request.Form["UserDefinedCol7"] != "")
-                        //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
-
-                        //if (Request.Form["UserDefinedCol8"] != "")
-                        //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
-
-                        aScheduler.UserDefinedCol9 = "";
-                        aScheduler.UserDefinedCol10 = "";
-
-                        aScheduler = db.BillingItemTemplate.Add(aScheduler);
-                        db.SaveChanges();
-                    }
-
 
                     var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
                     //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
