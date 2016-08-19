@@ -277,6 +277,8 @@
                 </li>
                 <!-- END USER LOGIN DROPDOWN -->
 
+
+
                 <!-- BEGIN TODO DROPDOWN -->
                 <li class="dropdown  pull-right " id="header-tasks" title="將當前頁設置為首頁">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="_HomePage" onclick="setHomePage()">
@@ -568,14 +570,14 @@
 
     <!-- DATE TIME PICKER -->
     <script src="~/Resources/Frame/js/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    
-    <script>
-    jQuery(document).ready(function () {
-        //App.setPage("widgets_box");  //Set current page
-        App.init(); //Initialise plugins and elements
 
-        var menu_id = "#" + '@ViewBag.MenuId';
-        var submenu_index = '@ViewBag.SubMenuIndex';
+    <script>
+        jQuery(document).ready(function () {
+            //App.setPage("widgets_box");  //Set current page
+            App.init(); //Initialise plugins and elements
+
+            var menu_id = "#" + '@ViewBag.MenuId';
+            var submenu_index = '@ViewBag.SubMenuIndex';
 
             //var div1 = document.getElementById("_RoleManage");
             //div1.style.display = 'none';
@@ -599,7 +601,7 @@
    );
 
         });
-
+  
 
         jQuery(document).ready(function (request, response) {
             $.ajax(
@@ -607,7 +609,7 @@
                          type: "post",
                          url: "/Home/SetMenuHidden",
                          dataType: 'json',
-                         success: function (result) {
+                         success: function (result) {                         
                              response($.map(result.list, function (item) {
                                  //alert(item.menuid);
                                  $("#" + item.menuid).css("display", item.display)
@@ -654,26 +656,26 @@
             $.ajax({
                 type: "post",
                 url: '@Url.Action("SetHomePage", "Home")',
-            data: {
+                data: {
                 'controller': control,//ViewContext.RouteData.Values["controller"],
                 'action': action,//ViewContext.RouteData.Values["action"]
             },
-            dataType: 'json',
-            success: function (result) {
-                alert(result.message);
-            },
-            error: function (result) {
-                console.log(result)
-                try {
-                    var json = $.parseJSON(result.responseText);
-                    alert(json.errorMessage);
-                } catch (e) {
-                    alert(e.message);
+                dataType: 'json',
+                success: function (result) {
+                    alert(result.message);
+                },
+                error: function (result) {
+                    console.log(result)
+                    try {
+                        var json = $.parseJSON(result.responseText);
+                        alert(json.errorMessage);
+                    } catch (e) {
+                        alert(e.message);
+                    }
+                    return;
                 }
-                return;
-            }
-        });
-    }
+            });
+        }
     </script>
 </body>
 </html>
