@@ -351,9 +351,9 @@ namespace TugManagementSystem.Controllers
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<CustomerShip> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<CustomerShip>();
+                    //List<CustomerShip> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<CustomerShip>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }

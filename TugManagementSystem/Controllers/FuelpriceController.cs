@@ -38,8 +38,8 @@ namespace TugManagementSystem.Controllers
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                    List<Fuelprice> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<Fuelprice>();
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    //List<Fuelprice> page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList<Fuelprice>();
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
                 }
             }
