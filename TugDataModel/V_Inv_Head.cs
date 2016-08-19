@@ -32,5 +32,8 @@ namespace TugDataModel
         public string TemplateCreditContent { get; set; }
         public string IsShowShipLengthRule { get; set; }
         public string IsShowShipTEUSRule { get; set; }
+        public Nullable<int> Length { get; set; }
+        public Nullable<int> TEUS { get; set; }
+        public Nullable<int> ShipID { get; set; }
     }
 }

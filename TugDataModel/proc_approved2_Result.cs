@@ -11,7 +11,7 @@ namespace TugDataModel
 {
     using System;
     
-    public partial class proc_approved1_Result
+    public partial class proc_approved2_Result
     {
         public Nullable<int> IDX { get; set; }
         public string InvoiceType { get; set; }

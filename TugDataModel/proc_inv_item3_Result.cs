@@ -11,7 +11,7 @@ namespace TugDataModel
 {
     using System;
     
-    public partial class proc_inv_item1_Result
+    public partial class proc_inv_item3_Result
     {
         public string ItemCode { get; set; }
         public string Item { get; set; }

@@ -11,7 +11,7 @@ namespace TugDataModel
 {
     using System;
     
-    public partial class proc_approved_Result1
+    public partial class proc_needapprove_Result1
     {
         public Nullable<int> IDX { get; set; }
         public string InvoiceType { get; set; }
@@ -27,6 +27,10 @@ namespace TugDataModel
         public string Remark { get; set; }
         public string CreateDate { get; set; }
         public string LastUpDate { get; set; }
-        public Nullable<int> UserID { get; set; }
+        public Nullable<int> MarkID { get; set; }
+        public Nullable<int> Phase { get; set; }
+        public string Task { get; set; }
+        public Nullable<int> FlowUserID { get; set; }
+        public string System { get; set; }
     }
 }
