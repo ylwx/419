@@ -59,6 +59,10 @@ namespace TugManagementSystem.Controllers
         {
             return Json(new { message = User.Identity.Name });
         }
+        public ActionResult curPage()
+        {
+            return Json(new { message = Session.GetDataFromSession<string>("HomePage")});
+        }
 
         public ActionResult NeedApproveCount()
         {
@@ -81,7 +85,18 @@ namespace TugManagementSystem.Controllers
             RejectCount = objs.Count;
             return Json(new { message = RejectCount });
         }
-
+        public ActionResult SetHomePage(string controller, string action)
+        {
+            int curUserId = 0;
+            TugDataEntities db = new TugDataEntities();
+            curUserId = Session.GetDataFromSession<int>("userid");
+            UserInfor objs = db.UserInfor.Where(u => u.IDX == curUserId).FirstOrDefault();
+            //objs.UserDefinedCol1 = Session.GetDataFromSession<string>("HomePage");
+            objs.UserDefinedCol1 = "/" + controller + "/" + action;
+            db.Entry(objs).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return Json(new { message = "恁已設置當前頁為首頁！" });
+        }
         public ActionResult ApproveCount()
         {
             int curUserId = 0, ApprovedCount;

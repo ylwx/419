@@ -64,7 +64,7 @@ namespace TugManagementSystem.Controllers
             if (labels == null)
             {
                 TugDataEntities db = new TugDataEntities();
-                List<UserInfor> list = db.UserInfor.Where(u => u.IsGuest == "false" && u.UserName != "admin").OrderBy(u => u.Name1).ToList<UserInfor>();
+                List<UserInfor> list = db.UserInfor.Where(u => u.IsGuest == "false" && u.UserName != "admin" && u.UserDefinedCol1=="app").OrderBy(u => u.Name1).ToList<UserInfor>();
                 labels = new string[list.Count];
                 foreach (var itm in list)
                 {

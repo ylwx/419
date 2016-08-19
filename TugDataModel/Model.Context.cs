@@ -97,27 +97,6 @@ namespace TugDataModel
         public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     
-        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
         public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
             var diagramnameParameter = diagramname != null ?
@@ -200,16 +179,16 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
     
-        public virtual ObjectResult<proc_approved_Result2> proc_approved(Nullable<int> userID)
+        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
         {
             var userIDParameter = userID.HasValue ?
                 new ObjectParameter("userID", userID) :
                 new ObjectParameter("userID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result2>("proc_approved", userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_Result1> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
             var billingIDParameter = billingID.HasValue ?
                 new ObjectParameter("BillingID", billingID) :
@@ -219,10 +198,10 @@ namespace TugDataModel
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result1>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_xy_Result1> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
             var billingIDParameter = billingID.HasValue ?
                 new ObjectParameter("BillingID", billingID) :
@@ -232,7 +211,7 @@ namespace TugDataModel
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result1>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
         }
     
         public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
@@ -269,13 +248,13 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<proc_needapprove_Result1> proc_needapprove(Nullable<int> userID)
+        public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
         {
             var userIDParameter = userID.HasValue ?
                 new ObjectParameter("userID", userID) :
                 new ObjectParameter("userID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result1>("proc_needapprove", userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
         }
     }
 }

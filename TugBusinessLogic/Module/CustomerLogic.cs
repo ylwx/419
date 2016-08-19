@@ -1410,7 +1410,29 @@ namespace TugBusinessLogic.Module
             return orders;
         }
 
-
+        static public string GetBillingTemplateItems()
+        {
+            string[,] labels = null;//
+            int i = 0;
+            if (labels == null)
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
+                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C78" || u.IDX == 40 || u.CustomLabel == "折扣"))
+                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C82" || u.IDX == 23 || u.CustomLabel == "拖缆费"))
+                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "E80" || u.IDX == 119 || u.CustomLabel == "燃油附加费折扣")))
+                    .OrderBy(u => u.CustomValue).ToList<CustomField>();
+                labels = new string[list.Count,3];
+                foreach (var itm in list)
+                {
+                    labels[i,0] = itm.CustomLabel;
+                    labels[i, 2] = "港幣";
+                    i++;
+                }
+            }
+            //return labels;
+            return JsonConvert.SerializeObject(labels);
+        }
 
         static public List<CustomField> GetPriceItems()
         {
