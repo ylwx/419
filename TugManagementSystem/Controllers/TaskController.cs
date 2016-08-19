@@ -94,6 +94,7 @@ namespace TugManagementSystem.Controllers
             lan = this.Internationalization();
             ViewBag.Language = lan;
             ViewBag.Services = TugBusinessLogic.Utils.GetServices();
+            Session.SetDataInSession<string>("HomePage", "/Task/NeedCheck");
             return View();
         }
 
