@@ -279,7 +279,7 @@
 
                 <!-- BEGIN TODO DROPDOWN -->
                 <li class="dropdown  pull-right " id="header-tasks" title="將當前頁設置為首頁">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="_HomePage" onclick="setHomePage()">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" id="_HomePage" onclick="setHomePage()">
                         <i class="fa fa-tasks"></i>
                         <span class="badge"></span>
                     </a>
@@ -645,22 +645,32 @@
 
 
         function setHomePage() {
-            //url: "/Home/SetHomePage",
-            url: '@Url.Action("SetHomePage", "Home")'+ '?controller=' + ViewContext.RouteData.Values["controller"]+ '?action=' + ViewContext.RouteData.Values["action"]
-            //data: { 'controller': ViewContext.RouteData.Values["controller"], 'action': ViewContext.RouteData.Values["action"] }
+            alert(ViewContext.RouteData.Values["controller"]);
+            alert(ViewContext.RouteData.Values["action"]);
+            //提交数据库
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("SetHomePage", "Home")',
+                data: {
+                    'controller': ViewContext.RouteData.Values["controller"],
+                    'action': ViewContext.RouteData.Values["action"]
+                },//"oper=delete&id=" + gr,
+                dataType: 'json',
+                success: function (result) {
+                    alert(result.message);
+                },
+                error: function (result) {
+                    console.log(result)
+                    try {
+                        var json = $.parseJSON(result.responseText);
+                        alert(json.errorMessage);
+                    } catch (e) {
+                        alert(e.message);
+                    }
+                    return;
+                }
+            });
         }
-
-        //jQuery(document).ready(function () {
-        //    $.ajax(
-        //             {
-        //                 type: "post",
-        //                 url: "/Home/ApproveCount",
-        //                 dataType: 'json',
-        //                 success: function (result) {
-        //                     $("#_Approved").html("已完成任务：" & result.message);
-        //                 },
-        //             });
-        //});
     </script>
 </body>
 </html>
