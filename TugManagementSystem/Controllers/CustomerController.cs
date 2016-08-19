@@ -394,6 +394,7 @@ namespace TugManagementSystem.Controllers
         [HttpGet]
         public ActionResult GetCustomers(int curPage, string queryName = "")
         {
+
             ViewBag.Language = this.Internationalization();
 
             int totalRecordNum, totalPageNum;
