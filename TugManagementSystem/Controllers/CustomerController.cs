@@ -241,6 +241,7 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+        [JsonExceptionFilterAttribute]
         public ActionResult Delete()
         {
             this.Internationalization();
@@ -252,6 +253,10 @@ namespace TugManagementSystem.Controllers
                 int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
+                //先判断此客户是否已被使用过
+                OrderInfor obj = db.OrderInfor.FirstOrDefault(u => u.CustomerID == idx);
+                if (obj != null) throw new Exception("此客戶已在訂單中使用過，不能被刪除！"); 
+                //删除客户
                 Customer cstmer = db.Customer.FirstOrDefault(u => u.IDX == idx);
                 if (cstmer != null)
                 {
@@ -264,9 +269,10 @@ namespace TugManagementSystem.Controllers
                     return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                throw ex;
+                //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
 
@@ -751,6 +757,7 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        [JsonExceptionFilterAttribute]
         public ActionResult DeleteCustomerBillScheme()
         {
             this.Internationalization();
@@ -762,6 +769,9 @@ namespace TugManagementSystem.Controllers
                 int idx = Util.toint(Request.Form["data[BillingTemplateIDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
+                //先判断此计费方案有没有被使用过
+                Billing obj = db.Billing.FirstOrDefault(u => u.BillingTemplateID == idx);
+                if (obj != null) throw new Exception("此計費方案已在賬單中使用過，不能被刪除！"); 
                 BillingTemplate cstmer = db.BillingTemplate.FirstOrDefault(u => u.IDX == idx);
                 if (cstmer != null)
                 {
@@ -774,9 +784,10 @@ namespace TugManagementSystem.Controllers
                     return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                throw ex;
             }
         }
 

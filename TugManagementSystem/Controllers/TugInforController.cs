@@ -222,6 +222,7 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
+        [JsonExceptionFilterAttribute]
         public ActionResult Delete()
         {
             this.Internationalization();
@@ -233,6 +234,10 @@ namespace TugManagementSystem.Controllers
                 int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
+                //先判断该拖輪是否被使用过
+                Scheduler obj = db.Scheduler.FirstOrDefault(u => u.TugID == idx);
+                if (obj != null) throw new Exception("此拖輪已在服務調度中使用過，不能被刪除！"); 
+
                 TugInfor tug = db.TugInfor.FirstOrDefault(u => u.IDX == idx);
                 if (tug != null)
                 {
@@ -245,9 +250,10 @@ namespace TugManagementSystem.Controllers
                     return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                throw ex;
+                //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
         public ActionResult GetTugStateInfor(bool _search, string sidx, string sord, int page, int rows)

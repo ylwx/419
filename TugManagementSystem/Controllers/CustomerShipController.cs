@@ -180,6 +180,7 @@ namespace TugManagementSystem.Controllers
                     {
                         throw new Exception("船名称已存在！");
                     }
+                    else
                     {
                         TugDataModel.CustomerShip ship = new CustomerShip();
 
@@ -302,6 +303,7 @@ namespace TugManagementSystem.Controllers
 
             return View("CustomerShipManage", list);
         }
+        [JsonExceptionFilterAttribute]
         public ActionResult Delete()
         {
             this.Internationalization();
@@ -313,21 +315,26 @@ namespace TugManagementSystem.Controllers
                 int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
+                //先判断该客户船是否被使用过
+                OrderInfor obj = db.OrderInfor.FirstOrDefault(u => u.ShipID == idx);
+                if (obj != null) throw new Exception("此客戶船已在訂單中使用過，不能被刪除！"); 
+                //删除客户船
                 CustomerShip ship = db.CustomerShip.FirstOrDefault(u => u.IDX == idx);
                 if (ship != null)
-                {
+                { 
                     db.CustomerShip.Remove(ship);
                     db.SaveChanges();
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    return Json(ret);
                 }
                 else
                 {
                     return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                throw ex;
             }
         }
         public ActionResult GetCustomerShips(bool _search, string sidx, string sord, int page, int rows, int ctmId)

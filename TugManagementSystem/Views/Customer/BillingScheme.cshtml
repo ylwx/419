@@ -694,7 +694,15 @@
                                             //jQuery("#jqGrid").jqGrid('delRowData', rowid);
                                             $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                                         },
-
+                                        error: function (result) {
+                                            console.log(result)
+                                            try {
+                                                var json = $.parseJSON(result.responseText);
+                                                alert(json.errorMessage);
+                                            } catch (e) {
+                                                alert(e.message);
+                                            }
+                                        }
                                     }
                                     );
                             }
