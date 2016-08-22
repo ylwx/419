@@ -102,51 +102,51 @@ namespace TugManagementSystem.Controllers
         /// <param name="page"></param>
         /// <param name="rows"></param>
         /// <returns></returns>
-        [Authorize]
-        public ActionResult GetInvoiceData(bool _search, string sidx, string sord, int page, int rows)
-        {
-            this.Internationalization();
+        //[Authorize]
+        //public ActionResult GetInvoiceData(bool _search, string sidx, string sord, int page, int rows)
+        //{
+        //    this.Internationalization();
 
-            try
-            {
-                TugDataEntities db = new TugDataEntities();
+        //    try
+        //    {
+        //        TugDataEntities db = new TugDataEntities();
 
-                if (_search == true)
-                {
-                    string searchOption = Request.QueryString["filters"];
-                    List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.SearchForInvoice(sidx, sord, searchOption);
+        //        if (_search == true)
+        //        {
+        //            string searchOption = Request.QueryString["filters"];
+        //            List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.SearchForInvoice(sidx, sord, searchOption);
 
-                    int totalRecordNum = orders.Count;
-                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
-                    int pageSize = rows;
-                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+        //            int totalRecordNum = orders.Count;
+        //            if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+        //            int pageSize = rows;
+        //            int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<V_OrderBilling> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderBilling>();
+        //            List<V_OrderBilling> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderBilling>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
-                    return Json(jsonData, JsonRequestBehavior.AllowGet);
-                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
-                    List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForInvoice(sidx, sord);
-                    int totalRecordNum = orders.Count;
-                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
-                    int pageSize = rows;
-                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+        //            var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+        //            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        //            //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+        //            List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForInvoice(sidx, sord);
+        //            int totalRecordNum = orders.Count;
+        //            if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+        //            int pageSize = rows;
+        //            int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
-                    List<V_OrderBilling> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderBilling>();
+        //            List<V_OrderBilling> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderBilling>();
 
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
-                    return Json(jsonData, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-            }
-        }
+        //            var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+        //            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+        //    }
+        //}
 
 
         
