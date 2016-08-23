@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="08/19/2016 16:20:36" ReportInfo.CreatorVersion="2013.3.3.0">
+<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="08/23/2016 12:03:10" ReportInfo.CreatorVersion="2013.3.3.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -98,12 +98,15 @@ namespace FastReport
     private void Cell26_AfterData(object sender, EventArgs e)
     {
       Cell26.Border.Lines=BorderLines.None;
+      Cell26.Font=new Font(&quot;宋体&quot;,11);
       if (Cell26.Text.StartsWith(&quot;C81&quot;))
       {
         Cell26.Border.Lines=BorderLines.All;
         Cell26.Text=Cell26.Text.Substring(3);
+        Cell26.Font=new Font(&quot;宋体&quot;,8);
       }  
       Cell26.Text=Addition.AmountFormat(Cell26.Text);
+      
     }
 
     private void Cell36_AfterData(object sender, EventArgs e)
@@ -149,7 +152,7 @@ namespace FastReport
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdv+tYkNbN96w1kE4dZpLec9g==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvn30ObEbbwva7gWm7wjLUpQ==">
       <TableDataSource Name="V_Inv_Head" DataType="System.Int32" Enabled="true" TableName="V_Inv_Head">
         <Column Name="IDX" DataType="System.Int32"/>
         <Column Name="BillingCode" DataType="System.String"/>
@@ -220,28 +223,28 @@ namespace FastReport
   </Dictionary>
   <ReportPage Name="Page1">
     <ReportTitleBand Name="ReportTitle2" Width="718.2" Height="217.35">
-      <TextObject Name="Text18" Left="567" Top="94.5" Width="151.2" Height="18.9" Text="[V_Inv_Head.BillingCode]" Font="宋体, 14pt"/>
-      <TextObject Name="Text21" Left="567" Top="122.85" Width="151.2" Height="18.9" AfterDataEvent="Text21_AfterData" Text="[V_Inv_Head.CreateDate]" Font="宋体, 14pt"/>
-      <RichObject Name="Rich1" Left="37.8" Top="75.6" Width="66.15" Height="28.35" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qr\f0\fs18 CAPTAIN/ OWNER\par&#13;&#10;}&#13;&#10;"/>
-      <TextObject Name="Text1" Left="37.8" Top="132.3" Width="66.15" Height="18.9" Text="JOB NO." HorzAlign="Right" Font="Times New Roman, 10pt"/>
-      <TextObject Name="Text2" Left="113.4" Top="132.3" Width="406.35" Height="18.9" HorzAlign="Right" Font="宋体, 14pt"/>
-      <TextObject Name="Text4" Left="9.45" Top="170.1" Width="94.5" Height="18.9" Text="備註" Font="宋体, 10pt"/>
+      <TextObject Name="Text18" Left="567" Top="85.05" Width="151.2" Height="18.9" Text="[V_Inv_Head.BillingCode]" Font="宋体, 14pt"/>
+      <TextObject Name="Text21" Left="567" Top="113.4" Width="151.2" Height="18.9" AfterDataEvent="Text21_AfterData" Text="[V_Inv_Head.CreateDate]" Font="宋体, 14pt"/>
+      <RichObject Name="Rich1" Left="47.25" Top="66.15" Width="66.15" Height="34.02" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qr\f0\fs14 CAPTAIN/\par&#13;&#10; OWNER\par&#13;&#10;}&#13;&#10;"/>
+      <TextObject Name="Text1" Left="47.25" Top="113.4" Width="66.15" Height="18.9" Text="JOB NO." HorzAlign="Right" Font="Times New Roman, 10pt"/>
+      <TextObject Name="Text2" Left="122.85" Top="113.4" Width="236.25" Height="18.9" HorzAlign="Right" Font="宋体, 14pt"/>
+      <TextObject Name="Text4" Left="9.45" Top="170.1" Width="94.5" Height="37.8" Text="備註&#13;&#10;REMARKS" Font="宋体, 10pt"/>
       <RichObject Name="Rich2" Left="122.85" Top="170.1" Width="585.9" Height="37.8" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset134 \'cb\'ce\'cc\'e5;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang2052\f0\fs20 [strRule]\lang1033\f1  \lang2052\f0 [V_Inv_Head.Remark]\lang1033\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich3" Left="37.8" Top="18.9" Width="311.85" Height="49.14" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset134 \'cb\'ce\'cc\'e5;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang2052\f0\fs28 [V_Inv_Head.CustomerName]\lang1033\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
-      <RichObject Name="Rich4" Left="113.4" Top="75.6" Width="406.35" Height="49.14" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset134 \'cb\'ce\'cc\'e5;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang2052\f0\fs28 [V_Inv_Head.ShipName]\lang1033\f1  \lang2052\f0 Vessel (LOA): [V_Inv_Head.Length]\lang1033\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
+      <RichObject Name="Rich3" Left="47.25" Top="9.45" Width="311.85" Height="49.14" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset134 \'cb\'ce\'cc\'e5;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang2052\b\f0\fs28 [V_Inv_Head.CustomerName]\lang1033\b0\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
+      <RichObject Name="Rich4" Left="122.85" Top="66.15" Width="236.25" Height="49.14" Text="{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset134 \'cb\'ce\'cc\'e5;}{\f1\fnil\fcharset0 Tahoma;}}&#13;&#10;{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\lang2052\f0\fs28 [V_Inv_Head.ShipName]\lang1033\f1  \lang2052\f0 [V_Inv_Head.Length]\lang1033\f1\fs17\par&#13;&#10;}&#13;&#10;"/>
     </ReportTitleBand>
     <DataBand Name="Data1" Top="221.39" Width="718.2" Height="37.8" Guides="37.8,0,37.8,37.8" DataSource="V_Inv_OrdService">
       <TextObject Name="Text23" Left="9.45" Width="94.5" Height="37.8" AfterDataEvent="Text23_AfterData" Duplicates="Merge" Font="宋体, 10pt"/>
-      <TextObject Name="Text24" Left="198.45" Width="151.2" Height="37.8" AfterDataEvent="Text24_AfterData" Text="[V_Inv_OrdService.CustomLabel]" VertAlign="Center" Font="宋体, 11pt"/>
-      <TextObject Name="Text25" Left="378" Width="151.2" Height="37.8" Text="[V_Inv_OrdService.ServiceWorkPlace]" VertAlign="Center" Font="宋体, 11pt"/>
-      <TextObject Name="Text26" Left="557.55" Width="151.2" Height="37.8" AfterDataEvent="Text26_AfterData" Text="[V_Inv_OrdService.ServiceWorkDate]" VertAlign="Center" Font="宋体, 11pt"/>
+      <TextObject Name="Text24" Left="198.45" Width="151.2" Height="37.8" AfterDataEvent="Text24_AfterData" Text="[V_Inv_OrdService.CustomLabel]" VertAlign="Center" Font="宋体, 10pt"/>
+      <TextObject Name="Text25" Left="378" Width="151.2" Height="37.8" Text="[V_Inv_OrdService.ServiceWorkPlace]" VertAlign="Center" Font="宋体, 10pt"/>
+      <TextObject Name="Text26" Left="557.55" Width="151.2" Height="37.8" AfterDataEvent="Text26_AfterData" Text="[V_Inv_OrdService.ServiceWorkDate]" VertAlign="Center" Font="宋体, 10pt"/>
       <TextObject Name="Text3" Left="113.4" Width="75.6" Height="37.8" Text="&#13;&#10;TO Assist" Duplicates="Merge" Font="宋体, 10pt"/>
       <DataFooterBand Name="DataFooter1" Top="263.23" Width="718.2" Height="7.56" Guides="9.45">
         <LineObject Name="Line1" Left="9.45" Top="3.78" Width="689.85" Border.Width="2"/>
       </DataFooterBand>
     </DataBand>
     <DataBand Name="Data2" Top="274.83" Width="718.2" Height="64.5">
-      <MatrixObject Name="Matrix1" Left="9.45" Width="335" Height="64.5" FixedRows="2" FixedColumns="1" DataSource="Table">
+      <MatrixObject Name="Matrix1" Left="9.45" Width="339" Height="64.5" FixedRows="2" FixedColumns="1" DataSource="Table">
         <MatrixColumns>
           <Header Expression="[MData.ServiceName]" Totals="false"/>
           <Header Expression="[MData.TugName]" Totals="false"/>
@@ -253,18 +256,18 @@ namespace FastReport
           <Cell Expression="[MData.Value]"/>
         </MatrixCells>
         <TableColumn Name="Column1" MinWidth="226.8" MaxWidth="226.8" Width="226.8" AutoSize="true"/>
-        <TableColumn Name="Column2" Width="108.2" AutoSize="true"/>
+        <TableColumn Name="Column2" Width="112.2" AutoSize="true"/>
         <TableRow Name="Row1" Height="21.5" AutoSize="true">
           <TableCell Name="Cell1" Text="拖輪&#13;&#10;TUGS" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 9pt" RowSpan="2"/>
-          <TableCell Name="Cell2" Text="[ServiceName]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 11pt"/>
+          <TableCell Name="Cell2" Text="[ServiceName]" Padding="4, 2, 4, 2" VertAlign="Center" Font="宋体, 11pt"/>
         </TableRow>
         <TableRow Name="Row2" Height="21.5" AutoSize="true">
           <TableCell Name="Cell3"/>
-          <TableCell Name="Cell4" Text="[TugName]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 11pt"/>
+          <TableCell Name="Cell4" Text="[TugName]" Padding="4, 2, 4, 2" VertAlign="Center" Font="宋体, 11pt"/>
         </TableRow>
         <TableRow Name="Row3" Height="21.5" AutoSize="true">
           <TableCell Name="Cell7" AfterDataEvent="Cell7_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 9pt"/>
-          <TableCell Name="Cell8" AfterDataEvent="Cell8_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 11pt"/>
+          <TableCell Name="Cell8" AfterDataEvent="Cell8_AfterData" Text="[Value]" Padding="4, 2, 4, 2" VertAlign="Center" Font="宋体, 11pt"/>
         </TableRow>
       </MatrixObject>
       <DataFooterBand Name="DataFooter3" Top="343.37" Width="718.2" Height="7.56">
@@ -295,7 +298,7 @@ namespace FastReport
         </TableRow>
         <TableRow Name="Row15" Height="21.5" AutoSize="true">
           <TableCell Name="Cell45" AfterDataEvent="Cell45_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 9pt"/>
-          <TableCell Name="Cell46" AfterDataEvent="Cell46_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 11pt"/>
+          <TableCell Name="Cell46" AfterDataEvent="Cell46_AfterData" Text="[Value]" Padding="4, 2, 4, 2" VertAlign="Center" Font="宋体, 11pt"/>
         </TableRow>
       </MatrixObject>
     </DataBand>
@@ -323,7 +326,7 @@ namespace FastReport
         </TableRow>
         <TableRow Name="Row9" Height="21.5" AutoSize="true">
           <TableCell Name="Cell25" AfterDataEvent="Cell25_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 9pt"/>
-          <TableCell Name="Cell26" AfterDataEvent="Cell26_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 11pt"/>
+          <TableCell Name="Cell26" AfterDataEvent="Cell26_AfterData" Text="[Value]" Padding="4, 2, 4, 2" VertAlign="Center" Font="宋体, 11pt"/>
         </TableRow>
       </MatrixObject>
       <DataFooterBand Name="DataFooter2" Top="423.53" Width="718.2" Height="7.56">
@@ -354,7 +357,7 @@ namespace FastReport
         </TableRow>
         <TableRow Name="Row12" Height="21.5" AutoSize="true">
           <TableCell Name="Cell35" AfterDataEvent="Cell35_AfterData" Text="[Item]" Padding="2, 2, 2, 2" VertAlign="Center" Font="宋体, 9pt"/>
-          <TableCell Name="Cell36" AfterDataEvent="Cell36_AfterData" Text="[Value]" Padding="2, 2, 2, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 11pt"/>
+          <TableCell Name="Cell36" AfterDataEvent="Cell36_AfterData" Text="[Value]" Padding="4, 2, 4, 2" VertAlign="Center" Font="宋体, 11pt"/>
         </TableRow>
       </MatrixObject>
       <DataFooterBand Name="DataFooter4" Top="469.41" Width="718.2" Height="103.95">
