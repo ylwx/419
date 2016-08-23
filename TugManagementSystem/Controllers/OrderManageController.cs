@@ -677,6 +677,17 @@ namespace TugManagementSystem.Controllers
                 int idx = Util.toint(Request.Form["data[IDX]"]);
 
                 TugDataEntities db = new TugDataEntities();
+
+                V_BillingOrders ob = db.V_BillingOrders.FirstOrDefault(u => u.OrderID == idx);
+                if (ob != null)
+                {
+                    {
+                        if (ob.Phase != 0)
+                        {
+                            return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該行帳單已處於審核流程中，無法刪除！" });
+                        }
+                    }
+                }
                 System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
                 List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
                 if (schedulerInfor.Count != 0)
