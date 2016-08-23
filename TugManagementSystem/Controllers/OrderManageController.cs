@@ -666,6 +666,26 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        public ActionResult IsScheduler()
+        {
+            var f = Request.Form;
+            bool IsScheduler = false;
+            int idx = Util.toint(Request.Form["orderId"]);
+
+            TugDataEntities db = new TugDataEntities();
+            System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
+            List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
+            if (schedulerInfor.Count != 0)
+            {
+                IsScheduler = true;  //已有排船信息
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = IsScheduler });
+            }
+            else
+            {
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = IsScheduler });
+            }
+        }
+
         public ActionResult Delete()
         {
             this.Internationalization();
