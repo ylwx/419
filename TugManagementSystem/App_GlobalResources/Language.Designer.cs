@@ -1060,7 +1060,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 新增訂單 的本地化字符串。
+        ///   查找类似 訂單信息 的本地化字符串。
         /// </summary>
         internal static string OrderManage_AddOrder {
             get {
