@@ -398,13 +398,13 @@
                 onSelectRow: function (rowid, status, e) {
                     var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
                     var rowData = $('#jqGrid').jqGrid('getRowData', id);
-                    var orderId = rowData.IDX;
+                    var ordermark = rowData.UserDefinedCol1;
                     //var orderId = jQuery('#jqGrid').jqGrid('getCell', rowKey, "IDX");
                     $.ajax({
                         url: '@Url.Action("IsScheduler", "OrderManage")',
                         type: "POST",
                         data: {
-                            'orderId': orderId
+                            'ordermark': ordermark
                         },
                         dataType: 'json',
                         success: function (result) {

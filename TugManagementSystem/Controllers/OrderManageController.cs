@@ -596,15 +596,16 @@ namespace TugManagementSystem.Controllers
 
                             aOrder.UserDefinedCol9 = "";
                             aOrder.UserDefinedCol10 = "";
+                            aOrder = db.OrderInfor.Add(aOrder);
 
-                            if (oper == "add")
-                            {
-                                aOrder = db.OrderInfor.Add(aOrder);
-                            }
-                            else if (oper == "edit")
-                            {
-                                db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
-                            }
+                            //if (oper == "add")
+                            //{
+                            //    aOrder = db.OrderInfor.Add(aOrder);
+                            //}
+                            //else if (oper == "edit")
+                            //{
+                            //    db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                            //}
                             db.SaveChanges();
 
                             //保存服务项
@@ -668,10 +669,10 @@ namespace TugManagementSystem.Controllers
         {
             var f = Request.Form;
             bool IsScheduler = false;
-            int idx = Util.toint(Request.Form["orderId"]);
+            string ordermark = Util.checkdbnull(Request.Form["ordermark"]);
 
             TugDataEntities db = new TugDataEntities();
-            System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
+            System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.UserDefinedCol1 == ordermark;
             List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
             if (schedulerInfor.Count != 0)
             {
