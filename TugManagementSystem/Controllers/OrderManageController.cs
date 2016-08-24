@@ -669,12 +669,12 @@ namespace TugManagementSystem.Controllers
         {
             var f = Request.Form;
             bool IsScheduler = false;
-            int idx = Util.toint(Request.Form["orderId"]);
-            //string oderMark = Request.Form["ordermark"];
+            //int idx = Util.toint(Request.Form["orderId"]);
+            string oderMark = Request.Form["ordermark"];
 
             TugDataEntities db = new TugDataEntities();
-            System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
-            //System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.UserDefinedCol1 == oderMark;
+            //System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
+            System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.UserDefinedCol1 == oderMark;
             List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
             if (schedulerInfor.Count != 0)
             {
