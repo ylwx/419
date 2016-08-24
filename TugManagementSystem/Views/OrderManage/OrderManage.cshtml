@@ -398,9 +398,9 @@
                 onSelectRow: function (rowid, status, e) {
                     var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
                     var rowData = $('#jqGrid').jqGrid('getRowData', id);
-                    //var orderId = rowData.IDX;
+                    var orderId = rowData.IDX;
                     var ordermark = rowData.UserDefinedCol1;
-                    var orderId = jQuery('#jqGrid').jqGrid('getCell', rowKey, "IDX");
+
                     $.ajax({
                         url: '@Url.Action("IsScheduler", "OrderManage")',
                         type: "POST",
@@ -567,6 +567,13 @@
                         $("form input").prop("readonly", false);
                         $("#btn_submit").attr("disabled", false);
                         $("form textarea").prop("readonly", false);
+                        hot.updateSettings({
+                            cells: function (row, col, prop) {
+                                var cellProperties = {};
+                                cellProperties.readOnly = false;
+                                return cellProperties;
+                            }
+                        })
                         AddParent();
                     }
                 })
@@ -593,8 +600,10 @@
                              hot.updateSettings({
                                  cells: function (row, col, prop) {
                                      var cellProperties = {};
+                                     cellProperties.readOnly = false;
+                                     return cellProperties;
                                  }
-                             });
+                             })
 
                              //编辑
                              EditOrder();
@@ -677,9 +686,9 @@
                     var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                     //查看
                     if (rowid != null) {
-                        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
+                        var ordermark = jQuery('#jqGrid').jqGrid('getCell', rowid, "UserDefinedCol1");
                         $('.panel-title span:first').html("edit");
-                        $('.panel-title span:last').html(orderId);
+                        $('.panel-title span:last').html(ordermark);
 
                         var selectedOrderIDs = "";
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -1384,7 +1393,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
+                    editrules: { required: false }, hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
@@ -1396,7 +1405,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
+                    editrules: { required: false }, hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
@@ -1783,7 +1792,6 @@
 
     function initEditModal() {
         //$("#btn_submit").attr("disabled", false);
-
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
         $('#_OrdDate').parent().removeClass("has-error");
@@ -1882,7 +1890,6 @@
             validateOnBlur: true,
             timepicker: true,
         });
-
         //赋默认值
         $.ajax({
             type: "get",
@@ -1892,17 +1899,17 @@
             },
             dataType: 'json',
             success: function (result) {
-                //alert(result.order.CustomerID);
+                //alert(result.CustomerID);
                  
-                $('#_CustomerID').text(result.order.CustomerID);
-                $('#_CustomerName').val(result.order.CustomerName);
-                $('#_OrdDate').val(result.order.OrdDate);
-                $('#_ShipID').text(result.order.ShipID);
-                $('#_ShipName').val(result.order.ShipName);
-                $('#_LinkMan').val(result.order.LinkMan);
-                $('#_LinkPhone').val(result.order.LinkPhone);
-                $('#_LinkEmail').val(result.order.LinkEmail);
-                $('#_Remark').val(result.order.Remark);
+                $('#_CustomerID').text(result.CustomerID);
+                $('#_CustomerName').val(result.CustomerName);
+                $('#_OrdDate').val(result.OrdDate);
+                $('#_ShipID').text(result.ShipID);
+                $('#_ShipName').val(result.ShipName);
+                $('#_LinkMan').val(result.LinkMan);
+                $('#_LinkPhone').val(result.LinkPhone);
+                $('#_LinkEmail').val(result.LinkEmail);
+                $('#_Remark').val(result.Remark);
             }
         });
     }
@@ -1913,24 +1920,19 @@
         //alert($('.panel-title span:first').html());
         if ($('.panel-title span:first').html() == 'add') initParentModal();
         else if ($('.panel-title span:first').html() == 'edit') initEditModal();
-        //var invoker = $(e.relatedTarget);
-        //alert(invoker.html());
+        //if ($('.panel-title span:first').html() == 'add') inithandsontable();//初始化handsontable
+        //else if ($('.panel-title span:first').html() == 'edit') loadservicetable();
     });
 
-    $('#parent-modal').on('shown.bs.modal', function (e) {
-        //var invoker = $(e.relatedTarget);
-        //alert(invoker.html());        
+    $('#parent-modal').on('shown.bs.modal', function (e) {    
         if ($('.panel-title span:first').html() == 'add') inithandsontable();//初始化handsontable
         else if ($('.panel-title span:first').html() == 'edit') loadservicetable();
     });
     $('#parent-modal').on('hide.bs.modal', function () {
         $(this).removeData("bs.modal");
-        //alert("hide");
     });
     $('#parent-modal').on('hidden.bs.modal', function () {
-        //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
         $(this).removeData("bs.modal");
-        //alert("hidden");
     });
 
     function inithandsontable() {

@@ -149,7 +149,10 @@ namespace TugManagementSystem.Controllers
                 OrderInfor aOrder = db.OrderInfor.Where(u => u.UserDefinedCol1 == ordermark).FirstOrDefault();
                 if (aOrder != null)
                 {
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, order = aOrder }, JsonRequestBehavior.AllowGet);
+                    return Json(new { CustomerID = aOrder.CustomerID, CustomerName = aOrder.CustomerName, OrdDate = aOrder.OrdDate,
+                        ShipID = aOrder.ShipID, ShipName = aOrder.ShipName, LinkMan =aOrder.LinkMan,LinkPhone=aOrder.LinkPhone,
+                                      LinkEmail = aOrder.LinkEmail,
+                                      Remark=aOrder.Remark}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
