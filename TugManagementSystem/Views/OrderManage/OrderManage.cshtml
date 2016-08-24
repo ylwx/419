@@ -1883,12 +1883,16 @@
             timepicker: true,
         });
 
+        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+
         //赋默认值
         $.ajax({
             type: "get",
             url: '@Url.Action("GetOrder", "OrderManage")',
             data: {
-                'ordermark': $('.panel-title span:last').html()
+                //'ordermark': $('.panel-title span:last').html()
+                'ordermark': dr.UserDefinedCol1
             },
             dataType: 'json',
             success: function (result) {
