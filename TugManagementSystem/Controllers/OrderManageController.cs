@@ -141,12 +141,12 @@ namespace TugManagementSystem.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult GetOrder(int orderId)
+        public ActionResult GetOrder(string ordermark)
         {
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                OrderInfor aOrder = db.OrderInfor.Where(u => u.UserDefinedCol1 == ordermark).FirstOrDefault();
                 if (aOrder != null)
                 {
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, order = aOrder }, JsonRequestBehavior.AllowGet);
@@ -162,12 +162,12 @@ namespace TugManagementSystem.Controllers
                 throw;
             }
         }
-        public ActionResult GetOrderServiceData(int orderId)
+        public ActionResult GetOrderServiceData(string ordermark)
         {
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                List<V_OrderService> list = db.V_OrderService.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderServiceID).ToList<V_OrderService>();
+                List<V_OrderService> list = db.V_OrderService.Where(u => u.UserDefinedCol1 == ordermark).OrderBy(u => u.OrderServiceID).ToList<V_OrderService>();
 
                 List<string[]> jsonData = new List<string[]>();
                 foreach (var itm in list)
@@ -502,7 +502,7 @@ namespace TugManagementSystem.Controllers
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }    
-        public ActionResult Add_EditOrder(string oper,int orderId,int customerId, string customerName, string ordDate,
+        public ActionResult Add_EditOrder(string oper,string ordermark,int customerId, string customerName, string ordDate,
             int shipId, string shipName, string linkMan, string linkPhone, string linkEmail, string remark,List<string[]> dataListFromTable) 
         {
             TugDataModel.OrderInfor aOrder=null;
@@ -514,100 +514,100 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
-                        if (oper == "add")
+
+                        //删除ordermark对应下的所有服务项
+                        System.Linq.Expressions.Expression<Func<OrderService, bool>> exp2 = u => u.UserDefinedCol1 == ordermark;
+                        var entitys2 = db.OrderService.Where(exp2);
+                        entitys2.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                        db.OrderService.RemoveRange(entitys2);
+                        db.SaveChanges();
+
+                        //删除ordermark对应的订单
+                        System.Linq.Expressions.Expression<Func<OrderInfor, bool>> exp1 = u => u.UserDefinedCol1 == ordermark;
+                        var entitys1 = db.OrderInfor.Where(exp1);
+                        entitys1.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                        db.OrderInfor.RemoveRange(entitys1);
+                        db.SaveChanges();
+
+                        //保存
+                        //获取服务项
+                        List<CustomField> listServ;
+                        listServ = TugBusinessLogic.Utils.GetServices();
+                        string mcode = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
+                        for (int i = 0; i < dataListFromTable.Count - 1; i++)//最后一行空行
                         {
+                            //保存订单
                             aOrder = new OrderInfor();
                             aOrder.Code = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
                             aOrder.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             aOrder.HasInvoice = "否"; //没有账单
                             aOrder.HasInFlow = "否"; //没有在流程中
                             aOrder.IsGuest = "否";
+                            //if (oper == "add")
+                            //{
+                            //    aOrder = new OrderInfor();
+                            //    aOrder.Code = TugBusinessLogic.Utils.AutoGenerateOrderSequenceNo();
+                            //    aOrder.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            //    aOrder.HasInvoice = "否"; //没有账单
+                            //    aOrder.HasInFlow = "否"; //没有在流程中
+                            //    aOrder.IsGuest = "否";
 
-                        }
-                        else if (oper == "edit")
-                        {
-                            aOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
+                            //}
+                            //else if (oper == "edit")
+                            //{
+                            //    aOrder = db.OrderInfor.Where(u => u.IDX == orderId).FirstOrDefault();
 
-                        }
-                        aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        //aOrder.CustomerID = customerId;
-                        aOrder.CustomerID = CustomerLogic.AutoAddCustomer("", customerName, "", "", linkMan, linkPhone, "", linkEmail, "", "", "", Session.GetDataFromSession<int>("userid"));
-                        aOrder.CustomerName = customerName;
-                        aOrder.OrdDate = ordDate;
-                        //aOrder.WorkDate = workDate;
-                        //aOrder.WorkTime = workTime;
-                        //aOrder.EstimatedCompletionTime = estimatedCompletionTime;
+                            //}
+                            aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            //aOrder.CustomerID = customerId;
+                            aOrder.CustomerID = CustomerLogic.AutoAddCustomer("", customerName, "", "", linkMan, linkPhone, "", linkEmail, "", "", "", Session.GetDataFromSession<int>("userid"));
+                            aOrder.CustomerName = customerName;
+                            aOrder.OrdDate = ordDate;
 
-                        aOrder.LinkMan = linkMan;
-                        aOrder.LinkPhone = linkPhone;
-                        aOrder.LinkEmail = linkEmail;
+                            aOrder.LinkMan = linkMan;
+                            aOrder.LinkPhone = linkPhone;
+                            aOrder.LinkEmail = linkEmail;
 
-                        //if (bigTugNum != "")
-                        //    aOrder.BigTugNum = Convert.ToInt32(bigTugNum);
-                        //if (middleTugNum != "")
-                        //    aOrder.MiddleTugNum = Convert.ToInt32(middleTugNum);
-                        //if (smallTugNum != "")
-                        //    aOrder.SmallTugNum = Convert.ToInt32(smallTugNum);
+                            aOrder.OwnerID = -1;
+                            aOrder.Remark = remark;
+                            //aOrder.ShipID = shipId;
+                            aOrder.ShipID = CustomerLogic.AutoAddCustomerShip((int)aOrder.CustomerID, shipName, "", "", "", "", "", "", "", "", Session.GetDataFromSession<int>("userid"));
+                            aOrder.ShipName = shipName;
+                            aOrder.UserID = Session.GetDataFromSession<int>("userid");
 
-                        aOrder.OwnerID = -1;
-                        aOrder.Remark = remark;
-                        //aOrder.ShipID = shipId;
-                        aOrder.ShipID = CustomerLogic.AutoAddCustomerShip((int)aOrder.CustomerID, shipName, "", "", "", "", "", "", "", "", Session.GetDataFromSession<int>("userid"));
-                        aOrder.ShipName = shipName;
-                        aOrder.UserID = Session.GetDataFromSession<int>("userid");
-                        //aOrder.WorkPlace = workPlace;
+                            aOrder.WorkStateID = 2; //CustomField表里面的OrderInfor.WorkStateID的IDX  订单修改后订单改为未排船
 
+                            aOrder.UserDefinedCol1 = mcode;
+                            aOrder.UserDefinedCol2 = i.ToString();
+                            aOrder.UserDefinedCol3 = dataListFromTable[i][0];
+                            aOrder.UserDefinedCol4 = "";
 
-                        //aOrder.ServiceNatureIDS = serviceNatureIds;
-                        //aOrder.ServiceNatureNames = serviceNatureNames;
+                            //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
 
-                        aOrder.WorkStateID = 2; //CustomField表里面的OrderInfor.WorkStateID的IDX  订单修改后订单改为未排船
+                            //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            //    aOrder.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
 
-                        aOrder.UserDefinedCol1 = "";
-                        aOrder.UserDefinedCol2 = "";
-                        aOrder.UserDefinedCol3 = "";
-                        aOrder.UserDefinedCol4 = "";
+                            //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            //    aOrder.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
 
-                        //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                        //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+                            //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            //    aOrder.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
 
-                        //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                        //    aOrder.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+                            aOrder.UserDefinedCol9 = "";
+                            aOrder.UserDefinedCol10 = "";
 
-                        //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                        //    aOrder.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+                            if (oper == "add")
+                            {
+                                aOrder = db.OrderInfor.Add(aOrder);
+                            }
+                            else if (oper == "edit")
+                            {
+                                db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                            }
+                            db.SaveChanges();
 
-                        //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                        //    aOrder.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
-
-                        aOrder.UserDefinedCol9 = "";
-                        aOrder.UserDefinedCol10 = "";
-
-                        if (oper == "add")
-                        {
-                            aOrder = db.OrderInfor.Add(aOrder);
-                        }
-                        else if (oper == "edit")
-                        {
-                            db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
-                        }
-                        db.SaveChanges();
-
-                        //将服务项信息写入OrderService表
-                        #region
-
-                        //先删除订单下的所有服务项
-                        System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.OrderID == orderId;
-                        var entitys = db.OrderService.Where(exp);
-                        entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
-                        db.OrderService.RemoveRange(entitys);
-                        db.SaveChanges();
-                        //保存
-                        //获取服务项
-                        List<CustomField> listServ;
-                        listServ = TugBusinessLogic.Utils.GetServices();
-                        for (int i = 0; i < dataListFromTable.Count - 1; i++)//最后一行空行
-                        {
+                            //保存服务项
                             TugDataModel.OrderService obj = new OrderService();
                             obj.OrderID = aOrder.IDX;
                             string serName = dataListFromTable[i][0];
@@ -631,7 +631,7 @@ namespace TugManagementSystem.Controllers
                             obj.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); ;
                             obj.UserID = Session.GetDataFromSession<int>("userid");
 
-                            //obj.UserDefinedCol1 = "";
+                            obj.UserDefinedCol1 = mcode;
                             //obj.UserDefinedCol2 = "";
                             //obj.UserDefinedCol3 = "";
                             //obj.UserDefinedCol4 = "";
@@ -645,8 +645,6 @@ namespace TugManagementSystem.Controllers
                             obj = db.OrderService.Add(obj);
                             db.SaveChanges();
                         }
-                        #endregion
-
                         trans.Complete();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
@@ -674,45 +672,33 @@ namespace TugManagementSystem.Controllers
             {
                 var f = Request.Form;
 
-                int idx = Util.toint(Request.Form["data[IDX]"]);
+                string ordermark = Util.checkdbnull(Request.Form["data[UserDefinedCol1]"]);
 
                 TugDataEntities db = new TugDataEntities();
-
-                V_BillingOrders ob = db.V_BillingOrders.FirstOrDefault(u => u.OrderID == idx);
-                if (ob != null)
-                {
-                    {
-                        if (ob.Phase != 0)
-                        {
-                            return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該行帳單已處於審核流程中，無法刪除！" });
-                        }
-                    }
-                }
-                System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
+                System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.UserDefinedCol1 == ordermark;
                 List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
                 if (schedulerInfor.Count != 0)
                 {
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單已排船，無法刪除！"});
                 }
 
-                OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.IDX == idx);
-                if (aOrder != null)
-                {
-                    //先删除订单下的所有服务项
-                    System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.OrderID == idx;
-                    var entitys = db.OrderService.Where(exp);
-                    entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
-                    db.OrderService.RemoveRange(entitys);
-                    db.SaveChanges();
-                    //删除订单
-                    db.OrderInfor.Remove(aOrder);
-                    db.SaveChanges();
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                }
-                else
-                {
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                }
+                //先删除订单下的所有服务项
+                System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.UserDefinedCol1 == ordermark;
+                var entitys = db.OrderService.Where(exp);
+                entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                db.OrderService.RemoveRange(entitys);
+                db.SaveChanges();
+
+                //删除订单
+                System.Linq.Expressions.Expression<Func<OrderInfor, bool>> exp2 = u => u.UserDefinedCol1 == ordermark;
+                var entitys2 = db.OrderInfor.Where(exp2);
+                entitys2.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                db.OrderInfor.RemoveRange(entitys2);
+                db.SaveChanges();
+
+                OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.UserDefinedCol1 == ordermark);
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                
             }
             catch (Exception)
             {

@@ -45,8 +45,10 @@ namespace TugBusinessLogic.Module
                 string groupOp = (string)jsonSearchOption["groupOp"];
                 JArray rules = (JArray)jsonSearchOption["rules"];
 
-                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
                 ParameterExpression parameter = Expression.Parameter(typeof(V_OrderInfor));
+                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
+                Expression condition = Expression.Equal(Expression.PropertyOrField(parameter, "UserDefinedCol2"), Expression.Constant("0", typeof(string)));//订单展示默认条件：UserDefinedCol2=0，单号同一客户，同一客户船统一在一个界面进行展示
+                
 
                 if (rules != null)
                 {
@@ -1690,7 +1692,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_OrderInfor.Select(u => u).ToList<V_OrderInfor>();
+                orders = db.V_OrderInfor.Where(u => u.UserDefinedCol2=="0").Select(u => u).ToList<V_OrderInfor>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)

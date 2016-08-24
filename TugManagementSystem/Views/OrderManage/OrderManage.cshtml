@@ -354,6 +354,10 @@
                 //    }
                 //}
             }
+        },
+        afterRemoveRow: function (index, amount) {
+            //alert(index);
+            //alert(amount);
         }
     });
     //end 服务项，handsontable 相关
@@ -541,9 +545,9 @@
                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                         //编辑
                         if (rowid != null) {
-                            var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
+                            var ordermark = jQuery('#jqGrid').jqGrid('getCell', rowid, "UserDefinedCol1");
                             $('.panel-title span:first').html("edit");
-                            $('.panel-title span:last').html(orderId);
+                            $('.panel-title span:last').html(ordermark);
 
 
                             var selectedOrderIDs = "";
@@ -1285,7 +1289,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
+                    editrules: { required: false }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
@@ -1297,7 +1301,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
+                    editrules: { required: false }, hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
@@ -1789,7 +1793,7 @@
             type: "get",
             url: '@Url.Action("GetOrder", "OrderManage")',
             data: {
-                'orderId': $('.panel-title span:last').html()
+                'ordermark': $('.panel-title span:last').html()
             },
             dataType: 'json',
             success: function (result) {
@@ -1859,7 +1863,7 @@
 
     function loadservicetable() {
         jQuery.ajax({
-            url: '/OrderManage/GetOrderServiceData' + '?orderId=' + $('.panel-title span:last').html(),
+            url: '/OrderManage/GetOrderServiceData' + '?ordermark=' + $('.panel-title span:last').html(),
             //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
             type: "GET",
             dataType: "json",
@@ -2162,7 +2166,7 @@
         //提交数据库
         $.ajax({
             type: "post",
-            url: '/OrderManage/Add_EditOrder?oper=' + $('.panel-title span:first').html() + '&orderId=' + $('.panel-title span:last').html() + '&customerId=' + customerId + '&customerName=' + customerName + '&ordDate=' + ordDate
+            url: '/OrderManage/Add_EditOrder?oper=' + $('.panel-title span:first').html() + '&ordermark=' + $('.panel-title span:last').html() + '&customerId=' + customerId + '&customerName=' + customerName + '&ordDate=' + ordDate
              + '&shipId=' + shipId + '&shipName=' + shipName + '&linkMan=' + linkMan + '&linkPhone=' + linkPhone + '&linkEmail=' + linkEmail
              + '&remark=' + remark,
             data: JSON.stringify(hot.getSourceData()),
