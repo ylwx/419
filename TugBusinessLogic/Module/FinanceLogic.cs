@@ -1237,6 +1237,8 @@ namespace TugBusinessLogic.Module
                                                     discount_price += (double)mbi.Price;
                                                 else if (item.CustomValue.Equals("C82")) //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
+                                                //else if (item.CustomValue.Equals("E81")) //燃油附加费额外费用
+                                                //    bottom_total_price += (double)mbi.Price;
                                             }
                                         }
                                         else
@@ -1275,6 +1277,8 @@ namespace TugBusinessLogic.Module
                                                     discount_price += (double)mbi.Price;
                                                 else if (item.CustomValue.Equals("C82"))    //拖缆费
                                                     bottom_total_price += (double)mbi.Price;
+                                                //else if (item.CustomValue.Equals("E81")) //燃油附加费额外费用
+                                                //    bottom_total_price += (double)mbi.Price;
                                             }
 
                                             mbi.TypeID = tmp.TypeID;
@@ -1287,7 +1291,8 @@ namespace TugBusinessLogic.Module
                                 }
                                 #endregion
 
-                                bottom_total_price += mySch.PriceOfFeulFee;
+                                //bottom_total_price += mySch.PriceOfFeulFee;
+                                bottom_total_price += (mySch.UnitPriceOfFeulFee + mySch.DiscoutPriceOfFeulFee) + (mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee); 
 
                                 mySch.BillingItems = lstMyBillingItems;
 
@@ -1487,7 +1492,8 @@ namespace TugBusinessLogic.Module
                                 }
                                 #endregion
 
-                                bottom_total_price += mySch.PriceOfFeulFee;
+                                //bottom_total_price += mySch.PriceOfFeulFee;
+                                bottom_total_price += (mySch.UnitPriceOfFeulFee + mySch.DiscoutPriceOfFeulFee) + (mySch.PriceOfFeulFee - mySch.UnitPriceOfFeulFee); 
 
                                 mySch.BillingItems = lstMyBillingItems;
 
