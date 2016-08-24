@@ -53,5 +53,6 @@ namespace TugDataModel
         public Nullable<int> BillingType { get; set; }
         public string TugIDs { get; set; }
         public string TugNames { get; set; }
+        public string UserDefinedCol1 { get; set; }
     }
 }

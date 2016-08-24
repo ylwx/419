@@ -394,6 +394,33 @@
                 //footerrow: true,
                 colMenu: false,          //列菜单
 
+
+                onSelectRow: function (rowid, status, e) {
+                    var id = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    var rowData = $('#jqGrid').jqGrid('getRowData', id);
+                    var orderId = rowData.IDX;
+                    //var orderId = jQuery('#jqGrid').jqGrid('getCell', rowKey, "IDX");
+                    $.ajax({
+                        url: '@Url.Action("IsScheduler", "OrderManage")',
+                        type: "POST",
+                        data: {
+                            'orderId': orderId
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.message == true) {
+                                $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                            }
+                            else {
+                                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                                $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                            }
+                        },
+                    });
+                },
+
+
                 gridComplete: function () {
                     var ids = $(this).getDataIDs();
                     for (var i = 0; i < ids.length; i++) {
@@ -535,6 +562,9 @@
                     onClickButton: function () {
                         $('.panel-title span:first').html("add");
                         $('.panel-title span:last').html(-1);
+                        $("form input").prop("readonly", false);
+                        $("#btn_submit").attr("disabled", false);
+                        $("form textarea").prop("readonly", false);
                         AddParent();
                     }
                 })
@@ -555,10 +585,20 @@
                             var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
                             var noinvoiceResult = ""; //保存选择的没有账单的记录
 
-                            selectedOrderIDs = rowid + ":" + orderId;
+                             $("form input").prop("readonly", false);
+                             $("form textarea").prop("readonly", false);
+                             $("#btn_submit").attr("disabled", false);
+                             hot.updateSettings({
+                                 cells: function (row, col, prop) {
+                                     var cellProperties = {};
+                                 }
+                             });
 
+                             //编辑
+                             EditOrder();
 
-                            $.ajax({
+                             //selectedOrderIDs = rowid + ":" + orderId;
+                             @*$.ajax({
                                 url: '@Url.Action("CheckOrderInvoiceStatus", "Finance")',
                                 type: "POST",
                                 data: {
@@ -577,32 +617,85 @@
                                     //    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无法编辑，请先生成账单！');
                                     //    return;
                                     //}
-                                    if (result.message == "該訂單已排船,不可編輯！") {
-                                        alert(result.message);
-                                        return;
-                                    }
-                                    for (key in result.dic_has_invoice_in_fow) {
+                                  
+                                    ////if (result.ret == "該訂單已排船,不可編輯！") {
+                                    ////    $("form input").prop("readonly", true);
+                                    ////    $("form textarea").prop("readonly", true);
+                                    ////    $("#btn_submit").attr("disabled", true);
+                                    ////    hot.updateSettings({
+                                    ////        cells: function (row, col, prop) {
+                                    ////            var cellProperties = {};
+                                    ////            cellProperties.readOnly = true;
+                                    ////            return cellProperties;
+                                    ////        }
+                                    ////    })
+                                    ////}
+                                    ////else
+                                    ////{
+                                    ////    $("form input").prop("readonly", false);
+                                    ////    $("form textarea").prop("readonly", false);
+                                    ////    $("#btn_submit").attr("disabled", false);
+                                    ////    hot.updateSettings({
+                                    ////        cells: function (row, col, prop) {
+                                    ////            var cellProperties = {};
+                                    ////        }
+                                    ////    });
+                                    ////}
+                                    //for (key in result.dic_has_invoice_in_fow) {
 
-                                        var value = result.dic_has_invoice_in_fow[key];
-                                        inFlowingResult += key + ",";
-                                    }
+                                    //    var value = result.dic_has_invoice_in_fow[key];
+                                    //    inFlowingResult += key + ",";
+                                    //}
 
-                                    if (inFlowingResult != "") {
-                                        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                        alert('所選的記錄中，第' + inFlowingResult + '行帳單已處於審核流程中，無法編輯！');
-                                        return;
-                                    }
-                                    else if (result.ret == "該訂單已排船,不可編輯！")
-                                    {
-                                        alert("該訂單已排船,不可編輯！");
-                                        return;
-                                    }
-                                    //编辑
-                                    EditOrder();
+                                    //if (inFlowingResult != "") {
+                                    //    inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                    //    alert('所選的記錄中，第' + inFlowingResult + '行帳單已處於審核流程中，無法編輯！');
+                                    //    return;
+                                    //}
+                                    //else if (result.ret == "該訂單已排船,不可編輯！")
+                                    //{
+                                    //    alert("該訂單已排船,不可編輯！");
+                                    //    return;
+                                    //}
+
                                 },
-                            });
+                            });*@
 
+
+                                    }
+                        else {
+                            alert('选中一行');
+                                    }
+                    }
+                 })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilView',
+               caption: "", title: "查看訂單", buttonicon: "ui-icon-search",
+               onClickButton: function () {
+                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    //查看
+                    if (rowid != null) {
+                        var orderId = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
+                        $('.panel-title span:first').html("edit");
+                        $('.panel-title span:last').html(orderId);
+
+                        var selectedOrderIDs = "";
+                        var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                        var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                        var noinvoiceResult = ""; //保存选择的没有账单的记录
                             
+                        $("form input").prop("readonly", true);
+                        $("form textarea").prop("readonly", true);
+                        $("#btn_submit").attr("disabled", true);
+                        hot.updateSettings({
+                            cells: function (row, col, prop) {
+                                var cellProperties = {};
+                                cellProperties.readOnly = true;
+                                return cellProperties;
+                            }
+                        })
+                        //查看
+                        EditOrder();
                         }
                         else {
                             alert('选中一行');
@@ -1599,7 +1692,7 @@
         $('#_ShipName').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomerShips", "OrderManage")'+ '?customerId=' + $("#_CustomerID").text(),
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")' + '?customerId=' + $("#_CustomerID").text(),
                     data: request,
                     type: 'GET',
                     dataType: 'json',
@@ -1687,7 +1780,7 @@
     }
 
     function initEditModal() {
-        $("#btn_submit").attr("disabled", false);
+        //$("#btn_submit").attr("disabled", false);
 
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
@@ -1816,7 +1909,7 @@
     $('#parent-modal').on('show.bs.modal', function (e) {
 
         //alert($('.panel-title span:first').html());
-        if ($('.panel-title span:first').html()=='add') initParentModal();
+        if ($('.panel-title span:first').html() == 'add') initParentModal();
         else if ($('.panel-title span:first').html() == 'edit') initEditModal();
         //var invoker = $(e.relatedTarget);
         //alert(invoker.html());
@@ -2124,19 +2217,17 @@
                 $('#parentErrMsg').show();
                 return;
             }
-            else
-            {
-                var err=false; 
+            else {
+                var err = false;
                 var tm = vltime.split(":");
                 //alert(tm.length)
                 if (tm.length == 1)
                     err = true;
-                else
-                {
+                else {
                     var rv1 = parseInt(tm[0]);
                     //alert(rv1);
                     //alert(rv1.toString() == 'NaN');
-                    if (rv1.toString()== 'NaN')
+                    if (rv1.toString() == 'NaN')
                     { err = true; }
                     else {
                         if (rv1 < 0 || rv1 > 24) err = true;
@@ -2150,8 +2241,7 @@
                     }
                 }
                 //alert(err);
-                if(err==true) 
-                {
+                if (err == true) {
                     $('#parentErrMsg p').html("第" + (i + 1) + "工作格式錯誤，請參照格式 13：30 ! ");
                     $('#parentErrMsg').show();
                     return;

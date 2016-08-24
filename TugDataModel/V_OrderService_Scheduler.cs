@@ -17,5 +17,6 @@ namespace TugDataModel
         public Nullable<int> OrderID { get; set; }
         public int SchedulerID { get; set; }
         public int OrderServiceID { get; set; }
+        public string UserDefinedCol1 { get; set; }
     }
 }

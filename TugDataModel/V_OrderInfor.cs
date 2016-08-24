@@ -54,5 +54,8 @@ namespace TugDataModel
         public Nullable<int> Width { get; set; }
         public Nullable<int> TEUS { get; set; }
         public string Class { get; set; }
+        public string UserDefinedCol1 { get; set; }
+        public string UserDefinedCol2 { get; set; }
+        public string UserDefinedCol3 { get; set; }
     }
 }

@@ -1587,6 +1587,9 @@
           <Property Name="Width" Type="int" />
           <Property Name="TEUS" Type="int" />
           <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderScheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1693,6 +1696,7 @@
           <Property Name="BillingType" Type="int" />
           <Property Name="TugIDs" Type="nvarchar" MaxLength="50" />
           <Property Name="TugNames" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderService_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1704,6 +1708,7 @@
           <Property Name="OrderID" Type="int" />
           <Property Name="SchedulerID" Type="int" Nullable="false" />
           <Property Name="OrderServiceID" Type="int" Nullable="false" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_RoleMenu”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2845,7 +2850,10 @@
     [V_OrderInfor].[Length] AS [Length], 
     [V_OrderInfor].[Width] AS [Width], 
     [V_OrderInfor].[TEUS] AS [TEUS], 
-    [V_OrderInfor].[Class] AS [Class]
+    [V_OrderInfor].[Class] AS [Class], 
+    [V_OrderInfor].[UserDefinedCol1] AS [UserDefinedCol1], 
+    [V_OrderInfor].[UserDefinedCol2] AS [UserDefinedCol2], 
+    [V_OrderInfor].[UserDefinedCol3] AS [UserDefinedCol3]
     FROM [dbo].[V_OrderInfor] AS [V_OrderInfor]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderScheduler" EntityType="Self.V_OrderScheduler" store:Type="Views" store:Schema="dbo">
@@ -2945,14 +2953,16 @@
     [V_OrderService].[HasBillingInFlow] AS [HasBillingInFlow], 
     [V_OrderService].[BillingType] AS [BillingType], 
     [V_OrderService].[TugIDs] AS [TugIDs], 
-    [V_OrderService].[TugNames] AS [TugNames]
+    [V_OrderService].[TugNames] AS [TugNames], 
+    [V_OrderService].[UserDefinedCol1] AS [UserDefinedCol1]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderService_Scheduler" EntityType="Self.V_OrderService_Scheduler" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_OrderService_Scheduler].[OrderID] AS [OrderID], 
     [V_OrderService_Scheduler].[SchedulerID] AS [SchedulerID], 
-    [V_OrderService_Scheduler].[OrderServiceID] AS [OrderServiceID]
+    [V_OrderService_Scheduler].[OrderServiceID] AS [OrderServiceID], 
+    [V_OrderService_Scheduler].[UserDefinedCol1] AS [UserDefinedCol1]
     FROM [dbo].[V_OrderService_Scheduler] AS [V_OrderService_Scheduler]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_RoleMenu" EntityType="Self.V_RoleMenu" store:Type="Views" store:Schema="dbo">
@@ -4984,6 +4994,9 @@
           <Property Name="Width" Type="Int32" />
           <Property Name="TEUS" Type="Int32" />
           <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderScheduler">
           <Key>
@@ -5086,6 +5099,7 @@
           <Property Name="BillingType" Type="Int32" />
           <Property Name="TugIDs" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_OrderService_Scheduler">
           <Key>
@@ -5095,6 +5109,7 @@
           <Property Name="OrderID" Type="Int32" />
           <Property Name="SchedulerID" Type="Int32" Nullable="false" />
           <Property Name="OrderServiceID" Type="Int32" Nullable="false" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_RoleMenu">
           <Key>
@@ -7044,6 +7059,9 @@
           <EntitySetMapping Name="V_OrderInfor">
             <EntityTypeMapping TypeName="Model.V_OrderInfor">
               <MappingFragment StoreEntitySet="V_OrderInfor">
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
                 <ScalarProperty Name="Class" ColumnName="Class" />
                 <ScalarProperty Name="TEUS" ColumnName="TEUS" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
@@ -7149,6 +7167,7 @@
           <EntitySetMapping Name="V_OrderService">
             <EntityTypeMapping TypeName="Model.V_OrderService">
               <MappingFragment StoreEntitySet="V_OrderService">
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
                 <ScalarProperty Name="TugNames" ColumnName="TugNames" />
                 <ScalarProperty Name="TugIDs" ColumnName="TugIDs" />
                 <ScalarProperty Name="BillingType" ColumnName="BillingType" />
@@ -7194,6 +7213,7 @@
           <EntitySetMapping Name="V_OrderService_Scheduler">
             <EntityTypeMapping TypeName="Model.V_OrderService_Scheduler">
               <MappingFragment StoreEntitySet="V_OrderService_Scheduler">
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
                 <ScalarProperty Name="OrderServiceID" ColumnName="OrderServiceID" />
                 <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
