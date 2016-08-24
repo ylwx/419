@@ -35,5 +35,6 @@ namespace TugDataModel
         public Nullable<int> Length { get; set; }
         public Nullable<int> TEUS { get; set; }
         public Nullable<int> ShipID { get; set; }
+        public string JobNo { get; set; }
     }
 }

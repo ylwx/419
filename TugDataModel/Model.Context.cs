@@ -254,5 +254,10 @@ namespace TugDataModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result1>("proc_needapprove", userIDParameter);
         }
+    
+        public virtual ObjectResult<string> proc_test()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_test");
+        }
     }
 }
