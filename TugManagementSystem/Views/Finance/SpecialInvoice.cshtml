@@ -1024,13 +1024,66 @@
                             return;
                         }
 
-                        g_selectedServiceData = [];
+                        var unCompleteInputTimeServices = ""; //保存没有输入完时间的服务行号
+                        var hasNnotSchedulerTug = "";           //保存未排船的服務行號
+
+                        var selectedOrderServices = '';
                         for (var i = 0; i < selectedIDs.length; i++) {
                             var dr = jQuery("#jqGrid_Order").jqGrid('getRowData', selectedIDs[i]);//得到该行的数据
-                            g_selectedServiceData.push(dr);
+                            selectedOrderServices = selectedIDs[i] + ':' + dr.OrderServiceID + ',';
+                        }
+                        if (selectedOrderServices != "") {
+                            selectedOrderServices = selectedOrderServices.substr(0, selectedOrderServices.length - 1);
                         }
 
-                        AddParent();
+
+                        //检查是否有未输入完成的离厂、回厂时间
+                        $.ajax({
+                            type: "get",
+                            url: '@Url.Action("CheckSchedulerInputTime", "Finance")',
+                            data: {
+                                'selectedOrderServices': selectedOrderServices
+                            },
+                            dataType: 'json',
+                            success: function (result) {
+                                //alert(result.CustomerID);
+
+                                //1.有未排拖輪的服務
+                                for (key in result.dic_has_not_scheduler_tug) {
+
+                                    var value = result.dic_has_not_scheduler_tug[key];
+                                    hasNnotSchedulerTug += key + ",";
+                                }
+
+                                if (hasNnotSchedulerTug != "") {
+                                    hasNnotSchedulerTug = hasNnotSchedulerTug.substr(0, hasNnotSchedulerTug.length - 1);
+                                    alert('所選的記錄中，第' + hasNnotSchedulerTug + '行服務未排拖輪，請取消這些(條)服務或完成排船！');
+                                    return;
+                                }
+
+                                //2.有未輸入完離廠、回廠時間的服務
+                                for (key in result.dic_has_uncomplete_input_time) {
+
+                                    var value = result.dic_has_uncomplete_input_time[key];
+                                    unCompleteInputTimeServices += key + ",";
+                                }
+
+                                if (unCompleteInputTimeServices != "") {
+                                    unCompleteInputTimeServices = unCompleteInputTimeServices.substr(0, unCompleteInputTimeServices.length - 1);
+                                    alert('所選的記錄中，第' + unCompleteInputTimeServices + '行服務未輸入離廠或回廠時間，不能生成特殊帳單，請取消這些(條)服務或完成時間錄入！');
+                                    return;
+                                }
+
+                                g_selectedServiceData = [];
+                                for (var i = 0; i < selectedIDs.length; i++) {
+                                    var dr = jQuery("#jqGrid_Order").jqGrid('getRowData', selectedIDs[i]);//得到该行的数据
+                                    g_selectedServiceData.push(dr);
+                                }
+
+                                AddParent();
+
+                            }
+                        });    
 
                     }
                 })

@@ -2671,6 +2671,62 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+
+
+        public ActionResult CheckSchedulerInputTime(string selectedOrderServices)
+        {
+            this.Internationalization();
+
+            //行号：OrderServiceId
+            Dictionary<int, int> dicHasUnCompleteInputTime = new Dictionary<int, int>();
+            Dictionary<int, int> dicHasNotSchedulerTug = new Dictionary<int, int>();
+
+            string ret = "";
+
+            TugDataEntities db = new TugDataEntities();
+            List<string> list = selectedOrderServices.Split(',').ToList();
+            if (list != null)
+            {
+                foreach (string item in list)
+                {
+                    int rowId = Convert.ToInt32(item.Split(':')[0]);
+                    int orderServiceId = Convert.ToInt32(item.Split(':')[1]);
+
+                    var orderServiceSchedulers = db.V_OrderScheduler.Where(u => u.OrderServiceID == orderServiceId).ToList();
+                    if (orderServiceSchedulers != null)
+                    {
+                        if (orderServiceSchedulers.Count == 0) {
+                            dicHasNotSchedulerTug.Add(rowId, orderServiceId);
+                        }
+                        else
+                        {
+                            foreach (var item2 in orderServiceSchedulers)
+                            {
+                                if (null == item2.DepartBaseTime || "" == item2.DepartBaseTime
+                                    || null == item2.ArrivalBaseTime || "" == item2.ArrivalBaseTime)
+                                {
+                                    dicHasUnCompleteInputTime.Add(rowId, orderServiceId);
+                                    //break;
+                                }
+
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            return Json(new
+            {
+                code = Resources.Common.SUCCESS_CODE,
+                message = Resources.Common.SUCCESS_MESSAGE,
+                dic_has_uncomplete_input_time = dicHasUnCompleteInputTime,
+                dic_has_not_scheduler_tug = dicHasNotSchedulerTug,
+
+                ret
+            }, JsonRequestBehavior.AllowGet);
+  
+        }
+
         #endregion
     }
 
