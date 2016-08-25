@@ -75,6 +75,33 @@ namespace TugManagementSystem.Controllers
             return Json(new { message = NeedApprovedCount });
         }
 
+        public ActionResult GetAlert()
+        {
+            int curUserId = 0;
+            int NeedApprovedCount, RejectBillingCount, RejectOrderCount;
+            curUserId = Session.GetDataFromSession<int>("userid");
+            TugDataEntities db = new TugDataEntities();
+
+            //待审核任务 
+            List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
+            NeedApprovedCount = objs.Count;
+            //被驳回账单
+            List<Billing> rejectBilling= db.Billing.Where(u => u.UserID == curUserId && u.Phase == 0 && u.Status == "已驳回").OrderByDescending(u => u.IDX).ToList<Billing>();
+            RejectBillingCount = rejectBilling.Count;
+            //被驳回订单
+            List<V_OrderService> rejectOrder = db.V_OrderService.Where(u => u.OrderUserId == curUserId && (u.ServiceJobStateLabel == "被驳回" || u.ServiceJobStateValue == "3")).ToList<V_OrderService>();
+            RejectOrderCount = rejectOrder.Count;
+
+            return Json(new
+            {
+                code = Resources.Common.SUCCESS_CODE,
+                message = Resources.Common.SUCCESS_MESSAGE,
+                NeedApprovedCount,
+                RejectBillingCount,
+                RejectOrderCount
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult RejectCount()
         {
             int curUserId = 0;

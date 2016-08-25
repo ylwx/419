@@ -1698,6 +1698,7 @@
           <Property Name="TugIDs" Type="nvarchar" MaxLength="50" />
           <Property Name="TugNames" Type="nvarchar" MaxLength="50" />
           <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderUserId" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderService_Scheduler”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2957,7 +2958,8 @@
     [V_OrderService].[BillingType] AS [BillingType], 
     [V_OrderService].[TugIDs] AS [TugIDs], 
     [V_OrderService].[TugNames] AS [TugNames], 
-    [V_OrderService].[UserDefinedCol1] AS [UserDefinedCol1]
+    [V_OrderService].[UserDefinedCol1] AS [UserDefinedCol1], 
+    [V_OrderService].[OrderUserId] AS [OrderUserId]
     FROM [dbo].[V_OrderService] AS [V_OrderService]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_OrderService_Scheduler" EntityType="Self.V_OrderService_Scheduler" store:Type="Views" store:Schema="dbo">
@@ -3208,6 +3210,7 @@
           <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result1)">
           <Parameter Name="userID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="proc_test" ReturnType="Collection(String)" />
           <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
           <EntitySet Name="Approve" EntityType="Model.Approve" />
           <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -3335,7 +3338,6 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
-          <FunctionImport Name="proc_test" ReturnType="Collection(String)" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -5105,6 +5107,7 @@
           <Property Name="TugIDs" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TugNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderUserId" Type="Int32" />
         </EntityType>
         <EntityType Name="V_OrderService_Scheduler">
           <Key>
@@ -5527,6 +5530,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_test" FunctionName="Model.Store.proc_test" />
           <EntitySetMapping Name="AmountSum">
             <EntityTypeMapping TypeName="Model.AmountSum">
               <MappingFragment StoreEntitySet="AmountSum">
@@ -7173,6 +7177,7 @@
           <EntitySetMapping Name="V_OrderService">
             <EntityTypeMapping TypeName="Model.V_OrderService">
               <MappingFragment StoreEntitySet="V_OrderService">
+                <ScalarProperty Name="OrderUserId" ColumnName="OrderUserId" />
                 <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
                 <ScalarProperty Name="TugNames" ColumnName="TugNames" />
                 <ScalarProperty Name="TugIDs" ColumnName="TugIDs" />
@@ -7368,7 +7373,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="proc_test" FunctionName="Model.Store.proc_test" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
