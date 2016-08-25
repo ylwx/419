@@ -1957,7 +1957,8 @@ namespace TugManagementSystem.Controllers
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
-                    int pageSize = rows;
+                    //int pageSize = rows;
+                    int pageSize = orders.Count;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
 
                     List<V_OrderService> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_OrderService>();
@@ -2700,15 +2701,21 @@ namespace TugManagementSystem.Controllers
                         }
                         else
                         {
+                            bool flag = false;
                             foreach (var item2 in orderServiceSchedulers)
                             {
                                 if (null == item2.DepartBaseTime || "" == item2.DepartBaseTime
                                     || null == item2.ArrivalBaseTime || "" == item2.ArrivalBaseTime)
                                 {
-                                    dicHasUnCompleteInputTime.Add(rowId, orderServiceId);
-                                    //break;
+                                    flag = true;
+                                    break;
                                 }
 
+                            }
+
+                            if (flag == true)
+                            {
+                                dicHasUnCompleteInputTime.Add(rowId, orderServiceId);
                             }
                         }
                     }

@@ -330,7 +330,7 @@ namespace TugManagementSystem.Controllers
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                List<TugInfor> TugInfors = db.TugInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<TugInfor>();
+                List<TugInfor> TugInfors = db.TugInfor.Where(u=>u.UserDefinedCol1 != "是").Select(u => u).OrderByDescending(u => u.IDX).ToList<TugInfor>();
 
                 int totalRecordNum = TugInfors.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;

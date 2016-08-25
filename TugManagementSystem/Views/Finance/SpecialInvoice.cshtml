@@ -954,7 +954,7 @@
 
             viewrecords: true,
             height: '100%', //'auto', //350,
-            //rowNum: 2,
+            rowNum: 100000,
             autowidth: true,
             editurl: null,
             pager: "#jqGridPager_Order",
@@ -1019,10 +1019,16 @@
                     onClickButton: function () {
 
                         var selectedIDs = jQuery('#jqGrid_Order').getGridParam("selarrrow");
+
+                        //alert(selectedIDs.length);
+                        //return;
+
                         if (selectedIDs.length <= 0) {
                             alert("請至少選擇一行記錄!");
                             return;
                         }
+
+                        
 
                         var unCompleteInputTimeServices = ""; //保存没有输入完时间的服务行号
                         var hasNnotSchedulerTug = "";           //保存未排船的服務行號
@@ -1030,7 +1036,7 @@
                         var selectedOrderServices = '';
                         for (var i = 0; i < selectedIDs.length; i++) {
                             var dr = jQuery("#jqGrid_Order").jqGrid('getRowData', selectedIDs[i]);//得到该行的数据
-                            selectedOrderServices = selectedIDs[i] + ':' + dr.OrderServiceID + ',';
+                            selectedOrderServices += selectedIDs[i] + ':' + dr.OrderServiceID + ',';
                         }
                         if (selectedOrderServices != "") {
                             selectedOrderServices = selectedOrderServices.substr(0, selectedOrderServices.length - 1);
