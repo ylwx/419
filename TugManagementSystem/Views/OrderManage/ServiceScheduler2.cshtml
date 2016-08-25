@@ -438,7 +438,7 @@
         //最后调用，冻结列
         //$("#jqGrid").jqGrid("setFrozenColumns");
 
-        modalDialogGridInit();
+        //modalDialogGridInit();
     });
 
     function GetTableConfig() {
@@ -1098,7 +1098,9 @@
         //alert(dr.WorkDate);
 
         //var orderServiceDate = $('#_ServiceWorkDate').val().trim();
-        var orderServiceDate = dr.ServiceWorkDate;
+        @*var orderServiceDate = dr.ServiceWorkDate;
+        alert(orderServiceDate);
+        return;
 
         $('#jqGrid2').jqGrid('setGridParam',
                 {
@@ -1107,8 +1109,10 @@
                     url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + orderServiceDate,
                 }).trigger('reloadGrid');
 
-        $("#jqGrid2").jqGrid('setCaption', '<' + orderServiceDate + '>拖輪調度狀態');
-        //$('#jqGrid2').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+        $("#jqGrid2").jqGrid('setCaption', '<' + orderServiceDate + '>拖輪調度狀態');*@
+
+        modalDialogGridInit();
+
     });
 
     $('#table-modal').on('shown.bs.modal', function (e) {
@@ -1216,12 +1220,21 @@
 
         var w = 45;
 
+        var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+        var serviceWorkDate = dr.ServiceWorkDate;  //账单ID
+
+        //alert(rowid);
+        //alert(serviceWorkDate);
+        //return;
+
 
         $("#jqGrid2").jqGrid({
-            url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + new Date().Format("yyyy-MM-dd"),
+            //url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + new Date().Format("yyyy-MM-dd"),
+            url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + serviceWorkDate,
             mtype: "GET",
             datatype: "json",
-            caption: "'@Resources.Language.ServiceStatus_TugSchedulerStatus'",
+            caption: serviceWorkDate + '@Resources.Language.ServiceStatus_TugSchedulerStatus',
             colModel: [
 
                 {

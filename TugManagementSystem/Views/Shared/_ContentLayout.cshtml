@@ -598,7 +598,9 @@
 
                       }
 
-   );
+                 );
+
+            window.setInterval(ShowTips, 1000);
 
         });
   
@@ -617,34 +619,36 @@
                          },
                      });
         });
-        //待完成任务
-        jQuery(document).ready(function () {
-            $.ajax(
-                     {
-                         type: "post",
-                         url: "/Home/NeedApproveCount",
-                         dataType: 'json',
-                         success: function (result) {
-                             //$("#_NeedApprove").html("待完成任务：" & result.message);
-                             //$("#_Count").html(result.message);
-                             $("#_TaskCount").html(result.message);
 
-                         },
-                     });
-        });
 
-        //被驳回账单
-        jQuery(document).ready(function () {
-            $.ajax(
-                     {
-                         type: "post",
-                         url: "/Home/RejectCount",
-                         dataType: 'json',
-                         success: function (result) {
-                             $("#_RejectCount").html(result.message);
-                         },
-                     });
-        });
+        ////待完成任务
+        //jQuery(document).ready(function () {
+        //    $.ajax(
+        //             {
+        //                 type: "post",
+        //                 url: "/Home/NeedApproveCount",
+        //                 dataType: 'json',
+        //                 success: function (result) {
+        //                     //$("#_NeedApprove").html("待完成任务：" & result.message);
+        //                     //$("#_Count").html(result.message);
+        //                     $("#_TaskCount").html(result.message);
+
+        //                 },
+        //             });
+        //});
+
+        ////被驳回账单
+        //jQuery(document).ready(function () {
+        //    $.ajax(
+        //             {
+        //                 type: "post",
+        //                 url: "/Home/RejectCount",
+        //                 dataType: 'json',
+        //                 success: function (result) {
+        //                     $("#_RejectCount").html(result.message);
+        //                 },
+        //             });
+        //});
 
 
         function setHomePage() {
@@ -675,6 +679,39 @@
                     return;
                 }
             });
+        }
+
+
+
+
+        function ShowTips() {
+            //alert(1);
+            //1.待完成任务
+            $.ajax(
+                     {
+                         type: "post",
+                         url: "/Home/NeedApproveCount",
+                         dataType: 'json',
+                         success: function (result) {
+                             //$("#_NeedApprove").html("待完成任务：" & result.message);
+                             //$("#_Count").html(result.message);
+                             $("#_TaskCount").html(result.message);
+
+
+                             //2.被驳回账单
+                             $.ajax(
+                     {
+                         type: "post",
+                         url: "/Home/RejectCount",
+                         dataType: 'json',
+                         success: function (result) {
+                             $("#_RejectCount").html(result.message);
+                         },
+                     });
+
+
+                         },
+                     });
         }
     </script>
 </body>
