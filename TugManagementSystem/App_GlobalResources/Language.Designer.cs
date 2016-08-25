@@ -1645,6 +1645,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 是否停用 的本地化字符串。
+        /// </summary>
+        internal static string TugInfor_Disable {
+            get {
+                return ResourceManager.GetString("TugInfor_Disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 拖輪ID 的本地化字符串。
         /// </summary>
         internal static string TugInfor_IDX {
