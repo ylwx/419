@@ -2701,14 +2701,21 @@ namespace TugManagementSystem.Controllers
                         }
                         else
                         {
+                            bool flag = false;
+
                             foreach (var item2 in orderServiceSchedulers)
                             {
                                 if (null == item2.DepartBaseTime || "" == item2.DepartBaseTime
                                     || null == item2.ArrivalBaseTime || "" == item2.ArrivalBaseTime)
                                 {
-                                    dicHasUnCompleteInputTime.Add(rowId, orderServiceId);
-                                    //break;
+                                    flag = true;
+                                    break;
                                 }
+                            }
+
+                            if (flag == true)
+                            {
+                                dicHasUnCompleteInputTime.Add(rowId, orderServiceId);
 
                             }
                         }
