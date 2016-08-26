@@ -86,7 +86,7 @@ namespace TugManagementSystem.Controllers
             List<V_NeedApproveBilling> objs = db.V_NeedApproveBilling.Where(u => u.FlowUserID == curUserId && u.Phase != 0).OrderByDescending(u => u.IDX).ToList<V_NeedApproveBilling>();
             NeedApprovedCount = objs.Count;
             //被驳回账单
-            List<Billing> rejectBilling= db.Billing.Where(u => u.UserID == curUserId && u.Phase == 0 && u.Status == "已駁回").OrderByDescending(u => u.IDX).ToList<Billing>();
+            List<Billing> rejectBilling = db.Billing.Where(u => u.UserID == curUserId && u.Phase == 0 && u.Status == "被駁回").OrderByDescending(u => u.IDX).ToList<Billing>();
             RejectBillingCount = rejectBilling.Count;
             //被驳回订单
             List<V_OrderService> rejectOrder = db.V_OrderService.Where(u => u.OrderUserId == curUserId && (u.ServiceJobStateLabel == "被駁回" || u.ServiceJobStateValue == "3")).ToList<V_OrderService>();
@@ -108,7 +108,7 @@ namespace TugManagementSystem.Controllers
             int RejectCount;
             TugDataEntities db = new TugDataEntities();
             curUserId = Session.GetDataFromSession<int>("userid");
-            List<Billing> objs = db.Billing.Where(u => u.UserID == curUserId && u.Phase ==0 && u.Status == "已駁回").OrderByDescending(u => u.IDX).ToList<Billing>();
+            List<Billing> objs = db.Billing.Where(u => u.UserID == curUserId && u.Phase == 0 && u.Status == "被駁回").OrderByDescending(u => u.IDX).ToList<Billing>();
             RejectCount = objs.Count;
             return Json(new { message = RejectCount });
         }
