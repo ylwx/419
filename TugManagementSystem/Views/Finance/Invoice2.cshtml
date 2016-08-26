@@ -2683,6 +2683,7 @@
                     var ids = $(this).getDataIDs();
                     for (var i = 0; i < ids.length; i++) {
                         var phase = $(this).getCell(ids[i], 'Phase');
+                        var status = $(this).getCell(ids[i], 'Status');
 
                         {//有账单
                             if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
@@ -2691,6 +2692,9 @@
                                 //$(this).find('td').css("background-color", "#CCFF99");
                                 //$(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#CCFF99");
                                 //alert(phase);
+                                if (status == '被駁回' || status == '被驳回' || status == '已驳回') {
+                                    $(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#FFE4E1");
+                                }
                             }
                             else { //有账单在审批流程中
                                 //$("#" + ids[i] + " td").css("background-color", "#99ccff");
