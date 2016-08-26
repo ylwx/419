@@ -465,7 +465,7 @@ namespace TugManagementSystem.Controllers
         }
         private void Report_DataRegister_special(FastReport.Report FReport, int BillingID)
         {
-            DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; 
+            DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtV_Inv_OrdService_sort = null; 
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
             string strV_Inv_OrdService = string.Format(" SpecialBillingID = {0}", BillingID);
             //head
@@ -473,10 +473,13 @@ namespace TugManagementSystem.Controllers
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
             //数据
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("SpecialBillingItem", strV_Inv_OrdService);
-            FReport.RegisterData(dtV_Inv_OrdService, dtV_Inv_OrdService.TableName);
-
-            FReport.Parameters.FindByName("srvprice").Value = dtV_Inv_OrdService.Rows[0]["ServiceUnitPrice"];
-            FReport.Parameters.FindByName("feulprice").Value = dtV_Inv_OrdService.Rows[0]["FeulUnitPrice"];
+            dtV_Inv_OrdService_sort = TugBusinessLogic.Utils.TableToChildTB(dtV_Inv_OrdService, "", "CustomerShipName,ServiceDate,ServiceNature");
+            FReport.RegisterData(dtV_Inv_OrdService_sort, dtV_Inv_OrdService_sort.TableName);
+            object tugnum = dtV_Inv_OrdService.Compute("sum(TugNumber)", "TRUE");  
+            FReport.Parameters.FindByName("srvprice").Value = dtV_Inv_OrdService_sort.Rows[0]["ServiceUnitPrice"];
+            FReport.Parameters.FindByName("feulprice").Value = dtV_Inv_OrdService_sort.Rows[0]["FeulUnitPrice"];
+            FReport.Parameters.FindByName("totalfeul").Value =Util.tonumeric(dtV_Inv_OrdService_sort.Rows[0]["FeulUnitPrice"]) * Util.toint(tugnum);
+            FReport.Parameters.FindByName("totalsrv").Value = Util.tonumeric(dtV_Inv_OrdService_sort.Rows[0]["ServiceUnitPrice"]) * Util.toint(tugnum);
         }
         #endregion
 
