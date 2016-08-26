@@ -304,7 +304,7 @@ namespace TugManagementSystem.Controllers
                 if (billtype == "特殊账单") BillingType = 1;
 
                 billInfor.Phase = 0;
-                billInfor.Status = "已驳回";
+                billInfor.Status = "被駁回";
                 db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 

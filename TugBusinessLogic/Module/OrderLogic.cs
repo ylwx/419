@@ -5715,9 +5715,9 @@ namespace TugBusinessLogic.Module
                 #endregion
 
 
-                orders = orders.Where(u => u.WorkStateID == 5
+                orders = orders.Where(u => (u.WorkStateID == 5
                     || u.WorkStateValue == "3"
-                    || u.WorkStateLabel == "已完工").Select(u => u).ToList<V_OrderInfor>();
+                    || u.WorkStateLabel == "已完工") && u.HasInvoice != "是").Select(u => u).ToList<V_OrderInfor>();
 
                 #region 对搜索结果根据排序字段和方式进行排序
                 switch (orderField)
@@ -5947,9 +5947,9 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_OrderInfor.Where(u => u.WorkStateID == 5
+                orders = db.V_OrderInfor.Where(u => (u.WorkStateID == 5
                     || u.WorkStateValue == "3"
-                    || u.WorkStateLabel == "已完工").Select(u => u).ToList<V_OrderInfor>();
+                    || u.WorkStateLabel == "已完工") && u.HasInvoice != "是").Select(u => u).ToList<V_OrderInfor>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)

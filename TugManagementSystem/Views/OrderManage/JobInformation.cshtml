@@ -249,9 +249,14 @@
                 for (var i = 0; i < ids.length; i++) {
                     var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
                     var hasInFlow = $(this).getCell(ids[i], 'HasInFlow');
+                    var isTimeInputComplete = $(this).getCell(ids[i], 'UserDefinedCol4'); //'1':录入完成，'0'录入未完成
 
                     if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
                         //$("#" + ids[i] + " td").css("background-color", "grey");
+                        if (isTimeInputComplete == '1') {
+                            //alert(1);
+                            $("#" + ids[i] + " td").css("background-color", "yellow");
+                        }
                     }
                     else {//有账单
                         if (hasInFlow == null || hasInFlow == "" || hasInFlow == "否") { //有账单，还没进入审批流程

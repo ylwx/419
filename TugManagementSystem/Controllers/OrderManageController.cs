@@ -1988,8 +1988,20 @@ namespace TugManagementSystem.Controllers
                                 if (true == TugBusinessLogic.Module.OrderLogic.OrderJobInformationInputIsComplete(orderId))
                                 {
                                     tmpOrder.WorkStateID = 5; //已完工，所有作业信息已输入完，订单状态变为“已完工”
+                                    tmpOrder.UserDefinedCol4 = "1"; //1是所有时间录入完成
                                     db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
+
+                                    var ord_services = db.OrderService.Where(u => u.OrderID == orderId).ToList();
+                                    if (ord_services != null)
+                                    {
+                                        foreach (var item in ord_services)
+                                        {
+                                            item.UserDefinedCol4 = "1"; //1是所有时间录入完成
+                                            db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                            db.SaveChanges();
+                                        }
+                                    }
                                 }
                                 else
                                 {
@@ -2059,8 +2071,20 @@ namespace TugManagementSystem.Controllers
                                 if (oi != null)
                                 {
                                     oi.WorkStateID = 2;  //所有服务都未完成，因此订单状态变成“未排船”
+                                    oi.UserDefinedCol4 = "0"; //0是所有时间未录入完成
                                     db.Entry(oi).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
+
+                                    var ord_services = db.OrderService.Where(u => u.OrderID == orderId).ToList();
+                                    if (ord_services != null)
+                                    {
+                                        foreach (var item in ord_services)
+                                        {
+                                            item.UserDefinedCol4 = "0"; //0是所有时间未录入完成
+                                            db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                            db.SaveChanges();
+                                        }
+                                    }
                                 }
                             }
                         }

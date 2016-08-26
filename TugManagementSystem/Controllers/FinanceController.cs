@@ -1932,7 +1932,7 @@ namespace TugManagementSystem.Controllers
 
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.UserDefinedCol4 == "1" && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0  && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;
@@ -1952,7 +1952,7 @@ namespace TugManagementSystem.Controllers
                     //List<V_Billing2> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForSpecialBilling(sidx, sord);
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.UserDefinedCol4 == "1" && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0 && u.ServiceWorkDate.CompareTo(endDate) <= 0)
                         .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
                     int totalRecordNum = orders.Count;

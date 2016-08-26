@@ -57,5 +57,6 @@ namespace TugDataModel
         public string UserDefinedCol1 { get; set; }
         public string UserDefinedCol2 { get; set; }
         public string UserDefinedCol3 { get; set; }
+        public string UserDefinedCol4 { get; set; }
     }
 }

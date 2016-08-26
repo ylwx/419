@@ -282,13 +282,16 @@
             gridComplete: function () {
                 var ids = $(this).getDataIDs();
                 for (var i = 0; i < ids.length; i++) {
-                    var hasInvoice = $(this).getCell(ids[i], 'HasInvoice');
+                    var serviceJobStateID = $(this).getCell(ids[i], 'ServiceJobStateID');
+                    var serviceJobStateLabel = $(this).getCell(ids[i], 'ServiceJobStateLabel');
+                    
 
-                    if (hasInvoice == null || hasInvoice == "" || hasInvoice == "否") { //没有账单
+                    if (serviceJobStateID == 124 || serviceJobStateLabel == "被驳回" || serviceJobStateLabel == "被駁回") { //被驳回
                         //$("#" + ids[i] + " td").css("background-color", "grey");
+                        $("#" + ids[i] + " td").css("background-color", "pink");
                     }
                     else {//有账单
-                        $("#" + ids[i] + " td").css("background-color", "#CCFF99");
+                        //$("#" + ids[i] + " td").css("background-color", "#CCFF99");
                     }
 
                 }
