@@ -26,5 +26,7 @@ namespace TugDataModel
         public string ServiceCode { get; set; }
         public string ServiceWorkDate { get; set; }
         public string ServiceWorkTime { get; set; }
+        public string DepartBaseTime { get; set; }
+        public string ArrivalBaseTime { get; set; }
     }
 }

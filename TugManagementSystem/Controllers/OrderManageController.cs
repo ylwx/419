@@ -6,6 +6,7 @@ using TugDataModel;
 using TugBusinessLogic;
 using TugBusinessLogic.Module;
 using Newtonsoft.Json;
+using System.Transactions;
 
 namespace TugManagementSystem.Controllers
 {
@@ -517,19 +518,33 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
+                        //获取服务项
+                        System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.UserDefinedCol1 == ordermark;
+                        List<OrderService> entityos = db.OrderService.Where(exp).ToList();
 
-                        //删除ordermark对应下的所有服务项
-                        System.Linq.Expressions.Expression<Func<OrderService, bool>> exp2 = u => u.UserDefinedCol1 == ordermark;
-                        var entitys2 = db.OrderService.Where(exp2);
-                        entitys2.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
-                        db.OrderService.RemoveRange(entitys2);
+                        //先刪除該訂單下的排船信息
+                        for (int i = 0; i < entityos.Count(); i++)
+                        {
+                            int ordsrvid = Util.toint(entityos[i].IDX);
+                            System.Linq.Expressions.Expression<Func<Scheduler, bool>> exp0 = u => u.OrderServiceID == ordsrvid;
+                            var entitysch = db.Scheduler.Where(exp0);
+                            entitysch.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                            db.Scheduler.RemoveRange(entitysch);
+                            db.SaveChanges();
+                        }
+
+
+                        //先删除订单下的所有服务项
+
+                        entityos.ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                        db.OrderService.RemoveRange(entityos);
                         db.SaveChanges();
 
-                        //删除ordermark对应的订单
-                        System.Linq.Expressions.Expression<Func<OrderInfor, bool>> exp1 = u => u.UserDefinedCol1 == ordermark;
-                        var entitys1 = db.OrderInfor.Where(exp1);
-                        entitys1.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
-                        db.OrderInfor.RemoveRange(entitys1);
+                        //删除订单
+                        System.Linq.Expressions.Expression<Func<OrderInfor, bool>> exp2 = u => u.UserDefinedCol1 == ordermark;
+                        var entityord = db.OrderInfor.Where(exp2);
+                        entityord.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                        db.OrderInfor.RemoveRange(entityord);
                         db.SaveChanges();
 
                         //保存
@@ -668,6 +683,28 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        //判断订单下的服务是否有已完工
+        public ActionResult IsWanGong()
+        {
+            var f = Request.Form;
+            bool IsWanGong = false;
+            //int idx = Util.toint(Request.Form["orderId"]);
+            string oderMark = Request.Form["ordermark"];
+
+            TugDataEntities db = new TugDataEntities();
+            //System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.OrderID == idx;
+            System.Linq.Expressions.Expression<Func<V_OrderService, bool>> exps = u => u.UserDefinedCol1 == oderMark & (u.ServiceJobStateLabel == "已完工" || u.ServiceJobStateValue=="2");
+            List<V_OrderService> objs = db.V_OrderService.Where(exps).Select(u => u).ToList<V_OrderService>();
+            if (objs.Count != 0)
+            {
+                IsWanGong = true;  //已有排船信息
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = IsWanGong });
+            }
+            else
+            {
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = IsWanGong });
+            }
+        }
         public ActionResult IsScheduler()
         {
             var f = Request.Form;
@@ -693,42 +730,66 @@ namespace TugManagementSystem.Controllers
         public ActionResult Delete()
         {
             this.Internationalization();
-
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                var f = Request.Form;
-
-                string ordermark = Util.checkdbnull(Request.Form["data[UserDefinedCol1]"]);
-
-                TugDataEntities db = new TugDataEntities();
-                System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.UserDefinedCol1 == ordermark;
-                List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
-                if (schedulerInfor.Count != 0)
+                try
                 {
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單已排船，無法刪除！"});
+                    var f = Request.Form;
+
+                    string ordermark = Util.checkdbnull(Request.Form["data[UserDefinedCol1]"]);
+
+                    TugDataEntities db = new TugDataEntities();
+                    //System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.UserDefinedCol1 == ordermark;
+                    //List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
+                    //if (schedulerInfor.Count != 0)
+                    //{
+                    //    return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單已排船，無法刪除！"});
+                    //}
+                    System.Linq.Expressions.Expression<Func<V_OrderService, bool>> exps = u => u.UserDefinedCol1 == ordermark & (u.ServiceJobStateLabel == "已完工" || u.ServiceJobStateValue == "2");
+                    List<V_OrderService> objs = db.V_OrderService.Where(exps).Select(u => u).ToList<V_OrderService>();
+                    if (objs.Count != 0)
+                    {
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單的服务项已完工，無法刪除，如需刪除請先聯繫財務進行駁回操作!！" });//已完工
+                    }
+                    //获取服务项
+                    System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.UserDefinedCol1 == ordermark;
+                    List<OrderService> entityos = db.OrderService.Where(exp).ToList();
+
+                    //先刪除該訂單下的排船信息
+                    for (int i = 0; i < entityos.Count(); i++)
+                    {
+                        int ordsrvid=Util.toint(entityos[i].IDX);
+                        System.Linq.Expressions.Expression<Func<Scheduler, bool>> exp0 = u => u.OrderServiceID == ordsrvid;
+                        var entitysch = db.Scheduler.Where(exp0);
+                        entitysch.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                        db.Scheduler.RemoveRange(entitysch);
+                        db.SaveChanges();
+                    }
+
+
+                    //先删除订单下的所有服务项
+
+                    entityos.ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                    db.OrderService.RemoveRange(entityos);
+                    db.SaveChanges();
+
+                    //删除订单
+                    System.Linq.Expressions.Expression<Func<OrderInfor, bool>> exp2 = u => u.UserDefinedCol1 == ordermark;
+                    var entityord = db.OrderInfor.Where(exp2);
+                    entityord.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                    db.OrderInfor.RemoveRange(entityord);
+                    db.SaveChanges();
+
+                    OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.UserDefinedCol1 == ordermark);
+                    trans.Complete();
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+
                 }
-
-                //先删除订单下的所有服务项
-                System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.UserDefinedCol1 == ordermark;
-                var entitys = db.OrderService.Where(exp);
-                entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
-                db.OrderService.RemoveRange(entitys);
-                db.SaveChanges();
-
-                //删除订单
-                System.Linq.Expressions.Expression<Func<OrderInfor, bool>> exp2 = u => u.UserDefinedCol1 == ordermark;
-                var entitys2 = db.OrderInfor.Where(exp2);
-                entitys2.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
-                db.OrderInfor.RemoveRange(entitys2);
-                db.SaveChanges();
-
-                OrderInfor aOrder = db.OrderInfor.FirstOrDefault(u => u.UserDefinedCol1 == ordermark);
-                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                
-            }
-            catch (Exception)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                catch (Exception)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
             }
         }
 

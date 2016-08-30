@@ -105,7 +105,9 @@
     <EntitySet Name="V_NeedApproveOrderBilling" EntityType="Model.V_NeedApproveOrderBilling" />
     <EntitySet Name="V_NeedApproveOrderBillingSpecial" EntityType="Model.V_NeedApproveOrderBillingSpecial" />
     <EntitySet Name="V_OrderBillingCredit" EntityType="Model.V_OrderBillingCredit" />
+    <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
     <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
+    <EntitySet Name="V_OrderService" EntityType="Model.V_OrderService" />
     <EntitySet Name="V_OrderService_Scheduler" EntityType="Model.V_OrderService_Scheduler" />
     <EntitySet Name="V_RoleMenu" EntityType="Model.V_RoleMenu" />
     <EntitySet Name="V_RoleModule" EntityType="Model.V_RoleModule" />
@@ -175,8 +177,6 @@
       <End Role="UserInfor" EntitySet="UserInfor" />
       <End Role="UsersRole" EntitySet="UsersRole" />
     </AssociationSet>
-    <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
-    <EntitySet Name="V_OrderService" EntityType="Model.V_OrderService" />
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -1796,6 +1796,55 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="V_OrderInfor">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" />
+    <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipID" Type="Int32" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkStateID" Type="Int32" />
+    <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerTypeID" Type="Int32" />
+    <Property Name="ContactPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MailCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DeadWeight" Type="Int32" />
+    <Property Name="Length" Type="Int32" />
+    <Property Name="Width" Type="Int32" />
+    <Property Name="TEUS" Type="Int32" />
+    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="V_OrderScheduler">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1853,6 +1902,53 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="V_OrderService">
+    <Key>
+      <PropertyRef Name="OrderServiceID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" />
+    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipID" Type="Int32" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DeadWeight" Type="Int32" />
+    <Property Name="Length" Type="Int32" />
+    <Property Name="Width" Type="Int32" />
+    <Property Name="TEUS" Type="Int32" />
+    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderServiceID" Type="Int32" Nullable="false" />
+    <Property Name="ServiceNatureID" Type="Int32" />
+    <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceWorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BigTugNum" Type="Int32" />
+    <Property Name="MiddleTugNum" Type="Int32" />
+    <Property Name="SmallTugNum" Type="Int32" />
+    <Property Name="ServiceJobStateID" Type="Int32" />
+    <Property Name="ServiceJobStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceJobStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalTug" Type="Int32" />
+    <Property Name="HasBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingType" Type="Int32" />
+    <Property Name="TugIDs" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TugNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderUserId" Type="Int32" />
+    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_OrderService_Scheduler">
     <Key>
@@ -2197,100 +2293,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="V_OrderInfor">
-    <Key>
-      <PropertyRef Name="IDX" />
-    </Key>
-    <Property Name="IDX" Type="Int32" Nullable="false" />
-    <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerID" Type="Int32" />
-    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="WorkStateID" Type="Int32" />
-    <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OwnerID" Type="Int32" />
-    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerTypeID" Type="Int32" />
-    <Property Name="ContactPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="MailCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="DeadWeight" Type="Int32" />
-    <Property Name="Length" Type="Int32" />
-    <Property Name="Width" Type="Int32" />
-    <Property Name="TEUS" Type="Int32" />
-    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="V_OrderService">
-    <Key>
-      <PropertyRef Name="OrderServiceID" />
-    </Key>
-    <Property Name="OrderID" Type="Int32" />
-    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerID" Type="Int32" />
-    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="DeadWeight" Type="Int32" />
-    <Property Name="Length" Type="Int32" />
-    <Property Name="Width" Type="Int32" />
-    <Property Name="TEUS" Type="Int32" />
-    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="OrderServiceID" Type="Int32" Nullable="false" />
-    <Property Name="ServiceNatureID" Type="Int32" />
-    <Property Name="ServiceNatureValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceNatureLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceWorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="EstimatedCompletionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="BigTugNum" Type="Int32" />
-    <Property Name="MiddleTugNum" Type="Int32" />
-    <Property Name="SmallTugNum" Type="Int32" />
-    <Property Name="ServiceJobStateID" Type="Int32" />
-    <Property Name="ServiceJobStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceJobStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OwnerID" Type="Int32" />
-    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TotalTug" Type="Int32" />
-    <Property Name="HasBilling" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BillingType" Type="Int32" />
-    <Property Name="TugIDs" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TugNames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="OrderUserId" Type="Int32" />
-    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
 </Schema>

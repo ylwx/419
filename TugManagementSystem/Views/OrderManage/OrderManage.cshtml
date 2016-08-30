@@ -402,7 +402,8 @@
                     var ordermark = rowData.UserDefinedCol1;
 
                     $.ajax({
-                        url: '@Url.Action("IsScheduler", "OrderManage")',
+                        //url: '@Url.Action("IsScheduler", "OrderManage")',
+                        url: '@Url.Action("IsWanGong", "OrderManage")',
                         type: "POST",
                         data: {
                             //'orderId': orderId
@@ -413,10 +414,12 @@
                             if (result.message == true) {
                                 $('#jqGrid_ilView').removeClass('ui-state-disabled');
                                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                $('#jqGrid_ildelete').addClass('ui-state-disabled');
                             }
                             else {
                                 $('#jqGrid_ilView').addClass('ui-state-disabled');
                                 $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                                $('#jqGrid_ildelete').removeClass('ui-state-disabled');
                             }
                         },
                     });
