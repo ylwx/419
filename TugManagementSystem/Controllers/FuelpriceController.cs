@@ -34,6 +34,7 @@ namespace TugManagementSystem.Controllers
                 else
                 {
                     List<Fuelprice> objs = db.Fuelprice.ToList<Fuelprice>();
+                    objs = objs.OrderByDescending(u => u.EffectiveDate).ToList();
                     int totalRecordNum = objs.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
