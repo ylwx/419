@@ -1434,7 +1434,15 @@ namespace TugManagementSystem.Controllers
                     if (oldSchedulers != null)
                     {
                         db.Scheduler.RemoveRange(oldSchedulers);
-                        db.SaveChanges();
+                        if (0 < db.SaveChanges())
+                        {
+                            OrderService os = db.OrderService.FirstOrDefault(u => u.IDX == orderServiceId);
+                            os.JobStateID = 114;
+                            os.UserDefinedCol9 = tugIds;
+                            os.UserDefinedCol10 = tugNames;
+                            db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
 
                     //2.插入新更改的调度
@@ -2311,7 +2319,13 @@ namespace TugManagementSystem.Controllers
                             if (oldSchedulers != null)
                             {
                                 db.Scheduler.RemoveRange(oldSchedulers);
-                                db.SaveChanges();
+                                if (0 < db.SaveChanges())
+                                {
+                                    OrderService os = db.OrderService.FirstOrDefault(u => u.IDX == idx);
+                                    os.JobStateID = 114;
+                                    db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
                             }
 
                             //2.插入新更改的调度
