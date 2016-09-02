@@ -323,7 +323,7 @@ namespace TugManagementSystem.Controllers
 
 
         #region written by lg
-        public ActionResult GetTugEx(bool _search, string sidx, string sord, int page, int rows, string workDate)
+        public ActionResult GetTugEx(bool _search, string sidx, string sord, int page, int rows, string workDate, int orderServiceId)
         {
             this.Internationalization();
 
@@ -359,9 +359,11 @@ namespace TugManagementSystem.Controllers
                     }
                 }
 
-                
 
-                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = lst };
+               List<int?> schedulers = db.Scheduler.Where(u => u.OrderServiceID == orderServiceId).Select(u => u.TugID).ToList();
+
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = lst, schedulers = schedulers };
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

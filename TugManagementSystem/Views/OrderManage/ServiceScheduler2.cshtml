@@ -124,7 +124,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="box-body">
+                            <div id="tug_body" class="box-body">
                                 <label for="search_cells">
                                     @Resources.Language.Search:
                                 </label>
@@ -1114,24 +1114,46 @@
 
         $("#jqGrid2").jqGrid('setCaption', '<' + orderServiceDate + '>拖輪調度狀態');*@
 
+
         modalDialogGridInit();
 
     });
 
     $('#table-modal').on('shown.bs.modal', function (e) {
         var invoker = $(e.relatedTarget);
+        //modalDialogGridInit();
+
+        var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+        var serviceWorkDate;  //订单服务日期
+        var orderServiceId;   //订单服务ID
+
+        if (g_mode == "编辑") {
+            serviceWorkDate = $('#' + rowid + '_ServiceWorkDate').val();
+            orderServiceId = $('#' + rowid + '_OrderServiceID').val();
+        }
+        else {
+            serviceWorkDate = dr.ServiceWorkDate;  //订单服务日期
+            orderServiceId = dr.OrderServiceID; //订单服务ID
+        }
+
+        jQuery("#jqGrid2").jqGrid('setGridParam',
+                        {
+                            datatype: 'json',
+                            url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + serviceWorkDate + '&orderServiceId=' + orderServiceId,
+                        }).trigger('reloadGrid');
 
     });
     $('#table-modal').on('hide.bs.modal', function () {
-        $(this).removeData("bs.modal");
-        //alert("hide");
         jQuery("#jqGrid2").jqGrid('resetSelection');
+        $(this).removeData("bs.modal");
+        $(this).removeData("modal")
     });
     $('#table-modal').on('hidden.bs.modal', function () {
         //jQuery("#jqGrid2").jqGrid('GridDestroy', 'jqGrid2');
-        $(this).removeData("bs.modal");
         jQuery("#jqGrid2").jqGrid('resetSelection');
-        //alert("hidden");
+        $(this).removeData("bs.modal");
+        $(this).removeData("modal")
     });
 
 
@@ -1140,7 +1162,8 @@
 
         var selectedIDs = jQuery('#jqGrid2').getGridParam("selarrrow");
 
-        if (selectedIDs != null && selectedIDs.length > 0) {
+        //if (selectedIDs != null && selectedIDs.length > 0)
+        {
             //alert(mode);
 
             selectedTugIDs = '';
@@ -1172,8 +1195,12 @@
                 jQuery("#jqGrid").setCell(parentCurSelectedRow, 'TugNames', selectedTugName1);
 
                 var orderServiceId = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'OrderServiceID');
-                var tugIds = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'TugIDs');
-                var tugNames = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'TugNames');
+                //var tugIds = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'TugIDs');
+                //var tugNames = jQuery("#jqGrid").getCell(parentCurSelectedRow, 'TugNames');
+
+                var tugIds = selectedTugIDs;
+                var tugNames = selectedTugName1;
+
 
                 //ajax 插入数据库
                 //提交数据库
@@ -1227,16 +1254,22 @@
 
         var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
         var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-        var serviceWorkDate = dr.ServiceWorkDate;  //账单ID
 
-        //alert(rowid);
-        //alert(serviceWorkDate);
-        //return;
+        var serviceWorkDate;
+        var orderServiceId;
+        if (g_mode == "编辑") {
+            serviceWorkDate = $('#' + rowid + '_ServiceWorkDate').val();
+            orderServiceId = $('#' + rowid + '_OrderServiceID').val();
+        }
+        else {
+            serviceWorkDate = dr.ServiceWorkDate;  //订单服务日期
+            orderServiceId = dr.OrderServiceID; //订单服务ID
+        }
 
 
         $("#jqGrid2").jqGrid({
-            //url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + new Date().Format("yyyy-MM-dd"),
-            url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + serviceWorkDate,
+
+            url: '@Url.Action("GetTugEx", "TugInfor")' + '?workDate=' + serviceWorkDate + '&orderServiceId=' + orderServiceId,
             mtype: "GET",
             datatype: "json",
             caption: serviceWorkDate + '@Resources.Language.ServiceStatus_TugSchedulerStatus',
@@ -1428,12 +1461,14 @@
             viewrecords: true,
             width: $('#table-model-dlg').width() - 25,//780,
             height: '100%',
-            rowNum: 15,
+            rowNum: 100000,
             //autowidth: true,
             editurl: '@Url.Action("AddEdit", "TugInfor")',
             pager: "#jqGridPager2",
             loadonce: true,
-            rowList: ['15', '20', '30', '40', '50'],
+            //rowList: ['15', '20', '30', '40', '50'],
+            pgbuttons: false,//上下按钮
+            pginput: false,//输入框
             rownumbers: true,
             shrinkToFit: false,     //指定各列宽度
             //sortable: true,          //列可移动
@@ -1450,22 +1485,41 @@
             multiselect: true,
             multiselectWidth: 50,
 
-            loadComplete: function () {
+            loadComplete: function (xhr) {
                 // 设定背景色
                 var ids = $(this).getDataIDs();
+
                 for (var i = 0; i < ids.length; i++) {
                     var val = $(this).getCell(ids[i], 'Name1');
                     $(this).setCell(ids[i], 'Name1', val, { background: 'lightyellow' });
 
-                    for (var j = 0; j < 48; j++) {
-                        var col_name = "Cell" + j.toString();
+                    //for (var j = 0; j < 48; j++) {
+                    //    var col_name = "Cell" + j.toString();
 
-                        val = $(this).getCell(ids[i], col_name);
-                        var bkcolor = '#9AFF9A'; //"#FFFFFF";//浅绿
-                        if (val == 1) bkcolor = '#FFA07A';//"#00CC00"; //浅红
-                        $(this).setCell(ids[i], col_name, ' ', { background: bkcolor });
-                    }
+                    //    val = $(this).getCell(ids[i], col_name);
+                    //    var bkcolor = '#9AFF9A'; //"#FFFFFF";//浅绿
+                    //    if (val == 1) bkcolor = '#FFA07A';//"#00CC00"; //浅红
+                    //    $(this).setCell(ids[i], col_name, ' ', { background: bkcolor });
+                    //}
                 };
+
+
+
+                try{
+                    for (var i = 0; i < xhr.schedulers.length; ++i) {
+                        for (var ii = 0; ii < ids.length; ++ii) {
+                            var tugid = $(this).getCell(ids[ii], 'TugID');
+                            if (tugid == xhr.schedulers[i]) {
+                                //勾选中
+                                $(this).jqGrid('setSelection', ids[ii]);
+                            }
+                        }
+                        //alert(xhr.schedulers[i]);
+                    }
+                }
+                catch(e){
+                    //alert();
+                }
             }
         });
 
@@ -1483,10 +1537,6 @@
                 $("#jqGrid2").jqGrid('filterInput', self.value);
             }, 0);
         });
-
-        //var invoker = $(e.relatedTarget);
-
-
 
 
         //最后调用，冻结列
