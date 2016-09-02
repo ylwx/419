@@ -174,7 +174,7 @@ namespace TugManagementSystem.Controllers
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
-                    System.Linq.Expressions.Expression<Func<CustomerShip, bool>> exp = u => u.Name1 == Name1;
+                    System.Linq.Expressions.Expression<Func<CustomerShip, bool>> exp = u => u.Name1 == Name1 && u.CustomerID == ctmId;
                     CustomerShip obj = db.CustomerShip.Where(exp).FirstOrDefault();
                     if (obj != null)
                     {
