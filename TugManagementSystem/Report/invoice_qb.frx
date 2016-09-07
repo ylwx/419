@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="08/30/2016 20:07:38" ReportInfo.CreatorVersion="2013.3.3.0">
+<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="09/07/2016 20:43:57" ReportInfo.CreatorVersion="2013.3.3.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -107,6 +107,7 @@ namespace FastReport
         Cell74.Border.Lines=BorderLines.All;
         Cell74.Text=Cell74.Text.Substring(3);
         Cell74.Font=new Font(&quot;宋体&quot;,8);
+        Cell74.Height=Convert.ToSingle(0.4);
       }       
      Cell74.Text=Addition.AmountFormat(Cell74.Text);  
      
@@ -158,11 +159,56 @@ namespace FastReport
       string[] val= Cell48.Text.ToString().Split('~');
       Cell48.Text=val[val.Length-1]; 
     }
+
+    private void Matrix1_AfterData(object sender, EventArgs e)
+    {
+      Single wdth=Convert.ToSingle(604.8/Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;)));
+      //MessageBox.Show(Matrix1.Width.ToString());
+      //Matrix1.ResultTable.Columns[0].Width=4;
+      for(int i=1;i&lt;=Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;));i++)
+      {
+        Matrix1.ResultTable.Columns[i].Width=wdth;
+        //MessageBox.Show(wdth.ToString());
+      }
+    }
+
+    private void Matrix2_AfterData(object sender, EventArgs e)
+    {
+      Single wdth=Convert.ToSingle(604.8/Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;)));
+      //MessageBox.Show(Matrix1.Width.ToString());
+      //Matrix1.ResultTable.Columns[0].Width=4;
+      for(int i=1;i&lt;=Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;));i++)
+      {
+        Matrix2.ResultTable.Columns[i].Width=wdth;
+      }
+    }
+
+    private void Matrix3_AfterData(object sender, EventArgs e)
+    {
+      Single wdth=Convert.ToSingle(604.8/Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;)));
+      //MessageBox.Show(Matrix1.Width.ToString());
+      //Matrix1.ResultTable.Columns[0].Width=4;
+      for(int i=1;i&lt;=Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;));i++)
+      {
+        Matrix3.ResultTable.Columns[i].Width=wdth;
+      }
+    }
+
+    private void Matrix4_AfterData(object sender, EventArgs e)
+    {
+      Single wdth=Convert.ToSingle(604.8/Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;)));
+      //MessageBox.Show(Matrix1.Width.ToString());
+      //Matrix1.ResultTable.Columns[0].Width=4;
+      for(int i=1;i&lt;=Convert.ToInt16(Report.GetParameterValue(&quot;TugNum&quot;));i++)
+      {
+        Matrix4.ResultTable.Columns[i].Width=wdth;
+      }
+    }
   }
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdv6U2rtu3eioSBOmP0bLosIA==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvSSMob6B0Yhiakhz1uVpwEQ==">
       <TableDataSource Name="V_Inv_Head" DataType="System.Int32" Enabled="true" TableName="V_Inv_Head">
         <Column Name="IDX" DataType="System.Int32"/>
         <Column Name="BillingCode" DataType="System.String"/>
@@ -231,6 +277,7 @@ namespace FastReport
     </MsSqlDataConnection>
     <Parameter Name="GrandTotalHK$" DataType="System.String"/>
     <Parameter Name="strRule" DataType="System.String"/>
+    <Parameter Name="TugNum" DataType="System.String"/>
   </Dictionary>
   <ReportPage Name="Page1" RawPaperSize="9" RightMargin="0">
     <ReportTitleBand Name="ReportTitle2" Width="756" Height="217.35">
@@ -254,8 +301,8 @@ namespace FastReport
         <LineObject Name="Line1" Left="9.45" Top="3.78" Width="689.85" Border.Width="2"/>
       </DataFooterBand>
     </DataBand>
-    <DataBand Name="Data2" Top="267.27" Width="756" Height="73.87">
-      <MatrixObject Name="Matrix1" Left="9.45" Width="189" Height="73.87" FixedRows="2" FixedColumns="1" DataSource="Table">
+    <DataBand Name="Data2" Top="267.27" Width="756" Height="64.26">
+      <MatrixObject Name="Matrix1" Left="9.45" Width="189" Height="64.26" AfterDataEvent="Matrix1_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table">
         <MatrixColumns>
           <Header Expression="[MData.ServiceName]" Totals="false"/>
           <Header Expression="[MData.TugName]" Totals="false"/>
@@ -266,27 +313,27 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[MData.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column11" MinWidth="113.4" MaxWidth="113.4" Width="113.4" AutoSize="true"/>
-        <TableColumn Name="Column12" MinWidth="75.6" MaxWidth="75.6" Width="75.6" AutoSize="true"/>
-        <TableRow Name="Row16" Height="33.87" AutoSize="true">
+        <TableColumn Name="Column11" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column12" MaxWidth="567" Width="75.6"/>
+        <TableRow Name="Row16">
           <TableCell Name="Cell47" Text="拖輪&#13;&#10;TUGS" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 8pt" RowSpan="2"/>
-          <TableCell Name="Cell48" AfterDataEvent="Cell48_AfterData" Text="[ServiceName]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell48" AfterDataEvent="Cell48_AfterData" Text="[ServiceName]" Padding="0, 2, 0, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
-        <TableRow Name="Row17" Height="20" AutoSize="true">
+        <TableRow Name="Row17">
           <TableCell Name="Cell49"/>
-          <TableCell Name="Cell50" Text="[TugName]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 10pt"/>
+          <TableCell Name="Cell50" Text="[TugName]" Padding="0, 2, 0, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
-        <TableRow Name="Row18" Height="20" AutoSize="true">
+        <TableRow Name="Row18" Height="26.46">
           <TableCell Name="Cell55" AfterDataEvent="Cell55_AfterData" Text="[Item]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 8pt"/>
-          <TableCell Name="Cell56" AfterDataEvent="Cell56_AfterData" Text="[Value]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 10pt"/>
+          <TableCell Name="Cell56" AfterDataEvent="Cell56_AfterData" Text="[Value]" Padding="0, 2, 0, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
       </MatrixObject>
-      <DataFooterBand Name="DataFooter3" Top="345.18" Width="756" Height="7.56" Guides="0,0">
+      <DataFooterBand Name="DataFooter3" Top="335.57" Width="756" Height="7.56" Guides="0,0">
         <LineObject Name="Line4" Left="9.45" Top="3.78" Width="689.85" Border.Width="2" Diagonal="true"/>
       </DataFooterBand>
     </DataBand>
-    <DataBand Name="Data3" Top="356.78" Width="756" Height="26.45">
-      <MatrixObject Name="Matrix2" Left="9.45" Width="189" Height="26.06" FixedRows="2" FixedColumns="1" DataSource="Table1">
+    <DataBand Name="Data3" Top="347.17" Width="756" Height="26.46">
+      <MatrixObject Name="Matrix2" Left="9.45" Width="189" Height="26.46" AfterDataEvent="Matrix2_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table1">
         <MatrixColumns>
           <Header Expression="[SubTotal.ServiceName]" Totals="false"/>
           <Header Expression="[SubTotal.TugName]" Totals="false"/>
@@ -297,24 +344,24 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[SubTotal.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column13" MinWidth="113.4" MaxWidth="113.4" Width="113.4" AutoSize="true"/>
-        <TableColumn Name="Column14" MinWidth="75.6" MaxWidth="75.6" Width="75.6" AutoSize="true"/>
-        <TableRow Name="Row19" Visible="false" MaxHeight="3.78" Height="3.78" AutoSize="true">
+        <TableColumn Name="Column13" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column14" MaxWidth="567" Width="75.6"/>
+        <TableRow Name="Row19" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell57" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt" RowSpan="2"/>
           <TableCell Name="Cell58" Text="[ServiceName]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
-        <TableRow Name="Row20" Visible="false" MaxHeight="3.78" Height="3.78" AutoSize="true">
+        <TableRow Name="Row20" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell59"/>
           <TableCell Name="Cell60" Text="[TugName]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
-        <TableRow Name="Row21" Height="18.5" AutoSize="true">
+        <TableRow Name="Row21" Height="26.46">
           <TableCell Name="Cell65" AfterDataEvent="Cell65_AfterData" Text="[Item]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 8pt"/>
-          <TableCell Name="Cell66" AfterDataEvent="Cell66_AfterData" Text="[Value]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell66" AfterDataEvent="Cell66_AfterData" Text="[Value]" Padding="0, 2, 0, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </MatrixObject>
     </DataBand>
-    <DataBand Name="Data4" Top="387.27" Width="756" Height="29.45">
-      <MatrixObject Name="Matrix3" Left="9.45" Width="189" Height="27.56" FixedRows="2" FixedColumns="1" DataSource="Table2">
+    <DataBand Name="Data4" Top="377.67" Width="756" Height="26.46">
+      <MatrixObject Name="Matrix3" Left="9.45" Width="189" Height="26.46" AfterDataEvent="Matrix3_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table2">
         <MatrixColumns>
           <Header Expression="[DData.ServiceName]" Totals="false"/>
           <Header Expression="[DData.TugName]" Totals="false"/>
@@ -325,27 +372,27 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[DData.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column15" MinWidth="113.4" MaxWidth="113.4" Width="113.4" AutoSize="true"/>
-        <TableColumn Name="Column16" MinWidth="75.6" MaxWidth="75.6" Width="75.6" AutoSize="true"/>
-        <TableRow Name="Row22" Visible="false" MaxHeight="3.78" Height="3.78" AutoSize="true">
+        <TableColumn Name="Column15" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column16" MaxWidth="567" Width="75.6"/>
+        <TableRow Name="Row22" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell67" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt" RowSpan="2"/>
           <TableCell Name="Cell68" Text="[ServiceName]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
-        <TableRow Name="Row23" Visible="false" MaxHeight="3.78" Height="3.78" AutoSize="true">
+        <TableRow Name="Row23" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell69" Padding="2, 2, 2, 2"/>
           <TableCell Name="Cell70" Text="[TugName]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
-        <TableRow Name="Row24" Height="20" AutoSize="true">
+        <TableRow Name="Row24" Height="26.46">
           <TableCell Name="Cell73" AfterDataEvent="Cell73_AfterData" Text="[Item]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 8pt"/>
-          <TableCell Name="Cell74" BeforePrintEvent="Cell74_BeforePrint" AfterPrintEvent="Cell74_AfterPrint" AfterDataEvent="Cell74_AfterData" Text="[Value]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 10pt"/>
+          <TableCell Name="Cell74" BeforePrintEvent="Cell74_BeforePrint" AfterPrintEvent="Cell74_AfterPrint" AfterDataEvent="Cell74_AfterData" Text="[Value]" Padding="0, 2, 0, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
       </MatrixObject>
-      <DataFooterBand Name="DataFooter2" Top="420.76" Width="756" Height="7.56" Guides="47.25,0">
+      <DataFooterBand Name="DataFooter2" Top="408.17" Width="756" Height="7.56" Guides="47.25,0">
         <LineObject Name="Line3" Left="9.45" Top="3.78" Width="689.85" Border.Width="2"/>
       </DataFooterBand>
     </DataBand>
-    <DataBand Name="Data5" Top="432.36" Width="756" Height="26.45" Guides="132.3">
-      <MatrixObject Name="Matrix4" Left="9.45" Width="189" Height="26.06" FixedRows="2" FixedColumns="1" DataSource="Table3">
+    <DataBand Name="Data5" Top="419.77" Width="756" Height="26.46" Guides="132.3">
+      <MatrixObject Name="Matrix4" Left="9.45" Width="189" Height="26.46" AfterDataEvent="Matrix4_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table3">
         <MatrixColumns>
           <Header Expression="[Total.ServiceName]" Totals="false"/>
           <Header Expression="[Total.TugName]" Totals="false"/>
@@ -356,22 +403,22 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[Total.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column17" MinWidth="113.4" MaxWidth="113.4" Width="113.4" AutoSize="true"/>
-        <TableColumn Name="Column18" MinWidth="75.6" MaxWidth="75.6" Width="75.6" AutoSize="true"/>
-        <TableRow Name="Row25" Visible="false" MaxHeight="3.78" Height="3.78" AutoSize="true">
+        <TableColumn Name="Column17" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column18" MaxWidth="567" Width="75.6"/>
+        <TableRow Name="Row25" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell75" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt" RowSpan="2"/>
           <TableCell Name="Cell76" Text="[ServiceName]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
-        <TableRow Name="Row26" Visible="false" MaxHeight="3.78" Height="3.78" AutoSize="true">
+        <TableRow Name="Row26" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell77" Padding="4, 4, 4, 4"/>
           <TableCell Name="Cell78" Text="[TugName]" Padding="0, 0, 0, 0" HorzAlign="Center" VertAlign="Center" Font="宋体, 10pt"/>
         </TableRow>
-        <TableRow Name="Row27" Height="18.5" AutoSize="true">
+        <TableRow Name="Row27" Height="26.46">
           <TableCell Name="Cell81" AfterDataEvent="Cell81_AfterData" Text="[Item]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 8pt"/>
-          <TableCell Name="Cell82" AfterDataEvent="Cell82_AfterData" Text="[Value]" Padding="0, 2, 0, 2" VertAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell82" AfterDataEvent="Cell82_AfterData" Text="[Value]" Padding="0, 2, 0, 2" HorzAlign="Center" VertAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </MatrixObject>
-      <DataFooterBand Name="DataFooter4" Top="462.85" Width="756" Height="122.85" Guides="132.3,132.3">
+      <DataFooterBand Name="DataFooter4" Top="450.27" Width="756" Height="122.85" Guides="132.3,132.3">
         <TextObject Name="Text30" Left="330.75" Width="189" Height="37.8" Text="共  計  港   幣：&#13;&#10;GRAND TOTAL HK$：" HorzAlign="Right" VertAlign="Center" Font="宋体, 11pt, style=Bold"/>
         <TextObject Name="Text31" Left="529.2" Width="170.1" Height="37.8" Border.Lines="Bottom" Border.Style="Double" AfterDataEvent="Text31_AfterData" Text="[GrandTotalHK$]" HorzAlign="Center" VertAlign="Center" Font="宋体, 14pt, style=Bold"/>
       </DataFooterBand>

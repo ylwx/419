@@ -301,7 +301,7 @@ namespace TugManagementSystem.Controllers
         }
         private void Report_DataRegister_tk(FastReport.Report FReport, int BillingID, int TimeTypeValue)
         {
-            DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
+            DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
             string strV_Inv_OrdService = string.Format(" BillingID = {0}", BillingID);
@@ -353,6 +353,10 @@ namespace TugManagementSystem.Controllers
             //脚,Grand Total HK$
             dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
             FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
+            //拖轮数量
+            string strV_Inv_Scheduler = string.Format(" BillingID = {0}", BillingID);
+            dtScheduler = SqlHelper.GetDataTableData("V_Inv_Scheduler", strV_Inv_Scheduler);
+            FReport.Parameters.FindByName("TugNum").Value = dtScheduler.Rows.Count;
         }
         #endregion
 
@@ -385,7 +389,7 @@ namespace TugManagementSystem.Controllers
         }
         private void Report_DataRegister_qborbb(FastReport.Report FReport,int BillingID,int TimeTypeValue)
         {
-            DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null;
+            DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
             string strV_Inv_OrdService = string.Format(" BillingID = {0}", BillingID);
@@ -438,7 +442,9 @@ namespace TugManagementSystem.Controllers
             dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
             FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
              //参数
-            //FReport.Parameters.FindByName("GrandTotalHK$").Value = FinanceLogic.GetFuelFee();
+            string strV_Inv_Scheduler = string.Format(" BillingID = {0}", BillingID);
+            dtScheduler = SqlHelper.GetDataTableData("V_Inv_Scheduler", strV_Inv_Scheduler);
+            FReport.Parameters.FindByName("TugNum").Value = dtScheduler.Rows.Count;
         }
         #endregion
 
