@@ -1,0 +1,820 @@
+﻿
+@{
+    ViewBag.Title = @Resources.Language.SpecialCreditManage;
+    Layout = "~/Views/Shared/_ContentLayout.cshtml";
+    ViewBag.MenuId = "menu6";
+    ViewBag.SubMenuIndex = 2;
+}
+
+
+<div id="main-content">
+
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-lg-12">
+                <!-- PAGE HEADER-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="">
+                            <!-- STYLER -->
+                            <!-- /STYLER -->
+                            <!-- BREADCRUMBS -->
+                            <ul class="breadcrumb">
+                                <li>
+                                    <i class="fa fa-home"></i>
+                                    <a href="#">@Resources.Language.HomePage</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-usd"></i>
+                                    <a href="#">@Resources.Language.Finance</a>
+                                </li>
+                                <li>
+                                    @Resources.Language.SpecialCreditManage
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--Special Credit Grid -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BOX -->
+                        <div class="box border orange">
+                            <div class="box-title">
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.SpecialCreditManage</h4>
+                            </div>
+                            <div id="jqGridContainerBox" class="box-body">
+                                <table id="jqGrid"></table>
+                                <div id="jqGridPager"></div>
+                            </div>
+                        </div>
+                        <!-- /BOX -->
+                    </div>
+                </div>
+                <!-- /Special Credit Grid -->
+
+
+
+                <div class="footer-tools">
+                    <span class="go-top">
+                        <i class="fa fa-chevron-up"></i> Top
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Main-->
+<script>
+    $(document).ready(function () {
+        SpecialCreditGridInit();
+    });
+</script>
+
+
+
+<!--Special Credit Grid-->
+<script>
+    function SpecialCreditGridInit() {
+        $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetBillingDataForLoadOnce", "Finance")',
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
+                    hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 200, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 150, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_JobNo', name: "JobNo", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingCode', name: "BillingCode", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingTemplateName', name: "BillingTemplateName", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingTemplate_BillingTemplateTypeID', name: "BillingTypeID", width: 100, editable: true, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingTemplate_BillingTemplateTypeValue', name: "BillingTemplateTypeValue", width: 100, editable: true, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingTemplateTypeLabel', name: "BillingTemplateTypeLabel", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    stype: 'select',
+                    searchoptions: {
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.BillingTemplateType" })',
+                    },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingTemplate_TimeTypeID', name: "TimeTypeID", width: 100, editable: true, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_TimeTypeValue', name: "TimeTypeValue", width: 100, editable: true, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_TimeTypeLabel', name: "TimeTypeLabel", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    stype: 'select',
+                    searchoptions: {
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
+                    },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "ShipLength", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "ShipTEUS", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Status', name: "Status", width: 80, editable: false, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Phase', name: "Phase", width: 120, editable: false, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Billing_Month', name: "Month", width: 80, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    //datefmt: 'yyyy-mm-dd',
+                    //sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m',
+                                //step: 1,
+                                validateOnBlur: false,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d H:i:s',
+                                step: 1,
+                                //timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 120, editable: false, edittype: "text",
+                    hidden: true,
+                    //formatter: 'date',
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d H:i:s',
+                                step: 1,
+                                //timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
+                },
+
+            ],
+
+            viewrecords: true,
+            height: '100%', //'auto', //350,
+            rowNum: 15,
+            autowidth: true,
+            editurl: null,
+            pager: "#jqGridPager",
+            //loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            //footerrow: true,
+            colMenu: true,          //列菜单
+
+            multiselect: true,
+            //multiboxonly: true,
+            //subGrid: true,
+            //subGridRowExpanded: showChildGrid2,
+            //subGridOptions: {
+            //    "plusicon": "ui-icon-triangle-1-e",
+            //    "minusicon": "ui-icon-triangle-1-s",
+            //    "openicon": "ui-icon-arrowreturn-1-e"
+            //},
+
+
+            onSelectRow: function (rowid, status, e) {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey) {
+                    //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+
+                }
+                else {
+
+                    $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                    var selectedIDs = grid.getGridParam("selarrrow");
+
+                    if (selectedIDs.length != 1) {
+                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                    }
+                    else {
+
+                        //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
+
+                    }
+
+                }
+            },
+
+
+            gridComplete: function () {
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var phase = $(this).getCell(ids[i], 'Phase');
+                    var status = $(this).getCell(ids[i], 'Status');
+
+                    {//有账单
+                        if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
+                            //$("#" + ids[i] + " td").css("background-color", "#CCFF99");//CCFF99
+                            //$('tr[id="' + ids[i] + '"]').css("background-color", "#99ccff");
+                            //$(this).find('td').css("background-color", "#CCFF99");
+                            //$(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#CCFF99");
+                            //alert(phase);
+                            if (status == '被駁回' || status == '被驳回' || status == '已驳回') {
+                                $(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#FFE4E1");
+                            }
+                        }
+                        else { //有账单在审批流程中
+                            //$("#" + ids[i] + " td").css("background-color", "#99ccff");
+                            //$(this).find('td').css("background-color", "#99ccff");
+                            $(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#99ccff");
+                        }
+                    }
+
+                }
+            },
+
+        });
+
+
+        $('#jqGrid').jqGrid('filterToolbar', {
+            searchResult: true,
+            searchOperators: true,
+            beforeSearch: function () {
+                var util = new Util();
+
+                //时间
+                var ret = true;
+
+                @*if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
+                            ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
+                        if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
+                    ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());*@
+
+                //日期
+
+                if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
+                    ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+                if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
+                    ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
+
+                @*if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
+                ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
+                if ($("#gs_MiddleTugNum").val() != null && $("#gs_MiddleTugNum").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());*@
+                if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
+                    ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_Amount").val());
+
+                //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+            }
+        });
+
+
+        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox').resize(function () {
+            var width = $('#jqGridContainerBox').width();
+            $("#jqGrid").setGridWidth(width);
+        });
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+            .navButtonAdd('#jqGridPager', {
+                //id: 'jqGrid_ilRefresh',
+                caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
+                onClickButton: function () {
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navButtonAdd('#jqGridPager', {
+                caption: "", title: "'@Resources.Language.ClearSearchFilter'", buttonicon: "ui-icon-circle-minus",
+                onClickButton: function () {
+                    var grid = $('#jqGrid')[0];
+                    grid.clearToolbar();
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            }).navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilEdit',
+                caption: "", title: "'@Resources.Language.Invoice2_EditCommonInvoiceAndCredit'", buttonicon: "ui-icon-pencil",
+                onClickButton: function () {
+
+                    var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+
+                    var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                    var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                    var selectedBillingIDs = "";
+
+                    for (var i = 0; i < selectedIDs.length; ++i) {
+                        var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                        selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                    }
+                    if (selectedBillingIDs != "") {
+                        selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("CheckBillingStatus", "Finance")',
+                        type: "POST",
+                        data: {
+                            'selectedBillingIDs': selectedBillingIDs,
+                            'billingType': '普通账单'
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+
+                            for (key in result.dic_has_invoice_in_fow) {
+
+                                var value = result.dic_has_invoice_in_fow[key];
+                                inFlowingResult += key + ",";
+                            }
+
+                            //alert(inFlowingResult);
+                            if (inFlowingResult != "") {
+                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能編輯，請取消這些(張)帳單！');
+                                return;
+                            }
+
+                            for (key in result.dic_has_invoice_not_in_flow) {
+                                var value = result.dic_has_invoice_not_in_flow[key];
+                                hasInvoceNotInFlowingResult += value + ",";
+                            }
+
+                            if (hasInvoceNotInFlowingResult != "") {
+                                hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                            }
+
+                            g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+                            //alert('弹出编辑框:' + g_curSelectedBillingIds);
+                            EditInvoice();
+                        },
+                    });
+                }
+            })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilDelete',
+                caption: "", title: "'@Resources.Language.DeleteSelectedRows'", buttonicon: "ui-icon-trash",
+                onClickButton: function () {
+                    var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                    var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                    var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                    var selectedBillingIDs = "";
+
+                    for (var i = 0; i < selectedIDs.length; ++i) {
+                        var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                        selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                    }
+                    if (selectedBillingIDs != "") {
+                        selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("CheckBillingStatus", "Finance")',
+                        type: "POST",
+                        data: {
+                            'selectedBillingIDs': selectedBillingIDs,
+                            'billingType': '普通账单'
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+
+                            for (key in result.dic_has_invoice_in_fow) {
+
+                                var value = result.dic_has_invoice_in_fow[key];
+                                inFlowingResult += key + ",";
+                            }
+
+                            if (inFlowingResult != "") {
+                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能刪除，請取消這些(張)帳單！');
+                                return;
+                            }
+
+                            for (key in result.dic_has_invoice_not_in_flow) {
+                                var value = result.dic_has_invoice_not_in_flow[key];
+                                hasInvoceNotInFlowingResult += value + ",";
+                            }
+
+                            if (hasInvoceNotInFlowingResult != "") {
+                                hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                            }
+
+                            g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+                            //AddParent();
+                            //alert('弹出删除框:' + g_curSelectedBillingIds);
+
+                            if (confirm('@Resources.Language.SureDelete')) {
+
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("DeleteInvoice2", "Finance")',
+                                        data: { 'billIds': g_curSelectedBillingIds },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilView').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                            //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+
+                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                            $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
+
+                                    }
+                                    );
+                            }
+                        },
+                    });
+
+                },
+                position: "last"
+            })
+    .navButtonAdd('#jqGridPager', {
+        id: 'jqGrid_ilAddCredit',
+        caption: "回扣單", title: "新增回扣單", buttonicon: "ui-icon-plus",
+        onClickButton: function () {
+            var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+            var selectedBillingIDs = "";
+
+            for (var i = 0; i < selectedIDs.length; ++i) {
+                var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+            }
+            if (selectedBillingIDs != "") {
+                selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+            }
+
+            $.ajax({
+                url: '@Url.Action("CheckBillingStatus", "Finance")',
+                type: "POST",
+                data: {
+                    'selectedBillingIDs': selectedBillingIDs,
+                    'billingType': '普通账单'
+                },//"oper=delete&id=" + gr,
+                dataType: 'json',
+                success: function (result) {
+
+                    for (key in result.dic_has_invoice_in_fow) {
+
+                        var value = result.dic_has_invoice_in_fow[key];
+                        inFlowingResult += key + ",";
+                    }
+
+                    if (inFlowingResult != "") {
+                        inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                        alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能新增回扣單，請取消這些(張)帳單！');
+                        return;
+                    }
+
+                    for (key in result.dic_has_invoice_not_in_flow) {
+                        var value = result.dic_has_invoice_not_in_flow[key];
+                        hasInvoceNotInFlowingResult += value + ",";
+                    }
+
+                    if (hasInvoceNotInFlowingResult != "") {
+                        hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                    }
+
+                    g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+                    //alert('弹出新增回扣单:' + g_curSelectedBillingIds);
+                    AddCreditModal();
+                },
+            });
+
+        },
+
+    })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilSubmit',
+                caption: "審核", title: "提交審核", buttonicon: "ui-icon-circle-plus",
+                onClickButton: function () {
+                    var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                    var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                    var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                    var selectedBillingIDs = "";
+
+                    for (var i = 0; i < selectedIDs.length; ++i) {
+                        var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                        selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                    }
+                    if (selectedBillingIDs != "") {
+                        selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("CheckBillingStatus", "Finance")',
+                        type: "POST",
+                        data: {
+                            'selectedBillingIDs': selectedBillingIDs,
+                            'billingType': '普通账单'
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+
+                            for (key in result.dic_has_invoice_in_fow) {
+
+                                var value = result.dic_has_invoice_in_fow[key];
+                                inFlowingResult += key + ",";
+                            }
+
+                            if (inFlowingResult != "") {
+                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能編輯，請取消這些(張)帳單！');
+                                return;
+                            }
+
+                            for (key in result.dic_has_invoice_not_in_flow) {
+                                var value = result.dic_has_invoice_not_in_flow[key];
+                                hasInvoceNotInFlowingResult += value + ",";
+                            }
+
+                            if (hasInvoceNotInFlowingResult != "") {
+                                hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                            }
+
+                            g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+
+                            g_submit_billIds = hasInvoceNotInFlowingResult;
+
+                            $('#table-modal').modal();
+                        },
+                    });
+
+
+                },
+
+            })
+    .navButtonAdd('#jqGridPager', {
+        id: 'jqGrid_ilView',
+        caption: "查看", title: "查看帳單和回扣單", buttonicon: "ui-icon-search",
+        onClickButton: function () {
+            var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+            var selectedBillingIDs = "";
+
+            for (var i = 0; i < selectedIDs.length; ++i) {
+                var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+            }
+            if (selectedBillingIDs != "") {
+                selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+            }
+
+            g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+            //查看
+            //alert("chakan:" + g_curSelectedBillingIds);
+            ViewInvoice();
+
+        },
+
+    });
+
+
+        $('#cb_jqGrid').change(function () {
+
+            if (true == $('#cb_jqGrid').prop('checked')) {
+                //alert('全选')
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+
+                if (selectedIDs.length == 0) {
+                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                }
+                else {
+                    if (selectedIDs.length != 1) {
+                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                    }
+                    else {
+
+                        //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
+
+                    }
+                }
+            }
+            else {
+                //alert('没有全选');
+                //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+            }
+        });
+
+        $('#jqGrid_ilAdd').addClass('ui-state-disabled');
+        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+        $('#jqGrid_ilView').addClass('ui-state-disabled');
+        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+        $('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+    }
+</script>

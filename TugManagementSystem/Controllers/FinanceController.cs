@@ -57,6 +57,20 @@ namespace TugManagementSystem.Controllers
             return View();
         }
 
+
+        public ActionResult SpecialCredit(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
+            //ViewBag.Services = TugBusinessLogic.Utils.GetServices();
+            //ViewBag.BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
+            //ViewBag.TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
+            //ViewBag.Nodes = GetNodes();
+            //ViewBag.Persons = GetPersons();
+            return View();
+        }
+
         public string GetPersons()
         {
             string[] labels = null;

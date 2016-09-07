@@ -1528,6 +1528,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 特殊回扣單 的本地化字符串。
+        /// </summary>
+        internal static string SpecialCreditManage {
+            get {
+                return ResourceManager.GetString("SpecialCreditManage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 特殊帳單 的本地化字符串。
         /// </summary>
         internal static string SpecialInvoiceManage {
