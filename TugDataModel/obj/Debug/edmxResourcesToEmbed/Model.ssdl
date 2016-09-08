@@ -932,6 +932,29 @@
     <Property Name="Remark" Type="nvarchar(max)" />
   </EntityType>
   <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing4”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Billing4">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Content" Type="nvarchar" MaxLength="50" />
+    <Property Name="Money" Type="float" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimesNo" Type="int" />
+    <Property Name="Phase" Type="int" />
+    <Property Name="OwnerID" Type="int" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_BillingItem">
     <Key>
@@ -2267,6 +2290,26 @@
     [V_Billing3].[BillingCode] AS [BillingCode], 
     [V_Billing3].[Remark] AS [Remark]
     FROM [dbo].[V_Billing3] AS [V_Billing3]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Billing4" EntityType="Self.V_Billing4" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Billing4].[IDX] AS [IDX], 
+    [V_Billing4].[CustomerID] AS [CustomerID], 
+    [V_Billing4].[CustomerName] AS [CustomerName], 
+    [V_Billing4].[BillingCode] AS [BillingCode], 
+    [V_Billing4].[Title] AS [Title], 
+    [V_Billing4].[Content] AS [Content], 
+    [V_Billing4].[Money] AS [Money], 
+    [V_Billing4].[InvoiceType] AS [InvoiceType], 
+    [V_Billing4].[Month] AS [Month], 
+    [V_Billing4].[Status] AS [Status], 
+    [V_Billing4].[TimesNo] AS [TimesNo], 
+    [V_Billing4].[Phase] AS [Phase], 
+    [V_Billing4].[OwnerID] AS [OwnerID], 
+    [V_Billing4].[CreateDate] AS [CreateDate], 
+    [V_Billing4].[UserID] AS [UserID], 
+    [V_Billing4].[LastUpDate] AS [LastUpDate]
+    FROM [dbo].[V_Billing4] AS [V_Billing4]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_BillingItem" EntityType="Self.V_BillingItem" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

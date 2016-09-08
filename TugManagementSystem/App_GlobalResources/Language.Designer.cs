@@ -673,6 +673,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 優惠單 的本地化字符串。
+        /// </summary>
+        internal static string DiscountBill {
+            get {
+                return ResourceManager.GetString("DiscountBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 編輯 的本地化字符串。
         /// </summary>
         internal static string Edit {
@@ -1528,15 +1537,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 特殊回扣單 的本地化字符串。
-        /// </summary>
-        internal static string SpecialCreditManage {
-            get {
-                return ResourceManager.GetString("SpecialCreditManage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 特殊帳單 的本地化字符串。
         /// </summary>
         internal static string SpecialInvoiceManage {
@@ -2127,6 +2127,51 @@ namespace Resources {
         internal static string UserInfor_WorkNumber {
             get {
                 return ResourceManager.GetString("UserInfor_WorkNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 優惠單編號 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing4_BillingCode {
+            get {
+                return ResourceManager.GetString("V_Billing4_BillingCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 內容 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing4_Content {
+            get {
+                return ResourceManager.GetString("V_Billing4_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 單據類型 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing4_InvoiceType {
+            get {
+                return ResourceManager.GetString("V_Billing4_InvoiceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 金額 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing4_Money {
+            get {
+                return ResourceManager.GetString("V_Billing4_Money", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 標題 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing4_Title {
+            get {
+                return ResourceManager.GetString("V_Billing4_Title", resourceCulture);
             }
         }
         
