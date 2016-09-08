@@ -58,7 +58,7 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        public ActionResult SpecialCredit(string lan, int? id)
+        public ActionResult DiscountBill(string lan, int? id)
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
@@ -66,8 +66,8 @@ namespace TugManagementSystem.Controllers
             //ViewBag.Services = TugBusinessLogic.Utils.GetServices();
             //ViewBag.BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             //ViewBag.TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
-            //ViewBag.Nodes = GetNodes();
-            //ViewBag.Persons = GetPersons();
+            ViewBag.Nodes = GetNodes();
+            ViewBag.Persons = GetPersons();
             return View();
         }
 
@@ -2749,6 +2749,222 @@ namespace TugManagementSystem.Controllers
   
         }
 
+        #endregion
+
+
+
+        #region 优惠单
+
+        public ActionResult GetDiscountBillingDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderBilling> orders = TugBusinessLogic.Module.FinanceLogic.SearchForInvoice(sidx, sord, searchOption);
+                    List<V_Billing4> orders = TugBusinessLogic.Module.FinanceLogic.SearchDataForDiscountBilling(sidx, sord, searchOption);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_Billing4> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_Billing4>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<V_Billing4> orders = TugBusinessLogic.Module.FinanceLogic.LoadDataForDiscountBilling(sidx, sord);
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<V_Billing4> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<V_Billing4>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
+
+
+        /// <summary>
+        /// 删除优惠单
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult DeleteDiscountBills(string billIds)
+        {
+            this.Internationalization();
+
+            try
+            {
+                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
+                //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
+
+                if (billIds != "")
+                {
+                    List<string> listBillingIds = billIds.Split(',').ToList();
+
+                    TugDataEntities db = new TugDataEntities();
+
+                    foreach (string billingId in listBillingIds)
+                    {
+                        int bid = TugBusinessLogic.Module.Util.toint(billingId);
+
+                        Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
+                        if (b != null)
+                        {
+                            db.Billing.Remove(b);
+                            db.SaveChanges();
+
+                        }
+                    }
+
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+        }
+
+
+
+        /// <summary>
+        /// 新增优惠单
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddDiscountBill(int customerId, string title, string content, double money, string month)
+        {
+
+            this.Internationalization();
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                {
+                    TugDataModel.Billing credit = new TugDataModel.Billing();
+
+                    credit.CustomerID = customerId;
+                    //credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
+                    credit.UserDefinedCol1 = title;
+                    credit.UserDefinedCol2 = content;
+                    credit.UserDefinedCol5 = money;
+                    credit.Month = month;
+                    credit.InvoiceType = "优惠单";
+                    credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    credit.OwnerID = -1;
+                    credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
+
+                    credit.TimesNo = 0;
+                    credit.Status = "创建";
+                    credit.Phase = 0;
+
+                    credit = db.Billing.Add(credit);
+                    db.SaveChanges();
+
+                }
+
+                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [Authorize]
+        public ActionResult EditDiscountBill(int billingId, int customerId, string title, string content, double money, string month)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+
+                Billing aOrder = db.Billing.Where(u => u.IDX == billingId).FirstOrDefault();
+
+                if (aOrder == null)
+                {
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                }
+                else
+                {
+
+                    aOrder.CustomerID = customerId;
+                    aOrder.UserDefinedCol1 = title;
+                    aOrder.UserDefinedCol2 = content;
+                    aOrder.UserDefinedCol5 = money;
+                    aOrder.Month = month;
+
+                    aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+            }
+            catch (Exception exp)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+
+
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
+
+        [Authorize]
+        public ActionResult GetDiscountBill(int billingId)
+        {
+            this.Internationalization();
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+
+                V_Billing4 aOrder = db.V_Billing4.Where(u => u.IDX == billingId).FirstOrDefault();
+
+                if (aOrder == null)
+                {
+                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                }
+                else
+                {
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, discout_bill = aOrder });
+                }
+            }
+            catch (Exception exp)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+
+        }
         #endregion
     }
 
