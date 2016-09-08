@@ -1,0 +1,1448 @@
+﻿
+@{
+    ViewBag.Title = @Resources.Language.DiscountBill;
+    Layout = "~/Views/Shared/_ContentLayout.cshtml";
+    ViewBag.MenuId = "menu6";
+    ViewBag.SubMenuIndex = 2;
+}
+
+
+<script src="~/Resources/handsontable-master/dist/handsontable.full.min.js"></script>
+<link href="~/Resources/handsontable-master/dist/handsontable.full.css" rel="stylesheet" />
+<script src="~/Resources/handsontable-master/demo/js/moment/moment.js"></script>
+<script src="~/Resources/handsontable-master/demo/js/pikaday/pikaday.js"></script>
+<script src="~/Resources/handsontable-master/demo/js/pikaday/css/pikaday.css"></script>
+
+
+<div id="main-content">
+
+    <!-- Discount Bill MODAL FORM-->
+    <div class="modal fade" id="discountBill-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="child-model-dlg" class="modal-dialog" style="width:700px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box border blue">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-windows"></i>@Resources.Language.DiscountBill</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#discountBill-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    @*<h4 class="form-title">Supported controls</h4>*@
+                                    <form class="form-horizontal" role="form">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_OrderInfor_CustomerName</label>
+                                            <div class="col-sm-9">
+                                                <input id="_CustomerName" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_Billing4_Title</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="_Title" class="form-control" placeholder="@Resources.Language.V_Billing4_Title" onfocus="$(this).parent().removeClass('has-error')"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_Billing4_Content</label>
+                                            <div class="col-sm-9">
+                                                <textarea id="_Content" rows="3" class="form-control" placeholder="@Resources.Language.V_Billing4_Content" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.V_Billing4_Money</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Money" type="text" class="form-control" placeholder="@Resources.Language.V_Billing4_Money" onfocus="$(this).parent().removeClass('has-error')" onkeyup="inputCheck(this)" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.Invoice2_InvoiceMonth</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Month" type="text" placeholder="@Resources.Language.Invoice2_InvoiceMonth" class="form-control" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div id="creditErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                                        @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
+                                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class="modal-footer">
+                    <div id="_CustomerID" hidden>-1</div>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitDiscountBillModal()">@Resources.Language.Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Credit Add MODAL FORM-->
+
+
+    <!-- 提交审核 MODAL FORM-->
+    <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width: 560px ;height:600px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BOX -->
+                            <div class="box border orange">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-bars"></i>@Resources.Language.Invoice2_CreateFlow</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#table-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="height:200px; overflow:auto;">
+                                    <div id="flowtable" class="hot handsontable dataTable table-striped center-block">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /BOX -->
+                        </div>
+                    </div>
+                    <div id="childErrMsg" class="alert alert-block alert-warning fade in" hidden>
+                        <i class="fa fa-exclamation-circle"></i><p style=""></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                    <button id="btnflow" type="button" class="btn btn-primary" @*onclick="updateflowinfor()"*@>@Resources.Language.SubmitForApproval</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /提交审核 MODAL FORM-->
+
+
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-lg-12">
+                <!-- PAGE HEADER-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="">
+                            <!-- STYLER -->
+                            <!-- /STYLER -->
+                            <!-- BREADCRUMBS -->
+                            <ul class="breadcrumb">
+                                <li>
+                                    <i class="fa fa-home"></i>
+                                    <a href="#">@Resources.Language.HomePage</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-usd"></i>
+                                    <a href="#">@Resources.Language.Finance</a>
+                                </li>
+                                <li>
+                                    @Resources.Language.DiscountBill
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--Special Credit Grid -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- BOX -->
+                        <div class="box border orange">
+                            <div class="box-title">
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.DiscountBill</h4>
+                            </div>
+                            <div id="jqGridContainerBox" class="box-body">
+                                <table id="jqGrid"></table>
+                                <div id="jqGridPager"></div>
+                            </div>
+                        </div>
+                        <!-- /BOX -->
+                    </div>
+                </div>
+                <!-- /Special Credit Grid -->
+
+
+
+                <div class="footer-tools">
+                    <span class="go-top">
+                        <i class="fa fa-chevron-up"></i> Top
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Main-->
+<script>
+    $(document).ready(function () {
+        DiscountBillGridInit();
+    });
+</script>
+
+
+<!--全局变量-->
+<script>
+    var g_EditModalIsShown = false; //编辑模态框是否已经显示过
+    var g_ViewModalIsShown = false; //查看模态框是否已经显示过
+    var g_curRowId = ''; //主界面Grid当前选中的行号
+    var g_curSelectedOrderRowIds = ''; //在新生成账单时，主界面订单Grid当前选中的可以生成账单的有效行号(已经校验过),以逗号分割
+    var g_curSelectedBillingIds = ''; //主界面账单Grid当前选中的可以进行操作的有效账单ID(已经校验过),以逗号分割
+    var g_submit_billIds = ''; //主界面账单Grid当前选中的可以进行提交审核的有效账单ID(已经校验过),以逗号分割
+
+    var g_mode = '新增'; //新增；编辑；查看
+</script>
+
+
+<!--优惠单Grid-->
+<script>
+    function DiscountBillGridInit() {
+        $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetDiscountBillingDataForLoadOnce", "Finance")',
+            mtype: "GET",
+            datatype: "json",
+            colModel: [
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
+                    hidden: true,
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 200, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing4_BillingCode', name: "BillingCode", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing4_Title', name: "Title", width: 150, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing4_Content', name: "Content", width: 300, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                
+                
+
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing4_Money', name: "Money", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing4_InvoiceType', name: "InvoiceType", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Status', name: "Status", width: 80, editable: false, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Phase', name: "Phase", width: 120, editable: false, edittype: "text",
+                    hidden: true,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Billing_Month', name: "Month", width: 80, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    //datefmt: 'yyyy-mm-dd',
+                    //sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m',
+                                //step: 1,
+                                validateOnBlur: false,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+
+
+
+                {
+                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.CreateDate', name: "CreateDate", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d H:i:s',
+                                step: 1,
+                                //timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    hidden: true
+                },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 120, editable: false, edittype: "text",
+                    hidden: true,
+                    //formatter: 'date',
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d H:i:s',
+                                step: 1,
+                                //timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    }
+                },
+
+            ],
+
+            viewrecords: true,
+            height: '100%', //'auto', //350,
+            rowNum: 15,
+            autowidth: true,
+            editurl: null,
+            pager: "#jqGridPager",
+            //loadonce: true,
+            rowList: ['15', '20', '30', '40', '50'],
+            rownumbers: true,
+            shrinkToFit: false,     //指定各列宽度
+            sortable: true,          //列可移动
+            //footerrow: true,
+            colMenu: true,          //列菜单
+
+            multiselect: true,
+            //multiboxonly: true,
+            //subGrid: true,
+            //subGridRowExpanded: showChildGrid2,
+            //subGridOptions: {
+            //    "plusicon": "ui-icon-triangle-1-e",
+            //    "minusicon": "ui-icon-triangle-1-s",
+            //    "openicon": "ui-icon-arrowreturn-1-e"
+            //},
+
+
+            onSelectRow: function (rowid, status, e) {
+                var grid = $("#jqGrid");
+                var rowKey = grid.getGridParam("selrow");
+
+                if (!rowKey) {
+                    //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+
+                }
+                else {
+
+                    $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                    var selectedIDs = grid.getGridParam("selarrrow");
+
+                    if (selectedIDs.length != 1) {
+                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                    }
+                    else {
+
+                        //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
+
+                    }
+
+                }
+            },
+
+
+            gridComplete: function () {
+                var ids = $(this).getDataIDs();
+                for (var i = 0; i < ids.length; i++) {
+                    var phase = $(this).getCell(ids[i], 'Phase');
+                    var status = $(this).getCell(ids[i], 'Status');
+
+                    {//有账单
+                        if (phase == null || phase == "" || phase == "0") { //有账单，还没进入审批流程
+                            //$("#" + ids[i] + " td").css("background-color", "#CCFF99");//CCFF99
+                            //$('tr[id="' + ids[i] + '"]').css("background-color", "#99ccff");
+                            //$(this).find('td').css("background-color", "#CCFF99");
+                            //$(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#CCFF99");
+                            //alert(phase);
+                            if (status == '被駁回' || status == '被驳回' || status == '已驳回') {
+                                $(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#FFE4E1");
+                            }
+                        }
+                        else { //有账单在审批流程中
+                            //$("#" + ids[i] + " td").css("background-color", "#99ccff");
+                            //$(this).find('td').css("background-color", "#99ccff");
+                            $(this).find('tr[id="' + ids[i] + '"]').find('td').css("background-color", "#99ccff");
+                        }
+                    }
+
+                }
+            },
+
+        });
+
+
+        $('#jqGrid').jqGrid('filterToolbar', {
+            searchResult: true,
+            searchOperators: true,
+            beforeSearch: function () {
+                var util = new Util();
+
+                //时间
+                var ret = true;
+
+                @*if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
+                            ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
+                        if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
+                    ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());*@
+
+                //日期
+
+                if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
+                    ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+                if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
+                    ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
+
+                @*if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
+                ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
+                if ($("#gs_MiddleTugNum").val() != null && $("#gs_MiddleTugNum").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());*@
+                if ($("#gs_Money").val() != null && $("#gs_Money").val() != "")
+                    ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_Money").val());
+
+                //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+            }
+        });
+
+
+        $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
+
+        $('#jqGridContainerBox').resize(function () {
+            var width = $('#jqGridContainerBox').width();
+            $("#jqGrid").setGridWidth(width);
+        });
+
+        $('#jqGrid').navGrid('#jqGridPager', { edit: false, add: false, del: false, refresh: false, view: false, search: false })
+
+            .navButtonAdd('#jqGridPager', {
+                //id: 'jqGrid_ilRefresh',
+                caption: "", title: '@Resources.Language.Refresh', buttonicon: "ui-icon-refresh",
+                onClickButton: function () {
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            })
+            .navButtonAdd('#jqGridPager', {
+                caption: "", title: "@Resources.Language.ClearSearchFilter", buttonicon: "ui-icon-circle-minus",
+                onClickButton: function () {
+                    var grid = $('#jqGrid')[0];
+                    grid.clearToolbar();
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                }
+            }).navSeparatorAdd("#jqGridPager", { sepclass: "ui-separator", sepcontent: '' })
+
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilAddCredit',
+                caption: "", title: "新增優惠單", buttonicon: "ui-icon-plus",
+                onClickButton: function () {
+
+                    g_mode = '新增';
+                    ShowDiscountBillModal();
+
+                },
+
+            })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilEdit',
+                caption: "", title: "編輯優惠單", buttonicon: "ui-icon-pencil",
+                onClickButton: function () {
+
+                    var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+
+                    var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                    var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                    var selectedBillingIDs = "";
+
+                    for (var i = 0; i < selectedIDs.length; ++i) {
+                        var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                        selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                    }
+                    if (selectedBillingIDs != "") {
+                        selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("CheckBillingStatus", "Finance")',
+                        type: "POST",
+                        data: {
+                            'selectedBillingIDs': selectedBillingIDs,
+                            'billingType': '优惠单'
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+
+                            for (key in result.dic_has_invoice_in_fow) {
+
+                                var value = result.dic_has_invoice_in_fow[key];
+                                inFlowingResult += key + ",";
+                            }
+
+                            //alert(inFlowingResult);
+                            if (inFlowingResult != "") {
+                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                alert('所選的記錄中，第' + inFlowingResult + '行優惠單處於審核流程中，不能編輯，請取消這些(張)優惠單！');
+                                return;
+                            }
+
+                            for (key in result.dic_has_invoice_not_in_flow) {
+                                var value = result.dic_has_invoice_not_in_flow[key];
+                                hasInvoceNotInFlowingResult += value + ",";
+                            }
+
+                            if (hasInvoceNotInFlowingResult != "") {
+                                hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                            }
+
+                            g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+                            //alert('弹出编辑框:' + g_curSelectedBillingIds);
+                            g_mode = '编辑';
+                            ShowDiscountBillModal();
+                        },
+                    });
+                }
+            })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilDelete',
+                caption: "", title: "刪除優惠單", buttonicon: "ui-icon-trash",
+                onClickButton: function () {
+                    var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                    var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                    var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                    var selectedBillingIDs = "";
+
+                    for (var i = 0; i < selectedIDs.length; ++i) {
+                        var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                        selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                    }
+                    if (selectedBillingIDs != "") {
+                        selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("CheckBillingStatus", "Finance")',
+                        type: "POST",
+                        data: {
+                            'selectedBillingIDs': selectedBillingIDs,
+                            'billingType': '优惠单'
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+
+                            for (key in result.dic_has_invoice_in_fow) {
+
+                                var value = result.dic_has_invoice_in_fow[key];
+                                inFlowingResult += key + ",";
+                            }
+
+                            if (inFlowingResult != "") {
+                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                alert('所選的記錄中，第' + inFlowingResult + '行優惠單處於審核流程中，不能刪除，請取消這些(張)優惠單！');
+                                return;
+                            }
+
+                            for (key in result.dic_has_invoice_not_in_flow) {
+                                var value = result.dic_has_invoice_not_in_flow[key];
+                                hasInvoceNotInFlowingResult += value + ",";
+                            }
+
+                            if (hasInvoceNotInFlowingResult != "") {
+                                hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                            }
+
+                            g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+                            //AddParent();
+                            //alert('弹出删除框:' + g_curSelectedBillingIds);
+
+                            if (confirm('@Resources.Language.SureDelete')) {
+
+                                $.ajax(
+                                    {
+                                        type: "post",
+                                        url: '@Url.Action("DeleteDiscountBills", "Finance")',
+                                        data: { 'billIds': g_curSelectedBillingIds },//"oper=delete&id=" + gr,
+                                        dataType: 'json',
+                                        success: function (result) {
+                                            alert(result.message);
+                                            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                                            //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilView').addClass('ui-state-disabled');
+                                            //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                                            $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                            //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+
+                                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                            $('#jqGrid_Order').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                                        },
+
+                                    }
+                                    );
+                            }
+                        },
+                    });
+
+                },
+                position: "last"
+            })
+    
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilSubmit',
+                caption: "審核", title: "提交審核", buttonicon: "ui-icon-circle-plus",
+                onClickButton: function () {
+                    var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                    var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                    var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                    var selectedBillingIDs = "";
+
+                    for (var i = 0; i < selectedIDs.length; ++i) {
+                        var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                        selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                    }
+                    if (selectedBillingIDs != "") {
+                        selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("CheckBillingStatus", "Finance")',
+                        type: "POST",
+                        data: {
+                            'selectedBillingIDs': selectedBillingIDs,
+                            'billingType': '优惠单'
+                        },//"oper=delete&id=" + gr,
+                        dataType: 'json',
+                        success: function (result) {
+
+                            for (key in result.dic_has_invoice_in_fow) {
+
+                                var value = result.dic_has_invoice_in_fow[key];
+                                inFlowingResult += key + ",";
+                            }
+
+                            if (inFlowingResult != "") {
+                                inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
+                                alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能重複提交，請取消這些(張)優惠單！');
+                                return;
+                            }
+
+                            for (key in result.dic_has_invoice_not_in_flow) {
+                                var value = result.dic_has_invoice_not_in_flow[key];
+                                hasInvoceNotInFlowingResult += value + ",";
+                            }
+
+                            if (hasInvoceNotInFlowingResult != "") {
+                                hasInvoceNotInFlowingResult = hasInvoceNotInFlowingResult.substr(0, hasInvoceNotInFlowingResult.length - 1);
+                            }
+
+                            g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
+
+
+                            g_submit_billIds = hasInvoceNotInFlowingResult;
+
+                            $('#table-modal').modal();
+                        },
+                    });
+
+
+                },
+
+            })
+    .navButtonAdd('#jqGridPager', {
+        id: 'jqGrid_ilView',
+        caption: "查看", title: "查看優惠單", buttonicon: "ui-icon-search",
+        onClickButton: function () {
+            var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+            var selectedBillingIDs = "";
+
+            for (var i = 0; i < selectedIDs.length; ++i) {
+                var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+            }
+            if (selectedBillingIDs != "") {
+                selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+            }
+
+            g_curSelectedBillingIds = selectedBillingIDs.split(':')[1];
+
+            //查看
+            //alert("chakan:" + g_curSelectedBillingIds);
+
+            ViewDiscountBill();
+
+        },
+
+    });
+
+
+        $('#cb_jqGrid').change(function () {
+
+            if (true == $('#cb_jqGrid').prop('checked')) {
+                //alert('全选')
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+
+                if (selectedIDs.length == 0) {
+                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                }
+                else {
+                    if (selectedIDs.length != 1) {
+                        //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                    }
+                    else {
+
+                        //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
+
+                    }
+                }
+            }
+            else {
+                //alert('没有全选');
+                //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
+                $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                $('#jqGrid_ilView').addClass('ui-state-disabled');
+                //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+            }
+        });
+
+        $('#jqGrid_ilAdd').addClass('ui-state-disabled');
+        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+        $('#jqGrid_ilView').addClass('ui-state-disabled');
+        //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+        $('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+    }
+</script>
+
+
+
+<!--提交审核模态框-->
+<script type="text/javascript">
+
+    var g_submit_billIds = ''; //保存需要提交审核的账单,如果有以','分割，如果没有就是空字符串""
+    //$(document).ready(Init);
+    //function Init() {}
+        // Variables declaration & to make our life easier we set our HTML tags to variables too
+        var
+            $$ = function (id) { return document.getElementById(id); },
+            container = $$('flowtable'),
+            tjflow = $$('btnflow'),
+            autosaveNotification,
+            hot;
+
+        hot = new Handsontable(container, {
+            //data: getCarData(),
+            startRows: 2,
+            startCols: 4,
+        colHeaders: ['流程节点', '人员', '起始日期', '结束日期'],
+            columnSorting: true,
+            contextMenu: true,
+            minSpareRows: 1,
+            rowHeaders: true,
+            columnSorting: false,
+            contextMenu: ['row_below', 'remove_row'],
+            removeRowPlugin: true,
+            heigth: 200,
+            columns: [
+              {
+                  type: 'dropdown',
+                  //source: ['创建', '校对', '审核', '会签'],
+                  source: eval('@Html.Raw(@ViewBag.Nodes)'),
+                  strict: false,
+                  width: 100
+              },
+              {
+                  type: 'dropdown',//'autocomplete',
+                  //source: ['张三', '李四', '王五', '赵六'],
+                  source: eval('@Html.Raw(@ViewBag.Persons)'),
+                  @*source: function (request, response) {
+                      this.xhr = $.ajax({
+                          url: '@Url.Action("GetPersons", "Flow")',
+                          data: request,
+                          type: 'GET',
+                          dataType: 'json',
+                          success: function (data) {
+                              response(data);
+                          },
+
+                          error: function (model, response, options) {
+                              response([]);
+                          }
+                      });
+                  },*@
+                  strict: false,
+                  width: 100
+              },
+              {
+                  type: 'date',
+                  dateFormat: 'MM/DD/YYYY',
+                  correctFormat: true,
+                  defaultDate: '@DateTime.Now.ToShortDateString()',
+                  width: 120
+              },
+              {
+                  type: 'date',
+                  dateFormat: 'MM/DD/YYYY',
+                  correctFormat: true,
+                  //defaultDate: '@DateTime.Now.ToShortDateString()'
+                  width: 120
+              }
+            ],
+            afterChange: function (change, source) {
+                //alert(change);
+                //alert(source);
+
+                if (source === 'loadData') {
+                    return; //don't save this change
+                }
+                if (change != null) {
+                    var chs = change[0];
+                    //判断节点是否重复
+                    var rct = hot.countRows();
+                    //alert(rct);
+                if (chs[1] == 0) {
+                        //$('#childErrMsg p').html("");
+                        //$('#childErrMsg').hide();
+                        for (var i = 0; i < rct - 1; i++) {
+                            if (i == chs[0]) continue;
+                            var vlnode = hot.getDataAtCell(i, 0)
+                        if (chs[3] == vlnode && chs[3] != "") {
+                                alert("行流程节点重复! ");
+                                hot.setDataAtRowProp(chs[0], 0, "");
+                                return;
+                            }
+                        }
+                    }
+                    //判断人员是否存在
+                    if (chs[1] == 1) {
+                        var vlperson = hot.getDataAtCell(chs[0], 1);
+                    if (vlperson != null && vlperson != "") {
+                            jQuery.ajax({
+                                url: '/Flow/UserValid',
+                                type: "POST",
+                                dataType: "json",
+                                data: { 'vlperson': vlperson },//JSON.stringify(hot.getChangeData()),
+                                success: function (result) {
+                                    if (result.rvalid == false) {
+                                        alert(vlperson + "不存在! ")
+                                        hot.setDataAtRowProp(chs[0], 1, "");
+                                    }
+                                },
+                                error: function (xhr) {
+                                    //alert('error');
+                                }
+                            });
+                        }
+                    }
+                }
+                clearTimeout(autosaveNotification);
+                jQuery.ajax({
+                    url: '@Url.Action("")',
+                    type: "POST",
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(hot.getData()),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        //exampleConsole.innerHTML = 'Changes will be autosaved';
+                        autosaveNotification = setTimeout(function () {
+                            //exampleConsole.innerHTML = 'Autosaved (' + change.length +
+                            //' ' + 'cell' +
+                            //(change.length > 1 ? 's' : '') + ')';
+                        }, 1000);
+                        //alert(data);
+                    },
+                    error: function (xhr) {
+                        //exampleConsole.innerHTML = 'Autosave: No Response from Controller';
+                        //alert('error');
+                    }
+                });
+            }
+        });
+          //创建单元格只读
+          hot.updateSettings({
+              cells: function (row, col, prop) {
+                  var cellProperties = {};
+
+                  //if (hot.getData()[row][prop] === '创建') {
+                  //    cellProperties.readOnly = true;
+                  //}
+                  if (row == 0 && (col == 0 || col == 1)) cellProperties.readOnly = true;
+                  return cellProperties;
+              }
+          });
+          //第一行不能被删除
+          hot.updateSettings({
+              contextMenu: {
+                  //callback: function (key, options) {
+                  //    if (key === 'about') {
+                  //        setTimeout(function () {
+                  //            //timeout is used to make sure the menu collapsed before alert is shown
+                  //            alert("This is a context menu with default and custom options mixed");
+                  //        }, 100);
+                  //    }
+                  //},
+                  items: {
+                      "row_below": {
+                          //disabled: function () {
+                          //    //if first row, disable this option
+                          //    return (hot.getSelected() && hot.getSelected()[0] === 0)
+                          //}
+                      },
+                      "remove_row": {
+                          name: 'Remove row',
+                          disabled: function () {
+                              //if first row, disable this option
+                              return (hot.getSelected() && hot.getSelected()[0] === 0)
+                          }
+                      }
+                  }
+              }
+          })
+
+          Handsontable.Dom.addEvent(tjflow, 'click', function () {
+              var rct = hot.countRows();
+              //alert(rct);
+              for (var i = 0; i < rct - 1; i++) {
+                  //alert(hot.getDataAtCell(i, 0));//[A1,B1]
+                  var vlnode = hot.getDataAtCell(i, 0)
+                  //alert(vlnode);
+                  if (vlnode == null || vlnode == '' || vlnode == undefined) {
+                      //alert("第" + (i + 1) + "行流程节点为空! ");
+                      $('#childErrMsg p').html("第" + (i + 1) + "行流程节点为空! ");
+                      //$('#_XX').parent().addClass("has-error");
+                      $('#childErrMsg').show();
+                      return;
+                  }
+                  var vlperson = hot.getDataAtCell(i, 1)
+                  if (vlperson == null || vlperson == '' || vlperson == undefined) {
+                      //alert("第" + (i + 1) + "行人员为空! ");
+                      $('#childErrMsg p').html("第" + (i + 1) + "行人员为空! ");
+                      //$('#_XX').parent().addClass("has-error");
+                      $('#childErrMsg').show();
+                      return;
+                  }
+
+              }
+              jQuery.ajax({
+                  url: '/Flow/SubmitFlow' + '?billids=' + g_submit_billIds + '&BillingType=0',
+                  type: "POST",
+                  dataType: "json",
+                  contentType: 'application/json; charset=utf-8',
+                  data: JSON.stringify(hot.getSourceData()),
+                  async: true,
+                  processData: false,
+                  cache: false,
+                  success: function (result) {
+                      $('#table-modal').modal('hide')
+                      alert(result.message);
+                      $('#jqGrid_Order').jqGrid('setGridParam',
+                        {
+                            datatype: 'json',
+                            url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
+                        }).trigger('reloadGrid');
+
+                      $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                  },
+                  error: function (xhr) {
+                      alert(xhr.responseText);
+                      //exampleConsole.innerHTML = 'Save error';
+                      //alert('error');
+                  }
+              });
+          });
+
+          //
+          $('#table-modal').on('shown.bs.modal', function (e) {
+              initChildModal();
+          });
+
+          function initChildModal() {
+              $('#childErrMsg').hide();
+              //$('#_xxx').parent().removeClass("has-error");
+
+              jQuery.ajax({
+                  url: '/Flow/GetInitData', //Controller to Get the
+                  //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+                  type: "GET",
+                  dataType: "json",
+                  contentType: "application/json",
+                  charset: "utf-8", // dataType and contentType should be json
+                  async: true,
+                  processData: false,
+                  cache: false,
+                  success: function (data) {      // on Success send the Json data
+                      // to the table by using loaddata function""
+                      //alert("ok");
+                      hot.loadData(data);
+                      //exampleConsole.innerHTML = 'Data loaded';
+                  },
+                  error: function (xhr) {
+                      alert('error');
+                  }
+              });
+
+              //var rct = hot.countRows();
+              ////alert(rct);
+              //for (var i = 0; i < rct - 1; i++) {
+              //    hot.alter('remove_row',i);
+              //}
+              //hot.clear();
+
+              //$('#_ServiceNatureLabel').empty();
+              //$('#_ChooseTug').val("");
+              //$("#_JobStateLabel option:first").prop("selected", 'selected');
+              //$('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+          }
+</script>
+
+
+
+<!--查看优惠单报表-->
+<script>
+    function ViewDiscountBill() {
+        alert("调用报表预览：当前选择的需要预览的优惠单Id是:" + g_curSelectedBillingIds);
+    }
+</script>
+
+
+<!--金额编辑框数据输入限制-->
+<script>
+    function inputCheck(obj) {
+        var t = obj.value.charAt(0);
+        //return value.replace(/[^\d.]/g, '');
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+        if (t == '-') {
+            obj.value = '-' + obj.value;
+        }
+    }
+</script>
+
+
+
+<!--优惠单模态框-->
+<script>
+
+    //保存Grid当前选择的行号
+    var g_curRowId = '';
+
+    function ShowDiscountBillModal() {
+        $('#discountBill-modal').modal()
+    }
+
+    function initDiscountBillModal() {
+
+        $('#creditErrMsg').hide();
+
+        $('#_CustomerName').parent().removeClass("has-error");
+        $('#_Title').parent().removeClass("has-error");
+        $('#_Content').parent().removeClass("has-error");
+        $('#_Money').parent().removeClass("has-error");
+        $('#_Month').parent().removeClass("has-error");
+
+        $('#_CustomerName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomer", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            return {
+                                id: item.CustomerID,
+                                label: item.CustomerName1,
+                                value: item.CustomerName1,
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null) {
+                    $("#_CustomerID").text(ui.item.id);
+                }
+                else {
+                    $("#_CustomerID").text(-1);
+                }
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null) {
+                    $("#_CustomerID").text(ui.item.id);
+                }
+                else {
+                    $("#_CustomerID").text(-1);
+                }
+
+            },
+            autoFocus: true
+        });
+
+        if (g_mode == '新增') {
+            InitAddDiscountBill();
+        }
+        else if (g_mode == '编辑') {
+            InitEditDiscountBill();
+        }
+
+    }
+
+
+    function InitAddDiscountBill() {
+        //alert('新增');
+
+        $('#_CustomerName').val("");
+        $('#_Title').val("");
+        $('#_Content').val("");
+        $('#_Money').val("");
+
+        $('#_Month').datetimepicker({
+            //format: 'Y-m-d H:i:s',
+            format: 'Y-m',
+            //format: 'd.m.Y H:i:s',
+            validateOnBlur: false,
+            timepicker: false,
+        });
+        $('#_Month').val(new Date().Format("yyyy-MM"));
+    }
+
+
+    function InitEditDiscountBill() {
+        //alert("当前选择的编辑的优惠单Id是:" + g_curSelectedBillingIds);
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetDiscountBill", "Finance")',
+            data: {
+                'billingId': g_curSelectedBillingIds
+            },
+            dataType: 'json',
+            success: function (result) {
+                if (result.code == '@Resources.Common.SUCCESS_CODE') {
+                    $('#_CustomerID').text(result.discout_bill.CustomerID);
+                    $('#_CustomerName').val(result.discout_bill.CustomerName);
+                    $('#_Title').val(result.discout_bill.Title);
+                    $('#_Content').val(result.discout_bill.Content);
+                    $('#_Money').val(result.discout_bill.Money);
+                    $('#_Month').val(result.discout_bill.Month);
+                }
+            },
+        });
+
+    }
+
+
+    $('#discountBill-modal').on('show.bs.modal', function (e) {
+        initDiscountBillModal();
+    });
+    $('#discountBill-modal').on('shown.bs.modal', function (e) {
+
+    });
+    $('#discountBill-modal').on('hide.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+    $('#discountBill-modal').on('hidden.bs.modal', function () {
+        $(this).removeData("bs.modal");
+    });
+
+
+
+    function submitDiscountBillModal() {
+        var maxTextLength = 50;
+        var maxTextAreaLength = 500;
+
+
+        //校验
+        if ($("#_CustomerName").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "必填");
+            $('#_CustomerName').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        if ($("#_CustomerID").text() == -1) {
+            $('#creditErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "用戶不存在，請重新輸入");
+            $('#_CustomerName').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        if ($("#_Title").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.V_Billing4_Title' + "必填");
+            $('#_Title').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        else if ($("#_Title").val().toString().trim().length > maxTextAreaLength) {
+            $('#creditErrMsg p').html('@Resources.Language.V_Billing4_Title' + "长度不能超过" + maxTextAreaLength);
+            $('#_Title').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        if ($("#_Content").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.V_Billing4_Content' + "必填");
+            $('#_Content').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+        else if ($("#_Content").val().toString().trim().length > maxTextAreaLength) {
+            $('#creditErrMsg p').html('@Resources.Language.V_Billing4_Content' + "长度不能超过" + maxTextAreaLength);
+            $('#_Content').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        else if ($("#_Money").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.V_Billing4_Money' + "必填");
+            $('#_Money').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        else if ($("#_Month").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.Invoice2_InvoiceMonth' + "必填");
+            $('#_Month').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
+        $('#creditErrMsg').hide();
+
+        
+
+        if (g_mode == '新增') {
+
+            var customerId = $('#_CustomerID').text().trim();
+            var title = $('#_Title').val().trim();
+            var content = $('#_Content').val().trim();
+            var money = $('#_Money').val().trim();
+            var month = $('#_Month').val().trim();
+
+            //提交数据库
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("AddDiscountBill", "Finance")',
+                data: {
+                    'customerId': customerId,
+                    'title': title,
+                    'content': content,
+                    'money': money,
+                    'month': month
+                },
+                dataType: 'json',
+                success: function (result) {
+                    $('#discountBill-modal').modal('hide')
+                    alert(result.message);
+
+                    $('#jqGrid').jqGrid('setGridParam',
+                    {
+                        datatype: 'json',
+                        url: '@Url.Action("GetDiscountBillingDataForLoadOnce", "Finance")',
+                    }).trigger('reloadGrid');
+                },
+            });
+
+        }
+        else if (g_mode == '编辑') {
+
+            var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+            var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+
+            var billingId = dr.IDX;
+            var customerId = $('#_CustomerID').text().trim();
+            var title = $('#_Title').val().trim();
+            var content = $('#_Content').val().trim();
+            var money = $('#_Money').val().trim();
+            var month = $('#_Month').val().trim();
+
+            //提交数据库
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("EditDiscountBill", "Finance")',
+                data: {
+                    'billingId':billingId,
+                    'customerId': customerId,
+                    'title': title,
+                    'content': content,
+                    'money': money,
+                    'month': month
+                },
+                dataType: 'json',
+                success: function (result) {
+                    $('#discountBill-modal').modal('hide')
+                    alert(result.message);
+
+                    $('#jqGrid').jqGrid('setGridParam',
+                    {
+                        datatype: 'json',
+                        url: '@Url.Action("GetDiscountBillingDataForLoadOnce", "Finance")',
+                    }).trigger('reloadGrid');
+                },
+            });
+
+        }
+
+        
+    }
+</script>
