@@ -3298,6 +3298,7 @@
           <EntitySet Name="V_Billing" EntityType="Model.V_Billing" />
           <EntitySet Name="V_Billing2" EntityType="Model.V_Billing2" />
           <EntitySet Name="V_Billing3" EntityType="Model.V_Billing3" />
+          <EntitySet Name="V_Billing4" EntityType="Model.V_Billing4" />
           <EntitySet Name="V_BillingItem" EntityType="Model.V_BillingItem" />
           <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
           <EntitySet Name="V_BillingOrders" EntityType="Model.V_BillingOrders" />
@@ -3389,7 +3390,6 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
-          <EntitySet Name="V_Billing4" EntityType="Model.V_Billing4" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -4440,6 +4440,27 @@
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_Billing4">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Money" Type="Double" />
+          <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimesNo" Type="Int32" />
+          <Property Name="Phase" Type="Int32" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_BillingItem">
           <Key>
@@ -5508,27 +5529,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="V_Billing4">
-          <Key>
-            <PropertyRef Name="IDX" />
-          </Key>
-          <Property Name="IDX" Type="Int32" Nullable="false" />
-          <Property Name="CustomerID" Type="Int32" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Money" Type="Double" />
-          <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TimesNo" Type="Int32" />
-          <Property Name="Phase" Type="Int32" />
-          <Property Name="OwnerID" Type="Int32" />
-          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6561,6 +6561,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_Billing4">
+            <EntityTypeMapping TypeName="Model.V_Billing4">
+              <MappingFragment StoreEntitySet="V_Billing4">
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="Money" ColumnName="Money" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_BillingItem">
             <EntityTypeMapping TypeName="Model.V_BillingItem">
               <MappingFragment StoreEntitySet="V_BillingItem">
@@ -7450,28 +7472,6 @@
                 <ScalarProperty Name="TreeID" ColumnName="TreeID" />
                 <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_Billing4">
-            <EntityTypeMapping TypeName="Model.V_Billing4">
-              <MappingFragment StoreEntitySet="V_Billing4">
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="Money" ColumnName="Money" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>
