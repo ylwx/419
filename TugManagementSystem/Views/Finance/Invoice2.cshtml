@@ -1285,7 +1285,7 @@
                 },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                    hidden: false,
+                    hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
@@ -1496,6 +1496,7 @@
 
         $('#jqGridContainerBox_Order').resize(function () {
             var width = $('#jqGridContainerBox_Order').width();
+            //alert(width);
             $("#jqGrid_Order").setGridWidth(width);
         });
 
@@ -2398,7 +2399,44 @@
                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
                     hidden: true,
                 },
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Billing_Month', name: "Month", width: 80, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    //datefmt: 'yyyy-mm-dd',
+                    //sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
 
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m',
+                                //step: 1,
+                                validateOnBlur: false,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingCode', name: "BillingCode", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
                 {
                     align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 200, editable: true, edittype: "text",
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -2412,17 +2450,31 @@
                     hidden: false
                 },
                 {
+                    align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "ShipLength", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "ShipTEUS", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
+                {
                     align: 'center', label: '@Resources.Language.V_OrderBilling_JobNo', name: "JobNo", width: 120, editable: true, edittype: "text",
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                    hidden: false
+                    hidden: true
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_Billing_BillingCode', name: "BillingCode", width: 120, editable: true, edittype: "text",
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                    hidden: false
-                },
+                
                 {
                     align: 'center', label: '@Resources.Language.V_Billing_BillingTemplateName', name: "BillingTemplateName", width: 120, editable: true, edittype: "text",
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -2467,24 +2519,8 @@
                         dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
                     },
                 },
-                {
-                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "ShipLength", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipTEUS', name: "ShipTEUS", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
-                    hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
-                },
+                
+                
 
                 {
                     align: 'center', label: '@Resources.Language.V_Billing_Status', name: "Status", width: 80, editable: false, edittype: "text",
@@ -2498,38 +2534,7 @@
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
-                {
-                    align: 'center',
-                    label: '@Resources.Language.Billing_Month', name: "Month", width: 80, editable: false, edittype: "text",
-                    hidden: false,
-                    //formatter: 'date',
-                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
-                    //datefmt: 'yyyy-mm-dd',
-                    //sorttype: 'date',
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: {
-                        sopt: ["eq", "lt", "le", "gt", "ge"],
-
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'Y-m',
-                                //step: 1,
-                                validateOnBlur: false,
-                                timepicker: false
-                            });
-                        },
-
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var grid = $('#jqGrid')[0];
-                                    grid.triggerToolbar();
-                                }
-                            }
-                        ]
-                    }
-                },
+                
 
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
@@ -2613,7 +2618,7 @@
 
                 viewrecords: true,
                 height: '100%', //'auto', //350,
-                rowNum: 15,
+                rowNum: 50,
                 autowidth: true,
                 editurl: null,
                 pager: "#jqGridPager",
@@ -2916,7 +2921,7 @@
                 })
         .navButtonAdd('#jqGridPager', {
             id: 'jqGrid_ilAddCredit',
-            caption: "回扣單", title: "新增回扣單", buttonicon: "ui-icon-plus",
+            caption: "", title: "新增回扣單", buttonicon: "ui-icon-plus",
             onClickButton: function () {
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                 var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -2975,7 +2980,7 @@
         })
                 .navButtonAdd('#jqGridPager', {
                     id: 'jqGrid_ilSubmit',
-                    caption: "審核", title: "提交審核", buttonicon: "ui-icon-circle-plus",
+                    caption: "", title: "提交審核", buttonicon: "ui-icon-circle-plus",
                     onClickButton: function () {
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -3037,7 +3042,7 @@
                 })
         .navButtonAdd('#jqGridPager', {
             id: 'jqGrid_ilView',
-            caption: "查看", title: "查看帳單和回扣單", buttonicon: "ui-icon-search",
+            caption: "", title: "查看帳單和回扣單", buttonicon: "ui-icon-search",
             onClickButton: function () {
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                 var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录

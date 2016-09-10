@@ -128,6 +128,10 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     int idx = Util.toint(Request.Form["IDX"]);
                     CustomField customedit = db.CustomField.Where(u => u.IDX == idx).FirstOrDefault();
+
+                    string oldLocation = customedit.CustomLabel;
+                    string newLocation = Request.Form["CustomLabel"].Trim();
+
                     string CustomName = customedit.CustomName;
                     string CustomValue = Request.Form["CustomLabel"].Trim();
 
@@ -143,6 +147,17 @@ namespace TugManagementSystem.Controllers
                         customedit.UserID = Session.GetDataFromSession<int>("userid");
                         db.Entry(customedit).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
+
+                        var list = db.OrderService.Where(u => u.ServiceWorkPlace.Trim().ToLower() == oldLocation.Trim().ToLower()).Select(u => u).ToList();
+                        if (list != null)
+                        {
+                            foreach (var item in list)
+                            {
+                                item.ServiceWorkPlace = newLocation.Trim();
+                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
