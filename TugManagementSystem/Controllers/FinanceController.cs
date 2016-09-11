@@ -1556,6 +1556,7 @@ namespace TugManagementSystem.Controllers
                                 {
                                     ods.HasBilling = "是";
                                     ods.HasBillingInFlow = "否";
+                                    ods.BillingType = 0;
                                     db.Entry(ods).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
@@ -2107,7 +2108,18 @@ namespace TugManagementSystem.Controllers
                                     os.BillingType = 1;
                                     db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
+
+                                    //更新服务对应的订单的账单标记;因为现在一个订单对应一个服务
+                                    OrderInfor ordInfor = db.OrderInfor.FirstOrDefault(u => u.IDX == os.OrderID);
+                                    if (ordInfor != null)
+                                    {
+                                        ordInfor.HasInvoice = "是";
+                                        db.Entry(ordInfor).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
                                 }
+
+                                
                             }
                         }
 
@@ -2210,6 +2222,15 @@ namespace TugManagementSystem.Controllers
                                         os.BillingType = 0;
                                         db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                         db.SaveChanges();
+
+
+                                        OrderInfor ordinfor = db.OrderInfor.FirstOrDefault(u => u.IDX == os.OrderID);
+                                        if (ordinfor != null)
+                                        {
+                                            ordinfor.HasInvoice = "否";
+                                            db.Entry(ordinfor).State = System.Data.Entity.EntityState.Modified;
+                                            db.SaveChanges();
+                                        }
                                     }
                                 }
                             }
