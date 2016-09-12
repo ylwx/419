@@ -1058,6 +1058,8 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
+
+        [JsonExceptionFilterAttribute]
         public ActionResult DeleteCustomerBillSchemeItem()
         {
             this.Internationalization();
@@ -1067,23 +1069,31 @@ namespace TugManagementSystem.Controllers
                 var f = Request.Form;
 
                 int idx = Util.toint(Request.Form["data[IDX]"]);
+                int billingTemplateID = Util.toint(Request.Form["data[BillingTemplateID]"]);
 
                 TugDataEntities db = new TugDataEntities();
-                BillingItemTemplate aScheduler = db.BillingItemTemplate.FirstOrDefault(u => u.IDX == idx);
-                if (aScheduler != null)
-                {
-                    db.BillingItemTemplate.Remove(aScheduler);
-                    db.SaveChanges();
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                }
+                Billing obj = db.Billing.FirstOrDefault(u => u.BillingTemplateID == billingTemplateID);
+                if (obj != null)
+                    throw new Exception("此計費方案项目已在賬單中使用過，不能被刪除！");
                 else
                 {
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    BillingItemTemplate aScheduler = db.BillingItemTemplate.FirstOrDefault(u => u.IDX == idx);
+                    if (aScheduler != null)
+                    {
+                        db.BillingItemTemplate.Remove(aScheduler);
+                        db.SaveChanges();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                throw ex;
+                //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
             }
         }
 
