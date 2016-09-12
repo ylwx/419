@@ -248,6 +248,7 @@ namespace TugManagementSystem.Controllers
                     billInfor.Phase = -1;
                     billInfor.Status = "完成";
                     billInfor.BillingCode = billingCode;  //生成账单编号
+                    billInfor.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
@@ -269,6 +270,7 @@ namespace TugManagementSystem.Controllers
                 {
                     //更改Billing状态
                     billInfor.Phase = billInfor.Phase + 1;
+                    billInfor.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     billInfor.Status = Task(id, Convert.ToInt32(billInfor.Phase), Convert.ToInt32(billInfor.TimesNo));
                     db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
