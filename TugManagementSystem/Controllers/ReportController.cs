@@ -360,7 +360,7 @@ namespace TugManagementSystem.Controllers
         }
         #endregion
 
-        #region 全包，半包
+        #region 账单 全包，半包
         public ActionResult Invoice_qborbb(int BillingID, int TimeTypeValue)//
         {
             //int OrderID; int TimeTypeValue;
