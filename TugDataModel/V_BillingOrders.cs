@@ -58,5 +58,6 @@ namespace TugDataModel
         public string HasInFlow { get; set; }
         public Nullable<int> Length { get; set; }
         public Nullable<int> TEUS { get; set; }
+        public string UserDefinedCol3 { get; set; }
     }
 }
