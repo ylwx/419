@@ -350,154 +350,187 @@
     function GetTableConfig() {
         tableConfig = {
             columns: [
-                            {
-                                align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
-                                hidden: true,
-                            },
-                            {
-                                align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeLabel', name: "InvoiceType", width: 100, editable: true, edittype: "text",
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                                hidden: false
-                            },
+                             {
+                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingID', index: "IDX", name: "IDX", width: 80, editable: true, edittype: "text",
+                     hidden: true,
+                 },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingCode', name: "BillingCode", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 200, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 200, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingTemplateTypeLabel', name: "BillingTemplateTypeLabel", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    //stype: 'select',
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    @*searchoptions: {
+                        dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.BillingTemplateType" })',
+                    },*@
+                },
 
-                            {
-                                align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 200, editable: true, edittype: "text",
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                                hidden: false
-                            },
-                            {
-                                align: 'center', label: '@Resources.Language.V_OrderInfor_ShipName', name: "ShipName", width: 200, editable: true, edittype: "text",
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                                hidden: false
-                            },
-                            {
-                                align: 'center', label: '@Resources.Language.V_OrderBilling_JobNo', name: "JobNo", width: 120, editable: true, edittype: "text",
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                                hidden: false
-                            },
-                            {
-                                align: 'center', label: '@Resources.Language.V_Billing_BillingCode', name: "BillingCode", width: 120, editable: true, edittype: "text",
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                                hidden: false
-                            },
-                           
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_TimeTypeLabel', name: "TimeTypeLabel", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    //stype: 'select',
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
+                    @*searchoptions: {
+            dataUrl: '@Url.Action("GetCustomField", "Base", new { CustomName = "BillingTemplate.TimeTypeID" })',
+            },*@
+            },
 
-                            {
-                                align: 'center', label: '@Resources.Language.V_Billing_BillingTemplateTypeLabel', name: "BillingTemplateTypeLabel", width: 100, editable: true, edittype: "text",
-                                hidden: false,
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                //stype: 'select',
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                              
-                            },
-                            {
-                                align: 'center', label: 'TimeTypeValue', name: "TimeTypeValue", width: 120, editable: true, edittype: "text",
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                                hidden: true
-                            },
-                            {
-                                align: 'center', label: '@Resources.Language.V_Billing_TimeTypeLabel', name: "TimeTypeLabel", width: 100, editable: true, edittype: "text",
-                                hidden: false,
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                //stype: 'select',
-                                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
-                                   
-                            },
-                            
-                            {
-                            align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
-                            hidden: false,
-                            coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                            searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
-                            },
+                 {
+                     align: 'center', label: 'TimeTypeValue', name: "TimeTypeValue", width: 120, editable: true, edittype: "text",
+                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                     hidden: true
+                 },
 
-                            {
-                            align: 'center', label: '@Resources.Language.V_Billing_Status', name: "Status", width: 120, editable: false, edittype: "text",
-                            hidden: false,
-                            coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                            searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                            },
-                            {
-                            align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
-                            hidden: false,
-                            coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                            searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                            },
-                            {
-                            align: 'center',
-                                label: '@Resources.Language.CreateDate', name: "CreateDate", width: 120, editable: false, edittype: "text",
-                            hidden: false,
-                          
-                            datefmt: 'yyyy-mm-dd',
-                            sorttype: 'date',
-                            coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                            searchoptions: {
-                                    sopt: ["eq", "lt", "le", "gt", "ge"],
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing_Status', name: "Status", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
 
-                                    dataInit: function (element) {
-                                        $(element).datetimepicker({
-                                            format: 'Y-m-d H:i:s',
-                                            step: 1,
-                                            //timepicker: false
-                                        });
-                                    },
+                 {
+                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 200, editable: true, edittype: "textarea",
+                     hidden: false,
+                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                 },
+                 {
+                     align: 'center', label: '@Resources.Language.V_OrderBilling_BillingTypeLabel', name: "InvoiceType", width: 100, editable: true, edittype: "text",
+                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                     hidden: false
+                 },
 
-                                    dataEvents: [
-                                        {
-                                            type: 'change',
-                                            fn: function (e) {
-                                                var grid = $('#jqGrid')[0];
-                                                grid.triggerToolbar();
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderBilling_JobNo', name: "JobNo", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: true
+                },
 
-                                            }
-                                        }
-                                    ]
-                            }
-                            },
-                            {
-                                align: 'center',
-                                label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 120, editable: false, edittype: "text",
-                                hidden: false,
-                                //formatter: 'date',
-                                datefmt: 'yyyy-mm-dd',
-                                sorttype: 'date',
-                                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                                searchoptions: {
-                                        sopt: ["eq", "lt", "le", "gt", "ge"],
 
-                                        dataInit: function (element) {
-                                            $(element).datetimepicker({
-                                                format: 'Y-m-d H:i:s',
-                                                step: 1,
-                                                //timepicker: false
-                                            });
-                                        },
+                @*{
+                    align: 'center', label: '@Resources.Language.V_Billing_BillingTemplateName', name: "BillingTemplateName", width: 120, editable: true, edittype: "text",
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    hidden: false
+                },*@
+                 {
+                     align: 'center',
+                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 120, editable: false, edittype: "text",
+                     hidden: false,
+                     //formatter: 'date',
+                     //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                     datefmt: 'yyyy-mm-dd',
+                     sorttype: 'date',
+                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                     searchoptions: {
+                         sopt: ["eq", "lt", "le", "gt", "ge"],
 
-                                        dataEvents: [
-                                            {
-                                                type: 'change',
-                                                fn: function (e) {
-                                                    var grid = $('#jqGrid')[0];
-                                                    grid.triggerToolbar();
+                         dataInit: function (element) {
+                             $(element).datetimepicker({
+                                 format: 'Y-m-d H:i:s',
+                                 step: 1,
+                                 //timepicker: false
+                             });
+                         },
 
-                                                }
-                                            }
-                                        ]
-                                }
-                            },
-                            {
-                                align: 'center', label: 'UserID', name: "UserID", width: 80, editable: true, edittype: "text",
-                                hidden: true,
-                            },
+                         dataEvents: [
+                             {
+                                 type: 'change',
+                                 fn: function (e) {
+                                     var grid = $('#jqGrid')[0];
+                                     grid.triggerToolbar();
+
+                                 }
+                             }
+                         ]
+                     }
+                 },
+                 {
+                     align: 'center',
+                     label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 120, editable: false, edittype: "text",
+                     hidden: false,
+                     //formatter: 'date',
+                     datefmt: 'yyyy-mm-dd',
+                     sorttype: 'date',
+                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                     searchoptions: {
+                         sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                         dataInit: function (element) {
+                             $(element).datetimepicker({
+                                 format: 'Y-m-d H:i:s',
+                                 step: 1,
+                                 //timepicker: false
+                             });
+                         },
+
+                         dataEvents: [
+                             {
+                                 type: 'change',
+                                 fn: function (e) {
+                                     var grid = $('#jqGrid')[0];
+                                     grid.triggerToolbar();
+
+                                 }
+                             }
+                         ]
+                     }
+                 },
+                 {
+                     align: 'center', label: 'MarkID', name: "MarkID", width: 80, editable: true, edittype: "text",
+                     hidden: true,
+                 },
+                 {
+                     align: 'center', label: 'Phase', name: "Phase", width: 80, editable: true, edittype: "text",
+                     hidden: true,
+                 },
+                 {
+                     align: 'center', label: 'Task', name: "Task", width: 120, editable: false, edittype: "text",
+                     hidden: true,
+                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                 },
+                 {
+                     align: 'center', label: 'FlowUserID', name: "FlowUserID", width: 80, editable: true, edittype: "text",
+                     hidden: true,
+                 },
+                  {
+                      align: 'center', label: 'System', name: "System", width: 120, editable: false, edittype: "text",
+                      hidden: true,
+                      coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                      searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                  },
             ]
         };
     }
-    
+
 
 </script>
