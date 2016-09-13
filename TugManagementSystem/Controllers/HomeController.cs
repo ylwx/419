@@ -89,7 +89,8 @@ namespace TugManagementSystem.Controllers
             List<Billing> rejectBilling = db.Billing.Where(u => u.UserID == curUserId && u.Phase == 0 && u.Status == "被駁回").OrderByDescending(u => u.IDX).ToList<Billing>();
             RejectBillingCount = rejectBilling.Count;
             //被驳回订单
-            List<V_OrderService> rejectOrder = db.V_OrderService.Where(u => u.OrderUserId == curUserId && (u.ServiceJobStateLabel == "被駁回" || u.ServiceJobStateValue == "3")).ToList<V_OrderService>();
+            //List<V_OrderService> rejectOrder = db.V_OrderService.Where(u => u.OrderUserId == curUserId && (u.ServiceJobStateLabel == "被駁回" || u.ServiceJobStateValue == "3")).ToList<V_OrderService>();
+            List<V_OrderService> rejectOrder = db.V_OrderService.Where(u => (u.ServiceJobStateLabel == "被駁回" || u.ServiceJobStateValue == "3")).ToList<V_OrderService>();
             RejectOrderCount = rejectOrder.Count;
 
             return Json(new
