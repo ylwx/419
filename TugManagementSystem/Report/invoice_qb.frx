@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="09/12/2016 16:03:52" ReportInfo.CreatorVersion="2013.3.3.0">
+<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="09/13/2016 10:08:08" ReportInfo.CreatorVersion="2013.3.3.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,9 +41,9 @@ namespace FastReport
       else if (Cell55.Text.StartsWith(&quot;B10&quot;))
         Cell55.Text=&quot;25% 港外附加費\r\nOUTSIDE HARBOUR SURCHARGES&quot;;//Cell55.Text=Cell55.Text.Substring(3);
       else if (Cell55.Text.StartsWith(&quot;B11&quot;))
-        Cell55.Text=&quot;18-22:00 [50%]\r\n附加費 SURCHARGES&quot;;//Cell55.Text=Cell55.Text.Substring(3);
+        Cell55.Text=&quot;18:00-22:00 [50%]\r\n附加費 SURCHARGES&quot;;//Cell55.Text=Cell55.Text.Substring(3);
       else if (Cell55.Text.StartsWith(&quot;B12&quot;))
-        Cell55.Text=&quot;22-08:00 [100%]\r\n附加費 SURCHARGES&quot;;//Cell55.Text=Cell55.Text.Substring(3);      
+        Cell55.Text=&quot;22:00-08:00 [100%]\r\n附加費 SURCHARGES&quot;;//Cell55.Text=Cell55.Text.Substring(3);      
       else if (Cell55.Text.StartsWith(&quot;B13&quot;))
         Cell55.Text=&quot;100% 假日附加費\r\nHOLIDAY SURCHARGES&quot;;//Cell55.Text=Cell55.Text.Substring(3);      
       else if (Cell55.Text.StartsWith(&quot;B14&quot;))
@@ -60,7 +60,7 @@ namespace FastReport
     {
       //Cell73.Border.Lines=BorderLines.None;
       if (Cell73.Text.StartsWith(&quot;C15&quot;))
-        Cell73.Text=&quot;3600BHP拖輪(+15%)\r\n3600 BHP SURCHARGES&quot;;//Cell73.Text=Cell73.Text.Substring(3);      
+        Cell73.Text=&quot;&gt;3600BHP拖輪(+15%)\r\n&gt;3600 BHP SURCHARGES&quot;;//Cell73.Text=Cell73.Text.Substring(3);      
       else if (Cell73.Text.StartsWith(&quot;C80&quot;))
       {
         Cell73.Text=&quot;燃 油 附 加 費&quot; + Report.GetParameterValue(&quot;FeulPrice&quot;) + &quot;\r\nBUNKER SURCHARGES&quot;;//Cell73.Text=Cell73.Text.Substring(3);
@@ -234,7 +234,7 @@ namespace FastReport
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdv9sg/ccKif5kdbHRT73i/gA==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvFBq6wTFMABB5H0wZCAHCOw==">
       <TableDataSource Name="V_Inv_Head" DataType="System.Int32" Enabled="true" TableName="V_Inv_Head">
         <Column Name="IDX" DataType="System.Int32"/>
         <Column Name="BillingCode" DataType="System.String"/>
@@ -266,7 +266,7 @@ namespace FastReport
         <Column Name="ServiceWorkPlace" DataType="System.String"/>
         <Column Name="CustomLabel" DataType="System.String"/>
         <Column Name="OrderID" DataType="System.Int32"/>
-        <Column Name="UserDefinedCol1" Enabled="false" DataType="System.String"/>
+        <Column Name="BillingID" DataType="System.Int32"/>
       </TableDataSource>
       <TableDataSource Name="Table" Alias="MData" DataType="System.Int32" Enabled="true" SelectCommand="exec proc_inv_item_xy 6,0">
         <Column Name="ItemCode" DataType="System.String"/>
@@ -307,14 +307,14 @@ namespace FastReport
   </Dictionary>
   <ReportPage Name="Page1" RawPaperSize="9" RightMargin="0">
     <ReportTitleBand Name="ReportTitle2" Width="756" Height="217.35">
-      <TextObject Name="Text18" Left="567" Top="85.05" Width="151.2" Height="18.9" Text="[V_Inv_Head.BillingCode]" Font="宋体, 11pt"/>
-      <TextObject Name="Text21" Left="567" Top="113.4" Width="151.2" Height="18.9" AfterDataEvent="Text21_AfterData" Text="[V_Inv_Head.CreateDate]" Font="宋体, 11pt"/>
-      <TextObject Name="Text1" Left="47.25" Top="113.4" Width="66.15" Height="18.9" Text="JOB NO." HorzAlign="Right" Font="宋体, 10pt"/>
-      <TextObject Name="Text2" Left="122.85" Top="113.4" Width="236.25" Height="18.9" Text="[V_Inv_Head.JobNo]" Font="宋体, 10pt"/>
+      <TextObject Name="Text18" Left="567" Top="103.95" Width="151.2" Height="18.9" Text="[V_Inv_Head.BillingCode]" Font="宋体, 11pt"/>
+      <TextObject Name="Text21" Left="567" Top="132.3" Width="151.2" Height="18.9" AfterDataEvent="Text21_AfterData" Text="[V_Inv_Head.CreateDate]" Font="宋体, 11pt"/>
+      <TextObject Name="Text1" Left="47.25" Top="132.3" Width="66.15" Height="18.9" Text="JOB NO." HorzAlign="Right" Font="宋体, 10pt"/>
+      <TextObject Name="Text2" Left="122.85" Top="132.3" Width="236.25" Height="18.9" Text="[V_Inv_Head.JobNo]" Font="宋体, 10pt"/>
       <TextObject Name="Text4" Left="9.45" Top="170.1" Width="94.5" Height="37.8" Text="備註&#13;&#10;REMARKS" Font="宋体, 8pt"/>
-      <TextObject Name="Text5" Left="47.25" Width="311.85" Height="56.7" Text="[V_Inv_Head.CustomerName]" Font="宋体, 12pt, style=Bold"/>
-      <TextObject Name="Text6" Left="47.25" Top="66.15" Width="66.15" Height="47.25" Text="CAPTAIN/&#13;&#10;OWNER" HorzAlign="Right" Font="宋体, 8pt"/>
-      <TextObject Name="Text7" Left="122.85" Top="66.15" Width="236.25" Height="47.25" Text="[V_Inv_Head.ShipName] [V_Inv_Head.Length]" Font="宋体, 11pt"/>
+      <TextObject Name="Text5" Left="47.25" Top="18.9" Width="311.85" Height="56.7" Text="[V_Inv_Head.CustomerName]" Font="宋体, 12pt, style=Bold"/>
+      <TextObject Name="Text6" Left="47.25" Top="85.05" Width="66.15" Height="47.25" Text="CAPTAIN/&#13;&#10;OWNER" HorzAlign="Right" Font="宋体, 8pt"/>
+      <TextObject Name="Text7" Left="122.85" Top="85.05" Width="236.25" Height="47.25" Text="[V_Inv_Head.ShipName] [V_Inv_Head.Length]" Font="宋体, 11pt"/>
       <TextObject Name="Text8" Left="122.85" Top="170.1" Width="585.9" Height="37.8" Text="[strRule] [V_Inv_Head.Remark]" Font="宋体, 10pt"/>
     </ReportTitleBand>
     <DataBand Name="Data1" Top="221.39" Width="756" Height="30.24" Guides="37.8,0,37.8,37.8,37.8" DataSource="V_Inv_OrdService">
