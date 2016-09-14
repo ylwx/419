@@ -516,6 +516,45 @@
         </div>
     </div>
     <!-- /提交审核 MODAL FORM-->
+
+    <!-- 流程日志 MODAL FORM-->
+    <div class="modal fade" id="flowlog-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="model-dlg" class="modal-dialog" style="width: 800px ;height:480px">
+            <div class="modal-content modal-table">
+                @*<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">拖轮选择</h4>
+                    </div>*@
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BOX -->
+                            <div class="box border orange">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-bars"></i>@Resources.Language.Invoice2_FlowLog</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="" onclick="$('#flowlog-modal').modal('hide');">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="height:200px; overflow:auto;">
+                                    <div id="flowlogtable" class="hot handsontable dataTable table-striped center-block">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /BOX -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /流程日志 MODAL FORM-->
+
     <!-- Credit Add MODAL FORM-->
     <div class="modal fade" id="credit-add-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="child-model-dlg" class="modal-dialog" style="width:500px">
@@ -684,6 +723,10 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
+                                <h3 class="panel-title">
+                                    @*标识当前账单选中行ID*@
+                                    <span hidden></span>
+                                </h3>
                                 <h4><i class="fa fa-bars"></i>@Resources.Language.SpecialInvoiceManage</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
@@ -1304,6 +1347,7 @@
                     $('#jqGrid_ilView').addClass('ui-state-disabled');
                     $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                     $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                     //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
 
@@ -1319,6 +1363,7 @@
                         $('#jqGrid_ilView').addClass('ui-state-disabled');
                         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                         //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
                     }
@@ -1328,6 +1373,7 @@
                         $('#jqGrid_ilView').removeClass('ui-state-disabled');
                         $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilflowlog').removeClass('ui-state-disabled');
                         //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
 
                     }
@@ -1553,6 +1599,7 @@
                                         $('#jqGrid_ilView').addClass('ui-state-disabled');
                                         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                                         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                                        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                                         //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
 
@@ -1685,8 +1732,6 @@
                         $('#table-modal').modal();
                     },
                 });
-
-
             },
 
         })
@@ -1716,6 +1761,33 @@
 
             },
 
+        })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_ilflowlog',
+            caption: "", title: "查看流程日志", buttonicon: "ui-icon-newwin",
+            onClickButton: function () {
+                var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                //编辑
+                if (rowid != null) {
+                    var curbillidx = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
+                    //alert(curbillidx);
+                    $('.panel-title span:first').html(curbillidx);
+
+                    loghot.updateSettings({
+                        cells: function (row, col, prop) {
+                            var cellProperties = {};
+                            cellProperties.readOnly = true;
+                            return cellProperties;
+                        }
+                    })
+
+                    //查看日志
+                    ViewInvoiceFlowLog();
+                }
+                else {
+                    alert('选中一行');
+                }
+            },
         });
 
 
@@ -1731,6 +1803,7 @@
                     $('#jqGrid_ilView').addClass('ui-state-disabled');
                     $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                     $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                 }
                 else {
                     if (selectedIDs.length != 1) {
@@ -1740,6 +1813,7 @@
                         $('#jqGrid_ilView').addClass('ui-state-disabled');
                         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                         //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
                     }
@@ -1751,6 +1825,7 @@
                         $('#jqGrid_ilView').removeClass('ui-state-disabled');
                         $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilflowlog').removeClass('ui-state-disabled');
                         //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
 
                     }
@@ -1764,6 +1839,7 @@
                 $('#jqGrid_ilView').addClass('ui-state-disabled');
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                 //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
             }
@@ -1776,6 +1852,7 @@
         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
         $('#jqGrid_ilReport').addClass('ui-state-disabled');
+        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
 
     }
     </script>
@@ -2057,7 +2134,61 @@
           }
 </script>
 
+<!--流程日志模态框-->
+<script type="text/javascript">
 
+    var flowlog_billId = ''; //保存需要提交审核的账单,如果有以','分割，如果没有就是空字符串""
+    //$(document).ready(Init);
+    //function Init() {}
+    // Variables declaration & to make our life easier we set our HTML tags to variables too
+    var
+        $$ = function (id) { return document.getElementById(id); },
+        containerlog = $$('flowlogtable'),
+        loghot;
+
+    loghot = new Handsontable(containerlog, {
+        //data: getCarData(),
+        startRows: 0,
+        startCols: 6,
+        colHeaders: ['@Resources.Language.Flow_No', '@Resources.Language.Flow_Task', '@Resources.Language.Flow_Person',
+            '@Resources.Language.Flow_Status', '@Resources.Language.Flow_ApproveComments', '@Resources.Language.Flow_Date'],
+            columnSorting: false,
+            contextMenu: false,
+            minSpareRows: 1,
+            rowHeaders: true,
+            columnSorting: false,
+            contextMenu: [],
+            removeRowPlugin: false,
+            heigth: 200,
+            columns: [
+                {
+                    type: 'text',
+                    width: 50
+                },
+                {
+                    type: 'text',
+                    width: 80
+                },
+                {
+                    type: 'text',
+                    width: 80
+                },
+                {
+                    type: 'text',
+                    width: 80
+                },
+                {
+                    type: 'text',
+                    width: 200
+                },
+                {
+                    type: 'text',
+                    width: 200
+                }
+        ]
+    });
+
+</script>
 
 <!-- 新增模态框 -->
 <script type="text/javascript">
@@ -2452,6 +2583,11 @@
 
 <!--查看模态框-->
 <script type="text/javascript">
+    //查看流程日志
+    function ViewInvoiceFlowLog() {
+        //alert("ok");
+        $('#flowlog-modal').modal()
+    }
 
     function ViewInvoice() {
         $('#view-modal').modal()
@@ -2534,6 +2670,33 @@
         $(this).removeData("bs.modal");
     });
 
+    //
+    $('#flowlog-modal').on('shown.bs.modal', function (e) {
+        initflowlogModal();
+    });
+
+    function initflowlogModal() {
+        jQuery.ajax({
+            url: '/Flow/FlowLog' + '?billingid=' + $('.panel-title span:last').html(),//Controller to Get the
+            //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            charset: "utf-8", // dataType and contentType should be json
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {      // on Success send the Json data
+                // to the table by using loaddata function""
+                //alert("ok");
+                loghot.loadData(data);
+                //exampleConsole.innerHTML = 'Data loaded';
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
 </script>
 
 <!--查看模态框里的生成报表-->
@@ -2853,6 +3016,7 @@
                     $('#jqGrid_ilView').addClass('ui-state-disabled');
                     $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                     $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                    $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                     //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
                     $("#edit_btn_sumbit").attr("disabled", true);
