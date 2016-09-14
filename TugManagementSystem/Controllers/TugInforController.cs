@@ -172,6 +172,11 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
+                        string oldTugName1 = tug.Name1;
+                        string newTugName1 = Request.Form["Name1"].Trim();
+                        int tugIdx = idx;
+
+
                         tug.Code = Request.Form["Code"];
                         tug.Name1 = Request.Form["Name1"];
                         tug.Name2 = Request.Form["Name2"];
@@ -207,6 +212,8 @@ namespace TugManagementSystem.Controllers
 
                         db.Entry(tug).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
+
+                        TugBusinessLogic.Utils.UpDateTugName1(tugIdx, oldTugName1, newTugName1);
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
