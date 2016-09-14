@@ -58,6 +58,7 @@ namespace TugDataModel
         public virtual DbSet<UsersRole> UsersRole { get; set; }
         public virtual DbSet<V_AmountSum_Billing> V_AmountSum_Billing { get; set; }
         public virtual DbSet<V_Approve_Billing> V_Approve_Billing { get; set; }
+        public virtual DbSet<V_ApproveLog> V_ApproveLog { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
