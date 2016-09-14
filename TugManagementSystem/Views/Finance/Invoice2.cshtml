@@ -4012,6 +4012,9 @@
             var array = GetBanBaoTBodyData();
             jsonArrayItems = JSON.stringify(array);
 
+            //alert(jsonArrayItems);
+            //return;
+
             array = GetBanBaoSummaryItems();
             jsonArraySummaryItems = JSON.stringify(array);
         }
@@ -7724,6 +7727,14 @@
     });
     $('#edit-modal').on('hidden.bs.modal', function () {
         $(this).removeData("bs.modal");
+
+        $('#jqGrid_Order').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
+                }).trigger('reloadGrid');
+
+        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
     });
 
     function submitEditVoiceModal() {
@@ -7870,13 +7881,13 @@
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
 
-                    $('#jqGrid_Order').jqGrid('setGridParam',
+                    @*$('#jqGrid_Order').jqGrid('setGridParam',
                 {
                     datatype: 'json',
                     url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
                 }).trigger('reloadGrid');
 
-                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');*@
 
 
                     //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
@@ -12408,6 +12419,10 @@
     }
 
     function GetBanBaoTBodyData() {
+
+        var length = $('input[name="协议收费"]').length;
+        //alert(length);
+
         var array = new Array();
 
         //0.服务费
@@ -12445,6 +12460,7 @@
         });
 
         //2.50%港外附加费
+        var flag1 = false; //有一个不为0，将其值置为true
         $('input[name="18时至22时附加费50耗时"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12458,17 +12474,26 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_17_B11' + '"]').text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                        var currency = "港币";
+                var currency = "港币";
+                if (unitPrice != 0) flag1 = true;
+
                 var bi = new BillingItem(schedulerId, 17, unitPrice, currency);
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                        array.push(bi);
-                    }
+                array.push(bi);
+            }
         });
+        if (flag1 == false) {
+            for (var k = 0; k < length*2; k++) {
+                array.pop();
+            }
+        }
+
 
         //3.100%港外附加费
+        var flag2 = false; //有一个不为0，将其值置为true
         $('input[name="22时至08时附加费100耗时"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12483,14 +12508,21 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_18_B12' + '"]').text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
+                if (unitPrice != 0) flag2 = true;
                 var bi = new BillingItem(schedulerId, 18, unitPrice, currency);
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
-                }
+            }
         });
+        if (flag2 == false) {
+            for (var k = 0; k < length * 2; k++) {
+                array.pop();
+            }
+        }
+
 
         //4.100%假日附加费
         $('input[name="假日附加费100"][type="checkbox"]').each(function () {
@@ -12529,6 +12561,7 @@
         });
 
         //6.折扣
+        var flag3 = false; //有一个不为0，将其值置为true
         $('input[name="折扣"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12542,10 +12575,18 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-            var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-            array.push(bi);
+                if (unitPrice != 0) flag3 = true;
+
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
             }
         });
+
+        if (flag3 == false) {
+            for (var k = 0; k < length; k++) {
+                array.pop();
+            }
+        }
 
         //7.使用3600BHP以上的拖轮+15%
         $('input[name="3600BHP附加费15"][type="checkbox"]').each(function () {
@@ -12597,7 +12638,7 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                        var currency = "港币";
+                var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -12617,9 +12658,9 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                        array.push(bi);
-                    }
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
         });
 
         //11.燃油附加费
@@ -12635,13 +12676,14 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                        var currency = "港币";
-                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                        array.push(bi);
-                    }
+                var currency = "港币";
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
         });
 
         //12.拖缆费
+        var flag4 = false; //有一个不为0，将其值置为true
         $('td[name="拖缆费"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12654,17 +12696,27 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                        var currency = "港币";
-                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                        array.push(bi);
-                    }
+                var currency = "港币";
+                if (unitPrice != 0) flag4 = true;
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
         });
+
+        if (flag4 == false) {
+            for (var k = 0; k < length; k++) {
+                array.pop();
+            }
+        }
 
 
         return array;
     }
 
     function GetTiaoKuanTBodyData() {
+
+        var length = $('input[name="每小时收费"][type="text"]').length;
+
         var array = new Array();
 
         //0.服务费单价
@@ -12694,12 +12746,13 @@
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
                 var currency = "港币";
-            var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-            array.push(bi);
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
             }
         });
 
         //2.50%港外附加费
+        var flag1 = false; //有一个不为0，将其值置为true
         $('input[name="18时至22时附加费50耗时"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12714,6 +12767,7 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_17_B11' + '"]').text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
+                if (unitPrice != 0) flag1 = true;
                 var bi = new BillingItem(schedulerId, 17, unitPrice, currency);
                 array.push(bi);
 
@@ -12722,8 +12776,15 @@
                 array.push(bi);
             }
         });
+        if (flag1 == false) {
+            for (var k = 0; k < length * 2; k++) {
+                array.pop();
+            }
+        }
+
 
         //3.100%港外附加费
+        var flag2 = false; //有一个不为0，将其值置为true
         $('input[name="22时至08时附加费100耗时"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12737,7 +12798,8 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_18_B12' + '"]').text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                        var currency = "港币";
+                var currency = "港币";
+                if (unitPrice != 0) flag2 = true;
                 var bi = new BillingItem(schedulerId, 18, unitPrice, currency);
                 array.push(bi);
 
@@ -12746,6 +12808,12 @@
                 array.push(bi);
             }
         });
+        if (flag2 == false) {
+            for (var k = 0; k < length * 2; k++) {
+                array.pop();
+            }
+        }
+
 
         //4.100%假日附加费
         $('input[name="假日附加费100"][type="checkbox"]').each(function () {
@@ -12760,9 +12828,9 @@
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
                 var currency = "港币";
-                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                        array.push(bi);
-                    }
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
         });
 
         //5.100%台风附加费
@@ -12777,13 +12845,14 @@
 
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
-            var currency = "港币";
+                var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
         });
 
         //6.折扣
+        var flag3 = false; //有一个不为0，将其值置为true
         $('input[name="折扣"][type="text"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12797,10 +12866,17 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-            var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-            array.push(bi);
+                if (unitPrice != 0) flag3 = true;
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
             }
         });
+        if (flag3 == false) {
+            for (var k = 0; k < length; k++) {
+                array.pop();
+            }
+        }
+
 
         //7.使用3600BHP以上的拖轮+15%
         $('input[name="3600BHP附加费15"][type="checkbox"]').each(function () {
@@ -12852,7 +12928,7 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                        var currency = "港币";
+                var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -12872,9 +12948,9 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).val()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                        array.push(bi);
-                    }
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
         });
 
         //11.燃油附加费
@@ -12890,13 +12966,14 @@
             {
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
-                        var currency = "港币";
+                var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
         });
 
         //12.拖缆费
+        var flag4 = false; //有一个不为0，将其值置为true
         $('td[name="拖缆费"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
             var schedulerId = $(this).attr("id").split('_')[1]; //调度id
@@ -12910,13 +12987,20 @@
                 var unitPrice = parseFloat(ConvertToRealPrice($(this).text()));
                 if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
-                        var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
-                        array.push(bi);
-                    }
+                if (unitPrice != 0) flag4 = true;
+                var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
+                array.push(bi);
+            }
         });
+        if (flag4 == false) {
+            for (var k = 0; k < length; k++) {
+                array.pop();
+            }
+        }
+
 
         return array;
-            }
+    }
 
     //获取汇总项
     function GetQuanBaoSummaryItems() {
