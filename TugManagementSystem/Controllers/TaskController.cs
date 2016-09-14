@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using TugBusinessLogic;
 using TugBusinessLogic.Module;
 using TugDataModel;
@@ -440,5 +442,72 @@ namespace TugManagementSystem.Controllers
         }
 
         #endregion 撤销通过
+
+        #region 流程日志
+        public static string FlowLog(int billingID, int timesNo)
+        {
+            int m = 0;
+            TugDataEntities db = new TugDataEntities();
+            DataTable flowTb = new DataTable();
+            flowTb.Columns.Add("流程序號", System.Type.GetType("System.Int32"));
+            flowTb.Columns.Add("任務", System.Type.GetType("System.String"));
+            flowTb.Columns.Add("人員", System.Type.GetType("System.String"));
+            flowTb.Columns.Add("狀態", System.Type.GetType("System.String"));
+            flowTb.Columns.Add("審核意見", System.Type.GetType("System.String"));
+            flowTb.Columns.Add("日期", System.Type.GetType("System.String"));
+
+            for (int i = 1; i < timesNo; i++)
+            {
+                System.Linq.Expressions.Expression<Func<Approve, bool>> expA = u => u.BillingID == billingID && u.FlowMark == timesNo;
+                List<Approve> approveList = db.Approve.Where(expA).OrderBy(u => u.IDX).Select(u => u).ToList<Approve>();
+                foreach (var obj in approveList)
+                { 
+                 flowTb.Rows.Add();
+                 flowTb.Rows[m]["流程序號"] = obj.FlowMark;
+                 flowTb.Rows[m]["任務"] = obj.Task;
+                 flowTb.Rows[m]["人員"] = obj.PersonID;
+                 switch (Convert.ToInt32(obj.Accept))
+                 { 
+                     case 0:
+                         flowTb.Rows[m]["狀態"] = "被駁回";
+                         break;
+                     case 1:
+                         flowTb.Rows[m]["狀態"] = "已通過";
+                         break;
+                     case 2:
+                         flowTb.Rows[m]["狀態"] = "已提交";
+                         break;
+                     case 3:
+                         flowTb.Rows[m]["狀態"] = "撤銷提交";
+                         break;
+                     case 4:
+                         flowTb.Rows[m]["狀態"] = "撤銷通過";
+                         break;
+                 }
+                 flowTb.Rows[m]["審核意見"] = obj.Remark;
+                 flowTb.Rows[m]["日期"] = obj.CreateDate;
+                 m = m + 1;
+                }
+                
+            }
+            string s = DTtoJSON(flowTb);
+            return s.ToString();
+        }
+        public static string DTtoJSON(DataTable dt)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            ArrayList dic = new ArrayList();
+            foreach (DataRow row in dt.Rows)
+            {
+                Dictionary<string, object> drow = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    drow.Add(col.ColumnName, row[col.ColumnName]);
+                }
+                dic.Add(drow);
+            }
+            return jss.Serialize(dic);
+        }
+        #endregion 流程日志
     }
 }
