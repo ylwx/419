@@ -221,7 +221,29 @@ namespace TugManagementSystem.Controllers
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
+        [JsonExceptionFilterAttribute]
+        public ActionResult CanDelete()
+        {
+            this.Internationalization();
 
+            try
+            {
+                var f = Request.Form;
+
+                int idx = Util.toint(Request.Form["data"]);
+
+                TugDataEntities db = new TugDataEntities();
+                //先判断该拖輪是否被使用过
+                Scheduler obj = db.Scheduler.FirstOrDefault(u => u.TugID == idx);
+                if (obj != null) return Json(new { code = Resources.Common.SUCCESS_CODE, message = "false" });
+                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
         [JsonExceptionFilterAttribute]
         public ActionResult Delete()
         {
