@@ -11372,6 +11372,8 @@
 
         var xieyijiage = parseFloat(ConvertToRealPrice($('input[name="协议收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').val()));
 
+        //alert(xieyijiage);
+
         var old_price = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_17_B11' + '"]').text()));
         var new_price = parseFloat(obj.value) * parseFloat(xieyijiage * 0.5);
         if (isNaN(new_price)) new_price = 0;
@@ -11933,7 +11935,11 @@
         var itemId = element_id.split('_')[3];
         var itemValue = element_id.split('_')[4];
 
-        var xieyijiage = parseFloat(ConvertToRealPrice($('input[name="正常收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').val()));
+        //alert($('td[name="正常收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text());
+
+        var xieyijiage = parseFloat(ConvertToRealPrice($('td[name="正常收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
+
+        //alert(xieyijiage);
 
         var old_price = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_17_B11' + '"]').text()));
         var new_price = parseFloat(obj.value) * parseFloat(xieyijiage * 0.5);
@@ -11964,7 +11970,7 @@
         var itemId = element_id.split('_')[3];
         var itemValue = element_id.split('_')[4];
 
-        var xieyijiage = parseFloat(ConvertToRealPrice($('input[name="正常收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').val()));
+        var xieyijiage = parseFloat(ConvertToRealPrice($('td[name="正常收费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));
 
         var old_price = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_18_B12' + '"]').text()));
         var new_price = parseFloat(obj.value) * parseFloat(xieyijiage);
@@ -14981,6 +14987,8 @@
     }
 
     function ConvertToRealPrice(number) {
+
+        //alert(number);
 
         number = number.replace(/\,/g, "");
         return parseFloat(number);
