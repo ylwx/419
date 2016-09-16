@@ -312,10 +312,12 @@ namespace TugManagementSystem.Controllers
             if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
             {
                 FReport.Parameters.FindByName("strRule").Value = "VESSEL (LOA): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]) + " M.";
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Length"]) + " M.";
             }
             else if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipTEUSRule"]) == "是")
             {
                 FReport.Parameters.FindByName("strRule").Value = "VOLUME (TEU): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["TEUS"]) + " TEU.";
             }
             //上
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("V_Inv_OrdService", strV_Inv_OrdService);
@@ -400,10 +402,12 @@ namespace TugManagementSystem.Controllers
             if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
             {
                 FReport.Parameters.FindByName("strRule").Value = "VESSEL (LOA): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]) + " M.";
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value =Util.checkdbnull(dtV_Inv_Head.Rows[0]["Length"]) + " M." ;
             }
             else if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipTEUSRule"]) == "是")
             {
-                FReport.Parameters.FindByName("strRule").Value = "VOLUME (TEU): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
+                FReport.Parameters.FindByName("strRule").Value = "VOLUME (TEU): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"])+ " TEU.";
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["TEUS"]) + " TEU.";
             }
             //上
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("V_Inv_OrdService", strV_Inv_OrdService);
