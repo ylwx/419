@@ -276,6 +276,38 @@ namespace TugManagementSystem.Controllers
         }
         #endregion   
 
+        #region 优惠单 Credit Note
+        public ActionResult CreditNotePage_Youhuidan(int BillingID)
+        {
+            //int OrderID; int CreditID;
+            //OrderID = 10; CreditID = 1;//临时测试用
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 768;  // set width
+            webReport.Height = 1366; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\invoice_credit_youhuidan.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_credit_youhuidan(webReport.Report, BillingID);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport_credit_youhuidan = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_credit_youhuidan(FastReport.Report FReport, int BillingID)
+        {
+            DataTable dt_Credit = null;
+            string str_Credit = string.Format(" IDX = {0}", BillingID);
+            //head
+            dt_Credit = SqlHelper.GetDataTableData("V_Inv_Credit_youhuidan", str_Credit);
+            FReport.RegisterData(dt_Credit, dt_Credit.TableName);
+        }
+        #endregion   
+
         #region 账单，计时
         public ActionResult Invoice_tk(int BillingID,int TimeTypeValue)
         {

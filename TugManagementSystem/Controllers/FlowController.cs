@@ -132,7 +132,7 @@ namespace TugManagementSystem.Controllers
             var ret = new { code = Resources.Common.SUCCESS_CODE, rvalid =isvalid };
             return Json(ret);
         }
-        //BillingType:0普通账单，1特殊账单
+        //BillingType:0普通账单，1特殊账单,2优惠单
         public ActionResult SubmitFlow(int BillingType,string billids,List<string[]> dataListFromTable)
         {
             //billid 从Invoice页面传入
@@ -218,7 +218,7 @@ namespace TugManagementSystem.Controllers
                     #endregion
                     //更新orderinfor、orderservice表中的HasInFlow
                     //OrderLogic.UpdateHasInFlow(idx, "是");
-                    FinanceLogic.SetOrderServiceFlowingStatus(BillingType, idx, "是");
+                    if (BillingType!=2) FinanceLogic.SetOrderServiceFlowingStatus(BillingType, idx, "是");
                 }
 
             }

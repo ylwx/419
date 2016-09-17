@@ -73,6 +73,7 @@ namespace TugDataModel
         public virtual DbSet<V_CustomerShip> V_CustomerShip { get; set; }
         public virtual DbSet<V_Flow> V_Flow { get; set; }
         public virtual DbSet<V_Inv_BillingItem> V_Inv_BillingItem { get; set; }
+        public virtual DbSet<V_Inv_Credit_youhuidan> V_Inv_Credit_youhuidan { get; set; }
         public virtual DbSet<V_Inv_Head> V_Inv_Head { get; set; }
         public virtual DbSet<V_Inv_Head_Special> V_Inv_Head_Special { get; set; }
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
