@@ -2890,6 +2890,7 @@ namespace TugManagementSystem.Controllers
                     credit.UserDefinedCol1 = title;
                     credit.UserDefinedCol2 = content;
                     credit.UserDefinedCol5 = money;
+                    credit.Amount = money;
                     credit.Month = month;
                     credit.InvoiceType = "优惠单";
                     credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -2939,6 +2940,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.UserDefinedCol1 = title;
                     aOrder.UserDefinedCol2 = content;
                     aOrder.UserDefinedCol5 = money;
+                    aOrder.Amount = money;
                     aOrder.Month = month;
 
                     aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");

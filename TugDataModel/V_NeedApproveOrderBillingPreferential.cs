@@ -12,24 +12,29 @@ namespace TugDataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class V_Billing4
+    public partial class V_NeedApproveOrderBillingPreferential
     {
         public int IDX { get; set; }
+        public Nullable<int> Phase { get; set; }
+        public Nullable<int> TimesNo { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string BillingCode { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public Nullable<double> Money { get; set; }
-        public string InvoiceType { get; set; }
         public string Month { get; set; }
         public string Status { get; set; }
-        public Nullable<int> TimesNo { get; set; }
-        public Nullable<int> Phase { get; set; }
+        public string InvoiceType { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public string CreateDate { get; set; }
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
-        public Nullable<double> Amount { get; set; }
+        public Nullable<int> BillingID { get; set; }
+        public Nullable<int> MarkID { get; set; }
+        public Nullable<int> BillingPhase { get; set; }
+        public string Task { get; set; }
+        public Nullable<int> FlowUserID { get; set; }
+        public string System { get; set; }
     }
 }

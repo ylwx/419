@@ -974,6 +974,7 @@
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
     <Property Name="UserID" Type="int" />
     <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Amount" Type="float" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1224,6 +1225,31 @@
     <Property Name="ServiceWorkTime" Type="nvarchar" MaxLength="50" />
     <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
     <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Credit_youhuidan”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Inv_Credit_youhuidan">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="TimesNo" Type="int" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phase" Type="int" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreditContent" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreditAmount" Type="float" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1535,6 +1561,35 @@
     <Property Name="BillingID" Type="int" />
     <Property Name="MarkID" Type="int" />
     <Property Name="Phase" Type="int" />
+    <Property Name="Task" Type="nvarchar" MaxLength="50" />
+    <Property Name="FlowUserID" Type="int" />
+    <Property Name="System" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveOrderBillingPreferential”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_NeedApproveOrderBillingPreferential">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="Phase" Type="int" />
+    <Property Name="TimesNo" Type="int" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Content" Type="nvarchar" MaxLength="50" />
+    <Property Name="Money" Type="float" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="OwnerID" Type="int" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingID" Type="int" />
+    <Property Name="MarkID" Type="int" />
+    <Property Name="BillingPhase" Type="int" />
     <Property Name="Task" Type="nvarchar" MaxLength="50" />
     <Property Name="FlowUserID" Type="int" />
     <Property Name="System" Type="nvarchar" MaxLength="50" />
@@ -2348,7 +2403,8 @@
     [V_Billing4].[OwnerID] AS [OwnerID], 
     [V_Billing4].[CreateDate] AS [CreateDate], 
     [V_Billing4].[UserID] AS [UserID], 
-    [V_Billing4].[LastUpDate] AS [LastUpDate]
+    [V_Billing4].[LastUpDate] AS [LastUpDate], 
+    [V_Billing4].[Amount] AS [Amount]
     FROM [dbo].[V_Billing4] AS [V_Billing4]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_BillingItem" EntityType="Self.V_BillingItem" store:Type="Views" store:Schema="dbo">
@@ -2575,6 +2631,28 @@
     [V_Inv_BillingItem].[DepartBaseTime] AS [DepartBaseTime], 
     [V_Inv_BillingItem].[ArrivalBaseTime] AS [ArrivalBaseTime]
     FROM [dbo].[V_Inv_BillingItem] AS [V_Inv_BillingItem]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Inv_Credit_youhuidan" EntityType="Self.V_Inv_Credit_youhuidan" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Inv_Credit_youhuidan].[IDX] AS [IDX], 
+    [V_Inv_Credit_youhuidan].[CustomerID] AS [CustomerID], 
+    [V_Inv_Credit_youhuidan].[CustomerName] AS [CustomerName], 
+    [V_Inv_Credit_youhuidan].[BillingCode] AS [BillingCode], 
+    [V_Inv_Credit_youhuidan].[BillingName] AS [BillingName], 
+    [V_Inv_Credit_youhuidan].[Amount] AS [Amount], 
+    [V_Inv_Credit_youhuidan].[Remark] AS [Remark], 
+    [V_Inv_Credit_youhuidan].[InvoiceType] AS [InvoiceType], 
+    [V_Inv_Credit_youhuidan].[Month] AS [Month], 
+    [V_Inv_Credit_youhuidan].[TimesNo] AS [TimesNo], 
+    [V_Inv_Credit_youhuidan].[Status] AS [Status], 
+    [V_Inv_Credit_youhuidan].[Phase] AS [Phase], 
+    [V_Inv_Credit_youhuidan].[CreateDate] AS [CreateDate], 
+    [V_Inv_Credit_youhuidan].[UserID] AS [UserID], 
+    [V_Inv_Credit_youhuidan].[LastUpDate] AS [LastUpDate], 
+    [V_Inv_Credit_youhuidan].[Title] AS [Title], 
+    [V_Inv_Credit_youhuidan].[CreditContent] AS [CreditContent], 
+    [V_Inv_Credit_youhuidan].[CreditAmount] AS [CreditAmount]
+    FROM [dbo].[V_Inv_Credit_youhuidan] AS [V_Inv_Credit_youhuidan]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Inv_Head" EntityType="Self.V_Inv_Head" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -2858,6 +2936,32 @@
     [V_NeedApproveOrderBilling].[FlowUserID] AS [FlowUserID], 
     [V_NeedApproveOrderBilling].[System] AS [System]
     FROM [dbo].[V_NeedApproveOrderBilling] AS [V_NeedApproveOrderBilling]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_NeedApproveOrderBillingPreferential" EntityType="Self.V_NeedApproveOrderBillingPreferential" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_NeedApproveOrderBillingPreferential].[IDX] AS [IDX], 
+    [V_NeedApproveOrderBillingPreferential].[Phase] AS [Phase], 
+    [V_NeedApproveOrderBillingPreferential].[TimesNo] AS [TimesNo], 
+    [V_NeedApproveOrderBillingPreferential].[CustomerID] AS [CustomerID], 
+    [V_NeedApproveOrderBillingPreferential].[CustomerName] AS [CustomerName], 
+    [V_NeedApproveOrderBillingPreferential].[BillingCode] AS [BillingCode], 
+    [V_NeedApproveOrderBillingPreferential].[Title] AS [Title], 
+    [V_NeedApproveOrderBillingPreferential].[Content] AS [Content], 
+    [V_NeedApproveOrderBillingPreferential].[Money] AS [Money], 
+    [V_NeedApproveOrderBillingPreferential].[Month] AS [Month], 
+    [V_NeedApproveOrderBillingPreferential].[Status] AS [Status], 
+    [V_NeedApproveOrderBillingPreferential].[InvoiceType] AS [InvoiceType], 
+    [V_NeedApproveOrderBillingPreferential].[OwnerID] AS [OwnerID], 
+    [V_NeedApproveOrderBillingPreferential].[CreateDate] AS [CreateDate], 
+    [V_NeedApproveOrderBillingPreferential].[UserID] AS [UserID], 
+    [V_NeedApproveOrderBillingPreferential].[LastUpDate] AS [LastUpDate], 
+    [V_NeedApproveOrderBillingPreferential].[BillingID] AS [BillingID], 
+    [V_NeedApproveOrderBillingPreferential].[MarkID] AS [MarkID], 
+    [V_NeedApproveOrderBillingPreferential].[BillingPhase] AS [BillingPhase], 
+    [V_NeedApproveOrderBillingPreferential].[Task] AS [Task], 
+    [V_NeedApproveOrderBillingPreferential].[FlowUserID] AS [FlowUserID], 
+    [V_NeedApproveOrderBillingPreferential].[System] AS [System]
+    FROM [dbo].[V_NeedApproveOrderBillingPreferential] AS [V_NeedApproveOrderBillingPreferential]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_NeedApproveOrderBillingSpecial" EntityType="Self.V_NeedApproveOrderBillingSpecial" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
