@@ -235,8 +235,8 @@ namespace TugManagementSystem.Controllers
                 addApprove.Accept = 1;
                 addApprove.PersonID = curUserId;
                 addApprove.UserID = curUserId;
-                addApprove.CreateDate = DateTime.Now.ToShortDateString();
-                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                addApprove.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 addApprove = db.Approve.Add(addApprove);
                 db.SaveChanges();
 
@@ -324,8 +324,8 @@ namespace TugManagementSystem.Controllers
                 addApprove.Accept = 0;
                 addApprove.PersonID = curUserId;
                 addApprove.UserID = curUserId;
-                addApprove.CreateDate = DateTime.Now.ToShortDateString();
-                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                addApprove.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 addApprove = db.Approve.Add(addApprove);
                 db.SaveChanges();
             }
@@ -369,8 +369,8 @@ namespace TugManagementSystem.Controllers
                 addApprove.Accept = 3;
                 addApprove.PersonID = curUserId;
                 addApprove.UserID = curUserId;
-                addApprove.CreateDate = DateTime.Now.ToShortDateString();
-                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                addApprove.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 addApprove = db.Approve.Add(addApprove);
                 db.SaveChanges();
                 return Json(new { message = "撤销成功！" });
@@ -433,8 +433,8 @@ namespace TugManagementSystem.Controllers
                 addApprove.Accept = 4;
                 addApprove.PersonID = curUserId;
                 addApprove.UserID = curUserId;
-                addApprove.CreateDate = DateTime.Now.ToShortDateString();
-                addApprove.LastUpDate = DateTime.Now.ToShortDateString();
+                addApprove.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                addApprove.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 addApprove = db.Approve.Add(addApprove);
                 db.SaveChanges();
                 return Json(new { message = "撤销成功！" });

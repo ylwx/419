@@ -776,5 +776,67 @@ namespace TugBusinessLogic
         }
 
         #endregion
+
+
+
+
+        #region 拖轮名称1更改之后，服务表里面拖轮名称的冗余字段更新
+
+        public static void UpDateTugName1(int tugIDX, string oldTugName1, string newTugName1)
+        {
+            TugDataEntities db = new TugDataEntities();
+
+            try
+            {
+                var list = db.OrderService.Where(u => u.UserDefinedCol9.Contains(tugIDX.ToString())).Select(u => u).ToList();
+
+                if (list != null)
+                {
+                    foreach (var item in list)
+                    {
+                        if (item.UserDefinedCol10 != null)
+                        {
+                            string update = "";
+
+                            var tugNames = item.UserDefinedCol10.Split(',').ToList();
+                            if (tugNames != null && tugNames.Count > 0)
+                            {
+                                foreach (var item2 in tugNames)
+                                {
+                                    if (item2 == oldTugName1)
+                                    {
+                                        update += newTugName1 + ",";
+                                    }
+                                    else
+                                    {
+                                        update += item2 + ",";
+                                    }
+                                }
+
+                                if (update.Length > 0)
+                                {
+                                    update = update.Substring(0, update.Length - 1);
+                                }
+                            }
+
+                            item.UserDefinedCol10 = update;
+
+                            db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+        #endregion
+
+
     }
 }

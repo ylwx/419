@@ -7,11 +7,57 @@ using System.Web.Script.Serialization;
 using TugBusinessLogic.Module;
 using TugDataModel;
 using TugBusinessLogic;
+using System.Data;
 
 namespace TugManagementSystem.Controllers
 {
     public class FlowController : BaseController
     {
+        #region 流程日志
+        public ActionResult FlowLog(int billingid)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                List<V_ApproveLog> list = db.V_ApproveLog.Where(u => u.BillingID == billingid).OrderBy(u => u.IDX).ToList<V_ApproveLog>();
+
+                List<string[]> jsonData = new List<string[]>();
+                foreach (var itm in list)
+                {
+                    string status="";
+                    switch (Convert.ToInt32(itm.Accept))
+                    {
+                        case 0:
+                            status = "被駁回";
+                            break;
+                        case 1:
+                            status = "已通過";
+                            break;
+                        case 2:
+                            status = "已提交";
+                            break;
+                        case 3:
+                            status = "撤銷提交";
+                            break;
+                        case 4:
+                            status = "撤銷通過";
+                            break;
+                    }
+                    string[] sev = new string[6] { itm.FlowMark.ToString(), itm.Task, itm.Person,status, itm.Remark, itm.LastUpDate };
+                    jsonData.Add(sev);
+                }
+
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
+        #endregion 流程日志
+
         #region handsontable方式实现，模态框中下拉、日期均可实现
         public ActionResult testHandsontable(string lan, int? id)  //复杂版，显示组织结构，人员
         {
@@ -86,7 +132,7 @@ namespace TugManagementSystem.Controllers
             var ret = new { code = Resources.Common.SUCCESS_CODE, rvalid =isvalid };
             return Json(ret);
         }
-        //BillingType:0普通账单，1特殊账单
+        //BillingType:0普通账单，1特殊账单,2优惠单
         public ActionResult SubmitFlow(int BillingType,string billids,List<string[]> dataListFromTable)
         {
             //billid 从Invoice页面传入
@@ -172,7 +218,7 @@ namespace TugManagementSystem.Controllers
                     #endregion
                     //更新orderinfor、orderservice表中的HasInFlow
                     //OrderLogic.UpdateHasInFlow(idx, "是");
-                    FinanceLogic.SetOrderServiceFlowingStatus(BillingType, idx, "是");
+                    if (BillingType!=2) FinanceLogic.SetOrderServiceFlowingStatus(BillingType, idx, "是");
                 }
 
             }

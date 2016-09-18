@@ -81,6 +81,7 @@
     <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
     <EntitySet Name="V_AmountSum_Billing" EntityType="Model.V_AmountSum_Billing" />
     <EntitySet Name="V_Approve_Billing" EntityType="Model.V_Approve_Billing" />
+    <EntitySet Name="V_ApproveLog" EntityType="Model.V_ApproveLog" />
     <EntitySet Name="V_Arrangement" EntityType="Model.V_Arrangement" />
     <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
     <EntitySet Name="V_Billing" EntityType="Model.V_Billing" />
@@ -89,6 +90,7 @@
     <EntitySet Name="V_Billing4" EntityType="Model.V_Billing4" />
     <EntitySet Name="V_BillingItem" EntityType="Model.V_BillingItem" />
     <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
+    <EntitySet Name="V_BillingOrders" EntityType="Model.V_BillingOrders" />
     <EntitySet Name="V_BillingTask" EntityType="Model.V_BillingTask" />
     <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
     <EntitySet Name="V_CustomerShip" EntityType="Model.V_CustomerShip" />
@@ -177,7 +179,6 @@
       <End Role="UserInfor" EntitySet="UserInfor" />
       <End Role="UsersRole" EntitySet="UsersRole" />
     </AssociationSet>
-    <EntitySet Name="V_BillingOrders" EntityType="Model.V_BillingOrders" />
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -414,10 +415,10 @@
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol5" Type="Double" />
     <Property Name="UserDefinedCol6" Type="Int32" />
     <Property Name="UserDefinedCol7" Type="Int32" />
@@ -1108,6 +1109,25 @@
     <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="PersonID" Type="Int32" />
   </EntityType>
+  <EntityType Name="V_ApproveLog">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" />
+    <Property Name="BillingID" Type="Int32" />
+    <Property Name="FlowMark" Type="Int32" />
+    <Property Name="Phase" Type="Int32" />
+    <Property Name="Task" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Accept" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PersonID" Type="Int32" />
+    <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Person" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="V_Arrangement">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1298,6 +1318,57 @@
     <Property Name="UserDefinedCol8" Type="Int32" />
     <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="V_BillingOrders">
+    <Key>
+      <PropertyRef Name="BillingID" />
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="BillingID" Type="Int32" Nullable="false" />
+    <Property Name="JobNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsShowShipLengthRule" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsShowShipTEUSRule" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BillingTemplateID" Type="Int32" />
+    <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingTypeID" Type="Int32" />
+    <Property Name="BillingTemplateTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingTemplateTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TimeTypeID" Type="Int32" />
+    <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipLength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipTEUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TimesNo" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phase" Type="Int32" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipID" Type="Int32" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="WorkStateID" Type="Int32" />
+    <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Length" Type="Int32" />
+    <Property Name="TEUS" Type="Int32" />
+    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_BillingTask">
     <Key>
@@ -2267,55 +2338,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="V_BillingOrders">
-    <Key>
-      <PropertyRef Name="BillingID" />
-      <PropertyRef Name="OrderID" />
-    </Key>
-    <Property Name="BillingID" Type="Int32" Nullable="false" />
-    <Property Name="JobNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="IsShowShipLengthRule" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="IsShowShipTEUSRule" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerID" Type="Int32" />
-    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="BillingTemplateID" Type="Int32" />
-    <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BillingTypeID" Type="Int32" />
-    <Property Name="BillingTemplateTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BillingTemplateTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TimeTypeID" Type="Int32" />
-    <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TimeTypeLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipLength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipTEUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="BillingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Discount" Type="Double" />
-    <Property Name="Amount" Type="Double" />
-    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="TimesNo" Type="Int32" />
-    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Phase" Type="Int32" />
-    <Property Name="OwnerID" Type="Int32" />
-    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="OrderID" Type="Int32" Nullable="false" />
-    <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="WorkStateID" Type="Int32" />
-    <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Length" Type="Int32" />
-    <Property Name="TEUS" Type="Int32" />
-    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
 </Schema>

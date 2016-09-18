@@ -700,6 +700,60 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 審核意見 的本地化字符串。
+        /// </summary>
+        internal static string Flow_ApproveComments {
+            get {
+                return ResourceManager.GetString("Flow_ApproveComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 日期 的本地化字符串。
+        /// </summary>
+        internal static string Flow_Date {
+            get {
+                return ResourceManager.GetString("Flow_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 序號 的本地化字符串。
+        /// </summary>
+        internal static string Flow_No {
+            get {
+                return ResourceManager.GetString("Flow_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 人員 的本地化字符串。
+        /// </summary>
+        internal static string Flow_Person {
+            get {
+                return ResourceManager.GetString("Flow_Person", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 狀態 的本地化字符串。
+        /// </summary>
+        internal static string Flow_Status {
+            get {
+                return ResourceManager.GetString("Flow_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 任務 的本地化字符串。
+        /// </summary>
+        internal static string Flow_Task {
+            get {
+                return ResourceManager.GetString("Flow_Task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 日期 的本地化字符串。
         /// </summary>
         internal static string Fuelprice_EffectiveDate {
@@ -840,6 +894,15 @@ namespace Resources {
         internal static string Invoice2_EditCommonInvoiceAndCredit {
             get {
                 return ResourceManager.GetString("Invoice2_EditCommonInvoiceAndCredit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 流程日誌 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_FlowLog {
+            get {
+                return ResourceManager.GetString("Invoice2_FlowLog", resourceCulture);
             }
         }
         

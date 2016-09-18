@@ -58,6 +58,7 @@ namespace TugDataModel
         public virtual DbSet<UsersRole> UsersRole { get; set; }
         public virtual DbSet<V_AmountSum_Billing> V_AmountSum_Billing { get; set; }
         public virtual DbSet<V_Approve_Billing> V_Approve_Billing { get; set; }
+        public virtual DbSet<V_ApproveLog> V_ApproveLog { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
@@ -66,11 +67,13 @@ namespace TugDataModel
         public virtual DbSet<V_Billing4> V_Billing4 { get; set; }
         public virtual DbSet<V_BillingItem> V_BillingItem { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
+        public virtual DbSet<V_BillingOrders> V_BillingOrders { get; set; }
         public virtual DbSet<V_BillingTask> V_BillingTask { get; set; }
         public virtual DbSet<V_BillingTemplate> V_BillingTemplate { get; set; }
         public virtual DbSet<V_CustomerShip> V_CustomerShip { get; set; }
         public virtual DbSet<V_Flow> V_Flow { get; set; }
         public virtual DbSet<V_Inv_BillingItem> V_Inv_BillingItem { get; set; }
+        public virtual DbSet<V_Inv_Credit_youhuidan> V_Inv_Credit_youhuidan { get; set; }
         public virtual DbSet<V_Inv_Head> V_Inv_Head { get; set; }
         public virtual DbSet<V_Inv_Head_Special> V_Inv_Head_Special { get; set; }
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
@@ -94,7 +97,6 @@ namespace TugDataModel
         public virtual DbSet<V_SpecialBillingItem_OrderService> V_SpecialBillingItem_OrderService { get; set; }
         public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
-        public virtual DbSet<V_BillingOrders> V_BillingOrders { get; set; }
     
         public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

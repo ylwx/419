@@ -276,6 +276,38 @@ namespace TugManagementSystem.Controllers
         }
         #endregion   
 
+        #region 优惠单 Credit Note
+        public ActionResult CreditNotePage_Youhuidan(int BillingID)
+        {
+            //int OrderID; int CreditID;
+            //OrderID = 10; CreditID = 1;//临时测试用
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 768;  // set width
+            webReport.Height = 1366; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\invoice_credit_youhuidan.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_credit_youhuidan(webReport.Report, BillingID);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport_credit_youhuidan = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_credit_youhuidan(FastReport.Report FReport, int BillingID)
+        {
+            DataTable dt_Credit = null;
+            string str_Credit = string.Format(" IDX = {0}", BillingID);
+            //head
+            dt_Credit = SqlHelper.GetDataTableData("V_Inv_Credit_youhuidan", str_Credit);
+            FReport.RegisterData(dt_Credit, dt_Credit.TableName);
+        }
+        #endregion   
+
         #region 账单，计时
         public ActionResult Invoice_tk(int BillingID,int TimeTypeValue)
         {
@@ -304,7 +336,7 @@ namespace TugManagementSystem.Controllers
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
-            string strV_Inv_OrdService = string.Format(" BillingID = {0}", BillingID);
+            string strV_Inv_OrdService = string.Format(" BillingID = {0} order by IDX", BillingID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
@@ -312,10 +344,12 @@ namespace TugManagementSystem.Controllers
             if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
             {
                 FReport.Parameters.FindByName("strRule").Value = "VESSEL (LOA): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]) + " M.";
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Length"]) + " M.";
             }
             else if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipTEUSRule"]) == "是")
             {
                 FReport.Parameters.FindByName("strRule").Value = "VOLUME (TEU): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["TEUS"]) + " TEU.";
             }
             //上
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("V_Inv_OrdService", strV_Inv_OrdService);
@@ -392,7 +426,7 @@ namespace TugManagementSystem.Controllers
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
-            string strV_Inv_OrdService = string.Format(" BillingID = {0}", BillingID);
+            string strV_Inv_OrdService = string.Format(" BillingID = {0} order by IDX", BillingID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
@@ -400,10 +434,12 @@ namespace TugManagementSystem.Controllers
             if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
             {
                 FReport.Parameters.FindByName("strRule").Value = "VESSEL (LOA): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipLength"]) + " M.";
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value =Util.checkdbnull(dtV_Inv_Head.Rows[0]["Length"]) + " M." ;
             }
             else if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipTEUSRule"]) == "是")
             {
-                FReport.Parameters.FindByName("strRule").Value = "VOLUME (TEU): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"]);
+                FReport.Parameters.FindByName("strRule").Value = "VOLUME (TEU): " + Util.checkdbnull(dtV_Inv_Head.Rows[0]["ShipTEUS"])+ " TEU.";
+                FReport.Parameters.FindByName("CustomerShipLengthOrTeu").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["TEUS"]) + " TEU.";
             }
             //上
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("V_Inv_OrdService", strV_Inv_OrdService);

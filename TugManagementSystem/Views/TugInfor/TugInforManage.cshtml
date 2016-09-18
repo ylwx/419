@@ -224,6 +224,26 @@
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
             url: '@Url.Action("GetDataForLoadOnce", "TugInfor")',
             mtype: "GET",
+            //点击进入行编辑模式，动态设置只读
+            //onSelectRow: function (rowid, status, e) {
+            //    var rec = $('#jqGrid').jqGrid('getRowData', rowid);
+            //    $('#jqGrid').jqGrid('editRow', rowid, true, function (rowid) {
+            //        if (rec.Name1== 'SUZHOU') $('#' + rowid + '_Name1').attr('readonly', true);
+            //    });
+            //},
+            //点击单元格编辑模式
+            //cellEdit: true,
+            //beforeEditCell: function (rowid, cellname, value, iRow, iCol) {
+            //    var rec = jQuery("#jqGrid").jqGrid('getRowData', rowid);
+            //    alert(cellname);
+            //    if (cellname == 'Name1') {
+            //        setTimeout(function () {
+            //            jQuery("#jqGrid").jqGrid('restoreCell', iRow, iCol);
+            //            //===>或者设置为只读
+            //            //$('#' + rowid + '_amount').attr('readonly', true);
+            //        }, 1);
+            //    }
+            //},
             datatype: "json",
             colModel: tableConfig.columns,
             viewrecords: true,
@@ -319,6 +339,35 @@
                 cancel: true,
                 editParams: {
                     keys: true,
+                    oneditfunc: function (rowid) {
+                        //alert(rowid);
+                        //if (rowid == 2) $('#' + rowid + '_Name1').attr('readonly', true);
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: '@Url.Action("CanDelete", "TugInfor")',
+                                data: { 'data': rowid },//"oper=delete&id=" + gr,
+                                dataType: 'json',
+                                success: function (result) {
+                                    //alert(result.message);
+                                    if (result.message == 'false') $('#' + rowid + '_Name1').attr('readonly', true);
+                                },
+                                error: function (result) {
+                                    console.log(result)
+                                    try {
+                                        var json = $.parseJSON(result.responseText);
+                                        alert(json.errorMessage);                                       
+                                    } catch (e) {
+                                        alert(e.message);
+                                    }
+                                }
+                            }
+                            );
+
+
+
+
+                    },
                     successfunc: function (val) {
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
