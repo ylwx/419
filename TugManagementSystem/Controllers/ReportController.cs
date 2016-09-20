@@ -336,7 +336,7 @@ namespace TugManagementSystem.Controllers
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
-            string strV_Inv_OrdService = string.Format(" BillingID = {0} order by IDX", BillingID);
+            string strV_Inv_OrdService = string.Format(" BillingID = {0} order by ServiceWorkDate,IDX", BillingID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
@@ -426,7 +426,7 @@ namespace TugManagementSystem.Controllers
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
-            string strV_Inv_OrdService = string.Format(" BillingID = {0} order by IDX", BillingID);
+            string strV_Inv_OrdService = string.Format(" BillingID = {0} order by ServiceWorkDate,IDX", BillingID);
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
