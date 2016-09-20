@@ -1072,10 +1072,10 @@ namespace TugManagementSystem.Controllers
                 int billingTemplateID = Util.toint(Request.Form["data[BillingTemplateID]"]);
 
                 TugDataEntities db = new TugDataEntities();
-                Billing obj = db.Billing.FirstOrDefault(u => u.BillingTemplateID == billingTemplateID);
-                if (obj != null)
-                    throw new Exception("此計費方案项目已在賬單中使用過，不能被刪除！");
-                else
+                //Billing obj = db.Billing.FirstOrDefault(u => u.BillingTemplateID == billingTemplateID);
+                //if (obj != null)
+                //    throw new Exception("此計費方案项目已在賬單中使用過，不能被刪除！");
+                //else
                 {
                     BillingItemTemplate aScheduler = db.BillingItemTemplate.FirstOrDefault(u => u.IDX == idx);
                     if (aScheduler != null)
