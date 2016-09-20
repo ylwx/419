@@ -238,10 +238,13 @@ namespace TugBusinessLogic.Module
 
             //List<V_Invoice> list = db.V_Invoice.Where(u => u.OrderID == orderId).OrderBy(u => u.ServiceNatureID).Select(u => u).ToList();
 
-            var list = db.V_Invoice2.Where(u => u.BillingID == billingId).OrderBy(u => u.OrderID).ThenBy(u=>u.OrderServiceID).ThenBy(u => u.SchedulerID).Select(u => u);
+            //var list = db.V_Invoice2.Where(u => u.BillingID == billingId).OrderBy(u => u.OrderID).ThenBy(u=>u.OrderServiceID).ThenBy(u => u.SchedulerID).Select(u => u);
+            var list = db.V_Invoice2.Where(u => u.BillingID == billingId)
+                .OrderBy(u => u.ServiceWorkDate).ThenBy(u => u.DepartBaseTime).ThenBy(u => u.ServiceNatureLabel).Select(u => u);
 
             string strOrderIds = "";
-            var _orderIds = list.Where(u => u.BillingID == billingId).Select(u => new { u.OrderID }).Distinct().ToList();
+            var _orderIds = list.Where(u => u.BillingID == billingId).OrderBy(u=>u.ServiceWorkDate).ThenBy(u => u.DepartBaseTime).ThenBy(u=>u.ServiceNatureLabel)
+                .Select(u => new { u.OrderID }).Distinct().ToList();
             if (_orderIds != null)
             {
                 foreach (var item in _orderIds)
@@ -282,7 +285,7 @@ namespace TugBusinessLogic.Module
 
 
                 Dictionary<int, MyService> dicServiceNature = new Dictionary<int, MyService>();
-                var services = list.Select(u => new { u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
+                var services = list.Select(u => new { u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().OrderBy(u=>u.ServiceWorkDate).ThenBy(u=>u.ServiceNatureLabel).ToList();
 
                 Dictionary<int, List<MyScheduler>> dicSchedulers = new Dictionary<int, List<MyScheduler>>();
 
@@ -1015,10 +1018,16 @@ namespace TugBusinessLogic.Module
 
 
             //var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderID).Select(u => u);
-            var list = db.V_OrderScheduler.Where(u => (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否")
-                || (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "是" && u.HasBillingInFlow == "否" && (u.BillingType == 0 || u.BillingType == null))).OrderBy(u => u.OrderID).Select(u => u);
 
-            var services = list.Select(u => new {u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace }).Distinct().ToList();
+            //var list = db.V_OrderScheduler.Where(u => (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否")
+            //    || (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "是" && u.HasBillingInFlow == "否" && (u.BillingType == 0 || u.BillingType == null))).OrderBy(u => u.OrderID).Select(u => u);
+
+            var list = db.V_OrderScheduler.Where(u => (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "否" && u.HasBillingInFlow == "否")
+                || (iOrderIDs.Contains((int)u.OrderID) && u.HasBilling == "是" && u.HasBillingInFlow == "否" && (u.BillingType == 0 || u.BillingType == null)))
+                .OrderBy(u => u.ServiceWorkDate).ThenBy(u => u.DepartBaseTime).ThenBy(u => u.ServiceNatureLabel).Select(u => u);
+
+            var services = list.Select(u => new {u.OrderServiceID, u.ServiceNatureID, u.ServiceNatureLabel, u.ServiceWorkDate, u.ServiceWorkPlace })
+                .Distinct().ToList().OrderBy(u => u.ServiceWorkDate).ThenBy(u => u.ServiceNatureLabel);
 
             if (services != null)
             {
@@ -1039,6 +1048,8 @@ namespace TugBusinessLogic.Module
                         {
                             u.IDX,
                             u.ServiceNatureID,
+                            u.ServiceWorkDate,
+                            u.ServiceNatureLabel,
                             u.TugID,
                             u.TugName1,
                             u.TugName2,
@@ -1047,7 +1058,7 @@ namespace TugBusinessLogic.Module
                             u.RopeUsed,
                             u.RopeNum,
                             u.Remark
-                        }).ToList();
+                        }).ToList().OrderBy(u => u.ServiceWorkDate).ThenBy(u => u.DepartBaseTime).ThenBy(u => u.ServiceNatureLabel);
 
                     if (schedulers != null)
                     {
