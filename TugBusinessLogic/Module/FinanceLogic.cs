@@ -3425,24 +3425,40 @@ namespace TugBusinessLogic.Module
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim().ToLower()));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerCode"), Expression.Constant(data.Trim().ToLower())));
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName2"), Expression.Constant(data.Trim().ToLower())));
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerSimpleName"), Expression.Constant(data.Trim().ToLower())));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         default:
@@ -4449,24 +4465,40 @@ namespace TugBusinessLogic.Module
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim().ToLower()));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "Code"), Expression.Constant(data.Trim().ToLower())));
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "Name2"), Expression.Constant(data.Trim().ToLower())));
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "SimpleName"), Expression.Constant(data.Trim().ToLower())));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Name2"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "SimpleName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Name2"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "SimpleName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Name2"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "SimpleName"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         default:
@@ -5327,24 +5359,40 @@ namespace TugBusinessLogic.Module
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
                                                 cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim().ToLower()));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "Code"), Expression.Constant(data.Trim().ToLower())));
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "Name2"), Expression.Constant(data.Trim().ToLower())));
+                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "SimpleName"), Expression.Constant(data.Trim().ToLower())));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Name2"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "SimpleName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Name2"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "SimpleName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
                                                 //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
                                                 cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Code"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "Name2"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "SimpleName"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
                                             }
                                             break;
                                         default:
