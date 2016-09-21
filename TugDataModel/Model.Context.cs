@@ -62,6 +62,9 @@ namespace TugDataModel
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
+        public virtual DbSet<V_Billing2> V_Billing2 { get; set; }
+        public virtual DbSet<V_Billing3> V_Billing3 { get; set; }
+        public virtual DbSet<V_Billing4> V_Billing4 { get; set; }
         public virtual DbSet<V_BillingItem> V_BillingItem { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
         public virtual DbSet<V_BillingOrders> V_BillingOrders { get; set; }
@@ -85,6 +88,7 @@ namespace TugDataModel
         public virtual DbSet<V_OrderBillingCredit> V_OrderBillingCredit { get; set; }
         public virtual DbSet<V_OrderInfor> V_OrderInfor { get; set; }
         public virtual DbSet<V_OrderScheduler> V_OrderScheduler { get; set; }
+        public virtual DbSet<V_OrderService> V_OrderService { get; set; }
         public virtual DbSet<V_OrderService_Scheduler> V_OrderService_Scheduler { get; set; }
         public virtual DbSet<V_RoleMenu> V_RoleMenu { get; set; }
         public virtual DbSet<V_RoleModule> V_RoleModule { get; set; }
@@ -94,10 +98,6 @@ namespace TugDataModel
         public virtual DbSet<V_SpecialBillingItem_OrderService> V_SpecialBillingItem_OrderService { get; set; }
         public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
-        public virtual DbSet<V_Billing3> V_Billing3 { get; set; }
-        public virtual DbSet<V_Billing4> V_Billing4 { get; set; }
-        public virtual DbSet<V_Billing2> V_Billing2 { get; set; }
-        public virtual DbSet<V_OrderService> V_OrderService { get; set; }
     
         public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
