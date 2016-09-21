@@ -56,5 +56,9 @@ namespace TugDataModel
         public string UserDefinedCol1 { get; set; }
         public Nullable<int> OrderUserId { get; set; }
         public string UserDefinedCol4 { get; set; }
+        public string CustomerCode { get; set; }
+        public string CustomerName1 { get; set; }
+        public string CustomerName2 { get; set; }
+        public string CustomerSimpleName { get; set; }
     }
 }
