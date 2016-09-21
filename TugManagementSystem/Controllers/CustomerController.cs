@@ -7,6 +7,7 @@ using TugDataModel;
 using TugBusinessLogic;
 using TugBusinessLogic.Module;
 using Newtonsoft.Json;
+using System.Transactions;
 
 namespace TugManagementSystem.Controllers
 {
@@ -245,35 +246,39 @@ namespace TugManagementSystem.Controllers
         public ActionResult Delete()
         {
             this.Internationalization();
-
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                var f = Request.Form;
-
-                int idx = Util.toint(Request.Form["data[IDX]"]);
-
-                TugDataEntities db = new TugDataEntities();
-                //先判断此客户是否已被使用过
-                OrderInfor obj = db.OrderInfor.FirstOrDefault(u => u.CustomerID == idx);
-                if (obj != null) throw new Exception("此客戶已在訂單中使用過，不能被刪除！"); 
-                //删除客户
-                Customer cstmer = db.Customer.FirstOrDefault(u => u.IDX == idx);
-                if (cstmer != null)
+                try
                 {
+                    var f = Request.Form;
+
+                    int idx = Util.toint(Request.Form["data[IDX]"]);
+
+                    TugDataEntities db = new TugDataEntities();
+                    //先判断此客户是否已被使用过
+                    OrderInfor obj = db.OrderInfor.FirstOrDefault(u => u.CustomerID == idx);
+                    if (obj != null) throw new Exception("此客戶已在訂單中使用過，不能被刪除！"); 
+                    //先删除客户船
+                    System.Linq.Expressions.Expression<Func<CustomerShip, bool>> exp0 = u => u.CustomerID == idx;
+                    var entitys = db.CustomerShip.Where(exp0);
+                    entitys.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                    db.CustomerShip.RemoveRange(entitys);
+                    db.SaveChanges();
+                    //删除客户
+                    Customer cstmer = db.Customer.FirstOrDefault(u => u.IDX == idx);
                     db.Customer.Remove(cstmer);
                     db.SaveChanges();
+                    trans.Complete();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
-                else
+                catch (Exception ex)
                 {
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    trans.Dispose();
+                    throw ex;
+                    //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
                 }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-                //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-            }
+
         }
 
         public ActionResult GetDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
