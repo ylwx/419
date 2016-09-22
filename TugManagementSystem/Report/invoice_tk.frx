@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="09/21/2016 21:20:57" ReportInfo.CreatorVersion="2016.1.0.0">
+<Report ScriptLanguage="CSharp" ReferencedAssemblies="System.dll&#13;&#10;System.Drawing.dll&#13;&#10;System.Windows.Forms.dll&#13;&#10;System.Data.dll&#13;&#10;System.Xml.dll&#13;&#10;FastReportAdditional.dll" ReportInfo.Created="07/12/2016 15:31:30" ReportInfo.Modified="09/22/2016 22:18:43" ReportInfo.CreatorVersion="2016.1.0.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -228,11 +228,20 @@ namespace FastReport
     {
       if(Text18.Text.Trim()!=&quot;&quot;) Picture1.Visible=true;
     }
+
+    private void Text8_AfterData(object sender, EventArgs e)
+    {
+      if(Convert.ToString(Report.GetParameterValue(&quot;strRule&quot;))!=&quot;&quot;)
+      {
+        //MessageBox.Show(Convert.ToString(Report.GetParameterValue(&quot;strRule&quot;)));
+        Text8.Text= Convert.ToString(Report.GetParameterValue(&quot;strRule&quot;)) + &quot;\r\n&quot; + Text8.Text;
+      }
+    }
   }
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvEdDFo2YL2eD7H6bz2AvmIw==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvLMrobu53kgeqtOpL4IkPhQ==">
       <TableDataSource Name="V_Inv_Head" DataType="System.Int32" Enabled="true" TableName="V_Inv_Head">
         <Column Name="IDX" DataType="System.Int32"/>
         <Column Name="BillingCode" DataType="System.String"/>
@@ -314,7 +323,7 @@ namespace FastReport
       <TextObject Name="Text5" Left="47.25" Top="18.9" Width="311.85" Height="56.7" Text="[V_Inv_Head.CustomerName]" Font="微软雅黑, 12pt, style=Bold"/>
       <TextObject Name="Text6" Left="47.25" Top="85.05" Width="66.15" Height="47.25" Text="CAPTAIN/&#13;&#10;OWNER" HorzAlign="Right" Font="微软雅黑, 8pt"/>
       <TextObject Name="Text7" Left="122.85" Top="85.05" Width="236.25" Height="47.25" Text="[V_Inv_Head.ShipName] [CustomerShipLengthOrTeu]" Font="微软雅黑, 11pt"/>
-      <TextObject Name="Text8" Left="122.85" Top="170.1" Width="595.35" Height="37.8" Text="[strRule]&#13;&#10;[V_Inv_Head.Remark]" Font="微软雅黑, 10pt"/>
+      <TextObject Name="Text8" Left="122.85" Top="170.1" Width="595.35" Height="37.8" AfterDataEvent="Text8_AfterData" Text="[V_Inv_Head.Remark]" Font="微软雅黑, 10pt"/>
     </ReportTitleBand>
     <DataBand Name="Data1" Top="221.39" Width="756" Height="30.24" Guides="37.8,0,37.8,37.8" DataSource="V_Inv_OrdService">
       <TextObject Name="Text23" Left="9.45" Width="94.5" Height="30.24" AfterDataEvent="Text23_AfterData" Duplicates="Merge" Font="微软雅黑, 8pt"/>
@@ -327,7 +336,7 @@ namespace FastReport
       </DataFooterBand>
     </DataBand>
     <DataBand Name="Data2" Top="267.27" Width="756" Height="75.6">
-      <MatrixObject Name="Matrix1" Left="9.45" Width="189" Height="75.6" AfterDataEvent="Matrix1_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table">
+      <MatrixObject Name="Matrix1" Left="9.45" Width="207.9" Height="75.6" AfterDataEvent="Matrix1_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table">
         <MatrixColumns>
           <Header Expression="[MData.ServiceName]" Totals="false"/>
           <Header Expression="[MData.TugName]" Totals="false"/>
@@ -338,7 +347,7 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[MData.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column1" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column1" MaxWidth="264.6" Width="132.3"/>
         <TableColumn Name="Column2" MaxWidth="567" Width="75.6"/>
         <TableRow Name="Row1">
           <TableCell Name="Cell1" Text="拖輪&#13;&#10;TUGS" Padding="0, 2, 0, 2" VertAlign="Center" Font="微软雅黑, 8pt" RowSpan="2"/>
@@ -358,7 +367,7 @@ namespace FastReport
       </DataFooterBand>
     </DataBand>
     <DataBand Name="Data3" Top="358.51" Width="756" Height="37.8">
-      <MatrixObject Name="Matrix2" Left="9.45" Width="189" Height="37.8" AfterDataEvent="Matrix2_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table1">
+      <MatrixObject Name="Matrix2" Left="9.45" Width="207.9" Height="37.8" AfterDataEvent="Matrix2_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table1">
         <MatrixColumns>
           <Header Expression="[SubTotal.ServiceName]" Totals="false"/>
           <Header Expression="[SubTotal.TugName]" Totals="false"/>
@@ -369,7 +378,7 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[SubTotal.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column9" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column9" MaxWidth="264.6" Width="132.3"/>
         <TableColumn Name="Column10" MaxWidth="567" Width="75.6"/>
         <TableRow Name="Row13" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell37" Padding="0, 0, 0, 0" VertAlign="Center" Font="宋体, 10pt" RowSpan="2"/>
@@ -386,7 +395,7 @@ namespace FastReport
       </MatrixObject>
     </DataBand>
     <DataBand Name="Data4" Top="400.35" Width="756" Height="37.8">
-      <MatrixObject Name="Matrix3" Left="9.45" Width="189" Height="37.8" AfterDataEvent="Matrix3_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table2">
+      <MatrixObject Name="Matrix3" Left="9.45" Width="207.9" Height="37.8" AfterDataEvent="Matrix3_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table2">
         <MatrixColumns>
           <Header Expression="[DData.ServiceName]" Totals="false"/>
           <Header Expression="[DData.TugName]" Totals="false"/>
@@ -397,7 +406,7 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[DData.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column5" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column5" MaxWidth="264.6" Width="132.3"/>
         <TableColumn Name="Column6" MaxWidth="567" Width="75.6"/>
         <TableRow Name="Row7" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell19" Padding="0, 0, 0, 0" VertAlign="Center" Font="宋体, 10pt" RowSpan="2"/>
@@ -417,7 +426,7 @@ namespace FastReport
       </DataFooterBand>
     </DataBand>
     <DataBand Name="Data5" Top="453.79" Width="756" Height="37.8" Guides="132.3">
-      <MatrixObject Name="Matrix4" Left="9.45" Width="189" Height="37.8" AfterDataEvent="Matrix4_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table3">
+      <MatrixObject Name="Matrix4" Left="9.45" Width="207.9" Height="37.8" AfterDataEvent="Matrix4_AfterData" FixedRows="2" FixedColumns="1" AutoSize="false" DataSource="Table3">
         <MatrixColumns>
           <Header Expression="[Total.ServiceName]" Totals="false"/>
           <Header Expression="[Total.TugName]" Totals="false"/>
@@ -428,7 +437,7 @@ namespace FastReport
         <MatrixCells>
           <Cell Expression="[Total.Value]"/>
         </MatrixCells>
-        <TableColumn Name="Column7" MaxWidth="264.6" Width="113.4"/>
+        <TableColumn Name="Column7" MaxWidth="264.6" Width="132.3"/>
         <TableColumn Name="Column8" MaxWidth="567" Width="75.6"/>
         <TableRow Name="Row10" Visible="false" MaxHeight="3.78" Height="0">
           <TableCell Name="Cell27" Padding="0, 0, 0, 0" VertAlign="Center" Font="宋体, 10pt" RowSpan="2"/>
