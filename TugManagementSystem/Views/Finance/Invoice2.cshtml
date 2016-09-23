@@ -5802,17 +5802,19 @@
                 $('#view_remark').val(result.invoice.Rmark);
 
                 if (result.invoice.IsShowShipLengthRule == "是") {
-                    $('#view_ck_customer_ship_length').attr('checked', true);
+                    $('#view_ck_customer_ship_length').prop('checked', true);
                 }
                 else {
-                    $('#view_ck_customer_ship_length').attr('checked', false);
+                    alert(1);
+
+                    $('#view_ck_customer_ship_length').prop('checked', false);
                 }
 
                 if (result.invoice.IsShowShipTEUSRule == "是") {
-                    $('#view_ck_customer_ship_teus').attr('checked', true);
+                    $('#view_ck_customer_ship_teus').prop('checked', true);
                 }
                 else {
-                    $('#view_ck_customer_ship_teus').attr('checked', false);
+                    $('#view_ck_customer_ship_teus').prop('checked', false);
                 }
 
 
@@ -7661,6 +7663,8 @@
                 $('#edit_sel_billing_type').val(customerBillingScheme.split('%')[1].split('~')[2]);
                 $('#edit_sel_time_type').val(customerBillingScheme.split('%')[2].split('~')[2]);
 
+
+                //alert(result.billing_template.ShipLength)
                 $('#edit_ship_length_rules').val(result.billing_template.ShipLength);
                 $('#edit_ship_teus_rules').val(result.billing_template.ShipTEUS);
 
@@ -7693,18 +7697,21 @@
                 $('#edit_job_no').val(result.invoice.JobNo);
                 $('#edit_remark').val(result.invoice.Rmark);
 
+
+                //alert(result.invoice.IsShowShipLengthRule)
                 if (result.invoice.IsShowShipLengthRule == "是") {
-                    $('#edit_ck_customer_ship_length').attr('checked', true);
+                    //alert(result.invoice.IsShowShipLengthRule);
+                    $('#edit_ck_customer_ship_length').prop('checked', true);
                 }
                 else {
-                    $('#edit_ck_customer_ship_length').attr('checked', false);
+                    $('#edit_ck_customer_ship_length').prop('checked', false);
                 }
 
                 if (result.invoice.IsShowShipTEUSRule == "是") {
-                    $('#edit_ck_customer_ship_teus').attr('checked', true);
+                    $('#edit_ck_customer_ship_teus').prop('checked', true);
                 }
                 else {
-                    $('#edit_ck_customer_ship_teus').attr('checked', false);
+                    $('#edit_ck_customer_ship_teus').prop('checked', false);
                 }
 
                 initGenerateEditTable(billingId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel,
@@ -7733,13 +7740,13 @@
     $('#edit-modal').on('hidden.bs.modal', function () {
         $(this).removeData("bs.modal");
 
-        $('#jqGrid_Order').jqGrid('setGridParam',
+        @*$('#jqGrid_Order').jqGrid('setGridParam',
                 {
                     datatype: 'json',
                     url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
                 }).trigger('reloadGrid');
 
-        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');*@
     });
 
     function submitEditVoiceModal() {
@@ -7766,8 +7773,11 @@
         var maxTextAreaLength = 500;
 
         var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-        var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-        var billingId = dr.IDX;  //账单ID
+        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+        //var billingId = dr.IDX;  //账单ID
+
+        
+        var billingId = $('#_BillingID_AfterEdit').text();  //账单ID
 
 
         var customerBillingScheme = $("#edit_sel_billing_scheme").val().toString();
@@ -7790,11 +7800,11 @@
         var remark = $('#edit_remark').val().toString().trim();
 
         var isShowShipLengthRule = "否";
-        if (true == $('input[type="checkbox"][id="add_ck_customer_ship_length"]').is(":checked"))
+        if (true == $('input[type="checkbox"][id="edit_ck_customer_ship_length"]').is(":checked"))
             isShowShipLengthRule = "是";
 
         var isShowShipTEUSRule = "否";
-        if (true == $('input[type="checkbox"][id="add_ck_customer_ship_teus"]').is(":checked"))
+        if (true == $('input[type="checkbox"][id="edit_ck_customer_ship_teus"]').is(":checked"))
             isShowShipTEUSRule = "是";
 
         var month = $('#edit_sel_month').val();
@@ -7886,13 +7896,13 @@
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
 
-                    @*$('#jqGrid_Order').jqGrid('setGridParam',
+                    $('#jqGrid_Order').jqGrid('setGridParam',
                 {
                     datatype: 'json',
                     url: '@Url.Action("GetDataOfGenerateInvoicce", "OrderManage")',
                 }).trigger('reloadGrid');
 
-                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');*@
+                    $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
 
 
                     //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
