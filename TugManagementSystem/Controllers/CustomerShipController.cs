@@ -89,8 +89,8 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     int idx = Util.toint(Request.Form["IDX"]);
                     string name1 = Request.Form["Name1"];
-                    System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == name1 && u.IDX != idx;
-                    Customer obj = db.Customer.Where(exp).FirstOrDefault();
+                    System.Linq.Expressions.Expression<Func<CustomerShip, bool>> exp = u => u.Name1 == name1 && u.IDX != idx;
+                    CustomerShip obj = db.CustomerShip.Where(exp).FirstOrDefault();
                     if (obj != null)
                     {
                         return Json(new { code = Resources.Common.ERROR_CODE, message = "船名称已存在！" });//Resources.Common.ERROR_MESSAGE
