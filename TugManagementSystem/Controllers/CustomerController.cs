@@ -776,17 +776,30 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
                 //先判断此计费方案有没有被使用过
                 Billing obj = db.Billing.FirstOrDefault(u => u.BillingTemplateID == idx);
-                if (obj != null) throw new Exception("此計費方案已在賬單中使用過，不能被刪除！"); 
-                BillingTemplate cstmer = db.BillingTemplate.FirstOrDefault(u => u.IDX == idx);
-                if (cstmer != null)
+                if (obj != null)
                 {
-                    db.BillingTemplate.Remove(cstmer);
+                    //throw new Exception("此計費方案已在賬單中使用過，不能被刪除！");
+
+                    BillingTemplate cstmer = db.BillingTemplate.FirstOrDefault(u => u.IDX == idx);
+
+                    cstmer.UserDefinedCol6 = -1;
+                    db.Entry(cstmer).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
                 else
                 {
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    BillingTemplate cstmer = db.BillingTemplate.FirstOrDefault(u => u.IDX == idx);
+                    if (cstmer != null)
+                    {
+                        db.BillingTemplate.Remove(cstmer);
+                        db.SaveChanges();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                    else
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
                 }
             }
             catch (Exception ex)

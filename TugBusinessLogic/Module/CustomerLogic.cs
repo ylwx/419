@@ -36,7 +36,7 @@ namespace TugBusinessLogic.Module
                 //}
 
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).ToList<V_BillingTemplate>();
+                orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId && u.UserDefinedCol6 != -1).Select(u => u).ToList<V_BillingTemplate>();
 
                 JObject jsonSearchOption = (JObject)JsonConvert.DeserializeObject(searchOptions);
                 string groupOp = (string)jsonSearchOption["groupOp"];
@@ -1038,7 +1038,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId).Select(u => u).ToList<V_BillingTemplate>();
+                orders = db.V_BillingTemplate.Where(u => u.CustomerID == custId && u.UserDefinedCol6 != -1).Select(u => u).ToList<V_BillingTemplate>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)

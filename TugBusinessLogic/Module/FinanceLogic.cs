@@ -1584,9 +1584,9 @@ namespace TugBusinessLogic.Module
 
             List<V_BillingTemplate> list = new List<V_BillingTemplate>();
             if(custId == -1)
-                list = db.V_BillingTemplate.Where(u => u.CustomerCode == "-1").OrderBy(u => u.BillingTemplateName).ToList();
+                list = db.V_BillingTemplate.Where(u => u.CustomerCode == "-1" ).OrderBy(u => u.BillingTemplateName).ToList();
             else
-                list = db.V_BillingTemplate.Where(u =>u.CustomerCode == "-1" || u.CustomerID == custId).OrderBy(u => u.BillingTemplateName).ToList();
+                list = db.V_BillingTemplate.Where(u =>(u.CustomerCode == "-1" || u.CustomerID == custId)).OrderBy(u => u.BillingTemplateName).ToList();
 
             return list;
         }
