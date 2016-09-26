@@ -308,6 +308,33 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+        public ActionResult IsExistCustomer(string customername)
+        {
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+                System.Linq.Expressions.Expression<Func<Customer, bool>> exp = u => u.Name1 == customername;
+                Customer obj = db.Customer.Where(exp).FirstOrDefault();
+                if (obj == null)
+                {
+                    var ret = new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                    //throw new Exception("客戶名稱不存在！");
+                }
+                else
+                {
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                    return Json(ret);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //
         // GET: /Customer/
         public ActionResult Index()

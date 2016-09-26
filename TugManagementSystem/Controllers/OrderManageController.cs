@@ -505,7 +505,9 @@ namespace TugManagementSystem.Controllers
                     };
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }    
+        }
+
+        [JsonExceptionFilterAttribute]
         public ActionResult Add_EditOrder(string oper,string ordermark,int customerId, string customerName, string ordDate,
             int shipId, string shipName, string linkMan, string linkPhone, string linkEmail, string remark,List<string[]> dataListFromTable) 
         {
@@ -518,6 +520,13 @@ namespace TugManagementSystem.Controllers
                 {
                     TugDataEntities db = new TugDataEntities();
                     {
+                        //判断客户名称是否存在
+                        System.Linq.Expressions.Expression<Func<Customer, bool>> expctm = u => u.Name1 == customerName;
+                        Customer objctm = db.Customer.Where(expctm).FirstOrDefault();
+                        if (objctm == null)
+                        {
+                            throw new Exception("客戶名稱不存在！");
+                        }
                         //获取服务项
                         System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.UserDefinedCol1 == ordermark;
                         List<OrderService> entityos = db.OrderService.Where(exp).ToList();
@@ -675,10 +684,10 @@ namespace TugManagementSystem.Controllers
                 catch (Exception ex)
                 {
                     trans.Dispose();
-
-                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
-                    return Json(ret);
+                    throw ex;
+                    //var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    ////Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    //return Json(ret);
                 }
             }
         }

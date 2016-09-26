@@ -581,21 +581,21 @@
                     }
                 })
                  .navButtonAdd('#jqGridPager', {
-                    id: 'jqGrid_ilEdit',
-                    caption: "", title: "'@Resources.Language.Edit'", buttonicon: "ui-icon-pencil",
-                    onClickButton: function () {
-                        var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
-                        //编辑
-                        if (rowid != null) {
-                            var ordermark = jQuery('#jqGrid').jqGrid('getCell', rowid, "UserDefinedCol1");
-                            $('.panel-title span:first').html("edit");
-                            $('.panel-title span:last').html(ordermark);
+                     id: 'jqGrid_ilEdit',
+                     caption: "", title: "'@Resources.Language.Edit'", buttonicon: "ui-icon-pencil",
+                     onClickButton: function () {
+                         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                         //编辑
+                         if (rowid != null) {
+                             var ordermark = jQuery('#jqGrid').jqGrid('getCell', rowid, "UserDefinedCol1");
+                             $('.panel-title span:first').html("edit");
+                             $('.panel-title span:last').html(ordermark);
 
 
-                            var selectedOrderIDs = "";
-                            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-                            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
-                            var noinvoiceResult = ""; //保存选择的没有账单的记录
+                             var selectedOrderIDs = "";
+                             var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                             var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+                             var noinvoiceResult = ""; //保存选择的没有账单的记录
 
                              $("form input").prop("readonly", false);
                              $("form textarea").prop("readonly", false);
@@ -631,7 +631,7 @@
                                     //    alert('所选的记录中，第' + noinvoiceResult + '行记录没有账单，无法编辑，请先生成账单！');
                                     //    return;
                                     //}
-                                  
+
                                     ////if (result.ret == "該訂單已排船,不可編輯！") {
                                     ////    $("form input").prop("readonly", true);
                                     ////    $("form textarea").prop("readonly", true);
@@ -676,16 +676,16 @@
                             });*@
 
 
-                                    }
-                        else {
-                            alert('选中一行');
-                                    }
-                    }
+                         }
+                         else {
+                             alert('选中一行');
+                         }
+                     }
                  })
             .navButtonAdd('#jqGridPager', {
                 id: 'jqGrid_ilView',
-               caption: "", title: "查看訂單", buttonicon: "ui-icon-search",
-               onClickButton: function () {
+                caption: "", title: "查看訂單", buttonicon: "ui-icon-search",
+                onClickButton: function () {
                     var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
                     //查看
                     if (rowid != null) {
@@ -697,7 +697,7 @@
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                         var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
                         var noinvoiceResult = ""; //保存选择的没有账单的记录
-                            
+
                         $("form input").prop("readonly", true);
                         $("form textarea").prop("readonly", true);
                         $("#btn_submit").attr("disabled", true);
@@ -710,12 +710,12 @@
                         })
                         //查看
                         EditOrder();
-                        }
-                        else {
-                            alert('选中一行');
-                        }
                     }
-                });
+                    else {
+                        alert('选中一行');
+                    }
+                }
+            });
 
             $('#jqGrid').inlineNav('#jqGridPager',
                 {
@@ -1619,7 +1619,7 @@
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
         $('#_OrdDate').parent().removeClass("has-error");
-        
+
         //$('#_WorkDate').parent().removeClass("has-error");
         //$('#_WorkTime').parent().removeClass("has-error");
         //$('#_EstimatedCompletionTime').parent().removeClass("has-error");
@@ -1640,7 +1640,7 @@
 
         $("#_ShipID").text(-1);
         $("#_CustomerID").text(-1);
-        
+
 
         $('#_CustomerName').autocomplete({
             source: function (request, response) {
@@ -1903,7 +1903,7 @@
             dataType: 'json',
             success: function (result) {
                 //alert(result.CustomerID);
-                 
+
                 $('#_CustomerID').text(result.CustomerID);
                 $('#_CustomerName').val(result.CustomerName);
                 $('#_OrdDate').val(result.OrdDate);
@@ -1927,7 +1927,7 @@
         //else if ($('.panel-title span:first').html() == 'edit') loadservicetable();
     });
 
-    $('#parent-modal').on('shown.bs.modal', function (e) {    
+    $('#parent-modal').on('shown.bs.modal', function (e) {
         if ($('.panel-title span:first').html() == 'add') inithandsontable();//初始化handsontable
         else if ($('.panel-title span:first').html() == 'edit') loadservicetable();
     });
@@ -1985,7 +1985,7 @@
     }
 
     Handsontable.Dom.addEvent(btn_submit, 'click', function () {
-    //function submitParentModal() {
+        //function submitParentModal() {
 
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
@@ -2036,7 +2036,7 @@
             $('#parentErrMsg').show();
             return;
         }
-        @*else if (customerName.length > maxTextLength) {
+            @*else if (customerName.length > maxTextLength) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "长度不能超过" + maxTextLength);
             $('#_CustomerName').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -2288,8 +2288,19 @@
                 $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "OrderManage")' });
 
             },
-            error: function (xhr) {
+            error: function (result) {
+                console.log(result)
                 $("#btn_submit").attr("disabled", false);
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    //alert(json.errorMessage);
+                    $('#parentErrMsg p').html(json.errorMessage);
+                    $('#_CustomerName').parent().addClass("has-error");
+                    $('#parentErrMsg').show();
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
             }
         });
 
