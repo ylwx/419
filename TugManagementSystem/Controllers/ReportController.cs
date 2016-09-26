@@ -515,7 +515,7 @@ namespace TugManagementSystem.Controllers
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
             //数据
             dtV_Inv_OrdService = SqlHelper.GetDataTableData("SpecialBillingItem", strV_Inv_OrdService);
-            dtV_Inv_OrdService_sort = TugBusinessLogic.Utils.TableToChildTB(dtV_Inv_OrdService, "", "CustomerShipName,ServiceDate,ServiceNature");
+            dtV_Inv_OrdService_sort = TugBusinessLogic.Utils.TableToChildTB(dtV_Inv_OrdService, "", "ServiceDate,CustomerShipName,ServiceNature");
             FReport.RegisterData(dtV_Inv_OrdService_sort, dtV_Inv_OrdService_sort.TableName);
             object tugnum = dtV_Inv_OrdService.Compute("sum(TugNumber)", "TRUE");  
             FReport.Parameters.FindByName("srvprice").Value = dtV_Inv_OrdService_sort.Rows[0]["ServiceUnitPrice"];
