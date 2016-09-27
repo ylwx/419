@@ -1947,9 +1947,10 @@ namespace TugManagementSystem.Controllers
 
                     List<V_OrderService> orders = db.V_OrderService.Select(u => u).Where(u => (u.ServiceNatureID == 24 || u.ServiceNatureID == 28
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
-                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.UserDefinedCol4 == "1" && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
-                        && u.ServiceWorkDate.CompareTo(startDate) >= 0  && u.ServiceWorkDate.CompareTo(endDate) <= 0)
-                        .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                        || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.UserDefinedCol4 == "1" && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId
+                        && u.ServiceWorkDate.CompareTo(startDate) >= 0 && u.ServiceWorkDate.CompareTo(endDate) <= 0)
+                        //.OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                        .OrderBy(u => u.ServiceWorkDate).ThenBy(u => u.ShipName).ThenBy(u => u.ServiceNatureLabel).ToList();
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
@@ -1969,7 +1970,8 @@ namespace TugManagementSystem.Controllers
                         || u.ServiceNatureValue == "A0" || u.ServiceNatureValue == "A4"
                         || u.ServiceNatureLabel == "泊码头" || u.ServiceNatureLabel == "离码头") && u.UserDefinedCol4 == "1" && (u.HasBilling == "否") && u.HasBillingInFlow == "否" && u.CustomerID == custId 
                         && u.ServiceWorkDate.CompareTo(startDate) >= 0 && u.ServiceWorkDate.CompareTo(endDate) <= 0)
-                        .OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                        //.OrderByDescending(u => u.ShipName).ThenByDescending(u => u.ServiceWorkDate).ToList();
+                        .OrderBy(u => u.ServiceWorkDate).ThenBy(u => u.ShipName).ThenBy(u => u.ServiceNatureLabel).ToList();
                     int totalRecordNum = orders.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     //int pageSize = rows;

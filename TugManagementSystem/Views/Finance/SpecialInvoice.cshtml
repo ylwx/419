@@ -1069,6 +1069,7 @@
 
                         var selectedIDs = jQuery('#jqGrid_Order').getGridParam("selarrrow");
 
+                        
                         //alert(selectedIDs.length);
                         //return;
 
@@ -1077,6 +1078,11 @@
                             return;
                         }
 
+                        selectedIDs.sort(compare);
+
+                        //for (var i = 0; i < selectedIDs.length; ++i) {
+                        //    //alert(selectedIDs[i]);
+                        //}
                         
 
                         var unCompleteInputTimeServices = ""; //保存没有输入完时间的服务行号
@@ -4085,4 +4091,20 @@
             url: '@Url.Action("GetServiceDataForLoadOnce", "Finance")',
         }).trigger('reloadGrid');
     }
+</script>
+
+
+<script>
+
+    function compare(value1, value2) {
+
+        if (parseInt(value1) < parseInt(value2)) {
+            return -1;
+        } else if (parseInt(value1) > parseInt(value2)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 </script>
