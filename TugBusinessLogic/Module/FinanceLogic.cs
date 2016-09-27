@@ -1569,7 +1569,7 @@ namespace TugBusinessLogic.Module
                     TugNumber = (int)u.TugNumber,
                     ServiceUnitPrice = (double)u.ServiceUnitPrice,
                     FeulUnitPrice = (double)u.FeulUnitPrice,
-                }).ToList();
+                }).OrderBy(u=>u.ServiceDate).ThenBy(u=>u.CustomerShipName).ThenBy(u =>u.ServiceNature).ToList();
 
                 _invoice.SpecialBillingItems = _billingItems;
             }
