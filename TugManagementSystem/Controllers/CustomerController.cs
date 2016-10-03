@@ -11,6 +11,7 @@ using System.Transactions;
 
 namespace TugManagementSystem.Controllers
 {
+
     public class CustomerController : BaseController
     {
         private static int _DefaultPageSie = 7;
