@@ -1166,6 +1166,71 @@
 
 
                 {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkDate', name: "ServiceWorkDate", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                step: 1,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid_Order')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    },
+
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkTime', name: "ServiceWorkTime", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'H:i',
+                                step: 1,
+                                datepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid_Order')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    },
+
+                },
+
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkPlace', name: "ServiceWorkPlace", width: 150, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+
+
+                {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 140, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -1491,6 +1556,9 @@
                 //时间
                 var ret = true;
 
+                if ($("#gs_ServiceWorkTime").val() != null && $("#gs_ServiceWorkTime").val() != "")
+                    ret = ret && util.isTime('@Resources.Language.V_OrderScheduler_ServiceWorkTime', $("#gs_ServiceWorkTime").val());
+
                 @*if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
                 ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
                 if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
@@ -1505,6 +1573,9 @@
                 ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
+                if ($("#gs_ServiceWorkDate").val() != null && $("#gs_ServiceWorkDate").val() != "")
+                    ret = ret && util.isDate('@Resources.Language.V_OrderScheduler_ServiceWorkDate', $("#gs_ServiceWorkDate").val());
 
 
                 @*if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")

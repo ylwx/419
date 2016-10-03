@@ -60,5 +60,6 @@ namespace TugDataModel
         public string UserDefinedCol4 { get; set; }
         public string ServiceWorkDate { get; set; }
         public string ServiceWorkTime { get; set; }
+        public string ServiceWorkPlace { get; set; }
     }
 }
