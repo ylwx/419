@@ -1386,7 +1386,7 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult AddInvoice2(int custId, int custShipId, string orderIds, string orderServiceIds, int billingTemplateId, int billingTypeId, int timeTypeId,
-            string jobNo, string remark, double discount, double amount, string month, string isShowShipLengthRule, string isShowShipTEUSRule,
+            string jobNo, string remark, double discount, double amount, string month, int customer_ship_length, int customer_ship_teus, string isShowShipLengthRule, string isShowShipTEUSRule,
             string jsonArrayItems, string jsonArraySummaryItems)
         {
 
@@ -1563,6 +1563,18 @@ namespace TugManagementSystem.Controllers
                             }
                         }
 
+                        //7.更新客户船的船长、箱量
+                        {
+                            CustomerShip cs = db.CustomerShip.FirstOrDefault(u => u.IDX == custShipId);
+                            if (cs != null)
+                            {
+                                cs.Length = customer_ship_length;
+                                cs.TEUS = customer_ship_teus;
+                                db.Entry(cs).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+
                         trans.Complete();
 
                         var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, billing_id = aScheduler.IDX };
@@ -1631,7 +1643,7 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult EditInvoice2(int billingId, int billingTemplateId, int billingTypeId, int timeTypeId,
-            string jobNo, string remark, double discount, double amount, string month, string jsonArrayItems, string isShowShipLengthRule,
+            string jobNo, string remark, double discount, double amount, string month, int customer_ship_length, int customer_ship_teus, string jsonArrayItems, string isShowShipLengthRule,
             string isShowShipTEUSRule, string jsonArraySummaryItems)
         {
             this.Internationalization();
@@ -1661,6 +1673,23 @@ namespace TugManagementSystem.Controllers
 
                         if (ret > 0)
                         {
+                            #region 更新客户船长、箱量
+                            V_Billing2 vb2 = db.V_Billing2.FirstOrDefault(u => u.IDX == billingId);
+                            if (vb2 != null)
+                            {
+                                //vb2.ShipID;
+                                CustomerShip cs = db.CustomerShip.FirstOrDefault(u => u.IDX == vb2.ShipID);
+                                if (cs != null)
+                                {
+                                    cs.Length = customer_ship_length;
+                                    cs.TEUS = customer_ship_teus;
+                                    db.Entry(cs).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                            
+                            #endregion
+
                             #region 订单收费项
                             //1.订单收费项
                             List<BillingItem> invoiceItems = db.BillingItem.Where(u => u.BillingID == billingId).ToList();
