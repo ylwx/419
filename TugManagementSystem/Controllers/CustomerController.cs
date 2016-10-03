@@ -463,8 +463,8 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    customers = db.Customer.Where(u => u.Name1.Contains(queryName) 
-                        /*|| u.Name2.Contains(queryName) || u.SimpleName.Contains(queryName)*/)
+                    customers = db.Customer.Where(u => u.Name1.Contains(queryName)
+                        || u.Name2.Contains(queryName) || u.SimpleName.Contains(queryName) || u.Code.Contains(queryName))
                         .Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
                 }
 

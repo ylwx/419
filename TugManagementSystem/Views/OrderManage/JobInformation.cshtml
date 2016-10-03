@@ -236,6 +236,8 @@
             sortable: true,          //列可移动
             colMenu: true,         //列菜单
 
+            //multiselect: true,
+
             subGrid: true,
             subGridRowExpanded: showChildGrid,
             subGridOptions: {
@@ -287,9 +289,14 @@
                 if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());*@
 
+                if ($("#gs_ServiceWorkTime").val() != null && $("#gs_ServiceWorkTime").val() != "")
+                    ret = ret && util.isTime('@Resources.Language.V_OrderScheduler_ServiceWorkTime', $("#gs_ServiceWorkTime").val());
+
                 //日期
                 if ($("#gs_OrdDate").val() != null && $("#gs_OrdDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.V_OrderInfor_OrdDate', $("#gs_OrdDate").val());
+                if ($("#gs_ServiceWorkDate").val() != null && $("#gs_ServiceWorkDate").val() != "")
+                    ret = ret && util.isDate('@Resources.Language.V_OrderScheduler_ServiceWorkDate', $("#gs_ServiceWorkDate").val());
                 @*if ($("#gs_WorkDate").val() != null && $("#gs_WorkDate").val() != "")
                     ret = ret && util.isDate('@Resources.Language.V_OrderInfor_WorkDate', $("#gs_WorkDate").val());*@
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
@@ -297,6 +304,10 @@
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
 
+                if ($("#gs_Length").val() != null && $("#gs_Length").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.Invoice2_CustomerShipLength', $("#gs_Length").val());
+                if ($("#gs_TEUS").val() != null && $("#gs_TEUS").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.Invoice2_CustomerShipTEUS', $("#gs_TEUS").val());
 
                 @*if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
                     ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
@@ -816,13 +827,13 @@
                         custom: true
                     }, hidden: false,
                     editoptions: {
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'H:i',
-                                step: 1,
-                                datepicker: false
-                            });
-                        },
+                        //dataInit: function (element) {
+                        //    $(element).datetimepicker({
+                        //        format: 'H:i',
+                        //        step: 1,
+                        //        datepicker: false
+                        //    });
+                        //},
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
@@ -932,13 +943,13 @@
                         custom: true
                     }, hidden: false,
                     editoptions: {
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'H:i',
-                                step: 1,
-                                datepicker: false
-                            });
-                        },
+                        //dataInit: function (element) {
+                        //    $(element).datetimepicker({
+                        //        format: 'H:i',
+                        //        step: 1,
+                        //        datepicker: false
+                        //    });
+                        //},
                         defaultValue: function () { var time = new Date(); return time.Format('hh:mm') }
                     }
                 },
@@ -1184,6 +1195,20 @@
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
+                    align: 'center', label: '@Resources.Language.Invoice2_CustomerShipLength', name: "Length", width: 100, editable: false, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Invoice2_CustomerShipTEUS', name: "TEUS", width: 100, editable: false, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] }
+                },
+
+
+                {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_IsGuest', name: "IsGuest", width: 120, editable: true, edittype: "checkbox",
                     //colmenu: false,
                     hidden: true,
@@ -1207,6 +1232,61 @@
                     }
                 },
 
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkDate', name: "ServiceWorkDate", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                step: 1,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    },
+
+                },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderScheduler_ServiceWorkTime', name: "ServiceWorkTime", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'H:i',
+                                step: 1,
+                                datepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+
+                                }
+                            }
+                        ]
+                    },
+
+                },
 
                 {
                     align: 'center', label: '@Resources.Language.V_OrderInfor_OrdDate', name: "OrdDate", width: 160, editable: true, edittype: "text",

@@ -271,7 +271,7 @@ namespace TugManagementSystem.Controllers
                 }
                 else
                 {
-                    Customers = db.Customer.Where(u => u.Name1.Contains(queryName) && u.Code != "-1" && u.Name1 != " 非會員客戶")
+                    Customers = db.Customer.Where(u => (u.Name1.Contains(queryName) || u.Name2.Contains(queryName) || u.SimpleName.Contains(queryName) || u.Code.Contains(queryName)) && u.Code != "-1" && u.Name1 != " 非會員客戶")
                         .Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
                 }
 

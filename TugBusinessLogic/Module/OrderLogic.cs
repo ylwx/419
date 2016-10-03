@@ -2439,6 +2439,100 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
+                            #region Length 
+                            case "Length":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data.Trim()) || u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data.Trim()) || u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Length"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region TEUS
+                            case "TEUS":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TEUS"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "TEUS"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum < Convert.ToInt32(data.Trim()) || u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "TEUS"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "TEUS"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.BigTugNum > Convert.ToInt32(data.Trim()) || u.BigTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "TEUS"), Expression.Constant(Convert.ToInt32(data.Trim()), typeof(Nullable<int>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region OrdDate
                             case "OrdDate":
                                 {
@@ -2477,6 +2571,111 @@ namespace TugBusinessLogic.Module
                                             {
                                                 //orders = orders.Where(u => u.ServiceWorkDate.CompareTo(data.Trim()) == 1 || u.ServiceWorkDate.CompareTo(data.Trim()) == 0).ToList();
                                                 Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "OrdDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region ServiceWorkDate 
+                            case "ServiceWorkDate":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.ServiceWorkDate == data.Trim()).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.ServiceWorkDate.CompareTo(data.Trim()) == -1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.ServiceWorkDate.CompareTo(data.Trim()) == -1 || u.ServiceWorkDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.ServiceWorkDate.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.ServiceWorkDate.CompareTo(data.Trim()) == 1 || u.ServiceWorkDate.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+
+                            #region ServiceWorkTime 
+                            case "ServiceWorkTime":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.WorkTime == data.Trim()).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkTime"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == -1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkTime"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == -1 || u.WorkTime.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkTime"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == 1).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkTime"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.WorkTime.CompareTo(data.Trim()) == 1 || u.WorkTime.CompareTo(data.Trim()) == 0).ToList();
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "ServiceWorkTime"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
@@ -3788,6 +3987,42 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.OrdDate).ToList();
                         }
                         break;
+
+                    case "Length":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Length).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Length).ToList();
+                        }
+                        break;
+
+                    case "TEUS":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TEUS).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TEUS).ToList();
+                        }
+                        break;
+
+                    case "ServiceWorkDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceWorkDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceWorkDate).ToList();
+                        }
+                        break;
+
+                    case "ServiceWorkTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceWorkTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceWorkTime).ToList();
+                        }
+                        break;
                     //case "WorkDate":
                     //    {
                     //        if (orderMethod.ToLower().Equals("asc"))
@@ -4003,6 +4238,42 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.CustomerName).ToList();
                         }
                         break;
+                    case "Length":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.Length).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.Length).ToList();
+                        }
+                        break;
+
+                    case "TEUS":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TEUS).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TEUS).ToList();
+                        }
+                        break;
+
+                    case "ServiceWorkDate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceWorkDate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceWorkDate).ToList();
+                        }
+                        break;
+
+                    case "ServiceWorkTime":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ServiceWorkTime).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ServiceWorkTime).ToList();
+                        }
+                        break;
+
                     case "OrdDate":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
