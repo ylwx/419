@@ -4242,7 +4242,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_Billing4.Where(u => u.InvoiceType == "优惠单").Select(u => u).ToList<V_Billing4>();
+                orders = db.V_Billing4.Where(u => u.InvoiceType == "优惠单" && (u.BillingCode == null || u.BillingCode == "")).Select(u => u).ToList<V_Billing4>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
@@ -5115,7 +5115,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_Billing3.Where(u => u.InvoiceType == "特殊账单").Select(u => u).ToList<V_Billing3>();
+                orders = db.V_Billing3.Where(u => u.InvoiceType == "特殊账单" && (u.BillingCode == "" || u.BillingCode == null )).Select(u => u).ToList<V_Billing3>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
