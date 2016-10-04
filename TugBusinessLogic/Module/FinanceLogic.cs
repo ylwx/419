@@ -3126,7 +3126,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单").Select(u => u).ToList<V_Billing2>();
+                orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单" && (u.BillingCode == null || u.BillingCode =="")).Select(u => u).ToList<V_Billing2>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
@@ -4046,7 +4046,7 @@ namespace TugBusinessLogic.Module
                 }
                 else
                 {
-                    orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单").Select(u => u).ToList<V_Billing2>();
+                    orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单" && (u.BillingCode == null || u.BillingCode == "")).Select(u => u).ToList<V_Billing2>();
                 }
                 #endregion
 
