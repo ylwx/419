@@ -2107,60 +2107,97 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
-        public ActionResult RejectOrderServiceToScheduler(int orderId)
+        public ActionResult RejectOrderServiceToScheduler(string orderIds)
         {
-            int ret = TugBusinessLogic.Module.OrderLogic.HasBilling(orderId);
+            List<string> list = orderIds.Split(',').ToList();
+            List<int> rejectedOrderIds = new List<int>();
+            if (list != null)
+            {
+                foreach (string item in list)
+                {
+                    int rowId = Convert.ToInt32(item.Split(':')[0]);
+                    int orderId = Convert.ToInt32(item.Split(':')[1]);
 
-            //沒有帳單可以駁回
-            if (ret == -1) {
+
+                    int ret = TugBusinessLogic.Module.OrderLogic.HasBilling(orderId);
+                    if (ret != -1)
+                    {
+                        return Json(new
+                        {
+                            code = Resources.Common.SUCCESS_CODE,
+                            message = Resources.Common.SUCCESS_MESSAGE,
+                            has_invoice = ret,
+                            rowId = rowId
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        rejectedOrderIds.Add(orderId);
+                    }
+                }
+            }
+
+            
+
+
+            //int ret = TugBusinessLogic.Module.OrderLogic.HasBilling(orderId);
+
+            //沒有帳單，可以駁回
+            //if (ret == -1)
+            {
 
                 using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
                 {
                     try
                     {
                         TugDataEntities db = new TugDataEntities();
-                        var lstOrderService = db.OrderService.Where(u => u.OrderID == orderId).ToList();
-                        if (lstOrderService != null)
+
+                        foreach (var orderId in rejectedOrderIds)
                         {
-                            foreach (var item in lstOrderService)
+
+                            var lstOrderService = db.OrderService.Where(u => u.OrderID == orderId).ToList();
+                            if (lstOrderService != null)
                             {
-                                var lstScheduler = db.Scheduler.Where(u => u.OrderServiceID == item.IDX).ToList();
-                                if (lstScheduler != null)
+                                foreach (var item in lstOrderService)
                                 {
-                                    foreach (var item2 in lstScheduler)
+                                    var lstScheduler = db.Scheduler.Where(u => u.OrderServiceID == item.IDX).ToList();
+                                    if (lstScheduler != null)
                                     {
-                                        item2.DepartBaseTime = "";
-                                        item2.ArrivalBaseTime = "";
-                                        item2.RopeUsed = "否";
-                                        item2.Remark = "";
-                                        db.Entry(item2).State = System.Data.Entity.EntityState.Modified;
-                                        db.SaveChanges();
+                                        foreach (var item2 in lstScheduler)
+                                        {
+                                            item2.DepartBaseTime = "";
+                                            item2.ArrivalBaseTime = "";
+                                            item2.RopeUsed = "否";
+                                            item2.Remark = "";
+                                            db.Entry(item2).State = System.Data.Entity.EntityState.Modified;
+                                            db.SaveChanges();
+                                        }
                                     }
+
+                                    item.JobStateID = 124;
+                                    db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
                                 }
 
-                                item.JobStateID = 124;
-                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
-                            }
-
-                            //订单状态该为未排船
-                            {
-                                OrderInfor oi = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
-                                if (oi != null)
+                                //订单状态该为未排船
                                 {
-                                    oi.WorkStateID = 2;  //所有服务都未完成，因此订单状态变成“未排船”
-                                    oi.UserDefinedCol4 = "0"; //0是所有时间未录入完成
-                                    db.Entry(oi).State = System.Data.Entity.EntityState.Modified;
-                                    db.SaveChanges();
-
-                                    var ord_services = db.OrderService.Where(u => u.OrderID == orderId).ToList();
-                                    if (ord_services != null)
+                                    OrderInfor oi = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+                                    if (oi != null)
                                     {
-                                        foreach (var item in ord_services)
+                                        oi.WorkStateID = 2;  //所有服务都未完成，因此订单状态变成“未排船”
+                                        oi.UserDefinedCol4 = "0"; //0是所有时间未录入完成
+                                        db.Entry(oi).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+
+                                        var ord_services = db.OrderService.Where(u => u.OrderID == orderId).ToList();
+                                        if (ord_services != null)
                                         {
-                                            item.UserDefinedCol4 = "0"; //0是所有时间未录入完成
-                                            db.Entry(item).State = System.Data.Entity.EntityState.Modified;
-                                            db.SaveChanges();
+                                            foreach (var item in ord_services)
+                                            {
+                                                item.UserDefinedCol4 = "0"; //0是所有时间未录入完成
+                                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                                db.SaveChanges();
+                                            }
                                         }
                                     }
                                 }
@@ -2186,7 +2223,7 @@ namespace TugManagementSystem.Controllers
             {
                 code = Resources.Common.SUCCESS_CODE,
                 message = Resources.Common.SUCCESS_MESSAGE,
-                has_invoice = ret
+                has_invoice = -1
             }, JsonRequestBehavior.AllowGet);
             
         }
