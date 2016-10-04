@@ -4177,6 +4177,23 @@ namespace TugBusinessLogic.Module
                     //            orders = orders.OrderByDescending(u => u.SmallTugNum).ToList();
                     //    }
                     //    break;
+
+                    case "HasInvoice":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.HasInvoice).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.HasInvoice).ToList();
+                        }
+                        break;
+                    case "HasInFlow":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.HasInFlow).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.HasInFlow).ToList();
+                        }
+                        break;
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -4445,6 +4462,22 @@ namespace TugBusinessLogic.Module
                     //            orders = orders.OrderByDescending(u => u.SmallTugNum).ToList();
                     //    }
                     //    break;
+                    case "HasInvoice":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.HasInvoice).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.HasInvoice).ToList();
+                        }
+                        break;
+                    case "HasInFlow":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.HasInFlow).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.HasInFlow).ToList();
+                        }
+                        break;
                     case "Remark":
                         {
                             if (orderMethod.ToLower().Equals("asc"))

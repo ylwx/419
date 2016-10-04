@@ -3126,7 +3126,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单" && (u.BillingCode == null || u.BillingCode =="")).Select(u => u).ToList<V_Billing2>();
+                orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单" && u.Phase != -1).Select(u => u).ToList<V_Billing2>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
@@ -3319,6 +3319,12 @@ namespace TugBusinessLogic.Module
 
                 Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("普通账单"));
                 condition = Expression.AndAlso(condition, condition2);
+
+                //Expression condition3 = Expression.Equal(Expression.PropertyOrField(parameter, "Status"), Expression.Constant("完成"));
+                //condition = Expression.AndAlso(condition, condition3);
+
+                Expression condition4 = Expression.NotEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int?)));
+                condition = Expression.AndAlso(condition, condition4);
 
                 if (rules != null)
                 {
@@ -4046,7 +4052,7 @@ namespace TugBusinessLogic.Module
                 }
                 else
                 {
-                    orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单" && (u.BillingCode == null || u.BillingCode == "")).Select(u => u).ToList<V_Billing2>();
+                    orders = db.V_Billing2.Where(u => u.InvoiceType == "普通账单" && u.Phase != -1).Select(u => u).ToList<V_Billing2>();
                 }
                 #endregion
 
@@ -4242,7 +4248,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_Billing4.Where(u => u.InvoiceType == "优惠单").Select(u => u).ToList<V_Billing4>();
+                orders = db.V_Billing4.Where(u => u.InvoiceType == "优惠单" && u.Phase != -1).Select(u => u).ToList<V_Billing4>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
@@ -4399,6 +4405,9 @@ namespace TugBusinessLogic.Module
 
                 Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("优惠单"));
                 condition = Expression.AndAlso(condition, condition2);
+
+                Expression condition4 = Expression.NotEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int?)));
+                condition = Expression.AndAlso(condition, condition4);
 
                 if (rules != null)
                 {
@@ -5115,7 +5124,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_Billing3.Where(u => u.InvoiceType == "特殊账单").Select(u => u).ToList<V_Billing3>();
+                orders = db.V_Billing3.Where(u => u.InvoiceType == "特殊账单" && u.Phase != -1).Select(u => u).ToList<V_Billing3>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
@@ -5253,6 +5262,9 @@ namespace TugBusinessLogic.Module
 
                 Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("特殊账单"));
                 condition = Expression.AndAlso(condition, condition2);
+
+                Expression condition4 = Expression.NotEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int?)));
+                condition = Expression.AndAlso(condition, condition4);
 
                 if (rules != null)
                 {
