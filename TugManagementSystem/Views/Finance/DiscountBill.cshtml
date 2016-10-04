@@ -823,34 +823,7 @@
                 },
 
             })
-    .navButtonAdd('#jqGridPager', {
-        id: 'jqGrid_ilView',
-        caption: "", title: "查看優惠單", buttonicon: "ui-icon-search",
-        onClickButton: function () {
-            var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
-            var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
-            var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
-
-            var selectedBillingIDs = "";
-
-            for (var i = 0; i < selectedIDs.length; ++i) {
-                var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
-                selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
-            }
-            if (selectedBillingIDs != "") {
-                selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
-            }
-
-            g_curSelectedBillingIds = selectedBillingIDs.split(':')[1];
-
-            //查看
-            //alert("chakan:" + g_curSelectedBillingIds);
-
-            ViewDiscountBill();
-
-        },
-
-    })
+    
         .navButtonAdd('#jqGridPager', {
             id: 'jqGrid_ilflowlog',
             caption: "", title: "查看流程日志", buttonicon: "ui-icon-newwin",
@@ -877,6 +850,34 @@
                     alert('选中一行');
                 }
             },
+        })
+        .navButtonAdd('#jqGridPager', {
+            id: 'jqGrid_ilView',
+            caption: "", title: "預覽", buttonicon: "ui-icon-zoomout",
+            onClickButton: function () {
+                var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
+                var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
+                var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
+
+                var selectedBillingIDs = "";
+
+                for (var i = 0; i < selectedIDs.length; ++i) {
+                    var billingId = jQuery('#jqGrid').jqGrid('getCell', selectedIDs[i], "IDX"); //BillingID
+                    selectedBillingIDs += selectedIDs[i].toString() + ":" + billingId + ",";
+                }
+                if (selectedBillingIDs != "") {
+                    selectedBillingIDs = selectedBillingIDs.substr(0, selectedBillingIDs.length - 1);
+                }
+
+                g_curSelectedBillingIds = selectedBillingIDs.split(':')[1];
+
+                //查看
+                //alert("chakan:" + g_curSelectedBillingIds);
+
+                ViewDiscountBill();
+
+            },
+
         });
 
 

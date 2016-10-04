@@ -2662,7 +2662,7 @@
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
 
-        {
+                {
                     align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
                     hidden: true
                 },
@@ -2692,7 +2692,7 @@
                                 fn: function (e) {
                                     var grid = $('#jqGrid')[0];
                                     grid.triggerToolbar();
-            }
+                                }
                             }
                         ]
                     }
@@ -2769,6 +2769,7 @@
                         $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                         $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                         $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        $('#jqGrid_ilPreview').addClass('ui-state-disabled');
                         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                         $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
@@ -2785,6 +2786,7 @@
                         if (selectedIDs.length != 1) {
                         //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
                             $('#jqGrid_ilView').addClass('ui-state-disabled');
+                            $('#jqGrid_ilPreview').addClass('ui-state-disabled');
                             $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                             $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                             $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
@@ -2795,6 +2797,7 @@
 
                         //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
                             $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                            $('#jqGrid_ilPreview').removeClass('ui-state-disabled');
                             $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
                             $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
                             $('#jqGrid_ilflowlog').removeClass('ui-state-disabled');
@@ -3023,6 +3026,7 @@
                                                 $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilView').addClass('ui-state-disabled');
+                                                $('#jqGrid_ilPreview').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                                                 $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
@@ -3215,7 +3219,27 @@
                     alert('选中一行');
                 }
             },
-        });
+        })
+            .navButtonAdd('#jqGridPager', {
+                id: 'jqGrid_ilPreview',
+                caption: "", title: "預覽", buttonicon: "ui-icon-zoomout",
+                onClickButton: function () {
+                    var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
+                    //编辑
+                    if (rowid != null) {
+                        var curbillidx = jQuery('#jqGrid').jqGrid('getCell', rowid, "IDX");
+                        //alert(curbillidx);
+                        $('.panel-title span:first').html(curbillidx);
+
+                        
+                        //查看日志
+                        InvoicePreview();
+                    }
+                    else {
+                        alert('選中一行');
+                    }
+                },
+            });;
 
 
         $('#cb_jqGrid').change(function () {
@@ -3228,6 +3252,8 @@
                     $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                     $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                     $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    $('#jqGrid_ilPreview').addClass('ui-state-disabled');
+                    
                     $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                     $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                     $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
@@ -3238,6 +3264,8 @@
                 $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
                 $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
                 $('#jqGrid_ilView').addClass('ui-state-disabled');
+                $('#jqGrid_ilPreview').addClass('ui-state-disabled');
+
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                 $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
@@ -3250,6 +3278,8 @@
                         $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
                         $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
                         $('#jqGrid_ilView').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilPreview').removeClass('ui-state-disabled');
+
                         $('#jqGrid_ilAddCredit').removeClass('ui-state-disabled');
                         $('#jqGrid_ilEdit').removeClass('ui-state-disabled');
                         $('#jqGrid_ilflowlog').removeClass('ui-state-disabled');
@@ -3264,6 +3294,8 @@
                 $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                 $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                 $('#jqGrid_ilView').addClass('ui-state-disabled');
+                $('#jqGrid_ilPreview').addClass('ui-state-disabled');
+
                 $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                 $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                 $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
@@ -3276,6 +3308,7 @@
         $('#jqGrid_ilDelete').addClass('ui-state-disabled');
         $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
         $('#jqGrid_ilView').addClass('ui-state-disabled');
+        $('#jqGrid_ilPreview').addClass('ui-state-disabled');
         $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
         $('#jqGrid_ilEdit').addClass('ui-state-disabled');
         $('#jqGrid_ilReport').addClass('ui-state-disabled');
@@ -8044,6 +8077,7 @@
                     $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                     $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                     $('#jqGrid_ilView').addClass('ui-state-disabled');
+                    $('#jqGrid_ilPreview').addClass('ui-state-disabled');
                     $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                     $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                     $('#jqGrid_ilflowlog').addClass('ui-state-disabled');

@@ -3323,7 +3323,7 @@ namespace TugBusinessLogic.Module
                 //Expression condition3 = Expression.Equal(Expression.PropertyOrField(parameter, "Status"), Expression.Constant("完成"));
                 //condition = Expression.AndAlso(condition, condition3);
 
-                Expression condition4 = Expression.Equal(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int)));
+                Expression condition4 = Expression.NotEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int?)));
                 condition = Expression.AndAlso(condition, condition4);
 
                 if (rules != null)
@@ -4406,7 +4406,7 @@ namespace TugBusinessLogic.Module
                 Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("优惠单"));
                 condition = Expression.AndAlso(condition, condition2);
 
-                Expression condition4 = Expression.Equal(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int)));
+                Expression condition4 = Expression.NotEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int?)));
                 condition = Expression.AndAlso(condition, condition4);
 
                 if (rules != null)
@@ -5263,7 +5263,7 @@ namespace TugBusinessLogic.Module
                 Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("特殊账单"));
                 condition = Expression.AndAlso(condition, condition2);
 
-                Expression condition4 = Expression.Equal(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int)));
+                Expression condition4 = Expression.NotEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int?)));
                 condition = Expression.AndAlso(condition, condition4);
 
                 if (rules != null)
