@@ -897,7 +897,7 @@
 
     <!-- Credit Add MODAL FORM-->
     <div class="modal fade" id="credit-add-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="child-model-dlg" class="modal-dialog" style="width:500px">
+        <div id="child-model-dlg" class="modal-dialog" style="width:768px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -918,24 +918,28 @@
                                 <div class="box-body big">
                                     @*<h4 class="form-title">Supported controls</h4>*@
                                     <form class="form-horizontal" role="form">
-
+                                        <div class="panel panel-success">
+                                            <div class="panel-body" style="height: 150px; overflow:auto;">
+                                                <div id="paratable" class="hot handsontable dataTable table-striped center-block"></div>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditContent</label>
-                                            <div class="col-sm-9">
-                                                <textarea id="_CreditContent" rows="3" class="form-control" placeholder="@Resources.Language.Credit_CreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            <label class="col-sm-2 control-label">*@Resources.Language.Credit_CreditContent</label>
+                                            <div class="col-sm-10">
+                                                <textarea id="_CreditContent" rows="6" class="form-control" placeholder="@Resources.Language.Credit_CreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditAmount</label>
-                                            <div class="col-sm-9">
+                                            <label class="col-sm-2 control-label">*@Resources.Language.Credit_CreditAmount</label>
+                                            <div class="col-sm-10">
                                                 <input id="_CreditAmount" type="text" class="form-control" placeholder="@Resources.Language.Credit_CreditAmount" onfocus="$(this).parent().removeClass('has-error')" onkeyup="inputCheck(this)" />
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
-                                            <div class="col-sm-9">
+                                            <label class="col-sm-2 control-label">@Resources.Language.Remark</label>
+                                            <div class="col-sm-10">
                                                 <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                             </div>
                                         </div>
@@ -1068,6 +1072,91 @@
     </div>
 </div>
 
+<!--参数计算-->
+<script type="text/javascript">
+    //服务项，handsontable 相关
+    var
+        $$ = function (id) { return document.getElementById(id); },
+        paracontainer = $$('paratable'),
+        //tjflow = $$('btnflow'),
+        //autosaveNotification,
+        parahot;
+
+    parahot = new Handsontable(paracontainer, {
+        //data: getCarData(),
+        startRows: 1,
+        startCols: 3,
+        colHeaders: ['回扣係數(%)', '金額', '自定義內容'],
+        contextMenu: true,
+        minSpareRows: 1,
+        rowHeaders: true,
+        columnSorting: false,
+        contextMenu: ['row_below', 'remove_row'],
+        removeRowPlugin: true,
+        //heigth: 500,
+        //colWidths: [100, 100, 100, 50, 50, 50, 100],
+        //stretchH: 'last',
+        //manualColumnResize: true,
+        columns: [
+          {
+              type: 'numeric',
+              //format: '0.00',
+              width: 100
+          },
+          {
+              type: 'numeric',
+              format: '0.00',//'0,0.00 $'
+              width: 100            
+          },
+          {
+              type: 'text',
+              width: 400
+          }
+        ],
+        afterChange: function (change, source) {
+            if (source === 'loadData') {
+                return; //don't save this change
+            }
+            if (change != null) {
+                var parachs = change[0];
+                var pararct = parahot.countRows();
+                //获取账单金额
+                var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                var zdamount = dr.Amount;  //账单ID
+                //var xs = parahot.getDataAtCell(parachs[0], 0);
+                //parahot.setDataAtRowProp(parachs[0], 1, parseFloat(zdamount * xs));  //if (parseFloat(xs)>0)
+
+                //组合
+                var vlcontent = "";
+                var xs = parahot.getDataAtCell(0, 0);
+                var amount = parahot.getDataAtCell(0, 1);
+                var ct = parahot.getDataAtCell(0, 2);
+                if (pararct > 1) vlcontent = "You will be " + xs + "% credited as per HK$" + amount + "."
+                    + "\r\n" + ct + ": " + parseFloat(xs) / 100 * parseFloat(amount);
+                for (var i = 1; i < pararct - 1; i++) {
+                    //alert(parahot.getDataAtCell(i, 0));//[A1,B1]
+                    //if (parseFloat(parahot.getDataAtCell(i, 0)) == 0 || parseFloat(parahot.getDataAtCell(i, 1)) == 0 || parseString(parahot.getDataAtCell(i, 2)) == "") continue;
+                    var xs = parahot.getDataAtCell(i, 0);
+                    var amount = parahot.getDataAtCell(i, 1);
+                    var ct = parahot.getDataAtCell(i, 2);
+                    var zkamount=parseFloat(xs) / 100 * parseFloat(amount);
+
+
+                    vlcontent = vlcontent + "\r\r\nYou will be " + xs + "% credited as per HK$" + amount + "."
+                    + "\r\n" + ct + ": " + zkamount;
+                }
+                //alert(vlcontent);
+                $("#_CreditContent").val(vlcontent);
+            }
+        },
+        afterRemoveRow: function (index, amount) {
+            //alert(index);
+            //alert(amount);
+        }
+    });
+    //end 服务项，handsontable 相关
+</script>
 
 <!--全局变量-->
 <script>
@@ -1078,6 +1167,7 @@
     var g_curSelectedBillingIds = ''; //主界面账单Grid当前选中的可以进行操作的有效账单ID(已经校验过),以逗号分割
 
 </script>
+
 
 <!--Main-->
 <script>
@@ -3698,7 +3788,9 @@
           $('#table-modal').on('shown.bs.modal', function (e) {
               initChildModal();
           });
-
+          $('#credit-add-modal').on('shown.bs.modal', function (e) {
+              initparaModal();
+          });
           function initChildModal() {
               $('#childErrMsg').hide();
               //$('#_xxx').parent().removeClass("has-error");
@@ -3735,6 +3827,32 @@
               //$('#_ChooseTug').val("");
               //$("#_JobStateLabel option:first").prop("selected", 'selected');
               //$('#_RopeUsed input[type="checkbox"]').attr("checked", false);
+          }
+
+          function initparaModal() {
+              $('#childErrMsg').hide();
+              //$('#_xxx').parent().removeClass("has-error");
+
+              jQuery.ajax({
+                  url: '/Finance/GetInitData', //Controller to Get the
+                  //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+                  type: "GET",
+                  dataType: "json",
+                  contentType: "application/json",
+                  charset: "utf-8", // dataType and contentType should be json
+                  async: true,
+                  processData: false,
+                  cache: false,
+                  success: function (data) {      // on Success send the Json data
+                      // to the table by using loaddata function""
+                      //alert("ok");
+                      parahot.loadData(data);
+                      //exampleConsole.innerHTML = 'Data loaded';
+                  },
+                  error: function (xhr) {
+                      alert('error');
+                  }
+              });
           }
 </script>
 
