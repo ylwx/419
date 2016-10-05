@@ -880,7 +880,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 折扣 的本地化字符串。
+        ///   查找类似 折扣系數(%) 的本地化字符串。
         /// </summary>
         internal static string Invoice2_Discount {
             get {
@@ -2212,6 +2212,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 總價 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing2_FinalAmount {
+            get {
+                return ResourceManager.GetString("V_Billing2_FinalAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 回扣金額 的本地化字符串。
+        /// </summary>
+        internal static string V_Billing2_TotalRebate {
+            get {
+                return ResourceManager.GetString("V_Billing2_TotalRebate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 優惠單編號 的本地化字符串。
         /// </summary>
         internal static string V_Billing4_BillingCode {
@@ -2275,7 +2293,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 折扣 的本地化字符串。
+        ///   查找类似 折扣系數(%) 的本地化字符串。
         /// </summary>
         internal static string V_BillingItemTemplate_Discount {
             get {
@@ -2482,7 +2500,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 總價 的本地化字符串。
+        ///   查找类似 帳單金額 的本地化字符串。
         /// </summary>
         internal static string V_Billing_Amount {
             get {

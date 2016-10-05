@@ -1440,6 +1440,7 @@ namespace TugBusinessLogic.Module
             List<CustomField> src = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
                 || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C78" || u.IDX == 40 || u.CustomLabel == "折扣"))
                 || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C82" || u.IDX == 23 || u.CustomLabel == "拖缆费"))
+                || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C83" || u.IDX == 156 || u.CustomLabel == "折扣系数"))
                 || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "E80" || u.IDX == 119 || u.CustomLabel == "燃油附加费折扣")))
                 .OrderBy(u => u.CustomValue).ToList<CustomField>();
 

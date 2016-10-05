@@ -1114,6 +1114,12 @@ namespace TugManagementSystem.Controllers
 
                     credit = db.Credit.Add(credit);
                     db.SaveChanges();
+
+
+                    //更新账单中的回扣金额
+                    {
+                        TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling(billingId);
+                    }
                     
                 }
 
@@ -1184,6 +1190,11 @@ namespace TugManagementSystem.Controllers
                         db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
+                        //更新账单的回扣金额
+                        {
+                            TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling((int)aOrder.BillingID);
+                        }
+
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
                 }
@@ -1216,6 +1227,10 @@ namespace TugManagementSystem.Controllers
                 db.Credit.RemoveRange(list);
                 if(db.SaveChanges() > 0)
                 {
+                    //更新账单的回扣金额
+                    {
+                        TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling((int)list[0].BillingID);
+                    }
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
                 else

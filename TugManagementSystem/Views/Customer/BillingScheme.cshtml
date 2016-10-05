@@ -119,22 +119,19 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
-                                                <div class="form-group" hidden>
+                                                <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_BillingItemTemplate_Discount</label>
                                                     <div class="col-sm-8">
                                                         <input id="_Discount" type="text" class="form-control" placeholder="@Resources.Language.V_BillingItemTemplate_Discount" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_BillingItemTemplate_ShipLength</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_ShipLength" type="text" class="form-control" value=">=0" placeholder="@Resources.Language.V_BillingItemTemplate_ShipLength" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
 
                                         <div class="row">
+                                            
+
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_BillingItemTemplate_ShipTEUS</label>
@@ -143,7 +140,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.V_BillingItemTemplate_ShipLength</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="_ShipLength" type="text" class="form-control" value=">=0" placeholder="@Resources.Language.V_BillingItemTemplate_ShipLength" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6" >
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">*@Resources.Language.V_BillingItemTemplate_ExpiryDate</label>
                                                     <div class="col-sm-8">
@@ -614,7 +625,7 @@
 
                 //折扣
                 if ($("#gs_Discount").val() != null && $("#gs_Discount").val() != "")
-                    ret = ret && util.isValidDiscount('@Resources.Language.V_BillingItemTemplate_Discount', $("#gs_Discount").val());
+                    ret = ret && util.isValidCurrency('@Resources.Language.V_BillingItemTemplate_Discount', $("#gs_Discount").val());
 
                 @*if ($("#gs_ShipLength").val() != null && $("#gs_ShipLength").val() != "") {
                     ret = ret && util.isValidPositiveInt('@Resources.Language.V_BillingItemTemplate_ShipLength', $("#gs_ShipLength").val());
@@ -1321,21 +1332,22 @@
                     editrules: {
                         required: true,
                         custom_func: function (value, column) {
+                            //var re = /^\d+\.?\d{0,2}$/;
                             var re = /^\d+\.?\d{0,2}$/;
                             if (!re.test(value.trim())) {
-                                return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ": 請輸入兩位正小數!"];
+                                return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ": 請輸入数字!"];
                             }
                             else {
-                                var f = parseFloat(value.toString().trim());
+                                @*var f = parseFloat(value.toString().trim());
                                 if (f > 1 || f <= 0)
-                                    return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ': 請輸入0-1之間的小數']
+                                    return [false, '@Resources.Language.V_BillingItemTemplate_Discount' + ': 請輸入0-1之間的小數']*@
                                 return [true, ""];
                             }
 
                         },
                         custom: true
                     },
-                    hidden: true,
+                    hidden: false,
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
 
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -1813,7 +1825,7 @@
 
         $('#_BillingTemplateCode').val("");
         $('#_BillingTemplateName').val("");
-        $('#_Discount').val("1.00");
+        $('#_Discount').val("100");
         $('#_TemplateCreditContent').val("");
         $('#_Remark').val("");
         $('#_ShipLength').val(">=0");
@@ -1936,21 +1948,22 @@
             return;
         } else {
 
+            //var reg = /^\d+\.?\d{0,2}$/;
             var reg = /^\d+\.?\d{0,2}$/;
             if (false == reg.test(discount)) {
-                $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "請輸入0-1之間的兩位小數");
+                $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "非法输入");
                 $('#_Discount').parent().addClass("has-error");
                 $('#parentErrMsg').show();
                 return;
             }
             else {
-                discount = parseFloat(discount);
+                @*discount = parseFloat(discount);
                 if (discount > 1 || discount <= 0) {
                     $('#parentErrMsg p').html('@Resources.Language.V_BillingItemTemplate_Discount' + ":" + "請輸入0-1之間的兩位小數");
                     $('#_Discount').parent().addClass("has-error");
                     $('#parentErrMsg').show();
                     return;
-                }
+                }*@
             }
         }
 

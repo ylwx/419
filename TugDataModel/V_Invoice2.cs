@@ -80,5 +80,7 @@ namespace TugDataModel
         public Nullable<double> UnitPrice { get; set; }
         public string Currency { get; set; }
         public string IsVisible { get; set; }
+        public Nullable<double> TotalRebate { get; set; }
+        public Nullable<double> FinalAmount { get; set; }
     }
 }

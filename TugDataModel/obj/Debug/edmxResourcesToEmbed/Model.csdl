@@ -50,6 +50,36 @@
     <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
       <Parameter Name="userID" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram1">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram1">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition1" ReturnType="Collection(Model.sp_helpdiagramdefinition1_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams1" ReturnType="Collection(Model.sp_helpdiagrams1_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram1">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams1" />
     <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
     <EntitySet Name="Approve" EntityType="Model.Approve" />
     <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -67,6 +97,7 @@
     <EntitySet Name="Flow" EntityType="Model.Flow" />
     <EntitySet Name="Fuelprice" EntityType="Model.Fuelprice" />
     <EntitySet Name="FunctionModule" EntityType="Model.FunctionModule" />
+    <EntitySet Name="LinkMan" EntityType="Model.LinkMan" />
     <EntitySet Name="LogProcess" EntityType="Model.LogProcess" />
     <EntitySet Name="OrderInfor" EntityType="Model.OrderInfor" />
     <EntitySet Name="OrderService" EntityType="Model.OrderService" />
@@ -109,6 +140,7 @@
     <EntitySet Name="V_NeedApproveOrderBillingPreferential" EntityType="Model.V_NeedApproveOrderBillingPreferential" />
     <EntitySet Name="V_NeedApproveOrderBillingSpecial" EntityType="Model.V_NeedApproveOrderBillingSpecial" />
     <EntitySet Name="V_OrderBillingCredit" EntityType="Model.V_OrderBillingCredit" />
+    <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
     <EntitySet Name="V_OrderScheduler" EntityType="Model.V_OrderScheduler" />
     <EntitySet Name="V_OrderService" EntityType="Model.V_OrderService" />
     <EntitySet Name="V_OrderService_Scheduler" EntityType="Model.V_OrderService_Scheduler" />
@@ -180,7 +212,6 @@
       <End Role="UserInfor" EntitySet="UserInfor" />
       <End Role="UsersRole" EntitySet="UsersRole" />
     </AssociationSet>
-    <EntitySet Name="V_OrderInfor" EntityType="Model.V_OrderInfor" />
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -246,6 +277,17 @@
     <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="UserID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition1_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams1_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
   <EntityType Name="AmountSum">
     <Key>
@@ -369,6 +411,7 @@
     <Property Name="TimeTypeID" Type="Int32" />
     <Property Name="Discount" Type="Double" />
     <Property Name="Amount" Type="Double" />
+    <Property Name="TotalRebate" Type="Double" />
     <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -692,6 +735,27 @@
     <Property Name="ModuleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="System" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol5" Type="Double" />
+    <Property Name="UserDefinedCol6" Type="Int32" />
+    <Property Name="UserDefinedCol7" Type="Int32" />
+    <Property Name="UserDefinedCol8" Type="Int32" />
+    <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="LinkMan">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LinkManName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1153,6 +1217,8 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalRebate" Type="Double" />
+    <Property Name="FinalAmount" Type="Double" />
   </EntityType>
   <EntityType Name="V_Billing2">
     <Key>
@@ -1196,6 +1262,8 @@
     <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CustomerName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalRebate" Type="Double" />
+    <Property Name="FinalAmount" Type="Double" />
   </EntityType>
   <EntityType Name="V_Billing3">
     <Key>
@@ -1344,6 +1412,8 @@
     <Property Name="Length" Type="Int32" />
     <Property Name="TEUS" Type="Int32" />
     <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalRebate" Type="Double" />
+    <Property Name="FinalAmount" Type="Double" />
   </EntityType>
   <EntityType Name="V_BillingTask">
     <Key>
@@ -1719,6 +1789,8 @@
     <Property Name="UnitPrice" Type="Double" />
     <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="IsVisible" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalRebate" Type="Double" />
+    <Property Name="FinalAmount" Type="Double" />
   </EntityType>
   <EntityType Name="V_Module_Role_User">
     <Key>
@@ -1867,6 +1939,58 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="V_OrderInfor">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" />
+    <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipID" Type="Int32" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkStateID" Type="Int32" />
+    <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerTypeID" Type="Int32" />
+    <Property Name="ContactPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MailCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DeadWeight" Type="Int32" />
+    <Property Name="Length" Type="Int32" />
+    <Property Name="Width" Type="Int32" />
+    <Property Name="TEUS" Type="Int32" />
+    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceWorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="V_OrderScheduler">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1975,6 +2099,9 @@
     <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CustomerName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_OrderService_Scheduler">
     <Key>
@@ -2319,56 +2446,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="V_OrderInfor">
-    <Key>
-      <PropertyRef Name="IDX" />
-    </Key>
-    <Property Name="IDX" Type="Int32" Nullable="false" />
-    <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerID" Type="Int32" />
-    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipID" Type="Int32" />
-    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="WorkStateID" Type="Int32" />
-    <Property Name="WorkStateValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="WorkStateLabel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OwnerID" Type="Int32" />
-    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CustomerTypeID" Type="Int32" />
-    <Property Name="ContactPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="MailCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipName1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipName2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ShipSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="DeadWeight" Type="Int32" />
-    <Property Name="Length" Type="Int32" />
-    <Property Name="Width" Type="Int32" />
-    <Property Name="TEUS" Type="Int32" />
-    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceWorkTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-  </EntityType>
 </Schema>

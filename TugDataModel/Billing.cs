@@ -36,6 +36,7 @@ namespace TugDataModel
         public Nullable<int> TimeTypeID { get; set; }
         public Nullable<double> Discount { get; set; }
         public Nullable<double> Amount { get; set; }
+        public Nullable<double> TotalRebate { get; set; }
         public string Remark { get; set; }
         public string InvoiceType { get; set; }
         public string Month { get; set; }
