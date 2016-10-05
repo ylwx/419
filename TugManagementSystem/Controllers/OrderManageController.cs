@@ -18,6 +18,10 @@ namespace TugManagementSystem.Controllers
         {
             lan = this.Internationalization();
             ViewBag.Language = lan;
+            ViewBag.Services = TugBusinessLogic.Utils.GetServices();
+
+            ViewBag.ServiceLabels = GetServiceLabels();
+            ViewBag.Locations = GetLocations();
             return View();
         }
 
@@ -527,6 +531,13 @@ namespace TugManagementSystem.Controllers
                         {
                             throw new Exception("客戶名稱不存在！");
                         }
+                        //判断客户船名称是否存在
+                        System.Linq.Expressions.Expression<Func<CustomerShip, bool>> expcts = u => u.Name1 == shipName;
+                        CustomerShip objcts = db.CustomerShip.Where(expcts).FirstOrDefault();
+                        if (objcts == null)
+                        {
+                            throw new Exception("客戶船名稱不存在！");
+                        }
                         //获取服务项
                         System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.UserDefinedCol1 == ordermark;
                         List<OrderService> entityos = db.OrderService.Where(exp).ToList();
@@ -735,7 +746,73 @@ namespace TugManagementSystem.Controllers
                 return Json(new { code = Resources.Common.SUCCESS_CODE, message = IsScheduler });
             }
         }
+        //删除拆分后的订单，一个订单一个服务
+        public ActionResult DeleteOrder_Service()
+        {
+            this.Internationalization();
+            using (TransactionScope trans = new TransactionScope())
+            {
+                try
+                {
+                    var f = Request.Form;
 
+                    int orderid = Util.toint(Request.Form["data[OrderID]"]);
+                    int orderserviceid = Util.toint(Request.Form["data[OrderServiceID]"]);
+
+                    TugDataEntities db = new TugDataEntities();
+                    //System.Linq.Expressions.Expression<Func<V_OrderService_Scheduler, bool>> exps = u => u.UserDefinedCol1 == ordermark;
+                    //List<V_OrderService_Scheduler> schedulerInfor = db.V_OrderService_Scheduler.Where(exps).Select(u => u).ToList<V_OrderService_Scheduler>();
+                    //if (schedulerInfor.Count != 0)
+                    //{
+                    //    return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單已排船，無法刪除！"});
+                    //}
+                    System.Linq.Expressions.Expression<Func<V_OrderService, bool>> exps = u => u.OrderID == orderid & (u.ServiceJobStateLabel == "已完工" || u.ServiceJobStateValue == "2");
+                    List<V_OrderService> objs = db.V_OrderService.Where(exps).Select(u => u).ToList<V_OrderService>();
+                    if (objs.Count != 0)
+                    {
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = "該訂單的服务项已完工，無法刪除，如需刪除請先聯繫財務進行駁回操作!！" });//已完工
+                    }
+                    //获取服务项
+                    System.Linq.Expressions.Expression<Func<OrderService, bool>> exp = u => u.OrderID == orderid;
+                    List<OrderService> entityos = db.OrderService.Where(exp).ToList();
+
+                    //先刪除該訂單下的排船信息
+                    for (int i = 0; i < entityos.Count(); i++)
+                    {
+                        int ordsrvid = Util.toint(entityos[i].IDX);
+                        System.Linq.Expressions.Expression<Func<Scheduler, bool>> exp0 = u => u.OrderServiceID == ordsrvid;
+                        var entitysch = db.Scheduler.Where(exp0);
+                        entitysch.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                        db.Scheduler.RemoveRange(entitysch);
+                        db.SaveChanges();
+                    }
+
+
+                    //先删除订单下的所有服务项
+
+                    entityos.ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                    db.OrderService.RemoveRange(entityos);
+                    db.SaveChanges();
+
+                    //删除订单
+                    System.Linq.Expressions.Expression<Func<OrderInfor, bool>> exp2 = u => u.IDX == orderid;
+                    var entityord = db.OrderInfor.Where(exp2);
+                    entityord.ToList().ForEach(entity => db.Entry(entity).State = System.Data.Entity.EntityState.Deleted); //不加这句也可以
+                    db.OrderInfor.RemoveRange(entityord);
+                    db.SaveChanges();
+
+                    trans.Complete();
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+
+                }
+                catch (Exception)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
+            }
+        }
+        //订单管理原页面删除，一次删除创建的订单及所有服务
         public ActionResult Delete()
         {
             this.Internationalization();
@@ -801,7 +878,27 @@ namespace TugManagementSystem.Controllers
                 }
             }
         }
+        public ActionResult GetCustomerSimpleName(string term)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<Customer> customers = db.Customer.Where(u => (u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
+                || u.Code.ToLower().Trim().Contains(term.Trim().ToLower())
+                || u.SimpleName.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
 
+            List<object> list = new List<object>();
+
+            if (customers != null)
+            {
+                foreach (Customer item in customers)
+                {
+                    list.Add(new { CustomerID = item.IDX, CustomerSimpleName = item.SimpleName, ContactPerson = item.ContactPerson, Telephone = item.Telephone, Email = item.Email });
+                }
+            }
+
+            var jsonData = new { list = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult GetCustomer(string term)
          {
             TugDataEntities db = new TugDataEntities();
@@ -843,9 +940,45 @@ namespace TugManagementSystem.Controllers
             var jsonData = new { list = list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetLinkMans(string term)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<LinkMan> mans = db.LinkMan.Where(u => u.LinkManName.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.LinkManName).ToList<LinkMan>();
 
+            List<object> list = new List<object>();
 
-        public ActionResult GetCustomerShips(string term, int customerId)
+            if (mans != null)
+            {
+                foreach (LinkMan item in mans)
+                {
+                    list.Add(new { LinkManID = item.IDX, LinkManName = item.LinkManName, LinkPhone = item.LinkPhone,LinkEmail = item.LinkEmail });
+                }
+            }
+
+            var jsonData = new { list = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetCustomerShips(string term)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<CustomerShip> ships = db.CustomerShip.Where(u => u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.Name1).ToList<CustomerShip>();
+
+            List<object> list = new List<object>();
+
+            if (ships != null)
+            {
+                foreach (CustomerShip item in ships)
+                {
+                    list.Add(new { ShipID = item.IDX, ShipName1 = item.Name1, Length=item.Length });
+                }
+            }
+
+            var jsonData = new { list = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetCustomerShipsByCustomerID(string term, int customerId)
         {
             TugDataEntities db = new TugDataEntities();
             List<CustomerShip> ships = db.CustomerShip.Where(u => u.CustomerID == customerId && u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
@@ -2330,6 +2463,7 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
 
                     int idx = Util.toint(Request.Form["OrderServiceID"].Trim());
+                    int orderid = Util.toint(Request.Form["OrderID"].Trim());
                     OrderService aOrderService = db.OrderService.Where(u => u.IDX == idx).FirstOrDefault();
 
                     if (aOrderService == null)
@@ -2360,6 +2494,47 @@ namespace TugManagementSystem.Controllers
                         db.Entry(aOrderService).State = System.Data.Entity.EntityState.Modified;
                         if (0 < db.SaveChanges()) //修改成功
                         {
+                            //更新订单
+                            OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == orderid).FirstOrDefault();
+                            if (aOrder != null)
+                            {
+                                aOrder.CustomerID = Util.toint(Request.Form["CustomerID"].Trim());
+                                aOrder.CustomerName = Request.Form["CustomerName"].Trim();
+                                aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                                ////aOrder.IsGuest = Request.Form["IsGuest"].Trim();
+                                aOrder.LinkMan = Request.Form["LinkMan"].Trim();
+                                aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
+                                aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
+
+                                //aOrder.OrdDate = Request.Form["OrdDate"].Trim();
+                                aOrder.ShipID = Util.toint(Request.Form["ShipID"].Trim());
+                                aOrder.ShipName = Request.Form["ShipName"].Trim();
+                                //aOrder.Remark = Request.Form["Remark"].Trim();
+
+                                //aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                                //aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                                //aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                                //aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
+
+                                //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                                //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                //    aOrder.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                                //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                //    aOrder.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                                //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                //    aOrder.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                                //aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                                //aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+
+                                db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
                             //1.先删除原有的调度
                             var oldSchedulers = db.Scheduler.Where(u => u.OrderServiceID == idx).ToList();
                             if (oldSchedulers != null)

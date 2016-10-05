@@ -171,6 +171,140 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
+        [JsonExceptionFilterAttribute]
+        public ActionResult AddEdit_LinkMan()
+        {
+            this.Internationalization();
+
+            #region Add
+
+            if (Request.Form["oper"].Equals("add"))
+            {
+                try
+                {
+                    TugDataEntities db = new TugDataEntities();
+                    {
+                        TugDataModel.LinkMan linkMan = new LinkMan();
+
+                        linkMan.LinkManName = Request.Form["LinkManName"];
+                        linkMan.LinkPhone = Request.Form["LinkPhone"];
+                        linkMan.LinkEmail = Request.Form["LinkEmail"];
+                        linkMan.Remark = Request.Form["Remark"];
+                        linkMan.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        linkMan.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        linkMan.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        linkMan.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        linkMan.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        if (Request.Form["UserDefinedCol5"] != "")
+                            linkMan.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        if (Request.Form["UserDefinedCol6"] != "")
+                            linkMan.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
+
+                        if (Request.Form["UserDefinedCol7"] != "")
+                            linkMan.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
+
+                        if (Request.Form["UserDefinedCol8"] != "")
+                            linkMan.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
+
+                        linkMan.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        linkMan.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                        linkMan = db.LinkMan.Add(linkMan);
+                        db.SaveChanges();
+
+                        var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                        Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                        return Json(ret);
+                    }
+                }
+                catch (Exception)
+                {
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    //Response.Write(@Resources.Common.EXCEPTION_MESSAGE);
+                    return Json(ret);
+                }
+            }
+
+            #endregion Add
+
+            #region Edit
+
+            if (Request.Form["oper"].Equals("edit"))
+            {
+                try
+                {
+                    int idx = Util.toint(Request.Form["IDX"]);
+                    string name = Request.Form["LinkMan"];
+                    TugDataEntities db = new TugDataEntities();
+                    System.Linq.Expressions.Expression<Func<LinkMan, bool>> exp = u => u.LinkManName == name && u.IDX != idx;
+                    LinkMan obj = db.LinkMan.Where(exp).FirstOrDefault();
+                    if (obj != null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = "客户名称已存在！" });//Resources.Common.ERROR_MESSAGE
+                    }
+
+                    LinkMan linkMan = db.LinkMan.Where(u => u.IDX == idx).FirstOrDefault();
+
+                    if (linkMan == null)
+                    {
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                    }
+                    else
+                    {
+                        linkMan.LinkManName = Request.Form["LinkManName"];
+                        linkMan.LinkPhone = Request.Form["LinkPhone"];
+                        linkMan.LinkEmail = Request.Form["LinkEmail"];
+                        linkMan.Remark = Request.Form["Remark"];
+                        linkMan.UserDefinedCol1 = Request.Form["UserDefinedCol1"];
+                        linkMan.UserDefinedCol2 = Request.Form["UserDefinedCol2"];
+                        linkMan.UserDefinedCol3 = Request.Form["UserDefinedCol3"];
+                        linkMan.UserDefinedCol4 = Request.Form["UserDefinedCol4"];
+
+                        if (Request.Form["UserDefinedCol5"] != "")
+                            linkMan.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"]);
+
+                        if (Request.Form["UserDefinedCol6"] != "")
+                            linkMan.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"]);
+
+                        if (Request.Form["UserDefinedCol7"] != "")
+                            linkMan.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"]);
+
+                        if (Request.Form["UserDefinedCol8"] != "")
+                            linkMan.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"]);
+
+                        linkMan.UserDefinedCol9 = Request.Form["UserDefinedCol9"];
+                        linkMan.UserDefinedCol10 = Request.Form["UserDefinedCol10"];
+
+                        db.Entry(linkMan).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        var linkmanList = db.OrderInfor.Where(u => u.CustomerID == idx).ToList();
+                        if (linkmanList != null)
+                        {
+                            foreach (var item in linkmanList)
+                            {
+                                item.CustomerName = linkMan.LinkManName;
+                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+            #endregion Edit
+
+            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+        }
+
        [JsonExceptionFilterAttribute]
         public ActionResult AddCustomer(string Code,string Name1,string Name2,string SimpleName,string ContactPerson,
       string Telephone, string Fax, string Email, string Address, string MailCode, string Remark)
@@ -235,6 +369,56 @@ namespace TugManagementSystem.Controllers
             }
         }
 
+       [JsonExceptionFilterAttribute]
+       public ActionResult AddLinkMan(string LinkMan, string LinkPhone, string LinkEmail, string Remark)
+       {
+           this.Internationalization();
+           try
+           {
+               TugDataEntities db = new TugDataEntities();
+               System.Linq.Expressions.Expression<Func<LinkMan, bool>> exp = u => u.LinkManName == LinkMan;
+               LinkMan obj = db.LinkMan.Where(exp).FirstOrDefault();
+               if (obj != null)
+               {
+                   throw new Exception("客户名称已存在！");
+               }
+               {
+                   TugDataModel.LinkMan newLinkMan = new LinkMan();//
+
+                   newLinkMan.LinkManName = LinkMan;
+                   newLinkMan.LinkPhone = LinkPhone;
+                   newLinkMan.LinkEmail = LinkEmail;
+                   newLinkMan.Remark = Remark;
+                   newLinkMan.CreateDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); 
+                   newLinkMan.UserDefinedCol1 = "";
+                   newLinkMan.UserDefinedCol2 = "";
+                   newLinkMan.UserDefinedCol3 = "";
+                   newLinkMan.UserDefinedCol4 = "";
+                   newLinkMan.UserDefinedCol9 = "";
+                   newLinkMan.UserDefinedCol10 = "";
+
+                   newLinkMan = db.LinkMan.Add(newLinkMan);
+                   db.SaveChanges();
+
+                   var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                   //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                   return Json(ret);
+               }
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
+
+        [Authorize]
+        public ActionResult LinkManManage(string lan, int? id)
+        {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+            return View();
+        }
+
         [Authorize]
         public ActionResult CustomerManage(string lan, int? id)
         {
@@ -282,6 +466,37 @@ namespace TugManagementSystem.Controllers
 
         }
 
+        [JsonExceptionFilterAttribute]
+        public ActionResult Delete_LinkMan()
+        {
+            this.Internationalization();
+            using (TransactionScope trans = new TransactionScope())
+            {
+                try
+                {
+                    var f = Request.Form;
+
+                    int idx = Util.toint(Request.Form["data[IDX]"]);
+
+                    TugDataEntities db = new TugDataEntities();
+                  
+                    //删除聯繫人
+                    LinkMan cstmer = db.LinkMan.FirstOrDefault(u => u.IDX == idx);
+                    db.LinkMan.Remove(cstmer);
+                    db.SaveChanges();
+                    trans.Complete();
+                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                }
+                catch (Exception ex)
+                {
+                    trans.Dispose();
+                    throw ex;
+                    //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
+            }
+
+        }
+
         public ActionResult GetDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
         {
             this.Internationalization();
@@ -293,6 +508,32 @@ namespace TugManagementSystem.Controllers
 
                 //db.Configuration.ProxyCreationEnabled = false;
                 List<Customer> customers = db.Customer.Where(u => u.IDX != -1 && u.Name1 != " 非會員客戶").Select(u => u).OrderByDescending(u => u.IDX).ToList<Customer>();
+                int totalRecordNum = customers.Count;
+                if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                int pageSize = rows;
+                int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                //List<Customer> page_customers = customers.Skip((page - 1) * rows).Take(rows).OrderBy(u => u.IDX).ToList<Customer>();
+
+                var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = customers };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+        public ActionResult GetLinkManDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+            //string s = Request.QueryString[6];
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                //db.Configuration.ProxyCreationEnabled = false;
+                List<LinkMan> customers = db.LinkMan.Where(u => u.IDX != -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<LinkMan>();
                 int totalRecordNum = customers.Count;
                 if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                 int pageSize = rows;

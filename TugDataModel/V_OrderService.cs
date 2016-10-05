@@ -60,5 +60,8 @@ namespace TugDataModel
         public string CustomerName1 { get; set; }
         public string CustomerName2 { get; set; }
         public string CustomerSimpleName { get; set; }
+        public string LinkMan { get; set; }
+        public string LinkPhone { get; set; }
+        public string LinkEmail { get; set; }
     }
 }

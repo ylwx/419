@@ -1,10 +1,11 @@
 ﻿@{
-    ViewBag.Title = "拖轮信息";
-    ViewBag.MenuId = "menu3";
+    ViewBag.Title = Resources.Language.LinkMan;
+    ViewBag.MenuId = "menu2";
     ViewBag.SubMenuIndex = 0;
+    ViewBag.user_name = User.Identity.Name;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
-
+@model TugDataModel.LinkMan
 <div id="main-content">
     <!-- MODAL 增加-->
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -15,7 +16,7 @@
                         <div class="col-md-12">
                             <div class="box border blue">
                                 <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>@Resources.Language.TugInfor_NewTug</h4>
+                                    <h4><i class="fa fa-windows"></i>@Resources.Language.LinkMan_AddNewLinkMan</h4>
                                     <div class="tools hidden-xs">
                                         <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
                                             <i class="fa fa-times"></i>
@@ -29,36 +30,17 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.TugInfor_Code</label>
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.Customer_ContactPerson</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_Code" class="form-control" placeholder="@Resources.Language.TugInfor_Code" onfocus="$(this).parent().removeClass('has-error')" />
+                                                        <input id="_Customer_ContactPerson" class="form-control" placeholder="@Resources.Language.Customer_ContactPerson" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.TugInfor_Name1</label>
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.Customer_Telephone</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_Name1" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_Name1" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.TugInfor_Name2</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_Name2" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_Name2" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.TugInfor_SimpleName</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_SimpleName" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_SimpleName" onfocus="$(this).parent().removeClass('has-error')" />
+                                                        <input id="_Customer_Telephone" type="text" class="form-control" placeholder="@Resources.Language.Customer_Telephone" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -67,55 +49,21 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.TugInfor_Power</label>
+                                                    <label class="col-sm-4 control-label">@Resources.Language.Customer_Email</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_Power" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_Power" onfocus="$(this).parent().removeClass('has-error')" />
+                                                        <input id="_Customer_Email" type="text" class="form-control" placeholder="@Resources.Language.Customer_Email" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.TugInfor_Class</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_Class" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_Class" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.TugInfor_Speed</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_Speed" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_Speed" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.TugInfor_Length</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_Length" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_Length" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.TugInfor_Width</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_Width" type="text" class="form-control" placeholder="@Resources.Language.TugInfor_Width" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.Remark</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_Remark" type="text" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    <label class="col-sm-2 control-label">@Resources.Language.Remark</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,7 +92,7 @@
                 <!-- PAGE HEADER-->
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="">
+                        <div @*class="page-header"*@>
                             <!-- STYLER -->
                             <!-- /STYLER -->
                             <!-- BREADCRUMBS -->
@@ -154,18 +102,13 @@
                                     <a href="#">@Resources.Language.HomePage</a>
                                 </li>
                                 <li>
-                                    <a href="#">@Resources.Language.TugInfor</a>
+                                    <i class="fa fa-users"></i>
+                                    <a href="#">@Resources.Language.Customer</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.TugInforManage
+                                    @Resources.Language.LinkMan
                                 </li>
                             </ul>
-                            <!-- /BREADCRUMBS -->
-                            @*<div class="clearfix">
-                                            <h3 class="content-title pull-left">Grid Test</h3>
-                                        </div>
-                                        <div class="description">Table
-                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -191,7 +134,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.TugInforManage</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.LinkMan</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
                                 <table id="jqGrid"></table>
@@ -222,28 +165,8 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetDataForLoadOnce", "TugInfor")',
+            url: '@Url.Action("GetLinkManDataForLoadOnce", "Customer")',
             mtype: "GET",
-            //点击进入行编辑模式，动态设置只读
-            //onSelectRow: function (rowid, status, e) {
-            //    var rec = $('#jqGrid').jqGrid('getRowData', rowid);
-            //    $('#jqGrid').jqGrid('editRow', rowid, true, function (rowid) {
-            //        if (rec.Name1== 'SUZHOU') $('#' + rowid + '_Name1').attr('readonly', true);
-            //    });
-            //},
-            //点击单元格编辑模式
-            //cellEdit: true,
-            //beforeEditCell: function (rowid, cellname, value, iRow, iCol) {
-            //    var rec = jQuery("#jqGrid").jqGrid('getRowData', rowid);
-            //    alert(cellname);
-            //    if (cellname == 'Name1') {
-            //        setTimeout(function () {
-            //            jQuery("#jqGrid").jqGrid('restoreCell', iRow, iCol);
-            //            //===>或者设置为只读
-            //            //$('#' + rowid + '_amount').attr('readonly', true);
-            //        }, 1);
-            //    }
-            //},
             datatype: "json",
             colModel: tableConfig.columns,
             viewrecords: true,
@@ -251,7 +174,7 @@
             height: '100%', //height: $(window).height() - 300,
             rowNum: 15,
             autowidth: true,
-            editurl: '@Url.Action("AddEdit", "TugInfor")',
+            editurl: '@Url.Action("AddEdit_LinkMan", "Customer")',
             pager: "#jqGridPager",
             loadonce: true,
             rowList: ['15', '20', '30', '40', '50'],
@@ -261,7 +184,7 @@
             colMenu: true          //列菜单
         });
 
-        //$('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
+        $('#jqGrid').jqGrid('filterToolbar', { searchResult: true, searchOperators: true });
 
         $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
 
@@ -279,7 +202,7 @@
                 }
             })
             .navButtonAdd('#jqGridPager', {
-                caption: "", title: "'@Resources.Language.ClearSearchFilter'", buttonicon: "ui-icon-circle-minus",
+                caption: "", title: '@Resources.Language.ClearSearchFilter', buttonicon: "ui-icon-circle-minus",
                 onClickButton: function () {
                     var grid = $('#jqGrid')[0];
                     grid.clearToolbar();
@@ -298,7 +221,7 @@
                             $.ajax(
                                 {
                                     type: "post",
-                                    url: '@Url.Action("Delete", "TugInfor")',
+                                    url: '@Url.Action("Delete_LinkMan", "Customer")',
                                     data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
@@ -339,35 +262,6 @@
                 cancel: true,
                 editParams: {
                     keys: true,
-                    oneditfunc: function (rowid) {
-                        //alert(rowid);
-                        //if (rowid == 2) $('#' + rowid + '_Name1').attr('readonly', true);
-                        $.ajax(
-                            {
-                                type: "post",
-                                url: '@Url.Action("CanDelete", "TugInfor")',
-                                data: { 'data': rowid },//"oper=delete&id=" + gr,
-                                dataType: 'json',
-                                success: function (result) {
-                                    //alert(result.message);
-                                    if (result.message == 'false') $('#' + rowid + '_Name1').attr('readonly', true);
-                                },
-                                error: function (result) {
-                                    console.log(result)
-                                    try {
-                                        var json = $.parseJSON(result.responseText);
-                                        alert(json.errorMessage);                                       
-                                    } catch (e) {
-                                        alert(e.message);
-                                    }
-                                }
-                            }
-                            );
-
-
-
-
-                    },
                     successfunc: function (val) {
                         if (val.responseText != "") {
                             var ret = $.parseJSON(val.responseText);
@@ -391,7 +285,7 @@
                     },
                     errorfunc: function (rowid, xhr) {
                         alert(xhr.responseText);
-                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        //$(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                     }
                 }
             });
@@ -403,87 +297,37 @@
     function GetTableConfig() {
         tableConfig = {
             columns: [
-
                 {
-                    align: 'center', label: '@Resources.Language.TugInfor_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.Customer_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.TugInfor_Code', name: "Code", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.Customer_ContactPerson', name: "LinkManName", width: 150, editable: true, edittype: "text",
                     editrules: { required: false }, colmenu: false,
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.TugInfor_Name1', name: "Name1", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.Customer_Telephone', name: "LinkPhone", width: 150, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.TugInfor_Name2', name: "Name2", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.Customer_Email', name: "LinkEmail", width: 200, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                //标识是否停用
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Disable', name: "UserDefinedCol1", width: 100, editable: true, edittype: "checkbox",
-                    editrules: { required: false }, colmenu: false,
-                    editoptions: { value: "是:否" },  //yes:是， no:否
-                    hidden: false
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Power', name: "Power", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Speed', name: "Speed", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Length', name: "Length", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Width', name: "Width", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-                },
-                {
-                    align: 'center', label: '@Resources.Language.TugInfor_Class', name: "Class", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    editoptions: {},
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
                 {
                     align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 150, editable: true, edittype: "textarea",
                     editrules: { required: false }, hidden: false,
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
                 },
-                {
-                    align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
-                    editrules: { required: false }, hidden: true,
-                    editoptions: {
-                        defaultValue: -1
-                    }
-                },
+                
                 {
                     align: 'center',
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
@@ -511,36 +355,9 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true
                 },
-                {
-                    align: 'center',
-                    label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
-                    editrules: { required: false, date: true }, hidden: false,
-                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                    editoptions: {
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'Y-m-d H:i:s',
-                                step: 1,
-                            });
-                        },
-                        defaultValue: new Date().Format("yyyy-MM-dd hh:mm:ss")
-                    },
-
-                    searchoptions: {
-                        sopt: ["lt", "ge"],
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'Y-m-d H:i:s',
-                                step: 1,
-                                //timepicker: false
-                            });
-                        }
-                    }
-                },
-
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true
@@ -621,8 +438,8 @@
                         }
                     }
                 },
-                { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
-                { align: 'center', label: 'CustomerShip', name: "CustomerShip", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
+                    { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
+                    { align: 'center', label: 'CustomerShip', name: "CustomerShip", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
 
             ]
         };
@@ -634,27 +451,16 @@
     }
     function initParentModal() {
         $('#parentErrMsg').hide();
-        $('#_Code').parent().removeClass("has-error");
-        $('#_Name1').parent().removeClass("has-error");
-        $('#_Name2').parent().removeClass("has-error");
-        $('#_SimpleName').parent().removeClass("has-error");
-        $('#_Power').parent().removeClass("has-error");
-        $('#_Class').parent().removeClass("has-error");
-        $('#_Speed').parent().removeClass("has-error");
-        $('#_Length').parent().removeClass("has-error");
-        $('#_Width').parent().removeClass("has-error");
+        $('#_Customer_ContactPerson').parent().removeClass("has-error");
+        $('#_Customer_Telephone').parent().removeClass("has-error");
+        $('#_Customer_Email').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
-        $('#_Code').val("");
-        $('#_Name1').val("");
-        $('#_Name2').val("");
-        $('#_SimpleName').val("");
-        $('#_Power').val("");
-        $('#_Class').val("");
-        $('#_Speed').val("");
-        $('#_Length').val("");
-        $('#_Width').val("");
+        $('#_Customer_ContactPerson').val("");
+        $('#_Customer_Telephone').val("");
+        $('#_Customer_Email').val("");
         $('#_Remark').val("");
+
     }
 
     $('#parent-modal').on('show.bs.modal', function (e) {
@@ -676,54 +482,37 @@
         var maxTextAreaLength = 500;
 
         $('#parentErrMsg').hide();
-        $('#_Code').parent().removeClass("has-error");
-        $('#_Name1').parent().removeClass("has-error");
-        $('#_Name2').parent().removeClass("has-error");
-        $('#_SimpleName').parent().removeClass("has-error");
-        $('#_Power').parent().removeClass("has-error");
-        $('#_Class').parent().removeClass("has-error");
-        $('#_Speed').parent().removeClass("has-error");
-        $('#_Length').parent().removeClass("has-error");
-        $('#_Width').parent().removeClass("has-error");
+        $('#_Customer_ContactPerson').parent().removeClass("has-error");
+        $('#_Customer_Telephone').parent().removeClass("has-error");
+        $('#_Customer_Email').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
-        var Code = $('#_Code').val();
-        var Name1 = $('#_Name1').val();
-        var Name2 = $('#_Name2').val();
-        var SimpleName = $('#_SimpleName').val();
-        var Power = $('#_Power').val();
-        var Class = $('#_Class').val();
-        var Speed = $('#_Speed').val();
-        var Length = $('#_Length').val();
-        var Width = $('#_Width').val();
+        var Customer_ContactPerson = $('#_Customer_ContactPerson').val();
+        var Customer_Telephone = $('#_Customer_Telephone').val();
+        var Customer_Email = $('#_Customer_Email').val();
         var Remark = $('#_Remark').val();
 
-        if (Name1.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.TugInfor_Name1' + "@Resources.Language.IsNull");
-            $('#_Name1').parent().addClass("has-error");
+        if (Customer_ContactPerson.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.Customer_ContactPerson' + "@Resources.Language.IsNull");
+            $('#_Customer_ContactPerson').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
         }
-        if (Name2.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.TugInfor_Name2' + "@Resources.Language.IsNull");
-            $('#_Name2').parent().addClass("has-error");
+
+        if (Customer_Telephone.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.Customer_Telephone' + "@Resources.Language.IsNull");
+            $('#_Customer_Telephone').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
         }
         //提交数据库
         $.ajax({
             type: "post",
-            url: '@Url.Action("AddTug", "TugInfor")',
+            url: '@Url.Action("AddLinkMan", "Customer")',
             data: {
-                'Code': Code,
-                'Name1': Name1,
-                'Name2': Name2,
-                'SimpleName': SimpleName,
-                'Power': Power,
-                'Class': Class,
-                'Speed': Speed,
-                'Length': Length,
-                'Width': Width,
+                'LinkMan': Customer_ContactPerson,
+                'LinkPhone': Customer_Telephone,
+                'LinkEmail': Customer_Email,
                 'Remark': Remark
             },//"oper=delete&id=" + gr,
             dataType: 'json',
@@ -737,10 +526,10 @@
                 $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    url: '@Url.Action("GetDataForLoadOnce", "TugInfor")',
+                    url: '@Url.Action("GetLinkManDataForLoadOnce", "Customer")',
                 }).trigger('reloadGrid');
 
-                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "TugInfor")' });
+                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit_LinkMan", "Customer")' });
 
             },
             error: function (result) {

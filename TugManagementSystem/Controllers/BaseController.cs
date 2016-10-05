@@ -154,7 +154,6 @@ namespace TugManagementSystem.Controllers
 
         }
 
-
         public string GetServiceNatures()
         {
             string s = string.Empty;
