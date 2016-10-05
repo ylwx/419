@@ -1,26 +1,22 @@
 ﻿@{
-    ViewBag.Title = @Resources.Language.CustomerShip;
+    ViewBag.Title = Resources.Language.LinkMan;
     ViewBag.MenuId = "menu2";
-    ViewBag.SubMenuIndex = 1;
+    ViewBag.SubMenuIndex = 0;
     ViewBag.user_name = User.Identity.Name;
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
-@model List<TugDataModel.Customer>
+@model TugDataModel.LinkMan
 <div id="main-content">
     <!-- MODAL 增加-->
     <div class="modal fade" id="parent-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="model-dlg" class="modal-dialog" style="width:500px">
+        <div id="model-dlg" class="modal-dialog" style="width:800px">
             <div class="modal-content modal-table">
-                @*<div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">拖轮选择</h4>
-                    </div>*@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box border blue">
                                 <div class="box-title">
-                                    <h4><i class="fa fa-windows"></i>@Resources.Language.CustomerShip_NewShip</h4>
+                                    <h4><i class="fa fa-windows"></i>@Resources.Language.LinkMan_AddNewLinkMan</h4>
                                     <div class="tools hidden-xs">
                                         <a href="javascript:;" class="" onclick="$('#parent-modal').modal('hide');">
                                             <i class="fa fa-times"></i>
@@ -34,17 +30,17 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.CustomerShip_Name1</label>
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.Customer_ContactPerson</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_CustomerShip_Name1" class="form-control" placeholder="@Resources.Language.CustomerShip_Name1" onfocus="$(this).parent().removeClass('has-error')" />
+                                                        <input id="_Customer_ContactPerson" class="form-control" placeholder="@Resources.Language.Customer_ContactPerson" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.CustomerShip_Name2</label>
+                                                    <label class="col-sm-4 control-label">*@Resources.Language.Customer_Telephone</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_CustomerShip_Name2" type="text" class="form-control" placeholder="@Resources.Language.CustomerShip_Name2" onfocus="$(this).parent().removeClass('has-error')" />
+                                                        <input id="_Customer_Telephone" type="text" class="form-control" placeholder="@Resources.Language.Customer_Telephone" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,58 +49,13 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.CustomerShip_SimpleName</label>
+                                                    <label class="col-sm-4 control-label">@Resources.Language.Customer_Email</label>
                                                     <div class="col-sm-8">
-                                                        <input id="_CustomerShip_SimpleName" type="text" class="form-control" placeholder="@Resources.Language.CustomerShip_SimpleName" onfocus="$(this).parent().removeClass('has-error')" />
+                                                        <input id="_Customer_Email" type="text" class="form-control" placeholder="@Resources.Language.Customer_Email" onfocus="$(this).parent().removeClass('has-error')" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.CustomerShip_DeadWeight</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_CustomerShip_DeadWeight" type="number" class="form-control" placeholder="@Resources.Language.CustomerShip_DeadWeight" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">*@Resources.Language.CustomerShip_Length</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_CustomerShip_Length" type="number" class="form-control" placeholder="@Resources.Language.CustomerShip_Length" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.CustomerShip_Width</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_CustomerShip_Width" type="number" class="form-control" placeholder="@Resources.Language.CustomerShip_Width" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.CustomerShip_TEUS</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_CustomerShip_TEUS" type="number" class="form-control" placeholder="@Resources.Language.CustomerShip_TEUS" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">@Resources.Language.CustomerShip_Class</label>
-                                                    <div class="col-sm-8">
-                                                        <input id="_CustomerShip_Class" type="text" class="form-control" placeholder="@Resources.Language.CustomerShip_Class" onfocus="$(this).parent().removeClass('has-error')" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
 
                                         <div class="row">
@@ -152,10 +103,10 @@
                                 </li>
                                 <li>
                                     <i class="fa fa-users"></i>
-                                    <a href="#">@Resources.Language.CustomerShip</a>
+                                    <a href="#">@Resources.Language.Customer</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.CustomerShipManage
+                                    @Resources.Language.LinkMan
                                 </li>
                             </ul>
                         </div>
@@ -183,7 +134,7 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.CustomerShipManage</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.LinkMan</h4>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
                                 <table id="jqGrid"></table>
@@ -214,7 +165,7 @@
 
         $("#jqGrid").jqGrid({
             //url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-            url: '@Url.Action("GetAllCustomerShips", "CustomerShip")',
+            url: '@Url.Action("GetLinkManDataForLoadOnce", "Customer")',
             mtype: "GET",
             datatype: "json",
             colModel: tableConfig.columns,
@@ -223,12 +174,12 @@
             height: '100%', //height: $(window).height() - 300,
             rowNum: 15,
             autowidth: true,
-            editurl: '@Url.Action("AddEdit_Only", "CustomerShip")',
+            editurl: '@Url.Action("AddEdit_LinkMan", "Customer")',
             pager: "#jqGridPager",
             loadonce: true,
             rowList: ['15', '20', '30', '40', '50'],
             rownumbers: true,
-            shrinkToFit: false,     
+            shrinkToFit: false,     //指定各列宽度
             sortable: true,          //列可移动
             colMenu: true          //列菜单
         });
@@ -270,7 +221,7 @@
                             $.ajax(
                                 {
                                     type: "post",
-                                    url: '@Url.Action("Delete", "CustomerShip")',
+                                    url: '@Url.Action("Delete_LinkMan", "Customer")',
                                     data: { 'oper': 'delete', 'data': dr },//"oper=delete&id=" + gr,
                                     dataType: 'json',
                                     success: function (result) {
@@ -342,92 +293,41 @@
         //最后调用，冻结列
         //$("#jqGrid").jqGrid("setFrozenColumns");
     });
+
     function GetTableConfig() {
         tableConfig = {
             columns: [
-            {
-                align: 'center', label: "IDX", index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true,
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_CustomerID', name: "CustomerID", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true,
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_ShipTypeID', name: "ShipTypeID", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true,
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_Name1', name: "Name1", width: 100, editable: true, edittype: "text",
-                editrules: { required: true }, colmenu: false,
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_Name2', name: "Name2", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, colmenu: false,
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_SimpleName', name: "SimpleName", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, colmenu: false,
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_Length', name: "Length", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, integer: true },
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_Width', name: "Width", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, integer: true },
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_TEUS', name: "TEUS", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, integer: true },
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_DeadWeight', name: "DeadWeight", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, integer: true },
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.CustomerShip_Class', name: "Class", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, colmenu: false,
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 150, editable: true, edittype: "textarea",
-                editrules: { required: false }, colmenu: false,
-                hidden: false,
-                coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
-            },
-            {
-                align: 'center', label: '@Resources.Language.OwnerID', name: "OwnerID", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true,
-                editoptions: {
-                    defaultValue: -1
-                }
-            },
+                {
+                    align: 'center', label: '@Resources.Language.Customer_IDX', index: "IDX", name: "IDX", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true,
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Customer_ContactPerson', name: "LinkMan1", width: 150, editable: true, edittype: "text",
+                    editrules: { required: false }, colmenu: false,
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Customer_Telephone', name: "LinkPhone", width: 150, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Customer_Email', name: "LinkEmail", width: 200, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: false,
+                    editoptions: {},
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                {
+                    align: 'center', label: '@Resources.Language.Remark', name: "Remark", width: 150, editable: true, edittype: "textarea",
+                    editrules: { required: false }, hidden: false,
+                    colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                },
+                
                 {
                     align: 'center',
                     label: '@Resources.Language.CreateDate', name: "CreateDate", width: 100, editable: false, edittype: "text",
@@ -455,67 +355,37 @@
                     }
                 },
                 {
-                    align: 'center', label: '@Resources.Language.UserID', name: "UserID", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true
                 },
-            {
-                align: 'center',
-                label: '@Resources.Language.LastUpDate', name: "LastUpDate", width: 100, editable: false, edittype: "text",
-                editrules: { required: false, date: true }, hidden: false,
-                colmenu: false, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: false, freeze: false },
-                editoptions: {
-                    dataInit: function (element) {
-                        $(element).datetimepicker({
-                            format: 'Y-m-d H:i:s',
-                            step: 1,
-                        });
-                    },
-                    defaultValue: new Date().Format("yyyy-MM-dd hh:mm:ss")
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
                 },
-
-                searchoptions: {
-                    sopt: ["lt", "ge"],
-                    dataInit: function (element) {
-                        $(element).datetimepicker({
-                            format: 'Y-m-d H:i:s',
-                            step: 1,
-                            //timepicker: false
-                        });
-                    }
-                }
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol1', name: "UserDefinedCol1", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol2', name: "UserDefinedCol2", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
-                editrules: { required: false }, hidden: true
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, number: true }, hidden: true
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, integer: true }, hidden: true
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, integer: true }, hidden: true
-            },
-            {
-                align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
-                editrules: { required: false, integer: true }, hidden: true
-            },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol3', name: "UserDefinedCol3", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol4', name: "UserDefinedCol4", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol5', name: "UserDefinedCol5", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, number: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol6', name: "UserDefinedCol6", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol7', name: "UserDefinedCol7", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
+                {
+                    align: 'center', label: '@Resources.Language.UserDefinedCol8', name: "UserDefinedCol8", width: 100, editable: true, edittype: "text",
+                    editrules: { required: false, integer: true }, hidden: true
+                },
                 {
                     align: 'center', label: '@Resources.Language.UserDefinedCol9', name: "UserDefinedCol9", width: 100, editable: true, edittype: "text",
                     editrules: { required: false, date: true }, hidden: true,
@@ -568,6 +438,8 @@
                         }
                     }
                 },
+                    { align: 'center', label: 'Billing', name: "Billing", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true },
+                    { align: 'center', label: 'CustomerShip', name: "CustomerShip", width: 100, editable: true, edittype: "text", editrules: { required: false }, hidden: true }
 
             ]
         };
@@ -579,25 +451,16 @@
     }
     function initParentModal() {
         $('#parentErrMsg').hide();
-        $('#_CustomerShip_Name1').parent().removeClass("has-error");
-        $('#_CustomerShip_Name2').parent().removeClass("has-error");
-        $('#_CustomerShip_SimpleName').parent().removeClass("has-error");
-        $('#_CustomerShip_DeadWeight').parent().removeClass("has-error");
-        $('#_CustomerShip_Length').parent().removeClass("has-error");
-        $('#_CustomerShip_Width').parent().removeClass("has-error");
-        $('#_CustomerShip_TEUS').parent().removeClass("has-error");
-        $('#_CustomerShip_Class').parent().removeClass("has-error");
+        $('#_Customer_ContactPerson').parent().removeClass("has-error");
+        $('#_Customer_Telephone').parent().removeClass("has-error");
+        $('#_Customer_Email').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
-        $('#_CustomerShip_Name1').val("");
-        $('#_CustomerShip_Name2').val("");
-        $('#_CustomerShip_SimpleName').val("");
-        $('#_CustomerShip_DeadWeight').val("");
-        $('#_CustomerShip_Length').val("");
-        $('#_CustomerShip_Width').val("");
-        $('#_CustomerShip_TEUS').val("");
-        $('#_CustomerShip_Class').val("");
+        $('#_Customer_ContactPerson').val("");
+        $('#_Customer_Telephone').val("");
+        $('#_Customer_Email').val("");
         $('#_Remark').val("");
+
     }
 
     $('#parent-modal').on('show.bs.modal', function (e) {
@@ -619,53 +482,37 @@
         var maxTextAreaLength = 500;
 
         $('#parentErrMsg').hide();
-        $('#_CustomerShip_Name1').parent().removeClass("has-error");
-        $('#_CustomerShip_Name2').parent().removeClass("has-error");
-        $('#_CustomerShip_SimpleName').parent().removeClass("has-error");
-        $('#_CustomerShip_DeadWeight').parent().removeClass("has-error");
-        $('#_CustomerShip_Length').parent().removeClass("has-error");
-        $('#_CustomerShip_Width').parent().removeClass("has-error");
-        $('#_CustomerShip_TEUS').parent().removeClass("has-error");
-        $('#_CustomerShip_Class').parent().removeClass("has-error");
+        $('#_Customer_ContactPerson').parent().removeClass("has-error");
+        $('#_Customer_Telephone').parent().removeClass("has-error");
+        $('#_Customer_Email').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
 
-        var CustomerShip_Name1 = $('#_CustomerShip_Name1').val();
-        var CustomerShip_Name2 = $('#_CustomerShip_Name2').val();
-        var CustomerShip_SimpleName = $('#_CustomerShip_SimpleName').val();
-        var CustomerShip_DeadWeight = $('#_CustomerShip_DeadWeight').val();
-        var CustomerShip_Length = $('#_CustomerShip_Length').val();
-        var CustomerShip_Width = $('#_CustomerShip_Width').val();
-        var CustomerShip_TEUS = $('#_CustomerShip_TEUS').val();
-        var CustomerShip_Class = $('#_CustomerShip_Class').val();
+        var Customer_ContactPerson = $('#_Customer_ContactPerson').val();
+        var Customer_Telephone = $('#_Customer_Telephone').val();
+        var Customer_Email = $('#_Customer_Email').val();
         var Remark = $('#_Remark').val();
 
-         if (CustomerShip_Name1.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.CustomerShip_Name1' + "@Resources.Language.IsNull");
-            $('#_CustomerShip_Name1').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-        if (CustomerShip_Length.length <= 0) {
-            $('#parentErrMsg p').html('@Resources.Language.CustomerShip_Length' + "@Resources.Language.IsNull");
-            $('#_CustomerShip_Length').parent().addClass("has-error");
+        if (Customer_ContactPerson.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.Customer_ContactPerson' + "@Resources.Language.IsNull");
+            $('#_Customer_ContactPerson').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
         }
 
+        if (Customer_Telephone.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.Customer_Telephone' + "@Resources.Language.IsNull");
+            $('#_Customer_Telephone').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
         //提交数据库
         $.ajax({
             type: "post",
-            url: '@Url.Action("AddCustomerShip_Only", "CustomerShip")',
+            url: '@Url.Action("AddLinkMan", "Customer")',
             data: {
-                //'ctmId': $('.panel-title span:first').html(),
-                'Name1': CustomerShip_Name1,
-                'Name2': CustomerShip_Name2,
-                'SimpleName': CustomerShip_SimpleName,
-                'DeadWeight': CustomerShip_DeadWeight,
-                'Length': CustomerShip_Length,
-                'Width': CustomerShip_Width,
-                'TEUS': CustomerShip_TEUS,
-                'Class': CustomerShip_Class,
+                'LinkMan': Customer_ContactPerson,
+                'LinkPhone': Customer_Telephone,
+                'LinkEmail': Customer_Email,
                 'Remark': Remark
             },//"oper=delete&id=" + gr,
             dataType: 'json',
@@ -679,12 +526,11 @@
                 $('#jqGrid').jqGrid('setGridParam',
                 {
                     datatype: 'json',
-                    //url: "/CustomerShip/GetCustomerShips" + '?ctmId=' + $('.panel-title span:first').html(),
-                    url: "/CustomerShip/GetAllCustomerShips",
+                    url: '@Url.Action("GetLinkManDataForLoadOnce", "Customer")',
                 }).trigger('reloadGrid');
 
-                //$("#jqGrid").jqGrid('setGridParam', { editurl: "/CustomerShip/AddEdit_Only" });
-                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit_Only", "CustomerShip")' });
+                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit_LinkMan", "Customer")' });
+
             },
             error: function (result) {
                 console.log(result)

@@ -1051,6 +1051,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 聯繫人 的本地化字符串。
+        /// </summary>
+        internal static string LinkMan {
+            get {
+                return ResourceManager.GetString("LinkMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增聯繫人 的本地化字符串。
+        /// </summary>
+        internal static string LinkMan_AddNewLinkMan {
+            get {
+                return ResourceManager.GetString("LinkMan_AddNewLinkMan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 模塊 的本地化字符串。
         /// </summary>
         internal static string Module {
