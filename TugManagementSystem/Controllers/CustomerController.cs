@@ -383,7 +383,7 @@ namespace TugManagementSystem.Controllers
                    throw new Exception("客户名称已存在！");
                }
                {
-                   TugDataModel.LinkMan newLinkMan = new LinkMan();
+                   TugDataModel.LinkMan newLinkMan = new LinkMan();//
 
                    newLinkMan.LinkManName = LinkMan;
                    newLinkMan.LinkPhone = LinkPhone;
