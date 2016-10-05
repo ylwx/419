@@ -2449,172 +2449,193 @@ namespace TugManagementSystem.Controllers
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
-
+        [JsonExceptionFilterAttribute]
         public ActionResult AddEditService2()
         {
             this.Internationalization();
 
             #region Edit
-
-            if (Request.Form["oper"].Equals("edit"))
+            using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
             {
-                try
+                if (Request.Form["oper"].Equals("edit"))
                 {
-                    TugDataEntities db = new TugDataEntities();
-
-                    int idx = Util.toint(Request.Form["OrderServiceID"].Trim());
-                    int orderid = Util.toint(Request.Form["OrderID"].Trim());
-                    OrderService aOrderService = db.OrderService.Where(u => u.IDX == idx).FirstOrDefault();
-
-                    if (aOrderService == null)
+                    try
                     {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                    }
-                    else
-                    {
-                        aOrderService.ServiceWorkDate = Request.Form["ServiceWorkDate"];
-                        aOrderService.ServiceWorkTime = Request.Form["ServiceWorkTime"];
-                        aOrderService.ServiceNatureID = TugBusinessLogic.Module.Util.toint(Request.Form["ServiceNatureID"]);
-                        aOrderService.ServiceWorkPlace = Request.Form["ServiceWorkPlace"];
+                        TugDataEntities db = new TugDataEntities();
 
-
-                        aOrderService.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());
-                        aOrderService.MiddleTugNum = Util.toint(Request.Form["MiddleTugNum"].Trim());
-                        aOrderService.SmallTugNum = Util.toint(Request.Form["SmallTugNum"].Trim());
-
-                        aOrderService.UserDefinedCol9 = Request.Form["TugIDs"];
-                        aOrderService.UserDefinedCol10 = Request.Form["TugNames"];
-
-                        aOrderService.OwnerID = -1;
-                        aOrderService.UserID = Session.GetDataFromSession<int>("userid");
-
-                        aOrderService.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-
-                        db.Entry(aOrderService).State = System.Data.Entity.EntityState.Modified;
-                        if (0 < db.SaveChanges()) //修改成功
+                        int idx = Util.toint(Request.Form["OrderServiceID"].Trim());
+                        int orderid = Util.toint(Request.Form["OrderID"].Trim());
+                        var customerName = Request.Form["CustomerName"].Trim();
+                        var shipName = Request.Form["ShipName"].Trim();
+                        //判断客户名称是否存在
+                        System.Linq.Expressions.Expression<Func<Customer, bool>> expctm = u => u.Name1 == customerName;
+                        Customer objctm = db.Customer.Where(expctm).FirstOrDefault();
+                        if (objctm == null)
                         {
-                            //更新订单
-                            OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == orderid).FirstOrDefault();
-                            if (aOrder != null)
+                            //throw new Exception("客戶名稱不存在！");
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = "客戶名稱不存在！" });
+                        }
+                        //判断客户船名称是否存在
+                        System.Linq.Expressions.Expression<Func<CustomerShip, bool>> expcts = u => u.Name1 == shipName;
+                        CustomerShip objcts = db.CustomerShip.Where(expcts).FirstOrDefault();
+                        if (objcts == null)
+                        {
+                            //throw new Exception("客戶船名稱不存在！");
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = "客戶船名稱不存在！" });
+                        }
+                        OrderService aOrderService = db.OrderService.Where(u => u.IDX == idx).FirstOrDefault();
+
+                        if (aOrderService == null)
+                        {
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                        }
+                        else
+                        {
+                            aOrderService.ServiceWorkDate = Request.Form["ServiceWorkDate"];
+                            aOrderService.ServiceWorkTime = Request.Form["ServiceWorkTime"];
+                            aOrderService.ServiceNatureID = TugBusinessLogic.Module.Util.toint(Request.Form["ServiceNatureID"]);
+                            aOrderService.ServiceWorkPlace = Request.Form["ServiceWorkPlace"];
+
+
+                            aOrderService.BigTugNum = Util.toint(Request.Form["BigTugNum"].Trim());
+                            aOrderService.MiddleTugNum = Util.toint(Request.Form["MiddleTugNum"].Trim());
+                            aOrderService.SmallTugNum = Util.toint(Request.Form["SmallTugNum"].Trim());
+
+                            aOrderService.UserDefinedCol9 = Request.Form["TugIDs"];
+                            aOrderService.UserDefinedCol10 = Request.Form["TugNames"];
+
+                            aOrderService.OwnerID = -1;
+                            aOrderService.UserID = Session.GetDataFromSession<int>("userid");
+
+                            aOrderService.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+
+                            db.Entry(aOrderService).State = System.Data.Entity.EntityState.Modified;
+                            if (0 < db.SaveChanges()) //修改成功
                             {
-                                aOrder.CustomerID = Util.toint(Request.Form["CustomerID"].Trim());
-                                aOrder.CustomerName = Request.Form["CustomerName"].Trim();
-                                aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                                ////aOrder.IsGuest = Request.Form["IsGuest"].Trim();
-                                aOrder.LinkMan = Request.Form["LinkMan"].Trim();
-                                aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
-                                aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
-
-                                //aOrder.OrdDate = Request.Form["OrdDate"].Trim();
-                                aOrder.ShipID = Util.toint(Request.Form["ShipID"].Trim());
-                                aOrder.ShipName = Request.Form["ShipName"].Trim();
-                                //aOrder.Remark = Request.Form["Remark"].Trim();
-
-                                //aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
-                                //aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
-                                //aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
-                                //aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
-
-                                //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                                //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
-
-                                //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                                //    aOrder.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
-
-                                //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                                //    aOrder.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
-
-                                //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                                //    aOrder.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
-
-                                //aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
-                                //aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
-
-                                db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
-                            }
-                            //1.先删除原有的调度
-                            var oldSchedulers = db.Scheduler.Where(u => u.OrderServiceID == idx).ToList();
-                            if (oldSchedulers != null)
-                            {
-                                db.Scheduler.RemoveRange(oldSchedulers);
-                                if (0 < db.SaveChanges())
+                                //更新订单
+                                OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == orderid).FirstOrDefault();
+                                if (aOrder != null)
                                 {
-                                    OrderService os = db.OrderService.FirstOrDefault(u => u.IDX == idx);
-                                    os.JobStateID = 114;
-                                    db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                    aOrder.CustomerID = Util.toint(Request.Form["CustomerID"].Trim());
+                                    aOrder.CustomerName = Request.Form["CustomerName"].Trim();
+                                    aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                                    ////aOrder.IsGuest = Request.Form["IsGuest"].Trim();
+                                    aOrder.LinkMan = Request.Form["LinkMan"].Trim();
+                                    aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
+                                    aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
+
+                                    //aOrder.OrdDate = Request.Form["OrdDate"].Trim();
+                                    aOrder.ShipID = Util.toint(Request.Form["ShipID"].Trim());
+                                    aOrder.ShipName = Request.Form["ShipName"].Trim();
+                                    //aOrder.Remark = Request.Form["Remark"].Trim();
+
+                                    //aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                                    //aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                                    //aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                                    //aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
+
+                                    //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                    //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                                    //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                    //    aOrder.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                                    //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                    //    aOrder.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                                    //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                    //    aOrder.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                                    //aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                                    //aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+
+                                    db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
-                            }
-
-                            //2.插入新更改的调度
-                            #region 插入多个调度到数据库
-                            {
-                                if (aOrderService.UserDefinedCol9.Trim() != "")
+                                //1.先删除原有的调度
+                                var oldSchedulers = db.Scheduler.Where(u => u.OrderServiceID == idx).ToList();
+                                if (oldSchedulers != null)
                                 {
-                                    List<string> lstTugIds = aOrderService.UserDefinedCol9.Split(',').ToList();
-                                    if (lstTugIds != null && lstTugIds.Count > 0)
+                                    db.Scheduler.RemoveRange(oldSchedulers);
+                                    if (0 < db.SaveChanges())
                                     {
-                                        List<Scheduler> lstSchedulers = new List<Scheduler>();
-                                        foreach (string item in lstTugIds)
+                                        OrderService os = db.OrderService.FirstOrDefault(u => u.IDX == idx);
+                                        os.JobStateID = 114;
+                                        db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                }
+
+                                //2.插入新更改的调度
+                                #region 插入多个调度到数据库
+                                {
+                                    if (aOrderService.UserDefinedCol9.Trim() != "")
+                                    {
+                                        List<string> lstTugIds = aOrderService.UserDefinedCol9.Split(',').ToList();
+                                        if (lstTugIds != null && lstTugIds.Count > 0)
                                         {
-                                            TugDataModel.Scheduler aScheduler = new Scheduler();
+                                            List<Scheduler> lstSchedulers = new List<Scheduler>();
+                                            foreach (string item in lstTugIds)
+                                            {
+                                                TugDataModel.Scheduler aScheduler = new Scheduler();
 
-                                            aScheduler.OrderServiceID = idx;
+                                                aScheduler.OrderServiceID = idx;
 
-                                            aScheduler.TugID = Util.toint(item);
+                                                aScheduler.TugID = Util.toint(item);
 
-                                            aScheduler.RopeUsed = "";
-                                            aScheduler.RopeNum = 0;
-                                            aScheduler.Remark = "";
+                                                aScheduler.RopeUsed = "";
+                                                aScheduler.RopeNum = 0;
+                                                aScheduler.Remark = "";
 
-                                            aScheduler.IsCaptainConfirm = "";
+                                                aScheduler.IsCaptainConfirm = "";
 
-                                            aScheduler.InformCaptainTime = "";
-                                            aScheduler.CaptainConfirmTime = "";
-                                            aScheduler.JobStateID = 32;
+                                                aScheduler.InformCaptainTime = "";
+                                                aScheduler.CaptainConfirmTime = "";
+                                                aScheduler.JobStateID = 32;
 
-                                            aScheduler.OwnerID = -1;
-                                            aScheduler.UserID = Session.GetDataFromSession<int>("userid");
+                                                aScheduler.OwnerID = -1;
+                                                aScheduler.UserID = Session.GetDataFromSession<int>("userid");
 
-                                            aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                                aScheduler.CreateDate = aScheduler.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                                            aScheduler.UserDefinedCol1 = "";
-                                            aScheduler.UserDefinedCol2 = "";
-                                            aScheduler.UserDefinedCol3 = "";
-                                            aScheduler.UserDefinedCol4 = "";
+                                                aScheduler.UserDefinedCol1 = "";
+                                                aScheduler.UserDefinedCol2 = "";
+                                                aScheduler.UserDefinedCol3 = "";
+                                                aScheduler.UserDefinedCol4 = "";
 
-                                            aScheduler.UserDefinedCol9 = "";
-                                            aScheduler.UserDefinedCol10 = "";
+                                                aScheduler.UserDefinedCol9 = "";
+                                                aScheduler.UserDefinedCol10 = "";
 
-                                            lstSchedulers.Add(aScheduler);
-                                        }
+                                                lstSchedulers.Add(aScheduler);
+                                            }
 
-                                        db.Scheduler.AddRange(lstSchedulers);
-                                        if (0 < db.SaveChanges())
-                                        {
-                                            OrderService os = db.OrderService.FirstOrDefault(u => u.IDX == idx);
-                                            os.JobStateID = 115;
-                                            db.Entry(os).State = System.Data.Entity.EntityState.Modified;
-                                            db.SaveChanges();
+                                            db.Scheduler.AddRange(lstSchedulers);
+                                            if (0 < db.SaveChanges())
+                                            {
+                                                OrderService os = db.OrderService.FirstOrDefault(u => u.IDX == idx);
+                                                os.JobStateID = 115;
+                                                db.Entry(os).State = System.Data.Entity.EntityState.Modified;
+                                                db.SaveChanges();
+                                            }
                                         }
                                     }
                                 }
+                                #endregion
                             }
-                            #endregion
+                            trans.Complete();
+                            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                         }
-
-                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Dispose();
+                        throw ex;
+                        //return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
                     }
                 }
-                catch (Exception exp)
-                {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-                }
             }
-
             #endregion Edit
 
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });

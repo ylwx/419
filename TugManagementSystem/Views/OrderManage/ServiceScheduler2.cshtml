@@ -584,7 +584,19 @@
                             var ret = $.parseJSON(val.responseText);
                             alert(ret.message);
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            return;
                         }
+                    },
+                    errorfunc: function (rowid, xhr) {
+                        //alert(xhr.responseText);
+                        try {
+                            var json = $.parseJSON(xhr.responseText);
+                            //alert(json.errorMessage);
+                        } catch (e) {
+                            alert(e.message);
+                        }
+                        $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        return;
                     },
                     url: null, //'/api/values',
                     mtype: 'POST'
@@ -963,7 +975,7 @@
                     editrules: { required: false }, hidden: true,
                 },
                 {
-                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 200, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
