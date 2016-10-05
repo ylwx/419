@@ -1073,7 +1073,8 @@
 </div>
 
 <!--参数计算-->
-<script type="text/javascript">
+<script type="text/javascript">  
+    
     //服务项，handsontable 相关
     var
         $$ = function (id) { return document.getElementById(id); },
@@ -1104,26 +1105,42 @@
               width: 100
           },
           {
-              type: 'numeric',
-              format: '0.00',//'0,0.00 $'
-              width: 100            
+              type: 'autocomplete',
+              //format: '0.00',//'0,0.00 $'
+              width: 100,
+              source: function (query, process) {
+                  //获取账单金额
+                  var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                  var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                  var zdamount = dr.Amount;  //账单ID
+                  var ss = [zdamount];
+                  process(ss);
+          },
           },
           {
-              type: 'text',
+              type: 'autocomplete',
+              source: ['(BUNKER SURCHARGES & ROPES ARE EXCLUDED)'],
+              strict: false,
+              trimDropdown: false,
               width: 400
           }
         ],
+        cells: function (row, col, prop) {
+            if (col === 1) {
+                this.data = '12345';
+            }
+        },
         afterChange: function (change, source) {
+           
             if (source === 'loadData') {
                 return; //don't save this change
             }
             if (change != null) {
                 var parachs = change[0];
+                //alert(change[0][0])  //行号
+                //alert(change[0][1])  //列号
                 var pararct = parahot.countRows();
-                //获取账单金额
-                var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-                var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                var zdamount = dr.Amount;  //账单ID
+
                 //var xs = parahot.getDataAtCell(parachs[0], 0);
                 //parahot.setDataAtRowProp(parachs[0], 1, parseFloat(zdamount * xs));  //if (parseFloat(xs)>0)
 
@@ -1132,8 +1149,15 @@
                 var xs = parahot.getDataAtCell(0, 0);
                 var amount = parahot.getDataAtCell(0, 1);
                 var ct = parahot.getDataAtCell(0, 2);
-                if (pararct > 1) vlcontent = "You will be " + xs + "% credited as per HK$" + amount + "."
-                    + "\r\n" + ct + ": " + parseFloat(xs) / 100 * parseFloat(amount);
+                var zkamount = parseFloat(xs) / 100 * parseFloat(amount);
+                var totalamount;
+                if (pararct > 1)
+                {
+                    vlcontent = "You will be " + xs + "% credited as per HK$" + fmoney(amount, 2) + "."
+                    + "\r\n" + ct + ": " + fmoney(zkamount, 2);
+                    totalamount = zkamount;
+                }
+
                 for (var i = 1; i < pararct - 1; i++) {
                     //alert(parahot.getDataAtCell(i, 0));//[A1,B1]
                     //if (parseFloat(parahot.getDataAtCell(i, 0)) == 0 || parseFloat(parahot.getDataAtCell(i, 1)) == 0 || parseString(parahot.getDataAtCell(i, 2)) == "") continue;
@@ -1141,13 +1165,14 @@
                     var amount = parahot.getDataAtCell(i, 1);
                     var ct = parahot.getDataAtCell(i, 2);
                     var zkamount=parseFloat(xs) / 100 * parseFloat(amount);
+                    totalamount = totalamount + zkamount;
 
-
-                    vlcontent = vlcontent + "\r\r\nYou will be " + xs + "% credited as per HK$" + amount + "."
-                    + "\r\n" + ct + ": " + zkamount;
+                    vlcontent = vlcontent + "\r\r\nYou will be " + xs + "% credited as per HK$" + fmoney(amount, 2) + "."
+                    + "\r\n" + ct + ": " + fmoney(zkamount, 2);
                 }
                 //alert(vlcontent);
                 $("#_CreditContent").val(vlcontent);
+                $("#_CreditAmount").val(totalamount);
             }
         },
         afterRemoveRow: function (index, amount) {
@@ -1156,6 +1181,17 @@
         }
     });
     //end 服务项，handsontable 相关
+    function fmoney(s, n) {
+        n = n > 0 && n <= 20 ? n : 2;
+        s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+        var l = s.split(".")[0].split("").reverse(),
+        r = s.split(".")[1];
+        t = "";
+        for (i = 0; i < l.length; i++) {
+            t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+        }
+        return t.split("").reverse().join("") + "." + r;
+    }
 </script>
 
 <!--全局变量-->
