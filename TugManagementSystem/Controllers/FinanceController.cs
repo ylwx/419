@@ -177,7 +177,15 @@ namespace TugManagementSystem.Controllers
             ViewBag.OrderID = orderId;
             return View();
         }
+        public JsonResult GetInitData()
+        {
+            var jsonData = new[]
+                     {
+                         new[] {"","",""}
+                    };
 
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }   
 
         #region 账单操作
 
