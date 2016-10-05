@@ -44,6 +44,7 @@ namespace TugDataModel
         public virtual DbSet<Flow> Flow { get; set; }
         public virtual DbSet<Fuelprice> Fuelprice { get; set; }
         public virtual DbSet<FunctionModule> FunctionModule { get; set; }
+        public virtual DbSet<LinkMan> LinkMan { get; set; }
         public virtual DbSet<LogProcess> LogProcess { get; set; }
         public virtual DbSet<OrderInfor> OrderInfor { get; set; }
         public virtual DbSet<OrderService> OrderService { get; set; }
