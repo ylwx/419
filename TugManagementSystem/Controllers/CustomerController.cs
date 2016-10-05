@@ -186,7 +186,7 @@ namespace TugManagementSystem.Controllers
                     {
                         TugDataModel.LinkMan linkMan = new LinkMan();
 
-                        linkMan.LinkMan1 = Request.Form["LinkMan1"];
+                        linkMan.LinkManName = Request.Form["LinkManName"];
                         linkMan.LinkPhone = Request.Form["LinkPhone"];
                         linkMan.LinkEmail = Request.Form["LinkEmail"];
                         linkMan.Remark = Request.Form["Remark"];
@@ -238,7 +238,7 @@ namespace TugManagementSystem.Controllers
                     int idx = Util.toint(Request.Form["IDX"]);
                     string name = Request.Form["LinkMan"];
                     TugDataEntities db = new TugDataEntities();
-                    System.Linq.Expressions.Expression<Func<LinkMan, bool>> exp = u => u.LinkMan1 == name && u.IDX != idx;
+                    System.Linq.Expressions.Expression<Func<LinkMan, bool>> exp = u => u.LinkManName == name && u.IDX != idx;
                     LinkMan obj = db.LinkMan.Where(exp).FirstOrDefault();
                     if (obj != null)
                     {
@@ -253,7 +253,7 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        linkMan.LinkMan1 = Request.Form["LinkMan1"];
+                        linkMan.LinkManName = Request.Form["LinkManName"];
                         linkMan.LinkPhone = Request.Form["LinkPhone"];
                         linkMan.LinkEmail = Request.Form["LinkEmail"];
                         linkMan.Remark = Request.Form["Remark"];
@@ -285,7 +285,7 @@ namespace TugManagementSystem.Controllers
                         {
                             foreach (var item in linkmanList)
                             {
-                                item.CustomerName = linkMan.LinkMan1;
+                                item.CustomerName = linkMan.LinkManName;
                                 db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }
@@ -376,7 +376,7 @@ namespace TugManagementSystem.Controllers
            try
            {
                TugDataEntities db = new TugDataEntities();
-               System.Linq.Expressions.Expression<Func<LinkMan, bool>> exp = u => u.LinkMan1 == LinkMan;
+               System.Linq.Expressions.Expression<Func<LinkMan, bool>> exp = u => u.LinkManName == LinkMan;
                LinkMan obj = db.LinkMan.Where(exp).FirstOrDefault();
                if (obj != null)
                {
@@ -385,7 +385,7 @@ namespace TugManagementSystem.Controllers
                {
                    TugDataModel.LinkMan newLinkMan = new LinkMan();
 
-                   newLinkMan.LinkMan1 = LinkMan;
+                   newLinkMan.LinkManName = LinkMan;
                    newLinkMan.LinkPhone = LinkPhone;
                    newLinkMan.LinkEmail = LinkEmail;
                    newLinkMan.Remark = Remark;
