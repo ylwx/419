@@ -45,5 +45,7 @@ namespace TugDataModel
         public Nullable<int> UserID { get; set; }
         public string LastUpDate { get; set; }
         public string InvoiceType { get; set; }
+        public Nullable<double> TotalRebate { get; set; }
+        public Nullable<double> FinalAmount { get; set; }
     }
 }

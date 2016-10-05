@@ -200,14 +200,10 @@ namespace TugDataModel
 
         
         /// <summary>
-        /// 折扣
+        /// 折扣系数
         /// </summary>
         public double Discount { get; set; }
 
-        /// <summary>
-        /// 折扣系數
-        /// </summary>
-        public double DiscountCoefficient { get; set; }
 
         /// <summary>
         /// 多个调度， key:value = 服务ID:调度对象

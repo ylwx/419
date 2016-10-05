@@ -59,5 +59,7 @@ namespace TugDataModel
         public Nullable<int> Length { get; set; }
         public Nullable<int> TEUS { get; set; }
         public string UserDefinedCol3 { get; set; }
+        public Nullable<double> TotalRebate { get; set; }
+        public Nullable<double> FinalAmount { get; set; }
     }
 }

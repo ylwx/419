@@ -278,7 +278,8 @@ namespace TugBusinessLogic.Module
                 _invoice.TimeTypeValue = list.FirstOrDefault().TimeTypeValue;
                 _invoice.TimeTypeLabel = list.FirstOrDefault().TimeTypeLabel;
                 _invoice.Discount = (double)list.FirstOrDefault().Discount;
-                
+                _invoice.FinalAmount = (double)list.FirstOrDefault().FinalAmount;
+
                 _invoice.Month = list.FirstOrDefault().Month;
                 _invoice.JobNo = list.FirstOrDefault().JobNo;
                 _invoice.Rmark = list.FirstOrDefault().Remark;
@@ -448,6 +449,7 @@ namespace TugBusinessLogic.Module
                 _invoice.Schedulers = dicSchedulers;
 
                 _invoice.GrandTotalHKS = Math.Round(grandTotal, 2);
+                //_invoice.FinalAmount = _invoice.GrandTotalHKS - _invoice.GrandTotalHKS * _invoice.Discount / 100;
             }
 
             return _invoice;
@@ -1530,6 +1532,7 @@ namespace TugBusinessLogic.Module
             }
 
             _invoice.GrandTotalHKS = grandTotal;
+            _invoice.FinalAmount = grandTotal - (grandTotal * _invoice.Discount / 100);
 
 
             return _invoice;
@@ -3222,6 +3225,23 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
+                    case "TotalRebate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TotalRebate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TotalRebate).ToList();
+                        }
+                        break;
+
+                    case "FinalAmount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.FinalAmount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.FinalAmount).ToList();
+                        }
+                        break;
                     case "Amount":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -3749,6 +3769,100 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
+                            #region TotalRebate
+                            case "TotalRebate":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TotalRebate"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "TotalRebate"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "TotalRebate"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "TotalRebate"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "TotalRebate"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region FinalAmount
+                            case "FinalAmount":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "FinalAmount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "FinalAmount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "FinalAmount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "FinalAmount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "FinalAmount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region Month
                             case "Month":
                                 {
@@ -4149,6 +4263,24 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.Month).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Month).ToList();
+                        }
+                        break;
+
+                    case "TotalRebate":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.TotalRebate).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.TotalRebate).ToList();
+                        }
+                        break;
+
+                    case "FinalAmount":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.FinalAmount).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.FinalAmount).ToList();
                         }
                         break;
 
@@ -6794,7 +6926,32 @@ namespace TugBusinessLogic.Module
 
 
 
-        
+
+        static public void UpdateTotalRebateOfBilling(int billingId)
+        {
+            TugDataEntities db = new TugDataEntities();
+            //更新账单中的回扣金额
+            {
+
+                var credits = db.Credit.Where(u => u.BillingID == billingId).ToList();
+                if (credits != null)
+                {
+                    double credit_total = 0;
+                    foreach (var item in credits)
+                    {
+                        credit_total += (double)item.CreditAmount;
+                    }
+
+                    var bill = db.Billing.FirstOrDefault(u => u.IDX == billingId);
+                    if (bill != null)
+                    {
+                        bill.TotalRebate = credit_total;
+                        db.Entry(bill).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
+        }
 
     }
 }
