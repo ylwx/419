@@ -200,18 +200,38 @@ namespace TugDataModel
 
         
         /// <summary>
-        /// 折扣系数
+        /// 折扣
         /// </summary>
         public double Discount { get; set; }
+
+        /// <summary>
+        /// 折扣系數
+        /// </summary>
+        public double DiscountCoefficient { get; set; }
+
         /// <summary>
         /// 多个调度， key:value = 服务ID:调度对象
         /// </summary>
+        /// 
+
         public Dictionary<int, List<MyScheduler>> Schedulers { get; set; }
 
         /// <summary>
-        /// 共计港币
+        /// 共计港币(原来账单中的字段 账单的总计港币之和)
         /// </summary>
         public double GrandTotalHKS { get; set; }
+
+
+        /// <summary>
+        /// 回扣单的回扣金额总和
+        /// </summary>
+        public double TotalRebate { get; set; }
+
+
+        /// <summary>
+        /// 最终账单总金额（账单的总计港币之和 - 账单的总计港币之和*折扣系数）
+        /// </summary>
+        public double FinalAmount { get; set; }
 
 
         /// <summary>
