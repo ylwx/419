@@ -2467,6 +2467,8 @@ namespace TugManagementSystem.Controllers
                         int orderid = Util.toint(Request.Form["OrderID"].Trim());
                         var customerName = Request.Form["CustomerName"].Trim();
                         var shipName = Request.Form["ShipName"].Trim();
+                        int customerid;// =  Util.toint(Request.Form["CustomerID"].Trim());
+                        int shipid;//=  Util.toint(Request.Form["ShipID"].Trim());
                         //判断客户名称是否存在
                         System.Linq.Expressions.Expression<Func<Customer, bool>> expctm = u => u.Name1 == customerName;
                         Customer objctm = db.Customer.Where(expctm).FirstOrDefault();
@@ -2475,7 +2477,9 @@ namespace TugManagementSystem.Controllers
                             //throw new Exception("客戶名稱不存在！");
                             return Json(new { code = Resources.Common.ERROR_CODE, message = "客戶名稱不存在！" });
                         }
-                        //判断客户船名称是否存在
+                        else
+                            customerid = objctm.IDX;
+                        //判断客户船名称是否存在//
                         System.Linq.Expressions.Expression<Func<CustomerShip, bool>> expcts = u => u.Name1 == shipName;
                         CustomerShip objcts = db.CustomerShip.Where(expcts).FirstOrDefault();
                         if (objcts == null)
@@ -2483,6 +2487,8 @@ namespace TugManagementSystem.Controllers
                             //throw new Exception("客戶船名稱不存在！");
                             return Json(new { code = Resources.Common.ERROR_CODE, message = "客戶船名稱不存在！" });
                         }
+                        else
+                            shipid = objcts.IDX;
                         OrderService aOrderService = db.OrderService.Where(u => u.IDX == idx).FirstOrDefault();
 
                         if (aOrderService == null)
@@ -2517,7 +2523,7 @@ namespace TugManagementSystem.Controllers
                                 OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == orderid).FirstOrDefault();
                                 if (aOrder != null)
                                 {
-                                    aOrder.CustomerID = Util.toint(Request.Form["CustomerID"].Trim());
+                                    aOrder.CustomerID = customerid;// Util.toint(Request.Form["CustomerID"].Trim());
                                     aOrder.CustomerName = Request.Form["CustomerName"].Trim();
                                     aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -2527,7 +2533,7 @@ namespace TugManagementSystem.Controllers
                                     aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
 
                                     //aOrder.OrdDate = Request.Form["OrdDate"].Trim();
-                                    aOrder.ShipID = Util.toint(Request.Form["ShipID"].Trim());
+                                    aOrder.ShipID = shipid;//Util.toint(Request.Form["ShipID"].Trim());
                                     aOrder.ShipName = Request.Form["ShipName"].Trim();
                                     //aOrder.Remark = Request.Form["Remark"].Trim();
 
