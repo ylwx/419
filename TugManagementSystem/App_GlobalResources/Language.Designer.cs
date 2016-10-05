@@ -1654,7 +1654,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 已完成 的本地化字符串。
+        ///   查找类似 已完成任務 的本地化字符串。
         /// </summary>
         internal static string Task_Approved {
             get {
@@ -1663,7 +1663,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 待完成 的本地化字符串。
+        ///   查找类似 待辦任務 的本地化字符串。
         /// </summary>
         internal static string Task_NeedApprove {
             get {

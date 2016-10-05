@@ -878,7 +878,27 @@ namespace TugManagementSystem.Controllers
                 }
             }
         }
+        public ActionResult GetCustomerSimpleName(string term)
+        {
+            TugDataEntities db = new TugDataEntities();
+            List<Customer> customers = db.Customer.Where(u => (u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
+                || u.Code.ToLower().Trim().Contains(term.Trim().ToLower())
+                || u.SimpleName.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.Name1).ToList<Customer>();
 
+            List<object> list = new List<object>();
+
+            if (customers != null)
+            {
+                foreach (Customer item in customers)
+                {
+                    list.Add(new { CustomerID = item.IDX, CustomerSimpleName = item.SimpleName, ContactPerson = item.ContactPerson, Telephone = item.Telephone, Email = item.Email });
+                }
+            }
+
+            var jsonData = new { list = list };
+            return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult GetCustomer(string term)
          {
             TugDataEntities db = new TugDataEntities();
@@ -932,7 +952,7 @@ namespace TugManagementSystem.Controllers
             {
                 foreach (LinkMan item in mans)
                 {
-                    list.Add(new { ShipID = item.IDX, LinkManName = item.LinkManName });
+                    list.Add(new { LinkManID = item.IDX, LinkManName = item.LinkManName, LinkPhone = item.LinkPhone,LinkEmail = item.LinkEmail });
                 }
             }
 
@@ -951,7 +971,7 @@ namespace TugManagementSystem.Controllers
             {
                 foreach (CustomerShip item in ships)
                 {
-                    list.Add(new { ShipID = item.IDX, ShipName1 = item.Name1 });
+                    list.Add(new { ShipID = item.IDX, ShipName1 = item.Name1, Length=item.Length });
                 }
             }
 
@@ -2478,14 +2498,14 @@ namespace TugManagementSystem.Controllers
                             OrderInfor aOrder = db.OrderInfor.Where(u => u.IDX == orderid).FirstOrDefault();
                             if (aOrder != null)
                             {
-                                //aOrder.CustomerID = Util.toint(Request.Form["CustomerID"].Trim());
-                                //aOrder.CustomerName = Request.Form["CustomerName"].Trim();
-                                //aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                aOrder.CustomerID = Util.toint(Request.Form["CustomerID"].Trim());
+                                aOrder.CustomerName = Request.Form["CustomerName"].Trim();
+                                aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                                 ////aOrder.IsGuest = Request.Form["IsGuest"].Trim();
-                                //aOrder.LinkMan = Request.Form["LinkMan"].Trim();
-                                //aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
-                                //aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
+                                aOrder.LinkMan = Request.Form["LinkMan"].Trim();
+                                aOrder.LinkPhone = Request.Form["LinkPhone"].Trim();
+                                aOrder.LinkEmail = Request.Form["LinkEmail"].Trim();
 
                                 //aOrder.OrdDate = Request.Form["OrdDate"].Trim();
                                 aOrder.ShipID = Util.toint(Request.Form["ShipID"].Trim());

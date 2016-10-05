@@ -64,7 +64,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">*@Resources.Language.V_OrderInfor_LinkMan</label>
                                                 <div class="col-sm-8">
-                                                    <input id="_LinkMan" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_LinkMan" onfocus="$(this).parent().removeClass('has-error')" />
+                                                    <input id="_LinkM" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_LinkMan" onfocus="$(this).parent().removeClass('has-error')" />
                                                 </div>
                                             </div>
                                         </div>
@@ -297,7 +297,7 @@
                                     <a href="#">@Resources.Language.Order</a>
                                 </li>
                                 <li>
-                                    @Resources.Language.ServiceScheduler
+                                    @Resources.Language.OrderManage
                                 </li>
                             </ul>
                         </div>
@@ -325,14 +325,13 @@
                         <!-- BOX -->
                         <div class="box border orange">
                             <div class="box-title">
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.ServiceScheduler</h4>
+                                <h4><i class="fa fa-bars"></i>@Resources.Language.OrderManage</h4>
 
-                                <div class="tools">
+                                @*<div class="tools">
                                     <a href="javascript:;" class="hover-link" onclick="goToOrder()">
                                         <i class="fa fa-share"></i><strong>去下單</strong>
                                     </a>
-
-                                </div>
+                                </div>*@
 
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
@@ -731,7 +730,8 @@
                                                     return {
                                                         id: item.ShipID,
                                                         label: item.ShipName1,
-                                                        value: item.ShipName1
+                                                        value: item.ShipName1,
+                                                        Length: item.Length
                                                     };
                                                 }));
                                             },
@@ -751,11 +751,15 @@
                                             //alert(ui.item.id);
                                             var shipid_id = rowid + "_ShipID";
                                             $('#' + shipid_id).val(ui.item.id);
+                                            var Length_id = rowid + "_Length";
+                                            $('#' + Length_id).val(ui.item.Length);
                                             //jQuery("#jqGrid").setCell(rowid, 'CustomerID', ui.item.id);
                                         }
                                         else {
                                             var shipid_id = rowid + "_ShipID";
                                             $('#' + shipid_id).val(-1);
+                                            var Length_id = rowid + "_Length";
+                                            $('#' + Length_id).val(0);
                                             //jQuery("#jqGrid").setCell(rowid, 'CustomerID', -1);
                                         }
 
@@ -958,17 +962,138 @@
                     align: 'center', label: '@Resources.Language.Customer_IDX', name: "CustomerID", width: 100, editable: true, edittype: "text",
                     editrules: { required: false }, hidden: true,
                 },
-
-
-
                 {
-                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerSimpleName", width: 80, editable: false, edittype: "text",
+                    align: 'center', label: '@Resources.Language.CustomerName', name: "CustomerName", width: 100, editable: true, edittype: "text",
                     editrules: { required: true }, hidden: false,
                     colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    editoptions: {
+                        dataInit: function (element) {
+                            window.setTimeout(function () {
+                                $(element).autocomplete({
+                                    id: 'AutoComplete',
+                                    source: function (request, response) {
+                                        this.xhr = $.ajax({
+                                            url: '@Url.Action("GetCustomer", "OrderManage")',
+                                            data: request,
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            success: function (data) {
+                                                response($.map(data.list, function (item) {
+                                                    return {
+                                                        id: item.CustomerID,
+                                                        label: item.CustomerName1,
+                                                        value: item.CustomerName1
+                                                    };
+                                                }));
+                                            },
+
+                                            error: function (model, response, options) {
+                                                response([]);
+                                            }
+                                        });
+                                    },
+                                    //select: function (event, ui) {
+                                    //},
+                                    change: function (event, ui) {
+
+                                        var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
+
+                                        if (ui.item != null) {
+                                            //alert(ui.item.id);
+                                            var costomerid_id = rowid + "_CustomerID";
+                                            $('#' + costomerid_id).val(ui.item.id);
+                                            //jQuery("#jqGrid").setCell(rowid, 'CustomerID', ui.item.id);
+                                        }
+                                        else {
+                                            var costomerid_id = rowid + "_CustomerID";
+                                            $('#' + costomerid_id).val(-1);
+                                            //jQuery("#jqGrid").setCell(rowid, 'CustomerID', -1);
+                                        }
+
+                                        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                                    },
+                                    autoFocus: false
+                                });
+                            }, 100);
+                        }
+
+                    }
                 },
+                {
+                    align: 'center', label: '@Resources.Language.LinkMan', name: "LinkMan", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] },
+                    editoptions: {
+                        dataInit: function (element) {
+                            window.setTimeout(function () {
+                                $(element).autocomplete({
+                                    id: 'AutoComplete',
+                                    source: function (request, response) {
+                                        this.xhr = $.ajax({
+                                            url: '@Url.Action("GetLinkMans", "OrderManage")',
+                                            data: request,
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            success: function (data) {
+                                                response($.map(data.list, function (item) {
+                                                    return {
+                                                        id: item.LinkManID,
+                                                        label: item.LinkManName,
+                                                        value: item.LinkManName,
+                                                        LinkPhone: item.LinkPhone,
+                                                        LinkEmail: item.LinkEmail
+                                                    };
+                                                }));
+                                            },
 
+                                            error: function (model, response, options) {
+                                                response([]);
+                                            }
+                                        });
+                                    },
+                                    //select: function (event, ui) {
+                                    //},
+                                    change: function (event, ui) {
 
+                                        var rowid = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到最后一次选择的行
+
+                                        if (ui.item != null) {
+                                            //alert(ui.item.id);
+                                            var LinkPhone_id = rowid + "_LinkPhone";
+                                            $('#' + LinkPhone_id).val(ui.item.LinkPhone);
+                                            var LinkEmail_id = rowid + "_LinkEmail";
+                                            $('#' + LinkEmail_id).val(ui.item.LinkEmail);
+                                            //jQuery("#jqGrid").setCell(rowid, 'CustomerID', ui.item.id);
+                                        }
+                                        else {
+                                            var costomerid_id = rowid + "_CustomerID";
+                                            $('#' + costomerid_id).val(-1);
+                                            //jQuery("#jqGrid").setCell(rowid, 'CustomerID', -1);
+                                        }
+
+                                        //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                                    },
+                                    autoFocus: false
+                                });
+                            }, 100);
+                        }
+
+                    }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkPhone', name: "LinkPhone", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
+                },
+                {
+                    align: 'center', label: '@Resources.Language.V_OrderInfor_LinkEmail', name: "LinkEmail", width: 100, editable: true, edittype: "text",
+                    editrules: { required: true }, hidden: false,
+                    colmenu: true, coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["cn", "eq", "bw", "ew"] }
+                }
             ]
         };
     }
@@ -1129,20 +1254,9 @@
         $('#_CustomerName').parent().removeClass("has-error");
         $('#_OrdDate').parent().removeClass("has-error");
 
-        //$('#_WorkDate').parent().removeClass("has-error");
-        //$('#_WorkTime').parent().removeClass("has-error");
-        //$('#_EstimatedCompletionTime').parent().removeClass("has-error");
 
         $('#_ShipName').parent().removeClass("has-error");
-        //$('#_WorkPlace').parent().removeClass("has-error");
-        //$('#_ServiceNatureNames').removeClass("has-error");
-
-        //$('#_BigTugNum').parent().removeClass("has-error");
-        //$('#_MiddleTugNum').parent().removeClass("has-error");
-        //$('#_SmallTugNum').parent().removeClass("has-error");
-
-
-        $('#_LinkMan').parent().removeClass("has-error");
+        $('#_LinkM').parent().removeClass("has-error");
         $('#_LinkPhone').parent().removeClass("has-error");
         $('#_LinkEmail').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
@@ -1181,30 +1295,30 @@
                 if (ui.item != null) {
                     //alert(ui.item.contact_person);
                     $("#_CustomerID").text(ui.item.id);
-                    $("#_LinkMan").val(ui.item.contact_person);
-                    $("#_LinkPhone").val(ui.item.telephone);
-                    $("#_LinkEmail").val(ui.item.email);
+                    //$("#_LinkM").val(ui.item.contact_person);
+                    //$("#_LinkPhone").val(ui.item.telephone);
+                    //$("#_LinkEmail").val(ui.item.email);
                 }
                 else {
                     $("#_CustomerID").text(-1);
-                    $("#_LinkMan").val("");
-                    $("#_LinkPhone").val("");
-                    $("#_LinkEmail").val("");
+                    //$("#_LinkM").val("");
+                    //$("#_LinkPhone").val("");
+                    //$("#_LinkEmail").val("");
                 }
             },
             change: function (event, ui) {
 
                 if (ui.item != null) {
                     $("#_CustomerID").text(ui.item.id);
-                    $("#_LinkMan").val(ui.item.contact_person);
-                    $("#_LinkPhone").val(ui.item.telephone);
-                    $("#_LinkEmail").val(ui.item.email);
+                    //$("#_LinkM").val(ui.item.contact_person);
+                    //$("#_LinkPhone").val(ui.item.telephone);
+                    //$("#_LinkEmail").val(ui.item.email);
                 }
                 else {
                     $("#_CustomerID").text(-1);
-                    $("#_LinkMan").val("");
-                    $("#_LinkPhone").val("");
-                    $("#_LinkEmail").val("");
+                    //$("#_LinkM").val("");
+                    //$("#_LinkPhone").val("");
+                    //$("#_LinkEmail").val("");
                 }
 
             },
@@ -1215,7 +1329,7 @@
         $('#_ShipName').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomerShips", "OrderManage")' + '?customerId=' + $("#_CustomerID").text(),
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")',
                     data: request,
                     type: 'GET',
                     dataType: 'json',
@@ -1250,19 +1364,21 @@
             autoFocus: true
         });
 
-        $('#_LinkMan').autocomplete({
+        $('#_LinkM').autocomplete({
             source: function (request, response) {
                 this.xhr = $.ajax({
-                    url: '@Url.Action("GetCustomerShips", "OrderManage")' + '?customerId=' + $("#_CustomerID").text(),
+                    url: '@Url.Action("GetLinkMans", "OrderManage")',
                     data: request,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
                         response($.map(data.list, function (item) {
                             return {
-                                id: item.ShipID,
-                                label: item.ShipName1,
-                                value: item.ShipName1
+                                id: item.LinkManID,
+                                label: item.LinkManName,
+                                value: item.LinkManName,
+                                LinkPhone: item.LinkPhone,
+                                LinkEmail: item.LinkEmail
                             };
                         }));
                     },
@@ -1274,19 +1390,33 @@
             },
             select: function (event, ui) {
                 if (ui.item != null)
-                    $("#_ShipID").text(ui.item.id);
+                {
+                    $("#_LinkPhone").val(ui.item.LinkPhone);
+                    $("#_LinkEmail").val(ui.item.LinkEmail);
+                }
+
                 else
-                    $("#_ShipID").text(-1);
+                {
+                    $("#_LinkPhone").val("");
+                    $("#_LinkEmail").val("");
+                }
             },
             change: function (event, ui) {
+                if (ui.item != null) {
+                    $("#_LinkPhone").val(ui.item.LinkPhone);
+                    $("#_LinkEmail").val(ui.item.LinkEmail);
+                }
 
-                if (ui.item != null)
-                    $("#_ShipID").text(ui.item.id);
-                else
-                    $("#_ShipID").text(-1);
+                else {
+                    $("#_LinkPhone").val("");
+                    $("#_LinkEmail").val("");
+                }
             },
             autoFocus: true
         });
+
+
+
         $('#_OrdDate').datetimepicker({
             //format: 'Y-m-d H:i:s',
             format: 'Y-m-d H:i:s',
@@ -1318,22 +1448,11 @@
         $('#_CustomerName').val("");
 
         $('#_OrdDate').val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
-        //$('#_WorkDate').val(new Date().Format("yyyy-MM-dd"));
-        //$('#_WorkTime').val(new Date().Format("hh:mm"));
-        //$('#_EstimatedCompletionTime').val(new Date().Format("hh:mm"));
+
 
         $('#_ShipName').val("");
-        //$('#_WorkPlace').val("");
 
-        //$("input[name='serviceCheckbox']").each(function () {
-        //    $(this).attr("checked", false);
-        //});
-
-        //$('#_BigTugNum').val("");
-        //$('#_MiddleTugNum').val("");
-        //$('#_SmallTugNum').val("");
-
-        $('#_LinkMan').val("");
+        $('#_LinkM').val("");
         $('#_LinkPhone').val("");
         $('#_LinkEmail').val("");
         $('#_Remark').val("");
@@ -1344,20 +1463,10 @@
         $('#parentErrMsg').hide();
         $('#_CustomerName').parent().removeClass("has-error");
         $('#_OrdDate').parent().removeClass("has-error");
-        //$('#_WorkDate').parent().removeClass("has-error");
-        //$('#_WorkTime').parent().removeClass("has-error");
-        //$('#_EstimatedCompletionTime').parent().removeClass("has-error");
+
 
         $('#_ShipName').parent().removeClass("has-error");
-        //$('#_WorkPlace').parent().removeClass("has-error");
-        //$('#_ServiceNatureNames').removeClass("has-error");
-
-        //$('#_BigTugNum').parent().removeClass("has-error");
-        //$('#_MiddleTugNum').parent().removeClass("has-error");
-        //$('#_SmallTugNum').parent().removeClass("has-error");
-
-
-        $('#_LinkMan').parent().removeClass("has-error");
+        $('#_LinkM').parent().removeClass("has-error");
         $('#_LinkPhone').parent().removeClass("has-error");
         $('#_LinkEmail').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
@@ -1370,16 +1479,9 @@
         var customerId = $("#_CustomerID").text();
         var customerName = $("#_CustomerName").val().trim();
         var ordDate = $("#_OrdDate").val().trim();
-        //var workDate = $("#_WorkDate").val().trim();
-        //var workTime = $("#_WorkTime").val().trim();
-        //var estimatedCompletionTime = $("#_EstimatedCompletionTime").val().trim();
         var shipId = $("#_ShipID").text();
         var shipName = $("#_ShipName").val().trim();
-        //var workPlace = $("#_WorkPlace").val().trim();
-        //var bigTugNum = $("#_BigTugNum").val().trim();
-        //var middleTugNum = $("#_MiddleTugNum").val().trim();
-        //var smallTugNum = $("#_SmallTugNum").val().trim();
-        var linkMan = $("#_LinkMan").val().trim();
+        var linkMan = $("#_LinkM").val().trim();
         var linkPhone = $("#_LinkPhone").val().trim();
         var linkEmail = $("#_LinkEmail").val().trim();
         var remark = $("#_Remark").val().trim();
@@ -1390,7 +1492,7 @@
             $('#parentErrMsg').show();
             return;
         }
-        @*else if (customerName.length > maxTextLength) {
+            @*else if (customerName.length > maxTextLength) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_CustomerName' + "长度不能超过" + maxTextLength);
             $('#_CustomerName').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -1417,7 +1519,7 @@
         return;
     }*@
 
-        @*else if (estimatedCompletionTime.length <= 0) {
+            @*else if (estimatedCompletionTime.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_EstimatedCompletionTime' + "必填");
             $('#_EstimatedCompletionTime').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -1437,7 +1539,7 @@
         }
 
 
-        @*else if (workPlace.length <= 0) {
+            @*else if (workPlace.length <= 0) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_WorkPlace' + "必填");
             $('#_WorkPlace').parent().addClass("has-error");
             $('#parentErrMsg').show();
@@ -1449,16 +1551,16 @@
             return;
         }*@
 
-        //var hasChecked = false;
-        //var serviceNatureIds = '', serviceNatureNames = '';
-        //$("input[name='serviceCheckbox']").each(function () {
-        //    if ($(this).is(':checked')) {
+            //var hasChecked = false;
+            //var serviceNatureIds = '', serviceNatureNames = '';
+            //$("input[name='serviceCheckbox']").each(function () {
+            //    if ($(this).is(':checked')) {
 
-        //        hasChecked = true;
-        //        serviceNatureIds += $(this).val().toString().split('~')[0] + '/';
-        //        serviceNatureNames += $(this).val().toString().split('~')[2] + '/';
-        //    }
-        //});
+            //        hasChecked = true;
+            //        serviceNatureIds += $(this).val().toString().split('~')[0] + '/';
+            //        serviceNatureNames += $(this).val().toString().split('~')[2] + '/';
+            //    }
+            //});
 
             @*if (hasChecked == true){
                 serviceNatureIds = serviceNatureIds.substr(0, serviceNatureIds.length - 1);
@@ -1470,11 +1572,11 @@
         $('#parentErrMsg').show();
         return;
     }*@
-        //alert(serviceNatureIds);
-        //alert(serviceNatureNames);
+            //alert(serviceNatureIds);
+            //alert(serviceNatureNames);
 
 
-        @*if (bigTugNum.length > 0) {
+            @*if (bigTugNum.length > 0) {
             var r = bigTugNum.match("^\\d+$");
     if (r == null) {
         $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_BigTugNum' + ":请输入大于或等于0的整数");
@@ -1494,7 +1596,7 @@
         }
     }*@
 
-        @*else if (smallTugNum.length > 0) {
+            @*else if (smallTugNum.length > 0) {
         var r = smallTugNum.match("^\\d+$");
         if (r == null) {
             $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_SmallTugNum' + ":请输入大于或等于0的整数");
@@ -1504,17 +1606,17 @@
         }
     }*@
 
-    else if (linkMan.length <= 0) {
-        $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "必填");
-        $('#_LinkMan').parent().addClass("has-error");
-        $('#parentErrMsg').show();
-        return;
-    } else if (linkMan.length > maxTextLength) {
-        $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "長度不能超多" + maxTextLength);
-        $('#_LinkMan').parent().addClass("has-error");
-        $('#parentErrMsg').show();
-        return;
-    }
+        else if (linkMan.length <= 0) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "必填");
+            $('#_LinkM').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        } else if (linkMan.length > maxTextLength) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkMan' + "長度不能超多" + maxTextLength);
+            $('#_LinkM').parent().addClass("has-error");
+            $('#parentErrMsg').show();
+            return;
+        }
 
             @*else if (linkPhone.length <= 0) {
         $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "必填");
@@ -1522,141 +1624,141 @@
         $('#parentErrMsg').show();
         return;
     }*@
-    else if (linkPhone.length > maxTextLength) {
-        $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "長度不能超多" + maxTextLength);
-        $('#_LinkPhone').parent().addClass("has-error");
-        $('#parentErrMsg').show();
-        return;
-    }
-
-
-    else if (linkEmail.length > 0) {
-        var util = new Util();
-
-        if (false == util.isEmail2(linkEmail)) {
-            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkEmail' + ":輸入的電子郵件無效");
-            $('#_LinkEmail').parent().addClass("has-error");
+        else if (linkPhone.length > maxTextLength) {
+            $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkPhone' + "長度不能超多" + maxTextLength);
+            $('#_LinkPhone').parent().addClass("has-error");
             $('#parentErrMsg').show();
             return;
         }
 
-    }
 
-    else if (remark.length > maxTextAreaLength) {
-        $('#parentErrMsg p').html('@Resources.Language.Remark' + "長度不能超多" + maxTextAreaLength);
-        $('#_Remark').parent().addClass("has-error");
-        $('#parentErrMsg').show();
-        return;
-    }
-    //服务内容服务项、工作日期不能为空
-    var rct = hot.countRows();
-    //alert(rct);
-    for (var i = 0; i < rct - 1; i++) {
-        //alert(hot.getDataAtCell(i, 0));//[A1,B1]
-        var vlserv = hot.getDataAtCell(i, 0)
-        //alert(vlserv);
-        if (vlserv == null || vlserv == '' || vlserv == undefined) {
-            //alert("第" + (i + 1) + "行流程节点为空! ");
-            $('#parentErrMsg p').html("第" + (i + 1) + "行服務項為空! ");
-            //$('#_XX').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-        var vldate = hot.getDataAtCell(i, 1)
-        if (vldate == null || vldate == '' || vldate == undefined) {
-            //alert("第" + (i + 1) + "行人员为空! ");
-            $('#parentErrMsg p').html("第" + (i + 1) + "工作日期為空! ");
-            //$('#_XX').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-        var vltime = hot.getDataAtCell(i, 2)
-        if (vltime == null || vltime == '' || vltime == undefined) {
-            //alert("第" + (i + 1) + "行人员为空! ");
-            $('#parentErrMsg p').html("第" + (i + 1) + "工作時間為空! ");
-            //$('#_XX').parent().addClass("has-error");
-            $('#parentErrMsg').show();
-            return;
-        }
-        else {
-            var err = false;
-            var tm = vltime.split(":");
-            //alert(tm.length)
-            if (tm.length == 1)
-                err = true;
-            else {
-                var rv1 = parseInt(tm[0]);
-                //alert(rv1);
-                //alert(rv1.toString() == 'NaN');
-                if (rv1.toString() == 'NaN')
-                { err = true; }
-                else {
-                    if (rv1 < 0 || rv1 > 24) err = true;
-                }
-                var rv2 = parseInt(tm[1]);
-                //alert(rv2);
-                if (rv2.toString() == 'NaN')
-                { err = true; }
-                else {
-                    if (rv2 < 0 || rv2 > 59) err = true;
-                }
-            }
-            //alert(err);
-            if (err == true) {
-                $('#parentErrMsg p').html("第" + (i + 1) + "工作格式錯誤，請參照格式 13：30 ! ");
+        else if (linkEmail.length > 0) {
+            var util = new Util();
+
+            if (false == util.isEmail2(linkEmail)) {
+                $('#parentErrMsg p').html('@Resources.Language.V_OrderInfor_LinkEmail' + ":輸入的電子郵件無效");
+                $('#_LinkEmail').parent().addClass("has-error");
                 $('#parentErrMsg').show();
                 return;
             }
+
         }
 
-    }
-
-    $("#btn_submit").attr("disabled", true);
-
-
-    //提交数据库
-    $.ajax({
-        type: "post",
-        url: '/OrderManage/Add_EditOrder?oper=' + $('.panel-title span:first').html() + '&ordermark=' + $('.panel-title span:last').html() + '&customerId=' + customerId + '&customerName=' + customerName + '&ordDate=' + ordDate
-         + '&shipId=' + shipId + '&shipName=' + shipName + '&linkMan=' + linkMan + '&linkPhone=' + linkPhone + '&linkEmail=' + linkEmail
-         + '&remark=' + remark,
-        data: JSON.stringify(hot.getSourceData()),
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        async: true,
-        processData: false,
-        cache: false,
-        success: function (result) {
-
-            $('#parent-modal').modal('hide')
-            //jQuery("#jqGrid").jqGrid('delRowData', rowid);
-            //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
-            alert(result.message);
-
-            $('#jqGrid').jqGrid('setGridParam',
-            {
-                datatype: 'json',
-                url: '@Url.Action("GetData", "OrderManage")',
-            }).trigger('reloadGrid');
-
-            $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "OrderManage")' });
-
-        },
-        error: function (result) {
-            console.log(result)
-            $("#btn_submit").attr("disabled", false);
-            try {
-                var json = $.parseJSON(result.responseText);
-                //alert(json.errorMessage);
-                $('#parentErrMsg p').html(json.errorMessage);
-                $('#_CustomerName').parent().addClass("has-error");
-                $('#parentErrMsg').show();
-            } catch (e) {
-                alert(e.message);
-            }
+        else if (remark.length > maxTextAreaLength) {
+            $('#parentErrMsg p').html('@Resources.Language.Remark' + "長度不能超多" + maxTextAreaLength);
+            $('#_Remark').parent().addClass("has-error");
+            $('#parentErrMsg').show();
             return;
         }
-    });
+        //服务内容服务项、工作日期不能为空
+        var rct = hot.countRows();
+        //alert(rct);
+        for (var i = 0; i < rct - 1; i++) {
+            //alert(hot.getDataAtCell(i, 0));//[A1,B1]
+            var vlserv = hot.getDataAtCell(i, 0)
+            //alert(vlserv);
+            if (vlserv == null || vlserv == '' || vlserv == undefined) {
+                //alert("第" + (i + 1) + "行流程节点为空! ");
+                $('#parentErrMsg p').html("第" + (i + 1) + "行服務項為空! ");
+                //$('#_XX').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+            var vldate = hot.getDataAtCell(i, 1)
+            if (vldate == null || vldate == '' || vldate == undefined) {
+                //alert("第" + (i + 1) + "行人员为空! ");
+                $('#parentErrMsg p').html("第" + (i + 1) + "工作日期為空! ");
+                //$('#_XX').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+            var vltime = hot.getDataAtCell(i, 2)
+            if (vltime == null || vltime == '' || vltime == undefined) {
+                //alert("第" + (i + 1) + "行人员为空! ");
+                $('#parentErrMsg p').html("第" + (i + 1) + "工作時間為空! ");
+                //$('#_XX').parent().addClass("has-error");
+                $('#parentErrMsg').show();
+                return;
+            }
+            else {
+                var err = false;
+                var tm = vltime.split(":");
+                //alert(tm.length)
+                if (tm.length == 1)
+                    err = true;
+                else {
+                    var rv1 = parseInt(tm[0]);
+                    //alert(rv1);
+                    //alert(rv1.toString() == 'NaN');
+                    if (rv1.toString() == 'NaN')
+                    { err = true; }
+                    else {
+                        if (rv1 < 0 || rv1 > 24) err = true;
+                    }
+                    var rv2 = parseInt(tm[1]);
+                    //alert(rv2);
+                    if (rv2.toString() == 'NaN')
+                    { err = true; }
+                    else {
+                        if (rv2 < 0 || rv2 > 59) err = true;
+                    }
+                }
+                //alert(err);
+                if (err == true) {
+                    $('#parentErrMsg p').html("第" + (i + 1) + "工作格式錯誤，請參照格式 13：30 ! ");
+                    $('#parentErrMsg').show();
+                    return;
+                }
+            }
+
+        }
+
+        $("#btn_submit").attr("disabled", true);
+
+
+        //提交数据库
+        $.ajax({
+            type: "post",
+            url: '/OrderManage/Add_EditOrder?oper=' + $('.panel-title span:first').html() + '&ordermark=' + $('.panel-title span:last').html() + '&customerId=' + customerId + '&customerName=' + customerName + '&ordDate=' + ordDate
+             + '&shipId=' + shipId + '&shipName=' + shipName + '&linkMan=' + linkMan + '&linkPhone=' + linkPhone + '&linkEmail=' + linkEmail
+             + '&remark=' + remark,
+            data: JSON.stringify(hot.getSourceData()),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (result) {
+
+                $('#parent-modal').modal('hide')
+                //jQuery("#jqGrid").jqGrid('delRowData', rowid);
+                //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                alert(result.message);
+
+                $('#jqGrid').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetData", "OrderManage")',
+                }).trigger('reloadGrid');
+
+                $("#jqGrid").jqGrid('setGridParam', { editurl: '@Url.Action("AddEdit", "OrderManage")' });
+
+            },
+            error: function (result) {
+                console.log(result)
+                $("#btn_submit").attr("disabled", false);
+                try {
+                    var json = $.parseJSON(result.responseText);
+                    //alert(json.errorMessage);
+                    $('#parentErrMsg p').html(json.errorMessage);
+                    $('#_CustomerName').parent().addClass("has-error");
+                    $('#parentErrMsg').show();
+                } catch (e) {
+                    alert(e.message);
+                }
+                return;
+            }
+        });
 
     });
 </script>
