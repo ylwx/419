@@ -1250,6 +1250,43 @@
             autoFocus: true
         });
 
+        $('#_LinkMan').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomerShips", "OrderManage")' + '?customerId=' + $("#_CustomerID").text(),
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            return {
+                                id: item.ShipID,
+                                label: item.ShipName1,
+                                value: item.ShipName1
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null)
+                    $("#_ShipID").text(ui.item.id);
+                else
+                    $("#_ShipID").text(-1);
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null)
+                    $("#_ShipID").text(ui.item.id);
+                else
+                    $("#_ShipID").text(-1);
+            },
+            autoFocus: true
+        });
         $('#_OrdDate').datetimepicker({
             //format: 'Y-m-d H:i:s',
             format: 'Y-m-d H:i:s',

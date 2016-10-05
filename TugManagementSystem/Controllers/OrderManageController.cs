@@ -920,26 +920,25 @@ namespace TugManagementSystem.Controllers
             var jsonData = new { list = list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetCustomerShips_DropList(string term)
+        public ActionResult GetLinkMans(string term)
         {
             TugDataEntities db = new TugDataEntities();
-            List<CustomerShip> customers = db.CustomerShip.Where(u => u.Name1.ToLower().Trim().Contains(term.Trim().ToLower()))
-                .Select(u => u).OrderBy(u => u.Name1).ToList<CustomerShip>();
+            List<LinkMan> mans = db.LinkMan.Where(u => u.LinkManName.ToLower().Trim().Contains(term.Trim().ToLower()))
+                .Select(u => u).OrderBy(u => u.LinkManName).ToList<LinkMan>();
 
             List<object> list = new List<object>();
 
-            if (customers != null)
+            if (mans != null)
             {
-                foreach (CustomerShip item in customers)
+                foreach (LinkMan item in mans)
                 {
-                    list.Add(new { IDX = item.IDX, Name1 = item.Name1 });
+                    list.Add(new { ShipID = item.IDX, LinkManName = item.LinkManName });
                 }
             }
 
             var jsonData = new { list = list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult GetCustomerShips(string term)
         {
             TugDataEntities db = new TugDataEntities();
