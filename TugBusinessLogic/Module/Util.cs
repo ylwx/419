@@ -8,6 +8,14 @@ namespace TugBusinessLogic.Module
 {
     public static class Util
     {
+        public static string AmountFormat(string val)
+        {
+            double s = Util.tonumeric(val);
+            if (s != 0)
+                return s.ToString("N");
+            else
+                return val;
+        }
         public static string GetSequence(string type)
         {
             string sequence = null;
