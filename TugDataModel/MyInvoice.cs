@@ -244,6 +244,8 @@ namespace TugDataModel
         /// 账单备注信息
         /// </summary>
         public string Rmark { get; set; }
+
+
     }
 
 

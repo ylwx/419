@@ -122,6 +122,11 @@
                                             <input id="add_ck_customer_ship_teus" type="checkbox" />
                                         </div>
 
+                                        <div class="col-xs-3">
+                                            @Resources.Language.Billing_BillingCode
+                                            <input id="add_billing_code" type="text" class="form-control" />
+                                        </div>
+
                                         <div class="col-xs-12">
                                             @Resources.Language.Remark
                                             <textarea id="add_remark" rows="3" class="form-control" placeholder="點擊輸入備註" onfocus="$(this).parent().removeClass('has-error')"></textarea>
@@ -375,6 +380,10 @@
                                                         <input id="view_customer_ship_teus" type="text" class="form-control" readonly />
                                                         @Resources.Language.Invoice2_IsShowShipTEUSRule
                                                         <input id="view_ck_customer_ship_teus" type="checkbox" disabled />
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        @Resources.Language.Billing_BillingCode
+                                                        <input id="view_billing_code" type="text" class="form-control" readonly />
                                                     </div>
 
                                                     <div class="col-xs-12">
@@ -645,6 +654,11 @@
                                                         <input id="edit_customer_ship_teus" type="text" class="form-control" onkeyup="IntegerInputChanged(this)"  />
                                                         @Resources.Language.Invoice2_IsShowShipTEUSRule
                                                         <input id="edit_ck_customer_ship_teus" type="checkbox" />
+                                                    </div>
+
+                                                    <div class="col-xs-3">
+                                                        @Resources.Language.Billing_BillingCode
+                                                        <input id="edit_billing_code" type="text" class="form-control" />
                                                     </div>
 
                                                     <div class="col-xs-12">
@@ -4244,6 +4258,8 @@
 
         var month = $('#add_sel_month').val();
 
+        var billing_code = $('#add_billing_code').val();
+
         var isShowShipLengthRule = "否";
         if (true == $('input[type="checkbox"][id="add_ck_customer_ship_length"]').is(":checked"))
             isShowShipLengthRule = "是";
@@ -4381,6 +4397,7 @@
                 'billingTypeId': billingTypeId,
                 'timeTypeId': timeTypeId,
                 'jobNo': jobNo,
+                'billing_code':billing_code,
                 'remark':remark,
                 'discount': discount,
                 'amount': amount,
@@ -4394,12 +4411,11 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
+                
                 alert(result.message);
-
                 //$('#parent-modal').modal('hide')
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
-
                     $('#add_btn_voice_preview').attr('disabled', false);
                     $('#sel_billing_scheme').attr('disabled', true);
 
@@ -4415,6 +4431,10 @@
 
                 }
                 else {
+                    if (result.code == '@Resources.Common.FAIL_CODE') {
+                        alert('帳單編號已存在');
+                    }
+
                     $("#add_btn_sumbit").attr("disabled", false);
                     $('#sel_billing_scheme').attr('disabled', false);
                     $('#add_btn_voice_preview').attr('disabled', true);
@@ -4455,6 +4475,8 @@
             success: function (result) {
                 //$('#tb_detail').empty();
                 $('#div_services').empty();
+
+                $('#add_billing_code').val(result.invoice.BillingCode);
 
                 var div1 = $('<div class="col-md-2"><p>服務項目:<br>SERVICE:</p></div>');
                 var div2 = $('<div class="col-md-2"></div>');
@@ -6172,6 +6194,7 @@
                     $('#view_customer_ship_teus').val(result.invoice.CustomerShipTEUS);
                 }
 
+                $('#view_billing_code').val(result.invoice.BillingCode);
                 $('#view_job_no').val(result.invoice.JobNo);
                 $('#view_remark').val(result.invoice.Rmark);
 
@@ -8113,7 +8136,7 @@
 
                 $('#edit_job_no').val(result.invoice.JobNo);
                 $('#edit_remark').val(result.invoice.Rmark);
-
+                $('#edit_billing_code').val(result.invoice.BillingCode);
 
                 //alert(result.invoice.IsShowShipLengthRule)
                 if (result.invoice.IsShowShipLengthRule == "是") {
@@ -8130,6 +8153,8 @@
                 else {
                     $('#edit_ck_customer_ship_teus').prop('checked', false);
                 }
+
+                
 
                 initGenerateEditTable(billingId, customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel,
                     timeTypeId, timeTypeValue, timeTypeLabel, discount, result);
@@ -8225,7 +8250,8 @@
             isShowShipTEUSRule = "是";
 
         var month = $('#edit_sel_month').val();
-
+        
+        var billing_code = $('#edit_billing_code').val();
 
         var customer_ship_length = $('#edit_customer_ship_length').val();
         if (customer_ship_length == null || customer_ship_length == "") {
@@ -8317,6 +8343,7 @@
                 'billingTypeId': billingTypeId,
                 'timeTypeId': timeTypeId,
                 'jobNo': jobNo,
+                'billing_code':billing_code,
                 'remark': remark,
                 'discount': discount,
                 'amount': amount,
@@ -8357,6 +8384,10 @@
                     //$('#jqGrid_ilReport').addClass('ui-state-disabled');
                 }
                 else {
+
+                    if (result.code == '@Resources.Common.FAIL_CODE') {
+                        alert('帳單編號已存在');
+                    }
                     $("#edit_btn_sumbit").attr("disabled", false);
                 }
             },

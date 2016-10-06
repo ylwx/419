@@ -1409,7 +1409,7 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult AddInvoice2(int custId, int custShipId, string orderIds, string orderServiceIds, int billingTemplateId, int billingTypeId, int timeTypeId,
-            string jobNo, string remark, double discount, double amount, string month, int customer_ship_length, int customer_ship_teus, string isShowShipLengthRule, string isShowShipTEUSRule,
+            string jobNo, string billing_code, string remark, double discount, double amount, string month, int customer_ship_length, int customer_ship_teus, string isShowShipLengthRule, string isShowShipTEUSRule,
             string jsonArrayItems, string jsonArraySummaryItems)
         {
 
@@ -1419,6 +1419,8 @@ namespace TugManagementSystem.Controllers
             {
                 try
                 {
+                    
+
                     List<string> strOrderIDs = orderIds.Split(',').ToList();
                     List<int> iOrderIDs = new List<int>();
                     if (strOrderIDs != null)
@@ -1432,6 +1434,15 @@ namespace TugManagementSystem.Controllers
 
                     TugDataEntities db = new TugDataEntities();
                     {
+                        //0.验证账单编号是否已存在
+                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billing_code);
+                        if (tmp != null)
+                        {
+                            var ret2 = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE };
+                            //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                            return Json(ret2, JsonRequestBehavior.AllowGet);
+                        }
+
                         //1.插入账单
                         TugDataModel.Billing aScheduler = new Billing();
 
@@ -1444,6 +1455,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.BillingTemplateID = billingTemplateId;
                         aScheduler.BillingTypeID = billingTypeId;
                         //aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
+                        aScheduler.BillingCode = billing_code;
                         aScheduler.BillingName = "";
                         aScheduler.TimeTypeID = timeTypeId;
                         aScheduler.Discount = discount;
@@ -1666,7 +1678,7 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult EditInvoice2(int billingId, int billingTemplateId, int billingTypeId, int timeTypeId,
-            string jobNo, string remark, double discount, double amount, string month, int customer_ship_length, int customer_ship_teus, string jsonArrayItems, string isShowShipLengthRule,
+            string jobNo, string remark, string billing_code, double discount, double amount, string month, int customer_ship_length, int customer_ship_teus, string jsonArrayItems, string isShowShipLengthRule,
             string isShowShipTEUSRule, string jsonArraySummaryItems)
         {
             this.Internationalization();
@@ -1677,6 +1689,15 @@ namespace TugManagementSystem.Controllers
                 {
                     Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
 
+                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billing_code);
+                    if (tmp != null)
+                    {
+                        if (tmp.IDX != oldBilling.IDX)
+                        {
+                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+
                     if (oldBilling != null)
                     {
                         oldBilling.BillingTemplateID = billingTemplateId;
@@ -1684,6 +1705,7 @@ namespace TugManagementSystem.Controllers
                         oldBilling.TimeTypeID = timeTypeId;
                         oldBilling.Discount = discount;
                         oldBilling.Amount = amount;
+                        oldBilling.BillingCode = billing_code;
                         oldBilling.JobNo = jobNo;
                         oldBilling.Remark = remark;
                         oldBilling.Month = month;
@@ -1834,7 +1856,7 @@ namespace TugManagementSystem.Controllers
                         }
                         else
                         {
-                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_CODE }, JsonRequestBehavior.AllowGet);
                         }
                     }
                     else

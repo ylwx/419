@@ -279,6 +279,7 @@ namespace TugBusinessLogic.Module
                 _invoice.TimeTypeLabel = list.FirstOrDefault().TimeTypeLabel;
                 _invoice.Discount = (double)list.FirstOrDefault().Discount;
                 _invoice.FinalAmount = (double)list.FirstOrDefault().FinalAmount;
+                _invoice.BillingCode = list.FirstOrDefault().BillingCode;
 
                 _invoice.Month = list.FirstOrDefault().Month;
                 _invoice.JobNo = list.FirstOrDefault().JobNo;
@@ -1017,7 +1018,7 @@ namespace TugBusinessLogic.Module
             _invoice.TimeTypeValue = timeTypeValue;
             _invoice.TimeTypeLabel = timeTypeLabel;
             _invoice.Discount = discount;
-
+            _invoice.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
 
             //var list = db.V_OrderScheduler.Where(u => u.OrderID == orderId).OrderBy(u => u.OrderID).Select(u => u);
 
