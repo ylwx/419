@@ -281,6 +281,14 @@ namespace TugBusinessLogic.Module
                 _invoice.FinalAmount = (double)list.FirstOrDefault().FinalAmount;
                 _invoice.BillingCode = list.FirstOrDefault().BillingCode;
 
+                _invoice.Ratio1 = (double)list.FirstOrDefault().Ratio1;
+                _invoice.Ratio2 = (double)list.FirstOrDefault().Ratio2;
+                _invoice.Ratio3 = (double)list.FirstOrDefault().Ratio3;
+                _invoice.Ratio4 = (double)list.FirstOrDefault().Ratio4;
+                _invoice.Ratio5 = (double)list.FirstOrDefault().Ratio5;
+                _invoice.Ratio6 = (double)list.FirstOrDefault().Ratio6;
+                _invoice.MinTime = (double)list.FirstOrDefault().MinTime;
+
                 _invoice.Month = list.FirstOrDefault().Month;
                 _invoice.JobNo = list.FirstOrDefault().JobNo;
                 _invoice.Rmark = list.FirstOrDefault().Remark;
