@@ -51,7 +51,7 @@ namespace TugBusinessLogic
             {
                 TugDataEntities db = new TugDataEntities();
                 System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.BillingCode.Substring(7,4) == DateTime.Now.Year.ToString();
-                List<Billing> BillingList = db.Billing.Where(exp).ToList<Billing>();
+                List<Billing> BillingList = db.Billing.Where(exp).OrderByDescending(u => u.BillingCode).ToList<Billing>();
                     if (BillingList.Count == 0)
                     {
                         maxCode = 0;

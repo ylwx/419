@@ -58,6 +58,7 @@ namespace TugDataModel
         public virtual DbSet<UserInfor> UserInfor { get; set; }
         public virtual DbSet<UsersRole> UsersRole { get; set; }
         public virtual DbSet<V_AmountSum_Billing> V_AmountSum_Billing { get; set; }
+        public virtual DbSet<V_AmountSum_Service> V_AmountSum_Service { get; set; }
         public virtual DbSet<V_Approve_Billing> V_Approve_Billing { get; set; }
         public virtual DbSet<V_ApproveLog> V_ApproveLog { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
@@ -469,6 +470,19 @@ namespace TugDataModel
         public virtual int sp_upgraddiagrams2()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams2");
+        }
+    
+        public virtual ObjectResult<proc_AmountSum_ByCustomer_Result> proc_AmountSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
+        {
+            var sYearParameter = sYear.HasValue ?
+                new ObjectParameter("sYear", sYear) :
+                new ObjectParameter("sYear", typeof(int));
+    
+            var sMonthParameter = sMonth.HasValue ?
+                new ObjectParameter("sMonth", sMonth) :
+                new ObjectParameter("sMonth", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByCustomer_Result>("proc_AmountSum_ByCustomer", sYearParameter, sMonthParameter);
         }
     }
 }

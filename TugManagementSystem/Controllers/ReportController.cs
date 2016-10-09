@@ -333,6 +333,7 @@ namespace TugManagementSystem.Controllers
         }
         private void Report_DataRegister_tk(FastReport.Report FReport, int BillingID, int TimeTypeValue)
         {
+            double ndiscount;
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
@@ -340,6 +341,15 @@ namespace TugManagementSystem.Controllers
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
+            ndiscount = Util.tonumeric(dtV_Inv_Head.Rows[0]["Discount"]);
+            //百分比参数
+            FReport.Parameters.FindByName("RateGWFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio1"]);
+            FReport.Parameters.FindByName("Rate18To22GWFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio2"]);
+            FReport.Parameters.FindByName("Rate22To08GWFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio3"]);
+            FReport.Parameters.FindByName("RateJRFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio4"]);
+            FReport.Parameters.FindByName("RateTFFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio5"]);
+            FReport.Parameters.FindByName("Rate3600").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio6"]);
+            FReport.Parameters.FindByName("RateDiscount").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Discount"]);
             //获取长度或箱量信息
             if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
             {
@@ -386,11 +396,13 @@ namespace TugManagementSystem.Controllers
             FReport.RegisterData(dtTotal, "Total");
             //脚,Grand Total HK$
             dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
-            FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
+            FReport.Parameters.FindByName("GrandTotalHK$").Value = Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) - ndiscount * Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) / 100;
+
             //拖轮数量
             string strV_Inv_Scheduler = string.Format(" BillingID = {0}", BillingID);
             dtScheduler = SqlHelper.GetDataTableData("V_Inv_Scheduler", strV_Inv_Scheduler);
             FReport.Parameters.FindByName("TugNum").Value = dtScheduler.Rows.Count;
+            FReport.Parameters.FindByName("Discount").Value = ndiscount * Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) / 100;
         }
         #endregion
 
@@ -423,6 +435,7 @@ namespace TugManagementSystem.Controllers
         }
         private void Report_DataRegister_qborbb(FastReport.Report FReport,int BillingID,int TimeTypeValue)
         {
+            double ndiscount;
             DataTable dtV_Inv_Head = null; DataTable dtV_Inv_OrdService = null; DataTable dtContenData = null; DataTable dtScheduler = null;
             DataTable dtMData; DataTable dtSubTotal; DataTable dtDData; DataTable dtTotal; DataTable dtGrandTotal;
             string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
@@ -430,6 +443,16 @@ namespace TugManagementSystem.Controllers
             //head
             dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
+            ndiscount = Util.tonumeric(dtV_Inv_Head.Rows[0]["Discount"]);
+            //百分比参数
+            FReport.Parameters.FindByName("RateGWFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio1"]);
+            FReport.Parameters.FindByName("Rate18To22GWFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio2"]);
+            FReport.Parameters.FindByName("Rate22To08GWFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio3"]);
+            FReport.Parameters.FindByName("RateJRFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio4"]);
+            FReport.Parameters.FindByName("RateTFFJF").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio5"]);
+            FReport.Parameters.FindByName("Rate3600").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Ratio6"]);
+            FReport.Parameters.FindByName("RateDiscount").Value = Util.checkdbnull(dtV_Inv_Head.Rows[0]["Discount"]);
+
             //获取长度或箱量信息
             if (Util.checkdbnull(dtV_Inv_Head.Rows[0]["IsShowShipLengthRule"]) == "是")
             {
@@ -476,11 +499,12 @@ namespace TugManagementSystem.Controllers
             FReport.RegisterData(dtTotal, "Total");
             //脚,Grand Total HK$
             dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
-            FReport.Parameters.FindByName("GrandTotalHK$").Value = dtGrandTotal.Rows[0]["Value"];
+            FReport.Parameters.FindByName("GrandTotalHK$").Value = Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) - ndiscount * Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) / 100;
              //参数
             string strV_Inv_Scheduler = string.Format(" BillingID = {0}", BillingID);
             dtScheduler = SqlHelper.GetDataTableData("V_Inv_Scheduler", strV_Inv_Scheduler);
             FReport.Parameters.FindByName("TugNum").Value = dtScheduler.Rows.Count;
+            FReport.Parameters.FindByName("Discount").Value = ndiscount * Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) / 100;
         }
         #endregion
 
