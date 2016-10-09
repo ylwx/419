@@ -1550,6 +1550,7 @@ namespace TugManagementSystem.Controllers
                                 amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(aScheduler.CreateDate);
                                 amtSum.SchedulerID = item.SchedulerID;
                                 amtSum.Amount = item.Amount;
+                                amtSum.FuelAmount = item.FuelPrice;
                                 amtSum.Currency = item.Currency;
                                 amtSum.Hours = item.Hours;
                                 amtSum.Year = aScheduler.Month.Split('-')[0];//DateTime.Now.Year.ToString();
@@ -1859,6 +1860,7 @@ namespace TugManagementSystem.Controllers
                                     amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(oldBilling.CreateDate);
                                     amtSum.SchedulerID = item.SchedulerID;
                                     amtSum.Amount = item.Amount;
+                                    amtSum.FuelAmount = item.FuelPrice;
                                     amtSum.Currency = item.Currency;
                                     amtSum.Hours = item.Hours;
                                     amtSum.Year = oldBilling.Month.Split('-')[0];//DateTime.Now.Year.ToString();
