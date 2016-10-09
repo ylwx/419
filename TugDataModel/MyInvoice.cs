@@ -244,6 +244,36 @@ namespace TugDataModel
         /// 账单备注信息
         /// </summary>
         public string Rmark { get; set; }
+
+        /// <summary>
+        /// 港外附加费比例(25%)
+        /// </summary>
+        public double Ratio1 { get; set; }
+        /// <summary>
+        /// 18-22时港外附加费比例(50%)
+        /// </summary>
+        public double Ratio2 { get; set; }
+        /// <summary>
+        /// 22-08时港外附加费比例(100%)
+        /// </summary>
+        public double Ratio3 { get; set; }
+        /// <summary>
+        /// 假日附加费比例(100%)
+        /// </summary>
+        public double Ratio4 { get; set; }
+        /// <summary>
+        /// 台风附加费比例(100%)
+        /// </summary>
+        public double Ratio5 { get; set; }
+        /// <summary>
+        /// 3600以上比例(15%)
+        /// </summary>
+        public double Ratio6 { get; set; }
+        /// <summary>
+        /// 燃油费最低起算时间(1)
+        /// </summary>
+        public double MinTime { get; set; }
+
     }
 
 

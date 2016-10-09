@@ -37,6 +37,13 @@ namespace TugDataModel
         public Nullable<double> Discount { get; set; }
         public Nullable<double> Amount { get; set; }
         public Nullable<double> TotalRebate { get; set; }
+        public Nullable<double> Ratio1 { get; set; }
+        public Nullable<double> Ratio2 { get; set; }
+        public Nullable<double> Ratio3 { get; set; }
+        public Nullable<double> Ratio4 { get; set; }
+        public Nullable<double> Ratio5 { get; set; }
+        public Nullable<double> Ratio6 { get; set; }
+        public Nullable<double> MinTime { get; set; }
         public string Remark { get; set; }
         public string InvoiceType { get; set; }
         public string Month { get; set; }

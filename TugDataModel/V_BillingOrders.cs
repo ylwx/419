@@ -61,5 +61,12 @@ namespace TugDataModel
         public string UserDefinedCol3 { get; set; }
         public Nullable<double> TotalRebate { get; set; }
         public Nullable<double> FinalAmount { get; set; }
+        public Nullable<double> Ratio1 { get; set; }
+        public Nullable<double> Ratio2 { get; set; }
+        public Nullable<double> Ratio3 { get; set; }
+        public Nullable<double> Ratio4 { get; set; }
+        public Nullable<double> Ratio5 { get; set; }
+        public Nullable<double> Ratio6 { get; set; }
+        public Nullable<double> MinTime { get; set; }
     }
 }
