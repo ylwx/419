@@ -595,9 +595,10 @@ namespace TugManagementSystem.Controllers
             {
                 TugDataEntities db = new TugDataEntities();
                 List<CustomField> list = db.CustomField.Where(u => u.CustomName == "OrderInfor.ServiceNatureID"
-                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C78" || u.IDX == 40 || u.CustomLabel == "折扣"))
-                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C82" || u.IDX == 23 || u.CustomLabel == "拖缆费"))
-                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "E80" || u.IDX == 119 || u.CustomLabel == "燃油附加费折扣")))
+                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C78" || u.CustomLabel == "折扣"))
+                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C82" || u.CustomLabel == "拖缆费"))
+                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "E80" || u.CustomLabel == "燃油附加费折扣"))
+                    || (u.CustomName == "BillingItemTemplate.ItemID" && (u.CustomValue == "C83" || u.CustomLabel == "折扣系数")))
                     .OrderBy(u => u.CustomValue).ToList<CustomField>();
                 labels = new string[list.Count, 4];
                 foreach (var itm in list)
