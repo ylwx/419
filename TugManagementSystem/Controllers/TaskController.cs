@@ -249,7 +249,7 @@ namespace TugManagementSystem.Controllers
                     //更改Billing状态
                     billInfor.Phase = -1;
                     billInfor.Status = "完成";
-                    billInfor.BillingCode = billingCode;  //生成账单编号
+                    if (Util.checkdbnull(billInfor.BillingCode)=="") billInfor.BillingCode = billingCode;  //生成账单编号
                     billInfor.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
@@ -262,7 +262,7 @@ namespace TugManagementSystem.Controllers
                      {
                          foreach (var item in tmpCredit)
                          {
-                             item.CreditCode = "C" + billingCode.Substring(1, billingCode.Length - 1);
+                             item.CreditCode = "C" + billInfor.BillingCode.Substring(1, billingCode.Length - 1);
                              db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                              db.SaveChanges();
                          }
