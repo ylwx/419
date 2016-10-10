@@ -18,7 +18,9 @@ namespace TugDataModel
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
         public Nullable<int> CustomerShipID { get; set; }
+        public string CustomerShipName { get; set; }
         public Nullable<int> BillingID { get; set; }
+        public string BillingCode { get; set; }
         public Nullable<System.DateTime> BillingDateTime { get; set; }
         public Nullable<int> SchedulerID { get; set; }
         public Nullable<double> Amount { get; set; }

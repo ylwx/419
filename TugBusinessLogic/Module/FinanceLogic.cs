@@ -6469,6 +6469,7 @@ namespace TugBusinessLogic.Module
                         one.BillingID = billingId;
                         one.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(item.BillingDateTime);
                         one.SchedulerID = item.SchedulerID;
+                        one.FuelAmount = item.FeulUnitPrice;
                         one.Amount = item.Amount;
                         one.Currency = "港币";
 

@@ -831,7 +831,9 @@
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar(max)" />
           <Property Name="CustomerShipID" Type="int" />
+          <Property Name="CustomerShipName" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingID" Type="int" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingDateTime" Type="datetime" />
           <Property Name="SchedulerID" Type="int" />
           <Property Name="Amount" Type="float" />
@@ -1173,6 +1175,28 @@
           <Property Name="Ratio5" Type="float" />
           <Property Name="Ratio6" Type="float" />
           <Property Name="MinTime" Type="float" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_BillingSum”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BillingSum">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipName" Type="nvarchar(max)" />
+          <Property Name="ShipID" Type="int" />
+          <Property Name="CustomerName1" Type="nvarchar(max)" />
+          <Property Name="TotalRebate" Type="float" />
+          <Property Name="FinalAmount" Type="float" />
+          <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+          <Property Name="TugNum" Type="int" />
+          <Property Name="FuelAmount" Type="float" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingTask”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2042,6 +2066,24 @@
           <Property Name="DepartBaseTime" Type="nvarchar" MaxLength="50" />
           <Property Name="ArrivalBaseTime" Type="nvarchar" MaxLength="50" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="FeulUnitPrice" Type="float" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_TugSum”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_TugSum">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="BigTugNum" Type="int" />
+          <Property Name="MiddleTugNum" Type="int" />
+          <Property Name="SmallTugNum" Type="int" />
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="ServiceWorkPlace" Type="nvarchar(max)" />
+          <Property Name="ServiceNatureID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Users”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2271,7 +2313,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="BillingFuelAmount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="BillingID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="BillingTugNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="BillingID" Type="int" Mode="In" />
+        </Function>
         <Function Name="proc_AmountSum_ByCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sYear" Type="int" Mode="In" />
+          <Parameter Name="sMonth" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_AmountSum_ByTug" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sYear" Type="int" Mode="In" />
           <Parameter Name="sMonth" Type="int" Mode="In" />
         </Function>
@@ -2300,6 +2352,11 @@
           <Parameter Name="userID" Type="int" Mode="In" />
         </Function>
         <Function Name="proc_test" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="proc_TugSum_ByCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sYear" Type="int" Mode="In" />
+          <Parameter Name="sMonth" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_TugSum_ByDay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AmountSum" EntityType="Self.AmountSum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Approve" EntityType="Self.Approve" Schema="dbo" store:Type="Tables" />
@@ -2363,7 +2420,9 @@
     [V_AmountSum_Service].[CustomerID] AS [CustomerID], 
     [V_AmountSum_Service].[CustomerName] AS [CustomerName], 
     [V_AmountSum_Service].[CustomerShipID] AS [CustomerShipID], 
+    [V_AmountSum_Service].[CustomerShipName] AS [CustomerShipName], 
     [V_AmountSum_Service].[BillingID] AS [BillingID], 
+    [V_AmountSum_Service].[BillingCode] AS [BillingCode], 
     [V_AmountSum_Service].[BillingDateTime] AS [BillingDateTime], 
     [V_AmountSum_Service].[SchedulerID] AS [SchedulerID], 
     [V_AmountSum_Service].[Amount] AS [Amount], 
@@ -2672,6 +2731,25 @@
     [V_BillingOrders].[Ratio6] AS [Ratio6], 
     [V_BillingOrders].[MinTime] AS [MinTime]
     FROM [dbo].[V_BillingOrders] AS [V_BillingOrders]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_BillingSum" EntityType="Self.V_BillingSum" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BillingSum].[IDX] AS [IDX], 
+    [V_BillingSum].[CustomerID] AS [CustomerID], 
+    [V_BillingSum].[CustomerName] AS [CustomerName], 
+    [V_BillingSum].[BillingCode] AS [BillingCode], 
+    [V_BillingSum].[Discount] AS [Discount], 
+    [V_BillingSum].[Amount] AS [Amount], 
+    [V_BillingSum].[Month] AS [Month], 
+    [V_BillingSum].[ShipName] AS [ShipName], 
+    [V_BillingSum].[ShipID] AS [ShipID], 
+    [V_BillingSum].[CustomerName1] AS [CustomerName1], 
+    [V_BillingSum].[TotalRebate] AS [TotalRebate], 
+    [V_BillingSum].[FinalAmount] AS [FinalAmount], 
+    [V_BillingSum].[InvoiceType] AS [InvoiceType], 
+    [V_BillingSum].[TugNum] AS [TugNum], 
+    [V_BillingSum].[FuelAmount] AS [FuelAmount]
+    FROM [dbo].[V_BillingSum] AS [V_BillingSum]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BillingTask" EntityType="Self.V_BillingTask" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3441,8 +3519,23 @@
     [V_SpecialBillingSummarizeItem].[Amount] AS [Amount], 
     [V_SpecialBillingSummarizeItem].[DepartBaseTime] AS [DepartBaseTime], 
     [V_SpecialBillingSummarizeItem].[ArrivalBaseTime] AS [ArrivalBaseTime], 
-    [V_SpecialBillingSummarizeItem].[Month] AS [Month]
+    [V_SpecialBillingSummarizeItem].[Month] AS [Month], 
+    [V_SpecialBillingSummarizeItem].[FeulUnitPrice] AS [FeulUnitPrice]
     FROM [dbo].[V_SpecialBillingSummarizeItem] AS [V_SpecialBillingSummarizeItem]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_TugSum" EntityType="Self.V_TugSum" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_TugSum].[CustomerID] AS [CustomerID], 
+    [V_TugSum].[CustomerName] AS [CustomerName], 
+    [V_TugSum].[ServiceWorkDate] AS [ServiceWorkDate], 
+    [V_TugSum].[BigTugNum] AS [BigTugNum], 
+    [V_TugSum].[MiddleTugNum] AS [MiddleTugNum], 
+    [V_TugSum].[SmallTugNum] AS [SmallTugNum], 
+    [V_TugSum].[IDX] AS [IDX], 
+    [V_TugSum].[OrderID] AS [OrderID], 
+    [V_TugSum].[ServiceWorkPlace] AS [ServiceWorkPlace], 
+    [V_TugSum].[ServiceNatureID] AS [ServiceNatureID]
+    FROM [dbo].[V_TugSum] AS [V_TugSum]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Users" EntityType="Self.V_Users" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3651,6 +3744,10 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams2" />
+          <FunctionImport Name="proc_AmountSum_ByCustomer" ReturnType="Collection(Model.proc_AmountSum_ByCustomer_Result)">
+            <Parameter Name="sYear" Mode="In" Type="Int32" />
+            <Parameter Name="sMonth" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
           <EntitySet Name="Approve" EntityType="Model.Approve" />
           <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -3694,6 +3791,7 @@
           <EntitySet Name="V_BillingItem" EntityType="Model.V_BillingItem" />
           <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
           <EntitySet Name="V_BillingOrders" EntityType="Model.V_BillingOrders" />
+          <EntitySet Name="V_BillingSum" EntityType="Model.V_BillingSum" />
           <EntitySet Name="V_BillingTask" EntityType="Model.V_BillingTask" />
           <EntitySet Name="V_BillingTemplate" EntityType="Model.V_BillingTemplate" />
           <EntitySet Name="V_CustomerShip" EntityType="Model.V_CustomerShip" />
@@ -3723,6 +3821,7 @@
           <EntitySet Name="V_SpecialBillingItem" EntityType="Model.V_SpecialBillingItem" />
           <EntitySet Name="V_SpecialBillingItem_OrderService" EntityType="Model.V_SpecialBillingItem_OrderService" />
           <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Model.V_SpecialBillingSummarizeItem" />
+          <EntitySet Name="V_TugSum" EntityType="Model.V_TugSum" />
           <EntitySet Name="V_Users" EntityType="Model.V_Users" />
           <AssociationSet Name="FK_AmountSum_Billing" Association="Model.FK_AmountSum_Billing">
             <End Role="Billing" EntitySet="Billing" />
@@ -3784,10 +3883,15 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
-          <FunctionImport Name="proc_AmountSum_ByCustomer" ReturnType="Collection(Model.proc_AmountSum_ByCustomer_Result)">
+          <FunctionImport Name="proc_AmountSum_ByTug" ReturnType="Collection(Model.proc_AmountSum_ByTug_Result)">
             <Parameter Name="sYear" Mode="In" Type="Int32" />
             <Parameter Name="sMonth" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="proc_TugSum_ByCustomer" ReturnType="Collection(Model.proc_TugSum_ByCustomer_Result)">
+            <Parameter Name="sYear" Mode="In" Type="Int32" />
+            <Parameter Name="sMonth" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_TugSum_ByDay" ReturnType="Collection(Model.proc_TugSum_ByDay_Result)" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -3875,6 +3979,18 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="proc_AmountSum_ByCustomer_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="Double" Name="LastYearAmount" Nullable="true" />
+          <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="FuelAmount" Nullable="true" />
+          <Property Type="Double" Name="SubmitFinanceAmount" Nullable="true" />
+          <Property Type="Double" Name="TurnNextMonthAmount" Nullable="true" />
         </ComplexType>
         <EntityType Name="AmountSum">
           <Key>
@@ -4728,7 +4844,9 @@
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CustomerShipID" Type="Int32" />
+          <Property Name="CustomerShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingID" Type="Int32" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingDateTime" Type="DateTime" Precision="3" />
           <Property Name="SchedulerID" Type="Int32" />
           <Property Name="Amount" Type="Double" />
@@ -5048,6 +5166,26 @@
           <Property Name="Ratio5" Type="Double" />
           <Property Name="Ratio6" Type="Double" />
           <Property Name="MinTime" Type="Double" />
+        </EntityType>
+        <EntityType Name="V_BillingSum">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShipID" Type="Int32" />
+          <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalRebate" Type="Double" />
+          <Property Name="FinalAmount" Type="Double" />
+          <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TugNum" Type="Int32" />
+          <Property Name="FuelAmount" Type="Double" />
         </EntityType>
         <EntityType Name="V_BillingTask">
           <Key>
@@ -5859,6 +5997,22 @@
           <Property Name="DepartBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ArrivalBaseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FeulUnitPrice" Type="Double" />
+        </EntityType>
+        <EntityType Name="V_TugSum">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BigTugNum" Type="Int32" />
+          <Property Name="MiddleTugNum" Type="Int32" />
+          <Property Name="SmallTugNum" Type="Int32" />
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="ServiceWorkPlace" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceNatureID" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Users">
           <Key>
@@ -6086,17 +6240,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="proc_AmountSum_ByCustomer_Result">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
+        <ComplexType Name="proc_AmountSum_ByTug_Result">
+          <Property Type="Int32" Name="TugID" Nullable="true" />
+          <Property Type="String" Name="TugName" Nullable="true" />
           <Property Type="Double" Name="LastYearAmount" Nullable="true" />
           <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
           <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
           <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
           <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="FuelAmount" Nullable="true" />
-          <Property Type="Double" Name="SubmitFinanceAmount" Nullable="true" />
-          <Property Type="Double" Name="TurnNextMonthAmount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_TugSum_ByCustomer_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="Int32" Name="LastYearSumBG" Nullable="true" />
+          <Property Type="Int32" Name="LastYearSumMD" Nullable="true" />
+          <Property Type="Int32" Name="LastYearSumSM" Nullable="true" />
+          <Property Type="Int32" Name="LastYearToThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="LastYearToThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="LastYearToThisMonthSumSM" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearToThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearToThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearToThisMonthSumSM" Nullable="true" />
+          <Property Type="Int32" Name="LastYearThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="LastYearThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="LastYearThisMonthSumSM" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthSumSM" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_TugSum_ByDay_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="ServiceWorkDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TugNum" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -6174,6 +6351,22 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByCustomer" FunctionName="Model.Store.proc_AmountSum_ByCustomer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByCustomer_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
+                <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
+                <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
+                <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
+                <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="SubmitFinanceAmount" ColumnName="SubmitFinanceAmount" />
+                <ScalarProperty Name="TurnNextMonthAmount" ColumnName="TurnNextMonthAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7040,7 +7233,9 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="SchedulerID" ColumnName="SchedulerID" />
                 <ScalarProperty Name="BillingDateTime" ColumnName="BillingDateTime" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+                <ScalarProperty Name="CustomerShipName" ColumnName="CustomerShipName" />
                 <ScalarProperty Name="CustomerShipID" ColumnName="CustomerShipID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
@@ -7359,6 +7554,27 @@
                 <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
                 <ScalarProperty Name="JobNo" ColumnName="JobNo" />
                 <ScalarProperty Name="BillingID" ColumnName="BillingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BillingSum">
+            <EntityTypeMapping TypeName="Model.V_BillingSum">
+              <MappingFragment StoreEntitySet="V_BillingSum">
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="CustomerName1" ColumnName="CustomerName1" />
+                <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8175,6 +8391,7 @@
           <EntitySetMapping Name="V_SpecialBillingSummarizeItem">
             <EntityTypeMapping TypeName="Model.V_SpecialBillingSummarizeItem">
               <MappingFragment StoreEntitySet="V_SpecialBillingSummarizeItem">
+                <ScalarProperty Name="FeulUnitPrice" ColumnName="FeulUnitPrice" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="ArrivalBaseTime" ColumnName="ArrivalBaseTime" />
                 <ScalarProperty Name="DepartBaseTime" ColumnName="DepartBaseTime" />
@@ -8186,6 +8403,22 @@
                 <ScalarProperty Name="SpecialBillingID" ColumnName="SpecialBillingID" />
                 <ScalarProperty Name="CustomerShipName" ColumnName="CustomerShipName" />
                 <ScalarProperty Name="CustomerShipID" ColumnName="CustomerShipID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_TugSum">
+            <EntityTypeMapping TypeName="Model.V_TugSum">
+              <MappingFragment StoreEntitySet="V_TugSum">
+                <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
+                <ScalarProperty Name="ServiceWorkPlace" ColumnName="ServiceWorkPlace" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
+                <ScalarProperty Name="MiddleTugNum" ColumnName="MiddleTugNum" />
+                <ScalarProperty Name="BigTugNum" ColumnName="BigTugNum" />
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
               </MappingFragment>
@@ -8225,19 +8458,50 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByCustomer" FunctionName="Model.Store.proc_AmountSum_ByCustomer">
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByTug" FunctionName="Model.Store.proc_AmountSum_ByTug">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByCustomer_Result">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByTug_Result">
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="TugName" ColumnName="TugName" />
                 <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
                 <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
                 <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
                 <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
                 <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
-                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
-                <ScalarProperty Name="SubmitFinanceAmount" ColumnName="SubmitFinanceAmount" />
-                <ScalarProperty Name="TurnNextMonthAmount" ColumnName="TurnNextMonthAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_TugSum_ByCustomer" FunctionName="Model.Store.proc_TugSum_ByCustomer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_TugSum_ByCustomer_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="LastYearSumBG" ColumnName="LastYearSumBG" />
+                <ScalarProperty Name="LastYearSumMD" ColumnName="LastYearSumMD" />
+                <ScalarProperty Name="LastYearSumSM" ColumnName="LastYearSumSM" />
+                <ScalarProperty Name="LastYearToThisMonthSumBG" ColumnName="LastYearToThisMonthSumBG" />
+                <ScalarProperty Name="LastYearToThisMonthSumMD" ColumnName="LastYearToThisMonthSumMD" />
+                <ScalarProperty Name="LastYearToThisMonthSumSM" ColumnName="LastYearToThisMonthSumSM" />
+                <ScalarProperty Name="ThisYearToThisMonthSumBG" ColumnName="ThisYearToThisMonthSumBG" />
+                <ScalarProperty Name="ThisYearToThisMonthSumMD" ColumnName="ThisYearToThisMonthSumMD" />
+                <ScalarProperty Name="ThisYearToThisMonthSumSM" ColumnName="ThisYearToThisMonthSumSM" />
+                <ScalarProperty Name="LastYearThisMonthSumBG" ColumnName="LastYearThisMonthSumBG" />
+                <ScalarProperty Name="LastYearThisMonthSumMD" ColumnName="LastYearThisMonthSumMD" />
+                <ScalarProperty Name="LastYearThisMonthSumSM" ColumnName="LastYearThisMonthSumSM" />
+                <ScalarProperty Name="ThisYearThisMonthSumBG" ColumnName="ThisYearThisMonthSumBG" />
+                <ScalarProperty Name="ThisYearThisMonthSumMD" ColumnName="ThisYearThisMonthSumMD" />
+                <ScalarProperty Name="ThisYearThisMonthSumSM" ColumnName="ThisYearThisMonthSumSM" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_TugSum_ByDay" FunctionName="Model.Store.proc_TugSum_ByDay">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_TugSum_ByDay_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
+                <ScalarProperty Name="TugType" ColumnName="TugType" />
+                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
