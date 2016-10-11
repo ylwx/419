@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2016 19:50:42" ReportInfo.Modified="10/11/2016 22:35:29" ReportInfo.CreatorVersion="2016.1.0.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvPU61okqSGsl85Jj8c9rI8w==">
+      <TableDataSource Name="Table1" Alias="proc_TugSum_ByDay" DataType="System.Int32" Enabled="true" SelectCommand="exec proc_TugSum_ByDay '2016-09-01','2016-09-30'">
+        <Column Name="CustomerID" DataType="System.Int32"/>
+        <Column Name="CustomerName" DataType="System.String"/>
+        <Column Name="ServiceWorkDate" DataType="System.String"/>
+        <Column Name="TugType" DataType="System.String"/>
+        <Column Name="TugNum" DataType="System.Int32"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="296.9" PaperHeight="420.1" RawPaperSize="8">
+    <ReportTitleBand Name="ReportTitle1" Width="1046.68" Height="9.45"/>
+    <DataBand Name="Data1" Top="14.51" Width="1046.68" Height="66.15">
+      <MatrixObject Name="Matrix1" Left="9.45" Width="189.58" Height="66.15" FixedRows="2" FixedColumns="1" DataSource="Table1">
+        <MatrixColumns>
+          <Header Expression="[proc_TugSum_ByDay.ServiceWorkDate]" Totals="false"/>
+          <Header Expression="[proc_TugSum_ByDay.TugType]" Totals="false"/>
+        </MatrixColumns>
+        <MatrixRows>
+          <Header Expression="[proc_TugSum_ByDay.CustomerName]" Totals="false"/>
+        </MatrixRows>
+        <MatrixCells>
+          <Cell Expression="[proc_TugSum_ByDay.TugNum]"/>
+        </MatrixCells>
+        <TableColumn Name="Column1" MaxWidth="189" Width="89.64" AutoSize="true"/>
+        <TableColumn Name="Column2" Width="99.94" AutoSize="true"/>
+        <TableRow Name="Row1" MinHeight="18.9" AutoSize="true">
+          <TableCell Name="Cell1" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="客户名称" VertAlign="Center" Font="PMingLiU, 9pt" RowSpan="2"/>
+          <TableCell Name="Cell2" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="[ServiceWorkDate]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2" MinHeight="18.9" AutoSize="true">
+          <TableCell Name="Cell3"/>
+          <TableCell Name="Cell4" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="[TugType]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3" MinHeight="28.35" Height="28.35" AutoSize="true">
+          <TableCell Name="Cell7" Border.Lines="All" Border.Color="Gold" Text="[CustomerName]" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell8" Border.Lines="All" Border.Color="Gold" Text="[TugNum]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+        </TableRow>
+      </MatrixObject>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="85.73" Width="1046.68" Height="18.9"/>
+  </ReportPage>
+</Report>
