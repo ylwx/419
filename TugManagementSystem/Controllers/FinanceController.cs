@@ -1411,7 +1411,7 @@ namespace TugManagementSystem.Controllers
         public ActionResult AddInvoice2(int custId, int custShipId, string orderIds, string orderServiceIds, int billingTemplateId, int billingTypeId, int timeTypeId,
             string jobNo, string billing_code, string remark, double discount, double amount, string month, int customer_ship_length, 
             int customer_ship_teus, string isShowShipLengthRule, string isShowShipTEUSRule,
-            float ratio1, float ratio2, float ratio3, float ratio4, float ratio5, float ratio6, float minTime,
+            float? ratio1, float? ratio2, float? ratio3, float? ratio4, float? ratio5, float? ratio6, float? minTime,
             string jsonArrayItems, string jsonArraySummaryItems)
         {
 
@@ -1465,13 +1465,20 @@ namespace TugManagementSystem.Controllers
                         aScheduler.Remark = remark;
                         aScheduler.Month = month;
 
-                        aScheduler.Ratio1 = Math.Round(ratio1, 2);
-                        aScheduler.Ratio2 = Math.Round(ratio2, 2);
-                        aScheduler.Ratio3 = Math.Round(ratio3, 2);
-                        aScheduler.Ratio4 = Math.Round(ratio4, 2);
-                        aScheduler.Ratio5 = Math.Round(ratio5, 2);
-                        aScheduler.Ratio6 = Math.Round(ratio6, 2);
-                        aScheduler.MinTime = Math.Round(minTime, 2);
+                        if(ratio1 != null)
+                        aScheduler.Ratio1 = (int?)Math.Round((float)ratio1, 2);
+                        if (ratio1 != null)
+                        aScheduler.Ratio2 = (int?)Math.Round((float)ratio2, 2);
+                        if (ratio1 != null)
+                        aScheduler.Ratio3 = (int?)Math.Round((float)ratio3, 2);
+                        if (ratio1 != null)
+                        aScheduler.Ratio4 = (int?)Math.Round((float)ratio4, 2);
+                        if (ratio1 != null)
+                        aScheduler.Ratio5 = (int?)Math.Round((float)ratio5, 2);
+                        if (ratio1 != null)
+                        aScheduler.Ratio6 = (int?)Math.Round((float)ratio6, 2);
+                        if (ratio1 != null)
+                        aScheduler.MinTime = (int?)Math.Round((float)minTime, 2);
 
                         aScheduler.TimesNo = 0;
                         aScheduler.Status = "创建";
@@ -1691,7 +1698,7 @@ namespace TugManagementSystem.Controllers
         public ActionResult EditInvoice2(int billingId, int billingTemplateId, int billingTypeId, int timeTypeId,
             string jobNo, string remark, string billing_code, double discount, double amount, string month, int customer_ship_length,
             int customer_ship_teus, string jsonArrayItems, string isShowShipLengthRule,
-            float ratio1, float ratio2, float ratio3, float ratio4, float ratio5, float ratio6, float minTime,
+            float? ratio1, float? ratio2, float? ratio3, float? ratio4, float? ratio5, float? ratio6, float? minTime,
             string isShowShipTEUSRule, string jsonArraySummaryItems)
         {
             this.Internationalization();
@@ -1720,13 +1727,13 @@ namespace TugManagementSystem.Controllers
                         oldBilling.Amount = amount;
                         oldBilling.BillingCode = billing_code;
                         oldBilling.JobNo = jobNo;
-                        oldBilling.Ratio1 = Math.Round(ratio1, 2);
-                        oldBilling.Ratio2 = Math.Round(ratio2, 2); 
-                        oldBilling.Ratio3 = Math.Round(ratio3, 2);
-                        oldBilling.Ratio4 = Math.Round(ratio4, 2); 
-                        oldBilling.Ratio5 = Math.Round(ratio5, 2); 
-                        oldBilling.Ratio6 = Math.Round(ratio6, 2); 
-                        oldBilling.MinTime = Math.Round(minTime, 2); 
+                        oldBilling.Ratio1 = (double?)Math.Round((double)ratio1, 2);
+                        oldBilling.Ratio2 = (double?)Math.Round((double)ratio2, 2);
+                        oldBilling.Ratio3 = (double?)Math.Round((double)ratio3, 2);
+                        oldBilling.Ratio4 = (double?)Math.Round((double)ratio4, 2);
+                        oldBilling.Ratio5 = (double?)Math.Round((double)ratio5, 2);
+                        oldBilling.Ratio6 = (double?)Math.Round((double)ratio6, 2);
+                        oldBilling.MinTime = (double?)Math.Round((double)minTime, 2); 
                         oldBilling.Remark = remark;
                         oldBilling.Month = month;
                         oldBilling.IsShowShipLengthRule = isShowShipLengthRule;
