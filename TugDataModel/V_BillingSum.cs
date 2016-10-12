@@ -29,5 +29,6 @@ namespace TugDataModel
         public string InvoiceType { get; set; }
         public Nullable<int> TugNum { get; set; }
         public Nullable<double> FuelAmount { get; set; }
+        public string CreateDate { get; set; }
     }
 }

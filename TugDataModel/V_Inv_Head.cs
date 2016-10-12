@@ -35,5 +35,10 @@ namespace TugDataModel
         public Nullable<double> Ratio4 { get; set; }
         public Nullable<double> Ratio5 { get; set; }
         public Nullable<double> Ratio6 { get; set; }
+        public string ShipLength { get; set; }
+        public string ShipTEUS { get; set; }
+        public string ExpiryDate { get; set; }
+        public Nullable<int> BillingTemplateTypeID { get; set; }
+        public string BillingTemplateName { get; set; }
     }
 }

@@ -30,6 +30,12 @@ namespace TugManagementSystem.Controllers
             ViewBag.reporttitile = reporttitile;
             return View();
         }
+        public ActionResult ReportSum(string reporttype, string reporttitile)
+        {
+            ViewBag.reporttype = reporttype;
+            ViewBag.reporttitile = reporttitile;
+            return View();
+        }
         #endregion
 
         #region 金额汇总接口
@@ -97,6 +103,217 @@ namespace TugManagementSystem.Controllers
 
         }
 #endregion
+
+        #region Report 拖輪使用情況，每天
+        public ActionResult Tug_ByDay(string startdate, string enddate)//int OrderID, int CreditID
+        {
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 2969;  // set width
+            webReport.Height = 4201; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_tugsum_byday.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Tug_ByDay(webReport.Report, startdate, enddate);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Tug_ByDay(FastReport.Report FReport, string startdate, string enddate)
+        {
+            DataTable dt = null;
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@Date1",
+                Direction = ParameterDirection.Input,
+                Value = startdate,
+                DbType = DbType.DateTime
+            };
+            SqlParameter para2 = new SqlParameter()
+            {
+                ParameterName = "@Date2",
+                Direction = ParameterDirection.Input,
+                Value = enddate,
+                DbType = DbType.DateTime
+            };
+            SqlParameter[] param = new SqlParameter[] { para1, para2 };
+            dt = SqlHelper.GetDatatableBySP("proc_TugSum_ByDay", param);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion       
+
+        #region Report 賬單清單
+        public ActionResult Billing_List(string startdate, string enddate)//int OrderID, int CreditID
+        {
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 2969;  // set width
+            webReport.Height = 4201; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_billinglist.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Billing_List(webReport.Report, startdate, enddate);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Billing_List(FastReport.Report FReport, string startdate, string enddate)
+        {
+            DataTable dt = null;
+            string strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}'", startdate +" 00:00:00", enddate + " 23:59:59");
+            //head
+            dt = SqlHelper.GetDataTableData("V_BillingSum", strV);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion       
+
+        #region Report 收入汇总，按客户
+        public ActionResult AmoutSum_ByCustomer(string sDate)//int OrderID, int CreditID
+        {
+            string[] sArray = sDate.Split('-');
+            int year = Convert.ToInt16(sArray[0]);
+            int month = Convert.ToInt16(sArray[1]);
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 2969;  // set width
+            webReport.Height = 4201; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_amountsum_bycustomer.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_AmoutSum_ByCustomer(webReport.Report, year, month);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_AmoutSum_ByCustomer(FastReport.Report FReport, int year, int month)
+        {
+            DataTable dt = null;
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@sYear",
+                Direction = ParameterDirection.Input,
+                Value = year,
+                DbType = DbType.Int16
+            };
+            SqlParameter para2 = new SqlParameter()
+            {
+                ParameterName = "@sMonth",
+                Direction = ParameterDirection.Input,
+                Value = month,
+                DbType = DbType.Int16
+            };
+            SqlParameter[] param = new SqlParameter[] { para1, para2 };
+            dt = SqlHelper.GetDatatableBySP("proc_AmountSum_ByCustomer", param);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion   
+    
+        #region Report 拖輪使用情況，按客户
+        public ActionResult TugNum_ByCustomer(string sDate)//int OrderID, int CreditID
+        {
+            string[] sArray = sDate.Split('-');
+            int year = Convert.ToInt16(sArray[0]);
+            int month = Convert.ToInt16(sArray[1]);
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 2969;  // set width
+            webReport.Height = 4201; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_tugsum_bycustomer.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_TugNum_ByCustomer(webReport.Report, year, month);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_TugNum_ByCustomer(FastReport.Report FReport, int year, int month)
+        {
+            DataTable dt = null;
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@sYear",
+                Direction = ParameterDirection.Input,
+                Value = year,
+                DbType = DbType.Int16
+            };
+            SqlParameter para2 = new SqlParameter()
+            {
+                ParameterName = "@sMonth",
+                Direction = ParameterDirection.Input,
+                Value = month,
+                DbType = DbType.Int16
+            };
+            SqlParameter[] param = new SqlParameter[] { para1, para2 };
+            dt = SqlHelper.GetDatatableBySP("proc_TugSum_ByCustomer", param);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion  
+
+        #region Report 拖輪收入，按拖輪
+        public ActionResult Amout_ByTug(string sDate)//int OrderID, int CreditID
+        {
+            string[] sArray = sDate.Split('-');
+            int year = Convert.ToInt16(sArray[0]);
+            int month = Convert.ToInt16(sArray[1]);
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 2969;  // set width
+            webReport.Height = 4201; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_amountsum_bytug.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Amout_ByTug(webReport.Report, year, month);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Amout_ByTug(FastReport.Report FReport, int year, int month)
+        {
+            DataTable dt = null;
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@sYear",
+                Direction = ParameterDirection.Input,
+                Value = year,
+                DbType = DbType.Int16
+            };
+            SqlParameter para2 = new SqlParameter()
+            {
+                ParameterName = "@sMonth",
+                Direction = ParameterDirection.Input,
+                Value = month,
+                DbType = DbType.Int16
+            };
+            SqlParameter[] param = new SqlParameter[] { para1, para2 };
+            dt = SqlHelper.GetDatatableBySP("proc_AmountSum_ByTug", param);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion  
 
         #region Report 拖轮 每月汇总
         public ActionResult Amout_Tug(string startdate, string enddate)//int OrderID, int CreditID
@@ -548,6 +765,7 @@ namespace TugManagementSystem.Controllers
             FReport.Parameters.FindByName("totalsrv").Value = Util.tonumeric(dtV_Inv_OrdService_sort.Rows[0]["ServiceUnitPrice"]) * Util.toint(tugnum);
         }
         #endregion
+
 
         #region OrderList,test
         public ActionResult OrderList()
