@@ -41,6 +41,13 @@
                                     <form class="form-horizontal" role="form">
 
                                         <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.Billing_BillingCode</label>
+                                            <div class="col-sm-9">
+                                                <input id="_BillingCode" type="text" class="form-control" placeholder="@Resources.Language.Billing_BillingCode" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_OrderInfor_CustomerName</label>
                                             <div class="col-sm-9">
                                                 <input id="_CustomerName" type="text" class="form-control" placeholder="@Resources.Language.V_OrderInfor_CustomerName" onfocus="$(this).parent().removeClass('has-error')" />
@@ -1434,6 +1441,31 @@
             timepicker: false,
         });
         $('#_Month').val(new Date().Format("yyyy-MM"));
+
+        $.ajax({
+            url: '@Url.Action("GetDiscountBillingCode", "Finance")',
+            type: "post",
+            data: {
+
+            },//"oper=delete&id=" + gr,
+            dataType: 'json',
+            success: function (result) {
+
+
+                if (result.code == '@Resources.Common.SUCCESS_CODE') {
+
+                    $('#_BillingCode').val(result.billingCode);
+                }
+                else {
+
+
+                }
+            },
+
+            error: function (xhr) {
+
+            }
+        });
     }
 
 
@@ -1455,6 +1487,7 @@
                     $('#_Content').val(result.discout_bill.Content);
                     $('#_Money').val(result.discout_bill.Money);
                     $('#_Month').val(result.discout_bill.Month);
+                    $('#_BillingCode').val(result.discout_bill.BillingCode);
                 }
             },
         });
@@ -1505,7 +1538,7 @@
 
     function submitDiscountBillModal() {
         var maxTextLength = 50;
-        var maxTextAreaLength = 500;
+        var maxTextAreaLength = 50000;
 
 
         //校验
@@ -1575,6 +1608,7 @@
             var content = $('#_Content').val().trim();
             var money = $('#_Money').val().trim();
             var month = $('#_Month').val().trim();
+            var billingCode = $('#_BillingCode').val().trim();
 
             //提交数据库
             $.ajax({
@@ -1585,26 +1619,30 @@
                     'title': title,
                     'content': content,
                     'money': money,
-                    'month': month
+                    'month': month,
+                    'billingCode': billingCode
                 },
                 dataType: 'json',
                 success: function (result) {
-                    $('#discountBill-modal').modal('hide')
                     alert(result.message);
 
-                    $('#jqGrid').jqGrid('setGridParam',
-                    {
-                        datatype: 'json',
-                        url: '@Url.Action("GetDiscountBillingDataForLoadOnce", "Finance")',
-                    }).trigger('reloadGrid');
+                    if (result.code == '@Resources.Common.SUCCESS_CODE') {
+                        $('#discountBill-modal').modal('hide')
 
-                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
-                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilView').addClass('ui-state-disabled');
-                    //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
-                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+                        $('#jqGrid').jqGrid('setGridParam',
+                        {
+                            datatype: 'json',
+                            url: '@Url.Action("GetDiscountBillingDataForLoadOnce", "Finance")',
+                        }).trigger('reloadGrid');
+
+                        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+                    }
                 },
             });
 
@@ -1620,6 +1658,7 @@
             var content = $('#_Content').val().trim();
             var money = $('#_Money').val().trim();
             var month = $('#_Month').val().trim();
+            var billingCode = $('#_BillingCode').val().trim();
 
             //提交数据库
             $.ajax({
@@ -1631,26 +1670,31 @@
                     'title': title,
                     'content': content,
                     'money': money,
-                    'month': month
+                    'month': month,
+                    'billingCode': billingCode
                 },
                 dataType: 'json',
                 success: function (result) {
-                    $('#discountBill-modal').modal('hide')
                     alert(result.message);
 
-                    $('#jqGrid').jqGrid('setGridParam',
-                    {
-                        datatype: 'json',
-                        url: '@Url.Action("GetDiscountBillingDataForLoadOnce", "Finance")',
-                    }).trigger('reloadGrid');
+                    if (result.code == '@Resources.Common.SUCCESS_CODE') {
+                        $('#discountBill-modal').modal('hide')
 
-                    $('#jqGrid_ilDelete').addClass('ui-state-disabled');
-                    $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilView').addClass('ui-state-disabled');
-                    //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilEdit').addClass('ui-state-disabled');
-                    $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
-                    //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+
+                        $('#jqGrid').jqGrid('setGridParam',
+                        {
+                            datatype: 'json',
+                            url: '@Url.Action("GetDiscountBillingDataForLoadOnce", "Finance")',
+                        }).trigger('reloadGrid');
+
+                        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
+                        //$('#jqGrid_ilReport').addClass('ui-state-disabled');
+                    }
                 },
             });
 

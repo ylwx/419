@@ -90,6 +90,53 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_AmountSum_ByTug" FunctionName="Model.Store.proc_AmountSum_ByTug">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByTug_Result">
+          <ScalarProperty Name="TugID" ColumnName="TugID" />
+          <ScalarProperty Name="TugName" ColumnName="TugName" />
+          <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
+          <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
+          <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
+          <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
+          <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_TugSum_ByCustomer" FunctionName="Model.Store.proc_TugSum_ByCustomer">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.proc_TugSum_ByCustomer_Result">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="LastYearSumBG" ColumnName="LastYearSumBG" />
+          <ScalarProperty Name="LastYearSumMD" ColumnName="LastYearSumMD" />
+          <ScalarProperty Name="LastYearSumSM" ColumnName="LastYearSumSM" />
+          <ScalarProperty Name="LastYearToThisMonthSumBG" ColumnName="LastYearToThisMonthSumBG" />
+          <ScalarProperty Name="LastYearToThisMonthSumMD" ColumnName="LastYearToThisMonthSumMD" />
+          <ScalarProperty Name="LastYearToThisMonthSumSM" ColumnName="LastYearToThisMonthSumSM" />
+          <ScalarProperty Name="ThisYearToThisMonthSumBG" ColumnName="ThisYearToThisMonthSumBG" />
+          <ScalarProperty Name="ThisYearToThisMonthSumMD" ColumnName="ThisYearToThisMonthSumMD" />
+          <ScalarProperty Name="ThisYearToThisMonthSumSM" ColumnName="ThisYearToThisMonthSumSM" />
+          <ScalarProperty Name="LastYearThisMonthSumBG" ColumnName="LastYearThisMonthSumBG" />
+          <ScalarProperty Name="LastYearThisMonthSumMD" ColumnName="LastYearThisMonthSumMD" />
+          <ScalarProperty Name="LastYearThisMonthSumSM" ColumnName="LastYearThisMonthSumSM" />
+          <ScalarProperty Name="ThisYearThisMonthSumBG" ColumnName="ThisYearThisMonthSumBG" />
+          <ScalarProperty Name="ThisYearThisMonthSumMD" ColumnName="ThisYearThisMonthSumMD" />
+          <ScalarProperty Name="ThisYearThisMonthSumSM" ColumnName="ThisYearThisMonthSumSM" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="proc_TugSum_ByDay" FunctionName="Model.Store.proc_TugSum_ByDay">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.proc_TugSum_ByDay_Result">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
+          <ScalarProperty Name="TugType" ColumnName="TugType" />
+          <ScalarProperty Name="TugNum" ColumnName="TugNum" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <EntitySetMapping Name="AmountSum">
       <EntityTypeMapping TypeName="Model.AmountSum">
         <MappingFragment StoreEntitySet="AmountSum">
@@ -1280,6 +1327,7 @@
     <EntitySetMapping Name="V_BillingSum">
       <EntityTypeMapping TypeName="Model.V_BillingSum">
         <MappingFragment StoreEntitySet="V_BillingSum">
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
           <ScalarProperty Name="TugNum" ColumnName="TugNum" />
           <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
@@ -1464,6 +1512,11 @@
     <EntitySetMapping Name="V_Inv_Head">
       <EntityTypeMapping TypeName="Model.V_Inv_Head">
         <MappingFragment StoreEntitySet="V_Inv_Head">
+          <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
+          <ScalarProperty Name="BillingTemplateTypeID" ColumnName="BillingTemplateTypeID" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="ShipTEUS" ColumnName="ShipTEUS" />
+          <ScalarProperty Name="ShipLength" ColumnName="ShipLength" />
           <ScalarProperty Name="Ratio6" ColumnName="Ratio6" />
           <ScalarProperty Name="Ratio5" ColumnName="Ratio5" />
           <ScalarProperty Name="Ratio4" ColumnName="Ratio4" />
@@ -2178,52 +2231,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="proc_AmountSum_ByTug" FunctionName="Model.Store.proc_AmountSum_ByTug">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByTug_Result">
-          <ScalarProperty Name="TugID" ColumnName="TugID" />
-          <ScalarProperty Name="TugName" ColumnName="TugName" />
-          <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
-          <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
-          <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
-          <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
-          <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="proc_TugSum_ByCustomer" FunctionName="Model.Store.proc_TugSum_ByCustomer">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="Model.proc_TugSum_ByCustomer_Result">
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="LastYearSumBG" ColumnName="LastYearSumBG" />
-          <ScalarProperty Name="LastYearSumMD" ColumnName="LastYearSumMD" />
-          <ScalarProperty Name="LastYearSumSM" ColumnName="LastYearSumSM" />
-          <ScalarProperty Name="LastYearToThisMonthSumBG" ColumnName="LastYearToThisMonthSumBG" />
-          <ScalarProperty Name="LastYearToThisMonthSumMD" ColumnName="LastYearToThisMonthSumMD" />
-          <ScalarProperty Name="LastYearToThisMonthSumSM" ColumnName="LastYearToThisMonthSumSM" />
-          <ScalarProperty Name="ThisYearToThisMonthSumBG" ColumnName="ThisYearToThisMonthSumBG" />
-          <ScalarProperty Name="ThisYearToThisMonthSumMD" ColumnName="ThisYearToThisMonthSumMD" />
-          <ScalarProperty Name="ThisYearToThisMonthSumSM" ColumnName="ThisYearToThisMonthSumSM" />
-          <ScalarProperty Name="LastYearThisMonthSumBG" ColumnName="LastYearThisMonthSumBG" />
-          <ScalarProperty Name="LastYearThisMonthSumMD" ColumnName="LastYearThisMonthSumMD" />
-          <ScalarProperty Name="LastYearThisMonthSumSM" ColumnName="LastYearThisMonthSumSM" />
-          <ScalarProperty Name="ThisYearThisMonthSumBG" ColumnName="ThisYearThisMonthSumBG" />
-          <ScalarProperty Name="ThisYearThisMonthSumMD" ColumnName="ThisYearThisMonthSumMD" />
-          <ScalarProperty Name="ThisYearThisMonthSumSM" ColumnName="ThisYearThisMonthSumSM" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="proc_TugSum_ByDay" FunctionName="Model.Store.proc_TugSum_ByDay">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="Model.proc_TugSum_ByDay_Result">
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
-          <ScalarProperty Name="TugType" ColumnName="TugType" />
-          <ScalarProperty Name="TugNum" ColumnName="TugNum" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

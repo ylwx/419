@@ -114,6 +114,15 @@
       <Parameter Name="sYear" Mode="In" Type="Int32" />
       <Parameter Name="sMonth" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="proc_AmountSum_ByTug" ReturnType="Collection(Model.proc_AmountSum_ByTug_Result)">
+      <Parameter Name="sYear" Mode="In" Type="Int32" />
+      <Parameter Name="sMonth" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="proc_TugSum_ByCustomer" ReturnType="Collection(Model.proc_TugSum_ByCustomer_Result)">
+      <Parameter Name="sYear" Mode="In" Type="Int32" />
+      <Parameter Name="sMonth" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="proc_TugSum_ByDay" ReturnType="Collection(Model.proc_TugSum_ByDay_Result)" />
     <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
     <EntitySet Name="Approve" EntityType="Model.Approve" />
     <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -249,15 +258,6 @@
       <End Role="UserInfor" EntitySet="UserInfor" />
       <End Role="UsersRole" EntitySet="UsersRole" />
     </AssociationSet>
-    <FunctionImport Name="proc_AmountSum_ByTug" ReturnType="Collection(Model.proc_AmountSum_ByTug_Result)">
-      <Parameter Name="sYear" Mode="In" Type="Int32" />
-      <Parameter Name="sMonth" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_TugSum_ByCustomer" ReturnType="Collection(Model.proc_TugSum_ByCustomer_Result)">
-      <Parameter Name="sYear" Mode="In" Type="Int32" />
-      <Parameter Name="sMonth" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_TugSum_ByDay" ReturnType="Collection(Model.proc_TugSum_ByDay_Result)" />
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -357,6 +357,41 @@
     <Property Type="Double" Name="FuelAmount" Nullable="true" />
     <Property Type="Double" Name="SubmitFinanceAmount" Nullable="true" />
     <Property Type="Double" Name="TurnNextMonthAmount" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="proc_AmountSum_ByTug_Result">
+    <Property Type="Int32" Name="TugID" Nullable="true" />
+    <Property Type="String" Name="TugName" Nullable="true" />
+    <Property Type="Double" Name="LastYearAmount" Nullable="true" />
+    <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
+    <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
+    <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
+    <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="proc_TugSum_ByCustomer_Result">
+    <Property Type="Int32" Name="CustomerID" Nullable="true" />
+    <Property Type="String" Name="CustomerName" Nullable="true" />
+    <Property Type="Int32" Name="LastYearSumBG" Nullable="true" />
+    <Property Type="Int32" Name="LastYearSumMD" Nullable="true" />
+    <Property Type="Int32" Name="LastYearSumSM" Nullable="true" />
+    <Property Type="Int32" Name="LastYearToThisMonthSumBG" Nullable="true" />
+    <Property Type="Int32" Name="LastYearToThisMonthSumMD" Nullable="true" />
+    <Property Type="Int32" Name="LastYearToThisMonthSumSM" Nullable="true" />
+    <Property Type="Int32" Name="ThisYearToThisMonthSumBG" Nullable="true" />
+    <Property Type="Int32" Name="ThisYearToThisMonthSumMD" Nullable="true" />
+    <Property Type="Int32" Name="ThisYearToThisMonthSumSM" Nullable="true" />
+    <Property Type="Int32" Name="LastYearThisMonthSumBG" Nullable="true" />
+    <Property Type="Int32" Name="LastYearThisMonthSumMD" Nullable="true" />
+    <Property Type="Int32" Name="LastYearThisMonthSumSM" Nullable="true" />
+    <Property Type="Int32" Name="ThisYearThisMonthSumBG" Nullable="true" />
+    <Property Type="Int32" Name="ThisYearThisMonthSumMD" Nullable="true" />
+    <Property Type="Int32" Name="ThisYearThisMonthSumSM" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="proc_TugSum_ByDay_Result">
+    <Property Type="Int32" Name="CustomerID" Nullable="true" />
+    <Property Type="String" Name="CustomerName" Nullable="true" />
+    <Property Type="String" Name="ServiceWorkDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TugNum" Nullable="true" />
   </ComplexType>
   <EntityType Name="AmountSum">
     <Key>
@@ -500,7 +535,7 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserDefinedCol5" Type="Double" />
@@ -1552,6 +1587,7 @@
     <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TugNum" Type="Int32" />
     <Property Name="FuelAmount" Type="Double" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_BillingTask">
     <Key>
@@ -1735,6 +1771,11 @@
     <Property Name="Ratio4" Type="Double" />
     <Property Name="Ratio5" Type="Double" />
     <Property Name="Ratio6" Type="Double" />
+    <Property Name="ShipLength" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipTEUS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingTemplateTypeID" Type="Int32" />
+    <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Inv_Head_Special">
     <Key>
@@ -2606,39 +2647,4 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <ComplexType Name="proc_AmountSum_ByTug_Result">
-    <Property Type="Int32" Name="TugID" Nullable="true" />
-    <Property Type="String" Name="TugName" Nullable="true" />
-    <Property Type="Double" Name="LastYearAmount" Nullable="true" />
-    <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
-    <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
-    <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
-    <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="proc_TugSum_ByCustomer_Result">
-    <Property Type="Int32" Name="CustomerID" Nullable="true" />
-    <Property Type="String" Name="CustomerName" Nullable="true" />
-    <Property Type="Int32" Name="LastYearSumBG" Nullable="true" />
-    <Property Type="Int32" Name="LastYearSumMD" Nullable="true" />
-    <Property Type="Int32" Name="LastYearSumSM" Nullable="true" />
-    <Property Type="Int32" Name="LastYearToThisMonthSumBG" Nullable="true" />
-    <Property Type="Int32" Name="LastYearToThisMonthSumMD" Nullable="true" />
-    <Property Type="Int32" Name="LastYearToThisMonthSumSM" Nullable="true" />
-    <Property Type="Int32" Name="ThisYearToThisMonthSumBG" Nullable="true" />
-    <Property Type="Int32" Name="ThisYearToThisMonthSumMD" Nullable="true" />
-    <Property Type="Int32" Name="ThisYearToThisMonthSumSM" Nullable="true" />
-    <Property Type="Int32" Name="LastYearThisMonthSumBG" Nullable="true" />
-    <Property Type="Int32" Name="LastYearThisMonthSumMD" Nullable="true" />
-    <Property Type="Int32" Name="LastYearThisMonthSumSM" Nullable="true" />
-    <Property Type="Int32" Name="ThisYearThisMonthSumBG" Nullable="true" />
-    <Property Type="Int32" Name="ThisYearThisMonthSumMD" Nullable="true" />
-    <Property Type="Int32" Name="ThisYearThisMonthSumSM" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="proc_TugSum_ByDay_Result">
-    <Property Type="Int32" Name="CustomerID" Nullable="true" />
-    <Property Type="String" Name="CustomerName" Nullable="true" />
-    <Property Type="String" Name="ServiceWorkDate" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="TugNum" Nullable="true" />
-  </ComplexType>
 </Schema>

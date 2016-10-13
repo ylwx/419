@@ -1559,6 +1559,7 @@ namespace TugBusinessLogic.Module
             if (vb3 != null)
             {
                 _invoice.BillingID = vb3.IDX;
+                _invoice.BillingCode = vb3.BillingCode;
                 _invoice.CustomerID = (int)vb3.CustomerID;
                 _invoice.CustomerName = vb3.CustomerName;
                 _invoice.Amount = (double)vb3.Amount;
