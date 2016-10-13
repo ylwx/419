@@ -262,9 +262,13 @@ namespace TugManagementSystem.Controllers
                      {
                          foreach (var item in tmpCredit)
                          {
-                             item.CreditCode = "C" + billInfor.BillingCode.Substring(1, billingCode.Length - 1);
-                             db.Entry(item).State = System.Data.Entity.EntityState.Modified;
-                             db.SaveChanges();
+                             if (Util.checkdbnull(item.CreditCode) == "")
+                             {
+                                 item.CreditCode = "C" + billInfor.BillingCode.Substring(1, billingCode.Length - 1);
+                                 db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                 db.SaveChanges();
+                             }
+
                          }
                      }
                 }
