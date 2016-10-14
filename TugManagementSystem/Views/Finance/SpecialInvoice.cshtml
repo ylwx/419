@@ -495,6 +495,7 @@
         </div>
     </div>
     <!-- /Edit MODAL FORM-->
+
     <!-- 提交审核 MODAL FORM-->
     <div class="modal fade" id="table-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div id="model-dlg" class="modal-dialog" style="width: 560px ;height:600px">
@@ -593,7 +594,12 @@
                                 <div class="box-body big">
                                     @*<h4 class="form-title">Supported controls</h4>*@
                                     <form class="form-horizontal" role="form">
-
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">*@Resources.Language.Credit_CreditCode</label>
+                                            <div class="col-sm-10">
+                                                <input id="_CreditCode" type="text" class="form-control" readonly="readonly" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditContent</label>
                                             <div class="col-sm-9">
@@ -4006,6 +4012,14 @@
         $('#_CreditContent').parent().removeClass("has-error");
         $('#_CreditAmount').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
+
+        $('#_CreditCode').val("");
+        //获取账单编号
+        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+        var billcode = dr.BillingCode;
+        //alert("C" + billcode.substring(1, billcode.length));
+        if (billcode != '' & billcode != 'undefined') $('#_CreditCode').val("C" + billcode.substring(1, billcode.length));
 
         $('#_CreditContent').val("");
         $('#_CreditAmount').val("");
