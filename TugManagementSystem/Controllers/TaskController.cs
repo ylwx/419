@@ -71,7 +71,7 @@ namespace TugManagementSystem.Controllers
                     }
                     else
                     {
-                        var objs = db.proc_needapprove(curUserId).ToList();
+                        var objs = db.proc_needapprove(curUserId).OrderByDescending(u=>u.LastUpDate).ToList();
                         //List<NeedApprove> objs = new List<NeedApprove>();
                         //SqlParameter[] prams = new SqlParameter[1];
                         //prams[0] = new SqlParameter("@userID", curUserId);
@@ -80,8 +80,8 @@ namespace TugManagementSystem.Controllers
                         if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                         int pageSize = rows;
                         int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                        var page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList();
-                        var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                        //var page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList();
+                        var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                         return Json(jsonData, JsonRequestBehavior.AllowGet);     
                     }
             }
@@ -125,13 +125,13 @@ namespace TugManagementSystem.Controllers
                  try
                  {
                     TugDataEntities db = new TugDataEntities();
-                    var objs = db.proc_approved(curUserId).ToList();
+                    var objs = db.proc_approved(curUserId).OrderByDescending(u=>u.CreateDate).ToList();
                     int totalRecordNum = objs.Count;
                     if (page != 0 && totalRecordNum % rows == 0) page -= 1;
                     int pageSize = rows;
                     int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
-                    var page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList();
-                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_objs };
+                    //var page_objs = objs.Skip((page - 1) * rows).Take(rows).ToList();
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = objs };
                     return Json(jsonData, JsonRequestBehavior.AllowGet);  
                  }
                  catch (Exception)
