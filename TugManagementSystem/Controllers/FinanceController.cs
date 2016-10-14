@@ -8,6 +8,7 @@ using TugDataModel;
 using TugBusinessLogic;
 using System.Transactions;
 using Newtonsoft.Json;
+using TugBusinessLogic.Module;
 
 namespace TugManagementSystem.Controllers
 {
@@ -1877,6 +1878,21 @@ namespace TugManagementSystem.Controllers
                                     amtSum.UserID = Session.GetDataFromSession<int>("userid");
 
                                     amtSum = db.AmountSum.Add(amtSum);
+                                    db.SaveChanges();
+                                }
+                            }
+                            #endregion
+
+                            #region 更新回扣单编号
+                            System.Linq.Expressions.Expression<Func<Credit, bool>> expCredit = u => u.BillingID == billingId;
+                            List<Credit> tmpCredit = db.Credit.Where(expCredit).Select(u => u).ToList<Credit>();
+                            //Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
+                            if (tmpCredit.Count != 0)
+                            {
+                                foreach (var item in tmpCredit)
+                                {
+                                    item.CreditCode = "C" + billing_code.Substring(1, billing_code.Length - 1);
+                                    db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                                     db.SaveChanges();
                                 }
                             }
