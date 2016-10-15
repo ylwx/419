@@ -32,5 +32,6 @@ namespace TugDataModel
         public string Code { get; set; }
         public string Name2 { get; set; }
         public string SimpleName { get; set; }
+        public Nullable<double> TotalRebate { get; set; }
     }
 }

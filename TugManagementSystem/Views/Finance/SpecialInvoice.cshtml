@@ -1237,7 +1237,12 @@
                 },
 
 
-                
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing2_TotalRebate', name: "TotalRebate", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                },
 
                 {
                     align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
@@ -1523,7 +1528,7 @@
                     caption: "", title: "編輯帳單和回扣單", buttonicon: "ui-icon-pencil",
                     onClickButton: function () {
 
-                        g_zhujiemian_huikoudan = 1;
+                        g_zhujiemian_huikoudan = 0;
 
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
 
@@ -1674,7 +1679,7 @@
             caption: "", title: "新增回扣單", buttonicon: "ui-icon-plus",
             onClickButton: function () {
 
-                g_zhujiemian_huikoudan = 0;
+                g_zhujiemian_huikoudan = 1;
 
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                 var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -3076,6 +3081,17 @@
         $(this).removeData("bs.modal");
     });
     $('#edit-modal').on('hidden.bs.modal', function () {
+        $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+
+        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+        $('#jqGrid_ilView').addClass('ui-state-disabled');
+        $('#jqGrid_ilPreview').addClass('ui-state-disabled');
+
+        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
+
         $(this).removeData("bs.modal");
     });
 
@@ -3843,7 +3859,7 @@
                             alert(ret.message);
                             $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
 
-                            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                            //$('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
                             $('#jqGrid_ilDelete').addClass('ui-state-disabled');
                             $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
                             $('#jqGrid_ilView').addClass('ui-state-disabled');
@@ -4085,6 +4101,19 @@
 
     });
     $('#credit-add-modal').on('hide.bs.modal', function () {
+        
+
+        if (g_zhujiemian_huikoudan == 1)
+            $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+
+        $('#jqGrid_ilDelete').addClass('ui-state-disabled');
+        $('#jqGrid_ilSubmit').addClass('ui-state-disabled');
+        $('#jqGrid_ilView').addClass('ui-state-disabled');
+        $('#jqGrid_ilPreview').addClass('ui-state-disabled');
+        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
+
         $(this).removeData("bs.modal");
     });
     $('#credit-add-modal').on('hidden.bs.modal', function () {

@@ -408,6 +408,178 @@ namespace TugBusinessLogic
         }
 
 
+        static public double CalculateTimeConsumption2(int hour, int minute, int timeTypeId, string timeTypeValue, string timeTypeLabel)
+        {
+            int totalMinutes = hour * 60 + minute;
+
+           
+            if (totalMinutes <= 65)
+            {
+                return 1;
+            }
+            else {
+                int leftMinutes = totalMinutes - 65;
+                int tmp_hour = 0, tmp_minute = 0;
+
+                tmp_hour = leftMinutes / 60;
+                tmp_minute = leftMinutes % 60;
+
+
+                #region 一刻钟
+                if (timeTypeId == 8 || timeTypeValue == "0" || timeTypeLabel == "15分钟")
+                {
+                    int count = 0;
+                    count += tmp_hour * 60 / 15;
+                    count += tmp_minute / 15;
+                    if (tmp_minute % 15 > 0)
+                    {
+                        count++;
+                    }
+
+                    return 1 + (count * 15.0) / 60;
+                }
+                #endregion
+
+                #region 半小时
+                if (timeTypeId == 9 || timeTypeValue == "1" || timeTypeLabel == "半小时")
+                {
+                    int count = 0;
+                    count += tmp_hour * 60 / 30;
+                    count += tmp_minute / 30;
+                    if (tmp_minute % 30 > 0)
+                    {
+                        count++;
+                    }
+
+                    return 1 + (count * 30.0) / 60;
+                }
+                #endregion
+
+                #region 一小时
+                if (timeTypeId == 10 || timeTypeValue == "2" || timeTypeLabel == "一小时")
+                {
+                    int count = 0;
+                    count += tmp_hour * 60 / 60;
+                    count += tmp_minute / 60;
+                    if (tmp_minute % 60 > 0)
+                    {
+                        count++;
+                    }
+
+                    return 1 + (count * 60.0) / 60;
+                }
+                #endregion
+
+                #region 一刻钟/5min
+                if (timeTypeId == 11 || timeTypeValue == "3" || timeTypeLabel == "15分钟/5min")
+                {
+                    int count = 0;
+
+                    if (tmp_minute >= 5)
+                    {
+                        tmp_minute -= 5;
+                    }
+                    else
+                    {
+                        if (tmp_hour > 0)
+                        {
+                            tmp_hour -= 1;
+                            tmp_minute += 60 - 5;
+                        }
+                        else
+                        {
+                            tmp_hour = 0;
+                            tmp_minute = 0;
+                        }
+                    }
+
+                    count += tmp_hour * 60 / 15;
+
+                    count += tmp_minute / 15;
+                    if (tmp_minute % 15 > 0)
+                    {
+                        count++;
+                    }
+
+                    return 1 + (count * 15.0) / 60;
+                }
+                #endregion
+
+                #region 半小时/5min
+                if (timeTypeId == 12 || timeTypeValue == "4" || timeTypeLabel == "半小时/5min")
+                {
+                    int count = 0;
+
+                    if (tmp_minute >= 5)
+                    {
+                        tmp_minute -= 5;
+                    }
+                    else
+                    {
+                        if (tmp_hour > 0)
+                        {
+                            tmp_hour -= 1;
+                            tmp_minute += 60 - 5;
+                        }
+                        else
+                        {
+                            tmp_hour = 0;
+                            tmp_minute = 0;
+                        }
+                    }
+
+
+                    count += tmp_hour * 60 / 30;
+                    count += tmp_minute / 30;
+                    if (tmp_minute % 30 > 0)
+                    {
+                        count++;
+                    }
+
+                    return 1 + (count * 30.0) / 60;
+                }
+                #endregion
+
+                #region 一小时/5min
+                if (timeTypeId == 42 || timeTypeValue == "5" || timeTypeLabel == "一小时/5min")
+                {
+                    int count = 0;
+
+                    if (tmp_minute >= 5)
+                    {
+                        tmp_minute -= 5;
+                    }
+                    else
+                    {
+                        if (tmp_hour > 0)
+                        {
+                            tmp_hour -= 1;
+                            tmp_minute += 60 - 5;
+                        }
+                        else
+                        {
+                            tmp_hour = 0;
+                            tmp_minute = 0;
+                        }
+                    }
+
+
+                    count += tmp_hour * 60 / 60;
+                    count += tmp_minute / 60;
+                    if (tmp_minute % 60 > 0)
+                    {
+                        count++;
+                    }
+
+                    return 1 + (count * 60.0) / 60;
+                }
+
+                #endregion
+            }
+
+            return 0;
+        }
+
         /// <summary>
         /// 根据模板ID和ItemID获取价格
         /// </summary>
