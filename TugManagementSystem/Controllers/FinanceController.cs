@@ -8,6 +8,7 @@ using TugDataModel;
 using TugBusinessLogic;
 using System.Transactions;
 using Newtonsoft.Json;
+using TugBusinessLogic.Module;
 
 namespace TugManagementSystem.Controllers
 {
@@ -1882,6 +1883,21 @@ namespace TugManagementSystem.Controllers
                                 }
                             }
                             #endregion
+
+                            #region 更新回扣单编号
+                            System.Linq.Expressions.Expression<Func<Credit, bool>> expCredit = u => u.BillingID == billingId;
+                            List<Credit> tmpCredit = db.Credit.Where(expCredit).Select(u => u).ToList<Credit>();
+                            //Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
+                            if (tmpCredit.Count != 0)
+                            {
+                                foreach (var item in tmpCredit)
+                                {
+                                    item.CreditCode = "C" + billing_code.Substring(1, billing_code.Length - 1);
+                                    db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                            }
+                            #endregion
                         }
                         else
                         {
@@ -2391,6 +2407,7 @@ namespace TugManagementSystem.Controllers
 
                         if (oldBilling != null)
                         {
+                            oldBilling.BillingCode = billingCode;
                             oldBilling.Amount = amount;
                             oldBilling.Month = month;
                             oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -2477,6 +2494,21 @@ namespace TugManagementSystem.Controllers
 
                                 //2.插入账单的汇总项目
                                 TugBusinessLogic.Module.FinanceLogic.UpdateSpecialBillingSummarizeItems(billingId, Session.GetDataFromSession<int>("userid"));
+
+                                #region 更新回扣单编号
+                                System.Linq.Expressions.Expression<Func<Credit, bool>> expCredit = u => u.BillingID == billingId;
+                                List<Credit> tmpCredit = db.Credit.Where(expCredit).Select(u => u).ToList<Credit>();
+                                //Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
+                                if (tmpCredit.Count != 0)
+                                {
+                                    foreach (var item in tmpCredit)
+                                    {
+                                        item.CreditCode = "C" + billingCode.Substring(1, billingCode.Length - 1);
+                                        db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                }
+                                #endregion
                             }
                             else
                             {
