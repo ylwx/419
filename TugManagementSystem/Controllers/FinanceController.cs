@@ -1224,13 +1224,14 @@ namespace TugManagementSystem.Controllers
             var list = db.Credit.Where(u => u.IDX == creditId).ToList();
             if(list != null)
             {
+                //更新账单的回扣金额
+                {
+                    TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling((int)list[0].BillingID);
+                }
+
                 db.Credit.RemoveRange(list);
                 if(db.SaveChanges() > 0)
                 {
-                    //更新账单的回扣金额
-                    {
-                        TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling((int)list[0].BillingID);
-                    }
                     return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                 }
                 else

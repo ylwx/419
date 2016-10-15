@@ -1517,6 +1517,8 @@
                     caption: "", title: "編輯帳單和回扣單", buttonicon: "ui-icon-pencil",
                     onClickButton: function () {
 
+                        g_zhujiemian_huikoudan = 1;
+
                         var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
 
                         var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -1665,6 +1667,9 @@
             id: 'jqGrid_ilAddCredit',
             caption: "", title: "新增回扣單", buttonicon: "ui-icon-plus",
             onClickButton: function () {
+
+                g_zhujiemian_huikoudan = 0;
+
                 var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                 var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
                 var inFlowingResult = ""; //保存选择的已有账单，但已处于流程中的账单的记录
@@ -3500,6 +3505,19 @@
         //alert("orderId = " + orderId + "  creditId = " + creditId +"  弹出回扣单报表");
     }
 
+
+    //編輯對話框的預覽回扣單
+    function CreditPreview2() {
+        //jqGrid_view_tab
+
+        var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
+        var creditId = jQuery('#jqGrid_edit_tab').jqGrid('getCell', rowid, "IDX"); //CreditId
+        var billingId = jQuery('#jqGrid_edit_tab').jqGrid('getCell', rowid, "BillingID"); //BillingID
+        //open('/Report/CreditNotePage_special' + '?OrderID=' + orderId + '&CreditID=' + creditId)
+        open('/Report/CreditNotePage_special' + '?BillingID=' + billingId + '&CreditID=' + creditId)
+        //alert("orderId = " + orderId + "  creditId = " + creditId +"  弹出回扣单报表");
+    }
+
 </script>
 
 
@@ -3724,6 +3742,24 @@
                         }
                     })
 
+                .navButtonAdd('#jqGridPager_edit_tab', {
+                    //id: 'jqGrid_ilrefresh',
+                    caption: "", title: "新增", buttonicon: "ui-icon-plus",
+                    onClickButton: function () {
+                        //$('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        //var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
+                        //if (rowid != null) {
+
+                        //    CreditPreview2();
+                        //}
+                        //else {
+                        //    alert('选中一行');
+                        //}
+
+                        //alert('新增回扣單');
+                        AddCreditModal();
+                    }
+                })
                     .navButtonAdd('#jqGridPager_edit_tab', {
                         //id: 'jqGrid_ildelete',
                         caption: "", title: "刪除選中的行", buttonicon: "ui-icon-trash",
@@ -3754,7 +3790,23 @@
                             }
                         },
                         position: "last"
-                    });
+                    })
+            .navButtonAdd('#jqGridPager_edit_tab', {
+                //id: 'jqGrid_ilrefresh',
+                caption: "", title: "預覽", buttonicon: "ui-icon-search",
+                onClickButton: function () {
+                    //$('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                    var rowid = jQuery('#jqGrid_edit_tab').jqGrid('getGridParam', 'selrow');
+                    //alert(rowid);
+                    if (rowid != null) {
+
+                        CreditPreview2();
+                    }
+                    else {
+                        alert('选中一行');
+                    }
+                }
+            });
         }
 
         $('#jqGrid_edit_tab').inlineNav('#jqGridPager_edit_tab',
@@ -4083,6 +4135,10 @@
             success: function (result) {
                 $('#credit-add-modal').modal('hide')
                 alert(result.message);
+
+                $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+
+                $("#jqGrid_edit_tab").jqGrid('setGridParam', { editurl: '@Url.Action("AddEditCredit", "Finance")' });
             },
         });
     }
