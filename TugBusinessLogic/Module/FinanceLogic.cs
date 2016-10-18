@@ -3252,6 +3252,14 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderByDescending(u => u.FinalAmount).ToList();
                         }
                         break;
+                    case "ZongJia":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ZongJia).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ZongJia).ToList();
+                        }
+                        break;
                     case "Amount":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -3766,6 +3774,53 @@ namespace TugBusinessLogic.Module
                                             {
                                                 //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
                                                 cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "Amount"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region ZongJia
+                            case "ZongJia":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
                                             }
                                             break;
                                         default:
@@ -4300,6 +4355,15 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.Amount).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Amount).ToList();
+                        }
+                        break;
+
+                    case "ZongJia":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ZongJia).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ZongJia).ToList();
                         }
                         break;
 
@@ -5305,6 +5369,15 @@ namespace TugBusinessLogic.Module
                         }
                         break;
 
+                    case "ZongJia":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ZongJia).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ZongJia).ToList();
+                        }
+                        break;
+
                     case "Amount":
                         {
                             if (orderMethod.ToLower().Equals("asc"))
@@ -5803,6 +5876,53 @@ namespace TugBusinessLogic.Module
                                 break;
                             #endregion
 
+                            #region ZongJia
+                            case "ZongJia":
+                                {
+                                    Expression cdt = null;
+                                    switch (op)
+                                    {
+                                        case ConstValue.ComparisonOperator_EQ:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_LE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum < Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.LessThanOrEqual(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GT:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThan(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        case ConstValue.ComparisonOperator_GE:
+                                            {
+                                                //orders = orders.Where(u => u.SmallTugNum > Convert.ToInt32(data.Trim()) || u.SmallTugNum == Convert.ToInt32(data.Trim())).ToList();
+                                                cdt = Expression.GreaterThanOrEqual(Expression.PropertyOrField(parameter, "ZongJia"), Expression.Constant(Convert.ToDouble(data.Trim()), typeof(Nullable<double>)));
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    if (cdt != null)
+                                    {
+                                        condition = Expression.AndAlso(condition, cdt);
+                                    }
+                                }
+                                break;
+                            #endregion
+
                             #region Month
                             case "Month":
                                 {
@@ -6164,6 +6284,15 @@ namespace TugBusinessLogic.Module
                                 orders = orders.OrderBy(u => u.Amount).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Amount).ToList();
+                        }
+                        break;
+
+                    case "ZongJia":
+                        {
+                            if (orderMethod.ToLower().Equals("asc"))
+                                orders = orders.OrderBy(u => u.ZongJia).ToList();
+                            else
+                                orders = orders.OrderByDescending(u => u.ZongJia).ToList();
                         }
                         break;
 
