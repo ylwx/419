@@ -2725,16 +2725,24 @@
                 
                 {
                     align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "Amount", width: 100, editable: true, edittype: "text",
-                    hidden: false,
+                    hidden: true,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                 },
                 {
-                    align: 'center', label: '@Resources.Language.V_Billing2_FinalAmount', name: "FinalAmount", width: 100, editable: true, edittype: "text",
+                    align: 'center', label: '@Resources.Language.V_Billing_Amount', name: "FinalAmount", width: 100, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
                     searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
                 },
+
+                {
+                    align: 'center', label: '@Resources.Language.V_Billing2_FinalAmount', name: "ZongJia", width: 100, editable: true, edittype: "text",
+                    hidden: false,
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: { sopt: ["eq", "lt", "le", "gt", "ge"] },
+                },
+
                 {
                     align: 'center', label: '@Resources.Language.V_BillingItemTemplate_ShipLength', name: "ShipLength", width: 100, editable: true, edittype: "text",
                     hidden: false,
@@ -3028,6 +3036,13 @@
                     ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());*@
                 if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
                     ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_Amount").val());
+
+                        if ($("#gs_TotalRebate").val() != null && $("#gs_TotalRebate").val() != "")
+                            ret = ret && util.isValidCurrency('@Resources.Language.V_Billing2_TotalRebate', $("#gs_TotalRebate").val());
+                        if ($("#gs_FinalAmount").val() != null && $("#gs_FinalAmount").val() != "")
+                            ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_FinalAmount").val());
+                        if ($("#gs_ZongJia").val() != null && $("#gs_ZongJia").val() != "")
+                            ret = ret && util.isValidCurrency('@Resources.Language.V_Billing2_FinalAmount', $("#gs_ZongJia").val());
 
                         //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
                         return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
