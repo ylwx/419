@@ -444,10 +444,10 @@ namespace TugManagementSystem.Controllers
         private void Report_DataRegister_credit(FastReport.Report FReport, int BillingID, int CreditID)
         {
             DataTable dtV_Inv_Head = null; DataTable dt_Credit = null;
-            string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
+            string strV_Inv_Head = string.Format(" IDX = {0}", CreditID);
             string str_Credit = string.Format(" IDX = {0}", CreditID);
             //head
-            dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head", strV_Inv_Head);
+            dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head_Credit", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
             //creditnote,refundhk$
             dt_Credit = SqlHelper.GetDataTableData("Credit", str_Credit);
@@ -481,10 +481,10 @@ namespace TugManagementSystem.Controllers
         private void Report_DataRegister_credit_special(FastReport.Report FReport, int BillingID, int CreditID)
         {
             DataTable dtV_Inv_Head = null; DataTable dt_Credit = null;
-            string strV_Inv_Head = string.Format(" IDX = {0}", BillingID);
+            string strV_Inv_Head = string.Format(" IDX = {0}", CreditID);
             string str_Credit = string.Format(" IDX = {0}", CreditID);
             //head
-            dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head_Special", strV_Inv_Head);
+            dtV_Inv_Head = SqlHelper.GetDataTableData("V_Inv_Head_Special_Credit", strV_Inv_Head);
             FReport.RegisterData(dtV_Inv_Head, dtV_Inv_Head.TableName);
             //creditnote,refundhk$
             dt_Credit = SqlHelper.GetDataTableData("Credit", str_Credit);

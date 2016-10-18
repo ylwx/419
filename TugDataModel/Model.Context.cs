@@ -63,6 +63,9 @@ namespace TugDataModel
         public virtual DbSet<V_ApproveLog> V_ApproveLog { get; set; }
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
+        public virtual DbSet<V_Billing> V_Billing { get; set; }
+        public virtual DbSet<V_Billing2> V_Billing2 { get; set; }
+        public virtual DbSet<V_Billing3> V_Billing3 { get; set; }
         public virtual DbSet<V_Billing4> V_Billing4 { get; set; }
         public virtual DbSet<V_BillingItem> V_BillingItem { get; set; }
         public virtual DbSet<V_BillingItemTemplate> V_BillingItemTemplate { get; set; }
@@ -75,7 +78,9 @@ namespace TugDataModel
         public virtual DbSet<V_Inv_BillingItem> V_Inv_BillingItem { get; set; }
         public virtual DbSet<V_Inv_Credit_youhuidan> V_Inv_Credit_youhuidan { get; set; }
         public virtual DbSet<V_Inv_Head> V_Inv_Head { get; set; }
+        public virtual DbSet<V_Inv_Head_Credit> V_Inv_Head_Credit { get; set; }
         public virtual DbSet<V_Inv_Head_Special> V_Inv_Head_Special { get; set; }
+        public virtual DbSet<V_Inv_Head_Special_Credit> V_Inv_Head_Special_Credit { get; set; }
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
         public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
@@ -99,9 +104,6 @@ namespace TugDataModel
         public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_TugSum> V_TugSum { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
-        public virtual DbSet<V_Billing2> V_Billing2 { get; set; }
-        public virtual DbSet<V_Billing> V_Billing { get; set; }
-        public virtual DbSet<V_Billing3> V_Billing3 { get; set; }
     
         public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -513,9 +515,17 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByCustomer_Result>("proc_TugSum_ByCustomer", sYearParameter, sMonthParameter);
         }
     
-        public virtual ObjectResult<proc_TugSum_ByDay_Result> proc_TugSum_ByDay()
+        public virtual ObjectResult<proc_TugSum_ByDay_Result> proc_TugSum_ByDay(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result>("proc_TugSum_ByDay");
+            var date1Parameter = date1.HasValue ?
+                new ObjectParameter("Date1", date1) :
+                new ObjectParameter("Date1", typeof(System.DateTime));
+    
+            var date2Parameter = date2.HasValue ?
+                new ObjectParameter("Date2", date2) :
+                new ObjectParameter("Date2", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result>("proc_TugSum_ByDay", date1Parameter, date2Parameter);
         }
     }
 }
