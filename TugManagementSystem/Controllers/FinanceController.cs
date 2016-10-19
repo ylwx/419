@@ -1328,7 +1328,8 @@ namespace TugManagementSystem.Controllers
             int length = TugBusinessLogic.Module.Util.toint(shipLength);
             int teus = TugBusinessLogic.Module.Util.toint(shipTEUS);
             //List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomerBillSchemes((int)custId);
-            List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS((int)custId, length, teus);
+            //List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS((int)custId, length, teus);
+            List<TugDataModel.V_BillingTemplate> CustomerBillingSchemes = TugBusinessLogic.Module.FinanceLogic.GetCustomersBillingTemplateByLengthAndTEUS2((int)custId, length, teus);
             List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
@@ -1466,6 +1467,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.BillingName = "";
                         aScheduler.TimeTypeID = timeTypeId;
                         aScheduler.Discount = discount;
+                        aScheduler.TotalRebate = 0;
                         aScheduler.Amount = amount;
                         aScheduler.Remark = remark;
                         aScheduler.Month = month;

@@ -7028,6 +7028,149 @@ namespace TugBusinessLogic.Module
         }
 
 
+        static public List<V_BillingTemplate> GetCustomersBillingTemplateByLengthAndTEUS2(int customerId, int shipLength, int shipTEUS)
+        {
+            List<V_BillingTemplate> retList = new List<V_BillingTemplate>();
+
+            List<V_BillingTemplate> defaultList = GetCustomerBillSchemes(-1);
+
+            if (defaultList != null)
+                retList.AddRange(defaultList);
+
+            TugDataEntities db = new TugDataEntities();
+            var list = db.V_BillingTemplate.Where(u => u.CustomerID == customerId && u.UserDefinedCol6 != -1).ToList();
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    if (item.ShipLength != null)
+                    {
+                        int lessValue;
+                        if (true == Utils.GetShipLengthLessValue(item.ShipLength, out lessValue))
+                        {
+                            if (shipLength <= lessValue)
+                            {
+                                //retList.Add(item);
+
+                                if (item.ShipTEUS != null)
+                                {
+                                    int lessValue2;
+                                    if (true == Utils.GetShipTEUSLessValue(item.ShipTEUS, out lessValue2))
+                                    {
+                                        if (shipTEUS <= lessValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+
+                                    int greaterValue2;
+                                    if (true == Utils.GetShipTEUSGreaterValue(item.ShipTEUS, out greaterValue2))
+                                    {
+                                        if (shipTEUS >= greaterValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+
+                                    int beginValue2, endValue2;
+                                    if (true == Utils.GetShipTEUSBetweenValue(item.ShipTEUS, out beginValue2, out endValue2))
+                                    {
+                                        if (shipTEUS >= beginValue2 && shipTEUS <= endValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+
+                        int greaterValue;
+                        if (true == Utils.GetShipLengthGreaterValue(item.ShipLength, out greaterValue))
+                        {
+                            if (shipLength >= greaterValue)
+                            {
+                                //retList.Add(item);
+                                if (item.ShipTEUS != null)
+                                {
+                                    int lessValue2;
+                                    if (true == Utils.GetShipTEUSLessValue(item.ShipTEUS, out lessValue2))
+                                    {
+                                        if (shipTEUS <= lessValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+
+                                    int greaterValue2;
+                                    if (true == Utils.GetShipTEUSGreaterValue(item.ShipTEUS, out greaterValue2))
+                                    {
+                                        if (shipTEUS >= greaterValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+
+                                    int beginValue2, endValue2;
+                                    if (true == Utils.GetShipTEUSBetweenValue(item.ShipTEUS, out beginValue2, out endValue2))
+                                    {
+                                        if (shipTEUS >= beginValue2 && shipTEUS <= endValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        int beginValue, endValue;
+                        if (true == Utils.GetShipLengthBetweenValue(item.ShipLength, out beginValue, out endValue))
+                        {
+                            if (shipLength >= beginValue && shipLength <= endValue)
+                            {
+                                //retList.Add(item);
+                                if (item.ShipTEUS != null)
+                                {
+                                    int lessValue2;
+                                    if (true == Utils.GetShipTEUSLessValue(item.ShipTEUS, out lessValue2))
+                                    {
+                                        if (shipTEUS <= lessValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+
+                                    int greaterValue2;
+                                    if (true == Utils.GetShipTEUSGreaterValue(item.ShipTEUS, out greaterValue2))
+                                    {
+                                        if (shipTEUS >= greaterValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+
+                                    int beginValue2, endValue2;
+                                    if (true == Utils.GetShipTEUSBetweenValue(item.ShipTEUS, out beginValue2, out endValue2))
+                                    {
+                                        if (shipTEUS >= beginValue2 && shipTEUS <= endValue2)
+                                        {
+                                            retList.Add(item);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            retList = retList.OrderBy(u => u.BillingTemplateName).ToList();
+
+            return retList;
+        }
+
+
         static public void GetStatuOfBillings(string selectedBillingIDs, string billingType, out Dictionary<int, int> dicNotInFlow,
             out Dictionary<int, int> dicInFow)
         {
