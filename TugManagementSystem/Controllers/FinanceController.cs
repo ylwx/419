@@ -2946,7 +2946,7 @@ namespace TugManagementSystem.Controllers
 
 
 
-        #region 优惠单
+        #region 其他賬單
 
         public ActionResult GetDiscountBillingDataForLoadOnce(bool _search, string sidx, string sord, int page, int rows)
         {
@@ -3006,7 +3006,7 @@ namespace TugManagementSystem.Controllers
 
 
         /// <summary>
-        /// 删除优惠单
+        /// 删除其他賬單
         /// </summary>
         /// <returns></returns>
         [Authorize]
@@ -3051,7 +3051,7 @@ namespace TugManagementSystem.Controllers
 
 
         /// <summary>
-        /// 新增优惠单
+        /// 新增其他賬單
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -3068,7 +3068,7 @@ namespace TugManagementSystem.Controllers
                     var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
                     if (tmp != null)
                     {
-                        var ret2 = new { code = Resources.Common.FAIL_CODE, message = "優惠單編號已存在!" };
+                        var ret2 = new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" };
                         //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                         return Json(ret2, JsonRequestBehavior.AllowGet);
                     }
@@ -3083,7 +3083,7 @@ namespace TugManagementSystem.Controllers
                     credit.UserDefinedCol5 = money;
                     credit.Amount = money;
                     credit.Month = month;
-                    credit.InvoiceType = "优惠单";
+                    credit.InvoiceType = "其他賬單";
                     credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     credit.OwnerID = -1;
                     credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
@@ -3133,7 +3133,7 @@ namespace TugManagementSystem.Controllers
                     {
                         if (tmp.IDX != aOrder.IDX)
                         {
-                            return Json(new { code = Resources.Common.FAIL_CODE, message = "優惠單編號已存在!" }, JsonRequestBehavior.AllowGet);
+                            return Json(new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" }, JsonRequestBehavior.AllowGet);
                         }
                     }
 

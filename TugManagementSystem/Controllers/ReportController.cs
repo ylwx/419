@@ -493,7 +493,7 @@ namespace TugManagementSystem.Controllers
         }
         #endregion   
 
-        #region 优惠单 Credit Note
+        #region 其他賬單 Credit Note
         public ActionResult CreditNotePage_Youhuidan(int BillingID)
         {
             //int OrderID; int CreditID;

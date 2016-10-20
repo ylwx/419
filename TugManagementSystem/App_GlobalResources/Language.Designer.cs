@@ -673,7 +673,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 優惠單 的本地化字符串。
+        ///   查找类似 其他賬單 的本地化字符串。
         /// </summary>
         internal static string DiscountBill {
             get {
@@ -2230,7 +2230,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 優惠單編號 的本地化字符串。
+        ///   查找类似 其他賬單編號 的本地化字符串。
         /// </summary>
         internal static string V_Billing4_BillingCode {
             get {

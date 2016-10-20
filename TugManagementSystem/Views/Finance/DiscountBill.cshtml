@@ -266,7 +266,7 @@
 </script>
 
 
-<!--优惠单Grid-->
+<!--其他賬單Grid-->
 <script>
     function DiscountBillGridInit() {
         $("#jqGrid").jqGrid({
@@ -622,7 +622,7 @@
 
             .navButtonAdd('#jqGridPager', {
                 id: 'jqGrid_ilAddCredit',
-                caption: "", title: "新增優惠單", buttonicon: "ui-icon-plus",
+                caption: "", title: "新增其他賬單", buttonicon: "ui-icon-plus",
                 onClickButton: function () {
 
                     g_mode = '新增';
@@ -633,7 +633,7 @@
             })
             .navButtonAdd('#jqGridPager', {
                 id: 'jqGrid_ilEdit',
-                caption: "", title: "編輯優惠單", buttonicon: "ui-icon-pencil",
+                caption: "", title: "編輯其他賬單", buttonicon: "ui-icon-pencil",
                 onClickButton: function () {
 
                     var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
@@ -656,7 +656,7 @@
                         type: "POST",
                         data: {
                             'selectedBillingIDs': selectedBillingIDs,
-                            'billingType': '优惠单'
+                            'billingType': '其他賬單'
                         },//"oper=delete&id=" + gr,
                         dataType: 'json',
                         success: function (result) {
@@ -670,7 +670,7 @@
                             //alert(inFlowingResult);
                             if (inFlowingResult != "") {
                                 inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                alert('所選的記錄中，第' + inFlowingResult + '行優惠單處於審核流程中，不能編輯，請取消這些(張)優惠單！');
+                                alert('所選的記錄中，第' + inFlowingResult + '行其他賬單處於審核流程中，不能編輯，請取消這些(張)其他賬單！');
                                 return;
                             }
 
@@ -694,7 +694,7 @@
             })
             .navButtonAdd('#jqGridPager', {
                 id: 'jqGrid_ilDelete',
-                caption: "", title: "刪除優惠單", buttonicon: "ui-icon-trash",
+                caption: "", title: "刪除其他賬單", buttonicon: "ui-icon-trash",
                 onClickButton: function () {
                     var selectedIDs = jQuery('#jqGrid').getGridParam("selarrrow");
                     var hasInvoceNotInFlowingResult = ""; //保存选择的已有账单，但不在流程中的记录
@@ -715,7 +715,7 @@
                         type: "POST",
                         data: {
                             'selectedBillingIDs': selectedBillingIDs,
-                            'billingType': '优惠单'
+                            'billingType': '其他賬單'
                         },//"oper=delete&id=" + gr,
                         dataType: 'json',
                         success: function (result) {
@@ -728,7 +728,7 @@
 
                             if (inFlowingResult != "") {
                                 inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                alert('所選的記錄中，第' + inFlowingResult + '行優惠單處於審核流程中，不能刪除，請取消這些(張)優惠單！');
+                                alert('所選的記錄中，第' + inFlowingResult + '行其他賬單處於審核流程中，不能刪除，請取消這些(張)其他賬單！');
                                 return;
                             }
 
@@ -803,7 +803,7 @@
                         type: "POST",
                         data: {
                             'selectedBillingIDs': selectedBillingIDs,
-                            'billingType': '优惠单'
+                            'billingType': '其他賬單'
                         },//"oper=delete&id=" + gr,
                         dataType: 'json',
                         success: function (result) {
@@ -816,7 +816,7 @@
 
                             if (inFlowingResult != "") {
                                 inFlowingResult = inFlowingResult.substr(0, inFlowingResult.length - 1);
-                                alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能重複提交，請取消這些(張)優惠單！');
+                                alert('所選的記錄中，第' + inFlowingResult + '行帳單處於審核流程中，不能重複提交，請取消這些(張)其他賬單！');
                                 return;
                             }
 
@@ -1319,10 +1319,10 @@
 
 </script>
 
-<!--查看优惠单报表-->
+<!--查看其他賬單报表-->
 <script>
     function ViewDiscountBill() {
-        //alert("调用报表预览：当前选择的需要预览的优惠单Id是:" + g_curSelectedBillingIds);
+        //alert("调用报表预览：当前选择的需要预览的其他賬單Id是:" + g_curSelectedBillingIds);
 
         //var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
 
@@ -1352,7 +1352,7 @@
 
 
 
-<!--优惠单模态框-->
+<!--其他賬單模态框-->
 <script>
 
     //保存Grid当前选择的行号
@@ -1470,7 +1470,7 @@
 
 
     function InitEditDiscountBill() {
-        //alert("当前选择的编辑的优惠单Id是:" + g_curSelectedBillingIds);
+        //alert("当前选择的编辑的其他賬單Id是:" + g_curSelectedBillingIds);
 
         $.ajax({
             type: "post",

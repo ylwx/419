@@ -132,7 +132,7 @@ namespace TugManagementSystem.Controllers
             var ret = new { code = Resources.Common.SUCCESS_CODE, rvalid =isvalid };
             return Json(ret);
         }
-        //BillingType:0普通账单，1特殊账单,2优惠单
+        //BillingType:0普通账单，1特殊账单,2其他賬單
         public ActionResult SubmitFlow(int BillingType,string billids,List<string[]> dataListFromTable)
         {
             //billid 从Invoice页面传入
