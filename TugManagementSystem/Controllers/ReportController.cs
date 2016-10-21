@@ -178,6 +178,12 @@ namespace TugManagementSystem.Controllers
             //head
             dt = SqlHelper.GetDataTableData("V_BillingSum", strV);
             FReport.RegisterData(dt, dt.TableName);
+
+            FReport.Parameters.FindByName("totaltugnum").Value = dt.Compute("Sum(TugNum)","");
+            FReport.Parameters.FindByName("totalbillamount").Value = dt.Compute("Sum(Amount)", "");
+            FReport.Parameters.FindByName("totaldiscount").Value = dt.Compute("Sum(TotalRebate)", "");
+            FReport.Parameters.FindByName("totalheji").Value = dt.Compute("Sum(FinalAmount)", "");
+            FReport.Parameters.FindByName("totalfuel").Value = dt.Compute("Sum(FuelAmount)", "");
         }
         #endregion       
 
