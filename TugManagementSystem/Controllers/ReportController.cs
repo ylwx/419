@@ -148,7 +148,7 @@ namespace TugManagementSystem.Controllers
         #endregion       
 
         #region Report 賬單清單
-        public ActionResult Billing_List(string startdate, string enddate)//int OrderID, int CreditID
+        public ActionResult Billing_List(string startdate, string enddate, int customerid)//int OrderID, int CreditID
         {
             SetReport();
             WebReport webReport = new WebReport(); // create object
@@ -160,17 +160,21 @@ namespace TugManagementSystem.Controllers
             //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
             webReport.Report.Load(stream); //从内存加载模板到report中
             stream.Close();
-            Report_DataRegister_Billing_List(webReport.Report, startdate, enddate);
+            Report_DataRegister_Billing_List(webReport.Report, startdate, enddate, customerid);
             var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
             webReport.Prepare();
 
             ViewBag.WebReport = webReport; // send object to the View
             return View();
         }
-        private void Report_DataRegister_Billing_List(FastReport.Report FReport, string startdate, string enddate)
+        private void Report_DataRegister_Billing_List(FastReport.Report FReport, string startdate, string enddate, int customerid)
         {
             DataTable dt = null;
-            string strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}'", startdate +" 00:00:00", enddate + " 23:59:59");
+            string strV;
+            if(customerid == -1)
+                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}'", startdate + " 00:00:00", enddate + " 23:59:59");
+            else
+                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}' and CustomerID='{2}'", startdate + " 00:00:00", enddate + " 23:59:59", customerid);
             //head
             dt = SqlHelper.GetDataTableData("V_BillingSum", strV);
             FReport.RegisterData(dt, dt.TableName);

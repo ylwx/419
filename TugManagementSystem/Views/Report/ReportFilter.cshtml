@@ -3,16 +3,29 @@
     ViewBag.Title = Resources.Language.Report;
     ViewBag.MenuId = "menu8";
     if (ViewBag.reporttype == "Amout_Tug"){
-        ViewBag.SubMenuIndex = 0;                
+        ViewBag.SubMenuIndex = 0;
+        ViewBag.div_customer_hidden = "hidden";             
     }
     else if (ViewBag.reporttype == "Amount_BillType")
     {
         ViewBag.SubMenuIndex = 1;
+        ViewBag.div_customer_hidden = "hidden";
     }
     else if (ViewBag.reporttype == "Amount_Customer")
     {
         ViewBag.SubMenuIndex = 2;
-    }      
+        ViewBag.div_customer_hidden = "hidden";
+    }
+    else if (ViewBag.reporttype == "Tug_ByDay")
+    {
+        ViewBag.SubMenuIndex = 3;
+        ViewBag.div_customer_hidden = "hidden";
+    }
+    else if (ViewBag.reporttype == "Billing_List")
+    {
+        ViewBag.SubMenuIndex = 4;       
+        //$('#_div_customer').hidden;
+    }          
     Layout = "~/Views/Shared/_ContentLayout.cshtml";
 }
 <div id="main-content">
@@ -66,25 +79,34 @@
                             <div class="box-body">
                                 <form class="form-horizontal" role="form">
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label">@Resources.Language.Report_StartDate</label>
-                                                <div class="col-sm-8">
+                                                <label class="col-sm-3 control-label">@Resources.Language.Report_StartDate</label>
+                                                <div class="col-sm-9">
                                                     <input id="_Report_StartDate" type="text" class="form-control" placeholder="@Resources.Language.Report_StartDate" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label">@Resources.Language.Report_EndDate</label>
-                                                <div class="col-sm-8">
+                                                <label class="col-sm-3 control-label">@Resources.Language.Report_EndDate</label>
+                                                <div class="col-sm-9">
                                                     <input id="_Report_EndDate" type="text" class="form-control" placeholder="@Resources.Language.Report_EndDate" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="_div_customer" class="col-sm-4" @ViewBag.div_customer_hidden>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">@Resources.Language.CustomerName</label>
+                                                <div class="col-sm-9">
+                                                    <input id="_CustomerName" type="text" class="form-control" placeholder="@Resources.Language.CustomerName" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
+                                            <div id="_CustomerID" hidden>-1</div>
                                             <button type="button" class="btn btn-danger" onclick="ReSet()">@Resources.Language.Clear</button>
                                             <button type="button" class="btn btn-primary" onclick="GenerateReport()">@Resources.Language.OK</button>
                                         </div>
@@ -119,15 +141,65 @@
             format: 'Y-m-d',
             timepicker: false,
         });
+        $('#_CustomerName').autocomplete({
+            source: function (request, response) {
+                this.xhr = $.ajax({
+                    url: '@Url.Action("GetCustomer", "OrderManage")',
+                    data: request,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        response($.map(data.list, function (item) {
+                            //alert(item.ContactPerson)
+                            return {
+                                id: item.CustomerID,
+                                label: item.CustomerName1,
+                                value: item.CustomerName1,
+                                contact_person: item.ContactPerson,
+                                telephone: item.Telephone,
+                                email: item.Email
+                            };
+                        }));
+                    },
+
+                    error: function (model, response, options) {
+                        response([]);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                if (ui.item != null) {
+                    //alert(ui.item.id);
+                    $("#_CustomerID").val(ui.item.id);
+                }
+                else {
+                    $("#_CustomerID").val(-1);
+                }
+            },
+            change: function (event, ui) {
+
+                if (ui.item != null) {
+                    $("#_CustomerID").val(ui.item.id);
+                }
+                else {
+                    $("#_CustomerID").val(-1);
+                }
+
+            },
+            autoFocus: true
+        });
     });
     function ReSet() {
         $('#_Report_StartDate').val("");
         $('#_Report_EndDate').val("");
+        $('#_CustomerName').val("");
+        $("#_CustomerID").val(-1);
     }
     function GenerateReport() {
         //alert('@ViewBag.reporttype');
         var startdate = $('#_Report_StartDate').val().trim();
         var enddate = $('#_Report_EndDate').val().trim();
+        var customerid = $('#_CustomerID').val().trim();
         if (startdate == "" || enddate == "") {
             alert("請輸入日期！ ");
             return ;
@@ -145,7 +217,7 @@
             open('/Report/Tug_ByDay?startdate=' + startdate + '&enddate=' + enddate);
         }
         else if ('@ViewBag.reporttype' == 'Billing_List') {
-            open('/Report/Billing_List?startdate=' + startdate + '&enddate=' + enddate);
+            open('/Report/Billing_List?startdate=' + startdate + '&enddate=' + enddate + '&customerid=' + customerid);
         }
     }
 </script>
