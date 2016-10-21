@@ -4454,7 +4454,7 @@ namespace TugBusinessLogic.Module
             try
             {
                 TugDataEntities db = new TugDataEntities();
-                orders = db.V_Billing4.Where(u => u.InvoiceType == "其他賬單" && u.Phase != -1).Select(u => u).ToList<V_Billing4>();
+                orders = db.V_Billing4.Where(u => u.InvoiceType == "其他账单" && u.Phase != -1).Select(u => u).ToList<V_Billing4>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)
@@ -4609,7 +4609,7 @@ namespace TugBusinessLogic.Module
                 Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(1, typeof(int)));
                 ParameterExpression parameter = Expression.Parameter(typeof(V_Billing4));
 
-                Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("其他賬單"));
+                Expression condition2 = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant("其他账单"));
                 condition = Expression.AndAlso(condition, condition2);
 
                 Expression condition4 = Expression.NotEqual(Expression.PropertyOrField(parameter, "Phase"), Expression.Constant(-1, typeof(int?)));
@@ -5169,7 +5169,7 @@ namespace TugBusinessLogic.Module
                 }
                 else
                 {
-                    orders = db.V_Billing4.Where(u => u.InvoiceType == "其他賬單").Select(u => u).ToList<V_Billing4>();
+                    orders = db.V_Billing4.Where(u => u.InvoiceType == "其他账单").Select(u => u).ToList<V_Billing4>();
                 }
                 #endregion
 
@@ -7249,7 +7249,7 @@ namespace TugBusinessLogic.Module
                     }
                 }
             }
-            else if (billingType == "其他賬單")
+            else if (billingType == "其他账单")
             {
                 V_Billing4 ob = db.V_Billing4.FirstOrDefault(u => u.IDX == billId);
                 if (ob != null)

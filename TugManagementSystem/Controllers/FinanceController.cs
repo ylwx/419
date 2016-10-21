@@ -3083,7 +3083,7 @@ namespace TugManagementSystem.Controllers
                     credit.UserDefinedCol5 = money;
                     credit.Amount = money;
                     credit.Month = month;
-                    credit.InvoiceType = "其他賬單";
+                    credit.InvoiceType = "其他账单";
                     credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     credit.OwnerID = -1;
                     credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
