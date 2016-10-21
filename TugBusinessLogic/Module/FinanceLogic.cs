@@ -118,7 +118,7 @@ namespace TugBusinessLogic.Module
                                     //_invoice.TimeTypeValue = list[0].TimeTypeValue;
                                     //_invoice.TimeTypeLabel = list[0].TimeTypeLabel;
 
-                                    sch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute, (int)list.FirstOrDefault().TimeTypeID, list.FirstOrDefault().TimeTypeValue, list.FirstOrDefault().TimeTypeLabel);
+                                    sch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption2(iDiffHour, iDiffMinute, (int)list.FirstOrDefault().TimeTypeID, list.FirstOrDefault().TimeTypeValue, list.FirstOrDefault().TimeTypeLabel);
 
                                     sch.UnitPriceOfFeulFee = GetFuelFee(ms.ServiceWorkDate);                             
                                     sch.DiscoutPriceOfFeulFee = GetDiscoutPriceOfFuelFee(_invoice.BillingTemplateID);
@@ -368,7 +368,7 @@ namespace TugBusinessLogic.Module
                                     TugBusinessLogic.Utils.CalculateTimeDiff(sch.DepartBaseTime, sch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
                                     sch.WorkTime = iDiffHour.ToString() + "h." + iDiffMinute.ToString("D2") + "m.";
 
-                                    sch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute, (int)list.FirstOrDefault().TimeTypeID, list.FirstOrDefault().TimeTypeValue, list.FirstOrDefault().TimeTypeLabel);
+                                    sch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption2(iDiffHour, iDiffMinute, (int)list.FirstOrDefault().TimeTypeID, list.FirstOrDefault().TimeTypeValue, list.FirstOrDefault().TimeTypeLabel);
 
                                     sch.RopeUsed = schedulers[0].RopeUsed;
                                     sch.RopeNum = (int)schedulers[0].RopeNum;
@@ -545,7 +545,7 @@ namespace TugBusinessLogic.Module
                             TugBusinessLogic.Utils.CalculateTimeDiff(mySch.DepartBaseTime, mySch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
                             mySch.WorkTime = iDiffHour.ToString() + "h." + iDiffMinute.ToString("D2") + "m.";
 
-                            mySch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute,
+                            mySch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption2(iDiffHour, iDiffMinute,
                                 timeTypeId, timeTypeValue, timeTypeLabel);
 
                             mySch.RopeUsed = scheduler.RopeUsed;
@@ -1093,7 +1093,7 @@ namespace TugBusinessLogic.Module
                             TugBusinessLogic.Utils.CalculateTimeDiff(mySch.DepartBaseTime, mySch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
                             mySch.WorkTime = iDiffHour.ToString() + "h." + iDiffMinute.ToString("D2") + "m.";
 
-                            mySch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption(iDiffHour, iDiffMinute,
+                            mySch.WorkTimeConsumption = TugBusinessLogic.Utils.CalculateTimeConsumption2(iDiffHour, iDiffMinute,
                                 timeTypeId, timeTypeValue, timeTypeLabel);
 
                             mySch.RopeUsed = scheduler.RopeUsed;
