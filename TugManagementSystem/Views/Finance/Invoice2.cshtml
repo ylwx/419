@@ -4349,7 +4349,7 @@
             return;
         }*@
 
-        var ratio1 = null, ratio2 = null, ratio3 = null, ratio4 = null, ratio5 = null, ratio6 = null, minTime = null;
+        var ratio1 = null, ratio2 = null, ratio3 = null, ratio4 = null, ratio5 = null, ratio6 = null, ratio7 = null, minTime = null;
 
         
 
@@ -4372,45 +4372,53 @@
         if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
            
             ratio1 = parseFloat($('input[name="港外附加费比例"][id="157_B20"]').val()); //港外附加费比例(25%)
-            if (isNaN(ratio1) || ratio1 == "") {
+
+            if (isNaN(ratio1)) {
                 alert("港外附加費比例輸入無效");
                 return;
             }
 
             ratio2 = parseFloat($('input[name="18时至22时港外附加费比例"][id="158_B21"]').val()); //18-22时港外附加费比例(50%)
-            if (isNaN(ratio2) || ratio2 == "") {
+            if (isNaN(ratio2)) {
                 alert("18-22時港外附加費比例輸入無效");
                 return;
             }
 
             ratio3 = parseFloat($('input[name="22时至08时港外附加费比例"][id="159_B22"]').val()); //22-08时港外附加费比例(100%)
-            if (isNaN(ratio3) || ratio3 == "") {
+            if (isNaN(ratio3)) {
                 alert("22-08時港外附加費比例輸入無效");
                 return;
             }
 
             ratio4 = parseFloat($('input[name="假日附加费比例"][id="160_B23"]').val()); //假日附加费比例(100%)
-            if (isNaN(ratio4) || ratio4 == "") {
+            if (isNaN(ratio4)) {
                 alert("假日附加費比例輸入無效");
                 return;
             }
 
             ratio5 = parseFloat($('input[name="台风附加费比例"][id="161_B24"]').val()); //台风附加费比例(100%)
-            if (isNaN(ratio5) || ratio5 == "") {
+            if (isNaN(ratio5)) {
                 alert("颱風附加費比例輸入無效");
                 return;
             }
 
             ratio6 = parseFloat($('input[name="3600以上比例"][id="162_C25"]').val()); //3600以上比例(15%)
-            if (isNaN(ratio6) || ratio6 == "") {
+            if (isNaN(ratio6)) {
                 alert("3600以上比例輸入無效");
                 return;
             }
 
 
             minTime = parseFloat($('input[name="燃油费最低起算时间"][id="163_E85"]').val()); //燃油费最低起算时间(1)
-            if (isNaN(minTime) || minTime == "") {
+            if (isNaN(minTime)) {
                 alert("燃油費最低起算時間輸入無效");
+                return;
+            }
+
+            ratio7 = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()); //折扣系数比例(0%)
+
+            if (isNaN(ratio7)) {
+                alert("折扣系数输入无效");
                 return;
             }
 
@@ -4432,45 +4440,51 @@
         if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
 
             ratio1 = parseFloat($('input[name="港外附加费比例"][id="157_B20"]').val()); //港外附加费比例(25%)
-            if (isNaN(ratio1) || ratio1 == "") {
+            if (isNaN(ratio1)) {
                 alert("港外附加費比例輸入無效");
                 return;
             }
 
             ratio2 = parseFloat($('input[name="18时至22时港外附加费比例"][id="158_B21"]').val()); //18-22时港外附加费比例(50%)
-            if (isNaN(ratio2) || ratio2 == "") {
+            if (isNaN(ratio2) ) {
                 alert("18-22時港外附加費比例輸入無效");
                 return;
             }
 
             ratio3 = parseFloat($('input[name="22时至08时港外附加费比例"][id="159_B22"]').val()); //22-08时港外附加费比例(100%)
-            if (isNaN(ratio3) || ratio3 == "") {
+            if (isNaN(ratio3)) {
                 alert("22-08時港外附加費比例輸入無效");
                 return;
             }
 
             ratio4 = parseFloat($('input[name="假日附加费比例"][id="160_B23"]').val()); //假日附加费比例(100%)
-            if (isNaN(ratio4) || ratio4 == "") {
+            if (isNaN(ratio4)) {
                 alert("假日附加費比例輸入無效");
                 return;
             }
 
             ratio5 = parseFloat($('input[name="台风附加费比例"][id="161_B24"]').val()); //台风附加费比例(100%)
-            if (isNaN(ratio5) || ratio5 == "") {
+            if (isNaN(ratio5)) {
                 alert("颱風附加費比例輸入無效");
                 return;
             }
 
             ratio6 = parseFloat($('input[name="3600以上比例"][id="162_C25"]').val()); //3600以上比例(15%)
-            if (isNaN(ratio6) || ratio6 == "") {
+            if (isNaN(ratio6)) {
                 alert("3600以上比例輸入無效");
                 return;
             }
 
 
             minTime = parseFloat($('input[name="燃油费最低起算时间"][id="163_E85"]').val()); //燃油费最低起算时间(1)
-            if (isNaN(minTime) || minTime == "") {
+            if (isNaN(minTime)) {
                 alert("燃油費最低起算時間輸入無效");
+                return;
+            }
+
+            ratio7 = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()); //折扣系数(0%)
+            if (isNaN(ratio7)) {
+                alert("折扣系数输入无效");
                 return;
             }
 
@@ -4524,6 +4538,7 @@
                 'ratio4': ratio4,
                 'ratio5': ratio5,
                 'ratio6': ratio6,
+                'ratio7': ratio7,
                 'minTime':minTime,
                 'remark':remark,
                 'discount': discount,
@@ -5305,6 +5320,12 @@
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle">折扣</td>')
 
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="0" placeholder="请输入比例" onkeyup="DefaultBanbao_DanTiaoZheKouXiShu_Ratio_InputChanged(this)"></input>');
+                    td.append(input1);
+
                     tr.append(td);
 
                     for (key in result.invoice.Schedulers) {
@@ -5964,6 +5985,12 @@
                     //td.append(input)
                     //input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     //td.append(input);
+
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="0" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_DanTiaoZheKouXiShu_Ratio_InputChanged(this)"></input>');
+                    td.append(input1);
 
                     tr.append(td);
 
@@ -6928,7 +6955,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "157" + '_' + "B20";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="港外附加费比例" value="25" placeholder="请输入比例" onkeyup="DefaultBanbao_GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="港外附加费比例" value="' + result.invoice.Ratio1 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -6988,7 +7015,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "158" + '_' + "B21";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="18时至22时港外附加费比例" value="50" placeholder="请输入比例" onkeyup="DefaultBanbao_18To22GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="18时至22时港外附加费比例" value="' + result.invoice.Ratio2 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_18To22GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7045,7 +7072,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "159" + '_' + "B22";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="22时至08时港外附加费比例" value="100" placeholder="请输入比例" onkeyup="DefaultBanbao_22To08GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="22时至08时港外附加费比例" value="' + result.invoice.Ratio3 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_22To08GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7057,17 +7084,17 @@
 
                             var price = 0;
                             var consume_hour = 0;
-                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
-                                    }
                                 }
+                            }
 
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (122 == value[i].BillingItems[j].ItemID || "E83" == value[i].BillingItems[j].ItemValue) {
                                     consume_hour = value[i].BillingItems[j].Price;
+                                }
                             }
-                        }
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -7101,7 +7128,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "160" + '_' + "B23";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="假日附加费比例" value="100" placeholder="请输入比例" onkeyup="DefaultBanbao_JiaRiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="假日附加费比例" value="' + result.invoice.Ratio4 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_JiaRiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
                     var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
@@ -7133,14 +7160,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
-                            tr.append(td);
-                        }
+                                tr.append(td);
+                            }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
-                    }
-                }
+                            }
+                        }
                     }
                 }
 
@@ -7160,7 +7187,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "161" + '_' + "B24";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="台风附加费比例" value="100" placeholder="请输入比例" onkeyup="DefaultBanbao_TaiFengFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="台风附加费比例" value="' + result.invoice.Ratio5 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_TaiFengFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7238,6 +7265,13 @@
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle">折扣</td>')
 
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="' + result.invoice.Ratio7 + '" placeholder="请输入比例" onkeyup="DefaultBanBao_DanTiaoZheKouXiShu_Ratio_InputChanged(this)" disabled></input>');
+                    td.append(input1);
+
+
                     tr.append(td);
 
                     for (key in result.invoice.Schedulers) {
@@ -7296,7 +7330,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "162" + '_' + "C25";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="3600以上比例" value="15" placeholder="请输入比例" onkeyup="DefaultBanbao_3600_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="3600以上比例" value="' + result.invoice.Ratio6 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_3600_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7328,14 +7362,14 @@
                             if (price != 0) {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
-                            tr.append(td);
-                        }
+                                tr.append(td);
+                            }
                             else {
                                 var input = $('<input id="' + element_id + '" type="checkbox" name="3600BHP附加费15" onchange="Banbao3600BHPFuJiaFeiCheckboxChanged(this)" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
-                    }
-                }
+                            }
+                        }
                     }
                 }
 
@@ -7364,7 +7398,7 @@
                     var p1 = $('<p>燃油費最低起算時間(單位:小時)</p>');
                     td.append(p1);
                     var ratio_element_id = "163" + '_' + "E85";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="燃油费最低起算时间" value="1" placeholder="请输入比例" onkeyup="DefaultBanbao_RanYouFei_MinTime_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="燃油费最低起算时间" value="' + result.invoice.MinTime + '" placeholder="请输入比例" onkeyup="DefaultBanbao_RanYouFei_MinTime_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7684,7 +7718,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "157" + '_' + "B20";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="港外附加费比例" value="25" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="港外附加费比例" value="' + result.invoice.Ratio1 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7744,7 +7778,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "158" + '_' + "B21";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="18时至22时港外附加费比例" value="50" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_18To22GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="18时至22时港外附加费比例" value="' + result.invoice.Ratio2 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_18To22GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7801,7 +7835,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "159" + '_' + "B22";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="22时至08时港外附加费比例" value="100" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_22To08GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="22时至08时港外附加费比例" value="' + result.invoice.Ratio3 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_22To08GangWaiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7858,7 +7892,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "160" + '_' + "B23";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="假日附加费比例" value="100" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_JiaRiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="假日附加费比例" value="' + result.invoice.Ratio4 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_JiaRiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7918,7 +7952,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "161" + '_' + "B24";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="台风附加费比例" value="100" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_TaiFengFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="台风附加费比例" value="' + result.invoice.Ratio5 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_TaiFengFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -7996,6 +8030,13 @@
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle">折扣</td>')
 
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="' + result.invoice.Ratio7 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_DanTiaoZheKouXiShu_Ratio_InputChanged(this)" disabled></input>');
+                    td.append(input1);
+
+
                     tr.append(td);
 
                     for (key in result.invoice.Schedulers) {
@@ -8054,7 +8095,7 @@
                     var p1 = $('<p>比例(%)</p>');
                     td.append(p1);
                     var ratio_element_id = "162" + '_' + "C25";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="3600以上比例" value="15" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_3600_Ratio_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="3600以上比例" value="' + result.invoice.Ratio6 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_3600_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -8123,7 +8164,7 @@
                     var p1 = $('<p>燃油費最低起算時間(單位:小時)</p>');
                     td.append(p1);
                     var ratio_element_id = "163" + '_' + "E85";
-                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="燃油费最低起算时间" value="1" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_RanYouFei_MinTime_InputChanged(this)" disabled></input>');
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="燃油费最低起算时间" value="' + result.invoice.MinTime + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_RanYouFei_MinTime_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
 
@@ -8656,7 +8697,7 @@
             return;
         }*@
 
-        var ratio1 = null, ratio2 = null, ratio3 = null, ratio4 = null, ratio5 = null, ratio6 = null, minTime = null;
+        var ratio1 = null, ratio2 = null, ratio3 = null, ratio4 = null, ratio5 = null, ratio6 = null, ratio7 = null, minTime = null;
         
 
 
@@ -8679,51 +8720,59 @@
         if (billingTypeId == 7 || billingTypeValue == "1" || billingTypeLabel == "半包") {
 
             ratio1 = parseFloat($('input[name="港外附加费比例"][id="157_B20"]').val()); //港外附加费比例(25%)
-            if (isNaN(ratio1) || ratio1 == "") {
+            if (isNaN(ratio1)) {
                 alert("港外附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio2 = parseFloat($('input[name="18时至22时港外附加费比例"][id="158_B21"]').val()); //18-22时港外附加费比例(50%)
-            if (isNaN(ratio2) || ratio2 == "") {
+            if (isNaN(ratio2)) {
                 alert("18-22時港外附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio3 = parseFloat($('input[name="22时至08时港外附加费比例"][id="159_B22"]').val()); //22-08时港外附加费比例(100%)
-            if (isNaN(ratio3) || ratio3 == "") {
+            if (isNaN(ratio3)) {
                 alert("22-08時港外附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio4 = parseFloat($('input[name="假日附加费比例"][id="160_B23"]').val()); //假日附加费比例(100%)
-            if (isNaN(ratio4) || ratio4 == "") {
+            if (isNaN(ratio4)) {
                 alert("假日附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio5 = parseFloat($('input[name="台风附加费比例"][id="161_B24"]').val()); //台风附加费比例(100%)
-            if (isNaN(ratio5) || ratio5 == "") {
+            if (isNaN(ratio5)) {
                 alert("颱風附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio6 = parseFloat($('input[name="3600以上比例"][id="162_C25"]').val()); //3600以上比例(15%)
-            if (isNaN(ratio6) || ratio6 == "") {
+            if (isNaN(ratio6)) {
                 alert("3600以上比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
 
+
             minTime = parseFloat($('input[name="燃油费最低起算时间"][id="163_E85"]').val()); //燃油费最低起算时间(1)
-            if (isNaN(minTime) || minTime == "") {
+            if (isNaN(minTime)) {
                 alert("燃油費最低起算時間輸入無效");
+                $("#edit_btn_sumbit").attr("disabled", false);
+                return;
+            }
+
+            ratio7 = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()); //折扣系数(0%)
+            if (isNaN(ratio7)) {
+                alert("折扣系数输入无效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
@@ -8743,42 +8792,42 @@
         if (billingTypeId == 8 || billingTypeValue == "2" || billingTypeLabel == "计时") {
 
             ratio1 = parseFloat($('input[name="港外附加费比例"][id="157_B20"]').val()); //港外附加费比例(25%)
-            if (isNaN(ratio1) || ratio1 == "") {
+            if (isNaN(ratio1)) {
                 alert("港外附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio2 = parseFloat($('input[name="18时至22时港外附加费比例"][id="158_B21"]').val()); //18-22时港外附加费比例(50%)
-            if (isNaN(ratio2) || ratio2 == "") {
+            if (isNaN(ratio2)) {
                 alert("18-22時港外附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio3 = parseFloat($('input[name="22时至08时港外附加费比例"][id="159_B22"]').val()); //22-08时港外附加费比例(100%)
-            if (isNaN(ratio3) || ratio3 == "") {
+            if (isNaN(ratio3)) {
                 alert("22-08時港外附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio4 = parseFloat($('input[name="假日附加费比例"][id="160_B23"]').val()); //假日附加费比例(100%)
-            if (isNaN(ratio4) || ratio4 == "") {
+            if (isNaN(ratio4)) {
                 alert("假日附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio5 = parseFloat($('input[name="台风附加费比例"][id="161_B24"]').val()); //台风附加费比例(100%)
-            if (isNaN(ratio5) || ratio5 == "") {
+            if (isNaN(ratio5)) {
                 alert("颱風附加費比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
 
             ratio6 = parseFloat($('input[name="3600以上比例"][id="162_C25"]').val()); //3600以上比例(15%)
-            if (isNaN(ratio6) || ratio6 == "") {
+            if (isNaN(ratio6)) {
                 alert("3600以上比例輸入無效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
@@ -8786,8 +8835,15 @@
 
 
             minTime = parseFloat($('input[name="燃油费最低起算时间"][id="163_E85"]').val()); //燃油费最低起算时间(1)
-            if (isNaN(minTime) || minTime == "") {
+            if (isNaN(minTime)) {
                 alert("燃油費最低起算時間輸入無效");
+                $("#edit_btn_sumbit").attr("disabled", false);
+                return;
+            }
+
+            ratio7 = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()); //折扣系数(0%)
+            if (isNaN(ratio7)) {
+                alert("折扣系数输入无效");
                 $("#edit_btn_sumbit").attr("disabled", false);
                 return;
             }
@@ -8823,6 +8879,7 @@
                 'ratio4': ratio4,
                 'ratio5': ratio5,
                 'ratio6': ratio6,
+                'ratio7': ratio7,
                 'minTime': minTime,
                 'discount': discount,
                 'amount': amount,
@@ -9771,6 +9828,12 @@
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle">折扣</td>')
 
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="0" placeholder="请输入比例" onkeyup="DefaultBanbao_DanTiaoZheKouXiShu_Ratio_InputChanged(this)"></input>');
+                    td.append(input1);
+
                     tr.append(td);
 
                     for (key in result.invoice.Schedulers) {
@@ -10441,6 +10504,12 @@
                     //td.append(input)
                     //input = $('<input id="txtItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="text" name="txt折扣" value="' + GetFloatStr(unitPrice) + '" onkeyup="DefaultBanbao_DiscountPrice_InputChanged(this)"></input>');
                     //td.append(input);
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="0" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_DanTiaoZheKouXiShu_Ratio_InputChanged(this)"></input>');
+                    td.append(input1);
+
 
                     tr.append(td);
 
@@ -11264,6 +11333,13 @@
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle">折扣</td>')
 
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="' + result.invoice.Ratio7 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_DanTiaoZheKouXiShu_Ratio_InputChanged(this)"></input>');
+                    td.append(input1);
+
+
                     tr.append(td);
 
                     for (key in result.invoice.Schedulers) {
@@ -12019,6 +12095,13 @@
                     }
 
                     var td = $('<td width="" style="text-align:center;vertical-align:middle">折扣</td>')
+
+                    var p1 = $('<p>比例(%)</p>');
+                    td.append(p1);
+                    var ratio_element_id = "164" + '_' + "C26";
+                    var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="单条折扣系数" value="' + result.invoice.Ratio7 + '" placeholder="请输入比例" onkeyup="DefaultTiaoKuan_DanTiaoZheKouXiShu_Ratio_InputChanged(this)"></input>');
+                    td.append(input1);
+
 
                     tr.append(td);
 
@@ -14160,6 +14243,112 @@
         $('td[id="FinalAmount"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total - d)));
     }
 
+    function DefaultBanbao_DanTiaoZheKouXiShu_Ratio_InputChanged(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+        var discount_cox = GetDiscountCox();
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            var xieyijiage = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id=' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + ']').text())).toFixed(2);
+
+            //if (serviceNatureId == $(obj).attr("id").split('_')[2]) { //2 -> 1
+            //折扣
+            {
+                {
+
+                    //獲取比例
+                    var ratio = parseFloat(obj.value).toFixed(2);
+                    if (isNaN(ratio) || ratio == "")
+                        ratio = 0;
+
+
+                    var v = parseFloat(xieyijiage * ratio / 100).toFixed(2);
+                    //var element_id_p = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_16_B10';
+                    //$('p[name="real_price"][id="' + element_id_p + '"]').text(FormatPrice(GetFloatStr(v)));
+                    //$('p[name="real_price"][id="' + element_id + '"]').text(FormatPrice(GetFloatStr(v)));
+                    $(this).val(FormatPrice(GetFloatStr(v)));
+                }
+            }
+        });
+
+
+        //总计港币
+        $('td[name="总计港币"]').each(function () {
+            var td_id = $(this).attr("id");
+
+            var orderServiceId = td_id.split('_')[0];
+            var schedulerId = td_id.split('_')[1];
+            var serviceNatureId = td_id.split('_')[2];
+
+            //if (serviceNatureId == $(obj).attr("id").split('_')[2]) {
+            {
+                var total = 0;
+
+                //1.合计港币
+                total += parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + td_id + '"]').text()));
+
+                //2.折扣
+                if ($('input[name="折扣"][type="text"]').length > 0) {
+                    var ele = $('input[name="折扣"][type="text"]')[0];
+                    var itemId = $(ele).attr("id").split('_')[3];
+                    var itemValue = $(ele).attr("id").split('_')[4];
+                    var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+
+                    total += parseFloat(ConvertToRealPrice($('input[name="折扣"][type="text"][id="' + element_id + '"]').val()));
+
+                }
+
+                //3. 3600BHP附加费15%
+                if ($('input[name="3600BHP附加费15"][type="checkbox"]').length > 0) {
+                    var ele = $('input[name="3600BHP附加费15"][type="checkbox"]')[0];
+                    var itemId = $(ele).attr("id").split('_')[3];
+                    var itemValue = $(ele).attr("id").split('_')[4];
+                    var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                    total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
+                }
+
+                //4.燃油附加费
+                total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_22_C80' + '"]').text()));
+
+                //5. 拖缆费
+                if ($('input[name="拖缆费"]').length > 0) {
+                    var ele = $('input[name="拖缆费"]')[0];
+                    var itemId = $(ele).attr("id").split('_')[3];
+                    var itemValue = $(ele).attr("id").split('_')[4];
+                    var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                    total += parseFloat(ConvertToRealPrice($('input[name="拖缆费"][id="' + element_id + '"]').val()));
+                }
+
+                $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
+            }
+        });
+
+        //共计港币
+        var grand_total = 0;
+        $('td[name="总计港币"]').each(function () {
+            var v = parseFloat(ConvertToRealPrice($(this).text()));
+            grand_total += v;
+        });
+
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+
+        var d = parseFloat(grand_total * discount_cox / 100).toFixed(2); //折扣
+        $('td[id="DiscountCoefficientPrice"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(d)));
+        $('td[id="FinalAmount"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total - d)));
+    }
+
     //半包燃油费最低起算时间
     function DefaultBanbao_RanYouFei_MinTime_InputChanged(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
@@ -16029,6 +16218,108 @@
         $('td[id="DiscountCoefficientPrice"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(d)));
         $('td[id="FinalAmount"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total - d)));
     }
+
+    function DefaultTiaoKuan_DanTiaoZheKouXiShu_Ratio_InputChanged(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+
+        var discount_cox = GetDiscountCox();
+
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (serviceNatureId == $(obj).attr("id").split('_')[2]) {
+            {
+                {
+                    var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取正常收费
+
+                    //獲取比例
+                    var ratio = parseFloat(obj.value).toFixed(2);
+                    if (isNaN(ratio) || ratio == "")
+                        ratio = 0;
+
+
+                    var v = parseFloat(price * ratio / 100).toFixed(2);
+                    //$('p[name="real_price"][id="' + element_id + '"]').text(FormatPrice(GetFloatStr(v)));
+                    $(this).val(FormatPrice(GetFloatStr(v)));
+                }
+            }
+        });
+
+        //总计港币
+        $('td[name="总计港币"]').each(function () {
+            var td_id = $(this).attr("id");
+
+            var orderServiceId = td_id.split('_')[0];
+            var schedulerId = td_id.split('_')[1];
+            var serviceNatureId = td_id.split('_')[2];
+
+            //if (serviceNatureId == $(obj).attr("id").split('_')[2]) {
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var total = 0;
+
+                //1.合计港币
+                total += parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + td_id + '"]').text()));
+
+                //2.折扣
+                if ($('input[name="折扣"][type="text"]').length > 0) {
+                    var ele = $('input[name="折扣"][type="text"]')[0];
+                    var itemId = $(ele).attr("id").split('_')[3];
+                    var itemValue = $(ele).attr("id").split('_')[4];
+                    var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+
+                    total += parseFloat(ConvertToRealPrice($('input[name="折扣"][type="text"][id="' + element_id + '"]').val()));
+
+                }
+
+                //3. 3600BHP附加费15%
+                if ($('input[name="3600BHP附加费15"][type="checkbox"]').length > 0) {
+                    var ele = $('input[name="3600BHP附加费15"][type="checkbox"]')[0];
+                    var itemId = $(ele).attr("id").split('_')[3];
+                    var itemValue = $(ele).attr("id").split('_')[4];
+                    var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                    total += parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text()));
+                }
+
+                //4.燃油附加费
+                total += parseFloat(ConvertToRealPrice($('p[name="燃油附加费"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_22_C80' + '"]').text()));
+
+                //5. 拖缆费
+                if ($('input[name="拖缆费"]').length > 0) {
+                    var ele = $('input[name="拖缆费"]')[0];
+                    var itemId = $(ele).attr("id").split('_')[3];
+                    var itemValue = $(ele).attr("id").split('_')[4];
+                    var element_id = orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_' + itemId + '_' + itemValue;
+                    total += parseFloat(ConvertToRealPrice($('input[name="拖缆费"][id="' + element_id + '"]').val()));
+                }
+
+                $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
+            }
+        });
+
+        //共计港币
+        var grand_total = 0;
+        $('td[name="总计港币"]').each(function () {
+            var v = parseFloat(ConvertToRealPrice($(this).text()));
+            grand_total += v;
+        });
+
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(grand_total.toFixed(2));
+
+        var d = parseFloat(grand_total * discount_cox / 100).toFixed(2); //折扣
+        $('td[id="DiscountCoefficientPrice"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(d)));
+        $('td[id="FinalAmount"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(grand_total - d)));
+    }
+
 
     //条款燃油费最低起算时间
     function DefaultTiaoKuan_RanYouFei_MinTime_InputChanged(obj) {

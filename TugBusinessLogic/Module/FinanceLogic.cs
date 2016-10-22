@@ -287,6 +287,7 @@ namespace TugBusinessLogic.Module
                 _invoice.Ratio4 = (double?)list.FirstOrDefault().Ratio4;
                 _invoice.Ratio5 = (double?)list.FirstOrDefault().Ratio5;
                 _invoice.Ratio6 = (double?)list.FirstOrDefault().Ratio6;
+                _invoice.Ratio7 = (double?)list.FirstOrDefault().Ratio7;
                 _invoice.MinTime = (double?)list.FirstOrDefault().MinTime;
 
                 _invoice.Month = list.FirstOrDefault().Month;
