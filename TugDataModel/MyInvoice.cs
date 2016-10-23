@@ -269,6 +269,12 @@ namespace TugDataModel
         /// 3600以上比例(15%)
         /// </summary>
         public double? Ratio6 { get; set; }
+
+        /// <summary>
+        /// 折扣系数比例(0%)
+        /// </summary>
+        public double? Ratio7 { get; set; }
+
         /// <summary>
         /// 燃油费最低起算时间(1)
         /// </summary>
