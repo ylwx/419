@@ -268,6 +268,7 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                     <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
                     <button id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreviewAfterAddBilling()">@Resources.Language.Preview</button>
+                    <button id="add_btn_credit" class="btn btn-purple" onclick="AddCreditModal()">@Resources.Language.Credit</button>
                 </div>
             </div>
         </div>
@@ -1130,10 +1131,10 @@
               width: 100,
               source: function (query, process) {
                   //获取账单金额
-                  var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
-                  var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
-                  var zdamount = dr.Amount;  //账单ID
-                  var ss = [zdamount];
+                  //var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                  //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                  //var zdamount = dr.Amount;
+                  var ss = [curBillAmount];
                   process(ss);
           },
           },
@@ -1192,7 +1193,7 @@
                 }
                 //alert(vlcontent);
                 $("#_CreditContent").val(vlcontent);
-                $("#_CreditAmount").val(totalamount);
+                $("#_CreditAmount").val(totalamount.toFixed(2));
             }
         },
         afterRemoveRow: function (index, amount) {
@@ -1221,7 +1222,9 @@
     var g_curRowId = ''; //主界面Grid当前选中的行号
     var g_curSelectedOrderRowIds = ''; //在新生成账单时，主界面订单Grid当前选中的可以生成账单的有效行号(已经校验过),以逗号分割
     var g_curSelectedBillingIds = ''; //主界面账单Grid当前选中的可以进行操作的有效账单ID(已经校验过),以逗号分割
-
+    var curBillId = '';
+    var curBillCode = '';
+    var curBillAmount = 0;
     var g_zhujiemian_huikoudan = 1; //回扣单的新增是从主界面新增还是从编辑账单界面新增， 1是主界面，其他是编辑账单界面
 
 </script>
@@ -3292,6 +3295,12 @@
                         g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
                         //alert('弹出新增回扣单:' + g_curSelectedBillingIds);
+                        //curBillId=
+                        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+                        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+                        curBillId = dr.IDX;
+                        curBillCode = dr.BillingCode;
+                        curBillAmount = dr.Amount;
                         AddCreditModal();
                     },
                 });
@@ -4084,6 +4093,7 @@
 
         $('#add_btn_sumbit').attr('disabled', false);
         $('#add_btn_voice_preview').attr('disabled', true);
+        $('#add_btn_credit').attr('disabled', true);
         $('#sel_billing_scheme').attr('disabled', false);
         //$('#add_btn_voice_preview').hide();
 
@@ -4559,8 +4569,13 @@
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
                     $('#add_btn_voice_preview').attr('disabled', false);
+                    $('#add_btn_credit').attr('disabled', false);
                     $('#sel_billing_scheme').attr('disabled', true);
-
+                    //用于生成回扣单时使用
+                    curBillId = result.billing_id;
+                    curBillCode = billing_code;
+                    curBillAmount = amount;
+                    //
                     $('#_BillingID').text(result.billing_id);
 
                     $('#jqGrid_Order').jqGrid('setGridParam',
@@ -4580,12 +4595,14 @@
                     $("#add_btn_sumbit").attr("disabled", false);
                     $('#sel_billing_scheme').attr('disabled', false);
                     $('#add_btn_voice_preview').attr('disabled', true);
+                    $('#add_btn_credit').attr('disabled', true);
                 }
             },
 
             error: function (xhr) {
                 $('#sel_billing_scheme').attr('disabled', false);
                 $('#add_btn_voice_preview').attr('disabled', true);
+                $('#add_btn_credit').attr('disabled', true);
                 $("#add_btn_sumbit").attr("disabled", false);
             }
         });
@@ -19442,11 +19459,11 @@
         $('#_Remark').parent().removeClass("has-error");
         $('#_CreditCode').val("");
         //获取账单编号
-        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
-        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
-        var billcode = dr.BillingCode;
+        //var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+        //var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+        //var billcode = dr.BillingCode;
         //alert("C" + billcode.substring(1, billcode.length));
-        if (billcode != '' & billcode != 'undefined') $('#_CreditCode').val("C" + billcode.substring(1, billcode.length));
+        if (curBillCode != '' & curBillCode != 'undefined') $('#_CreditCode').val("C" + curBillCode.substring(1, curBillCode.length));
         $('#_CreditContent').val("");
         $('#_CreditAmount').val("");
         $('#_Remark').val("");
@@ -19481,17 +19498,10 @@
         var maxTextLength = 50;
         var maxTextAreaLength = 500;
 
-        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
-        //alert(g_curRowId);
-
-        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
-
-        //alert(JSON.stringify(dr));
-
-        var billingId = dr.IDX;
-        //alert(billingId);
-
-        var billingCode = dr.BillingCode;
+        //var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+        //var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+        //var billingId = dr.IDX;
+        //var billingCode = dr.BillingCode;
         var creditContent = $('#_CreditContent').val().trim();
         var creditAmount = $('#_CreditAmount').val().trim();
         var remark = $('#_Remark').val().trim();
@@ -19530,8 +19540,8 @@
             type: "post",
             url: '@Url.Action("AddCredit", "Finance")',
             data: {
-                'billingId': billingId,
-                'billingCode':billingCode,
+                'billingId': curBillId,
+                'billingCode': curBillCode,
                 'creditContent': creditContent,
                 'creditAmount':creditAmount,
                 'remark': remark

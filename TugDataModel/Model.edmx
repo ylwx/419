@@ -1012,6 +1012,8 @@
           <Property Name="TotalRebate" Type="float" />
           <Property Name="FinalAmount" Type="float" />
           <Property Name="ZongJia" Type="float" />
+          <Property Name="Length" Type="int" />
+          <Property Name="TEUS" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing3”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1205,6 +1207,8 @@
           <Property Name="TugNum" Type="int" />
           <Property Name="FuelAmount" Type="float" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="Length" Type="int" />
+          <Property Name="TEUS" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingTask”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2630,7 +2634,9 @@
     [V_Billing2].[CustomerSimpleName] AS [CustomerSimpleName], 
     [V_Billing2].[TotalRebate] AS [TotalRebate], 
     [V_Billing2].[FinalAmount] AS [FinalAmount], 
-    [V_Billing2].[ZongJia] AS [ZongJia]
+    [V_Billing2].[ZongJia] AS [ZongJia], 
+    [V_Billing2].[Length] AS [Length], 
+    [V_Billing2].[TEUS] AS [TEUS]
     FROM [dbo].[V_Billing2] AS [V_Billing2]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Billing3" EntityType="Self.V_Billing3" store:Type="Views" store:Schema="dbo">
@@ -2804,7 +2810,9 @@
     [V_BillingSum].[InvoiceType] AS [InvoiceType], 
     [V_BillingSum].[TugNum] AS [TugNum], 
     [V_BillingSum].[FuelAmount] AS [FuelAmount], 
-    [V_BillingSum].[CreateDate] AS [CreateDate]
+    [V_BillingSum].[CreateDate] AS [CreateDate], 
+    [V_BillingSum].[Length] AS [Length], 
+    [V_BillingSum].[TEUS] AS [TEUS]
     FROM [dbo].[V_BillingSum] AS [V_BillingSum]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BillingTask" EntityType="Self.V_BillingTask" store:Type="Views" store:Schema="dbo">
@@ -5141,6 +5149,8 @@
           <Property Name="TotalRebate" Type="Double" />
           <Property Name="FinalAmount" Type="Double" />
           <Property Name="ZongJia" Type="Double" />
+          <Property Name="Length" Type="Int32" />
+          <Property Name="TEUS" Type="Int32" />
         </EntityType>
         <EntityType Name="V_Billing3">
           <Key>
@@ -5322,6 +5332,8 @@
           <Property Name="TugNum" Type="Int32" />
           <Property Name="FuelAmount" Type="Double" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Length" Type="Int32" />
+          <Property Name="TEUS" Type="Int32" />
         </EntityType>
         <EntityType Name="V_BillingTask">
           <Key>
@@ -7538,6 +7550,8 @@
           <EntitySetMapping Name="V_Billing2">
             <EntityTypeMapping TypeName="Model.V_Billing2">
               <MappingFragment StoreEntitySet="V_Billing2">
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="ZongJia" ColumnName="ZongJia" />
                 <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
                 <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
@@ -7749,6 +7763,8 @@
           <EntitySetMapping Name="V_BillingSum">
             <EntityTypeMapping TypeName="Model.V_BillingSum">
               <MappingFragment StoreEntitySet="V_BillingSum">
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
                 <ScalarProperty Name="TugNum" ColumnName="TugNum" />
