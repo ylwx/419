@@ -134,6 +134,18 @@
 
                     }
                 },
+
+                gridComplete: function () {
+                    var ids = $(this).getDataIDs();
+                    for (var i = 0; i < ids.length; i++) {
+                        //var Phase = $(this).getCell(ids[i], 'Phase');
+                        var Status = $(this).getCell(ids[i], 'Status');
+                        if (Status == "审核")  //已提交，未审核
+                        {
+                            $("#" + ids[i] + " td").css("background-color", "#99ccff");
+                        }
+                    }
+                },
             });
 
             // 撤销通过
