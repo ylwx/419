@@ -150,6 +150,7 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
                     <button id="add_btn_sumbit" type="button" class="btn btn-primary" onclick="submitParentModal()">@Resources.Language.Submit</button>
                     <button id="add_btn_voice_preview" class="btn btn-success" onclick="InvoicePreviewAfterAddBilling()">@Resources.Language.Preview</button>
+                    <button id="add_btn_credit" class="btn btn-purple" onclick="AddCreditModal()">@Resources.Language.Credit</button>
                 </div>
             </div>
         </div>
@@ -573,7 +574,7 @@
 
     <!-- Credit Add MODAL FORM-->
     <div class="modal fade" id="credit-add-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div id="child-model-dlg" class="modal-dialog" style="width:500px">
+        <div id="child-model-dlg" class="modal-dialog" style="width:768px">
             <div class="modal-content modal-table">
                 @*<div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -594,33 +595,35 @@
                                 <div class="box-body big">
                                     @*<h4 class="form-title">Supported controls</h4>*@
                                     <form class="form-horizontal" role="form">
+                                        <div class="panel panel-success">
+                                            <div class="panel-body" style="height: 150px; overflow:auto;">
+                                                <div id="paratable" class="hot handsontable dataTable table-striped center-block"></div>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditCode</label>
-                                            <div class="col-sm-9">
+                                            <label class="col-sm-2 control-label">*@Resources.Language.Credit_CreditCode</label>
+                                            <div class="col-sm-10">
                                                 <input id="_CreditCode" type="text" class="form-control" readonly="readonly" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditContent</label>
-                                            <div class="col-sm-9">
-                                                <textarea id="_CreditContent" rows="3" class="form-control" placeholder="@Resources.Language.Credit_CreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
+                                            <label class="col-sm-2 control-label">*@Resources.Language.Credit_CreditContent</label>
+                                            <div class="col-sm-10">
+                                                <textarea id="_CreditContent" rows="6" class="form-control" placeholder="@Resources.Language.Credit_CreditContent" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">*@Resources.Language.Credit_CreditAmount</label>
-                                            <div class="col-sm-9">
+                                            <label class="col-sm-2 control-label">*@Resources.Language.Credit_CreditAmount</label>
+                                            <div class="col-sm-10">
                                                 <input id="_CreditAmount" type="text" class="form-control" placeholder="@Resources.Language.Credit_CreditAmount" onfocus="$(this).parent().removeClass('has-error')" onkeyup="inputCheck(this)" />
                                             </div>
                                         </div>
-
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">@Resources.Language.Remark</label>
-                                            <div class="col-sm-9">
+                                            <label class="col-sm-2 control-label">@Resources.Language.Remark</label>
+                                            <div class="col-sm-10">
                                                 <textarea id="_Remark" rows="3" class="form-control" placeholder="@Resources.Language.Remark" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                             </div>
                                         </div>
-
                                     </form>
                                     <div id="creditErrMsg" class="alert alert-block alert-warning fade in" hidden>
                                         @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
@@ -773,6 +776,128 @@
 
 </div>
 
+<!--参数计算-->
+<script type="text/javascript">
+
+    //服务项，handsontable 相关
+    var
+        $$ = function (id) { return document.getElementById(id); },
+        paracontainer = $$('paratable'),
+        //tjflow = $$('btnflow'),
+        //autosaveNotification,
+        parahot;
+
+    parahot = new Handsontable(paracontainer, {
+        //data: getCarData(),
+        startRows: 1,
+        startCols: 3,
+        colHeaders: ['回扣係數(%)', '金額', '自定義內容'],
+        contextMenu: true,
+        minSpareRows: 1,
+        rowHeaders: true,
+        columnSorting: false,
+        contextMenu: ['row_below', 'remove_row'],
+        removeRowPlugin: true,
+        //heigth: 500,
+        //colWidths: [100, 100, 100, 50, 50, 50, 100],
+        //stretchH: 'last',
+        //manualColumnResize: true,
+        columns: [
+          {
+              type: 'numeric',
+              //format: '0.00',
+              width: 100
+          },
+          {
+              type: 'autocomplete',
+              //format: '0.00',//'0,0.00 $'
+              width: 100,
+              source: function (query, process) {
+                  //获取账单金额
+                  //var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
+                  //var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
+                  //var zdamount = dr.Amount;
+                  var ss = [curBillAmount];
+                  process(ss);
+              },
+          },
+          {
+              type: 'autocomplete',
+              source: ['(BUNKER SURCHARGES & ROPES ARE EXCLUDED)'],
+              strict: false,
+              trimDropdown: false,
+              width: 400
+          }
+        ],
+        cells: function (row, col, prop) {
+            if (col === 1) {
+                this.data = '12345';
+            }
+        },
+        afterChange: function (change, source) {
+
+            if (source === 'loadData') {
+                return; //don't save this change
+            }
+            if (change != null) {
+                var parachs = change[0];
+                //alert(change[0][0])  //行号
+                //alert(change[0][1])  //列号
+                var pararct = parahot.countRows();
+
+                //var xs = parahot.getDataAtCell(parachs[0], 0);
+                //parahot.setDataAtRowProp(parachs[0], 1, parseFloat(zdamount * xs));  //if (parseFloat(xs)>0)
+
+                //组合
+                var vlcontent = "";
+                var xs = parahot.getDataAtCell(0, 0);
+                var amount = parahot.getDataAtCell(0, 1);
+                var ct = parahot.getDataAtCell(0, 2);
+                var zkamount = parseFloat(xs) / 100 * parseFloat(amount);
+                var totalamount;
+                if (pararct > 1) {
+                    vlcontent = "You will be " + xs + "% credited as per HK$" + fmoney(amount, 2) + "."
+                    + "\r\n" + ct + "HK$: " + fmoney(zkamount, 2);
+                    totalamount = zkamount;
+                }
+
+                for (var i = 1; i < pararct - 1; i++) {
+                    //alert(parahot.getDataAtCell(i, 0));//[A1,B1]
+                    //if (parseFloat(parahot.getDataAtCell(i, 0)) == 0 || parseFloat(parahot.getDataAtCell(i, 1)) == 0 || parseString(parahot.getDataAtCell(i, 2)) == "") continue;
+                    var xs = parahot.getDataAtCell(i, 0);
+                    var amount = parahot.getDataAtCell(i, 1);
+                    var ct = parahot.getDataAtCell(i, 2);
+                    var zkamount = parseFloat(xs) / 100 * parseFloat(amount);
+                    totalamount = totalamount + zkamount;
+
+                    vlcontent = vlcontent + "\r\r\nYou will be " + xs + "% credited as per HK$" + fmoney(amount, 2) + "."
+                    + "\r\n" + ct + ": " + fmoney(zkamount, 2);
+                }
+                //alert(vlcontent);
+                $("#_CreditContent").val(vlcontent);
+                $("#_CreditAmount").val(totalamount.toFixed(2));
+            }
+        },
+        afterRemoveRow: function (index, amount) {
+            //alert(index);
+            //alert(amount);
+        }
+    });
+    //end 服务项，handsontable 相关
+    function fmoney(s, n) {
+        n = n > 0 && n <= 20 ? n : 2;
+        s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+        var l = s.split(".")[0].split("").reverse(),
+        r = s.split(".")[1];
+        t = "";
+        for (i = 0; i < l.length; i++) {
+            t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+        }
+        return t.split("").reverse().join("") + "." + r;
+    }
+</script>
+
+
 <!--全局变量-->
 <script>
     var g_EditModalIsShown = false; //编辑模态框是否已经显示过
@@ -780,8 +905,9 @@
     var g_curRowId = ''; //主界面Grid当前选中的行号
     var g_curSelectedOrderRowIds = ''; //在新生成账单时，主界面订单Grid当前选中的可以生成账单的有效行号(已经校验过),以逗号分割
     var g_curSelectedBillingIds = ''; //主界面账单Grid当前选中的可以进行操作的有效账单ID(已经校验过),以逗号分割
-
-
+    var curBillId = '';
+    var curBillCode = '';
+    var curBillAmount = 0;
     var g_selectedServiceData = new Array();
 
 </script>
@@ -1741,6 +1867,11 @@
 
                         g_curSelectedBillingIds = hasInvoceNotInFlowingResult;
 
+                        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+                        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+                        curBillId = dr.IDX;
+                        curBillCode = dr.BillingCode;
+                        curBillAmount = dr.Amount;
                         //alert('弹出新增回扣单:' + g_curSelectedBillingIds);
                         AddCreditModal();
                     },
@@ -2317,6 +2448,7 @@
 
         $('#add_btn_sumbit').attr('disabled', false);
         $('#add_btn_voice_preview').attr('disabled', true);
+        $('#add_btn_credit').attr('disabled', true);
         //$('#add_btn_voice_preview').hide();
 
         $('#add_sel_month').datetimepicker({
@@ -2432,8 +2564,14 @@
 
                 if (result.code == '@Resources.Common.SUCCESS_CODE') {
                     $('#add_btn_voice_preview').attr('disabled', false);
-
+                    $('#add_btn_credit').attr('disabled', false);
                     $('#_BillingID').text(result.billing_id);
+
+                    //用于生成回扣单时使用
+                    curBillId = result.billing_id;
+                    curBillCode = billingCode;
+                    curBillAmount = amount;
+                    //
 
                     $('#jqGrid_Order').jqGrid('setGridParam',
                     {
@@ -2457,6 +2595,7 @@
 
                     $("#add_btn_sumbit").attr("disabled", false);
                     $('#add_btn_voice_preview').attr('disabled', true);
+                    $('#add_btn_credit').attr('disabled', true);
                 }
             },
 
@@ -4093,15 +4232,13 @@
         $('#_CreditContent').parent().removeClass("has-error");
         $('#_CreditAmount').parent().removeClass("has-error");
         $('#_Remark').parent().removeClass("has-error");
-
         $('#_CreditCode').val("");
         //获取账单编号
-        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
-        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
-        var billcode = dr.BillingCode;
+        //var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+        //var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+        //var billcode = dr.BillingCode;
         //alert("C" + billcode.substring(1, billcode.length));
-        if (billcode != '' & billcode != 'undefined') $('#_CreditCode').val("C" + billcode.substring(1, billcode.length));
-
+        if (curBillCode != '' & curBillCode != 'undefined') $('#_CreditCode').val("C" + curBillCode.substring(1, curBillCode.length));
         $('#_CreditContent').val("");
         $('#_CreditAmount').val("");
         $('#_Remark').val("");
@@ -4111,12 +4248,11 @@
         initAddCreditModal();
     });
     $('#credit-add-modal').on('shown.bs.modal', function (e) {
-
+        initparaModal();
     });
     $('#credit-add-modal').on('hide.bs.modal', function () {
-        
 
-        if (g_zhujiemian_huikoudan == 1)
+        if(g_zhujiemian_huikoudan == 1)
             $('#jqGrid').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
 
         $('#jqGrid_ilDelete').addClass('ui-state-disabled');
@@ -4133,16 +4269,40 @@
         $(this).removeData("bs.modal");
     });
 
+    function initparaModal() {
+        $('#childErrMsg').hide();
+        //$('#_xxx').parent().removeClass("has-error");
+
+        jQuery.ajax({
+            url: '/Finance/GetInitData', //Controller to Get the
+            //JsonResult From -- Json(jsonData, JsonRequestBehavior.AllowGet);
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            charset: "utf-8", // dataType and contentType should be json
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {      // on Success send the Json data
+                // to the table by using loaddata function""
+                //alert("ok");
+                parahot.loadData(data);
+                //exampleConsole.innerHTML = 'Data loaded';
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+
     function submitAddCreditModal() {
         var maxTextLength = 50;
         var maxTextAreaLength = 500;
 
-        var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
-        var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
-
-
-        var billingId = dr.IDX;
-        var billingCode = dr.BillingCode;
+        //var g_curRowId = jQuery("#jqGrid").jqGrid('getGridParam', 'selrow');//得到该行的数据
+        //var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
+        //var billingId = dr.IDX;
+        //var billingCode = dr.BillingCode;
         var creditContent = $('#_CreditContent').val().trim();
         var creditAmount = $('#_CreditAmount').val().trim();
         var remark = $('#_Remark').val().trim();
@@ -4181,8 +4341,8 @@
             type: "post",
             url: '@Url.Action("AddCredit", "Finance")',
             data: {
-                'billingId': billingId,
-                'billingCode':billingCode,
+                'billingId': curBillId,
+                'billingCode': curBillCode,
                 'creditContent': creditContent,
                 'creditAmount':creditAmount,
                 'remark': remark
@@ -4191,6 +4351,12 @@
             success: function (result) {
                 $('#credit-add-modal').modal('hide')
                 alert(result.message);
+
+                @*$('#jqGrid_edit_tab').jqGrid('setGridParam',
+                {
+                    datatype: 'json',
+                    url: '@Url.Action("GetDataForLoadOnce", "Customer")',
+                }).trigger('reloadGrid');*@
 
                 $('#jqGrid_edit_tab').jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
 
