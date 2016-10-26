@@ -3850,12 +3850,6 @@
             <Parameter Name="Date1" Mode="In" Type="DateTime" />
             <Parameter Name="Date2" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
-          <Parameter Name="userID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
-          <Parameter Name="userID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
           <EntitySet Name="Approve" EntityType="Model.Approve" />
           <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -3993,6 +3987,12 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
+          <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -4089,44 +4089,6 @@
           <Property Type="String" Name="ServiceWorkDate" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="TugNum" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_approved_Result">
-          <Property Type="Int32" Name="IDX" Nullable="true" />
-          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="ShipName" Nullable="true" />
-          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Amount" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Remark" Nullable="true" />
-          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_needapprove_Result">
-          <Property Type="Int32" Name="IDX" Nullable="true" />
-          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="ShipName" Nullable="true" />
-          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Amount" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Remark" Nullable="true" />
-          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="MarkID" Nullable="true" />
-          <Property Type="Int32" Name="Phase" Nullable="true" />
-          <Property Type="String" Name="Task" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="FlowUserID" Nullable="true" />
-          <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
         </ComplexType>
         <EntityType Name="AmountSum">
           <Key>
@@ -6422,6 +6384,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="proc_approved_Result">
+          <Property Type="Int32" Name="IDX" Nullable="true" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="ShipName" Nullable="true" />
+          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Remark" Nullable="true" />
+          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_needapprove_Result">
+          <Property Type="Int32" Name="IDX" Nullable="true" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="ShipName" Nullable="true" />
+          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Remark" Nullable="true" />
+          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MarkID" Nullable="true" />
+          <Property Type="Int32" Name="Phase" Nullable="true" />
+          <Property Type="String" Name="Task" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FlowUserID" Nullable="true" />
+          <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6515,52 +6515,6 @@
                 <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
                 <ScalarProperty Name="TugType" ColumnName="TugType" />
                 <ScalarProperty Name="TugNum" ColumnName="TugNum" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_approved" FunctionName="Model.Store.proc_approved">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_approved_Result">
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
-                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
-                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_needapprove" FunctionName="Model.Store.proc_needapprove">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_needapprove_Result">
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
-                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
-                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="Task" ColumnName="Task" />
-                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
-                <ScalarProperty Name="System" ColumnName="System" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8700,6 +8654,52 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="proc_approved" FunctionName="Model.Store.proc_approved">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_approved_Result">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_needapprove" FunctionName="Model.Store.proc_needapprove">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_needapprove_Result">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="System" ColumnName="System" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
