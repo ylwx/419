@@ -1062,6 +1062,10 @@ namespace TugManagementSystem.Controllers
                     BillingTemplate cstmer = db.BillingTemplate.FirstOrDefault(u => u.IDX == idx);
                     if (cstmer != null)
                     {
+                        List<BillingItemTemplate> items = db.BillingItemTemplate.Where(u => u.BillingTemplateID == cstmer.IDX).ToList();
+                        if (items != null)
+                            db.BillingItemTemplate.RemoveRange(items);
+
                         db.BillingTemplate.Remove(cstmer);
                         db.SaveChanges();
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
