@@ -187,71 +187,6 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
     
-        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
-        {
-            var billingIDParameter = billingID.HasValue ?
-                new ObjectParameter("BillingID", billingID) :
-                new ObjectParameter("BillingID", typeof(int));
-    
-            var timeTypeValueParameter = timeTypeValue.HasValue ?
-                new ObjectParameter("TimeTypeValue", timeTypeValue) :
-                new ObjectParameter("TimeTypeValue", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
-        }
-    
-        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
-        {
-            var billingIDParameter = billingID.HasValue ?
-                new ObjectParameter("BillingID", billingID) :
-                new ObjectParameter("BillingID", typeof(int));
-    
-            var timeTypeValueParameter = timeTypeValue.HasValue ?
-                new ObjectParameter("TimeTypeValue", timeTypeValue) :
-                new ObjectParameter("TimeTypeValue", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
-        {
-            var departBaseTimeParameter = departBaseTime != null ?
-                new ObjectParameter("DepartBaseTime", departBaseTime) :
-                new ObjectParameter("DepartBaseTime", typeof(string));
-    
-            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
-                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
-                new ObjectParameter("ArrivalBaseTime", typeof(string));
-    
-            var timeTypeValueParameter = timeTypeValue.HasValue ?
-                new ObjectParameter("TimeTypeValue", timeTypeValue) :
-                new ObjectParameter("TimeTypeValue", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("proc_inv_SrvHourNumeric", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
-        }
-    
-        public virtual ObjectResult<string> proc_inv_SrvHourString(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
-        {
-            var departBaseTimeParameter = departBaseTime != null ?
-                new ObjectParameter("DepartBaseTime", departBaseTime) :
-                new ObjectParameter("DepartBaseTime", typeof(string));
-    
-            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
-                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
-                new ObjectParameter("ArrivalBaseTime", typeof(string));
-    
-            var timeTypeValueParameter = timeTypeValue.HasValue ?
-                new ObjectParameter("TimeTypeValue", timeTypeValue) :
-                new ObjectParameter("TimeTypeValue", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
-        }
-    
-        public virtual ObjectResult<string> proc_test()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_test");
-        }
-    
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
             var diagramnameParameter = diagramname != null ?
@@ -484,6 +419,89 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByTug_Result>("proc_AmountSum_ByTug", sYearParameter, sMonthParameter);
         }
     
+        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        {
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        {
+            var billingIDParameter = billingID.HasValue ?
+                new ObjectParameter("BillingID", billingID) :
+                new ObjectParameter("BillingID", typeof(int));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
+        {
+            var departBaseTimeParameter = departBaseTime != null ?
+                new ObjectParameter("DepartBaseTime", departBaseTime) :
+                new ObjectParameter("DepartBaseTime", typeof(string));
+    
+            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
+                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
+                new ObjectParameter("ArrivalBaseTime", typeof(string));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("proc_inv_SrvHourNumeric", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<string> proc_inv_SrvHourString(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
+        {
+            var departBaseTimeParameter = departBaseTime != null ?
+                new ObjectParameter("DepartBaseTime", departBaseTime) :
+                new ObjectParameter("DepartBaseTime", typeof(string));
+    
+            var arrivalBaseTimeParameter = arrivalBaseTime != null ?
+                new ObjectParameter("ArrivalBaseTime", arrivalBaseTime) :
+                new ObjectParameter("ArrivalBaseTime", typeof(string));
+    
+            var timeTypeValueParameter = timeTypeValue.HasValue ?
+                new ObjectParameter("TimeTypeValue", timeTypeValue) :
+                new ObjectParameter("TimeTypeValue", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
+        }
+    
+        public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
+        }
+    
+        public virtual ObjectResult<string> proc_test()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_test");
+        }
+    
         public virtual ObjectResult<proc_TugSum_ByCustomer_Result> proc_TugSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
         {
             var sYearParameter = sYear.HasValue ?
@@ -508,24 +526,6 @@ namespace TugDataModel
                 new ObjectParameter("Date2", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result>("proc_TugSum_ByDay", date1Parameter, date2Parameter);
-        }
-    
-        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
-        }
-    
-        public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
         }
     }
 }
