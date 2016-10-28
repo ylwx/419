@@ -43,11 +43,11 @@ namespace TugManagementSystem.Controllers
             //ctmobj1.Label = "服務內容";
             //list.Add(ctmobj1);
 
-            CustomEntity ctmobj2 = new CustomEntity();
-            ctmobj2.IDX = 2;
-            ctmobj2.Name = "CreditInfor";
-            ctmobj2.Label = "回扣單內容";
-            list.Add(ctmobj2);
+            //CustomEntity ctmobj2 = new CustomEntity();
+            //ctmobj2.IDX = 2;
+            //ctmobj2.Name = "CreditInfor";
+            //ctmobj2.Label = "回扣單內容";
+            //list.Add(ctmobj2);
 
             ViewBag.TotalPageNum = 1;
             ViewBag.CurPage = 1;
