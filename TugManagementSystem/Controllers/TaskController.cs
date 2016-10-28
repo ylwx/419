@@ -343,6 +343,7 @@ namespace TugManagementSystem.Controllers
         public ActionResult RepealSubmit(Billing data)
         {
             int id = data.IDX;
+            int BillingType = 0;
             int idx = Util.toint(Request.Form["data[IDX]"].Trim());
             TugDataEntities db = new TugDataEntities();
             System.Linq.Expressions.Expression<Func<Billing, bool>> exp = u => u.IDX == idx;
@@ -363,6 +364,12 @@ namespace TugManagementSystem.Controllers
                 billInfor.Status = "已撤销提交";
                 db.Entry(billInfor).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
+
+                string billtype = billInfor.InvoiceType.ToString();
+                if (billtype == "特殊账单") BillingType = 1;
+
+                //修改訂單表
+                FinanceLogic.SetOrderServiceFlowingStatus(BillingType, idx, "否");
 
                 //写入Approve表
                 Approve addApprove = new Approve();
