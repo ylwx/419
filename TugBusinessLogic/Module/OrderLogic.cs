@@ -4268,7 +4268,7 @@ namespace TugBusinessLogic.Module
                 TugDataEntities db = new TugDataEntities();
                 orders = db.V_OrderInfor.Where(u => u.WorkStateID == 3 || u.WorkStateID == 5
                     ||u.WorkStateValue == "1" || u.WorkStateValue == "3"
-                    || u.WorkStateLabel == "已排船" || u.WorkStateLabel == "已完成").Select(u => u).ToList<V_OrderInfor>();
+                    || u.WorkStateLabel == "已排船" || u.WorkStateLabel == "已完工").Select(u => u).ToList<V_OrderInfor>();
 
                 #region 根据排序字段和排序方式排序
                 switch (orderField)

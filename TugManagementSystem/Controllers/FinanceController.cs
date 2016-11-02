@@ -1736,14 +1736,23 @@ namespace TugManagementSystem.Controllers
                         oldBilling.Amount = amount;
                         oldBilling.BillingCode = billing_code;
                         oldBilling.JobNo = jobNo;
+                        if (ratio1 != null)
                         oldBilling.Ratio1 = (double?)Math.Round((double)ratio1, 2);
+                        if (ratio2 != null)
                         oldBilling.Ratio2 = (double?)Math.Round((double)ratio2, 2);
+                        if (ratio3 != null)
                         oldBilling.Ratio3 = (double?)Math.Round((double)ratio3, 2);
+                        if (ratio4 != null)
                         oldBilling.Ratio4 = (double?)Math.Round((double)ratio4, 2);
+                        if (ratio5 != null)
                         oldBilling.Ratio5 = (double?)Math.Round((double)ratio5, 2);
+                        if (ratio6 != null)
                         oldBilling.Ratio6 = (double?)Math.Round((double)ratio6, 2);
+                        if (ratio7 != null)
                         oldBilling.Ratio7 = (double?)Math.Round((double)ratio7, 2);
+                        if (minTime != null)
                         oldBilling.MinTime = (double?)Math.Round((double)minTime, 2); 
+
                         oldBilling.Remark = remark;
                         oldBilling.Month = month;
                         oldBilling.IsShowShipLengthRule = isShowShipLengthRule;

@@ -2216,9 +2216,10 @@ namespace TugManagementSystem.Controllers
                                 }
                                 else
                                 {
-                                    tmpOrder.WorkStateID = 2;
-                                    db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
-                                    db.SaveChanges();
+                                    //作业时间未全部输完，订单状态不需要做更改
+                                    //tmpOrder.WorkStateID = 2;
+                                    //db.Entry(tmpOrder).State = System.Data.Entity.EntityState.Modified;
+                                    //db.SaveChanges();
                                 }
 
                             }
