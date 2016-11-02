@@ -55,5 +55,7 @@ namespace TugDataModel
         public Nullable<double> TotalRebate { get; set; }
         public Nullable<double> FinalAmount { get; set; }
         public Nullable<double> ZongJia { get; set; }
+        public Nullable<int> Length { get; set; }
+        public Nullable<int> TEUS { get; set; }
     }
 }
