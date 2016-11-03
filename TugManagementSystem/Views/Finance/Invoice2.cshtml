@@ -1069,7 +1069,16 @@
                                     @*标识当前账单选中行ID*@
                                     <span hidden></span>
                                 </h3>
-                                <h4><i class="fa fa-bars"></i>@Resources.Language.InvoiceManage</h4>
+                                <h4>
+                                    <i class="fa fa-bars"></i>@Resources.Language.InvoiceManage 
+                                </h4>
+                                <div class="tools" style="font-size:medium">
+
+                                    <span id="total_huikou"><strong>回扣匯總:</strong>0.00</span> &nbsp;
+                                    <span id="total_zhangdan"><strong>帳單匯總:</strong>0.00</span> &nbsp;
+                                    <span id="total_zongjia"><strong>總價匯總:</strong>0.00</span>
+
+                                </div>
                             </div>
                             <div id="jqGridContainerBox" class="box-body">
                                 <table id="jqGrid"></table>
@@ -2947,6 +2956,9 @@
                         $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                     //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
+                        $('#total_huikou').css('fontWeight', 'bold').text('回扣匯總:' + FormatPrice(GetFloatStr(0)));
+                        $('#total_zhangdan').css('fontWeight', 'bold').text('帳單匯總:' + FormatPrice(GetFloatStr(0)));
+                        $('#total_zongjia').css('fontWeight', 'bold').text('總價匯總:' + FormatPrice(GetFloatStr(0)));
 
                     }
                     else {
@@ -2977,7 +2989,41 @@
 
                         }
 
+                        var total_huikou = 0;
+                        var total_zhangdan = 0;
+                        var total_zongjia = 0;
+
+                        for (var ii = 0; ii < selectedIDs.length; ii++) {
+                            var dr = $(this).jqGrid('getRowData', selectedIDs[ii]);//得到该行的数据
+
+                            var a = parseFloat(dr.TotalRebate)
+                            if (isNaN(a))
+                                a = 0;
+                            total_huikou += a;
+                            
+                            a = parseFloat(dr.FinalAmount);
+                            if (isNaN(a))
+                                a = 0;
+                            total_zhangdan += a;
+
+                            a = parseFloat(dr.ZongJia);
+                            if (isNaN(a))
+                                a = 0;
+                            total_zongjia += a;
+                        }
+
+                        total_huikou = parseFloat(total_huikou).toFixed(2);
+                        total_zhangdan = parseFloat(total_zhangdan).toFixed(2);
+                        total_zongjia = parseFloat(total_zongjia).toFixed(2);
+
+                        //alert(selectedIDs.length + ":" + total_huikou + " " + total_zhangdan + " " + total_zongjia);
+
+                        $('#total_huikou').css('fontWeight', 'bold').text('回扣匯總:' + FormatPrice(GetFloatStr(total_huikou)));
+                        $('#total_zhangdan').css('fontWeight', 'bold').text('帳單匯總:' + FormatPrice(GetFloatStr(total_zhangdan)));
+                        $('#total_zongjia').css('fontWeight', 'bold').text('總價匯總:' + FormatPrice(GetFloatStr(total_zongjia)));
+
                     }
+
                 },
 
 
@@ -3460,22 +3506,25 @@
                     $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
                     $('#jqGrid_ilEdit').addClass('ui-state-disabled');
                     $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
+
+                    $('#total_huikou').css('fontWeight', 'bold').text('回扣匯總:' + FormatPrice(GetFloatStr(0)));
+                    $('#total_zhangdan').css('fontWeight', 'bold').text('帳單匯總:' + FormatPrice(GetFloatStr(0)));
+                    $('#total_zongjia').css('fontWeight', 'bold').text('總價匯總:' + FormatPrice(GetFloatStr(0)));
                 }
                 else {
                     if (selectedIDs.length != 1) {
                         //$('#jqGrid_ilAdd').addClass('ui-state-disabled');
-                $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
-                $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
-                $('#jqGrid_ilView').addClass('ui-state-disabled');
-                $('#jqGrid_ilPreview').addClass('ui-state-disabled');
+                        $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilSubmit').removeClass('ui-state-disabled');
+                        $('#jqGrid_ilView').addClass('ui-state-disabled');
+                        $('#jqGrid_ilPreview').addClass('ui-state-disabled');
 
-                $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
-                $('#jqGrid_ilEdit').addClass('ui-state-disabled');
-                $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
+                        $('#jqGrid_ilAddCredit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilEdit').addClass('ui-state-disabled');
+                        $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                         //$('#jqGrid_ilReport').addClass('ui-state-disabled');
-
-            }
-            else {
+                    }
+                    else {
 
                         //$('#jqGrid_ilAdd').removeClass('ui-state-disabled');
                         $('#jqGrid_ilDelete').removeClass('ui-state-disabled');
@@ -3489,7 +3538,41 @@
                         //$('#jqGrid_ilReport').removeClass('ui-state-disabled');
 
                     }
+
+                    var total_huikou = 0;
+                    var total_zhangdan = 0;
+                    var total_zongjia = 0;
+
+                    for (var ii = 0; ii < selectedIDs.length; ii++) {
+                        var dr = jQuery('#jqGrid').jqGrid('getRowData', selectedIDs[ii]);//得到该行的数据
+                        var a = parseFloat(dr.TotalRebate)
+                        if (isNaN(a))
+                            a = 0;
+                        total_huikou += a;
+
+                        a = parseFloat(dr.FinalAmount);
+                        if (isNaN(a))
+                            a = 0;
+                        total_zhangdan += a;
+
+                        a = parseFloat(dr.ZongJia);
+                        if (isNaN(a))
+                            a = 0;
+                        total_zongjia += a;
+                    }
+
+                    total_huikou = parseFloat(total_huikou).toFixed(2);
+                    total_zhangdan = parseFloat(total_zhangdan).toFixed(2);
+                    total_zongjia = parseFloat(total_zongjia).toFixed(2);
+
+                    //alert(selectedIDs.length + ":" + total_huikou + " " + total_zhangdan + " " + total_zongjia);
+
+                    $('#total_huikou').css('fontWeight', 'bold').text('回扣匯總:' + FormatPrice(GetFloatStr(total_huikou)));
+                    $('#total_zhangdan').css('fontWeight', 'bold').text('帳單匯總:' + FormatPrice(GetFloatStr(total_zhangdan)));
+                    $('#total_zongjia').css('fontWeight', 'bold').text('總價匯總:' + FormatPrice(GetFloatStr(total_zongjia)));
+
                 }
+
             }
             else {
                 //alert('没有全选');
@@ -3504,6 +3587,9 @@
                 $('#jqGrid_ilflowlog').addClass('ui-state-disabled');
                 //$('#jqGrid_ilReport').addClass('ui-state-disabled');
 
+                $('#total_huikou').css('fontWeight', 'bold').text('回扣匯總:' + FormatPrice(GetFloatStr(0)));
+                $('#total_zhangdan').css('fontWeight', 'bold').text('帳單匯總:' + FormatPrice(GetFloatStr(0)));
+                $('#total_zongjia').css('fontWeight', 'bold').text('總價匯總:' + FormatPrice(GetFloatStr(0)));
             }
         });
 
