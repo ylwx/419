@@ -393,7 +393,7 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams2");
         }
     
-        public virtual ObjectResult<proc_AmountSum_ByCustomer_Result> proc_AmountSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
+        public virtual ObjectResult<proc_AmountSum_ByCustomer_Result1> proc_AmountSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
         {
             var sYearParameter = sYear.HasValue ?
                 new ObjectParameter("sYear", sYear) :
@@ -403,10 +403,10 @@ namespace TugDataModel
                 new ObjectParameter("sMonth", sMonth) :
                 new ObjectParameter("sMonth", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByCustomer_Result>("proc_AmountSum_ByCustomer", sYearParameter, sMonthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByCustomer_Result1>("proc_AmountSum_ByCustomer", sYearParameter, sMonthParameter);
         }
     
-        public virtual ObjectResult<proc_AmountSum_ByTug_Result> proc_AmountSum_ByTug(Nullable<int> sYear, Nullable<int> sMonth)
+        public virtual ObjectResult<proc_AmountSum_ByTug_Result1> proc_AmountSum_ByTug(Nullable<int> sYear, Nullable<int> sMonth)
         {
             var sYearParameter = sYear.HasValue ?
                 new ObjectParameter("sYear", sYear) :
@@ -416,10 +416,19 @@ namespace TugDataModel
                 new ObjectParameter("sMonth", sMonth) :
                 new ObjectParameter("sMonth", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByTug_Result>("proc_AmountSum_ByTug", sYearParameter, sMonthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByTug_Result1>("proc_AmountSum_ByTug", sYearParameter, sMonthParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_approved_Result1> proc_approved(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result1>("proc_approved", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_inv_item_Result1> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
             var billingIDParameter = billingID.HasValue ?
                 new ObjectParameter("BillingID", billingID) :
@@ -429,10 +438,10 @@ namespace TugDataModel
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result1>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_xy_Result1> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
             var billingIDParameter = billingID.HasValue ?
                 new ObjectParameter("BillingID", billingID) :
@@ -442,7 +451,7 @@ namespace TugDataModel
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result1>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
         }
     
         public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
@@ -479,12 +488,21 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
         }
     
+        public virtual ObjectResult<proc_needapprove_Result1> proc_needapprove(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result1>("proc_needapprove", userIDParameter);
+        }
+    
         public virtual ObjectResult<string> proc_test()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_test");
         }
     
-        public virtual ObjectResult<proc_TugSum_ByCustomer_Result> proc_TugSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
+        public virtual ObjectResult<proc_TugSum_ByCustomer_Result1> proc_TugSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
         {
             var sYearParameter = sYear.HasValue ?
                 new ObjectParameter("sYear", sYear) :
@@ -494,10 +512,10 @@ namespace TugDataModel
                 new ObjectParameter("sMonth", sMonth) :
                 new ObjectParameter("sMonth", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByCustomer_Result>("proc_TugSum_ByCustomer", sYearParameter, sMonthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByCustomer_Result1>("proc_TugSum_ByCustomer", sYearParameter, sMonthParameter);
         }
     
-        public virtual ObjectResult<proc_TugSum_ByDay_Result> proc_TugSum_ByDay(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2)
+        public virtual ObjectResult<proc_TugSum_ByDay_Result1> proc_TugSum_ByDay(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2)
         {
             var date1Parameter = date1.HasValue ?
                 new ObjectParameter("Date1", date1) :
@@ -507,25 +525,7 @@ namespace TugDataModel
                 new ObjectParameter("Date2", date2) :
                 new ObjectParameter("Date2", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result>("proc_TugSum_ByDay", date1Parameter, date2Parameter);
-        }
-    
-        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
-        }
-    
-        public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result1>("proc_TugSum_ByDay", date1Parameter, date2Parameter);
         }
     }
 }

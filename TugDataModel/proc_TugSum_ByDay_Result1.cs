@@ -11,13 +11,12 @@ namespace TugDataModel
 {
     using System;
     
-    public partial class proc_inv_item_Result1
+    public partial class proc_TugSum_ByDay_Result1
     {
-        public string ItemCode { get; set; }
-        public string Item { get; set; }
-        public string Value { get; set; }
-        public string TugName { get; set; }
-        public string ServiceName { get; set; }
-        public string Code { get; set; }
+        public Nullable<int> CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string ServiceWorkDate { get; set; }
+        public string TugType { get; set; }
+        public Nullable<int> TugNum { get; set; }
     }
 }
