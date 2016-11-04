@@ -1084,13 +1084,13 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult AddCredit(int billingId,string billingCode, string creditContent, double creditAmount, string remark) {
-
+            TugDataModel.Credit credit;
             this.Internationalization();
             try
             {
                 TugDataEntities db = new TugDataEntities();
                 {
-                    TugDataModel.Credit credit = new Credit();
+                    credit = new Credit();
 
                     credit.BillingID = billingId;
                     credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
@@ -1124,7 +1124,7 @@ namespace TugManagementSystem.Controllers
                     
                 }
 
-                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, billing_id = credit.IDX };
                 return Json(ret, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
