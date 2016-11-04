@@ -419,15 +419,6 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByTug_Result1>("proc_AmountSum_ByTug", sYearParameter, sMonthParameter);
         }
     
-        public virtual ObjectResult<proc_approved_Result1> proc_approved(Nullable<int> userID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result1>("proc_approved", userIDParameter);
-        }
-    
         public virtual ObjectResult<proc_inv_item_Result1> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
             var billingIDParameter = billingID.HasValue ?
@@ -488,15 +479,6 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<proc_needapprove_Result1> proc_needapprove(Nullable<int> userID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result1>("proc_needapprove", userIDParameter);
-        }
-    
         public virtual ObjectResult<string> proc_test()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_test");
@@ -526,6 +508,24 @@ namespace TugDataModel
                 new ObjectParameter("Date2", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result1>("proc_TugSum_ByDay", date1Parameter, date2Parameter);
+        }
+    
+        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
         }
     }
 }

@@ -49,5 +49,6 @@ namespace TugDataModel
         public string IsGuest { get; set; }
         public Nullable<int> ShipID { get; set; }
         public string ShipName { get; set; }
+        public string CustomerSimpleName { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace TugDataModel
         public string Remark { get; set; }
         public string Code { get; set; }
         public string Name2 { get; set; }
-        public string SimpleName { get; set; }
+        public string CustomerSimpleName { get; set; }
         public Nullable<double> TotalRebate { get; set; }
         public Nullable<double> ZongJia { get; set; }
     }
