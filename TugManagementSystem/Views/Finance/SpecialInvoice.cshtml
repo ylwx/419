@@ -635,8 +635,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <div id="_CreditID" hidden>-1</div>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">@Resources.Language.Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitAddCreditModal()">@Resources.Language.Submit</button>
+                    <button type="button" id="add_credit_submit" class="btn btn-primary" onclick="submitAddCreditModal()">@Resources.Language.Submit</button>
+                    <button id="add_credit_preview" class="btn btn-success" onclick="CreditPreviewAfterAdd()">@Resources.Language.Preview</button>
                 </div>
             </div>
         </div>
@@ -3645,6 +3647,14 @@
         open('/Report/Invoice_Special' + '?BillingID=' + billingId)
     }
 
+    function CreditPreviewAfterAdd() {
+
+        var creditId = parseInt($('#_CreditID').text()); //CreditId
+
+        open('/Report/CreditNotePage_special' + '?BillingID=' + curBillId + '&CreditID=' + creditId)
+        //alert("orderId = " + orderId + "  creditId = " + creditId +"  弹出回扣单报表");
+    }
+
     function InvoicePreview() {
 
         var rowid = jQuery('#jqGrid').jqGrid('getGridParam', 'selrow');
@@ -4271,6 +4281,8 @@
 
     function initparaModal() {
         $('#childErrMsg').hide();
+        $('#add_credit_preview').attr('disabled', true);
+        $('#add_credit_submit').attr('disabled', false);
         //$('#_xxx').parent().removeClass("has-error");
 
         jQuery.ajax({
@@ -4349,7 +4361,10 @@
             },//"oper=delete&id=" + gr,
             dataType: 'json',
             success: function (result) {
-                $('#credit-add-modal').modal('hide')
+                //$('#credit-add-modal').modal('hide')
+                $('#_CreditID').text(result.billing_id);
+                $('#add_credit_preview').attr('disabled', false);
+                $('#add_credit_submit').attr('disabled', true);
                 alert(result.message);
 
                 @*$('#jqGrid_edit_tab').jqGrid('setGridParam',
