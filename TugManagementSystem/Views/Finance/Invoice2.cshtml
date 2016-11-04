@@ -12822,6 +12822,32 @@
 
         });
 
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            if (schedulerId == $(obj).attr("id").split('_')[1]) {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -12921,8 +12947,24 @@
         var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
 
         $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
-        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
-        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
+
+        var old_hejigangbi = sub_total.toFixed(2);
+        var new_hejigangbi = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text())).toFixed(2);
+
+        var xishu = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()).toFixed(2);
+        if (isNaN(xishu) || xishu == "")
+            xishu = 0;
+
+        var old_zhekou = parseFloat(ConvertToRealPrice($('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val())).toFixed(2);
+        var new_zhekou = parseFloat(-1 * new_hejigangbi * xishu / 100).toFixed(2);
+
+        $('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val(FormatPrice(GetFloatStr(new_zhekou)));
+
+        var a = parseFloat(parseFloat(parseFloat(total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(a).toFixed(2))));
+
+        var b = parseFloat(parseFloat(parseFloat(grand_total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(b).toFixed(2))));
 
         grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
         var d = parseFloat(grand_total * discount_cox / 100).toFixed(2); //折扣
@@ -12963,8 +13005,24 @@
         var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
 
         $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
-        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
-        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
+
+        var old_hejigangbi = sub_total.toFixed(2);
+        var new_hejigangbi = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text())).toFixed(2);
+
+        var xishu = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()).toFixed(2);
+        if (isNaN(xishu) || xishu == "")
+            xishu = 0;
+
+        var old_zhekou = parseFloat(ConvertToRealPrice($('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val())).toFixed(2);
+        var new_zhekou = parseFloat(-1 * new_hejigangbi * xishu / 100).toFixed(2);
+
+        $('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val(FormatPrice(GetFloatStr(new_zhekou)));
+
+        var a = parseFloat(parseFloat(parseFloat(total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(a).toFixed(2))));
+
+        var b = parseFloat(parseFloat(parseFloat(grand_total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(b).toFixed(2))));
 
         grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
         var d = parseFloat(grand_total * discount_cox / 100).toFixed(2); //折扣
@@ -13477,6 +13535,32 @@
 
         });
 
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -13652,6 +13736,32 @@
 
         });
 
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -13821,6 +13931,32 @@
                 $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
 
 
+            }
+
+        });
+
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
             }
 
         });
@@ -14106,6 +14242,32 @@
 
         });
 
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -14280,6 +14442,33 @@
             }
 
         });
+
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
 
         //总计港币
         $('td[name="总计港币"]').each(function () {
@@ -14814,6 +15003,33 @@
 
         });
 
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            if (schedulerId == $(obj).attr("id").split('_')[1]) {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+        
+        
+
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -14919,8 +15135,25 @@
         var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
 
         $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
-        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
-        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
+
+        var old_hejigangbi = sub_total.toFixed(2);
+        var new_hejigangbi = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text())).toFixed(2);
+        
+        var xishu = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()).toFixed(2);
+        if (isNaN(xishu) || xishu == "")
+            xishu = 0;
+
+        var old_zhekou = parseFloat(ConvertToRealPrice($('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val())).toFixed(2);
+        var new_zhekou = parseFloat(-1 * new_hejigangbi * xishu / 100).toFixed(2);
+
+        $('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val(FormatPrice(GetFloatStr(new_zhekou)));
+
+        var a = parseFloat(parseFloat(parseFloat(total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        //alert(a);
+        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(a).toFixed(2))));
+
+        var b = parseFloat(parseFloat(parseFloat(grand_total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(b).toFixed(2))));
 
         grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
         var d = parseFloat(grand_total * discount_cox / 100).toFixed(2); //折扣
@@ -14963,8 +15196,24 @@
         var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
 
         $('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(sub_total - old_price + new_price).toFixed(2))));
-        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total - old_price + new_price).toFixed(2))));
-        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(grand_total - old_price + new_price).toFixed(2))));
+
+        var old_hejigangbi = sub_total.toFixed(2);
+        var new_hejigangbi = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text())).toFixed(2);
+
+        var xishu = parseFloat($('input[name="单条折扣系数"][id="164_C26"]').val()).toFixed(2);
+        if (isNaN(xishu) || xishu == "")
+            xishu = 0;
+
+        var old_zhekou = parseFloat(ConvertToRealPrice($('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val())).toFixed(2);
+        var new_zhekou = parseFloat(-1 * new_hejigangbi * xishu / 100).toFixed(2);
+
+        $('input[name="折扣"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]').val(FormatPrice(GetFloatStr(new_zhekou)));
+
+        var a = parseFloat(parseFloat(parseFloat(total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        $('td[name="总计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(a).toFixed(2))));
+
+        var b = parseFloat(parseFloat(parseFloat(grand_total - old_price) + parseFloat(new_price)) - old_zhekou) + parseFloat(new_zhekou);
+        $('td[id="GrandTotalHKS"]').css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(b).toFixed(2))));
 
         grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text()));
         var d = parseFloat(grand_total * discount_cox / 100).toFixed(2); //折扣
@@ -15475,6 +15724,33 @@
 
         });
 
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -15647,6 +15923,31 @@
 
         });
 
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -15814,6 +16115,31 @@
                 }
 
                 $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
+            }
+
+        });
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
             }
 
         });
@@ -16087,6 +16413,31 @@
 
         });
 
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
+            }
+
+        });
+
         //总计港币
         $('td[name="总计港币"]').each(function () {
             var td_id = $(this).attr("id");
@@ -16254,6 +16605,31 @@
                 }
 
                 $(this).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(parseFloat(total).toFixed(2))));
+            }
+
+        });
+
+        //折扣
+        $('input[name="折扣"][type="text"]').each(function () {
+            var element_id = $(this).attr("id");
+
+            var orderServiceId = element_id.split('_')[0];
+            var schedulerId = element_id.split('_')[1];
+            var serviceNatureId = element_id.split('_')[2];
+            var itemId = element_id.split('_')[3];
+            var itemValue = element_id.split('_')[4];
+
+            //if (schedulerId == $(obj).attr("id").split('_')[1])
+            {
+                var price = parseFloat(ConvertToRealPrice($('td[name="合计港币"][id="' + orderServiceId + '_' + schedulerId + '_' + serviceNatureId + '"]').text()));//获取合计港币
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                var v = parseFloat(-1 * price * ratio / 100).toFixed(2);
+                $(this).val(FormatPrice(GetFloatStr(v)));
             }
 
         });
@@ -17538,13 +17914,25 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                         //grand_total += parseFloat($(total_total).text());
                     }
@@ -17561,13 +17949,27 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
                     }
                 }
 
@@ -17612,13 +18014,25 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) + parseFloat(gangwaifujiafei25);
@@ -17637,14 +18051,27 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) - parseFloat(gangwaifujiafei25);
@@ -17699,13 +18126,26 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                     }
                 }
@@ -17721,13 +18161,27 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
                     }
                 }
                 grand_total += parseFloat(ConvertToRealPrice($(total_total).text()));
@@ -17774,13 +18228,25 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) + parseFloat(jiarifujiafei100);
@@ -17798,13 +18264,26 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) - parseFloat(jiarifujiafei100);
@@ -17859,13 +18338,26 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                     }
                 }
@@ -17881,13 +18373,25 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
                     }
                 }
                 grand_total += parseFloat(ConvertToRealPrice($(total_total).text()));
@@ -17931,13 +18435,26 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) + parseFloat(taifengfujiafei100);
@@ -17955,13 +18472,25 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) - parseFloat(taifengfujiafei100);
@@ -18309,13 +18838,26 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);       
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                         //grand_total += parseFloat($(total_total).text());
                     }
@@ -18332,13 +18874,25 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25) - parseFloat(old_zhekou) + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
                     }
                 }
 
@@ -18380,13 +18934,27 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(gangwaifujiafei25);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(gangwaifujiafei25) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) + parseFloat(gangwaifujiafei25);
@@ -18405,14 +18973,25 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(gangwaifujiafei25);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
 
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(gangwaifujiafei25) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) - parseFloat(gangwaifujiafei25);
@@ -18464,13 +19043,26 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                     }
                 }
@@ -18486,13 +19078,26 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
                     }
                 }
                 grand_total += parseFloat(ConvertToRealPrice($(total_total).text()));
@@ -18534,13 +19139,26 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(jiarifujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) + parseFloat(jiarifujiafei100);
@@ -18559,13 +19177,25 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(jiarifujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(jiarifujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) - parseFloat(jiarifujiafei100);
@@ -18616,13 +19246,26 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
+
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                     }
                 }
@@ -18638,13 +19281,25 @@
 
                         //合计港币变化
                         var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
-                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                        var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
+                        $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                        //獲取单条折扣比例系数
+                        var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                        if (isNaN(ratio) || ratio == "")
+                            ratio = 0;
+
+                        //折扣
+                        var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                        var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                        var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                        $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                         //总计港币
                         var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                        v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100);
-                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                        var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                        $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
                     }
                 }
                 grand_total += parseFloat(ConvertToRealPrice($(total_total).text()));
@@ -18685,13 +19340,25 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) + parseFloat(taifengfujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) + parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) + parseFloat(taifengfujiafei100);
@@ -18710,13 +19377,25 @@
 
                 //合计港币变化
                 var sub_total = $('td[name="合计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                var v = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
-                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var old_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text()));
+                var new_hejigangbi = parseFloat(ConvertToRealPrice($(sub_total).text())) - parseFloat(taifengfujiafei100);
+                $(sub_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(new_hejigangbi.toFixed(2))));
+
+                //獲取单条折扣比例系数
+                var ratio = parseFloat($('#164_C26').val()).toFixed(2);
+                if (isNaN(ratio) || ratio == "")
+                    ratio = 0;
+
+                //折扣
+                var ele_zhekou = $('input[name="折扣"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '_40_C78' + '"]');
+                var old_zhekou = parseFloat(ConvertToRealPrice($(ele_zhekou).val()));
+                var new_zhekou = parseFloat(-1 * new_hejigangbi * ratio / 100).toFixed(2);
+                $(ele_zhekou).val(FormatPrice(GetFloatStr(new_zhekou)));
 
                 //总计港币
                 var total_total = $('td[name="总计港币"][id="' + orderServiceId + "_" + schedulerId + '_' + serviceNatureId + '"]');
-                v = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100);
-                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(v.toFixed(2))));
+                var zongjigangbi = parseFloat(ConvertToRealPrice($(total_total).text())) - parseFloat(taifengfujiafei100) - old_zhekou + parseFloat(new_zhekou);
+                $(total_total).css('fontWeight', 'bold').text(FormatPrice(GetFloatStr(zongjigangbi.toFixed(2))));
 
                 //共计港币
                 var grand_total = parseFloat(ConvertToRealPrice($('td[id="GrandTotalHKS"]').text())) - parseFloat(taifengfujiafei100);

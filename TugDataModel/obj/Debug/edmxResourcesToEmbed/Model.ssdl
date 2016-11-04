@@ -1007,6 +1007,8 @@
     <Property Name="TotalRebate" Type="float" />
     <Property Name="FinalAmount" Type="float" />
     <Property Name="ZongJia" Type="float" />
+    <Property Name="Length" Type="int" />
+    <Property Name="TEUS" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing3”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1031,7 +1033,7 @@
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="Code" Type="nvarchar" MaxLength="50" />
     <Property Name="Name2" Type="nvarchar" MaxLength="50" />
-    <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
     <Property Name="TotalRebate" Type="float" />
     <Property Name="ZongJia" Type="float" />
   </EntityType>
@@ -1060,7 +1062,7 @@
     <Property Name="Amount" Type="float" />
     <Property Name="Code" Type="nvarchar" MaxLength="50" />
     <Property Name="Name2" Type="nvarchar" MaxLength="50" />
-    <Property Name="SimpleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1200,6 +1202,8 @@
     <Property Name="TugNum" Type="int" />
     <Property Name="FuelAmount" Type="float" />
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Length" Type="int" />
+    <Property Name="TEUS" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingTask”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1242,6 +1246,7 @@
     <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipID" Type="int" />
     <Property Name="ShipName" Type="nvarchar(max)" />
+    <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingTemplate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1729,6 +1734,7 @@
     <Property Name="Task" Type="nvarchar" MaxLength="50" />
     <Property Name="FlowUserID" Type="int" />
     <Property Name="System" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveOrderBillingPreferential”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1743,7 +1749,7 @@
     <Property Name="CustomerName" Type="nvarchar(max)" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="Title" Type="nvarchar" MaxLength="50" />
-    <Property Name="Content" Type="nvarchar" MaxLength="50" />
+    <Property Name="Content" Type="nvarchar(max)" />
     <Property Name="Money" Type="float" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
@@ -1759,6 +1765,7 @@
     <Property Name="FlowUserID" Type="int" />
     <Property Name="System" Type="nvarchar" MaxLength="50" />
     <Property Name="Amount" Type="float" />
+    <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_NeedApproveOrderBillingSpecial”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1787,6 +1794,7 @@
     <Property Name="Task" Type="nvarchar" MaxLength="50" />
     <Property Name="FlowUserID" Type="int" />
     <Property Name="System" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_OrderBillingCredit”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2625,7 +2633,9 @@
     [V_Billing2].[CustomerSimpleName] AS [CustomerSimpleName], 
     [V_Billing2].[TotalRebate] AS [TotalRebate], 
     [V_Billing2].[FinalAmount] AS [FinalAmount], 
-    [V_Billing2].[ZongJia] AS [ZongJia]
+    [V_Billing2].[ZongJia] AS [ZongJia], 
+    [V_Billing2].[Length] AS [Length], 
+    [V_Billing2].[TEUS] AS [TEUS]
     FROM [dbo].[V_Billing2] AS [V_Billing2]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Billing3" EntityType="Self.V_Billing3" store:Type="Views" store:Schema="dbo">
@@ -2647,7 +2657,7 @@
     [V_Billing3].[Remark] AS [Remark], 
     [V_Billing3].[Code] AS [Code], 
     [V_Billing3].[Name2] AS [Name2], 
-    [V_Billing3].[SimpleName] AS [SimpleName], 
+    [V_Billing3].[CustomerSimpleName] AS [CustomerSimpleName], 
     [V_Billing3].[TotalRebate] AS [TotalRebate], 
     [V_Billing3].[ZongJia] AS [ZongJia]
     FROM [dbo].[V_Billing3] AS [V_Billing3]</DefiningQuery>
@@ -2673,7 +2683,7 @@
     [V_Billing4].[Amount] AS [Amount], 
     [V_Billing4].[Code] AS [Code], 
     [V_Billing4].[Name2] AS [Name2], 
-    [V_Billing4].[SimpleName] AS [SimpleName]
+    [V_Billing4].[CustomerSimpleName] AS [CustomerSimpleName]
     FROM [dbo].[V_Billing4] AS [V_Billing4]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_BillingItem" EntityType="Self.V_BillingItem" store:Type="Views" store:Schema="dbo">
@@ -2799,7 +2809,9 @@
     [V_BillingSum].[InvoiceType] AS [InvoiceType], 
     [V_BillingSum].[TugNum] AS [TugNum], 
     [V_BillingSum].[FuelAmount] AS [FuelAmount], 
-    [V_BillingSum].[CreateDate] AS [CreateDate]
+    [V_BillingSum].[CreateDate] AS [CreateDate], 
+    [V_BillingSum].[Length] AS [Length], 
+    [V_BillingSum].[TEUS] AS [TEUS]
     FROM [dbo].[V_BillingSum] AS [V_BillingSum]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_BillingTask" EntityType="Self.V_BillingTask" store:Type="Views" store:Schema="dbo">
@@ -2838,7 +2850,8 @@
     [V_BillingTask].[LastUpDate] AS [LastUpDate], 
     [V_BillingTask].[IsGuest] AS [IsGuest], 
     [V_BillingTask].[ShipID] AS [ShipID], 
-    [V_BillingTask].[ShipName] AS [ShipName]
+    [V_BillingTask].[ShipName] AS [ShipName], 
+    [V_BillingTask].[CustomerSimpleName] AS [CustomerSimpleName]
     FROM [dbo].[V_BillingTask] AS [V_BillingTask]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_BillingTemplate" EntityType="Self.V_BillingTemplate" store:Type="Views" store:Schema="dbo">
@@ -3273,7 +3286,8 @@
     [V_NeedApproveOrderBilling].[Phase] AS [Phase], 
     [V_NeedApproveOrderBilling].[Task] AS [Task], 
     [V_NeedApproveOrderBilling].[FlowUserID] AS [FlowUserID], 
-    [V_NeedApproveOrderBilling].[System] AS [System]
+    [V_NeedApproveOrderBilling].[System] AS [System], 
+    [V_NeedApproveOrderBilling].[CustomerSimpleName] AS [CustomerSimpleName]
     FROM [dbo].[V_NeedApproveOrderBilling] AS [V_NeedApproveOrderBilling]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_NeedApproveOrderBillingPreferential" EntityType="Self.V_NeedApproveOrderBillingPreferential" store:Type="Views" store:Schema="dbo">
@@ -3300,7 +3314,8 @@
     [V_NeedApproveOrderBillingPreferential].[Task] AS [Task], 
     [V_NeedApproveOrderBillingPreferential].[FlowUserID] AS [FlowUserID], 
     [V_NeedApproveOrderBillingPreferential].[System] AS [System], 
-    [V_NeedApproveOrderBillingPreferential].[Amount] AS [Amount]
+    [V_NeedApproveOrderBillingPreferential].[Amount] AS [Amount], 
+    [V_NeedApproveOrderBillingPreferential].[CustomerSimpleName] AS [CustomerSimpleName]
     FROM [dbo].[V_NeedApproveOrderBillingPreferential] AS [V_NeedApproveOrderBillingPreferential]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_NeedApproveOrderBillingSpecial" EntityType="Self.V_NeedApproveOrderBillingSpecial" store:Type="Views" store:Schema="dbo">
@@ -3325,7 +3340,8 @@
     [V_NeedApproveOrderBillingSpecial].[Phase] AS [Phase], 
     [V_NeedApproveOrderBillingSpecial].[Task] AS [Task], 
     [V_NeedApproveOrderBillingSpecial].[FlowUserID] AS [FlowUserID], 
-    [V_NeedApproveOrderBillingSpecial].[System] AS [System]
+    [V_NeedApproveOrderBillingSpecial].[System] AS [System], 
+    [V_NeedApproveOrderBillingSpecial].[CustomerSimpleName] AS [CustomerSimpleName]
     FROM [dbo].[V_NeedApproveOrderBillingSpecial] AS [V_NeedApproveOrderBillingSpecial]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_OrderBillingCredit" EntityType="Self.V_OrderBillingCredit" store:Type="Views" store:Schema="dbo">
