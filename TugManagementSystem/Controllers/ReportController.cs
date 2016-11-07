@@ -172,18 +172,21 @@ namespace TugManagementSystem.Controllers
             DataTable dt = null;
             string strV;
             if(customerid == -1)
-                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}'", startdate + " 00:00:00", enddate + " 23:59:59");
+                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}' order by BillingCode", startdate + " 00:00:00", enddate + " 23:59:59");
             else
-                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}' and CustomerID='{2}'", startdate + " 00:00:00", enddate + " 23:59:59", customerid);
+                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}' and CustomerID='{2}' order by BillingCode", startdate + " 00:00:00", enddate + " 23:59:59", customerid);
             //head
             dt = SqlHelper.GetDataTableData("V_BillingSum", strV);
             FReport.RegisterData(dt, dt.TableName);
 
             FReport.Parameters.FindByName("totaltugnum").Value = dt.Compute("Sum(TugNum)","");
-            FReport.Parameters.FindByName("totalbillamount").Value = dt.Compute("Sum(Amount)", "");
-            FReport.Parameters.FindByName("totaldiscount").Value = dt.Compute("Sum(TotalRebate)", "");
-            FReport.Parameters.FindByName("totalheji").Value = dt.Compute("Sum(FinalAmount)", "");
-            FReport.Parameters.FindByName("totalfuel").Value = dt.Compute("Sum(FuelAmount)", "");
+
+            double dbdata = 0.55555;
+            string str1 = dbdata.ToString("f2 ");//fN   保留N位，四舍五入 
+            FReport.Parameters.FindByName("totalbillamount").Value = Convert.ToDouble(dt.Compute("Sum(Amount)", "")).ToString("f2");
+            FReport.Parameters.FindByName("totaldiscount").Value = Convert.ToDouble(dt.Compute("Sum(TotalRebate)", "")).ToString("f2");
+            FReport.Parameters.FindByName("totalheji").Value = Convert.ToDouble(dt.Compute("Sum(FinalAmount)", "")).ToString("f2");
+            FReport.Parameters.FindByName("totalfuel").Value = Convert.ToDouble(dt.Compute("Sum(FuelAmount)", "")).ToString("f2");
         }
         #endregion       
 
