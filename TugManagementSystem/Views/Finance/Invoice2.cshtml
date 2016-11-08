@@ -4954,7 +4954,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="换算耗时" width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
                         tr.append(td)
                     }
                 }
@@ -8819,7 +8819,8 @@
             var array = GetQuanBaoTBodyData();
             jsonArrayItems = JSON.stringify(array);
 
-            array = GetQuanBaoSummaryItems();
+            
+            array = GetQuanBaoSummaryItems();            
             jsonArraySummaryItems = JSON.stringify(array);
 
         }
@@ -9463,7 +9464,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="换算耗时" width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
                         tr.append(td)
                     }
                 }
@@ -10942,7 +10943,7 @@
 
                     var value = result.invoice.Schedulers[key];
                     for (var i = 0; i < value.length; ++i) {
-                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
+                        td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '" name="换算耗时" width="" style="text-align:center;vertical-align:middle">' + value[i].WorkTimeConsumption + '</td>');
                         tr.append(td)
                     }
                 }
@@ -17789,6 +17790,7 @@
     function GetQuanBaoSummaryItems() {
         var array = new Array();
 
+        
         //10.燃油附加费
         $('td[name="换算耗时"]').each(function () {
             var orderServiceId = $(this).attr("id").split('_')[0]; //订单服务id
