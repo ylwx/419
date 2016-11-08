@@ -1,26 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2016 15:16:22" ReportInfo.Modified="10/21/2016 12:12:57" ReportInfo.CreatorVersion="2016.1.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2016 15:16:22" ReportInfo.Modified="11/08/2016 20:33:33" ReportInfo.CreatorVersion="2016.1.0.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvE4+Os+jTfzcGDRzIAIeiig==">
-      <TableDataSource Name="V_BillingSum" DataType="System.Int32" Enabled="true" TableName="V_BillingSum">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvNqbzYad3jRA8Xs4UrNTkHw==">
+      <TableDataSource Name="Table5" Alias="proc_billing_pt_ts_qt" DataType="System.Int32" Enabled="true" SelectCommand="exec proc_billing_pt_ts_qt '2016-10-01','2016-11-08',null">
         <Column Name="IDX" DataType="System.Int32"/>
-        <Column Name="CustomerID" DataType="System.Int32"/>
         <Column Name="CustomerName" DataType="System.String"/>
         <Column Name="BillingCode" DataType="System.String"/>
-        <Column Name="Discount" DataType="System.Double"/>
-        <Column Name="Amount" DataType="System.Double"/>
         <Column Name="Month" DataType="System.String"/>
         <Column Name="ShipName" DataType="System.String"/>
-        <Column Name="ShipID" DataType="System.Int32"/>
-        <Column Name="CustomerName1" DataType="System.String"/>
+        <Column Name="Amount" DataType="System.Double"/>
         <Column Name="TotalRebate" DataType="System.Double"/>
         <Column Name="FinalAmount" DataType="System.Double"/>
         <Column Name="InvoiceType" DataType="System.String"/>
         <Column Name="TugNum" DataType="System.Int32"/>
         <Column Name="FuelAmount" DataType="System.Double"/>
-        <Column Name="CreateDate" DataType="System.String"/>
-        <Column Name="Length" DataType="System.Int32"/>
-        <Column Name="TEUS" DataType="System.Int32"/>
+        <Column Name="Length" DataType="System.String"/>
+        <Column Name="TEUS" DataType="System.String"/>
+        <Column Name="CustomerID" DataType="System.Int32"/>
       </TableDataSource>
     </MsSqlDataConnection>
     <Parameter Name="totaltugnum" DataType="System.String"/>
@@ -28,7 +24,7 @@
     <Parameter Name="totaldiscount" DataType="System.String"/>
     <Parameter Name="totalheji" DataType="System.String"/>
     <Parameter Name="totalfuel" DataType="System.String"/>
-    <Total Name="TotalTugNum" Expression="[V_BillingSum.TugNum]" Evaluator="Data1"/>
+    <Total Name="TotalTugNum" Expression="[proc_billing_pt_ts_qt.TugNum]" Evaluator="Data1"/>
   </Dictionary>
   <ReportPage Name="Page1" PaperWidth="296.9" PaperHeight="420.1" RawPaperSize="8">
     <ReportTitleBand Name="ReportTitle1" Width="1046.68" Height="28.35" Guides="66.15">
@@ -58,18 +54,18 @@
           <TableCell Name="Cell73" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
         </TableRow>
       </TableObject>
-      <TableObject Name="Table4" Left="9.45" Width="1028.16" Height="28.35">
+      <TableObject Name="Table4" Left="9.45" Width="956.34" Height="28.35">
         <TableColumn Name="Column56" Width="45.36"/>
         <TableColumn Name="Column57" Width="189"/>
-        <TableColumn Name="Column58" Width="151.2"/>
+        <TableColumn Name="Column58" Width="132.3"/>
         <TableColumn Name="Column59" Width="68.04"/>
         <TableColumn Name="Column60" Width="68.04"/>
         <TableColumn Name="Column61" Width="75.6"/>
-        <TableColumn Name="Column62" Width="68.04"/>
-        <TableColumn Name="Column63" Width="90.72"/>
-        <TableColumn Name="Column64" Width="90.72"/>
-        <TableColumn Name="Column65" Width="90.72"/>
-        <TableColumn Name="Column66" Width="90.72"/>
+        <TableColumn Name="Column62" Width="75.6"/>
+        <TableColumn Name="Column63" Width="75.6"/>
+        <TableColumn Name="Column64" Width="75.6"/>
+        <TableColumn Name="Column65" Width="75.6"/>
+        <TableColumn Name="Column66" Width="75.6"/>
         <TableRow Name="Row8" Height="28.35">
           <TableCell Name="Cell80" Border.Lines="All" Border.Color="Transparent" Text="賬單清單" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 12pt, style=Bold" ColSpan="5"/>
           <TableCell Name="Cell81" Border.Lines="All" Border.Color="Transparent" HorzAlign="Right" VertAlign="Center" Font="PMingLiU, 9pt"/>
@@ -86,18 +82,19 @@
       </TableObject>
     </ReportTitleBand>
     <PageHeaderBand Name="PageHeader1" Top="33.41" Width="1046.68" Height="28.35">
-      <TableObject Name="Table1" Left="9.45" Width="1028.16" Height="28.35">
+      <TableObject Name="Table1" Left="9.45" Width="1031.94" Height="28.35">
         <TableColumn Name="Column31" Width="45.36"/>
         <TableColumn Name="Column32" Width="189"/>
-        <TableColumn Name="Column33" Width="151.2"/>
+        <TableColumn Name="Column33" Width="132.3"/>
         <TableColumn Name="Column50" Width="68.04"/>
         <TableColumn Name="Column51" Width="68.04"/>
         <TableColumn Name="Column34" Width="75.6"/>
-        <TableColumn Name="Column35" Width="68.04"/>
-        <TableColumn Name="Column36" Width="90.72"/>
-        <TableColumn Name="Column37" Width="90.72"/>
-        <TableColumn Name="Column38" Width="90.72"/>
-        <TableColumn Name="Column39" Width="90.72"/>
+        <TableColumn Name="Column35" Width="75.6"/>
+        <TableColumn Name="Column36" Width="75.6"/>
+        <TableColumn Name="Column37" Width="75.6"/>
+        <TableColumn Name="Column38" Width="75.6"/>
+        <TableColumn Name="Column39" Width="75.6"/>
+        <TableColumn Name="Column67" Width="75.6"/>
         <TableRow Name="Row6" Height="28.35">
           <TableCell Name="Cell55" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="序號" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
           <TableCell Name="Cell56" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="客户名称" VertAlign="Center" Font="PMingLiU, 9pt"/>
@@ -110,34 +107,37 @@
           <TableCell Name="Cell61" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="回扣單金額" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
           <TableCell Name="Cell62" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="合計金額" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
           <TableCell Name="Cell63" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="燃油價格" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell91" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="賬單類別" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
         </TableRow>
       </TableObject>
     </PageHeaderBand>
-    <DataBand Name="Data1" Top="66.83" Width="1046.68" Height="34.02" DataSource="V_BillingSum">
-      <TableObject Name="Table2" Left="9.45" Width="1028.16" Height="34.02">
+    <DataBand Name="Data1" Top="66.83" Width="1046.68" Height="34.02" DataSource="Table5">
+      <TableObject Name="Table2" Left="9.45" Width="1031.94" Height="34.02">
         <TableColumn Name="Column21" Width="45.36"/>
         <TableColumn Name="Column22" Width="189"/>
-        <TableColumn Name="Column23" Width="151.2"/>
+        <TableColumn Name="Column23" Width="132.3"/>
         <TableColumn Name="Column53" Width="68.04"/>
         <TableColumn Name="Column52" Width="68.04"/>
         <TableColumn Name="Column24" Width="75.6"/>
-        <TableColumn Name="Column25" Width="68.04"/>
-        <TableColumn Name="Column26" Width="90.72"/>
-        <TableColumn Name="Column27" Width="90.72"/>
-        <TableColumn Name="Column28" Width="90.72"/>
-        <TableColumn Name="Column29" Width="90.72"/>
+        <TableColumn Name="Column25" Width="75.6"/>
+        <TableColumn Name="Column26" Width="75.6"/>
+        <TableColumn Name="Column27" Width="75.6"/>
+        <TableColumn Name="Column28" Width="75.6"/>
+        <TableColumn Name="Column29" Width="75.6"/>
+        <TableColumn Name="Column68" Width="75.6"/>
         <TableRow Name="Row5" Height="34.02">
           <TableCell Name="Cell45" Border.Lines="All" Border.Color="Transparent" Text="[Row#]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell46" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.CustomerName]" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell47" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.ShipName]" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell77" Text="[V_BillingSum.Length]" HorzAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell76" Text="[V_BillingSum.TEUS]" HorzAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell48" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.BillingCode]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell49" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.TugNum]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell50" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.Amount]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell51" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.TotalRebate]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell52" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
-          <TableCell Name="Cell53" Border.Lines="All" Border.Color="Transparent" Text="[V_BillingSum.FuelAmount]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell46" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.CustomerName]" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell47" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.ShipName]" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell77" Text="[proc_billing_pt_ts_qt.Length]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell76" Text="[proc_billing_pt_ts_qt.TEUS]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell48" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.BillingCode]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell49" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.TugNum]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell50" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.Amount]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell51" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.TotalRebate]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell52" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell53" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.FuelAmount]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell92" Border.Lines="All" Border.Color="Transparent" Text="[proc_billing_pt_ts_qt.InvoiceType]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
         </TableRow>
       </TableObject>
     </DataBand>

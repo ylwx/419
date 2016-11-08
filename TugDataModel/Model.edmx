@@ -966,6 +966,60 @@
           <Property Name="Ratio7" Type="float" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_QT”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Billing_QT">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipName" Type="int" />
+          <Property Name="TotalRebate" Type="float" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+          <Property Name="TugNum" Type="int" />
+          <Property Name="FuelAmount" Type="int" />
+          <Property Name="Length" Type="int" />
+          <Property Name="TEUS" Type="int" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerID" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_ServiceDate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Billing_ServiceDate">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_Special”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Billing_Special">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipName" Type="int" />
+          <Property Name="TotalRebate" Type="float" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+          <Property Name="TugNumber" Type="int" />
+          <Property Name="FeulUnitPrice" Type="float" />
+          <Property Name="ServiceUnitPrice" Type="float" />
+          <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="ServiceNatureID" Type="int" />
+          <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
+          <Property Name="Length" Type="int" />
+          <Property Name="TEUS" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing2”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Billing2">
           <Key>
@@ -1200,7 +1254,6 @@
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
           <Property Name="ShipName" Type="nvarchar(max)" />
           <Property Name="ShipID" Type="int" />
-          <Property Name="CustomerName1" Type="nvarchar(max)" />
           <Property Name="TotalRebate" Type="float" />
           <Property Name="FinalAmount" Type="float" />
           <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
@@ -2384,6 +2437,11 @@
         <Function Name="proc_approved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userID" Type="int" Mode="In" />
         </Function>
+        <Function Name="proc_billing_pt_ts_qt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Date1" Type="datetime" Mode="In" />
+          <Parameter Name="Date2" Type="datetime" Mode="In" />
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+        </Function>
         <Function Name="proc_inv_item" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BillingID" Type="int" Mode="In" />
           <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
@@ -2595,6 +2653,51 @@
     [V_Billing].[MinTime] AS [MinTime], 
     [V_Billing].[Ratio7] AS [Ratio7]
     FROM [dbo].[V_Billing] AS [V_Billing]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Billing_QT" EntityType="Self.V_Billing_QT" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Billing_QT].[IDX] AS [IDX], 
+    [V_Billing_QT].[CustomerName] AS [CustomerName], 
+    [V_Billing_QT].[BillingCode] AS [BillingCode], 
+    [V_Billing_QT].[Month] AS [Month], 
+    [V_Billing_QT].[ShipName] AS [ShipName], 
+    [V_Billing_QT].[TotalRebate] AS [TotalRebate], 
+    [V_Billing_QT].[Amount] AS [Amount], 
+    [V_Billing_QT].[InvoiceType] AS [InvoiceType], 
+    [V_Billing_QT].[TugNum] AS [TugNum], 
+    [V_Billing_QT].[FuelAmount] AS [FuelAmount], 
+    [V_Billing_QT].[Length] AS [Length], 
+    [V_Billing_QT].[TEUS] AS [TEUS], 
+    [V_Billing_QT].[CreateDate] AS [CreateDate], 
+    [V_Billing_QT].[CustomerID] AS [CustomerID]
+    FROM [dbo].[V_Billing_QT] AS [V_Billing_QT]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Billing_ServiceDate" EntityType="Self.V_Billing_ServiceDate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Billing_ServiceDate].[IDX] AS [IDX], 
+    [V_Billing_ServiceDate].[ServiceWorkDate] AS [ServiceWorkDate]
+    FROM [dbo].[V_Billing_ServiceDate] AS [V_Billing_ServiceDate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_Billing_Special" EntityType="Self.V_Billing_Special" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Billing_Special].[IDX] AS [IDX], 
+    [V_Billing_Special].[CustomerName] AS [CustomerName], 
+    [V_Billing_Special].[BillingCode] AS [BillingCode], 
+    [V_Billing_Special].[Month] AS [Month], 
+    [V_Billing_Special].[ShipName] AS [ShipName], 
+    [V_Billing_Special].[TotalRebate] AS [TotalRebate], 
+    [V_Billing_Special].[Amount] AS [Amount], 
+    [V_Billing_Special].[InvoiceType] AS [InvoiceType], 
+    [V_Billing_Special].[TugNumber] AS [TugNumber], 
+    [V_Billing_Special].[FeulUnitPrice] AS [FeulUnitPrice], 
+    [V_Billing_Special].[ServiceUnitPrice] AS [ServiceUnitPrice], 
+    [V_Billing_Special].[ServiceDate] AS [ServiceDate], 
+    [V_Billing_Special].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Billing_Special].[ServiceNature] AS [ServiceNature], 
+    [V_Billing_Special].[Length] AS [Length], 
+    [V_Billing_Special].[TEUS] AS [TEUS], 
+    [V_Billing_Special].[CustomerID] AS [CustomerID]
+    FROM [dbo].[V_Billing_Special] AS [V_Billing_Special]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Billing2" EntityType="Self.V_Billing2" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2808,7 +2911,6 @@
     [V_BillingSum].[Month] AS [Month], 
     [V_BillingSum].[ShipName] AS [ShipName], 
     [V_BillingSum].[ShipID] AS [ShipID], 
-    [V_BillingSum].[CustomerName1] AS [CustomerName1], 
     [V_BillingSum].[TotalRebate] AS [TotalRebate], 
     [V_BillingSum].[FinalAmount] AS [FinalAmount], 
     [V_BillingSum].[InvoiceType] AS [InvoiceType], 
@@ -3901,6 +4003,9 @@
           <EntitySet Name="V_Arrangement" EntityType="Model.V_Arrangement" />
           <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
           <EntitySet Name="V_Billing" EntityType="Model.V_Billing" />
+          <EntitySet Name="V_Billing_QT" EntityType="Model.V_Billing_QT" />
+          <EntitySet Name="V_Billing_ServiceDate" EntityType="Model.V_Billing_ServiceDate" />
+          <EntitySet Name="V_Billing_Special" EntityType="Model.V_Billing_Special" />
           <EntitySet Name="V_Billing2" EntityType="Model.V_Billing2" />
           <EntitySet Name="V_Billing3" EntityType="Model.V_Billing3" />
           <EntitySet Name="V_Billing4" EntityType="Model.V_Billing4" />
@@ -4001,6 +4106,11 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
+          <FunctionImport Name="proc_billing_pt_ts_qt" ReturnType="Collection(Model.proc_billing_pt_ts_qt_Result)">
+            <Parameter Name="Date1" Mode="In" Type="DateTime" />
+            <Parameter Name="Date2" Mode="In" Type="DateTime" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -5179,6 +5289,54 @@
           <Property Name="MinTime" Type="Double" />
           <Property Name="Ratio7" Type="Double" />
         </EntityType>
+        <EntityType Name="V_Billing_QT">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="Int32" />
+          <Property Name="TotalRebate" Type="Double" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TugNum" Type="Int32" />
+          <Property Name="FuelAmount" Type="Int32" />
+          <Property Name="Length" Type="Int32" />
+          <Property Name="TEUS" Type="Int32" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="V_Billing_ServiceDate">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="ServiceWorkDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_Billing_Special">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipName" Type="Int32" />
+          <Property Name="TotalRebate" Type="Double" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TugNumber" Type="Int32" />
+          <Property Name="FeulUnitPrice" Type="Double" />
+          <Property Name="ServiceUnitPrice" Type="Double" />
+          <Property Name="ServiceDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceNatureID" Type="Int32" />
+          <Property Name="ServiceNature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Length" Type="Int32" />
+          <Property Name="TEUS" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+        </EntityType>
         <EntityType Name="V_Billing2">
           <Key>
             <PropertyRef Name="IDX" />
@@ -5400,7 +5558,6 @@
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ShipID" Type="Int32" />
-          <Property Name="CustomerName1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TotalRebate" Type="Double" />
           <Property Name="FinalAmount" Type="Double" />
           <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -6501,6 +6658,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="proc_billing_pt_ts_qt_Result">
+          <Property Type="Int32" Name="IDX" Nullable="true" />
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="false" />
+          <Property Type="Double" Name="TotalRebate" Nullable="false" />
+          <Property Type="Double" Name="FinalAmount" Nullable="false" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TugNum" Nullable="false" />
+          <Property Type="Double" Name="FuelAmount" Nullable="false" />
+          <Property Type="String" Name="Length" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TEUS" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7630,6 +7803,57 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_Billing_QT">
+            <EntityTypeMapping TypeName="Model.V_Billing_QT">
+              <MappingFragment StoreEntitySet="V_Billing_QT">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Billing_ServiceDate">
+            <EntityTypeMapping TypeName="Model.V_Billing_ServiceDate">
+              <MappingFragment StoreEntitySet="V_Billing_ServiceDate">
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Billing_Special">
+            <EntityTypeMapping TypeName="Model.V_Billing_Special">
+              <MappingFragment StoreEntitySet="V_Billing_Special">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="ServiceNature" ColumnName="ServiceNature" />
+                <ScalarProperty Name="ServiceNatureID" ColumnName="ServiceNatureID" />
+                <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+                <ScalarProperty Name="ServiceUnitPrice" ColumnName="ServiceUnitPrice" />
+                <ScalarProperty Name="FeulUnitPrice" ColumnName="FeulUnitPrice" />
+                <ScalarProperty Name="TugNumber" ColumnName="TugNumber" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_Billing2">
             <EntityTypeMapping TypeName="Model.V_Billing2">
               <MappingFragment StoreEntitySet="V_Billing2">
@@ -7854,7 +8078,6 @@
                 <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
                 <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
                 <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
-                <ScalarProperty Name="CustomerName1" ColumnName="CustomerName1" />
                 <ScalarProperty Name="ShipID" ColumnName="ShipID" />
                 <ScalarProperty Name="ShipName" ColumnName="ShipName" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
@@ -8787,6 +9010,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="proc_billing_pt_ts_qt" FunctionName="Model.Store.proc_billing_pt_ts_qt">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_billing_pt_ts_qt_Result">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -64,6 +64,9 @@ namespace TugDataModel
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
+        public virtual DbSet<V_Billing_QT> V_Billing_QT { get; set; }
+        public virtual DbSet<V_Billing_ServiceDate> V_Billing_ServiceDate { get; set; }
+        public virtual DbSet<V_Billing_Special> V_Billing_Special { get; set; }
         public virtual DbSet<V_Billing2> V_Billing2 { get; set; }
         public virtual DbSet<V_Billing3> V_Billing3 { get; set; }
         public virtual DbSet<V_Billing4> V_Billing4 { get; set; }
@@ -526,6 +529,23 @@ namespace TugDataModel
                 new ObjectParameter("userID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_billing_pt_ts_qt_Result> proc_billing_pt_ts_qt(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2, Nullable<int> customerID)
+        {
+            var date1Parameter = date1.HasValue ?
+                new ObjectParameter("Date1", date1) :
+                new ObjectParameter("Date1", typeof(System.DateTime));
+    
+            var date2Parameter = date2.HasValue ?
+                new ObjectParameter("Date2", date2) :
+                new ObjectParameter("Date2", typeof(System.DateTime));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_billing_pt_ts_qt_Result>("proc_billing_pt_ts_qt", date1Parameter, date2Parameter, customerIDParameter);
         }
     }
 }

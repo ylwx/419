@@ -170,13 +170,29 @@ namespace TugManagementSystem.Controllers
         private void Report_DataRegister_Billing_List(FastReport.Report FReport, string startdate, string enddate, int customerid)
         {
             DataTable dt = null;
-            string strV;
-            if(customerid == -1)
-                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}' order by BillingCode", startdate + " 00:00:00", enddate + " 23:59:59");
-            else
-                strV = string.Format(" CreateDate >= '{0}' and CreateDate<='{1}' and CustomerID='{2}' order by BillingCode", startdate + " 00:00:00", enddate + " 23:59:59", customerid);
-            //head
-            dt = SqlHelper.GetDataTableData("V_BillingSum", strV);
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@Date1",
+                Direction = ParameterDirection.Input,
+                Value = startdate,
+                DbType = DbType.DateTime
+            };
+            SqlParameter para2 = new SqlParameter()
+            {
+                ParameterName = "@Date2",
+                Direction = ParameterDirection.Input,
+                Value = enddate,
+                DbType = DbType.DateTime
+            };
+            SqlParameter para3 = new SqlParameter()
+            {
+                ParameterName = "@CustomerID",
+                Direction = ParameterDirection.Input,
+                Value = customerid,
+                DbType = DbType.Int32
+            };
+            SqlParameter[] param = new SqlParameter[] { para1, para2, para3 };
+            dt = SqlHelper.GetDatatableBySP("proc_billing_pt_ts_qt", param);
             FReport.RegisterData(dt, dt.TableName);
 
             FReport.Parameters.FindByName("totaltugnum").Value = dt.Compute("Sum(TugNum)","");

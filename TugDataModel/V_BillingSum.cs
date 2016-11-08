@@ -23,7 +23,6 @@ namespace TugDataModel
         public string Month { get; set; }
         public string ShipName { get; set; }
         public Nullable<int> ShipID { get; set; }
-        public string CustomerName1 { get; set; }
         public Nullable<double> TotalRebate { get; set; }
         public Nullable<double> FinalAmount { get; set; }
         public string InvoiceType { get; set; }
