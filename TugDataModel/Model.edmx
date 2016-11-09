@@ -3966,6 +3966,11 @@
           <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
           <Parameter Name="userID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="proc_billing_pt_ts_qt" ReturnType="Collection(Model.proc_billing_pt_ts_qt_Result)">
+            <Parameter Name="Date1" Mode="In" Type="DateTime" />
+            <Parameter Name="Date2" Mode="In" Type="DateTime" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
           <EntitySet Name="Approve" EntityType="Model.Approve" />
           <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -4106,11 +4111,6 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
-          <FunctionImport Name="proc_billing_pt_ts_qt" ReturnType="Collection(Model.proc_billing_pt_ts_qt_Result)">
-            <Parameter Name="Date1" Mode="In" Type="DateTime" />
-            <Parameter Name="Date2" Mode="In" Type="DateTime" />
-            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
-          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -4312,6 +4312,22 @@
           <Property Type="Int32" Name="FlowUserID" Nullable="true" />
           <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="CreditNum" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_billing_pt_ts_qt_Result">
+          <Property Type="Int32" Name="IDX" Nullable="true" />
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="false" />
+          <Property Type="Double" Name="TotalRebate" Nullable="false" />
+          <Property Type="Double" Name="FinalAmount" Nullable="false" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TugNum" Nullable="false" />
+          <Property Type="Double" Name="FuelAmount" Nullable="false" />
+          <Property Type="String" Name="Length" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TEUS" Nullable="true" MaxLength="50" />
         </ComplexType>
         <EntityType Name="AmountSum">
           <Key>
@@ -6658,22 +6674,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="proc_billing_pt_ts_qt_Result">
-          <Property Type="Int32" Name="IDX" Nullable="true" />
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Amount" Nullable="false" />
-          <Property Type="Double" Name="TotalRebate" Nullable="false" />
-          <Property Type="Double" Name="FinalAmount" Nullable="false" />
-          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="TugNum" Nullable="false" />
-          <Property Type="Double" Name="FuelAmount" Nullable="false" />
-          <Property Type="String" Name="Length" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TEUS" Nullable="true" MaxLength="50" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6817,6 +6817,26 @@
                 <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
                 <ScalarProperty Name="System" ColumnName="System" />
                 <ScalarProperty Name="CreditNum" ColumnName="CreditNum" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_billing_pt_ts_qt" FunctionName="Model.Store.proc_billing_pt_ts_qt">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_billing_pt_ts_qt_Result">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9010,26 +9030,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="proc_billing_pt_ts_qt" FunctionName="Model.Store.proc_billing_pt_ts_qt">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_billing_pt_ts_qt_Result">
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
-                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
-                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
-                <ScalarProperty Name="Length" ColumnName="Length" />
-                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

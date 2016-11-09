@@ -961,6 +961,60 @@
     <Property Name="Ratio7" Type="float" />
   </EntityType>
   <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_QT”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Billing_QT">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="int" />
+    <Property Name="TotalRebate" Type="float" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="TugNum" Type="int" />
+    <Property Name="FuelAmount" Type="int" />
+    <Property Name="Length" Type="int" />
+    <Property Name="TEUS" Type="int" />
+    <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_ServiceDate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Billing_ServiceDate">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="ServiceWorkDate" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_Special”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="V_Billing_Special">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="ShipName" Type="int" />
+    <Property Name="TotalRebate" Type="float" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="TugNumber" Type="int" />
+    <Property Name="FeulUnitPrice" Type="float" />
+    <Property Name="ServiceUnitPrice" Type="float" />
+    <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="ServiceNatureID" Type="int" />
+    <Property Name="ServiceNature" Type="nvarchar" MaxLength="50" />
+    <Property Name="Length" Type="int" />
+    <Property Name="TEUS" Type="int" />
+    <Property Name="CustomerID" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing2”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
   <EntityType Name="V_Billing2">
     <Key>
@@ -1195,7 +1249,6 @@
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="ShipName" Type="nvarchar(max)" />
     <Property Name="ShipID" Type="int" />
-    <Property Name="CustomerName1" Type="nvarchar(max)" />
     <Property Name="TotalRebate" Type="float" />
     <Property Name="FinalAmount" Type="float" />
     <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
@@ -2379,6 +2432,11 @@
   <Function Name="proc_approved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="userID" Type="int" Mode="In" />
   </Function>
+  <Function Name="proc_billing_pt_ts_qt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Date1" Type="datetime" Mode="In" />
+    <Parameter Name="Date2" Type="datetime" Mode="In" />
+    <Parameter Name="CustomerID" Type="int" Mode="In" />
+  </Function>
   <Function Name="proc_inv_item" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="BillingID" Type="int" Mode="In" />
     <Parameter Name="TimeTypeValue" Type="int" Mode="In" />
@@ -2590,6 +2648,51 @@
     [V_Billing].[MinTime] AS [MinTime], 
     [V_Billing].[Ratio7] AS [Ratio7]
     FROM [dbo].[V_Billing] AS [V_Billing]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Billing_QT" EntityType="Self.V_Billing_QT" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Billing_QT].[IDX] AS [IDX], 
+    [V_Billing_QT].[CustomerName] AS [CustomerName], 
+    [V_Billing_QT].[BillingCode] AS [BillingCode], 
+    [V_Billing_QT].[Month] AS [Month], 
+    [V_Billing_QT].[ShipName] AS [ShipName], 
+    [V_Billing_QT].[TotalRebate] AS [TotalRebate], 
+    [V_Billing_QT].[Amount] AS [Amount], 
+    [V_Billing_QT].[InvoiceType] AS [InvoiceType], 
+    [V_Billing_QT].[TugNum] AS [TugNum], 
+    [V_Billing_QT].[FuelAmount] AS [FuelAmount], 
+    [V_Billing_QT].[Length] AS [Length], 
+    [V_Billing_QT].[TEUS] AS [TEUS], 
+    [V_Billing_QT].[CreateDate] AS [CreateDate], 
+    [V_Billing_QT].[CustomerID] AS [CustomerID]
+    FROM [dbo].[V_Billing_QT] AS [V_Billing_QT]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Billing_ServiceDate" EntityType="Self.V_Billing_ServiceDate" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Billing_ServiceDate].[IDX] AS [IDX], 
+    [V_Billing_ServiceDate].[ServiceWorkDate] AS [ServiceWorkDate]
+    FROM [dbo].[V_Billing_ServiceDate] AS [V_Billing_ServiceDate]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_Billing_Special" EntityType="Self.V_Billing_Special" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_Billing_Special].[IDX] AS [IDX], 
+    [V_Billing_Special].[CustomerName] AS [CustomerName], 
+    [V_Billing_Special].[BillingCode] AS [BillingCode], 
+    [V_Billing_Special].[Month] AS [Month], 
+    [V_Billing_Special].[ShipName] AS [ShipName], 
+    [V_Billing_Special].[TotalRebate] AS [TotalRebate], 
+    [V_Billing_Special].[Amount] AS [Amount], 
+    [V_Billing_Special].[InvoiceType] AS [InvoiceType], 
+    [V_Billing_Special].[TugNumber] AS [TugNumber], 
+    [V_Billing_Special].[FeulUnitPrice] AS [FeulUnitPrice], 
+    [V_Billing_Special].[ServiceUnitPrice] AS [ServiceUnitPrice], 
+    [V_Billing_Special].[ServiceDate] AS [ServiceDate], 
+    [V_Billing_Special].[ServiceNatureID] AS [ServiceNatureID], 
+    [V_Billing_Special].[ServiceNature] AS [ServiceNature], 
+    [V_Billing_Special].[Length] AS [Length], 
+    [V_Billing_Special].[TEUS] AS [TEUS], 
+    [V_Billing_Special].[CustomerID] AS [CustomerID]
+    FROM [dbo].[V_Billing_Special] AS [V_Billing_Special]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Billing2" EntityType="Self.V_Billing2" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -2803,7 +2906,6 @@
     [V_BillingSum].[Month] AS [Month], 
     [V_BillingSum].[ShipName] AS [ShipName], 
     [V_BillingSum].[ShipID] AS [ShipID], 
-    [V_BillingSum].[CustomerName1] AS [CustomerName1], 
     [V_BillingSum].[TotalRebate] AS [TotalRebate], 
     [V_BillingSum].[FinalAmount] AS [FinalAmount], 
     [V_BillingSum].[InvoiceType] AS [InvoiceType], 
