@@ -1015,8 +1015,8 @@ namespace TugBusinessLogic
 
 
             //1.先找出全部的全包类型账单
-            //List<Billing> qbList = db.Billing.Where(u => u.BillingTypeID == 6).ToList();
-            List<Billing> qbList = db.Billing.Where(u => u.IDX == 1180).ToList();
+            List<Billing> qbList = db.Billing.Where(u => u.BillingTypeID == 6).ToList();
+            //List<Billing> qbList = db.Billing.Where(u => u.IDX == 1180).ToList();
             if (qbList != null)
             {
                 foreach (var item in qbList)
