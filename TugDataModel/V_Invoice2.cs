@@ -90,5 +90,7 @@ namespace TugDataModel
         public Nullable<double> Ratio6 { get; set; }
         public Nullable<double> MinTime { get; set; }
         public Nullable<double> Ratio7 { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public string CreateDate { get; set; }
     }
 }

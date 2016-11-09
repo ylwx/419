@@ -18,6 +18,8 @@ namespace TugManagementSystem
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //////修复全包情况未向AmountSum写入数据的Bug
+            ////TugBusinessLogic.Utils.QBInsertToAmount();
         }
     }
 }
