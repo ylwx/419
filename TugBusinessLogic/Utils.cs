@@ -1008,5 +1008,55 @@ namespace TugBusinessLogic
         #endregion
 
 
+        #region 全包数据插入汇总表
+        public static void QBInsertToAmount()
+        {
+            TugDataEntities db = new TugDataEntities();
+
+
+            //1.先找出全部的全包类型账单
+            //List<Billing> qbList = db.Billing.Where(u => u.BillingTypeID == 6).ToList();
+            List<Billing> qbList = db.Billing.Where(u => u.IDX == 1180).ToList();
+            if (qbList != null)
+            {
+                foreach (var item in qbList)
+                {
+                    List<V_Invoice2> schList = db.V_Invoice2.Where(u => u.BillingID == item.IDX).OrderBy(u => u.SchedulerID).ToList();
+                    if (schList != null)
+                    {
+                        foreach (var sch in schList)
+                        {
+                            AmountSum objAs = new AmountSum();
+                            objAs.CustomerID = sch.CustomerID;
+                            objAs.CustomerShipID = sch.ShipID;
+                            objAs.BillingID = sch.BillingID;
+                            objAs.BillingDateTime = Convert.ToDateTime(sch.CreateDate);
+                            objAs.SchedulerID = sch.SchedulerID;
+                            objAs.Amount = sch.UnitPrice;
+                            objAs.FuelAmount = 0;
+                            objAs.Currency = sch.Currency;
+
+                            int iDiffHour, iDiffMinute;
+                            TugBusinessLogic.Utils.CalculateTimeDiff(sch.DepartBaseTime, sch.ArrivalBaseTime, out iDiffHour, out iDiffMinute);
+                            objAs.Hours = TugBusinessLogic.Utils.CalculateTimeConsumption2(iDiffHour, iDiffMinute,
+                                (int)sch.TimeTypeID, sch.TimeTypeValue, sch.TimeTypeLabel);
+                            
+                             
+                            objAs.Year = sch.Month.Split('-')[0];
+                            objAs.Month =sch.Month.Split('-')[1];
+                            objAs.OwnerID = -1;
+                            objAs.UserID = sch.UserID;
+                            objAs.CreateDate = objAs.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            objAs.UserDefinedCol6 = -1;
+
+                            db.AmountSum.Add(objAs);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -87,7 +87,6 @@ namespace TugDataModel
         public virtual DbSet<V_Inv_OrdService> V_Inv_OrdService { get; set; }
         public virtual DbSet<V_Inv_Scheduler> V_Inv_Scheduler { get; set; }
         public virtual DbSet<V_Invoice> V_Invoice { get; set; }
-        public virtual DbSet<V_Invoice2> V_Invoice2 { get; set; }
         public virtual DbSet<V_Module_Role_User> V_Module_Role_User { get; set; }
         public virtual DbSet<V_NeedApproveBilling> V_NeedApproveBilling { get; set; }
         public virtual DbSet<V_NeedApproveOrderBilling> V_NeedApproveOrderBilling { get; set; }
@@ -107,6 +106,7 @@ namespace TugDataModel
         public virtual DbSet<V_SpecialBillingSummarizeItem> V_SpecialBillingSummarizeItem { get; set; }
         public virtual DbSet<V_TugSum> V_TugSum { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
+        public virtual DbSet<V_Invoice2> V_Invoice2 { get; set; }
     
         public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
