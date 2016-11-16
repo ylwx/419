@@ -1248,6 +1248,7 @@
           <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Discount" Type="float" />
           <Property Name="Amount" Type="float" />
@@ -2425,6 +2426,9 @@
         <Function Name="BillingFuelAmount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="BillingID" Type="int" Mode="In" />
         </Function>
+        <Function Name="BillingServiceDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+          <Parameter Name="BillingID" Type="int" Mode="In" />
+        </Function>
         <Function Name="BillingTugNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="BillingID" Type="int" Mode="In" />
         </Function>
@@ -2907,6 +2911,7 @@
     [V_BillingSum].[IDX] AS [IDX], 
     [V_BillingSum].[CustomerID] AS [CustomerID], 
     [V_BillingSum].[CustomerName] AS [CustomerName], 
+    [V_BillingSum].[ServiceDate] AS [ServiceDate], 
     [V_BillingSum].[BillingCode] AS [BillingCode], 
     [V_BillingSum].[Discount] AS [Discount], 
     [V_BillingSum].[Amount] AS [Amount], 
@@ -5572,6 +5577,7 @@
           <Property Name="IDX" Type="Int32" Nullable="false" />
           <Property Name="CustomerID" Type="Int32" />
           <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Discount" Type="Double" />
           <Property Name="Amount" Type="Double" />
@@ -8110,6 +8116,7 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
