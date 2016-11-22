@@ -23,7 +23,10 @@ namespace TugDataModel
         public string BillingCode { get; set; }
         public Nullable<System.DateTime> BillingDateTime { get; set; }
         public Nullable<int> SchedulerID { get; set; }
+        public Nullable<double> Discount { get; set; }
         public Nullable<double> Amount { get; set; }
+        public Nullable<double> FuelAmount { get; set; }
+        public Nullable<double> TotalRebate { get; set; }
         public string Currency { get; set; }
         public Nullable<double> Hours { get; set; }
         public string Year { get; set; }
@@ -35,6 +38,5 @@ namespace TugDataModel
         public Nullable<int> SmallTugNum { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName { get; set; }
-        public Nullable<double> FuelAmount { get; set; }
     }
 }
