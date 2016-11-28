@@ -1463,7 +1463,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.BillingTemplateID = billingTemplateId;
                         aScheduler.BillingTypeID = billingTypeId;
                         //aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
-                        aScheduler.BillingCode = billing_code;
+                        aScheduler.BillingCode = billing_code.Trim() ;
                         aScheduler.BillingName = "";
                         aScheduler.TimeTypeID = timeTypeId;
                         aScheduler.Discount = discount;
@@ -1734,7 +1734,7 @@ namespace TugManagementSystem.Controllers
                         oldBilling.TimeTypeID = timeTypeId;
                         oldBilling.Discount = discount;
                         oldBilling.Amount = amount;
-                        oldBilling.BillingCode = billing_code;
+                        oldBilling.BillingCode = billing_code.Trim();
                         oldBilling.JobNo = jobNo;
                         if (ratio1 != null)
                         oldBilling.Ratio1 = (double?)Math.Round((double)ratio1, 2);
@@ -2202,7 +2202,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.Amount = amount;
                         aScheduler.Month = month;
                         aScheduler.InvoiceType = "特殊账单";
-                        aScheduler.BillingCode = billingCode;
+                        aScheduler.BillingCode = billingCode.Trim();
 
                         aScheduler.TimesNo = 0;
                         aScheduler.Status = "创建";
@@ -2424,7 +2424,7 @@ namespace TugManagementSystem.Controllers
 
                         if (oldBilling != null)
                         {
-                            oldBilling.BillingCode = billingCode;
+                            oldBilling.BillingCode = billingCode.Trim();
                             oldBilling.Amount = amount;
                             oldBilling.Month = month;
                             oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -3099,7 +3099,7 @@ namespace TugManagementSystem.Controllers
                     credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     credit.OwnerID = -1;
                     credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
-                    credit.BillingCode = billingCode;
+                    credit.BillingCode = billingCode.Trim();
 
                     credit.TimesNo = 0;
                     credit.Status = "创建";
@@ -3155,7 +3155,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.UserDefinedCol5 = money;
                     aOrder.Amount = money;
                     aOrder.Month = month;
-                    aOrder.BillingCode = billingCode;
+                    aOrder.BillingCode = billingCode.Trim();
 
                     aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
