@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="AmountSum">
     <Key>
       <PropertyRef Name="ID" />
@@ -832,7 +832,10 @@
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingDateTime" Type="datetime" />
     <Property Name="SchedulerID" Type="int" />
+    <Property Name="Discount" Type="float" />
     <Property Name="Amount" Type="float" />
+    <Property Name="FuelAmount" Type="float" />
+    <Property Name="TotalRebate" Type="float" />
     <Property Name="Currency" Type="nvarchar" MaxLength="50" />
     <Property Name="Hours" Type="float" />
     <Property Name="Year" Type="nvarchar" MaxLength="50" />
@@ -844,7 +847,6 @@
     <Property Name="SmallTugNum" Type="int" />
     <Property Name="TugID" Type="int" />
     <Property Name="TugName" Type="nvarchar" MaxLength="50" />
-    <Property Name="FuelAmount" Type="float" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Approve_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1243,6 +1245,7 @@
     <Property Name="IDX" Type="int" Nullable="false" />
     <Property Name="CustomerID" Type="int" />
     <Property Name="CustomerName" Type="nvarchar(max)" />
+    <Property Name="ServiceDate" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
     <Property Name="Discount" Type="float" />
     <Property Name="Amount" Type="float" />
@@ -2420,6 +2423,9 @@
   <Function Name="BillingFuelAmount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
     <Parameter Name="BillingID" Type="int" Mode="In" />
   </Function>
+  <Function Name="BillingServiceDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+    <Parameter Name="BillingID" Type="int" Mode="In" />
+  </Function>
   <Function Name="BillingTugNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
     <Parameter Name="BillingID" Type="int" Mode="In" />
   </Function>
@@ -2537,7 +2543,10 @@
     [V_AmountSum_Service].[BillingCode] AS [BillingCode], 
     [V_AmountSum_Service].[BillingDateTime] AS [BillingDateTime], 
     [V_AmountSum_Service].[SchedulerID] AS [SchedulerID], 
+    [V_AmountSum_Service].[Discount] AS [Discount], 
     [V_AmountSum_Service].[Amount] AS [Amount], 
+    [V_AmountSum_Service].[FuelAmount] AS [FuelAmount], 
+    [V_AmountSum_Service].[TotalRebate] AS [TotalRebate], 
     [V_AmountSum_Service].[Currency] AS [Currency], 
     [V_AmountSum_Service].[Hours] AS [Hours], 
     [V_AmountSum_Service].[Year] AS [Year], 
@@ -2548,8 +2557,7 @@
     [V_AmountSum_Service].[MiddleTugNum] AS [MiddleTugNum], 
     [V_AmountSum_Service].[SmallTugNum] AS [SmallTugNum], 
     [V_AmountSum_Service].[TugID] AS [TugID], 
-    [V_AmountSum_Service].[TugName] AS [TugName], 
-    [V_AmountSum_Service].[FuelAmount] AS [FuelAmount]
+    [V_AmountSum_Service].[TugName] AS [TugName]
     FROM [dbo].[V_AmountSum_Service] AS [V_AmountSum_Service]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Approve_Billing" EntityType="Self.V_Approve_Billing" store:Type="Views" store:Schema="dbo">
@@ -2902,6 +2910,7 @@
     [V_BillingSum].[IDX] AS [IDX], 
     [V_BillingSum].[CustomerID] AS [CustomerID], 
     [V_BillingSum].[CustomerName] AS [CustomerName], 
+    [V_BillingSum].[ServiceDate] AS [ServiceDate], 
     [V_BillingSum].[BillingCode] AS [BillingCode], 
     [V_BillingSum].[Discount] AS [Discount], 
     [V_BillingSum].[Amount] AS [Amount], 

@@ -1443,7 +1443,7 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     {
                         //0.验证账单编号是否已存在
-                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billing_code);
+                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billing_code.Trim());
                         if (tmp != null)
                         {
                             var ret2 = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE };
@@ -1718,7 +1718,7 @@ namespace TugManagementSystem.Controllers
                 {
                     Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
 
-                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billing_code);
+                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billing_code.Trim());
                     if (tmp != null)
                     {
                         if (tmp.IDX != oldBilling.IDX)
@@ -2187,7 +2187,7 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     {
                         //0.验证账单编号是否已存在
-                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                         if (tmp != null)
                         {
                             var ret2 = new { code = Resources.Common.FAIL_CODE, message = "帳單編號已存在!" };
@@ -2412,7 +2412,7 @@ namespace TugManagementSystem.Controllers
                     {
                         Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
 
-                        Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                        Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                         if (tmp != null)
                         {
                             if (tmp.IDX != oldBilling.IDX)
@@ -3077,7 +3077,7 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
                 {
                     //0.验证账单编号是否已存在
-                    var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                    var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                     if (tmp != null)
                     {
                         var ret2 = new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" };
@@ -3140,7 +3140,7 @@ namespace TugManagementSystem.Controllers
                 else
                 {
 
-                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                     if (tmp != null)
                     {
                         if (tmp.IDX != aOrder.IDX)
