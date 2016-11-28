@@ -1443,7 +1443,7 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     {
                         //0.验证账单编号是否已存在
-                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billing_code);
+                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billing_code.Trim());
                         if (tmp != null)
                         {
                             var ret2 = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE };
@@ -1463,7 +1463,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.BillingTemplateID = billingTemplateId;
                         aScheduler.BillingTypeID = billingTypeId;
                         //aScheduler.BillingCode = TugBusinessLogic.Utils.AutoGenerateBillCode();
-                        aScheduler.BillingCode = billing_code;
+                        aScheduler.BillingCode = billing_code.Trim() ;
                         aScheduler.BillingName = "";
                         aScheduler.TimeTypeID = timeTypeId;
                         aScheduler.Discount = discount;
@@ -1718,7 +1718,7 @@ namespace TugManagementSystem.Controllers
                 {
                     Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
 
-                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billing_code);
+                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billing_code.Trim());
                     if (tmp != null)
                     {
                         if (tmp.IDX != oldBilling.IDX)
@@ -1734,7 +1734,7 @@ namespace TugManagementSystem.Controllers
                         oldBilling.TimeTypeID = timeTypeId;
                         oldBilling.Discount = discount;
                         oldBilling.Amount = amount;
-                        oldBilling.BillingCode = billing_code;
+                        oldBilling.BillingCode = billing_code.Trim();
                         oldBilling.JobNo = jobNo;
                         if (ratio1 != null)
                         oldBilling.Ratio1 = (double?)Math.Round((double)ratio1, 2);
@@ -2187,7 +2187,7 @@ namespace TugManagementSystem.Controllers
                     TugDataEntities db = new TugDataEntities();
                     {
                         //0.验证账单编号是否已存在
-                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                         if (tmp != null)
                         {
                             var ret2 = new { code = Resources.Common.FAIL_CODE, message = "帳單編號已存在!" };
@@ -2202,7 +2202,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.Amount = amount;
                         aScheduler.Month = month;
                         aScheduler.InvoiceType = "特殊账单";
-                        aScheduler.BillingCode = billingCode;
+                        aScheduler.BillingCode = billingCode.Trim();
 
                         aScheduler.TimesNo = 0;
                         aScheduler.Status = "创建";
@@ -2412,7 +2412,7 @@ namespace TugManagementSystem.Controllers
                     {
                         Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
 
-                        Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                        Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                         if (tmp != null)
                         {
                             if (tmp.IDX != oldBilling.IDX)
@@ -2424,7 +2424,7 @@ namespace TugManagementSystem.Controllers
 
                         if (oldBilling != null)
                         {
-                            oldBilling.BillingCode = billingCode;
+                            oldBilling.BillingCode = billingCode.Trim();
                             oldBilling.Amount = amount;
                             oldBilling.Month = month;
                             oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -3077,7 +3077,7 @@ namespace TugManagementSystem.Controllers
                 TugDataEntities db = new TugDataEntities();
                 {
                     //0.验证账单编号是否已存在
-                    var tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                    var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                     if (tmp != null)
                     {
                         var ret2 = new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" };
@@ -3099,7 +3099,7 @@ namespace TugManagementSystem.Controllers
                     credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     credit.OwnerID = -1;
                     credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
-                    credit.BillingCode = billingCode;
+                    credit.BillingCode = billingCode.Trim();
 
                     credit.TimesNo = 0;
                     credit.Status = "创建";
@@ -3140,7 +3140,7 @@ namespace TugManagementSystem.Controllers
                 else
                 {
 
-                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode == billingCode);
+                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                     if (tmp != null)
                     {
                         if (tmp.IDX != aOrder.IDX)
@@ -3155,7 +3155,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.UserDefinedCol5 = money;
                     aOrder.Amount = money;
                     aOrder.Month = month;
-                    aOrder.BillingCode = billingCode;
+                    aOrder.BillingCode = billingCode.Trim();
 
                     aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
