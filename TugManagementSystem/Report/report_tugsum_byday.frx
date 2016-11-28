@@ -1,7 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2016 19:50:42" ReportInfo.Modified="10/11/2016 22:35:29" ReportInfo.CreatorVersion="2016.1.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2016 19:50:42" ReportInfo.Modified="11/27/2016 10:24:17" ReportInfo.CreatorVersion="2016.1.0.0">
+  <ScriptText>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using FastReport;
+using FastReport.Data;
+using FastReport.Dialog;
+using FastReport.Barcode;
+using FastReport.Table;
+using FastReport.Utils;
+
+namespace FastReport
+{
+  public class ReportScript
+  {
+
+    private void Cell4_AfterData(object sender, EventArgs e)
+    {
+           Cell4.Text=Cell4.Text.Substring(1);
+    }
+  }
+}
+</ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvPU61okqSGsl85Jj8c9rI8w==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvOQj4X0yUdL783WoOSJL+2Q==">
       <TableDataSource Name="Table1" Alias="proc_TugSum_ByDay" DataType="System.Int32" Enabled="true" SelectCommand="exec proc_TugSum_ByDay '2016-09-01','2016-09-30'">
         <Column Name="CustomerID" DataType="System.Int32"/>
         <Column Name="CustomerName" DataType="System.String"/>
@@ -33,7 +59,7 @@
         </TableRow>
         <TableRow Name="Row2" MinHeight="18.9" AutoSize="true">
           <TableCell Name="Cell3"/>
-          <TableCell Name="Cell4" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="[TugType]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell4" Border.Lines="All" Border.Color="White" Fill.Color="Gold" AfterDataEvent="Cell4_AfterData" Text="[TugType]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
         </TableRow>
         <TableRow Name="Row3" MinHeight="28.35" Height="28.35" AutoSize="true">
           <TableCell Name="Cell7" Border.Lines="All" Border.Color="Gold" Text="[CustomerName]" VertAlign="Center" Font="PMingLiU, 9pt"/>

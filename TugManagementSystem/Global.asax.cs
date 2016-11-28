@@ -20,6 +20,8 @@ namespace TugManagementSystem
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //////修复全包情况未向AmountSum写入数据的Bug
             ////TugBusinessLogic.Utils.QBInsertToAmount();
+            //测试billing表的Amount字段的值是否正确
+            //TugBusinessLogic.Utils.Billing_Amount_Value_HasError();
         }
     }
 }

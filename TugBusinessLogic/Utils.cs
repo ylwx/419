@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using TugBusinessLogic.Module;
 using TugDataModel;
 
 namespace TugBusinessLogic
@@ -1055,6 +1057,58 @@ namespace TugBusinessLogic
                         }
                     }
                 }
+            }
+        }
+        #endregion
+
+        #region 比对Billing表中的Amount字段的值是否正确
+        public static void Billing_Amount_Value_HasError()
+        {
+            DataTable dtContenData;
+            DataTable dtGrandTotal;
+            TugDataEntities db = new TugDataEntities();
+
+
+            //1.先找出全部的全包类型账单
+            List<V_Billing_TimeTypeValue> qbList = db.V_Billing_TimeTypeValue.ToList();
+            //List<Billing> qbList = db.Billing.Where(u => u.IDX == 1180).ToList();
+            if (qbList != null)
+            {
+                int i = 0;
+                foreach (var item in qbList)
+                {
+                    SqlParameter para1 = new SqlParameter()
+                    {
+                        ParameterName = "@BillingID",
+                        Direction = ParameterDirection.Input,
+                        Value = item.IDX ,
+                        DbType = DbType.Int16
+                    };
+                    SqlParameter para2 = new SqlParameter()
+                    {
+                        ParameterName = "@TimeTypeValue",
+                        Direction = ParameterDirection.Input,
+                        Value = item.TimeTypeValue ,
+                        DbType = DbType.Int16
+                    };
+                    SqlParameter[] param = new SqlParameter[] { para1, para2 };
+                    string proc = "proc_inv_item_xy";
+                    if (item.BillingTypeID == 8) proc = "proc_inv_item";
+
+                    dtContenData = SqlHelper.GetDatatableBySP(proc, param);
+                    dtGrandTotal = TugBusinessLogic.Utils.TableToChildTB(dtContenData, "ItemCode = 'T2'");
+                    double  ndiscount = Util.tonumeric(item.Discount);
+                    double amount = Util.tonumeric(dtGrandTotal.Rows[0]["Value"]);
+                    double  GrandTotal = Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) - ndiscount * Util.tonumeric(dtGrandTotal.Rows[0]["Value"]) / 100;
+                    if (item.Amount != amount)
+                    {
+                        i = i + 1;
+                        string aa = item.IDX + "," + item.BillingCode;
+                        Console.WriteLine(aa);
+                    }
+
+                }
+                Console.WriteLine("ok");
             }
         }
         #endregion
