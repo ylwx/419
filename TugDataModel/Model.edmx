@@ -1022,6 +1022,24 @@
           <Property Name="CustomerID" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_TimeTypeValue”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Billing_TimeTypeValue">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
+          <Property Name="TimeTypeValue" Type="nvarchar" MaxLength="50" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="TotalRebate" Type="float" />
+          <Property Name="TimeTypeID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillingTypeID" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing2”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="V_Billing2">
           <Key>
@@ -1124,6 +1142,20 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="Name2" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.V_BillingAmountAll”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_BillingAmountAll">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="TotalRebate" Type="float" />
+          <Property Name="ZongJia" Type="float" />
+          <Property Name="Month" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2709,6 +2741,21 @@
     [V_Billing_Special].[CustomerID] AS [CustomerID]
     FROM [dbo].[V_Billing_Special] AS [V_Billing_Special]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_Billing_TimeTypeValue" EntityType="Self.V_Billing_TimeTypeValue" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Billing_TimeTypeValue].[IDX] AS [IDX], 
+    [V_Billing_TimeTypeValue].[TimeTypeValue] AS [TimeTypeValue], 
+    [V_Billing_TimeTypeValue].[Amount] AS [Amount], 
+    [V_Billing_TimeTypeValue].[Discount] AS [Discount], 
+    [V_Billing_TimeTypeValue].[TotalRebate] AS [TotalRebate], 
+    [V_Billing_TimeTypeValue].[TimeTypeID] AS [TimeTypeID], 
+    [V_Billing_TimeTypeValue].[CustomerID] AS [CustomerID], 
+    [V_Billing_TimeTypeValue].[BillingCode] AS [BillingCode], 
+    [V_Billing_TimeTypeValue].[InvoiceType] AS [InvoiceType], 
+    [V_Billing_TimeTypeValue].[Month] AS [Month], 
+    [V_Billing_TimeTypeValue].[BillingTypeID] AS [BillingTypeID]
+    FROM [dbo].[V_Billing_TimeTypeValue] AS [V_Billing_TimeTypeValue]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_Billing2" EntityType="Self.V_Billing2" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_Billing2].[IDX] AS [IDX], 
@@ -2803,6 +2850,17 @@
     [V_Billing4].[Name2] AS [Name2], 
     [V_Billing4].[CustomerSimpleName] AS [CustomerSimpleName]
     FROM [dbo].[V_Billing4] AS [V_Billing4]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_BillingAmountAll" EntityType="Self.V_BillingAmountAll" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_BillingAmountAll].[IDX] AS [IDX], 
+    [V_BillingAmountAll].[CustomerID] AS [CustomerID], 
+    [V_BillingAmountAll].[Discount] AS [Discount], 
+    [V_BillingAmountAll].[Amount] AS [Amount], 
+    [V_BillingAmountAll].[TotalRebate] AS [TotalRebate], 
+    [V_BillingAmountAll].[ZongJia] AS [ZongJia], 
+    [V_BillingAmountAll].[Month] AS [Month]
+    FROM [dbo].[V_BillingAmountAll] AS [V_BillingAmountAll]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BillingItem" EntityType="Self.V_BillingItem" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -4024,9 +4082,11 @@
           <EntitySet Name="V_Billing_QT" EntityType="Model.V_Billing_QT" />
           <EntitySet Name="V_Billing_ServiceDate" EntityType="Model.V_Billing_ServiceDate" />
           <EntitySet Name="V_Billing_Special" EntityType="Model.V_Billing_Special" />
+          <EntitySet Name="V_Billing_TimeTypeValue" EntityType="Model.V_Billing_TimeTypeValue" />
           <EntitySet Name="V_Billing2" EntityType="Model.V_Billing2" />
           <EntitySet Name="V_Billing3" EntityType="Model.V_Billing3" />
           <EntitySet Name="V_Billing4" EntityType="Model.V_Billing4" />
+          <EntitySet Name="V_BillingAmountAll" EntityType="Model.V_BillingAmountAll" />
           <EntitySet Name="V_BillingItem" EntityType="Model.V_BillingItem" />
           <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
           <EntitySet Name="V_BillingOrders" EntityType="Model.V_BillingOrders" />
@@ -5368,6 +5428,22 @@
           <Property Name="TEUS" Type="Int32" />
           <Property Name="CustomerID" Type="Int32" />
         </EntityType>
+        <EntityType Name="V_Billing_TimeTypeValue">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="TotalRebate" Type="Double" />
+          <Property Name="TimeTypeID" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingTypeID" Type="Int32" />
+        </EntityType>
         <EntityType Name="V_Billing2">
           <Key>
             <PropertyRef Name="IDX" />
@@ -5465,6 +5541,18 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="V_BillingAmountAll">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="TotalRebate" Type="Double" />
+          <Property Name="ZongJia" Type="Double" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_BillingItem">
           <Key>
@@ -7894,6 +7982,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_Billing_TimeTypeValue">
+            <EntityTypeMapping TypeName="Model.V_Billing_TimeTypeValue">
+              <MappingFragment StoreEntitySet="V_Billing_TimeTypeValue">
+                <ScalarProperty Name="BillingTypeID" ColumnName="BillingTypeID" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="TimeTypeID" ColumnName="TimeTypeID" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_Billing2">
             <EntityTypeMapping TypeName="Model.V_Billing2">
               <MappingFragment StoreEntitySet="V_Billing2">
@@ -7990,6 +8095,19 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_BillingAmountAll">
+            <EntityTypeMapping TypeName="Model.V_BillingAmountAll">
+              <MappingFragment StoreEntitySet="V_BillingAmountAll">
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="ZongJia" ColumnName="ZongJia" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
