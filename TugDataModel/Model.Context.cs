@@ -64,6 +64,7 @@ namespace TugDataModel
         public virtual DbSet<V_Arrangement> V_Arrangement { get; set; }
         public virtual DbSet<V_BaseTreeItems> V_BaseTreeItems { get; set; }
         public virtual DbSet<V_Billing> V_Billing { get; set; }
+        public virtual DbSet<V_Billing_Customer> V_Billing_Customer { get; set; }
         public virtual DbSet<V_Billing_QT> V_Billing_QT { get; set; }
         public virtual DbSet<V_Billing_ServiceDate> V_Billing_ServiceDate { get; set; }
         public virtual DbSet<V_Billing_Special> V_Billing_Special { get; set; }

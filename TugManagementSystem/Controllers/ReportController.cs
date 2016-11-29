@@ -344,6 +344,36 @@ namespace TugManagementSystem.Controllers
         }
         #endregion  
 
+        #region Report EAS应收单
+        public ActionResult Billing_EAS(string sDate)//
+        {
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 8350;  // set width19772
+            webReport.Height = 1366; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_eas.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Billing_EAS(webReport.Report, sDate);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Billing_EAS(FastReport.Report FReport, string sDate)
+        {
+            DataTable dt = null;
+            string str_report = string.Format(" Month='{0}'", sDate);
+            //data
+            dt = SqlHelper.GetDataTableData("V_Billing_Customer", str_report);
+            FReport.RegisterData(dt, dt.TableName);
+        }
+        #endregion  
+
         #region Report 拖轮 每月汇总
         public ActionResult Amout_Tug(string startdate, string enddate)//int OrderID, int CreditID
         {
