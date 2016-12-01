@@ -168,12 +168,15 @@
     <EntitySet Name="V_Arrangement" EntityType="Model.V_Arrangement" />
     <EntitySet Name="V_BaseTreeItems" EntityType="Model.V_BaseTreeItems" />
     <EntitySet Name="V_Billing" EntityType="Model.V_Billing" />
+    <EntitySet Name="V_Billing_Customer" EntityType="Model.V_Billing_Customer" />
     <EntitySet Name="V_Billing_QT" EntityType="Model.V_Billing_QT" />
     <EntitySet Name="V_Billing_ServiceDate" EntityType="Model.V_Billing_ServiceDate" />
     <EntitySet Name="V_Billing_Special" EntityType="Model.V_Billing_Special" />
+    <EntitySet Name="V_Billing_TimeTypeValue" EntityType="Model.V_Billing_TimeTypeValue" />
     <EntitySet Name="V_Billing2" EntityType="Model.V_Billing2" />
     <EntitySet Name="V_Billing3" EntityType="Model.V_Billing3" />
     <EntitySet Name="V_Billing4" EntityType="Model.V_Billing4" />
+    <EntitySet Name="V_BillingAmountAll" EntityType="Model.V_BillingAmountAll" />
     <EntitySet Name="V_BillingItem" EntityType="Model.V_BillingItem" />
     <EntitySet Name="V_BillingItemTemplate" EntityType="Model.V_BillingItemTemplate" />
     <EntitySet Name="V_BillingOrders" EntityType="Model.V_BillingOrders" />
@@ -1467,6 +1470,27 @@
     <Property Name="MinTime" Type="Double" />
     <Property Name="Ratio7" Type="Double" />
   </EntityType>
+  <EntityType Name="V_Billing_Customer">
+    <Key>
+      <PropertyRef Name="IDX" />
+      <PropertyRef Name="EasDays" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="Name1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="FinalAmount" Type="Double" />
+    <Property Name="TotalRebate" Type="Double" />
+    <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EasCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EasDays" Type="Int32" Nullable="false" />
+    <Property Name="PayDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="V_Billing_QT">
     <Key>
       <PropertyRef Name="IDX" />
@@ -1514,6 +1538,22 @@
     <Property Name="Length" Type="Int32" />
     <Property Name="TEUS" Type="Int32" />
     <Property Name="CustomerID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="V_Billing_TimeTypeValue">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" />
+    <Property Name="TimeTypeValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="TotalRebate" Type="Double" />
+    <Property Name="TimeTypeID" Type="Int32" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillingTypeID" Type="Int32" />
   </EntityType>
   <EntityType Name="V_Billing2">
     <Key>
@@ -1612,6 +1652,18 @@
     <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="V_BillingAmountAll">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="TotalRebate" Type="Double" />
+    <Property Name="ZongJia" Type="Double" />
+    <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_BillingItem">
     <Key>
