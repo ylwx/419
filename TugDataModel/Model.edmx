@@ -827,6 +827,7 @@
         <EntityType Name="V_AmountSum_Service">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="EasDays" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="CustomerID" Type="int" />
@@ -852,6 +853,12 @@
           <Property Name="SmallTugNum" Type="int" />
           <Property Name="TugID" Type="int" />
           <Property Name="TugName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillMonth" Type="nvarchar" MaxLength="50" />
+          <Property Name="EasCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="EasDays" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="varchar" MaxLength="100" />
+          <Property Name="PayDate" Type="varchar" MaxLength="100" />
+          <Property Name="EASTugCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Approve_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -979,10 +986,7 @@
           <Property Name="Name1" Type="nvarchar(max)" />
           <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
-          <Property Name="Discount" Type="float" />
           <Property Name="Amount" Type="float" />
-          <Property Name="FinalAmount" Type="float" />
-          <Property Name="TotalRebate" Type="float" />
           <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="varchar" MaxLength="100" />
@@ -2492,6 +2496,9 @@
         <Function Name="BillingTugNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="BillingID" Type="int" Mode="In" />
         </Function>
+        <Function Name="CreditXS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+          <Parameter Name="BillingID" Type="int" Mode="In" />
+        </Function>
         <Function Name="proc_AmountSum_ByCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sYear" Type="int" Mode="In" />
           <Parameter Name="sMonth" Type="int" Mode="In" />
@@ -2499,6 +2506,9 @@
         <Function Name="proc_AmountSum_ByTug" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sYear" Type="int" Mode="In" />
           <Parameter Name="sMonth" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_AmountSum_EAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sDate" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="proc_approved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userID" Type="int" Mode="In" />
@@ -2620,7 +2630,13 @@
     [V_AmountSum_Service].[MiddleTugNum] AS [MiddleTugNum], 
     [V_AmountSum_Service].[SmallTugNum] AS [SmallTugNum], 
     [V_AmountSum_Service].[TugID] AS [TugID], 
-    [V_AmountSum_Service].[TugName] AS [TugName]
+    [V_AmountSum_Service].[TugName] AS [TugName], 
+    [V_AmountSum_Service].[BillMonth] AS [BillMonth], 
+    [V_AmountSum_Service].[EasCode] AS [EasCode], 
+    [V_AmountSum_Service].[EasDays] AS [EasDays], 
+    [V_AmountSum_Service].[CreateDate] AS [CreateDate], 
+    [V_AmountSum_Service].[PayDate] AS [PayDate], 
+    [V_AmountSum_Service].[EASTugCode] AS [EASTugCode]
     FROM [dbo].[V_AmountSum_Service] AS [V_AmountSum_Service]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Approve_Billing" EntityType="Self.V_Approve_Billing" store:Type="Views" store:Schema="dbo">
@@ -2729,10 +2745,7 @@
     [V_Billing_Customer].[Name1] AS [Name1], 
     [V_Billing_Customer].[ShipName] AS [ShipName], 
     [V_Billing_Customer].[BillingCode] AS [BillingCode], 
-    [V_Billing_Customer].[Discount] AS [Discount], 
     [V_Billing_Customer].[Amount] AS [Amount], 
-    [V_Billing_Customer].[FinalAmount] AS [FinalAmount], 
-    [V_Billing_Customer].[TotalRebate] AS [TotalRebate], 
     [V_Billing_Customer].[InvoiceType] AS [InvoiceType], 
     [V_Billing_Customer].[Month] AS [Month], 
     [V_Billing_Customer].[CreateDate] AS [CreateDate], 
@@ -4230,6 +4243,9 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
+          <FunctionImport Name="proc_AmountSum_EAS" ReturnType="Collection(Model.proc_AmountSum_EAS_Result)">
+            <Parameter Name="sDate" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -5296,6 +5312,7 @@
         <EntityType Name="V_AmountSum_Service">
           <Key>
             <PropertyRef Name="ID" />
+            <PropertyRef Name="EasDays" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="CustomerID" Type="Int32" />
@@ -5321,6 +5338,12 @@
           <Property Name="SmallTugNum" Type="Int32" />
           <Property Name="TugID" Type="Int32" />
           <Property Name="TugName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EasCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EasDays" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PayDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EASTugCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Approve_Billing">
           <Key>
@@ -5436,10 +5459,7 @@
           <Property Name="Name1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Discount" Type="Double" />
           <Property Name="Amount" Type="Double" />
-          <Property Name="FinalAmount" Type="Double" />
-          <Property Name="TotalRebate" Type="Double" />
           <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -6847,6 +6867,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="proc_AmountSum_EAS_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="Name1" Nullable="true" />
+          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="true" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EasCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="EasDays" Nullable="true" />
+          <Property Type="String" Name="PayDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EASTugCode" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7862,6 +7896,12 @@
           <EntitySetMapping Name="V_AmountSum_Service">
             <EntityTypeMapping TypeName="Model.V_AmountSum_Service">
               <MappingFragment StoreEntitySet="V_AmountSum_Service">
+                <ScalarProperty Name="EASTugCode" ColumnName="EASTugCode" />
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="EasDays" ColumnName="EasDays" />
+                <ScalarProperty Name="EasCode" ColumnName="EasCode" />
+                <ScalarProperty Name="BillMonth" ColumnName="BillMonth" />
                 <ScalarProperty Name="TugName" ColumnName="TugName" />
                 <ScalarProperty Name="TugID" ColumnName="TugID" />
                 <ScalarProperty Name="SmallTugNum" ColumnName="SmallTugNum" />
@@ -8007,10 +8047,7 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
-                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
                 <ScalarProperty Name="ShipName" ColumnName="ShipName" />
                 <ScalarProperty Name="Name1" ColumnName="Name1" />
@@ -9259,6 +9296,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_EAS" FunctionName="Model.Store.proc_AmountSum_EAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_EAS_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="EasCode" ColumnName="EasCode" />
+                <ScalarProperty Name="EasDays" ColumnName="EasDays" />
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="EASTugCode" ColumnName="EASTugCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

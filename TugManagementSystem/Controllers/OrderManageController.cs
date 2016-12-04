@@ -515,6 +515,8 @@ namespace TugManagementSystem.Controllers
         public ActionResult Add_EditOrder(string oper,string ordermark,int customerId, string customerName, string ordDate,
             int shipId, string shipName, string linkMan, string linkPhone, string linkEmail, string remark,List<string[]> dataListFromTable) 
         {
+            //customerName中&符
+            customerName = customerName.Replace("~*~", "&");
             TugDataModel.OrderInfor aOrder=null;
             this.Internationalization();
 

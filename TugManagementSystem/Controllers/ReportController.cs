@@ -367,9 +367,15 @@ namespace TugManagementSystem.Controllers
         private void Report_DataRegister_Billing_EAS(FastReport.Report FReport, string sDate)
         {
             DataTable dt = null;
-            string str_report = string.Format(" Month='{0}'", sDate);
-            //data
-            dt = SqlHelper.GetDataTableData("V_Billing_Customer", str_report);
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@sDate",
+                Direction = ParameterDirection.Input,
+                Value = sDate,
+                DbType = DbType.String
+            };
+            SqlParameter[] param = new SqlParameter[] { para1 };
+            dt = SqlHelper.GetDatatableBySP("proc_AmountSum_EAS", param);
             FReport.RegisterData(dt, dt.TableName);
         }
         #endregion  

@@ -1,23 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/29/2016 14:35:50" ReportInfo.Modified="11/29/2016 21:08:21" ReportInfo.CreatorVersion="2016.1.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/29/2016 14:35:50" ReportInfo.Modified="12/04/2016 20:29:13" ReportInfo.CreatorVersion="2016.1.0.0">
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvaOer/pEV/LuSdCHVRTzp/g==">
-      <TableDataSource Name="V_Billing_Customer" DataType="System.Int32" Enabled="true" TableName="V_Billing_Customer">
-        <Column Name="IDX" DataType="System.Int32"/>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdvWbamMWgTBPIwTNvHHNBfwA==">
+      <TableDataSource Name="Table" Alias="proc_AmountSum_EAS" DataType="System.Int32" Enabled="true" SelectCommand="exec proc_AmountSum_EAS '2016-11'">
         <Column Name="CustomerID" DataType="System.Int32"/>
         <Column Name="Name1" DataType="System.String"/>
         <Column Name="ShipName" DataType="System.String"/>
         <Column Name="BillingCode" DataType="System.String"/>
-        <Column Name="Discount" DataType="System.Double"/>
         <Column Name="Amount" DataType="System.Double"/>
-        <Column Name="FinalAmount" DataType="System.Double"/>
-        <Column Name="TotalRebate" DataType="System.Double"/>
         <Column Name="InvoiceType" DataType="System.String"/>
         <Column Name="Month" DataType="System.String"/>
         <Column Name="CreateDate" DataType="System.String"/>
         <Column Name="EasCode" DataType="System.String"/>
         <Column Name="EasDays" DataType="System.Int32"/>
         <Column Name="PayDate" DataType="System.String"/>
+        <Column Name="EASTugCode" DataType="System.String"/>
       </TableDataSource>
     </MsSqlDataConnection>
   </Dictionary>
@@ -336,7 +333,7 @@
           <TableCell Name="Cell213" Border.Lines="All" Text="应收单分录_预留日期2" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell214" Border.Lines="All" Text="应收单分录_预留日期3" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell215" Border.Lines="All" Text="应收单分录_预留日期4" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell216" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell216" Border.Lines="All" Text="应收单分录_预留日期5" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell217" Border.Lines="All" Text="应收单分录_预留字符1" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell218" Border.Lines="All" Text="应收单分录_预留字符2" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell219" Border.Lines="All" Text="应收单分录_预留字符3" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
@@ -345,7 +342,7 @@
         </TableRow>
       </TableObject>
     </ReportTitleBand>
-    <DataBand Name="Data1" Top="117.4" Width="6237" Height="28.35" DataSource="V_Billing_Customer">
+    <DataBand Name="Data1" Top="117.4" Width="6237" Height="28.35" DataSource="Table">
       <TableObject Name="Table3" Width="6218.09" Height="28.35">
         <TableColumn Name="Column104"/>
         <TableColumn Name="Column105"/>
@@ -442,20 +439,20 @@
         <TableColumn Name="Column196"/>
         <TableColumn Name="Column197"/>
         <TableRow Name="Row5" Height="28.35">
-          <TableCell Name="Cell222" Border.Lines="All" Text="[V_Billing_Customer.BillingCode]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell223" Border.Lines="All" Text="[V_Billing_Customer.CreateDate]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell222" Border.Lines="All" Text="[proc_AmountSum_EAS.BillingCode]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell223" Border.Lines="All" Text="[proc_AmountSum_EAS.CreateDate]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell224" Border.Lines="All" Text="101" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell225" Border.Lines="All" Text="002" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell226" Border.Lines="All" Text="[V_Billing_Customer.CreateDate]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell226" Border.Lines="All" Text="[proc_AmountSum_EAS.CreateDate]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell247" Border.Lines="All" Text="0005" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell248" Border.Lines="All" Text="[V_Billing_Customer.EasCode]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell248" Border.Lines="All" Text="[proc_AmountSum_EAS.EasCode]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell249" Border.Lines="All" Text="0388.006.001" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell250" Border.Lines="All" Text="0388" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell251" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell252" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell253" Border.Lines="All" Text="HKD" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell254" Border.Lines="All" Text="1.0000" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell255" Border.Lines="All" Text="[V_Billing_Customer.ShipName]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell255" Border.Lines="All" Text="[proc_AmountSum_EAS.ShipName]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell256" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell257" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell258" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
@@ -470,22 +467,22 @@
           <TableCell Name="Cell267" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell268" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell269" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell270" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell271" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell270" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell271" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell272" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell273" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell274" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell275" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell276" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell277" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell278" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell279" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell276" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell277" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell278" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell279" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell280" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell281" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell282" Border.Lines="All" Text="6051.01.02.01" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell283" Border.Lines="All" Text="1122.04" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell284" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell285" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell284" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell285" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell286" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell287" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell288" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
@@ -495,9 +492,9 @@
           <TableCell Name="Cell292" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell293" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell294" Border.Lines="All" Text="1" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell295" Border.Lines="All" Text="[V_Billing_Customer.PayDate]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell296" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell297" Border.Lines="All" Text="[V_Billing_Customer.FinalAmount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell295" Border.Lines="All" Text="[proc_AmountSum_EAS.PayDate]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell296" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell297" Border.Lines="All" Text="[proc_AmountSum_EAS.Amount]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell298" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell299" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell300" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
@@ -531,7 +528,7 @@
           <TableCell Name="Cell328" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell329" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell330" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
-          <TableCell Name="Cell331" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
+          <TableCell Name="Cell331" Border.Lines="All" Text="[proc_AmountSum_EAS.EASTugCode]" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell332" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell333" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>
           <TableCell Name="Cell334" Border.Lines="All" HorzAlign="Center" VertAlign="Center" Font="MingLiU, 9pt"/>

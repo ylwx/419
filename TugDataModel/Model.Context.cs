@@ -550,5 +550,14 @@ namespace TugDataModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_billing_pt_ts_qt_Result>("proc_billing_pt_ts_qt", date1Parameter, date2Parameter, customerIDParameter);
         }
+    
+        public virtual ObjectResult<proc_AmountSum_EAS_Result> proc_AmountSum_EAS(string sDate)
+        {
+            var sDateParameter = sDate != null ?
+                new ObjectParameter("sDate", sDate) :
+                new ObjectParameter("sDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_EAS_Result>("proc_AmountSum_EAS", sDateParameter);
+        }
     }
 }

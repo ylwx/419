@@ -38,5 +38,11 @@ namespace TugDataModel
         public Nullable<int> SmallTugNum { get; set; }
         public Nullable<int> TugID { get; set; }
         public string TugName { get; set; }
+        public string BillMonth { get; set; }
+        public string EasCode { get; set; }
+        public int EasDays { get; set; }
+        public string CreateDate { get; set; }
+        public string PayDate { get; set; }
+        public string EASTugCode { get; set; }
     }
 }
