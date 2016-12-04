@@ -194,15 +194,17 @@ namespace TugManagementSystem.Controllers
             SqlParameter[] param = new SqlParameter[] { para1, para2, para3 };
             dt = SqlHelper.GetDatatableBySP("proc_billing_pt_ts_qt", param);
             FReport.RegisterData(dt, dt.TableName);
+            if(dt.Rows.Count!=0)
+            {
+                FReport.Parameters.FindByName("totaltugnum").Value = dt.Compute("Sum(TugNum)","");
+                double dbdata = 0.55555;
+                string str1 = dbdata.ToString("f2 ");//fN   保留N位，四舍五入 
+                FReport.Parameters.FindByName("totalbillamount").Value = Convert.ToDouble(dt.Compute("Sum(Amount)", "")).ToString("f2");
+                FReport.Parameters.FindByName("totaldiscount").Value = Convert.ToDouble(dt.Compute("Sum(TotalRebate)", "")).ToString("f2");
+                FReport.Parameters.FindByName("totalheji").Value = Convert.ToDouble(dt.Compute("Sum(FinalAmount)", "")).ToString("f2");
+                FReport.Parameters.FindByName("totalfuel").Value = Convert.ToDouble(dt.Compute("Sum(FuelAmount)", "")).ToString("f2");
 
-            FReport.Parameters.FindByName("totaltugnum").Value = dt.Compute("Sum(TugNum)","");
-
-            double dbdata = 0.55555;
-            string str1 = dbdata.ToString("f2 ");//fN   保留N位，四舍五入 
-            FReport.Parameters.FindByName("totalbillamount").Value = Convert.ToDouble(dt.Compute("Sum(Amount)", "")).ToString("f2");
-            FReport.Parameters.FindByName("totaldiscount").Value = Convert.ToDouble(dt.Compute("Sum(TotalRebate)", "")).ToString("f2");
-            FReport.Parameters.FindByName("totalheji").Value = Convert.ToDouble(dt.Compute("Sum(FinalAmount)", "")).ToString("f2");
-            FReport.Parameters.FindByName("totalfuel").Value = Convert.ToDouble(dt.Compute("Sum(FuelAmount)", "")).ToString("f2");
+            }
         }
         #endregion       
 
@@ -231,24 +233,33 @@ namespace TugManagementSystem.Controllers
         }
         private void Report_DataRegister_AmoutSum_ByCustomer(FastReport.Report FReport, int year, int month)
         {
-            DataTable dt = null;
-            SqlParameter para1 = new SqlParameter()
+            try
             {
-                ParameterName = "@sYear",
-                Direction = ParameterDirection.Input,
-                Value = year,
-                DbType = DbType.Int16
-            };
-            SqlParameter para2 = new SqlParameter()
+                DataTable dt = null;
+                SqlParameter para1 = new SqlParameter()
+                {
+                    ParameterName = "@sYear",
+                    Direction = ParameterDirection.Input,
+                    Value = year,
+                    DbType = DbType.Int16
+                };
+                SqlParameter para2 = new SqlParameter()
+                {
+                    ParameterName = "@sMonth",
+                    Direction = ParameterDirection.Input,
+                    Value = month,
+                    DbType = DbType.Int16
+                };
+                SqlParameter[] param = new SqlParameter[] { para1, para2 };
+                dt = SqlHelper.GetDatatableBySP("proc_AmountSum_ByCustomer", param);
+                FReport.RegisterData(dt, dt.TableName);
+            }
+            catch (Exception ex)
             {
-                ParameterName = "@sMonth",
-                Direction = ParameterDirection.Input,
-                Value = month,
-                DbType = DbType.Int16
-            };
-            SqlParameter[] param = new SqlParameter[] { para1, para2 };
-            dt = SqlHelper.GetDatatableBySP("proc_AmountSum_ByCustomer", param);
-            FReport.RegisterData(dt, dt.TableName);
+                
+                throw ex;
+            }
+
         }
         #endregion   
     
