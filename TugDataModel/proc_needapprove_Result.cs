@@ -34,5 +34,6 @@ namespace TugDataModel
         public Nullable<int> FlowUserID { get; set; }
         public string System { get; set; }
         public Nullable<int> CreditNum { get; set; }
+        public string Month { get; set; }
     }
 }
