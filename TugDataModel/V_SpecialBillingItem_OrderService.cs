@@ -19,5 +19,6 @@ namespace TugDataModel
         public Nullable<int> OrderServiceID { get; set; }
         public Nullable<int> BillingType { get; set; }
         public string HasBillingInFlow { get; set; }
+        public Nullable<int> OrderID { get; set; }
     }
 }

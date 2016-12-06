@@ -6621,6 +6621,14 @@ namespace TugBusinessLogic.Module
                             db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }
+                        int ordid = Util.toint(os.OrderID);
+                        OrderInfor obj2 = db.OrderInfor.Where(u => u.IDX == ordid).FirstOrDefault();
+                        if (obj2 != null)
+                        {
+                            obj2.HasInFlow = hasInFlow;
+                            db.Entry(obj2).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
                 }
 
