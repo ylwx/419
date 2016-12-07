@@ -120,16 +120,19 @@
       <Parameter Name="Date1" Mode="In" Type="DateTime" />
       <Parameter Name="Date2" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="proc_billing_pt_ts_qt" ReturnType="Collection(Model.proc_billing_pt_ts_qt_Result)">
+      <Parameter Name="Date1" Mode="In" Type="DateTime" />
+      <Parameter Name="Date2" Mode="In" Type="DateTime" />
+      <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="proc_AmountSum_EAS" ReturnType="Collection(Model.proc_AmountSum_EAS_Result)">
+      <Parameter Name="sDate" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
       <Parameter Name="userID" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
       <Parameter Name="userID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="proc_billing_pt_ts_qt" ReturnType="Collection(Model.proc_billing_pt_ts_qt_Result)">
-      <Parameter Name="Date1" Mode="In" Type="DateTime" />
-      <Parameter Name="Date2" Mode="In" Type="DateTime" />
-      <Parameter Name="CustomerID" Mode="In" Type="Int32" />
     </FunctionImport>
     <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
     <EntitySet Name="Approve" EntityType="Model.Approve" />
@@ -434,6 +437,36 @@
     <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="TugNum" Nullable="true" />
   </ComplexType>
+  <ComplexType Name="proc_billing_pt_ts_qt_Result">
+    <Property Type="Int32" Name="IDX" Nullable="true" />
+    <Property Type="Int32" Name="CustomerID" Nullable="true" />
+    <Property Type="String" Name="CustomerName" Nullable="true" />
+    <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="Amount" Nullable="false" />
+    <Property Type="Double" Name="TotalRebate" Nullable="false" />
+    <Property Type="Double" Name="FinalAmount" Nullable="false" />
+    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TugNum" Nullable="false" />
+    <Property Type="Double" Name="FuelAmount" Nullable="false" />
+    <Property Type="String" Name="Length" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TEUS" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="proc_AmountSum_EAS_Result">
+    <Property Type="Int32" Name="CustomerID" Nullable="true" />
+    <Property Type="String" Name="Name1" Nullable="true" />
+    <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="Amount" Nullable="true" />
+    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EasCode" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="EasDays" Nullable="true" />
+    <Property Type="String" Name="PayDate" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EASTugCode" Nullable="true" MaxLength="50" />
+  </ComplexType>
   <ComplexType Name="proc_approved_Result">
     <Property Type="Int32" Name="IDX" Nullable="true" />
     <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
@@ -452,6 +485,7 @@
     <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="UserID" Nullable="true" />
     <Property Type="Int32" Name="CreditNum" Nullable="true" />
+    <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
   </ComplexType>
   <ComplexType Name="proc_needapprove_Result">
     <Property Type="Int32" Name="IDX" Nullable="true" />
@@ -475,22 +509,7 @@
     <Property Type="Int32" Name="FlowUserID" Nullable="true" />
     <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="CreditNum" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="proc_billing_pt_ts_qt_Result">
-    <Property Type="Int32" Name="IDX" Nullable="true" />
-    <Property Type="Int32" Name="CustomerID" Nullable="true" />
-    <Property Type="String" Name="CustomerName" Nullable="true" />
-    <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
-    <Property Type="Double" Name="Amount" Nullable="false" />
-    <Property Type="Double" Name="TotalRebate" Nullable="false" />
-    <Property Type="Double" Name="FinalAmount" Nullable="false" />
-    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="TugNum" Nullable="false" />
-    <Property Type="Double" Name="FuelAmount" Nullable="false" />
-    <Property Type="String" Name="Length" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="TEUS" Nullable="true" MaxLength="50" />
   </ComplexType>
   <EntityType Name="AmountSum">
     <Key>
@@ -1340,6 +1359,7 @@
   <EntityType Name="V_AmountSum_Service">
     <Key>
       <PropertyRef Name="ID" />
+      <PropertyRef Name="EasDays" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" />
     <Property Name="CustomerID" Type="Int32" />
@@ -1365,6 +1385,12 @@
     <Property Name="SmallTugNum" Type="Int32" />
     <Property Name="TugID" Type="Int32" />
     <Property Name="TugName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EasCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EasDays" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PayDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EASTugCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Approve_Billing">
     <Key>
@@ -1450,6 +1476,7 @@
     <Property Name="Amount" Type="Double" />
     <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TimesNo" Type="Int32" />
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Phase" Type="Int32" />
@@ -1480,10 +1507,7 @@
     <Property Name="Name1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ShipName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Discount" Type="Double" />
     <Property Name="Amount" Type="Double" />
-    <Property Name="FinalAmount" Type="Double" />
-    <Property Name="TotalRebate" Type="Double" />
     <Property Name="InvoiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CreateDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -1602,6 +1626,7 @@
     <Property Name="ZongJia" Type="Double" />
     <Property Name="Length" Type="Int32" />
     <Property Name="TEUS" Type="Int32" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Billing3">
     <Key>
@@ -1627,6 +1652,7 @@
     <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TotalRebate" Type="Double" />
     <Property Name="ZongJia" Type="Double" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Billing4">
     <Key>
@@ -1652,6 +1678,7 @@
     <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_BillingAmountAll">
     <Key>
@@ -1774,6 +1801,7 @@
     <Property Name="Ratio6" Type="Double" />
     <Property Name="MinTime" Type="Double" />
     <Property Name="Ratio7" Type="Double" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_BillingSum">
     <Key>
@@ -2217,6 +2245,7 @@
     <Property Name="Ratio7" Type="Double" />
     <Property Name="UserID" Type="Int32" />
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Module_Role_User">
     <Key>
@@ -2629,6 +2658,7 @@
     <Property Name="OrderServiceID" Type="Int32" />
     <Property Name="BillingType" Type="Int32" />
     <Property Name="HasBillingInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrderID" Type="Int32" />
   </EntityType>
   <EntityType Name="V_SpecialBillingSummarizeItem">
     <Key>

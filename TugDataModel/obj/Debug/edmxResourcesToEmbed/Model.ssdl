@@ -822,6 +822,7 @@
   <EntityType Name="V_AmountSum_Service">
     <Key>
       <PropertyRef Name="ID" />
+      <PropertyRef Name="EasDays" />
     </Key>
     <Property Name="ID" Type="int" Nullable="false" />
     <Property Name="CustomerID" Type="int" />
@@ -847,6 +848,12 @@
     <Property Name="SmallTugNum" Type="int" />
     <Property Name="TugID" Type="int" />
     <Property Name="TugName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillMonth" Type="nvarchar" MaxLength="50" />
+    <Property Name="EasCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="EasDays" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="varchar" MaxLength="100" />
+    <Property Name="PayDate" Type="varchar" MaxLength="100" />
+    <Property Name="EASTugCode" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Approve_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -942,6 +949,7 @@
     <Property Name="Amount" Type="float" />
     <Property Name="Remark" Type="nvarchar(max)" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="nvarchar" MaxLength="50" />
     <Property Name="TimesNo" Type="int" />
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
     <Property Name="Phase" Type="int" />
@@ -974,10 +982,7 @@
     <Property Name="Name1" Type="nvarchar(max)" />
     <Property Name="ShipName" Type="nvarchar" MaxLength="50" />
     <Property Name="BillingCode" Type="nvarchar" MaxLength="50" />
-    <Property Name="Discount" Type="float" />
     <Property Name="Amount" Type="float" />
-    <Property Name="FinalAmount" Type="float" />
-    <Property Name="TotalRebate" Type="float" />
     <Property Name="InvoiceType" Type="nvarchar" MaxLength="50" />
     <Property Name="Month" Type="nvarchar" MaxLength="50" />
     <Property Name="CreateDate" Type="varchar" MaxLength="100" />
@@ -1106,6 +1111,7 @@
     <Property Name="ZongJia" Type="float" />
     <Property Name="Length" Type="int" />
     <Property Name="TEUS" Type="int" />
+    <Property Name="Date" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing3”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1133,6 +1139,7 @@
     <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
     <Property Name="TotalRebate" Type="float" />
     <Property Name="ZongJia" Type="float" />
+    <Property Name="Date" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing4”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1160,6 +1167,7 @@
     <Property Name="Code" Type="nvarchar" MaxLength="50" />
     <Property Name="Name2" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingAmountAll”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1290,6 +1298,7 @@
     <Property Name="Ratio6" Type="float" />
     <Property Name="MinTime" Type="float" />
     <Property Name="Ratio7" Type="float" />
+    <Property Name="Date" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingSum”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1763,6 +1772,7 @@
     <Property Name="Ratio7" Type="float" />
     <Property Name="UserID" Type="int" />
     <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Module_Role_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2207,6 +2217,7 @@
     <Property Name="OrderServiceID" Type="int" />
     <Property Name="BillingType" Type="int" />
     <Property Name="HasBillingInFlow" Type="nvarchar" MaxLength="50" />
+    <Property Name="OrderID" Type="int" />
   </EntityType>
   <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_SpecialBillingSummarizeItem”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2487,6 +2498,9 @@
   <Function Name="BillingTugNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
     <Parameter Name="BillingID" Type="int" Mode="In" />
   </Function>
+  <Function Name="CreditXS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
+    <Parameter Name="BillingID" Type="int" Mode="In" />
+  </Function>
   <Function Name="proc_AmountSum_ByCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sYear" Type="int" Mode="In" />
     <Parameter Name="sMonth" Type="int" Mode="In" />
@@ -2494,6 +2508,9 @@
   <Function Name="proc_AmountSum_ByTug" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="sYear" Type="int" Mode="In" />
     <Parameter Name="sMonth" Type="int" Mode="In" />
+  </Function>
+  <Function Name="proc_AmountSum_EAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sDate" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="proc_approved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="userID" Type="int" Mode="In" />
@@ -2615,7 +2632,13 @@
     [V_AmountSum_Service].[MiddleTugNum] AS [MiddleTugNum], 
     [V_AmountSum_Service].[SmallTugNum] AS [SmallTugNum], 
     [V_AmountSum_Service].[TugID] AS [TugID], 
-    [V_AmountSum_Service].[TugName] AS [TugName]
+    [V_AmountSum_Service].[TugName] AS [TugName], 
+    [V_AmountSum_Service].[BillMonth] AS [BillMonth], 
+    [V_AmountSum_Service].[EasCode] AS [EasCode], 
+    [V_AmountSum_Service].[EasDays] AS [EasDays], 
+    [V_AmountSum_Service].[CreateDate] AS [CreateDate], 
+    [V_AmountSum_Service].[PayDate] AS [PayDate], 
+    [V_AmountSum_Service].[EASTugCode] AS [EASTugCode]
     FROM [dbo].[V_AmountSum_Service] AS [V_AmountSum_Service]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Approve_Billing" EntityType="Self.V_Approve_Billing" store:Type="Views" store:Schema="dbo">
@@ -2696,6 +2719,7 @@
     [V_Billing].[Amount] AS [Amount], 
     [V_Billing].[Remark] AS [Remark], 
     [V_Billing].[Month] AS [Month], 
+    [V_Billing].[Date] AS [Date], 
     [V_Billing].[TimesNo] AS [TimesNo], 
     [V_Billing].[Status] AS [Status], 
     [V_Billing].[Phase] AS [Phase], 
@@ -2724,10 +2748,7 @@
     [V_Billing_Customer].[Name1] AS [Name1], 
     [V_Billing_Customer].[ShipName] AS [ShipName], 
     [V_Billing_Customer].[BillingCode] AS [BillingCode], 
-    [V_Billing_Customer].[Discount] AS [Discount], 
     [V_Billing_Customer].[Amount] AS [Amount], 
-    [V_Billing_Customer].[FinalAmount] AS [FinalAmount], 
-    [V_Billing_Customer].[TotalRebate] AS [TotalRebate], 
     [V_Billing_Customer].[InvoiceType] AS [InvoiceType], 
     [V_Billing_Customer].[Month] AS [Month], 
     [V_Billing_Customer].[CreateDate] AS [CreateDate], 
@@ -2840,7 +2861,8 @@
     [V_Billing2].[FinalAmount] AS [FinalAmount], 
     [V_Billing2].[ZongJia] AS [ZongJia], 
     [V_Billing2].[Length] AS [Length], 
-    [V_Billing2].[TEUS] AS [TEUS]
+    [V_Billing2].[TEUS] AS [TEUS], 
+    [V_Billing2].[Date] AS [Date]
     FROM [dbo].[V_Billing2] AS [V_Billing2]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Billing3" EntityType="Self.V_Billing3" store:Type="Views" store:Schema="dbo">
@@ -2864,7 +2886,8 @@
     [V_Billing3].[Name2] AS [Name2], 
     [V_Billing3].[CustomerSimpleName] AS [CustomerSimpleName], 
     [V_Billing3].[TotalRebate] AS [TotalRebate], 
-    [V_Billing3].[ZongJia] AS [ZongJia]
+    [V_Billing3].[ZongJia] AS [ZongJia], 
+    [V_Billing3].[Date] AS [Date]
     FROM [dbo].[V_Billing3] AS [V_Billing3]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Billing4" EntityType="Self.V_Billing4" store:Type="Views" store:Schema="dbo">
@@ -2888,7 +2911,8 @@
     [V_Billing4].[Amount] AS [Amount], 
     [V_Billing4].[Code] AS [Code], 
     [V_Billing4].[Name2] AS [Name2], 
-    [V_Billing4].[CustomerSimpleName] AS [CustomerSimpleName]
+    [V_Billing4].[CustomerSimpleName] AS [CustomerSimpleName], 
+    [V_Billing4].[Date] AS [Date]
     FROM [dbo].[V_Billing4] AS [V_Billing4]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_BillingAmountAll" EntityType="Self.V_BillingAmountAll" store:Type="Views" store:Schema="dbo">
@@ -3005,7 +3029,8 @@
     [V_BillingOrders].[Ratio5] AS [Ratio5], 
     [V_BillingOrders].[Ratio6] AS [Ratio6], 
     [V_BillingOrders].[MinTime] AS [MinTime], 
-    [V_BillingOrders].[Ratio7] AS [Ratio7]
+    [V_BillingOrders].[Ratio7] AS [Ratio7], 
+    [V_BillingOrders].[Date] AS [Date]
     FROM [dbo].[V_BillingOrders] AS [V_BillingOrders]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_BillingSum" EntityType="Self.V_BillingSum" store:Type="Views" store:Schema="dbo">
@@ -3429,7 +3454,8 @@
     [V_Invoice2].[MinTime] AS [MinTime], 
     [V_Invoice2].[Ratio7] AS [Ratio7], 
     [V_Invoice2].[UserID] AS [UserID], 
-    [V_Invoice2].[CreateDate] AS [CreateDate]
+    [V_Invoice2].[CreateDate] AS [CreateDate], 
+    [V_Invoice2].[Date] AS [Date]
     FROM [dbo].[V_Invoice2] AS [V_Invoice2]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_Module_Role_User" EntityType="Self.V_Module_Role_User" store:Type="Views" store:Schema="dbo">
@@ -3819,7 +3845,8 @@
     [V_SpecialBillingItem_OrderService].[SpecialBillingID] AS [SpecialBillingID], 
     [V_SpecialBillingItem_OrderService].[OrderServiceID] AS [OrderServiceID], 
     [V_SpecialBillingItem_OrderService].[BillingType] AS [BillingType], 
-    [V_SpecialBillingItem_OrderService].[HasBillingInFlow] AS [HasBillingInFlow]
+    [V_SpecialBillingItem_OrderService].[HasBillingInFlow] AS [HasBillingInFlow], 
+    [V_SpecialBillingItem_OrderService].[OrderID] AS [OrderID]
     FROM [dbo].[V_SpecialBillingItem_OrderService] AS [V_SpecialBillingItem_OrderService]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_SpecialBillingSummarizeItem" EntityType="Self.V_SpecialBillingSummarizeItem" store:Type="Views" store:Schema="dbo">

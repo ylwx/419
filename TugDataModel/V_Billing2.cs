@@ -57,5 +57,6 @@ namespace TugDataModel
         public Nullable<double> ZongJia { get; set; }
         public Nullable<int> Length { get; set; }
         public Nullable<int> TEUS { get; set; }
+        public string Date { get; set; }
     }
 }

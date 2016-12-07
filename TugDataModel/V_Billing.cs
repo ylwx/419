@@ -37,6 +37,7 @@ namespace TugDataModel
         public Nullable<double> Amount { get; set; }
         public string Remark { get; set; }
         public string Month { get; set; }
+        public string Date { get; set; }
         public Nullable<int> TimesNo { get; set; }
         public string Status { get; set; }
         public Nullable<int> Phase { get; set; }

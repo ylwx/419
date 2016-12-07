@@ -1333,7 +1333,9 @@ namespace TugManagementSystem.Controllers
             List<TugDataModel.CustomField> BillingTemplateTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.BillingTemplateType");
             List<TugDataModel.CustomField> TimeTypes = TugBusinessLogic.Utils.GetCustomField2("BillingTemplate.TimeTypeID");
 
-            string month = DateTime.Now.ToString("yyyy-MM");
+            DateTime nowDateTime = DateTime.Now;
+            string month = nowDateTime.ToString("yyyy-MM");
+            string date = nowDateTime.ToString("yyyy-MM-dd");
 
             string remark = "";
 
@@ -1355,7 +1357,7 @@ namespace TugManagementSystem.Controllers
 
             }
 
-            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, customer_billing_schemes = CustomerBillingSchemes, time_types = TimeTypes, billing_template_types = BillingTemplateTypes, month = month, remark = remark };
+            var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, customer_billing_schemes = CustomerBillingSchemes, time_types = TimeTypes, billing_template_types = BillingTemplateTypes, month = month, date = date, remark = remark };
 
             return Json(ret, JsonRequestBehavior.AllowGet);
         }
@@ -1415,7 +1417,7 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult AddInvoice2(int custId, int custShipId, string orderIds, string orderServiceIds, int billingTemplateId, int billingTypeId, int timeTypeId,
-            string jobNo, string billing_code, string remark, double discount, double amount, string month, int customer_ship_length, 
+            string jobNo, string billing_code, string remark, double discount, double amount, string month, string date, int customer_ship_length, 
             int customer_ship_teus, string isShowShipLengthRule, string isShowShipTEUSRule,
             float? ratio1, float? ratio2, float? ratio3, float? ratio4, float? ratio5, float? ratio6, float? ratio7, float? minTime,
             string jsonArrayItems, string jsonArraySummaryItems)
@@ -1471,6 +1473,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.Amount = amount;
                         aScheduler.Remark = remark;
                         aScheduler.Month = month;
+                        aScheduler.UserDefinedCol10 = date;
 
                         if (ratio1 != null)
                             aScheduler.Ratio1 = (int?)Math.Round((float)ratio1, 2);
@@ -1504,7 +1507,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.UserDefinedCol4 = "";
 
                         aScheduler.UserDefinedCol9 = "";
-                        aScheduler.UserDefinedCol10 = "";
+
 
                         aScheduler = db.Billing.Add(aScheduler);
                         db.SaveChanges();
@@ -1705,7 +1708,7 @@ namespace TugManagementSystem.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult EditInvoice2(int billingId, int billingTemplateId, int billingTypeId, int timeTypeId,
-            string jobNo, string remark, string billing_code, double discount, double amount, string month, int customer_ship_length,
+            string jobNo, string remark, string billing_code, double discount, double amount, string month, string date, int customer_ship_length,
             int customer_ship_teus, string jsonArrayItems, string isShowShipLengthRule,
             float? ratio1, float? ratio2, float? ratio3, float? ratio4, float? ratio5, float? ratio6, float? ratio7, float? minTime,
             string isShowShipTEUSRule, string jsonArraySummaryItems)
@@ -1755,6 +1758,7 @@ namespace TugManagementSystem.Controllers
 
                         oldBilling.Remark = remark;
                         oldBilling.Month = month;
+                        oldBilling.UserDefinedCol10 = date;
                         oldBilling.IsShowShipLengthRule = isShowShipLengthRule;
                         oldBilling.IsShowShipTEUSRule = isShowShipTEUSRule;
                         oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -2174,7 +2178,7 @@ namespace TugManagementSystem.Controllers
         }
 
 
-        public ActionResult AddSpecialInvoice(int custId, double amount, string month, string billingCode, string jsonArrayItems)
+        public ActionResult AddSpecialInvoice(int custId, double amount, string month, string date, string billingCode, string jsonArrayItems)
         {
 
             this.Internationalization();
@@ -2201,6 +2205,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.CustomerID = custId;
                         aScheduler.Amount = amount;
                         aScheduler.Month = month;
+                        aScheduler.UserDefinedCol10 = date;
                         aScheduler.InvoiceType = "特殊账单";
                         aScheduler.BillingCode = billingCode.Trim();
 
@@ -2219,7 +2224,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.UserDefinedCol4 = "";
 
                         aScheduler.UserDefinedCol9 = "";
-                        aScheduler.UserDefinedCol10 = "";
+
 
                         aScheduler = db.Billing.Add(aScheduler);
                         db.SaveChanges();
@@ -2401,7 +2406,7 @@ namespace TugManagementSystem.Controllers
 
 
 
-        public ActionResult EditSpecialInvoice(int billingId, double amount, string month, string billingCode, string jsonArrayItems)
+        public ActionResult EditSpecialInvoice(int billingId, double amount, string month, string date, string billingCode, string jsonArrayItems)
         {
             this.Internationalization();
             
@@ -2427,6 +2432,7 @@ namespace TugManagementSystem.Controllers
                             oldBilling.BillingCode = billingCode.Trim();
                             oldBilling.Amount = amount;
                             oldBilling.Month = month;
+                            oldBilling.UserDefinedCol10 = date;
                             oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                             db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
@@ -3068,7 +3074,7 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult AddDiscountBill(int customerId, string title, string content, double money, string month, string billingCode)
+        public ActionResult AddDiscountBill(int customerId, string title, string content, double money, string month, string date, string billingCode)
         {
 
             this.Internationalization();
@@ -3095,6 +3101,7 @@ namespace TugManagementSystem.Controllers
                     credit.UserDefinedCol5 = money;
                     credit.Amount = money;
                     credit.Month = month;
+                    credit.UserDefinedCol10 = date;
                     credit.InvoiceType = "其他账单";
                     credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     credit.OwnerID = -1;
@@ -3122,7 +3129,7 @@ namespace TugManagementSystem.Controllers
 
 
         [Authorize]
-        public ActionResult EditDiscountBill(int billingId, int customerId, string title, string content, double money, string month, string billingCode)
+        public ActionResult EditDiscountBill(int billingId, int customerId, string title, string content, double money, string month, string date, string billingCode)
         {
             this.Internationalization();
 
@@ -3155,6 +3162,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.UserDefinedCol5 = money;
                     aOrder.Amount = money;
                     aOrder.Month = month;
+                    aOrder.UserDefinedCol10 = date;
                     aOrder.BillingCode = billingCode.Trim();
 
                     aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");

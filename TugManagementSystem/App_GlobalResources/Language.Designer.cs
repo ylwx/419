@@ -925,6 +925,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 帳單日期 的本地化字符串。
+        /// </summary>
+        internal static string Invoice2_InvoiceDate {
+            get {
+                return ResourceManager.GetString("Invoice2_InvoiceDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 帳單月份 的本地化字符串。
         /// </summary>
         internal static string Invoice2_InvoiceMonth {

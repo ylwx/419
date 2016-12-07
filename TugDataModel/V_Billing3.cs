@@ -34,5 +34,6 @@ namespace TugDataModel
         public string CustomerSimpleName { get; set; }
         public Nullable<double> TotalRebate { get; set; }
         public Nullable<double> ZongJia { get; set; }
+        public string Date { get; set; }
     }
 }

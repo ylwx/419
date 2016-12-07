@@ -34,5 +34,6 @@ namespace TugDataModel
         public string Code { get; set; }
         public string Name2 { get; set; }
         public string CustomerSimpleName { get; set; }
+        public string Date { get; set; }
     }
 }

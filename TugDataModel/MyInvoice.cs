@@ -236,6 +236,11 @@ namespace TugDataModel
         public string Month { get; set; }
 
         /// <summary>
+        /// 账单日期
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
         /// 作业号，财务手动输入
         /// </summary>
         public string JobNo { get; set; }
@@ -356,6 +361,8 @@ namespace TugDataModel
 
         public string InvoiceType { get; set; }
         public string Month { get; set; }
+
+        public string Date { get; set; }
 
         public string BillingCode { get; set; }
 

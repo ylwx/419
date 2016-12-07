@@ -954,6 +954,7 @@
           <Property Name="Amount" Type="float" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
           <Property Name="TimesNo" Type="int" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="Phase" Type="int" />
@@ -1115,6 +1116,7 @@
           <Property Name="ZongJia" Type="float" />
           <Property Name="Length" Type="int" />
           <Property Name="TEUS" Type="int" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing3”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1142,6 +1144,7 @@
           <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
           <Property Name="TotalRebate" Type="float" />
           <Property Name="ZongJia" Type="float" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing4”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1169,6 +1172,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="Name2" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerSimpleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingAmountAll”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1299,6 +1303,7 @@
           <Property Name="Ratio6" Type="float" />
           <Property Name="MinTime" Type="float" />
           <Property Name="Ratio7" Type="float" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_BillingSum”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1772,6 +1777,7 @@
           <Property Name="Ratio7" Type="float" />
           <Property Name="UserID" Type="int" />
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Module_Role_User”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2718,6 +2724,7 @@
     [V_Billing].[Amount] AS [Amount], 
     [V_Billing].[Remark] AS [Remark], 
     [V_Billing].[Month] AS [Month], 
+    [V_Billing].[Date] AS [Date], 
     [V_Billing].[TimesNo] AS [TimesNo], 
     [V_Billing].[Status] AS [Status], 
     [V_Billing].[Phase] AS [Phase], 
@@ -2859,7 +2866,8 @@
     [V_Billing2].[FinalAmount] AS [FinalAmount], 
     [V_Billing2].[ZongJia] AS [ZongJia], 
     [V_Billing2].[Length] AS [Length], 
-    [V_Billing2].[TEUS] AS [TEUS]
+    [V_Billing2].[TEUS] AS [TEUS], 
+    [V_Billing2].[Date] AS [Date]
     FROM [dbo].[V_Billing2] AS [V_Billing2]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Billing3" EntityType="Self.V_Billing3" store:Type="Views" store:Schema="dbo">
@@ -2883,7 +2891,8 @@
     [V_Billing3].[Name2] AS [Name2], 
     [V_Billing3].[CustomerSimpleName] AS [CustomerSimpleName], 
     [V_Billing3].[TotalRebate] AS [TotalRebate], 
-    [V_Billing3].[ZongJia] AS [ZongJia]
+    [V_Billing3].[ZongJia] AS [ZongJia], 
+    [V_Billing3].[Date] AS [Date]
     FROM [dbo].[V_Billing3] AS [V_Billing3]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Billing4" EntityType="Self.V_Billing4" store:Type="Views" store:Schema="dbo">
@@ -2907,7 +2916,8 @@
     [V_Billing4].[Amount] AS [Amount], 
     [V_Billing4].[Code] AS [Code], 
     [V_Billing4].[Name2] AS [Name2], 
-    [V_Billing4].[CustomerSimpleName] AS [CustomerSimpleName]
+    [V_Billing4].[CustomerSimpleName] AS [CustomerSimpleName], 
+    [V_Billing4].[Date] AS [Date]
     FROM [dbo].[V_Billing4] AS [V_Billing4]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BillingAmountAll" EntityType="Self.V_BillingAmountAll" store:Type="Views" store:Schema="dbo">
@@ -3024,7 +3034,8 @@
     [V_BillingOrders].[Ratio5] AS [Ratio5], 
     [V_BillingOrders].[Ratio6] AS [Ratio6], 
     [V_BillingOrders].[MinTime] AS [MinTime], 
-    [V_BillingOrders].[Ratio7] AS [Ratio7]
+    [V_BillingOrders].[Ratio7] AS [Ratio7], 
+    [V_BillingOrders].[Date] AS [Date]
     FROM [dbo].[V_BillingOrders] AS [V_BillingOrders]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_BillingSum" EntityType="Self.V_BillingSum" store:Type="Views" store:Schema="dbo">
@@ -3448,7 +3459,8 @@
     [V_Invoice2].[MinTime] AS [MinTime], 
     [V_Invoice2].[Ratio7] AS [Ratio7], 
     [V_Invoice2].[UserID] AS [UserID], 
-    [V_Invoice2].[CreateDate] AS [CreateDate]
+    [V_Invoice2].[CreateDate] AS [CreateDate], 
+    [V_Invoice2].[Date] AS [Date]
     FROM [dbo].[V_Invoice2] AS [V_Invoice2]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Module_Role_User" EntityType="Self.V_Module_Role_User" store:Type="Views" store:Schema="dbo">
@@ -5447,6 +5459,7 @@
           <Property Name="Amount" Type="Double" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimesNo" Type="Int32" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Phase" Type="Int32" />
@@ -5596,6 +5609,7 @@
           <Property Name="ZongJia" Type="Double" />
           <Property Name="Length" Type="Int32" />
           <Property Name="TEUS" Type="Int32" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Billing3">
           <Key>
@@ -5621,6 +5635,7 @@
           <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TotalRebate" Type="Double" />
           <Property Name="ZongJia" Type="Double" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Billing4">
           <Key>
@@ -5646,6 +5661,7 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerSimpleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_BillingAmountAll">
           <Key>
@@ -5768,6 +5784,7 @@
           <Property Name="Ratio6" Type="Double" />
           <Property Name="MinTime" Type="Double" />
           <Property Name="Ratio7" Type="Double" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_BillingSum">
           <Key>
@@ -6211,6 +6228,7 @@
           <Property Name="Ratio7" Type="Double" />
           <Property Name="UserID" Type="Int32" />
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Module_Role_User">
           <Key>
@@ -8037,6 +8055,7 @@
                 <ScalarProperty Name="Phase" ColumnName="Phase" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="TimesNo" ColumnName="TimesNo" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
@@ -8152,6 +8171,7 @@
           <EntitySetMapping Name="V_Billing2">
             <EntityTypeMapping TypeName="Model.V_Billing2">
               <MappingFragment StoreEntitySet="V_Billing2">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="TEUS" ColumnName="TEUS" />
                 <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="ZongJia" ColumnName="ZongJia" />
@@ -8201,6 +8221,7 @@
           <EntitySetMapping Name="V_Billing3">
             <EntityTypeMapping TypeName="Model.V_Billing3">
               <MappingFragment StoreEntitySet="V_Billing3">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="ZongJia" ColumnName="ZongJia" />
                 <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
                 <ScalarProperty Name="CustomerSimpleName" ColumnName="CustomerSimpleName" />
@@ -8227,6 +8248,7 @@
           <EntitySetMapping Name="V_Billing4">
             <EntityTypeMapping TypeName="Model.V_Billing4">
               <MappingFragment StoreEntitySet="V_Billing4">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="CustomerSimpleName" ColumnName="CustomerSimpleName" />
                 <ScalarProperty Name="Name2" ColumnName="Name2" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -8317,6 +8339,7 @@
           <EntitySetMapping Name="V_BillingOrders">
             <EntityTypeMapping TypeName="Model.V_BillingOrders">
               <MappingFragment StoreEntitySet="V_BillingOrders">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Ratio7" ColumnName="Ratio7" />
                 <ScalarProperty Name="MinTime" ColumnName="MinTime" />
                 <ScalarProperty Name="Ratio6" ColumnName="Ratio6" />
@@ -8748,6 +8771,7 @@
           <EntitySetMapping Name="V_Invoice2">
             <EntityTypeMapping TypeName="Model.V_Invoice2">
               <MappingFragment StoreEntitySet="V_Invoice2">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Ratio7" ColumnName="Ratio7" />

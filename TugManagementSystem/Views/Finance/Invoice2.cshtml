@@ -127,6 +127,11 @@
                                             <input id="add_billing_code" type="text" class="form-control" />
                                         </div>
 
+                                        <div class="col-xs-3">
+                                            @Resources.Language.Invoice2_InvoiceDate
+                                            <input id="add_sel_invoice_date" type="text" class="form-control" />
+                                        </div>
+
                                         <div class="col-xs-12">
                                             @Resources.Language.Remark
                                             <textarea id="add_remark" rows="3" class="form-control" placeholder="點擊輸入備註" onfocus="$(this).parent().removeClass('has-error')"></textarea>
@@ -385,6 +390,11 @@
                                                     <div class="col-xs-3">
                                                         @Resources.Language.Billing_BillingCode
                                                         <input id="view_billing_code" type="text" class="form-control" readonly />
+                                                    </div>
+
+                                                    <div class="col-xs-3">
+                                                        @Resources.Language.Invoice2_InvoiceDate
+                                                        <input id="view_sel_invoice_date" type="text" class="form-control" readonly />
                                                     </div>
 
                                                     <div class="col-xs-12">
@@ -660,6 +670,11 @@
                                                     <div class="col-xs-3">
                                                         @Resources.Language.Billing_BillingCode
                                                         <input id="edit_billing_code" type="text" class="form-control" />
+                                                    </div>
+
+                                                    <div class="col-xs-3">
+                                                        @Resources.Language.Invoice2_InvoiceDate
+                                                        <input id="edit_sel_invoice_date" type="text" class="form-control" />
                                                     </div>
 
                                                     <div class="col-xs-12">
@@ -2916,6 +2931,38 @@
                     }
                 },
 
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Invoice2_InvoiceDate', name: "Date", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                //step: 1,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+
             ],
 
                 viewrecords: true,
@@ -3062,19 +3109,22 @@
         $('#jqGrid').jqGrid('filterToolbar', {
             searchResult: true,
             searchOperators: true,
-                    beforeSearch: function () {
-                        var util = new Util();
+            beforeSearch: function () {
+                var util = new Util();
 
                 //时间
-                        var ret = true;
+                var ret = true;
 
                 @*if ($("#gs_WorkTime").val() != null && $("#gs_WorkTime").val() != "")
                             ret = ret && util.isTime('@Resources.Language.V_OrderInfor_WorkTime', $("#gs_WorkTime").val());
                         if ($("#gs_EstimatedCompletionTime").val() != null && $("#gs_EstimatedCompletionTime").val() != "")
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());*@
 
-                        //日期
+                //日期
+                if ($("#gs_Date").val() != null && $("#gs_Date").val() != "")
+                    ret = ret && util.isDate('@Resources.Language.Invoice2_InvoiceDate', $("#gs_Date").val());
 
+                //日期时间
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
@@ -3088,17 +3138,17 @@
                 if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
                     ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_Amount").val());
 
-                        if ($("#gs_TotalRebate").val() != null && $("#gs_TotalRebate").val() != "")
-                            ret = ret && util.isValidCurrency('@Resources.Language.V_Billing2_TotalRebate', $("#gs_TotalRebate").val());
-                        if ($("#gs_FinalAmount").val() != null && $("#gs_FinalAmount").val() != "")
-                            ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_FinalAmount").val());
-                        if ($("#gs_ZongJia").val() != null && $("#gs_ZongJia").val() != "")
-                            ret = ret && util.isValidCurrency('@Resources.Language.V_Billing2_FinalAmount', $("#gs_ZongJia").val());
+                if ($("#gs_TotalRebate").val() != null && $("#gs_TotalRebate").val() != "")
+                    ret = ret && util.isValidCurrency('@Resources.Language.V_Billing2_TotalRebate', $("#gs_TotalRebate").val());
+                if ($("#gs_FinalAmount").val() != null && $("#gs_FinalAmount").val() != "")
+                    ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_FinalAmount").val());
+                if ($("#gs_ZongJia").val() != null && $("#gs_ZongJia").val() != "")
+                    ret = ret && util.isValidCurrency('@Resources.Language.V_Billing2_FinalAmount', $("#gs_ZongJia").val());
 
-                        //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
-                        return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
-                    }
-                });
+                //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+            }
+        });
 
 
             $("#jqGrid").jqGrid('bindKeys');  //光标可以控制上下移动
@@ -4228,6 +4278,13 @@
             validateOnBlur: false,
             timepicker: false,
         });
+
+        $('#add_sel_invoice_date').datetimepicker({
+            format: 'Y-m-d',
+            validateOnBlur: true,
+            timepicker: false,
+        });
+
         //$('#add_sel_month').val(new Date().Format("yyyy-MM"));
 
 
@@ -4293,6 +4350,8 @@
 
                 //alert(result.month);
                 $('#add_sel_month').val(result.month);
+                $('#add_sel_invoice_date').val(result.date);
+
                 $('#add_remark').val(result.remark);
 
                 //return;
@@ -4383,6 +4442,7 @@
         var remark = $('#add_remark').val().toString().trim();
 
         var month = $('#add_sel_month').val();
+        var date = $('#add_sel_invoice_date').val();
 
         var billing_code = $('#add_billing_code').val();
 
@@ -4643,6 +4703,7 @@
                 'discount': discount,
                 'amount': amount,
                 'month': month,
+                'date':date,
                 'customer_ship_length': customer_ship_length,
                 'customer_ship_teus':customer_ship_teus,
                 'isShowShipLengthRule': isShowShipLengthRule,
@@ -6465,6 +6526,12 @@
             timepicker: false,
         });
 
+        $('#view_sel_invoice_date').datetimepicker({
+            format: 'Y-m-d',
+            validateOnBlur: true,
+            timepicker: false,
+        });
+
 
         //var dr = jQuery("#jqGrid").jqGrid('getRowData', g_curRowId);//得到该行的数据
         var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
@@ -6548,6 +6615,7 @@
                 var discount = $('#view_txt_discount').val();
 
                 $('#view_sel_month').val(result.invoice.Month);
+                $('#view_sel_invoice_date').val(result.invoice.Date);
 
                 if (result.invoice.CustomerShipLength == 0) {
                     $('#view_customer_ship_length').val("");
@@ -8531,6 +8599,12 @@
             timepicker: false,
         });
 
+        $('#edit_sel_invoice_date').datetimepicker({
+            format: 'Y-m-d',
+            validateOnBlur: true,
+            timepicker: false,
+        });
+
         var rowid = $('#jqGrid').jqGrid('getGridParam', 'selrow');
         var dr = jQuery("#jqGrid").jqGrid('getRowData', rowid);//得到该行的数据
         var billingId = dr.IDX;  //账单ID
@@ -8623,6 +8697,7 @@
                 var discount = $('#edit_txt_discount').val();
 
                 $('#edit_sel_month').val(result.invoice.Month);
+                $('#edit_sel_invoice_date').val(result.invoice.Date);
 
                 if (result.invoice.CustomerShipLength == 0) {
                     $('#edit_customer_ship_length').val("");
@@ -8763,6 +8838,7 @@
             isShowShipTEUSRule = "是";
 
         var month = $('#edit_sel_month').val();
+        var date = $('#edit_sel_invoice_date').val();
         
         var billing_code = $('#edit_billing_code').val();
 
@@ -8993,6 +9069,7 @@
                 'discount': discount,
                 'amount': amount,
                 'month': month,
+                'date':date,
                 'customer_ship_length': customer_ship_length,
                 'customer_ship_teus':customer_ship_teus,
                 'isShowShipLengthRule': isShowShipLengthRule,

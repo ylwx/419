@@ -92,5 +92,6 @@ namespace TugDataModel
         public Nullable<double> Ratio7 { get; set; }
         public Nullable<int> UserID { get; set; }
         public string CreateDate { get; set; }
+        public string Date { get; set; }
     }
 }

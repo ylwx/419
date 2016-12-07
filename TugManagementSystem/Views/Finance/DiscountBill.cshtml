@@ -67,18 +67,28 @@
                                                 <textarea id="_Content" rows="3" class="form-control" placeholder="@Resources.Language.V_Billing4_Content" onfocus="$(this).parent().removeClass('has-error')"></textarea>
                                             </div>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.V_Billing4_Money</label>
                                             <div class="col-sm-9">
                                                 <input id="_Money" type="text" class="form-control" placeholder="@Resources.Language.V_Billing4_Money" onfocus="$(this).parent().removeClass('has-error')" onkeyup="inputCheck(this)" />
                                             </div>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">*@Resources.Language.Invoice2_InvoiceMonth</label>
                                             <div class="col-sm-9">
                                                 <input id="_Month" type="text" placeholder="@Resources.Language.Invoice2_InvoiceMonth" class="form-control" onfocus="$(this).parent().removeClass('has-error')" />
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">*@Resources.Language.Invoice2_InvoiceDate</label>
+                                            <div class="col-sm-9">
+                                                <input id="_Date" type="text" placeholder="@Resources.Language.Invoice2_InvoiceDate" class="form-control" onfocus="$(this).parent().removeClass('has-error')" />
+                                            </div>
+                                        </div>
+
                                     </form>
                                     <div id="creditErrMsg" class="alert alert-block alert-warning fade in" hidden>
                                         @*<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>*@
@@ -445,6 +455,38 @@
                     }
                 },
 
+                {
+                    align: 'center',
+                    label: '@Resources.Language.Invoice2_InvoiceDate', name: "Date", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                //step: 1,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+
             ],
 
             viewrecords: true,
@@ -563,7 +605,10 @@
                     ret = ret && util.isTime('@Resources.Language.V_OrderInfor_EstimatedCompletionTime', $("#gs_EstimatedCompletionTime").val());*@
 
                 //日期
+                if ($("#gs_Date").val() != null && $("#gs_Date").val() != "")
+                    ret = ret && util.isDate('@Resources.Language.Invoice2_InvoiceDate', $("#gs_Date").val());
 
+                //日期時間
                 if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
                     ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
                 if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
@@ -1371,6 +1416,7 @@
         $('#_Content').parent().removeClass("has-error");
         $('#_Money').parent().removeClass("has-error");
         $('#_Month').parent().removeClass("has-error");
+        $('#_Date').parent().removeClass("has-error");
 
         $('#_CustomerName').autocomplete({
             source: function (request, response) {
@@ -1442,6 +1488,14 @@
         });
         $('#_Month').val(new Date().Format("yyyy-MM"));
 
+        $('#_Date').datetimepicker({
+            format: 'Y-m-d',
+            validateOnBlur: true,
+            timepicker: false,
+        });
+        $('#_Date').val(new Date().Format("yyyy-MM-dd"));
+
+
         $.ajax({
             url: '@Url.Action("GetDiscountBillingCode", "Finance")',
             type: "post",
@@ -1487,6 +1541,7 @@
                     $('#_Content').val(result.discout_bill.Content);
                     $('#_Money').val(result.discout_bill.Money);
                     $('#_Month').val(result.discout_bill.Month);
+                    $('#_Date').val(result.discout_bill.Date);
                     $('#_BillingCode').val(result.discout_bill.BillingCode);
                 }
             },
@@ -1597,6 +1652,13 @@
             return;
         }
 
+        else if ($("#_Date").val().toString().trim().length <= 0) {
+            $('#creditErrMsg p').html('@Resources.Language.Invoice2_InvoiceDate' + "必填");
+            $('#_Date').parent().addClass("has-error");
+            $('#creditErrMsg').show();
+            return;
+        }
+
         $('#creditErrMsg').hide();
 
         
@@ -1608,6 +1670,7 @@
             var content = $('#_Content').val().trim();
             var money = $('#_Money').val().trim();
             var month = $('#_Month').val().trim();
+            var date = $('#_Date').val().trim();
             var billingCode = $('#_BillingCode').val().trim();
 
             //提交数据库
@@ -1620,6 +1683,7 @@
                     'content': content,
                     'money': money,
                     'month': month,
+                    'date': date,
                     'billingCode': billingCode
                 },
                 dataType: 'json',
@@ -1658,6 +1722,7 @@
             var content = $('#_Content').val().trim();
             var money = $('#_Money').val().trim();
             var month = $('#_Month').val().trim();
+            var date = $('#_Date').val().trim();
             var billingCode = $('#_BillingCode').val().trim();
 
             //提交数据库
@@ -1671,6 +1736,7 @@
                     'content': content,
                     'money': money,
                     'month': month,
+                    'date' : date,
                     'billingCode': billingCode
                 },
                 dataType: 'json',
