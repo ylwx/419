@@ -26,7 +26,8 @@ namespace TugDataModel
         public Nullable<int> FuelAmount { get; set; }
         public Nullable<int> Length { get; set; }
         public Nullable<int> TEUS { get; set; }
-        public string CreateDate { get; set; }
         public Nullable<int> CustomerID { get; set; }
+        public string BillDate { get; set; }
+        public string CreateDate { get; set; }
     }
 }

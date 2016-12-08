@@ -337,6 +337,37 @@
                     hidden: false
                 },
                 {
+                    align: 'center',
+                    label: '@Resources.Language.Invoice2_InvoiceDate', name: "Date", width: 120, editable: false, edittype: "text",
+                    hidden: false,
+                    //formatter: 'date',
+                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
+                    datefmt: 'yyyy-mm-dd',
+                    sorttype: 'date',
+                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
+                    searchoptions: {
+                        sopt: ["eq", "lt", "le", "gt", "ge"],
+
+                        dataInit: function (element) {
+                            $(element).datetimepicker({
+                                format: 'Y-m-d',
+                                //step: 1,
+                                timepicker: false
+                            });
+                        },
+
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var grid = $('#jqGrid')[0];
+                                    grid.triggerToolbar();
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
                     align: 'center', label: '@Resources.Language.V_Billing4_Money', name: "Money", width: 100, editable: true, edittype: "text",
                     hidden: false,
                     coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
@@ -449,38 +480,6 @@
                                     var grid = $('#jqGrid')[0];
                                     grid.triggerToolbar();
 
-                                }
-                            }
-                        ]
-                    }
-                },
-
-                {
-                    align: 'center',
-                    label: '@Resources.Language.Invoice2_InvoiceDate', name: "Date", width: 120, editable: false, edittype: "text",
-                    hidden: false,
-                    //formatter: 'date',
-                    //formatoptions: { srcformat: 'yyyy-mm-dd', newformat: 'yyyy-mm-dd' },
-                    datefmt: 'yyyy-mm-dd',
-                    sorttype: 'date',
-                    coloptions: { sorting: false, columns: false, filtering: false, seraching: false, grouping: true, freeze: false },
-                    searchoptions: {
-                        sopt: ["eq", "lt", "le", "gt", "ge"],
-
-                        dataInit: function (element) {
-                            $(element).datetimepicker({
-                                format: 'Y-m-d',
-                                //step: 1,
-                                timepicker: false
-                            });
-                        },
-
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var grid = $('#jqGrid')[0];
-                                    grid.triggerToolbar();
                                 }
                             }
                         ]

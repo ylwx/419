@@ -32,5 +32,6 @@ namespace TugDataModel
         public string Title { get; set; }
         public string CreditContent { get; set; }
         public Nullable<double> CreditAmount { get; set; }
+        public string BillDate { get; set; }
     }
 }

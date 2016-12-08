@@ -1013,8 +1013,9 @@
           <Property Name="FuelAmount" Type="int" />
           <Property Name="Length" Type="int" />
           <Property Name="TEUS" Type="int" />
-          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
+          <Property Name="BillDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_ServiceDate”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1497,8 +1498,9 @@
           <Property Name="UserID" Type="int" />
           <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
-          <Property Name="CreditContent" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreditContent" Type="nvarchar(max)" />
           <Property Name="CreditAmount" Type="float" />
+          <Property Name="BillDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1532,6 +1534,7 @@
           <Property Name="ExpiryDate" Type="nvarchar" MaxLength="50" />
           <Property Name="BillingTemplateTypeID" Type="int" />
           <Property Name="BillingTemplateName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head_Credit”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -1562,6 +1565,7 @@
           <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
           <Property Name="Name1" Type="nvarchar(max)" />
           <Property Name="Month" Type="nvarchar" MaxLength="50" />
+          <Property Name="BillDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Inv_Head_Special_Credit”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2776,8 +2780,9 @@
     [V_Billing_QT].[FuelAmount] AS [FuelAmount], 
     [V_Billing_QT].[Length] AS [Length], 
     [V_Billing_QT].[TEUS] AS [TEUS], 
-    [V_Billing_QT].[CreateDate] AS [CreateDate], 
-    [V_Billing_QT].[CustomerID] AS [CustomerID]
+    [V_Billing_QT].[CustomerID] AS [CustomerID], 
+    [V_Billing_QT].[BillDate] AS [BillDate], 
+    [V_Billing_QT].[CreateDate] AS [CreateDate]
     FROM [dbo].[V_Billing_QT] AS [V_Billing_QT]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Billing_ServiceDate" EntityType="Self.V_Billing_ServiceDate" store:Type="Views" store:Schema="dbo">
@@ -3209,7 +3214,8 @@
     [V_Inv_Credit_youhuidan].[LastUpDate] AS [LastUpDate], 
     [V_Inv_Credit_youhuidan].[Title] AS [Title], 
     [V_Inv_Credit_youhuidan].[CreditContent] AS [CreditContent], 
-    [V_Inv_Credit_youhuidan].[CreditAmount] AS [CreditAmount]
+    [V_Inv_Credit_youhuidan].[CreditAmount] AS [CreditAmount], 
+    [V_Inv_Credit_youhuidan].[BillDate] AS [BillDate]
     FROM [dbo].[V_Inv_Credit_youhuidan] AS [V_Inv_Credit_youhuidan]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Inv_Head" EntityType="Self.V_Inv_Head" store:Type="Views" store:Schema="dbo">
@@ -3239,7 +3245,8 @@
     [V_Inv_Head].[ShipTEUS] AS [ShipTEUS], 
     [V_Inv_Head].[ExpiryDate] AS [ExpiryDate], 
     [V_Inv_Head].[BillingTemplateTypeID] AS [BillingTemplateTypeID], 
-    [V_Inv_Head].[BillingTemplateName] AS [BillingTemplateName]
+    [V_Inv_Head].[BillingTemplateName] AS [BillingTemplateName], 
+    [V_Inv_Head].[BillDate] AS [BillDate]
     FROM [dbo].[V_Inv_Head] AS [V_Inv_Head]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Inv_Head_Credit" EntityType="Self.V_Inv_Head_Credit" store:Type="Views" store:Schema="dbo">
@@ -3263,7 +3270,8 @@
     [V_Inv_Head_Special].[InvoiceType] AS [InvoiceType], 
     [V_Inv_Head_Special].[CreateDate] AS [CreateDate], 
     [V_Inv_Head_Special].[Name1] AS [Name1], 
-    [V_Inv_Head_Special].[Month] AS [Month]
+    [V_Inv_Head_Special].[Month] AS [Month], 
+    [V_Inv_Head_Special].[BillDate] AS [BillDate]
     FROM [dbo].[V_Inv_Head_Special] AS [V_Inv_Head_Special]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Inv_Head_Special_Credit" EntityType="Self.V_Inv_Head_Special_Credit" store:Type="Views" store:Schema="dbo">
@@ -5514,8 +5522,9 @@
           <Property Name="FuelAmount" Type="Int32" />
           <Property Name="Length" Type="Int32" />
           <Property Name="TEUS" Type="Int32" />
-          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CustomerID" Type="Int32" />
+          <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Billing_ServiceDate">
           <Key>
@@ -5964,8 +5973,9 @@
           <Property Name="UserID" Type="Int32" />
           <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreditContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreditAmount" Type="Double" />
+          <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Inv_Head">
           <Key>
@@ -5997,6 +6007,7 @@
           <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BillingTemplateTypeID" Type="Int32" />
           <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Inv_Head_Credit">
           <Key>
@@ -6023,6 +6034,7 @@
           <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Inv_Head_Special_Credit">
           <Key>
@@ -8103,8 +8115,9 @@
           <EntitySetMapping Name="V_Billing_QT">
             <EntityTypeMapping TypeName="Model.V_Billing_QT">
               <MappingFragment StoreEntitySet="V_Billing_QT">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="TEUS" ColumnName="TEUS" />
                 <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
@@ -8565,6 +8578,7 @@
           <EntitySetMapping Name="V_Inv_Credit_youhuidan">
             <EntityTypeMapping TypeName="Model.V_Inv_Credit_youhuidan">
               <MappingFragment StoreEntitySet="V_Inv_Credit_youhuidan">
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
                 <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
                 <ScalarProperty Name="CreditContent" ColumnName="CreditContent" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -8589,6 +8603,7 @@
           <EntitySetMapping Name="V_Inv_Head">
             <EntityTypeMapping TypeName="Model.V_Inv_Head">
               <MappingFragment StoreEntitySet="V_Inv_Head">
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
                 <ScalarProperty Name="BillingTemplateName" ColumnName="BillingTemplateName" />
                 <ScalarProperty Name="BillingTemplateTypeID" ColumnName="BillingTemplateTypeID" />
                 <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
@@ -8636,6 +8651,7 @@
           <EntitySetMapping Name="V_Inv_Head_Special">
             <EntityTypeMapping TypeName="Model.V_Inv_Head_Special">
               <MappingFragment StoreEntitySet="V_Inv_Head_Special">
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />

@@ -40,5 +40,6 @@ namespace TugDataModel
         public string ExpiryDate { get; set; }
         public Nullable<int> BillingTemplateTypeID { get; set; }
         public string BillingTemplateName { get; set; }
+        public string BillDate { get; set; }
     }
 }
