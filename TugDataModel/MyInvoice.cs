@@ -309,6 +309,8 @@ namespace TugDataModel
         public string CreditCode { get; set; }
         public string CreditContent { get; set; }
         public Nullable<double> CreditAmount { get; set; }
+
+        public string UserDefinedCol10 { get; set; }
         public string Remark { get; set; }
 
         public Nullable<int> OwnerID { get; set; }

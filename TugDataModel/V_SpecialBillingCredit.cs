@@ -24,5 +24,6 @@ namespace TugDataModel
         public string LastUpDate { get; set; }
         public Nullable<int> OwnerID { get; set; }
         public Nullable<int> UserID { get; set; }
+        public string UserDefinedCol10 { get; set; }
     }
 }

@@ -23,5 +23,6 @@ namespace TugDataModel
         public string CustomerName { get; set; }
         public string ShipName { get; set; }
         public string CreateDate { get; set; }
+        public string UserDefinedCol10 { get; set; }
     }
 }

@@ -23,5 +23,6 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public string Name1 { get; set; }
         public string Month { get; set; }
+        public string UserDefinedCol10 { get; set; }
     }
 }

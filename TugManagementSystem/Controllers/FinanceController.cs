@@ -813,6 +813,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10=u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -835,6 +836,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -853,6 +855,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -875,6 +878,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -892,6 +896,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -914,6 +919,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -931,6 +937,49 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+                        case "UserDefinedCol10":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.UserDefinedCol10)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_OrderBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.UserDefinedCol10)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.CreditID,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -952,6 +1001,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -969,6 +1019,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -990,6 +1041,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -1007,6 +1059,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -1028,6 +1081,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -1045,6 +1099,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -1083,7 +1138,8 @@ namespace TugManagementSystem.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public ActionResult AddCredit(int billingId,string billingCode, string creditContent, double creditAmount, string remark) {
+        public ActionResult AddCredit(int billingId, string billingCode, string creditContent, double creditAmount, string creditdate, string remark)
+        {
             TugDataModel.Credit credit;
             this.Internationalization();
             try
@@ -1096,6 +1152,7 @@ namespace TugManagementSystem.Controllers
                     credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
                     credit.CreditContent = creditContent;
                     credit.CreditAmount = creditAmount;
+                    credit.UserDefinedCol10 = creditdate;
                     credit.Remark = remark;
                     credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     credit.OwnerID = -1;
@@ -1165,6 +1222,7 @@ namespace TugManagementSystem.Controllers
                         aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         aOrder.CreditAmount = TugBusinessLogic.Module.Util.tonumeric(Request.Form["CreditAmount"].Trim());
+                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
                         aOrder.Remark = Request.Form["Remark"].Trim();
 
 
@@ -2613,6 +2671,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2635,6 +2694,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2653,6 +2713,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2676,6 +2737,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2694,6 +2756,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2717,6 +2780,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2735,6 +2799,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2744,6 +2809,49 @@ namespace TugManagementSystem.Controllers
                                 }
                             }
                             break;
+                        case "UserDefinedCol10":
+                            {
+                                if (sord == "asc")
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderBy(u => u.UserDefinedCol10)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                                else
+                                {
+                                    orders = db.V_SpecialBillingCredit.Where(u => u.BillingID == billingId)
+                                     .OrderByDescending(u => u.UserDefinedCol10)
+                                     .Select(u => new MyCredit
+                                     {
+                                         IDX = (int)u.IDX,
+                                         BillingID = u.BillingID,
+                                         CreditCode = u.CreditCode,
+                                         CreditContent = u.CreditContent,
+                                         CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
+                                         Remark = u.Remark,
+                                         OwnerID = u.OwnerID,
+                                         CreateDate = u.CreateDate,
+                                         UserID = u.UserID,
+                                         LastUpDate = u.LastUpDate
+                                     }).ToList<MyCredit>();
+                                }
+                            }
+                            break;
+
                         case "Remark":
                             {
                                 if (sord == "asc")
@@ -2757,6 +2865,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2775,6 +2884,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2797,6 +2907,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2815,6 +2926,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2837,6 +2949,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
@@ -2855,6 +2968,7 @@ namespace TugManagementSystem.Controllers
                                          CreditCode = u.CreditCode,
                                          CreditContent = u.CreditContent,
                                          CreditAmount = u.CreditAmount,
+                                         UserDefinedCol10 = u.UserDefinedCol10,
                                          Remark = u.Remark,
                                          OwnerID = u.OwnerID,
                                          CreateDate = u.CreateDate,
