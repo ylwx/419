@@ -859,6 +859,7 @@
           <Property Name="CreateDate" Type="varchar" MaxLength="100" />
           <Property Name="PayDate" Type="varchar" MaxLength="100" />
           <Property Name="EASTugCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Approve_Billing”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -994,6 +995,9 @@
           <Property Name="EasCode" Type="nvarchar" MaxLength="50" />
           <Property Name="EasDays" Type="int" Nullable="false" />
           <Property Name="PayDate" Type="varchar" MaxLength="100" />
+          <Property Name="QTTitle" Type="nvarchar" MaxLength="50" />
+          <Property Name="QTContent" Type="nvarchar(max)" />
+          <Property Name="BillDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“hds153625288_db.dbo.V_Billing_QT”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -2651,7 +2655,8 @@
     [V_AmountSum_Service].[EasDays] AS [EasDays], 
     [V_AmountSum_Service].[CreateDate] AS [CreateDate], 
     [V_AmountSum_Service].[PayDate] AS [PayDate], 
-    [V_AmountSum_Service].[EASTugCode] AS [EASTugCode]
+    [V_AmountSum_Service].[EASTugCode] AS [EASTugCode], 
+    [V_AmountSum_Service].[Code] AS [Code]
     FROM [dbo].[V_AmountSum_Service] AS [V_AmountSum_Service]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Approve_Billing" EntityType="Self.V_Approve_Billing" store:Type="Views" store:Schema="dbo">
@@ -2767,7 +2772,10 @@
     [V_Billing_Customer].[CreateDate] AS [CreateDate], 
     [V_Billing_Customer].[EasCode] AS [EasCode], 
     [V_Billing_Customer].[EasDays] AS [EasDays], 
-    [V_Billing_Customer].[PayDate] AS [PayDate]
+    [V_Billing_Customer].[PayDate] AS [PayDate], 
+    [V_Billing_Customer].[QTTitle] AS [QTTitle], 
+    [V_Billing_Customer].[QTContent] AS [QTContent], 
+    [V_Billing_Customer].[BillDate] AS [BillDate]
     FROM [dbo].[V_Billing_Customer] AS [V_Billing_Customer]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_Billing_QT" EntityType="Self.V_Billing_QT" store:Type="Views" store:Schema="dbo">
@@ -5390,6 +5398,7 @@
           <Property Name="CreateDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PayDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EASTugCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Approve_Billing">
           <Key>
@@ -5513,6 +5522,9 @@
           <Property Name="EasCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EasDays" Type="Int32" Nullable="false" />
           <Property Name="PayDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="QTTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QTContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_Billing_QT">
           <Key>
@@ -7963,6 +7975,7 @@
           <EntitySetMapping Name="V_AmountSum_Service">
             <EntityTypeMapping TypeName="Model.V_AmountSum_Service">
               <MappingFragment StoreEntitySet="V_AmountSum_Service">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="EASTugCode" ColumnName="EASTugCode" />
                 <ScalarProperty Name="PayDate" ColumnName="PayDate" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -8109,6 +8122,9 @@
           <EntitySetMapping Name="V_Billing_Customer">
             <EntityTypeMapping TypeName="Model.V_Billing_Customer">
               <MappingFragment StoreEntitySet="V_Billing_Customer">
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+                <ScalarProperty Name="QTContent" ColumnName="QTContent" />
+                <ScalarProperty Name="QTTitle" ColumnName="QTTitle" />
                 <ScalarProperty Name="PayDate" ColumnName="PayDate" />
                 <ScalarProperty Name="EasDays" ColumnName="EasDays" />
                 <ScalarProperty Name="EasCode" ColumnName="EasCode" />

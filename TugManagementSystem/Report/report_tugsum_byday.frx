@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2016 19:50:42" ReportInfo.Modified="12/04/2016 10:38:48" ReportInfo.CreatorVersion="2016.1.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2016 19:50:42" ReportInfo.Modified="01/20/2017 15:47:19" ReportInfo.CreatorVersion="2016.1.0.0">
   <ScriptText>using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace FastReport
 }
 </ScriptText>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdv22VvPpOjA5sjzv7a2C/+mA==">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlq+rW0RkboK+/8CKGGYUID3ctBV8q9SvKYxl3iiE7vBnh7Tgou0+4WFf3NfmPSvHVFNt5PNzfElyWYAH7pmiWas1IwJ1aTDtSgtRzvwNamGpACjVXGf1SFmwyUs1HN1tS6XHwUs2IJdgUAn/QiEr5wANzfunNWU6MQ2pM+hJ/llQxKEz7ZcXQhrGsfZEqSnZdv64FNkHl652X2X3hkVJESmg==">
       <TableDataSource Name="Table1" Alias="proc_TugSum_ByDay" DataType="System.Int32" Enabled="true" SelectCommand="exec proc_TugSum_ByDay '2016-09-01','2016-09-30'">
         <Column Name="CustomerID" DataType="System.Int32"/>
         <Column Name="CustomerName" DataType="System.String"/>
@@ -40,9 +40,9 @@ namespace FastReport
   <ReportPage Name="Page1" PaperWidth="600" PaperHeight="420.1">
     <ReportTitleBand Name="ReportTitle1" Width="2192.4" Height="9.45"/>
     <DataBand Name="Data1" Top="13.45" Width="2192.4" Height="66.15">
-      <MatrixObject Name="Matrix1" Left="9.45" Width="189.58" Height="66.15" FixedRows="2" FixedColumns="1" DataSource="Table1">
+      <MatrixObject Name="Matrix1" Left="9.45" Width="223.29" Height="66.15" FixedRows="2" FixedColumns="1" DataSource="Table1">
         <MatrixColumns>
-          <Header Expression="[proc_TugSum_ByDay.ServiceWorkDate]" Totals="false"/>
+          <Header Expression="[proc_TugSum_ByDay.ServiceWorkDate]"/>
           <Header Expression="[proc_TugSum_ByDay.TugType]" Totals="false"/>
         </MatrixColumns>
         <MatrixRows>
@@ -53,17 +53,21 @@ namespace FastReport
         </MatrixCells>
         <TableColumn Name="Column1" MaxWidth="189" Width="89.64" AutoSize="true"/>
         <TableColumn Name="Column2" Width="99.94" AutoSize="true"/>
+        <TableColumn Name="Column7" Width="33.71" AutoSize="true"/>
         <TableRow Name="Row1" MinHeight="18.9" AutoSize="true">
           <TableCell Name="Cell1" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="客户名称" VertAlign="Center" Font="PMingLiU, 9pt" RowSpan="2"/>
           <TableCell Name="Cell2" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="[ServiceWorkDate]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell21" Border.Lines="All" Border.Color="White" Fill.Color="Gold" Text="合計" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt" RowSpan="2"/>
         </TableRow>
         <TableRow Name="Row2" MinHeight="18.9" AutoSize="true">
           <TableCell Name="Cell3"/>
           <TableCell Name="Cell4" Border.Lines="All" Border.Color="White" Fill.Color="Gold" AfterDataEvent="Cell4_AfterData" Text="[TugType]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell22"/>
         </TableRow>
         <TableRow Name="Row3" MinHeight="28.35" Height="28.35" AutoSize="true">
           <TableCell Name="Cell7" Border.Lines="All" Border.Color="Gold" Text="[CustomerName]" VertAlign="Center" Font="PMingLiU, 9pt"/>
           <TableCell Name="Cell8" Border.Lines="All" Border.Color="Gold" Text="[TugNum]" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
+          <TableCell Name="Cell23" Border.Lines="All" Border.Color="Gold" HorzAlign="Center" VertAlign="Center" Font="PMingLiU, 9pt"/>
         </TableRow>
       </MatrixObject>
     </DataBand>

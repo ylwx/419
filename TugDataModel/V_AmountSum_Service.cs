@@ -44,5 +44,6 @@ namespace TugDataModel
         public string CreateDate { get; set; }
         public string PayDate { get; set; }
         public string EASTugCode { get; set; }
+        public string Code { get; set; }
     }
 }

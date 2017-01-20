@@ -26,5 +26,8 @@ namespace TugDataModel
         public string EasCode { get; set; }
         public int EasDays { get; set; }
         public string PayDate { get; set; }
+        public string QTTitle { get; set; }
+        public string QTContent { get; set; }
+        public string BillDate { get; set; }
     }
 }
