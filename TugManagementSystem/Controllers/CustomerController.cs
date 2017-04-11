@@ -285,7 +285,7 @@ namespace TugManagementSystem.Controllers
                         {
                             foreach (var item in linkmanList)
                             {
-                                item.CustomerName = linkMan.LinkManName;
+                                item.LinkMan = linkMan.LinkManName;
                                 db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                                 db.SaveChanges();
                             }
