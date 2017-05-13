@@ -280,16 +280,17 @@ namespace TugManagementSystem.Controllers
                         db.Entry(linkMan).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
 
-                        var linkmanList = db.OrderInfor.Where(u => u.CustomerID == idx).ToList();
-                        if (linkmanList != null)
-                        {
-                            foreach (var item in linkmanList)
-                            {
-                                item.LinkMan = linkMan.LinkManName;
-                                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
-                                db.SaveChanges();
-                            }
-                        }
+                        //历史订单中的联系人，不再做改变
+                        //var linkmanList = db.OrderInfor.Where(u => u.LinkMan == 原LinkMan).ToList();
+                        //if (linkmanList != null)
+                        //{
+                        //    foreach (var item in linkmanList)
+                        //    {
+                        //        item.LinkMan = linkMan.LinkManName;
+                        //        db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                        //        db.SaveChanges();
+                        //    }
+                        //}
 
                         return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
