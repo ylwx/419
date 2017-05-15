@@ -164,6 +164,7 @@
     <EntitySet Name="TugInfor" EntityType="Model.TugInfor" />
     <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
     <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
+    <EntitySet Name="OrderInfor1" EntityType="Model.OrderInfor1" />
     <EntitySet Name="V_AmountSum_Billing" EntityType="Model.V_AmountSum_Billing" />
     <EntitySet Name="V_AmountSum_Service" EntityType="Model.V_AmountSum_Service" />
     <EntitySet Name="V_Approve_Billing" EntityType="Model.V_Approve_Billing" />
@@ -1329,6 +1330,40 @@
     <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
   </EntityType>
+  <EntityType Name="OrderInfor1">
+    <Key>
+      <PropertyRef Name="IDX" />
+    </Key>
+    <Property Name="IDX" Type="Int32" Nullable="false" />
+    <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ShipID" Type="Int32" />
+    <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WorkStateID" Type="Int32" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol5" Type="Double" />
+    <Property Name="UserDefinedCol6" Type="Int32" />
+    <Property Name="UserDefinedCol7" Type="Int32" />
+    <Property Name="UserDefinedCol8" Type="Int32" />
+    <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="V_AmountSum_Billing">
     <Key>
       <PropertyRef Name="ID" />
@@ -1391,6 +1426,7 @@
     <Property Name="CreateDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="PayDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="EASTugCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Approve_Billing">
     <Key>
@@ -1514,6 +1550,9 @@
     <Property Name="EasCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="EasDays" Type="Int32" Nullable="false" />
     <Property Name="PayDate" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="QTTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="QTContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Billing_QT">
     <Key>
@@ -1531,8 +1570,9 @@
     <Property Name="FuelAmount" Type="Int32" />
     <Property Name="Length" Type="Int32" />
     <Property Name="TEUS" Type="Int32" />
-    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CustomerID" Type="Int32" />
+    <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Billing_ServiceDate">
     <Key>
@@ -1981,8 +2021,9 @@
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CreditContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CreditAmount" Type="Double" />
+    <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Inv_Head">
     <Key>
@@ -2014,6 +2055,7 @@
     <Property Name="ExpiryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BillingTemplateTypeID" Type="Int32" />
     <Property Name="BillingTemplateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Inv_Head_Credit">
     <Key>
@@ -2028,6 +2070,7 @@
     <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Inv_Head_Special">
     <Key>
@@ -2040,6 +2083,7 @@
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Name1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Inv_Head_Special_Credit">
     <Key>
@@ -2054,6 +2098,7 @@
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Name1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_Inv_OrdService">
     <Key>
@@ -2396,6 +2441,7 @@
     <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UserID" Type="Int32" />
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_OrderInfor">
     <Key>
@@ -2630,6 +2676,7 @@
     <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OwnerID" Type="Int32" />
     <Property Name="UserID" Type="Int32" />
+    <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="V_SpecialBillingItem">
     <Key>

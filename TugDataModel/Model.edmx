@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AmountSum">
           <Key>
             <PropertyRef Name="ID" />
@@ -505,6 +505,42 @@
             <PropertyRef Name="IDX" />
           </Key>
           <Property Name="IDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="OrdDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShipID" Type="int" />
+          <Property Name="ShipName" Type="nvarchar(max)" />
+          <Property Name="LinkMan" Type="nvarchar" MaxLength="50" />
+          <Property Name="LinkPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="LinkEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkStateID" Type="int" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="CreateDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LastUpDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="HasInvoice" Type="nvarchar" MaxLength="50" />
+          <Property Name="HasInFlow" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol1" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol2" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol3" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol4" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol5" Type="float" />
+          <Property Name="UserDefinedCol6" Type="int" />
+          <Property Name="UserDefinedCol7" Type="int" />
+          <Property Name="UserDefinedCol8" Type="int" />
+          <Property Name="UserDefinedCol9" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserDefinedCol10" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“hds153625288_db.dbo.OrderInfor1”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="OrderInfor1">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="int" Nullable="false" />
           <Property Name="IsGuest" Type="nvarchar" MaxLength="50" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="CustomerID" Type="int" />
@@ -2518,6 +2554,9 @@
         <Function Name="CreditXS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="BillingID" Type="int" Mode="In" />
         </Function>
+        <Function Name="getlinkman" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+          <Parameter Name="ordid" Type="int" Mode="In" />
+        </Function>
         <Function Name="proc_AmountSum_ByCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sYear" Type="int" Mode="In" />
           <Parameter Name="sMonth" Type="int" Mode="In" />
@@ -2598,6 +2637,39 @@
           <EntitySet Name="TugInfor" EntityType="Self.TugInfor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfor" EntityType="Self.UserInfor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersRole" EntityType="Self.UsersRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderInfor1" EntityType="Self.OrderInfor1" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OrderInfor1].[IDX] AS [IDX], 
+    [OrderInfor1].[IsGuest] AS [IsGuest], 
+    [OrderInfor1].[Code] AS [Code], 
+    [OrderInfor1].[CustomerID] AS [CustomerID], 
+    [OrderInfor1].[CustomerName] AS [CustomerName], 
+    [OrderInfor1].[OrdDate] AS [OrdDate], 
+    [OrderInfor1].[ShipID] AS [ShipID], 
+    [OrderInfor1].[ShipName] AS [ShipName], 
+    [OrderInfor1].[LinkMan] AS [LinkMan], 
+    [OrderInfor1].[LinkPhone] AS [LinkPhone], 
+    [OrderInfor1].[LinkEmail] AS [LinkEmail], 
+    [OrderInfor1].[WorkStateID] AS [WorkStateID], 
+    [OrderInfor1].[Remark] AS [Remark], 
+    [OrderInfor1].[OwnerID] AS [OwnerID], 
+    [OrderInfor1].[CreateDate] AS [CreateDate], 
+    [OrderInfor1].[UserID] AS [UserID], 
+    [OrderInfor1].[LastUpDate] AS [LastUpDate], 
+    [OrderInfor1].[HasInvoice] AS [HasInvoice], 
+    [OrderInfor1].[HasInFlow] AS [HasInFlow], 
+    [OrderInfor1].[UserDefinedCol1] AS [UserDefinedCol1], 
+    [OrderInfor1].[UserDefinedCol2] AS [UserDefinedCol2], 
+    [OrderInfor1].[UserDefinedCol3] AS [UserDefinedCol3], 
+    [OrderInfor1].[UserDefinedCol4] AS [UserDefinedCol4], 
+    [OrderInfor1].[UserDefinedCol5] AS [UserDefinedCol5], 
+    [OrderInfor1].[UserDefinedCol6] AS [UserDefinedCol6], 
+    [OrderInfor1].[UserDefinedCol7] AS [UserDefinedCol7], 
+    [OrderInfor1].[UserDefinedCol8] AS [UserDefinedCol8], 
+    [OrderInfor1].[UserDefinedCol9] AS [UserDefinedCol9], 
+    [OrderInfor1].[UserDefinedCol10] AS [UserDefinedCol10]
+    FROM [dbo].[OrderInfor1] AS [OrderInfor1]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_AmountSum_Billing" EntityType="Self.V_AmountSum_Billing" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_AmountSum_Billing].[ID] AS [ID], 
@@ -4171,6 +4243,7 @@
           <EntitySet Name="TugInfor" EntityType="Model.TugInfor" />
           <EntitySet Name="UserInfor" EntityType="Model.UserInfor" />
           <EntitySet Name="UsersRole" EntityType="Model.UsersRole" />
+          <EntitySet Name="OrderInfor1" EntityType="Model.OrderInfor1" />
           <EntitySet Name="V_AmountSum_Billing" EntityType="Model.V_AmountSum_Billing" />
           <EntitySet Name="V_AmountSum_Service" EntityType="Model.V_AmountSum_Service" />
           <EntitySet Name="V_Approve_Billing" EntityType="Model.V_Approve_Billing" />
@@ -5335,6 +5408,40 @@
           <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserInfor" Relationship="Model.FK_Users_Role_User_Infor" FromRole="UsersRole" ToRole="UserInfor" />
+        </EntityType>
+        <EntityType Name="OrderInfor1">
+          <Key>
+            <PropertyRef Name="IDX" />
+          </Key>
+          <Property Name="IDX" Type="Int32" Nullable="false" />
+          <Property Name="IsGuest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrdDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShipID" Type="Int32" />
+          <Property Name="ShipName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LinkMan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LinkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LinkEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkStateID" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="CreateDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LastUpDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasInvoice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HasInFlow" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol5" Type="Double" />
+          <Property Name="UserDefinedCol6" Type="Int32" />
+          <Property Name="UserDefinedCol7" Type="Int32" />
+          <Property Name="UserDefinedCol8" Type="Int32" />
+          <Property Name="UserDefinedCol9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserDefinedCol10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="V_AmountSum_Billing">
           <Key>
@@ -7940,6 +8047,41 @@
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderInfor1">
+            <EntityTypeMapping TypeName="Model.OrderInfor1">
+              <MappingFragment StoreEntitySet="OrderInfor1">
+                <ScalarProperty Name="UserDefinedCol10" ColumnName="UserDefinedCol10" />
+                <ScalarProperty Name="UserDefinedCol9" ColumnName="UserDefinedCol9" />
+                <ScalarProperty Name="UserDefinedCol8" ColumnName="UserDefinedCol8" />
+                <ScalarProperty Name="UserDefinedCol7" ColumnName="UserDefinedCol7" />
+                <ScalarProperty Name="UserDefinedCol6" ColumnName="UserDefinedCol6" />
+                <ScalarProperty Name="UserDefinedCol5" ColumnName="UserDefinedCol5" />
+                <ScalarProperty Name="UserDefinedCol4" ColumnName="UserDefinedCol4" />
+                <ScalarProperty Name="UserDefinedCol3" ColumnName="UserDefinedCol3" />
+                <ScalarProperty Name="UserDefinedCol2" ColumnName="UserDefinedCol2" />
+                <ScalarProperty Name="UserDefinedCol1" ColumnName="UserDefinedCol1" />
+                <ScalarProperty Name="HasInFlow" ColumnName="HasInFlow" />
+                <ScalarProperty Name="HasInvoice" ColumnName="HasInvoice" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="WorkStateID" ColumnName="WorkStateID" />
+                <ScalarProperty Name="LinkEmail" ColumnName="LinkEmail" />
+                <ScalarProperty Name="LinkPhone" ColumnName="LinkPhone" />
+                <ScalarProperty Name="LinkMan" ColumnName="LinkMan" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="ShipID" ColumnName="ShipID" />
+                <ScalarProperty Name="OrdDate" ColumnName="OrdDate" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IsGuest" ColumnName="IsGuest" />
                 <ScalarProperty Name="IDX" ColumnName="IDX" />
               </MappingFragment>
             </EntityTypeMapping>
