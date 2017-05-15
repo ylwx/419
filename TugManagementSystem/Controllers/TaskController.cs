@@ -210,6 +210,57 @@ namespace TugManagementSystem.Controllers
             //}
         }
 
+
+
+        public ActionResult GetCheckedData2(bool _search, string sidx, string sord, int page, int rows)
+        {
+            this.Internationalization();
+            int curUserId = 0;
+            curUserId = Session.GetDataFromSession<int>("userid");
+
+            try
+            {
+                TugDataEntities db = new TugDataEntities();
+
+                if (_search == true)
+                {
+                    string searchOption = Request.QueryString["filters"];
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Where(u => u.IDX == -1).Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<proc_approved_Result> orders = TugBusinessLogic.Module.OrderLogic.SearchForTaskChecked(sidx, sord, searchOption, curUserId);
+
+                    int totalRecordNum = orders.Count;
+                    if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<proc_approved_Result> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<proc_approved_Result>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    //return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //List<V_OrderInfor> orders = db.V_OrderInfor.Select(u => u).OrderByDescending(u => u.IDX).ToList<V_OrderInfor>();
+                    List<proc_approved_Result> orders = TugBusinessLogic.Module.OrderLogic.LoadDataForTaskChecked(sidx, sord, curUserId);
+                    int totalRecordNum = orders.Count;
+                    //if (page != 0 && totalRecordNum % rows == 0) page -= 1;
+                    int pageSize = rows;
+                    int totalPageNum = (int)Math.Ceiling((double)totalRecordNum / pageSize);
+
+                    List<proc_approved_Result> page_orders = orders.Skip((page - 1) * rows).Take(rows).ToList<proc_approved_Result>();
+
+                    var jsonData = new { page = page, records = totalRecordNum, total = totalPageNum, rows = page_orders };
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+            }
+        }
+
+
         #endregion 已审核
 
         #region 通过

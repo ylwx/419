@@ -107,7 +107,7 @@
             }
 
             $("#jqGrid").jqGrid({
-                url: "/Task/GetCheckedData",
+                url: "/Task/GetCheckedData2",
                 mtype: "GET",
                 datatype: "json",
                 colModel: tableConfig.columns,
@@ -118,7 +118,7 @@
                 autowidth: true,
                 editurl: '@Url.Action("", "")',
                 pager: "#jqGridPager",
-                loadonce: true,
+                //loadonce: true,
                 rowList: ['15', '20', '30', '40', '50'],
                 rownumbers: true,
                 shrinkToFit: false,     //指定各列宽度
@@ -179,6 +179,42 @@
                     }
                 },
             });
+
+
+            $('#jqGrid').jqGrid('filterToolbar', {
+                searchResult: true,
+                searchOperators: true,
+                beforeSearch: function () {
+                    //alert(1);
+                    //alert($("#gs_Code").val());
+                    var util = new Util();
+
+                    var ret = true;
+
+                    //日期
+
+                    if ($("#gs_CreateDate").val() != null && $("#gs_CreateDate").val() != "")
+                        ret = ret && util.isDateTime('@Resources.Language.CreateDate', $("#gs_CreateDate").val());
+                    if ($("#gs_LastUpDate").val() != null && $("#gs_LastUpDate").val() != "")
+                        ret = ret && util.isDateTime('@Resources.Language.LastUpDate', $("#gs_LastUpDate").val());
+
+                    if ($("#gs_Amount").val() != null && $("#gs_Amount").val() != "")
+                        ret = ret && util.isValidCurrency('@Resources.Language.V_Billing_Amount', $("#gs_Amount").val());
+                    if ($("#gs_CreditNum").val() != null && $("#gs_CreditNum").val() != "")
+                        ret = ret && util.isValidNaturalNumber('@Resources.Language.Credit', $("#gs_CreditNum").val());
+
+                    @*if ($("#gs_BigTugNum").val() != null && $("#gs_BigTugNum").val() != "")
+                    ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_BigTugNum', $("#gs_BigTugNum").val());
+                    if ($("#gs_MiddleTugNum").val() != null && $("#gs_MiddleTugNum").val() != "")
+                        ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_MiddleTugNum', $("#gs_MiddleTugNum").val());
+                    if ($("#gs_SmallTugNum").val() != null && $("#gs_SmallTugNum").val() != "")
+                        ret = ret && util.isValidNaturalNumber('@Resources.Language.V_OrderInfor_SmallTugNum', $("#gs_SmallTugNum").val());*@
+
+                    //alert(ret); //ret为true，说明验证客户端验证通过，需要进行搜索；反之，不进行搜索
+                    return !ret; //beforeSearch 返回true不触发搜索，false出发搜索
+                }
+            });
+
 
             // 撤销通过
             $("#RepealPass_btn").click(function () {
