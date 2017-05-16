@@ -8698,26 +8698,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.Code.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Code.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "InvoiceType"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.Code.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "InvoiceType"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Code.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "InvoiceType"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.Code.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "InvoiceType"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Code.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "InvoiceType"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.Code.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "InvoiceType"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Code.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "InvoiceType"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -8740,42 +8740,43 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.CustomerName.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.CustomerName.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName"), Expression.Constant(data.Trim()));
 
-                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerCode"), Expression.Constant(data.Trim().ToLower())));
-                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName2"), Expression.Constant(data.Trim().ToLower())));
-                                                cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerSimpleName"), Expression.Constant(data.Trim().ToLower())));
+                                                //cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerCode"), Expression.Constant(data.Trim())));
+                                                //cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerName2"), Expression.Constant(data.Trim())));
+                                                //cdt = Expression.OrElse(cdt, Expression.Equal(Expression.PropertyOrField(parameter, "CustomerSimpleName"), Expression.Constant(data.Trim())));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.CustomerName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.CustomerName.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
 
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.CustomerName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.CustomerName.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
 
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.CustomerName.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.CustomerName.Contains(data.Trim())).ToList();
+                                                //cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
 
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
-                                                cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerCode"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerName2"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
+                                                //cdt = Expression.OrElse(cdt, Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("Contains", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String))));
                                             }
                                             break;
                                         default:
@@ -8797,26 +8798,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerSimpleName"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.ShipName.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "CustomerSimpleName"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.ShipName.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.ShipName.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.ShipName.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "CustomerSimpleName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -8838,26 +8839,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ShipName"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.ShipName.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "ShipName"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.ShipName.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.ShipName.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.ShipName.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.ShipName.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "ShipName"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -8879,26 +8880,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.LinkMan.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "JobNo"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkMan.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "JobNo"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.LinkMan.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkMan.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.LinkMan.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkMan.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.LinkMan.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkMan.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "JobNo"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -8920,26 +8921,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.LinkPhone.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingCode"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkPhone.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingCode"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.LinkPhone.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkPhone.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.LinkPhone.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkPhone.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.LinkPhone.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkPhone.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingCode"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -8961,26 +8962,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkEmail.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkEmail.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkEmail.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkEmail.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "BillingTemplateTypeLabel"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -9096,26 +9097,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TimeTypeValue"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkEmail.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TimeTypeValue"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeValue"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkEmail.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeValue"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeValue"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkEmail.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeValue"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeValue"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkEmail.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeValue"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -9137,26 +9138,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TimeTypeLabel"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkEmail.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "TimeTypeLabel"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeLabel"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkEmail.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeLabel"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeLabel"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.LinkEmail.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeLabel"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.LinkEmail.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeLabel"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.LinkEmail.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "TimeTypeLabel"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -9178,26 +9179,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Status"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Remark.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Status"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Remark.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Remark.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Remark.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Status"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -9219,26 +9220,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Remark"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Remark.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Remark"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Remark.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Remark.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Remark.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Remark"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -9260,26 +9261,26 @@ namespace TugBusinessLogic.Module
                                     {
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().CompareTo(data.Trim().ToLower()) == 0).ToList();
-                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Month"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Remark.CompareTo(data.Trim()) == 0).ToList();
+                                                cdt = Expression.Equal(Expression.PropertyOrField(parameter, "Month"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_BW:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().StartsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Remark.StartsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(string).GetMethod("StartsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_EW:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().EndsWith(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                //orders = orders.Where(u => u.Remark.EndsWith(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(string).GetMethod("EndsWith", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_CN:
                                             {
-                                                //orders = orders.Where(u => u.Remark.ToLower().Contains(data.Trim().ToLower())).ToList();
-                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim().ToLower()));
+                                                //orders = orders.Where(u => u.Remark.Contains(data.Trim())).ToList();
+                                                cdt = Expression.Call(Expression.PropertyOrField(parameter, "Month"), typeof(string).GetMethod("Contains"), Expression.Constant(data.Trim()));
                                             }
                                             break;
                                         default:
@@ -9309,28 +9310,28 @@ namespace TugBusinessLogic.Module
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1).ToList();
                                                 //cdt = Expression.LessThan(Expression.PropertyOrField(parameter, "CreateDate"), Expression.Constant(data.Trim()));
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == -1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.CreateDate.CompareTo(data.Trim()) == 1 || u.CreateDate.CompareTo(data.Trim()) == 0).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "CreateDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(0));
                                             }
                                             break;
@@ -9354,35 +9355,35 @@ namespace TugBusinessLogic.Module
                                         case ConstValue.ComparisonOperator_EQ:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate == data.Trim()).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.Equal(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_LT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.LessThan(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_LE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == -1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.LessThanOrEqual(tmp, Expression.Constant(0, typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GT:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.GreaterThan(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
                                         case ConstValue.ComparisonOperator_GE:
                                             {
                                                 //orders = orders.Where(u => u.LastUpDate.CompareTo(data.Trim()) == 1 || u.LastUpDate.CompareTo(data.Trim()) == 0).ToList();
-                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim().ToLower(), typeof(String)));
+                                                Expression tmp = Expression.Call(Expression.PropertyOrField(parameter, "LastUpDate"), typeof(String).GetMethod("CompareTo", new Type[] { typeof(String) }), Expression.Constant(data.Trim(), typeof(String)));
                                                 cdt = Expression.GreaterThanOrEqual(tmp, Expression.Constant(typeof(Int32)));
                                             }
                                             break;
@@ -9429,7 +9430,7 @@ namespace TugBusinessLogic.Module
                 {
                     case "":
                         {
-                            //if(orderMethod.ToLower().Equals("asc"))
+                            //if(orderMethod.Equals("asc"))
                             //    orders = orders.OrderBy(u => u.IDX).ToList();
                             //else
                             orders = orders.OrderByDescending(u => u.IDX).ToList();
@@ -9437,7 +9438,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "InvoiceType":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.InvoiceType).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.InvoiceType).ToList();
@@ -9445,7 +9446,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "CustomerName":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.CustomerName).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.CustomerName).ToList();
@@ -9453,7 +9454,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "CustomerSimpleName":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.CustomerSimpleName).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.CustomerSimpleName).ToList();
@@ -9461,7 +9462,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "ShipName":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.ShipName).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.ShipName).ToList();
@@ -9470,7 +9471,7 @@ namespace TugBusinessLogic.Module
 
                     case "JobNo":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.JobNo).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.JobNo).ToList();
@@ -9479,7 +9480,7 @@ namespace TugBusinessLogic.Module
 
                     case "BillingCode":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.BillingCode).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.BillingCode).ToList();
@@ -9488,7 +9489,7 @@ namespace TugBusinessLogic.Module
 
                     case "BillingTemplateTypeLabel":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.BillingTemplateTypeLabel).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.BillingTemplateTypeLabel).ToList();
@@ -9497,7 +9498,7 @@ namespace TugBusinessLogic.Module
 
                     case "TimeTypeValue":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.TimeTypeValue).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.TimeTypeValue).ToList();
@@ -9506,7 +9507,7 @@ namespace TugBusinessLogic.Module
 
                     case "TimeTypeLabel":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.TimeTypeLabel).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.TimeTypeLabel).ToList();
@@ -9514,7 +9515,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "Amount":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.Amount).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Amount).ToList();
@@ -9522,7 +9523,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "Status":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.Status).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Status).ToList();
@@ -9530,7 +9531,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "Remark":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.Remark).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Remark).ToList();
@@ -9538,7 +9539,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "CreateDate":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.CreateDate).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.CreateDate).ToList();
@@ -9546,7 +9547,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "LastUpDate":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.LastUpDate).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.LastUpDate).ToList();
@@ -9554,7 +9555,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "UserID":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.UserID).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.UserID).ToList();
@@ -9562,7 +9563,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "CreditNum":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.CreditNum).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.CreditNum).ToList();
@@ -9570,7 +9571,7 @@ namespace TugBusinessLogic.Module
                         break;
                     case "Month":
                         {
-                            if (orderMethod.ToLower().Equals("asc"))
+                            if (orderMethod.Equals("asc"))
                                 orders = orders.OrderBy(u => u.Month).ToList();
                             else
                                 orders = orders.OrderByDescending(u => u.Month).ToList();
