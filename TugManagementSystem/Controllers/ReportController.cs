@@ -261,6 +261,7 @@ namespace TugManagementSystem.Controllers
                     FReport.Parameters.FindByName("thisyeartothismonth").Value = Convert.ToDouble(dt.Compute("Sum(ThisYearToThisMonthAmount)", "")).ToString("f2");
                     FReport.Parameters.FindByName("lastyearthismonth").Value = Convert.ToDouble(dt.Compute("Sum(LastYearThisMonthAmount)", "")).ToString("f2");
                     FReport.Parameters.FindByName("thisyearthismonth").Value = Convert.ToDouble(dt.Compute("Sum(ThisYearThisMonthAmount)", "")).ToString("f2");
+                    FReport.Parameters.FindByName("thisyearlastmonth").Value = Convert.ToDouble(dt.Compute("Sum(ThisYearLastMonthAmount)", "")).ToString("f2");
                     FReport.Parameters.FindByName("fuelamount").Value = Convert.ToDouble(dt.Compute("Sum(FuelAmount)", "")).ToString("f2");
                     FReport.Parameters.FindByName("submitcaiwu").Value = Convert.ToDouble(dt.Compute("Sum(SubmitFinanceAmount)", "")).ToString("f2");
                     FReport.Parameters.FindByName("turnnextmonth").Value = Convert.ToDouble(dt.Compute("Sum(TurnNextMonthAmount)", "")).ToString("f2");
