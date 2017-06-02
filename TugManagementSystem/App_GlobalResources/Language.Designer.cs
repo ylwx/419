@@ -1393,7 +1393,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 拖輪營業額匯總 的本地化字符串。
+        ///   查找类似 拖輪收入匯總 的本地化字符串。
         /// </summary>
         internal static string Report_Tug {
             get {
