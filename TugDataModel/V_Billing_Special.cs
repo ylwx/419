@@ -31,5 +31,6 @@ namespace TugDataModel
         public Nullable<int> Length { get; set; }
         public Nullable<int> TEUS { get; set; }
         public Nullable<int> CustomerID { get; set; }
+        public string CustomerName2 { get; set; }
     }
 }

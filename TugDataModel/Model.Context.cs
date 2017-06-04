@@ -560,5 +560,14 @@ namespace TugDataModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
         }
+    
+        public virtual ObjectResult<proc_approved1_Result> proc_approved1(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved1_Result>("proc_approved1", userIDParameter);
+        }
     }
 }

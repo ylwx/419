@@ -36,6 +36,12 @@ namespace TugManagementSystem.Controllers
             ViewBag.reporttitile = reporttitile;
             return View();
         }
+        public ActionResult ReportSum_Year(string reporttype, string reporttitile)
+        {
+            ViewBag.reporttype = reporttype;
+            ViewBag.reporttitile = reporttitile;
+            return View();
+        }
         #endregion
 
         #region 金额汇总接口
@@ -208,7 +214,7 @@ namespace TugManagementSystem.Controllers
         }
         #endregion       
 
-        #region Report 收入汇总，按客户
+        #region Report 收入汇总，按客户，月度
         public ActionResult AmoutSum_ByCustomer(string sDate)//int OrderID, int CreditID
         {
             string[] sArray = sDate.Split('-');
@@ -275,6 +281,65 @@ namespace TugManagementSystem.Controllers
 
         }
         #endregion   
+
+        #region Report 收入汇总，按客户，年度
+        public ActionResult Amount_ByCustomer_Year(string sDate)//int OrderID, int CreditID
+        {
+            //string[] sArray = sDate.Split('-');
+            int year = Convert.ToInt16(sDate);
+            //int month = Convert.ToInt16(sArray[1]);
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 2969;  // set width
+            webReport.Height = 4201; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_amountsum_bycustomer_year.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Amount_ByCustomer_Year(webReport.Report, year);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Amount_ByCustomer_Year(FastReport.Report FReport, int year)
+        {
+            DataTable dt = null;
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@sYear",
+                Direction = ParameterDirection.Input,
+                Value = year,
+                DbType = DbType.Int16
+            };
+            SqlParameter[] param = new SqlParameter[] { para1 };
+            dt = SqlHelper.GetDatatableBySP("proc_AmountSum_ByCustomer_Year", param);
+            FReport.RegisterData(dt, dt.TableName);
+            if (dt.Rows.Count != 0)
+            {
+                FReport.Parameters.FindByName("year").Value = year;
+                FReport.Parameters.FindByName("sum1").Value = Convert.ToDouble(dt.Compute("Sum(Amount1)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum2").Value = Convert.ToDouble(dt.Compute("Sum(Amount2)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum3").Value = Convert.ToDouble(dt.Compute("Sum(Amount3)", "")).ToString("f0");
+                //FReport.Parameters.FindByName("sum13").Value = Convert.ToDouble(dt.Compute("Sum(Amount13)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum4").Value = Convert.ToDouble(dt.Compute("Sum(Amount4)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum5").Value = Convert.ToDouble(dt.Compute("Sum(Amount5)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum6").Value = Convert.ToDouble(dt.Compute("Sum(Amount6)", "")).ToString("f0");
+                //FReport.Parameters.FindByName("sum16").Value = Convert.ToDouble(dt.Compute("Sum(Amount16)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum7").Value = Convert.ToDouble(dt.Compute("Sum(Amount7)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum8").Value = Convert.ToDouble(dt.Compute("Sum(Amount8)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum9").Value = Convert.ToDouble(dt.Compute("Sum(Amount9)", "")).ToString("f0");
+                //FReport.Parameters.FindByName("sum19").Value = Convert.ToDouble(dt.Compute("Sum(Amount19)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum10").Value = Convert.ToDouble(dt.Compute("Sum(Amount10)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum11").Value = Convert.ToDouble(dt.Compute("Sum(Amount11)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum12").Value = Convert.ToDouble(dt.Compute("Sum(Amount12)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum112").Value = Convert.ToDouble(dt.Compute("Sum(Amount112)", "")).ToString("f0");
+            }
+        }
+        #endregion  
     
         #region Report 拖輪使用情況，按客户
         public ActionResult TugNum_ByCustomer(string sDate)//int OrderID, int CreditID
@@ -322,7 +387,7 @@ namespace TugManagementSystem.Controllers
         }
         #endregion  
 
-        #region Report 拖輪收入，按拖輪
+        #region Report 拖輪收入，按拖輪，月度
         public ActionResult Amout_ByTug(string sDate)//int OrderID, int CreditID
         {
             string[] sArray = sDate.Split('-');
@@ -374,6 +439,65 @@ namespace TugManagementSystem.Controllers
                 FReport.Parameters.FindByName("lastyearthismonth").Value = Convert.ToDouble(dt.Compute("Sum(LastYearThisMonthAmount)", "")).ToString("f2");
                 FReport.Parameters.FindByName("thisyearthismonth").Value = Convert.ToDouble(dt.Compute("Sum(ThisYearThisMonthAmount)", "")).ToString("f2");
 
+            }
+        }
+        #endregion  
+
+        #region Report 拖輪收入，按拖輪，年度
+        public ActionResult Amout_ByTug_Year(string sDate)//int OrderID, int CreditID
+        {
+            //string[] sArray = sDate.Split('-');
+            int year = Convert.ToInt16(sDate);
+            //int month = Convert.ToInt16(sArray[1]);
+            SetReport();
+            WebReport webReport = new WebReport(); // create object
+            webReport.Width = 2969;  // set width
+            webReport.Height = 4201; // set height
+
+            //读取文件到 MemoryStream
+            FileStream stream = new FileStream(this.Server.MapPath(@"\Report\report_amountsum_bytug_year.frx"), FileMode.Open);
+            //MemoryStream stream = new System.IO.MemoryStream(entTemplate.TemplateFileBin);
+            webReport.Report.Load(stream); //从内存加载模板到report中
+            stream.Close();
+            Report_DataRegister_Amout_ByTug_Year(webReport.Report, year);
+            var reportPage = (FastReport.ReportPage)(webReport.Report.Pages[0]);
+            webReport.Prepare();
+
+            ViewBag.WebReport = webReport; // send object to the View
+            return View();
+        }
+        private void Report_DataRegister_Amout_ByTug_Year(FastReport.Report FReport,int year)
+        {
+            DataTable dt = null;
+            SqlParameter para1 = new SqlParameter()
+            {
+                ParameterName = "@sYear",
+                Direction = ParameterDirection.Input,
+                Value = year,
+                DbType = DbType.Int16
+            };
+            SqlParameter[] param = new SqlParameter[] { para1 };
+            dt = SqlHelper.GetDatatableBySP("proc_AmountSum_ByTug_Year", param);
+            FReport.RegisterData(dt, dt.TableName);
+            if (dt.Rows.Count != 0)
+            {
+                FReport.Parameters.FindByName("year").Value = year;
+                FReport.Parameters.FindByName("sum1").Value = Convert.ToDouble(dt.Compute("Sum(Amount1)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum2").Value = Convert.ToDouble(dt.Compute("Sum(Amount2)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum3").Value = Convert.ToDouble(dt.Compute("Sum(Amount3)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum13").Value = Convert.ToDouble(dt.Compute("Sum(Amount13)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum4").Value = Convert.ToDouble(dt.Compute("Sum(Amount4)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum5").Value = Convert.ToDouble(dt.Compute("Sum(Amount5)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum6").Value = Convert.ToDouble(dt.Compute("Sum(Amount6)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum16").Value = Convert.ToDouble(dt.Compute("Sum(Amount16)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum7").Value = Convert.ToDouble(dt.Compute("Sum(Amount7)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum8").Value = Convert.ToDouble(dt.Compute("Sum(Amount8)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum9").Value = Convert.ToDouble(dt.Compute("Sum(Amount9)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum19").Value = Convert.ToDouble(dt.Compute("Sum(Amount19)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum10").Value = Convert.ToDouble(dt.Compute("Sum(Amount10)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum11").Value = Convert.ToDouble(dt.Compute("Sum(Amount11)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum12").Value = Convert.ToDouble(dt.Compute("Sum(Amount12)", "")).ToString("f0");
+                FReport.Parameters.FindByName("sum112").Value = Convert.ToDouble(dt.Compute("Sum(Amount112)", "")).ToString("f0");
             }
         }
         #endregion  

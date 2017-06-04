@@ -24,5 +24,6 @@ namespace TugDataModel
         public Nullable<int> OrderID { get; set; }
         public string ServiceWorkPlace { get; set; }
         public Nullable<int> ServiceNatureID { get; set; }
+        public string CustomerName2 { get; set; }
     }
 }
