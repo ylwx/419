@@ -2567,9 +2567,15 @@
           <Parameter Name="sYear" Type="int" Mode="In" />
           <Parameter Name="sMonth" Type="int" Mode="In" />
         </Function>
+        <Function Name="proc_AmountSum_ByCustomer_Year" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sYear" Type="int" Mode="In" />
+        </Function>
         <Function Name="proc_AmountSum_ByTug" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sYear" Type="int" Mode="In" />
           <Parameter Name="sMonth" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_AmountSum_ByTug_Year" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sYear" Type="int" Mode="In" />
         </Function>
         <Function Name="proc_AmountSum_EAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="sDate" Type="nvarchar" Mode="In" />
@@ -4095,139 +4101,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TugDataEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Model.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Model.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram1">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram1">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition1" ReturnType="Collection(Model.sp_helpdiagramdefinition1_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams1" ReturnType="Collection(Model.sp_helpdiagrams1_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram1">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams1" />
-          <FunctionImport Name="sp_alterdiagram1">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram2">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram2">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition2" ReturnType="Collection(Model.sp_helpdiagramdefinition2_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams2" ReturnType="Collection(Model.sp_helpdiagrams2_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram2">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams2" />
-          <FunctionImport Name="proc_AmountSum_ByCustomer" ReturnType="Collection(Model.proc_AmountSum_ByCustomer_Result1)">
-            <Parameter Name="sYear" Mode="In" Type="Int32" />
-            <Parameter Name="sMonth" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_AmountSum_ByTug" ReturnType="Collection(Model.proc_AmountSum_ByTug_Result1)">
-            <Parameter Name="sYear" Mode="In" Type="Int32" />
-            <Parameter Name="sMonth" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_inv_item" ReturnType="Collection(Model.proc_inv_item_Result1)">
-            <Parameter Name="BillingID" Mode="In" Type="Int32" />
-            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_inv_item_xy" ReturnType="Collection(Model.proc_inv_item_xy_Result1)">
-            <Parameter Name="BillingID" Mode="In" Type="Int32" />
-            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_inv_SrvHourNumeric" ReturnType="Collection(Double)">
-            <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
-            <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
-            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_inv_SrvHourString" ReturnType="Collection(String)">
-            <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
-            <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
-            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_test" ReturnType="Collection(String)" />
-          <FunctionImport Name="proc_TugSum_ByCustomer" ReturnType="Collection(Model.proc_TugSum_ByCustomer_Result1)">
-            <Parameter Name="sYear" Mode="In" Type="Int32" />
-            <Parameter Name="sMonth" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_TugSum_ByDay" ReturnType="Collection(Model.proc_TugSum_ByDay_Result1)">
-            <Parameter Name="Date1" Mode="In" Type="DateTime" />
-            <Parameter Name="Date2" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="proc_billing_pt_ts_qt" ReturnType="Collection(Model.proc_billing_pt_ts_qt_Result)">
-            <Parameter Name="Date1" Mode="In" Type="DateTime" />
-            <Parameter Name="Date2" Mode="In" Type="DateTime" />
-            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_AmountSum_EAS" ReturnType="Collection(Model.proc_AmountSum_EAS_Result)">
-          <Parameter Name="sDate" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
-          <Parameter Name="userID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
-          <Parameter Name="userID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="AmountSum" EntityType="Model.AmountSum" />
           <EntitySet Name="Approve" EntityType="Model.Approve" />
           <EntitySet Name="Arrangement" EntityType="Model.Arrangement" />
@@ -4372,243 +4245,65 @@
             <End Role="UserInfor" EntitySet="UserInfor" />
             <End Role="UsersRole" EntitySet="UsersRole" />
           </AssociationSet>
+          <FunctionImport Name="proc_AmountSum_ByCustomer" ReturnType="Collection(Model.proc_AmountSum_ByCustomer_Result)">
+            <Parameter Name="sYear" Mode="In" Type="Int32" />
+            <Parameter Name="sMonth" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_AmountSum_ByCustomer_Year" ReturnType="Collection(Model.proc_AmountSum_ByCustomer_Year_Result)">
+            <Parameter Name="sYear" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_AmountSum_ByTug" ReturnType="Collection(Model.proc_AmountSum_ByTug_Result)">
+            <Parameter Name="sYear" Mode="In" Type="Int32" />
+            <Parameter Name="sMonth" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_AmountSum_ByTug_Year" ReturnType="Collection(Model.proc_AmountSum_ByTug_Year_Result)">
+            <Parameter Name="sYear" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_AmountSum_EAS" ReturnType="Collection(Model.proc_AmountSum_EAS_Result)">
+            <Parameter Name="sDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="proc_approved" ReturnType="Collection(Model.proc_approved_Result)">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="proc_approved1" ReturnType="Collection(Model.proc_approved1_Result)">
             <Parameter Name="userID" Mode="In" Type="Int32" />
           </FunctionImport>
-          </EntityContainer>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagramdefinition1_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams1_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagramdefinition2_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams2_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="proc_AmountSum_ByCustomer_Result">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="Double" Name="LastYearAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="FuelAmount" Nullable="true" />
-          <Property Type="Double" Name="SubmitFinanceAmount" Nullable="true" />
-          <Property Type="Double" Name="TurnNextMonthAmount" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_AmountSum_ByTug_Result">
-          <Property Type="Int32" Name="TugID" Nullable="true" />
-          <Property Type="String" Name="TugName" Nullable="true" />
-          <Property Type="Double" Name="LastYearAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_inv_item_Result">
-          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="proc_inv_item_xy_Result">
-          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="proc_TugSum_ByCustomer_Result">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="Int32" Name="LastYearSumBG" Nullable="true" />
-          <Property Type="Int32" Name="LastYearSumMD" Nullable="true" />
-          <Property Type="Int32" Name="LastYearSumSM" Nullable="true" />
-          <Property Type="Int32" Name="LastYearToThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="LastYearToThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="LastYearToThisMonthSumSM" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearToThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearToThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearToThisMonthSumSM" Nullable="true" />
-          <Property Type="Int32" Name="LastYearThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="LastYearThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="LastYearThisMonthSumSM" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearThisMonthSumSM" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_TugSum_ByDay_Result">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="ServiceWorkDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="TugNum" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_AmountSum_ByCustomer_Result1">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="Double" Name="LastYearAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="FuelAmount" Nullable="true" />
-          <Property Type="Double" Name="SubmitFinanceAmount" Nullable="true" />
-          <Property Type="Double" Name="TurnNextMonthAmount" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_AmountSum_ByTug_Result1">
-          <Property Type="Int32" Name="TugID" Nullable="true" />
-          <Property Type="String" Name="TugName" Nullable="true" />
-          <Property Type="Double" Name="LastYearAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
-          <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_inv_item_Result1">
-          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="proc_inv_item_xy_Result1">
-          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="proc_TugSum_ByCustomer_Result1">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="Int32" Name="LastYearSumBG" Nullable="true" />
-          <Property Type="Int32" Name="LastYearSumMD" Nullable="true" />
-          <Property Type="Int32" Name="LastYearSumSM" Nullable="true" />
-          <Property Type="Int32" Name="LastYearToThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="LastYearToThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="LastYearToThisMonthSumSM" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearToThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearToThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearToThisMonthSumSM" Nullable="true" />
-          <Property Type="Int32" Name="LastYearThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="LastYearThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="LastYearThisMonthSumSM" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearThisMonthSumBG" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearThisMonthSumMD" Nullable="true" />
-          <Property Type="Int32" Name="ThisYearThisMonthSumSM" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_TugSum_ByDay_Result1">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="ServiceWorkDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="TugNum" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="proc_billing_pt_ts_qt_Result">
-          <Property Type="Int32" Name="IDX" Nullable="true" />
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Amount" Nullable="false" />
-          <Property Type="Double" Name="TotalRebate" Nullable="false" />
-          <Property Type="Double" Name="FinalAmount" Nullable="false" />
-          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="TugNum" Nullable="false" />
-          <Property Type="Double" Name="FuelAmount" Nullable="false" />
-          <Property Type="String" Name="Length" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TEUS" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="proc_AmountSum_EAS_Result">
-          <Property Type="Int32" Name="CustomerID" Nullable="true" />
-          <Property Type="String" Name="Name1" Nullable="true" />
-          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Amount" Nullable="true" />
-          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="EasCode" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="EasDays" Nullable="true" />
-          <Property Type="String" Name="PayDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="EASTugCode" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="proc_approved_Result">
-          <Property Type="Int32" Name="IDX" Nullable="true" />
-          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="CustomerSimpleName" Nullable="true" />
-          <Property Type="String" Name="ShipName" Nullable="true" />
-          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Amount" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Remark" Nullable="true" />
-          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="UserID" Nullable="true" />
-          <Property Type="Int32" Name="CreditNum" Nullable="true" />
-          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="proc_needapprove_Result">
-          <Property Type="Int32" Name="IDX" Nullable="true" />
-          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="String" Name="CustomerSimpleName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ShipName" Nullable="true" />
-          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Amount" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Remark" Nullable="true" />
-          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="MarkID" Nullable="true" />
-          <Property Type="Int32" Name="Phase" Nullable="true" />
-          <Property Type="String" Name="Task" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="FlowUserID" Nullable="true" />
-          <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="CreditNum" Nullable="true" />
-          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
-        </ComplexType>
+          <FunctionImport Name="proc_billing_pt_ts_qt" ReturnType="Collection(Model.proc_billing_pt_ts_qt_Result)">
+            <Parameter Name="Date1" Mode="In" Type="DateTime" />
+            <Parameter Name="Date2" Mode="In" Type="DateTime" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_inv_item" ReturnType="Collection(Model.proc_inv_item_Result)">
+            <Parameter Name="BillingID" Mode="In" Type="Int32" />
+            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_inv_item_xy" ReturnType="Collection(Model.proc_inv_item_xy_Result)">
+            <Parameter Name="BillingID" Mode="In" Type="Int32" />
+            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_inv_SrvHourNumeric" ReturnType="Collection(Double)">
+            <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
+            <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
+            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_inv_SrvHourString" ReturnType="Collection(String)">
+            <Parameter Name="DepartBaseTime" Mode="In" Type="String" />
+            <Parameter Name="ArrivalBaseTime" Mode="In" Type="String" />
+            <Parameter Name="TimeTypeValue" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_needapprove" ReturnType="Collection(Model.proc_needapprove_Result)">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_test" ReturnType="Collection(String)" />
+          <FunctionImport Name="proc_TugSum_ByCustomer" ReturnType="Collection(Model.proc_TugSum_ByCustomer_Result)">
+            <Parameter Name="sYear" Mode="In" Type="Int32" />
+            <Parameter Name="sMonth" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="proc_TugSum_ByDay" ReturnType="Collection(Model.proc_TugSum_ByDay_Result)">
+            <Parameter Name="Date1" Mode="In" Type="DateTime" />
+            <Parameter Name="Date2" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
         <EntityType Name="AmountSum">
           <Key>
             <PropertyRef Name="ID" />
@@ -7071,6 +6766,103 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="proc_AmountSum_ByCustomer_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="Double" Name="LastYearAmount" Nullable="true" />
+          <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="ThisYearLastMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="FuelAmount" Nullable="true" />
+          <Property Type="Double" Name="SubmitFinanceAmount" Nullable="true" />
+          <Property Type="Double" Name="TurnNextMonthAmount" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthZS" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_AmountSum_ByCustomer_Year_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="Double" Name="Amount1" Nullable="true" />
+          <Property Type="Double" Name="Amount2" Nullable="true" />
+          <Property Type="Double" Name="Amount3" Nullable="true" />
+          <Property Type="Double" Name="Amount13" Nullable="true" />
+          <Property Type="Double" Name="Amount4" Nullable="true" />
+          <Property Type="Double" Name="Amount5" Nullable="true" />
+          <Property Type="Double" Name="Amount6" Nullable="true" />
+          <Property Type="Double" Name="Amount16" Nullable="true" />
+          <Property Type="Double" Name="Amount7" Nullable="true" />
+          <Property Type="Double" Name="Amount8" Nullable="true" />
+          <Property Type="Double" Name="Amount9" Nullable="true" />
+          <Property Type="Double" Name="Amount19" Nullable="true" />
+          <Property Type="Double" Name="Amount10" Nullable="true" />
+          <Property Type="Double" Name="Amount11" Nullable="true" />
+          <Property Type="Double" Name="Amount12" Nullable="true" />
+          <Property Type="Double" Name="Amount112" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_AmountSum_ByTug_Result">
+          <Property Type="Int32" Name="TugID" Nullable="true" />
+          <Property Type="String" Name="TugName" Nullable="true" />
+          <Property Type="Double" Name="LastYearAmount" Nullable="true" />
+          <Property Type="Double" Name="LastYearToThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="ThisYearToThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="LastYearThisMonthAmount" Nullable="true" />
+          <Property Type="Double" Name="ThisYearThisMonthAmount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_AmountSum_ByTug_Year_Result">
+          <Property Type="Int32" Name="TugID" Nullable="true" />
+          <Property Type="String" Name="TugName" Nullable="true" />
+          <Property Type="Double" Name="Amount1" Nullable="true" />
+          <Property Type="Double" Name="Amount2" Nullable="true" />
+          <Property Type="Double" Name="Amount3" Nullable="true" />
+          <Property Type="Double" Name="Amount13" Nullable="true" />
+          <Property Type="Double" Name="Amount4" Nullable="true" />
+          <Property Type="Double" Name="Amount5" Nullable="true" />
+          <Property Type="Double" Name="Amount6" Nullable="true" />
+          <Property Type="Double" Name="Amount16" Nullable="true" />
+          <Property Type="Double" Name="Amount7" Nullable="true" />
+          <Property Type="Double" Name="Amount8" Nullable="true" />
+          <Property Type="Double" Name="Amount9" Nullable="true" />
+          <Property Type="Double" Name="Amount19" Nullable="true" />
+          <Property Type="Double" Name="Amount10" Nullable="true" />
+          <Property Type="Double" Name="Amount11" Nullable="true" />
+          <Property Type="Double" Name="Amount12" Nullable="true" />
+          <Property Type="Double" Name="Amount112" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_AmountSum_EAS_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="Name1" Nullable="true" />
+          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="true" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EasCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="EasDays" Nullable="true" />
+          <Property Type="String" Name="PayDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EASTugCode" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="proc_approved_Result">
+          <Property Type="Int32" Name="IDX" Nullable="true" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="CustomerSimpleName" Nullable="true" />
+          <Property Type="String" Name="ShipName" Nullable="true" />
+          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Remark" Nullable="true" />
+          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UserID" Nullable="true" />
+          <Property Type="Int32" Name="CreditNum" Nullable="true" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+        </ComplexType>
         <ComplexType Name="proc_approved1_Result">
           <Property Type="Int32" Name="IDX" Nullable="true" />
           <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
@@ -7091,192 +6883,100 @@
           <Property Type="Int32" Name="CreditNum" Nullable="true" />
           <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="proc_billing_pt_ts_qt_Result">
+          <Property Type="Int32" Name="IDX" Nullable="true" />
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="ServiceDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ShipName" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="false" />
+          <Property Type="Double" Name="TotalRebate" Nullable="false" />
+          <Property Type="Double" Name="FinalAmount" Nullable="false" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TugNum" Nullable="false" />
+          <Property Type="Double" Name="FuelAmount" Nullable="false" />
+          <Property Type="String" Name="Length" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TEUS" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="proc_inv_item_Result">
+          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="proc_inv_item_xy_Result">
+          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Item" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Value" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TugName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="proc_needapprove_Result">
+          <Property Type="Int32" Name="IDX" Nullable="true" />
+          <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="CustomerSimpleName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ShipName" Nullable="true" />
+          <Property Type="String" Name="JobNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BillingTemplateTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeValue" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TimeTypeLabel" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Amount" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Remark" Nullable="true" />
+          <Property Type="String" Name="CreateDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastUpDate" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MarkID" Nullable="true" />
+          <Property Type="Int32" Name="Phase" Nullable="true" />
+          <Property Type="String" Name="Task" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FlowUserID" Nullable="true" />
+          <Property Type="String" Name="System" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CreditNum" Nullable="true" />
+          <Property Type="String" Name="Month" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="proc_TugSum_ByCustomer_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="Int32" Name="LastYearSumBG" Nullable="true" />
+          <Property Type="Int32" Name="LastYearSumMD" Nullable="true" />
+          <Property Type="Int32" Name="LastYearSumSM" Nullable="true" />
+          <Property Type="Int32" Name="LastYearZS" Nullable="true" />
+          <Property Type="Int32" Name="LastYearToThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="LastYearToThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="LastYearToThisMonthSumSM" Nullable="true" />
+          <Property Type="Int32" Name="LastYearToThisMonthZS" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearToThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearToThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearToThisMonthSumSM" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearToThisMonthZS" Nullable="true" />
+          <Property Type="Int32" Name="LastYearThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="LastYearThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="LastYearThisMonthSumSM" Nullable="true" />
+          <Property Type="Int32" Name="LastYearThisMonthZS" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthSumBG" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthSumMD" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthSumSM" Nullable="true" />
+          <Property Type="Int32" Name="ThisYearThisMonthZS" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="proc_TugSum_ByDay_Result">
+          <Property Type="Int32" Name="CustomerID" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="String" Name="ServiceWorkDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TugType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TugNum" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="TugDataEntities">
-          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByCustomer" FunctionName="Model.Store.proc_AmountSum_ByCustomer">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByCustomer_Result1">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
-                <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
-                <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
-                <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
-                <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
-                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
-                <ScalarProperty Name="SubmitFinanceAmount" ColumnName="SubmitFinanceAmount" />
-                <ScalarProperty Name="TurnNextMonthAmount" ColumnName="TurnNextMonthAmount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByTug" FunctionName="Model.Store.proc_AmountSum_ByTug">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByTug_Result1">
-                <ScalarProperty Name="TugID" ColumnName="TugID" />
-                <ScalarProperty Name="TugName" ColumnName="TugName" />
-                <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
-                <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
-                <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
-                <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
-                <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_inv_item" FunctionName="Model.Store.proc_inv_item">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_inv_item_Result1">
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="Item" ColumnName="Item" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="TugName" ColumnName="TugName" />
-                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_inv_item_xy" FunctionName="Model.Store.proc_inv_item_xy">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_inv_item_xy_Result1">
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="Item" ColumnName="Item" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="TugName" ColumnName="TugName" />
-                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_inv_SrvHourNumeric" FunctionName="Model.Store.proc_inv_SrvHourNumeric" />
-          <FunctionImportMapping FunctionImportName="proc_inv_SrvHourString" FunctionName="Model.Store.proc_inv_SrvHourString" />
-          <FunctionImportMapping FunctionImportName="proc_test" FunctionName="Model.Store.proc_test" />
-          <FunctionImportMapping FunctionImportName="proc_TugSum_ByCustomer" FunctionName="Model.Store.proc_TugSum_ByCustomer">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_TugSum_ByCustomer_Result1">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="LastYearSumBG" ColumnName="LastYearSumBG" />
-                <ScalarProperty Name="LastYearSumMD" ColumnName="LastYearSumMD" />
-                <ScalarProperty Name="LastYearSumSM" ColumnName="LastYearSumSM" />
-                <ScalarProperty Name="LastYearToThisMonthSumBG" ColumnName="LastYearToThisMonthSumBG" />
-                <ScalarProperty Name="LastYearToThisMonthSumMD" ColumnName="LastYearToThisMonthSumMD" />
-                <ScalarProperty Name="LastYearToThisMonthSumSM" ColumnName="LastYearToThisMonthSumSM" />
-                <ScalarProperty Name="ThisYearToThisMonthSumBG" ColumnName="ThisYearToThisMonthSumBG" />
-                <ScalarProperty Name="ThisYearToThisMonthSumMD" ColumnName="ThisYearToThisMonthSumMD" />
-                <ScalarProperty Name="ThisYearToThisMonthSumSM" ColumnName="ThisYearToThisMonthSumSM" />
-                <ScalarProperty Name="LastYearThisMonthSumBG" ColumnName="LastYearThisMonthSumBG" />
-                <ScalarProperty Name="LastYearThisMonthSumMD" ColumnName="LastYearThisMonthSumMD" />
-                <ScalarProperty Name="LastYearThisMonthSumSM" ColumnName="LastYearThisMonthSumSM" />
-                <ScalarProperty Name="ThisYearThisMonthSumBG" ColumnName="ThisYearThisMonthSumBG" />
-                <ScalarProperty Name="ThisYearThisMonthSumMD" ColumnName="ThisYearThisMonthSumMD" />
-                <ScalarProperty Name="ThisYearThisMonthSumSM" ColumnName="ThisYearThisMonthSumSM" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_TugSum_ByDay" FunctionName="Model.Store.proc_TugSum_ByDay">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_TugSum_ByDay_Result1">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
-                <ScalarProperty Name="TugType" ColumnName="TugType" />
-                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_billing_pt_ts_qt" FunctionName="Model.Store.proc_billing_pt_ts_qt">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_billing_pt_ts_qt_Result">
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
-                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
-                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
-                <ScalarProperty Name="Length" ColumnName="Length" />
-                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_AmountSum_EAS" FunctionName="Model.Store.proc_AmountSum_EAS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_AmountSum_EAS_Result">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="Name1" ColumnName="Name1" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="EasCode" ColumnName="EasCode" />
-                <ScalarProperty Name="EasDays" ColumnName="EasDays" />
-                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
-                <ScalarProperty Name="EASTugCode" ColumnName="EASTugCode" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_approved" FunctionName="Model.Store.proc_approved">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_approved_Result">
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerSimpleName" ColumnName="CustomerSimpleName" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
-                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
-                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CreditNum" ColumnName="CreditNum" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="proc_needapprove" FunctionName="Model.Store.proc_needapprove">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.proc_needapprove_Result">
-                <ScalarProperty Name="IDX" ColumnName="IDX" />
-                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerSimpleName" ColumnName="CustomerSimpleName" />
-                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
-                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
-                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
-                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
-                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
-                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
-                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
-                <ScalarProperty Name="Phase" ColumnName="Phase" />
-                <ScalarProperty Name="Task" ColumnName="Task" />
-                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="CreditNum" ColumnName="CreditNum" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="AmountSum">
             <EntityTypeMapping TypeName="Model.AmountSum">
               <MappingFragment StoreEntitySet="AmountSum">
@@ -9586,6 +9286,127 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByCustomer" FunctionName="Model.Store.proc_AmountSum_ByCustomer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByCustomer_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
+                <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
+                <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
+                <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
+                <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
+                <ScalarProperty Name="ThisYearLastMonthAmount" ColumnName="ThisYearLastMonthAmount" />
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="SubmitFinanceAmount" ColumnName="SubmitFinanceAmount" />
+                <ScalarProperty Name="TurnNextMonthAmount" ColumnName="TurnNextMonthAmount" />
+                <ScalarProperty Name="ThisYearThisMonthZS" ColumnName="ThisYearThisMonthZS" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByCustomer_Year" FunctionName="Model.Store.proc_AmountSum_ByCustomer_Year">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByCustomer_Year_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Amount1" ColumnName="Amount1" />
+                <ScalarProperty Name="Amount2" ColumnName="Amount2" />
+                <ScalarProperty Name="Amount3" ColumnName="Amount3" />
+                <ScalarProperty Name="Amount13" ColumnName="Amount13" />
+                <ScalarProperty Name="Amount4" ColumnName="Amount4" />
+                <ScalarProperty Name="Amount5" ColumnName="Amount5" />
+                <ScalarProperty Name="Amount6" ColumnName="Amount6" />
+                <ScalarProperty Name="Amount16" ColumnName="Amount16" />
+                <ScalarProperty Name="Amount7" ColumnName="Amount7" />
+                <ScalarProperty Name="Amount8" ColumnName="Amount8" />
+                <ScalarProperty Name="Amount9" ColumnName="Amount9" />
+                <ScalarProperty Name="Amount19" ColumnName="Amount19" />
+                <ScalarProperty Name="Amount10" ColumnName="Amount10" />
+                <ScalarProperty Name="Amount11" ColumnName="Amount11" />
+                <ScalarProperty Name="Amount12" ColumnName="Amount12" />
+                <ScalarProperty Name="Amount112" ColumnName="Amount112" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByTug" FunctionName="Model.Store.proc_AmountSum_ByTug">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByTug_Result">
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="TugName" ColumnName="TugName" />
+                <ScalarProperty Name="LastYearAmount" ColumnName="LastYearAmount" />
+                <ScalarProperty Name="LastYearToThisMonthAmount" ColumnName="LastYearToThisMonthAmount" />
+                <ScalarProperty Name="ThisYearToThisMonthAmount" ColumnName="ThisYearToThisMonthAmount" />
+                <ScalarProperty Name="LastYearThisMonthAmount" ColumnName="LastYearThisMonthAmount" />
+                <ScalarProperty Name="ThisYearThisMonthAmount" ColumnName="ThisYearThisMonthAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_ByTug_Year" FunctionName="Model.Store.proc_AmountSum_ByTug_Year">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_ByTug_Year_Result">
+                <ScalarProperty Name="TugID" ColumnName="TugID" />
+                <ScalarProperty Name="TugName" ColumnName="TugName" />
+                <ScalarProperty Name="Amount1" ColumnName="Amount1" />
+                <ScalarProperty Name="Amount2" ColumnName="Amount2" />
+                <ScalarProperty Name="Amount3" ColumnName="Amount3" />
+                <ScalarProperty Name="Amount13" ColumnName="Amount13" />
+                <ScalarProperty Name="Amount4" ColumnName="Amount4" />
+                <ScalarProperty Name="Amount5" ColumnName="Amount5" />
+                <ScalarProperty Name="Amount6" ColumnName="Amount6" />
+                <ScalarProperty Name="Amount16" ColumnName="Amount16" />
+                <ScalarProperty Name="Amount7" ColumnName="Amount7" />
+                <ScalarProperty Name="Amount8" ColumnName="Amount8" />
+                <ScalarProperty Name="Amount9" ColumnName="Amount9" />
+                <ScalarProperty Name="Amount19" ColumnName="Amount19" />
+                <ScalarProperty Name="Amount10" ColumnName="Amount10" />
+                <ScalarProperty Name="Amount11" ColumnName="Amount11" />
+                <ScalarProperty Name="Amount12" ColumnName="Amount12" />
+                <ScalarProperty Name="Amount112" ColumnName="Amount112" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_AmountSum_EAS" FunctionName="Model.Store.proc_AmountSum_EAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_AmountSum_EAS_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="EasCode" ColumnName="EasCode" />
+                <ScalarProperty Name="EasDays" ColumnName="EasDays" />
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="EASTugCode" ColumnName="EASTugCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_approved" FunctionName="Model.Store.proc_approved">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_approved_Result">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerSimpleName" ColumnName="CustomerSimpleName" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreditNum" ColumnName="CreditNum" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="proc_approved1" FunctionName="Model.Store.proc_approved1">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.proc_approved1_Result">
@@ -9610,7 +9431,122 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          </EntityContainerMapping>
+          <FunctionImportMapping FunctionImportName="proc_billing_pt_ts_qt" FunctionName="Model.Store.proc_billing_pt_ts_qt">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_billing_pt_ts_qt_Result">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="TEUS" ColumnName="TEUS" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_inv_item" FunctionName="Model.Store.proc_inv_item">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_inv_item_Result">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="TugName" ColumnName="TugName" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_inv_item_xy" FunctionName="Model.Store.proc_inv_item_xy">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_inv_item_xy_Result">
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="TugName" ColumnName="TugName" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_inv_SrvHourNumeric" FunctionName="Model.Store.proc_inv_SrvHourNumeric" />
+          <FunctionImportMapping FunctionImportName="proc_inv_SrvHourString" FunctionName="Model.Store.proc_inv_SrvHourString" />
+          <FunctionImportMapping FunctionImportName="proc_needapprove" FunctionName="Model.Store.proc_needapprove">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_needapprove_Result">
+                <ScalarProperty Name="IDX" ColumnName="IDX" />
+                <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerSimpleName" ColumnName="CustomerSimpleName" />
+                <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+                <ScalarProperty Name="JobNo" ColumnName="JobNo" />
+                <ScalarProperty Name="BillingCode" ColumnName="BillingCode" />
+                <ScalarProperty Name="BillingTemplateTypeLabel" ColumnName="BillingTemplateTypeLabel" />
+                <ScalarProperty Name="TimeTypeValue" ColumnName="TimeTypeValue" />
+                <ScalarProperty Name="TimeTypeLabel" ColumnName="TimeTypeLabel" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastUpDate" ColumnName="LastUpDate" />
+                <ScalarProperty Name="MarkID" ColumnName="MarkID" />
+                <ScalarProperty Name="Phase" ColumnName="Phase" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+                <ScalarProperty Name="FlowUserID" ColumnName="FlowUserID" />
+                <ScalarProperty Name="System" ColumnName="System" />
+                <ScalarProperty Name="CreditNum" ColumnName="CreditNum" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_test" FunctionName="Model.Store.proc_test" />
+          <FunctionImportMapping FunctionImportName="proc_TugSum_ByCustomer" FunctionName="Model.Store.proc_TugSum_ByCustomer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_TugSum_ByCustomer_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="LastYearSumBG" ColumnName="LastYearSumBG" />
+                <ScalarProperty Name="LastYearSumMD" ColumnName="LastYearSumMD" />
+                <ScalarProperty Name="LastYearSumSM" ColumnName="LastYearSumSM" />
+                <ScalarProperty Name="LastYearZS" ColumnName="LastYearZS" />
+                <ScalarProperty Name="LastYearToThisMonthSumBG" ColumnName="LastYearToThisMonthSumBG" />
+                <ScalarProperty Name="LastYearToThisMonthSumMD" ColumnName="LastYearToThisMonthSumMD" />
+                <ScalarProperty Name="LastYearToThisMonthSumSM" ColumnName="LastYearToThisMonthSumSM" />
+                <ScalarProperty Name="LastYearToThisMonthZS" ColumnName="LastYearToThisMonthZS" />
+                <ScalarProperty Name="ThisYearToThisMonthSumBG" ColumnName="ThisYearToThisMonthSumBG" />
+                <ScalarProperty Name="ThisYearToThisMonthSumMD" ColumnName="ThisYearToThisMonthSumMD" />
+                <ScalarProperty Name="ThisYearToThisMonthSumSM" ColumnName="ThisYearToThisMonthSumSM" />
+                <ScalarProperty Name="ThisYearToThisMonthZS" ColumnName="ThisYearToThisMonthZS" />
+                <ScalarProperty Name="LastYearThisMonthSumBG" ColumnName="LastYearThisMonthSumBG" />
+                <ScalarProperty Name="LastYearThisMonthSumMD" ColumnName="LastYearThisMonthSumMD" />
+                <ScalarProperty Name="LastYearThisMonthSumSM" ColumnName="LastYearThisMonthSumSM" />
+                <ScalarProperty Name="LastYearThisMonthZS" ColumnName="LastYearThisMonthZS" />
+                <ScalarProperty Name="ThisYearThisMonthSumBG" ColumnName="ThisYearThisMonthSumBG" />
+                <ScalarProperty Name="ThisYearThisMonthSumMD" ColumnName="ThisYearThisMonthSumMD" />
+                <ScalarProperty Name="ThisYearThisMonthSumSM" ColumnName="ThisYearThisMonthSumSM" />
+                <ScalarProperty Name="ThisYearThisMonthZS" ColumnName="ThisYearThisMonthZS" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="proc_TugSum_ByDay" FunctionName="Model.Store.proc_TugSum_ByDay">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.proc_TugSum_ByDay_Result">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ServiceWorkDate" ColumnName="ServiceWorkDate" />
+                <ScalarProperty Name="TugType" ColumnName="TugType" />
+                <ScalarProperty Name="TugNum" ColumnName="TugNum" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

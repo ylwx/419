@@ -20,8 +20,10 @@ namespace TugDataModel
         public Nullable<double> ThisYearToThisMonthAmount { get; set; }
         public Nullable<double> LastYearThisMonthAmount { get; set; }
         public Nullable<double> ThisYearThisMonthAmount { get; set; }
+        public Nullable<double> ThisYearLastMonthAmount { get; set; }
         public Nullable<double> FuelAmount { get; set; }
         public Nullable<double> SubmitFinanceAmount { get; set; }
         public Nullable<double> TurnNextMonthAmount { get; set; }
+        public Nullable<int> ThisYearThisMonthZS { get; set; }
     }
 }

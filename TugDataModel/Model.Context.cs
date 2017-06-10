@@ -112,295 +112,7 @@ namespace TugDataModel
         public virtual DbSet<V_TugSum> V_TugSum { get; set; }
         public virtual DbSet<V_Users> V_Users { get; set; }
     
-        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var new_diagramnameParameter = new_diagramname != null ?
-                new ObjectParameter("new_diagramname", new_diagramname) :
-                new ObjectParameter("new_diagramname", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
-        }
-    
-        public virtual int sp_upgraddiagrams()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
-        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_creatediagram1(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram1", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_dropdiagram1(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram1", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagramdefinition1_Result> sp_helpdiagramdefinition1(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition1_Result>("sp_helpdiagramdefinition1", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagrams1_Result> sp_helpdiagrams1(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams1_Result>("sp_helpdiagrams1", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual int sp_renamediagram1(string diagramname, Nullable<int> owner_id, string new_diagramname)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var new_diagramnameParameter = new_diagramname != null ?
-                new ObjectParameter("new_diagramname", new_diagramname) :
-                new ObjectParameter("new_diagramname", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram1", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
-        }
-    
-        public virtual int sp_upgraddiagrams1()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams1");
-        }
-    
-        public virtual int sp_alterdiagram1(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram1", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_creatediagram2(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram2", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
-        public virtual int sp_dropdiagram2(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram2", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagramdefinition2_Result> sp_helpdiagramdefinition2(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition2_Result>("sp_helpdiagramdefinition2", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagrams2_Result> sp_helpdiagrams2(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams2_Result>("sp_helpdiagrams2", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual int sp_renamediagram2(string diagramname, Nullable<int> owner_id, string new_diagramname)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var new_diagramnameParameter = new_diagramname != null ?
-                new ObjectParameter("new_diagramname", new_diagramname) :
-                new ObjectParameter("new_diagramname", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram2", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
-        }
-    
-        public virtual int sp_upgraddiagrams2()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams2");
-        }
-    
-        public virtual ObjectResult<proc_AmountSum_ByCustomer_Result1> proc_AmountSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
+        public virtual ObjectResult<proc_AmountSum_ByCustomer_Result> proc_AmountSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
         {
             var sYearParameter = sYear.HasValue ?
                 new ObjectParameter("sYear", sYear) :
@@ -410,10 +122,19 @@ namespace TugDataModel
                 new ObjectParameter("sMonth", sMonth) :
                 new ObjectParameter("sMonth", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByCustomer_Result1>("proc_AmountSum_ByCustomer", sYearParameter, sMonthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByCustomer_Result>("proc_AmountSum_ByCustomer", sYearParameter, sMonthParameter);
         }
     
-        public virtual ObjectResult<proc_AmountSum_ByTug_Result1> proc_AmountSum_ByTug(Nullable<int> sYear, Nullable<int> sMonth)
+        public virtual ObjectResult<proc_AmountSum_ByCustomer_Year_Result> proc_AmountSum_ByCustomer_Year(Nullable<int> sYear)
+        {
+            var sYearParameter = sYear.HasValue ?
+                new ObjectParameter("sYear", sYear) :
+                new ObjectParameter("sYear", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByCustomer_Year_Result>("proc_AmountSum_ByCustomer_Year", sYearParameter);
+        }
+    
+        public virtual ObjectResult<proc_AmountSum_ByTug_Result> proc_AmountSum_ByTug(Nullable<int> sYear, Nullable<int> sMonth)
         {
             var sYearParameter = sYear.HasValue ?
                 new ObjectParameter("sYear", sYear) :
@@ -423,10 +144,63 @@ namespace TugDataModel
                 new ObjectParameter("sMonth", sMonth) :
                 new ObjectParameter("sMonth", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByTug_Result1>("proc_AmountSum_ByTug", sYearParameter, sMonthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByTug_Result>("proc_AmountSum_ByTug", sYearParameter, sMonthParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_Result1> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_AmountSum_ByTug_Year_Result> proc_AmountSum_ByTug_Year(Nullable<int> sYear)
+        {
+            var sYearParameter = sYear.HasValue ?
+                new ObjectParameter("sYear", sYear) :
+                new ObjectParameter("sYear", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_ByTug_Year_Result>("proc_AmountSum_ByTug_Year", sYearParameter);
+        }
+    
+        public virtual ObjectResult<proc_AmountSum_EAS_Result> proc_AmountSum_EAS(string sDate)
+        {
+            var sDateParameter = sDate != null ?
+                new ObjectParameter("sDate", sDate) :
+                new ObjectParameter("sDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_EAS_Result>("proc_AmountSum_EAS", sDateParameter);
+        }
+    
+        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_approved1_Result> proc_approved1(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved1_Result>("proc_approved1", userIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_billing_pt_ts_qt_Result> proc_billing_pt_ts_qt(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2, Nullable<int> customerID)
+        {
+            var date1Parameter = date1.HasValue ?
+                new ObjectParameter("Date1", date1) :
+                new ObjectParameter("Date1", typeof(System.DateTime));
+    
+            var date2Parameter = date2.HasValue ?
+                new ObjectParameter("Date2", date2) :
+                new ObjectParameter("Date2", typeof(System.DateTime));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_billing_pt_ts_qt_Result>("proc_billing_pt_ts_qt", date1Parameter, date2Parameter, customerIDParameter);
+        }
+    
+        public virtual ObjectResult<proc_inv_item_Result> proc_inv_item(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
             var billingIDParameter = billingID.HasValue ?
                 new ObjectParameter("BillingID", billingID) :
@@ -436,10 +210,10 @@ namespace TugDataModel
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result1>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_Result>("proc_inv_item", billingIDParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<proc_inv_item_xy_Result1> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
+        public virtual ObjectResult<proc_inv_item_xy_Result> proc_inv_item_xy(Nullable<int> billingID, Nullable<int> timeTypeValue)
         {
             var billingIDParameter = billingID.HasValue ?
                 new ObjectParameter("BillingID", billingID) :
@@ -449,7 +223,7 @@ namespace TugDataModel
                 new ObjectParameter("TimeTypeValue", timeTypeValue) :
                 new ObjectParameter("TimeTypeValue", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result1>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_inv_item_xy_Result>("proc_inv_item_xy", billingIDParameter, timeTypeValueParameter);
         }
     
         public virtual ObjectResult<Nullable<double>> proc_inv_SrvHourNumeric(string departBaseTime, string arrivalBaseTime, Nullable<int> timeTypeValue)
@@ -486,72 +260,6 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_inv_SrvHourString", departBaseTimeParameter, arrivalBaseTimeParameter, timeTypeValueParameter);
         }
     
-        public virtual ObjectResult<string> proc_test()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_test");
-        }
-    
-        public virtual ObjectResult<proc_TugSum_ByCustomer_Result1> proc_TugSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
-        {
-            var sYearParameter = sYear.HasValue ?
-                new ObjectParameter("sYear", sYear) :
-                new ObjectParameter("sYear", typeof(int));
-    
-            var sMonthParameter = sMonth.HasValue ?
-                new ObjectParameter("sMonth", sMonth) :
-                new ObjectParameter("sMonth", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByCustomer_Result1>("proc_TugSum_ByCustomer", sYearParameter, sMonthParameter);
-        }
-    
-        public virtual ObjectResult<proc_TugSum_ByDay_Result1> proc_TugSum_ByDay(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2)
-        {
-            var date1Parameter = date1.HasValue ?
-                new ObjectParameter("Date1", date1) :
-                new ObjectParameter("Date1", typeof(System.DateTime));
-    
-            var date2Parameter = date2.HasValue ?
-                new ObjectParameter("Date2", date2) :
-                new ObjectParameter("Date2", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result1>("proc_TugSum_ByDay", date1Parameter, date2Parameter);
-        }
-    
-        public virtual ObjectResult<proc_billing_pt_ts_qt_Result> proc_billing_pt_ts_qt(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2, Nullable<int> customerID)
-        {
-            var date1Parameter = date1.HasValue ?
-                new ObjectParameter("Date1", date1) :
-                new ObjectParameter("Date1", typeof(System.DateTime));
-    
-            var date2Parameter = date2.HasValue ?
-                new ObjectParameter("Date2", date2) :
-                new ObjectParameter("Date2", typeof(System.DateTime));
-    
-            var customerIDParameter = customerID.HasValue ?
-                new ObjectParameter("CustomerID", customerID) :
-                new ObjectParameter("CustomerID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_billing_pt_ts_qt_Result>("proc_billing_pt_ts_qt", date1Parameter, date2Parameter, customerIDParameter);
-        }
-    
-        public virtual ObjectResult<proc_AmountSum_EAS_Result> proc_AmountSum_EAS(string sDate)
-        {
-            var sDateParameter = sDate != null ?
-                new ObjectParameter("sDate", sDate) :
-                new ObjectParameter("sDate", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_AmountSum_EAS_Result>("proc_AmountSum_EAS", sDateParameter);
-        }
-    
-        public virtual ObjectResult<proc_approved_Result> proc_approved(Nullable<int> userID)
-        {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved_Result>("proc_approved", userIDParameter);
-        }
-    
         public virtual ObjectResult<proc_needapprove_Result> proc_needapprove(Nullable<int> userID)
         {
             var userIDParameter = userID.HasValue ?
@@ -561,13 +269,35 @@ namespace TugDataModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_needapprove_Result>("proc_needapprove", userIDParameter);
         }
     
-        public virtual ObjectResult<proc_approved1_Result> proc_approved1(Nullable<int> userID)
+        public virtual ObjectResult<string> proc_test()
         {
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("userID", userID) :
-                new ObjectParameter("userID", typeof(int));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("proc_test");
+        }
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_approved1_Result>("proc_approved1", userIDParameter);
+        public virtual ObjectResult<proc_TugSum_ByCustomer_Result> proc_TugSum_ByCustomer(Nullable<int> sYear, Nullable<int> sMonth)
+        {
+            var sYearParameter = sYear.HasValue ?
+                new ObjectParameter("sYear", sYear) :
+                new ObjectParameter("sYear", typeof(int));
+    
+            var sMonthParameter = sMonth.HasValue ?
+                new ObjectParameter("sMonth", sMonth) :
+                new ObjectParameter("sMonth", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByCustomer_Result>("proc_TugSum_ByCustomer", sYearParameter, sMonthParameter);
+        }
+    
+        public virtual ObjectResult<proc_TugSum_ByDay_Result> proc_TugSum_ByDay(Nullable<System.DateTime> date1, Nullable<System.DateTime> date2)
+        {
+            var date1Parameter = date1.HasValue ?
+                new ObjectParameter("Date1", date1) :
+                new ObjectParameter("Date1", typeof(System.DateTime));
+    
+            var date2Parameter = date2.HasValue ?
+                new ObjectParameter("Date2", date2) :
+                new ObjectParameter("Date2", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_TugSum_ByDay_Result>("proc_TugSum_ByDay", date1Parameter, date2Parameter);
         }
     }
 }

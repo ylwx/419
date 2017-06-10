@@ -16,6 +16,7 @@ namespace TugDataModel
         public Nullable<int> IDX { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
+        public string ServiceDate { get; set; }
         public string BillingCode { get; set; }
         public string Month { get; set; }
         public string ShipName { get; set; }

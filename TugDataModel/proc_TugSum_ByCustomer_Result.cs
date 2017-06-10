@@ -18,17 +18,22 @@ namespace TugDataModel
         public Nullable<int> LastYearSumBG { get; set; }
         public Nullable<int> LastYearSumMD { get; set; }
         public Nullable<int> LastYearSumSM { get; set; }
+        public Nullable<int> LastYearZS { get; set; }
         public Nullable<int> LastYearToThisMonthSumBG { get; set; }
         public Nullable<int> LastYearToThisMonthSumMD { get; set; }
         public Nullable<int> LastYearToThisMonthSumSM { get; set; }
+        public Nullable<int> LastYearToThisMonthZS { get; set; }
         public Nullable<int> ThisYearToThisMonthSumBG { get; set; }
         public Nullable<int> ThisYearToThisMonthSumMD { get; set; }
         public Nullable<int> ThisYearToThisMonthSumSM { get; set; }
+        public Nullable<int> ThisYearToThisMonthZS { get; set; }
         public Nullable<int> LastYearThisMonthSumBG { get; set; }
         public Nullable<int> LastYearThisMonthSumMD { get; set; }
         public Nullable<int> LastYearThisMonthSumSM { get; set; }
+        public Nullable<int> LastYearThisMonthZS { get; set; }
         public Nullable<int> ThisYearThisMonthSumBG { get; set; }
         public Nullable<int> ThisYearThisMonthSumMD { get; set; }
         public Nullable<int> ThisYearThisMonthSumSM { get; set; }
+        public Nullable<int> ThisYearThisMonthZS { get; set; }
     }
 }
