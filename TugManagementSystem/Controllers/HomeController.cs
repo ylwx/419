@@ -16,6 +16,7 @@ namespace TugManagementSystem.Controllers
         [HttpGet]
         public ActionResult Login(string lan, int? id)
         {
+            //Util.test();
             lan = this.Internationalization();
             return View();
         }

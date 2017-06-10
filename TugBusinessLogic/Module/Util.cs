@@ -78,5 +78,60 @@ namespace TugBusinessLogic.Module
                 }
             return rValue;
         }
+        public static void test()
+        {
+            //
+            System.Data.DataTable t1 = TugBusinessLogic.Module.SqlHelper.GetDatatableBySql("SELECT [IDX],[Amount] FROM [hds153625288_db].[dbo].[Billing]  where [InvoiceType] <> \'其他账单\' order by idx");
+            System.Data.DataTable t2 = TugBusinessLogic.Module.SqlHelper.GetDatatableBySql("SELECT [BillingID],sum([Amount]) As Amt FROM [hds153625288_db].[dbo].[V_AmountSum_Service] where CONVERT(datetime,ServiceWorkDate) >='2017-5-01 00:00:00' and CONVERT(datetime,ServiceWorkDate) < '2017-6-1 00:00:00' group by [BillingID] order by billingid");
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Columns.Add("BillingID");
+            dt.Columns.Add("Amount1");
+            dt.Columns.Add("Amount2");
+
+            for (int i = 0; i < t1.Rows.Count; i++)
+            {
+                int billingIdx1 = Convert.ToInt32(t1.Rows[i]["IDX"]);
+                double amount1 = TugBusinessLogic.Module.Util.tonumeric(t1.Rows[i]["Amount"]);
+
+                int j = 0;
+                for (; j < t2.Rows.Count; j++)
+                {
+                    int billingIdx2 = Convert.ToInt32(t2.Rows[j]["BillingID"]);
+                    double amount2 = TugBusinessLogic.Module.Util.tonumeric(t2.Rows[j]["Amt"]);
+
+                    if (billingIdx1 == billingIdx2)
+                    {
+                        if (amount1 == amount2) { break; }
+                        else
+                        {
+                            //shuchu
+                            System.Data.DataRow r = dt.NewRow();
+                            r["BillingID"] = billingIdx1;
+                            r["Amount1"] = amount1;
+                            r["Amount2"] = amount2;
+
+                            dt.Rows.Add(r);
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                if (j >= t2.Rows.Count)
+                {
+                    continue;
+                    //shuchu
+                    System.Data.DataRow r = dt.NewRow();
+                    r["BillingID"] = billingIdx1;
+                    r["Amount1"] = amount1;
+                    r["Amount2"] = -1;
+
+                    dt.Rows.Add(r);
+                }
+            }
+        }
     }
 }
