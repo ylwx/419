@@ -24,20 +24,29 @@ namespace TugManagementSystem.Controllers
             return View();
         }
         #region 报表汇总
-        public ActionResult ReportFilter(string reporttype, string reporttitile)
+        public ActionResult ReportFilter(string reporttype, string reporttitile, string lan, int? id)
         {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
             ViewBag.reporttype = reporttype;
             ViewBag.reporttitile = reporttitile;
             return View();
         }
-        public ActionResult ReportSum(string reporttype, string reporttitile)
+        public ActionResult ReportSum(string reporttype, string reporttitile, string lan, int? id)
         {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
             ViewBag.reporttype = reporttype;
             ViewBag.reporttitile = reporttitile;
             return View();
         }
-        public ActionResult ReportSum_Year(string reporttype, string reporttitile)
+        public ActionResult ReportSum_Year(string reporttype, string reporttitile, string lan, int? id)
         {
+            lan = this.Internationalization();
+            ViewBag.Language = lan;
+
             ViewBag.reporttype = reporttype;
             ViewBag.reporttitile = reporttitile;
             return View();
