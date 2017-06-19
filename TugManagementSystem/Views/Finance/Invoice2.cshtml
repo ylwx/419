@@ -7334,7 +7334,7 @@
                     var input1 = $('<input style="width:100px;" id="' + ratio_element_id + '" type="text" name="假日附加费比例" value="' + result.invoice.Ratio4 + '" placeholder="请输入比例" onkeyup="DefaultBanbao_JiaRiFuJiaFei_Ratio_InputChanged(this)" disabled></input>');
                     td.append(input1);
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -7343,9 +7343,16 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (226 == value[i].BillingItems[j].ItemID || "E84" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
                                 }
                             }
 
@@ -7361,15 +7368,21 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
                             else {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "226" + '_' + "E84";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="假日附加费100耗时" onkeyup="DefaultBanbao_假日附加费100_InputChanged(this)" placeholder="请输入小时数" disabled></input>');
+                            td.append(input);
+
+                            tr.append(td);
                         }
                     }
                 }
@@ -7394,7 +7407,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -7403,9 +7416,16 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (227 == value[i].BillingItems[j].ItemID || "E85" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
                                 }
                             }
 
@@ -7421,15 +7441,21 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
                             else {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "227" + '_' + "E85";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="台风附加费100耗时" onkeyup="DefaultBanbao_台风附加费100_InputChanged(this)" placeholder="请输入小时数" disabled></input>');
+                            td.append(input);
+
+                            tr.append(td);
                         }
                     }
                 }
@@ -8099,7 +8125,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -8108,9 +8134,16 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (226 == value[i].BillingItems[j].ItemID || "E84" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
                                 }
                             }
 
@@ -8126,15 +8159,21 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
                             else {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "226" + '_' + "E84";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="假日附加费100耗时" onkeyup="DefaultBanbao_假日附加费100_InputChanged(this)" placeholder="请输入小时数" disabled></input>');
+                            td.append(input);
+
+                            tr.append(td);
                         }
                     }
                 }
@@ -8159,7 +8198,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)" disabled>' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -8168,9 +8207,16 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (227 == value[i].BillingItems[j].ItemID || "E85" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
                                 }
                             }
 
@@ -8186,15 +8232,21 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" checked disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
                             else {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" disabled>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "227" + '_' + "E85";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="台风附加费100耗时" onkeyup="DefaultBanbao_台风附加费100_InputChanged(this)" placeholder="请输入小时数" disabled></input>');
+                            td.append(input);
+
+                            tr.append(td);
                         }
                     }
                 }
@@ -9507,8 +9559,7 @@
 
     
 
-
-
+    //切换计费方案时生成的表格主体
     function QuanBaoEditTableNewTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
         //缺省全包方式
         {
@@ -9923,7 +9974,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -9949,7 +10000,11 @@
                             td.append(p)
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
-                            var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                            var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                            td.append(input);
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "226" + '_' + "E84";
+                            var input = $('<input style="width:100px;" id="' + element_id + '"  type="text" name="假日附加费100耗时" onkeyup="DefaultBanbao_假日附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
                             td.append(input);
                             tr.append(td);
                         }
@@ -9975,7 +10030,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -10001,8 +10056,13 @@
                             td.append(p)
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
-                            var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                            var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
                             td.append(input);
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "227" + '_' + "E85";
+                            var input = $('<input style="width:100px;" id="' + element_id + '"  type="text" name="台风附加费100耗时" onkeyup="DefaultBanbao_台风附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            td.append(input);
+
                             tr.append(td);
                         }
                     }
@@ -10595,7 +10655,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="TiaoKuanAll100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="TiaoKuanAll100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -10621,8 +10681,13 @@
                             td.append(p)
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
-                            var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="TiaoKuan100JiaRiFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                            var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="TiaoKuan100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
                             td.append(input);
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "226" + '_' + "E84";
+                            var input = $('<input style="width:100px;" id="' + element_id + '"  type="text" name="假日附加费100耗时" onkeyup="DefaultTiaokuan_假日附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            td.append(input);
+
                             tr.append(td);
                         }
                     }
@@ -10647,7 +10712,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="TiaoKuanAll100TaiFengFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="TiaoKuanAll100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -10673,8 +10738,13 @@
                             td.append(p)
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
-                            var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="TiaoKuan100TaiFengFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                            var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="TiaoKuan100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
                             td.append(input);
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "227" + '_' + "E85";
+                            var input = $('<input style="width:100px;" id="' + element_id + '"  type="text" name="台风附加费100耗时" onkeyup="DefaultTiaokuan_台风附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            td.append(input);
+
                             tr.append(td);
                         }
                     }
@@ -10986,8 +11056,7 @@
 
 
 
-
-
+    //初始编辑界面弹出来时生成的表格主体
     function DefaultQuanBaoEditTableTBody(customerBillingScheme, billingTypeId, billingTypeValue, billingTypeLabel, discount, result) {
         //缺省全包方式
         {
@@ -11367,17 +11436,17 @@
 
                             var price = 0;
                             var consume_hour = 0;
-                                for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
-                                    }
                                 }
+                            }
 
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (122 == value[i].BillingItems[j].ItemID || "E83" == value[i].BillingItems[j].ItemValue) {
                                     consume_hour = value[i].BillingItems[j].Price;
+                                }
                             }
-                        }
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -11415,7 +11484,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="BanbaoAll100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -11424,9 +11493,16 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (226 == value[i].BillingItems[j].ItemID || "E84" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
                                 }
                             }
 
@@ -11442,16 +11518,22 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
-                                td.append(input);
-                            tr.append(td);
-                        }
-                            else{
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
-                    }
-                }
+                            }
+                            else{
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="Banbao100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                td.append(input);
+                                tr.append(td);
+                            }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "226" + '_' + "E84";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="假日附加费100耗时" onkeyup="DefaultBanbao_假日附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            td.append(input);
+
+                            tr.append(td);
+                        }
                     }
                 }
 
@@ -11474,7 +11556,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="BanbaoAll100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -11483,11 +11565,20 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
+
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
                                 }
                             }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (227 == value[i].BillingItems[j].ItemID || "E85" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
+                                }
+                            }
+
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -11501,15 +11592,21 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
                             else {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="Banbao100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "227" + '_' + "E85";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="台风附加费100耗时" onkeyup="DefaultBanbao_台风附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            td.append(input);
+
+                            tr.append(td);
                         }
                     }
                 }
@@ -12139,8 +12236,8 @@
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (122 == value[i].BillingItems[j].ItemID || "E83" == value[i].BillingItems[j].ItemValue) {
                                     consume_hour = value[i].BillingItems[j].Price;
+                                }
                             }
-                        }
 
                             var element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue;
 
@@ -12178,7 +12275,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="TiaoKuanAll100JiaRiFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%假日附加费" onchange="TiaoKuanAll100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -12187,9 +12284,16 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (226 == value[i].BillingItems[j].ItemID || "E84" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
                                 }
                             }
 
@@ -12205,15 +12309,22 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="TiaoKuan100JiaRiFuJiaFeiCheckboxChanged(this)" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="TiaoKuan100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
                             else {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="TiaoKuan100JiaRiFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="假日附加费100" onchange="TiaoKuan100JiaRiFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "226" + '_' + "E84";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="假日附加费100耗时" onkeyup="DefaultBanbao_假日附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            td.append(input);
+
+                            tr.append(td);
+
                         }
                     }
                 }
@@ -12237,7 +12348,7 @@
                     td.append(input1);
 
 
-                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="TiaoKuanAll100TaiFengFuJiaFeiCheckboxChanged(this)">' + result.items[ii].CustomLabel + '</input>');
+                    var input = $('<input id="ckItem_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" type="checkbox" name="all_100%台风附加费" onchange="TiaoKuanAll100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + result.items[ii].CustomLabel + '</input>');
                     td.append(input)
                     tr.append(td);
                     for (key in result.invoice.Schedulers) {
@@ -12246,9 +12357,16 @@
                         for (var i = 0; i < value.length; ++i) {
 
                             var price = 0;
+                            var consume_hour = 0;
                             for (var j = 0; j < value[i].BillingItems.length; ++j) {
                                 if (result.items[ii].IDX == value[i].BillingItems[j].ItemID) {
                                     price = value[i].BillingItems[j].Price;
+                                }
+                            }
+
+                            for (var j = 0; j < value[i].BillingItems.length; ++j) {
+                                if (227 == value[i].BillingItems[j].ItemID || "E85" == value[i].BillingItems[j].ItemValue) {
+                                    consume_hour = value[i].BillingItems[j].Price;
                                 }
                             }
 
@@ -12264,15 +12382,21 @@
                             //td = $('<td id="' + key + '_' + value[i].SchedulerID + '_' + result.items[ii].IDX + '_' + result.items[ii].CustomValue + '" name="百分比" width="" style="text-align:center;vertical-align:middle">' + GetFloatStr(0) + '</td>');
 
                             if (price != 0) {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="TiaoKuan100TaiFengFuJiaFeiCheckboxChanged(this)" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="TiaoKuan100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none" checked>' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
                             else {
-                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="TiaoKuan100TaiFengFuJiaFeiCheckboxChanged(this)">' + /*result.items[ii].CustomLabel +*/ '</input>');
+                                var input = $('<input id="' + element_id + '" type="checkbox" name="台风附加费100" onchange="TiaoKuan100TaiFengFuJiaFeiCheckboxChanged(this)" style="display:none">' + /*result.items[ii].CustomLabel +*/ '</input>');
                                 td.append(input);
                                 tr.append(td);
                             }
+
+                            element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "227" + '_' + "E85";
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="台风附加费100耗时" onkeyup="DefaultBanbao_台风附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            td.append(input);
+
+                            tr.append(td);
                         }
                     }
                 }
@@ -12614,6 +12738,7 @@
 
         }
     }
+
 
     function edit_billingSchemeChanged(selectedValue) {
 
