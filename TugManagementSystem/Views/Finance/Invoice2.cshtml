@@ -12320,7 +12320,7 @@
                             }
 
                             element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "226" + '_' + "E84";
-                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="假日附加费100耗时" onkeyup="DefaultBanbao_假日附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="假日附加费100耗时" onkeyup="DefaultTiaokuan_假日附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
                             td.append(input);
 
                             tr.append(td);
@@ -12393,7 +12393,7 @@
                             }
 
                             element_id = key + '_' + value[i].SchedulerID + '_' + value[i].ServiceNatureID + '_' + "227" + '_' + "E85";
-                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="台风附加费100耗时" onkeyup="DefaultBanbao_台风附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
+                            var input = $('<input style="width:100px;" id="' + element_id + '" value="' + consume_hour + '" type="text" name="台风附加费100耗时" onkeyup="DefaultTiaokuan_台风附加费100_InputChanged(this)" placeholder="请输入小时数"></input>');
                             td.append(input);
 
                             tr.append(td);
@@ -17886,6 +17886,7 @@
 
             var itemId = $(this).attr("id").split('_')[2]; //item id
             var unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+            if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
             var currency = "港币";
             //var isVisible = "是";
 
@@ -17916,6 +17917,7 @@
             var itemId = $(this).attr("id").split('_')[2]; //item id
             //alert(itemId);
             var unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+            if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
             var currency = "港币";
 
             var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
@@ -17934,6 +17936,7 @@
 
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
@@ -17962,6 +17965,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -17994,6 +17998,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -18044,6 +18049,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -18093,6 +18099,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -18143,6 +18150,7 @@
 
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
@@ -18270,6 +18278,7 @@
             var serviceNatureId = $(this).attr("id").split('_')[2]; //服务id
 
             var unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+            if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
             var currency = "港币";
 
             var bi = new BillingItem(schedulerId, serviceNatureId, unitPrice, currency);
@@ -18288,6 +18297,7 @@
 
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
@@ -18315,6 +18325,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -18347,6 +18358,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -18397,6 +18409,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -18446,6 +18459,7 @@
                 array.push(bi);
 
                 unitPrice = parseFloat(ConvertToRealPrice($(this).val())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
             }
@@ -18495,6 +18509,7 @@
 
             if ($(this).is(":checked") == true) {
                 var unitPrice = parseFloat(ConvertToRealPrice($('p[name="real_price"][id="' + element_id + '"]').text())).toFixed(2);
+                if (isNaN(unitPrice) || unitPrice == "") unitPrice = 0;
                 var currency = "港币";
                 var bi = new BillingItem(schedulerId, itemId, unitPrice, currency);
                 array.push(bi);
