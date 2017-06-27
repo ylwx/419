@@ -2542,7 +2542,7 @@ namespace TugManagementSystem.Controllers
 
                                     //aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
                                     //aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
-                                    //aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                                    aOrder.UserDefinedCol3 = Request.Form["ServiceNatureLabel"].Trim().Split('~').ToList()[2];
                                     //aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
 
                                     //if (Request.Form["UserDefinedCol5"].Trim() != "")
