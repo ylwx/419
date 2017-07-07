@@ -367,7 +367,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.Discount = discount;
                         aScheduler.JobNo = jobNo;
                         aScheduler.Remark = remark;
-                        aScheduler.Amount = amount;
+                        aScheduler.Amount = Math.Round(amount,2);
                         aScheduler.Month = month;
 
                         aScheduler.UserDefinedCol1 = "";
@@ -588,7 +588,7 @@ namespace TugManagementSystem.Controllers
                         oldBilling.BillingTypeID = billingTypeId;
                         oldBilling.TimeTypeID = timeTypeId;
                         oldBilling.Discount = discount;
-                        oldBilling.Amount = amount;
+                        oldBilling.Amount = Math.Round(amount,2);
                         oldBilling.JobNo = jobNo;
                         oldBilling.Remark = remark;
                         oldBilling.Month = month;
@@ -1528,7 +1528,7 @@ namespace TugManagementSystem.Controllers
                         aScheduler.TimeTypeID = timeTypeId;
                         aScheduler.Discount = discount;
                         aScheduler.TotalRebate = 0;
-                        aScheduler.Amount = amount;
+                        aScheduler.Amount = Math.Round(amount,2);
                         aScheduler.Remark = remark;
                         aScheduler.Month = month;
                         aScheduler.UserDefinedCol10 = date;
@@ -1626,7 +1626,7 @@ namespace TugManagementSystem.Controllers
                                 amtSum.BillingID = aScheduler.IDX;
                                 amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(aScheduler.CreateDate);
                                 amtSum.SchedulerID = item.SchedulerID;
-                                amtSum.Amount = item.Amount;
+                                amtSum.Amount = Math.Round(item.Amount, 2);
                                 amtSum.FuelAmount = item.FuelPrice;
                                 amtSum.Currency = item.Currency;
                                 amtSum.Hours = item.Hours;
@@ -1794,7 +1794,7 @@ namespace TugManagementSystem.Controllers
                         oldBilling.BillingTypeID = billingTypeId;
                         oldBilling.TimeTypeID = timeTypeId;
                         oldBilling.Discount = discount;
-                        oldBilling.Amount = amount;
+                        oldBilling.Amount = Math.Round(amount,2);
                         oldBilling.BillingCode = billing_code.Trim();
                         oldBilling.JobNo = jobNo;
                         if (ratio1 != null)
@@ -1947,7 +1947,7 @@ namespace TugManagementSystem.Controllers
                                     amtSum.BillingID = oldBilling.IDX;
                                     amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(oldBilling.CreateDate);
                                     amtSum.SchedulerID = item.SchedulerID;
-                                    amtSum.Amount = item.Amount;
+                                    amtSum.Amount = Math.Round(item.Amount,2);
                                     amtSum.FuelAmount = item.FuelPrice;
                                     amtSum.Currency = item.Currency;
                                     amtSum.Hours = item.Hours;
@@ -2261,7 +2261,7 @@ namespace TugManagementSystem.Controllers
                         TugDataModel.Billing aScheduler = new Billing();
 
                         aScheduler.CustomerID = custId;
-                        aScheduler.Amount = amount;
+                        aScheduler.Amount = Math.Round(amount,2);
                         aScheduler.Month = month;
                         aScheduler.UserDefinedCol10 = date;
                         aScheduler.InvoiceType = "特殊账单";
@@ -2488,7 +2488,7 @@ namespace TugManagementSystem.Controllers
                         if (oldBilling != null)
                         {
                             oldBilling.BillingCode = billingCode.Trim();
-                            oldBilling.Amount = amount;
+                            oldBilling.Amount = Math.Round(amount,2);
                             oldBilling.Month = month;
                             oldBilling.UserDefinedCol10 = date;
                             oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -3213,7 +3213,7 @@ namespace TugManagementSystem.Controllers
                     credit.UserDefinedCol1 = title;
                     credit.UserDefinedCol2 = content;
                     credit.UserDefinedCol5 = money;
-                    credit.Amount = money;
+                    credit.Amount = Math.Round(money,2);
                     credit.Month = month;
                     credit.UserDefinedCol10 = date;
                     credit.InvoiceType = "其他账单";
@@ -3274,7 +3274,7 @@ namespace TugManagementSystem.Controllers
                     aOrder.UserDefinedCol1 = title;
                     aOrder.UserDefinedCol2 = content;
                     aOrder.UserDefinedCol5 = money;
-                    aOrder.Amount = money;
+                    aOrder.Amount = Math.Round(money,2);
                     aOrder.Month = month;
                     aOrder.UserDefinedCol10 = date;
                     aOrder.BillingCode = billingCode.Trim();
