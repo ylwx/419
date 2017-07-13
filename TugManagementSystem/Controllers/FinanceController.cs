@@ -477,81 +477,86 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
-                ParameterExpression parameter = Expression.Parameter(typeof(Billing));
-
-                //string strBillIds = Request.Form["billIds"];
-                string orderIds = Request.Form["orderIds"];
-
-                if (orderIds != "")
+                try
                 {
-                    List<string> listOrderIds = orderIds.Split(',').ToList();
+                    Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
+                    ParameterExpression parameter = Expression.Parameter(typeof(Billing));
 
-                    TugDataEntities db = new TugDataEntities();
+                    //string strBillIds = Request.Form["billIds"];
+                    string orderIds = Request.Form["orderIds"];
 
-                    List<Billing> deletedBillings = new List<Billing>();
-
-                    foreach (string orderId in listOrderIds)
+                    if (orderIds != "")
                     {
-                        int oid = TugBusinessLogic.Module.Util.toint(orderId);
+                        List<string> listOrderIds = orderIds.Split(',').ToList();
 
-                        Billing b = db.Billing.FirstOrDefault(u => u.OrderID == oid);
-                        if (b != null)
+                        TugDataEntities db = new TugDataEntities();
+
+                        List<Billing> deletedBillings = new List<Billing>();
+
+                        foreach (string orderId in listOrderIds)
                         {
-                            deletedBillings.Add(b);
-                        }
-                    }
+                            int oid = TugBusinessLogic.Module.Util.toint(orderId);
 
-                    {
-                        db.Billing.RemoveRange(deletedBillings);
-                        db.SaveChanges();
-
-
-                        ////更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
-                        //{
-                        //    string strOrderIds = Request.Form["orderIds"];
-                        //    if (strOrderIds != "")
-                        //    {
-                        //        //List<string> listOrderIds = strOrderIds.Split(',').ToList();
-
-                        //        foreach (string item in listOrderIds)
-                        //        {
-                        //            int orderId = TugBusinessLogic.Module.Util.toint(item);
-                        //            OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
-                        //            if (od != null)
-                        //            {
-                        //                od.HasInvoice = "否";
-                        //                db.Entry(od).State = System.Data.Entity.EntityState.Modified;
-                        //                db.SaveChanges();
-                        //            }
-                        //        }
-                        //    }
-                        //}
-
-                        string strOrderIds = Request.Form["orderIds"];
-                        if (strOrderIds != "")
-                        {
-                            foreach (string item in listOrderIds)
+                            Billing b = db.Billing.FirstOrDefault(u => u.OrderID == oid);
+                            if (b != null)
                             {
-                                int orderId = TugBusinessLogic.Module.Util.toint(item);
-                                TugBusinessLogic.Module.FinanceLogic.RejectInvoice(orderId);
+                                deletedBillings.Add(b);
                             }
                         }
 
+                        {
+                            db.Billing.RemoveRange(deletedBillings);
+                            db.SaveChanges();
 
-                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+
+                            ////更新订单的字段 V_OrderInfor_HasInvoice	是否已有帳單	
+                            //{
+                            //    string strOrderIds = Request.Form["orderIds"];
+                            //    if (strOrderIds != "")
+                            //    {
+                            //        //List<string> listOrderIds = strOrderIds.Split(',').ToList();
+
+                            //        foreach (string item in listOrderIds)
+                            //        {
+                            //            int orderId = TugBusinessLogic.Module.Util.toint(item);
+                            //            OrderInfor od = db.OrderInfor.FirstOrDefault(u => u.IDX == orderId);
+                            //            if (od != null)
+                            //            {
+                            //                od.HasInvoice = "否";
+                            //                db.Entry(od).State = System.Data.Entity.EntityState.Modified;
+                            //                db.SaveChanges();
+                            //            }
+                            //        }
+                            //    }
+                            //}
+
+                            string strOrderIds = Request.Form["orderIds"];
+                            if (strOrderIds != "")
+                            {
+                                foreach (string item in listOrderIds)
+                                {
+                                    int orderId = TugBusinessLogic.Module.Util.toint(item);
+                                    TugBusinessLogic.Module.FinanceLogic.RejectInvoice(orderId);
+                                }
+                            }
+
+                            trans.Complete();
+
+                            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        }
+                        //else
+                        //{
+                        //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
+                        //}
                     }
-                    //else
-                    //{
-                    //    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                    //}
                 }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                catch (Exception ex)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
             }
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
@@ -575,36 +580,93 @@ namespace TugManagementSystem.Controllers
             string jobNo, string remark, double discount, double amount, string month, string jsonArrayItems)
         {
             this.Internationalization();
-
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                TugDataEntities db = new TugDataEntities();
+
+                try
                 {
-                    Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
-
-                    if (oldBilling != null)
+                    TugDataEntities db = new TugDataEntities();
                     {
-                        oldBilling.BillingTemplateID = billingTemplateId;
-                        oldBilling.BillingTypeID = billingTypeId;
-                        oldBilling.TimeTypeID = timeTypeId;
-                        oldBilling.Discount = discount;
-                        oldBilling.Amount = Math.Round(amount,2);
-                        oldBilling.JobNo = jobNo;
-                        oldBilling.Remark = remark;
-                        oldBilling.Month = month;
-                        oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
 
-                        db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
-                        int ret = db.SaveChanges();
-
-                        if(ret > 0)
+                        if (oldBilling != null)
                         {
-                            List<BillingItem> invoiceItems = db.BillingItem.Where(u => u.BillingID == billingId).ToList();
-                            if (invoiceItems != null)
+                            oldBilling.BillingTemplateID = billingTemplateId;
+                            oldBilling.BillingTypeID = billingTypeId;
+                            oldBilling.TimeTypeID = timeTypeId;
+                            oldBilling.Discount = discount;
+                            oldBilling.Amount = Math.Round(amount, 2);
+                            oldBilling.JobNo = jobNo;
+                            oldBilling.Remark = remark;
+                            oldBilling.Month = month;
+                            oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
+                            int ret = db.SaveChanges();
+
+                            if (ret > 0)
                             {
-                                db.BillingItem.RemoveRange(invoiceItems);
-                                ret = db.SaveChanges();
-                                if (ret > 0)
+                                List<BillingItem> invoiceItems = db.BillingItem.Where(u => u.BillingID == billingId).ToList();
+                                if (invoiceItems != null)
+                                {
+                                    db.BillingItem.RemoveRange(invoiceItems);
+                                    ret = db.SaveChanges();
+                                    if (ret > 0)
+                                    {
+                                        List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                                        listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                                        if (listInVoiceItems != null)
+                                        {
+                                            foreach (InVoiceItem item in listInVoiceItems)
+                                            {
+                                                BillingItem bi = new BillingItem();
+                                                bi.BillingID = billingId;
+                                                bi.SchedulerID = item.SchedulerID;
+                                                bi.ItemID = item.ItemID;
+                                                bi.UnitPrice = item.UnitPrice;
+                                                bi.Currency = item.Currency;
+                                                bi.OwnerID = -1;
+                                                bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                                                bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                                bi.UserDefinedCol1 = "";
+                                                bi.UserDefinedCol2 = "";
+                                                bi.UserDefinedCol3 = "";
+                                                bi.UserDefinedCol4 = "";
+
+                                                //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                                                //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                                                //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                                                //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                                                //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                                                //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                                                //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                                                //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                                                bi.UserDefinedCol9 = "";
+                                                bi.UserDefinedCol10 = "";
+
+                                                bi = db.BillingItem.Add(bi);
+                                                ret = db.SaveChanges();
+                                            }
+                                            trans.Complete();
+                                        }
+                                        else
+                                        {
+                                            trans.Dispose();
+                                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        trans.Dispose();
+                                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                    }
+
+                                }
+                                else
                                 {
                                     List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
                                     listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
@@ -643,82 +705,37 @@ namespace TugManagementSystem.Controllers
 
                                             bi = db.BillingItem.Add(bi);
                                             ret = db.SaveChanges();
+
+
                                         }
+                                        trans.Complete();
                                     }
-                                    else 
+                                    else
                                     {
+                                        trans.Dispose();
                                         return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
-                                else
-                                {
-                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
-                                }
-                                
                             }
-                            else 
+                            else
                             {
-                                List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
-                                listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
-                                if (listInVoiceItems != null)
-                                {
-                                    foreach (InVoiceItem item in listInVoiceItems)
-                                    {
-                                        BillingItem bi = new BillingItem();
-                                        bi.BillingID = billingId;
-                                        bi.SchedulerID = item.SchedulerID;
-                                        bi.ItemID = item.ItemID;
-                                        bi.UnitPrice = item.UnitPrice;
-                                        bi.Currency = item.Currency;
-                                        bi.OwnerID = -1;
-                                        bi.UserID = Session.GetDataFromSession<int>("userid"); ;
-                                        bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                                        bi.UserDefinedCol1 = "";
-                                        bi.UserDefinedCol2 = "";
-                                        bi.UserDefinedCol3 = "";
-                                        bi.UserDefinedCol4 = "";
-
-                                        //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                                        //    aScheduler.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
-
-                                        //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                                        //    aScheduler.UserDefinedCol6 = Util.toint(Request.Form["UserDefinedCol6"].Trim());
-
-                                        //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                                        //    aScheduler.UserDefinedCol7 = Util.toint(Request.Form["UserDefinedCol7"].Trim());
-
-                                        //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                                        //    aScheduler.UserDefinedCol8 = Util.toint(Request.Form["UserDefinedCol8"].Trim());
-
-                                        bi.UserDefinedCol9 = "";
-                                        bi.UserDefinedCol10 = "";
-
-                                        bi = db.BillingItem.Add(bi);
-                                        ret = db.SaveChanges();
-                                    }
-                                }
-                                else
-                                {
-                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
-                                }
+                                trans.Dispose();
+                                return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                             }
                         }
                         else
                         {
-                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                            trans.Dispose();
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
                         }
                     }
-                    else
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
-                    }
+                }
+                catch (Exception)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
-            }
-
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
 
@@ -1142,52 +1159,58 @@ namespace TugManagementSystem.Controllers
         {
             TugDataModel.Credit credit;
             this.Internationalization();
-            try
+
+            using (TransactionScope trans = new TransactionScope())
             {
-                TugDataEntities db = new TugDataEntities();
+                try
                 {
-                    credit = new Credit();
-
-                    credit.BillingID = billingId;
-                    credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
-                    credit.CreditContent = creditContent;
-                    credit.CreditAmount = creditAmount;
-                    credit.UserDefinedCol10 = creditdate;
-                    credit.Remark = remark;
-                    credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    credit.OwnerID = -1;
-                    credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
-
-                    //credit.UserDefinedCol1 = "";
-                    //credit.UserDefinedCol2 = "";
-                    //credit.UserDefinedCol3 = "";
-                    //credit.UserDefinedCol4 = "";
-                    //credit.UserDefinedCol5 = 0;
-                    //credit.UserDefinedCol6 = 0;
-                    //credit.UserDefinedCol7 = 0;
-                    //credit.UserDefinedCol8 = 0;
-
-                    //credit.UserDefinedCol9 = "";
-                    //credit.UserDefinedCol10 = "";
-
-                    credit = db.Credit.Add(credit);
-                    db.SaveChanges();
-
-
-                    //更新账单中的回扣金额
+                    TugDataEntities db = new TugDataEntities();
                     {
-                        TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling(billingId);
-                    }
-                    
-                }
+                        credit = new Credit();
 
-                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, billing_id = credit.IDX };
-                return Json(ret, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                return Json(ret, JsonRequestBehavior.AllowGet);
+                        credit.BillingID = billingId;
+                        credit.CreditCode = "C" + billingCode.Substring(1, billingCode.Length - 1);
+                        credit.CreditContent = creditContent;
+                        credit.CreditAmount = creditAmount;
+                        credit.UserDefinedCol10 = creditdate;
+                        credit.Remark = remark;
+                        credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        credit.OwnerID = -1;
+                        credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
+
+                        //credit.UserDefinedCol1 = "";
+                        //credit.UserDefinedCol2 = "";
+                        //credit.UserDefinedCol3 = "";
+                        //credit.UserDefinedCol4 = "";
+                        //credit.UserDefinedCol5 = 0;
+                        //credit.UserDefinedCol6 = 0;
+                        //credit.UserDefinedCol7 = 0;
+                        //credit.UserDefinedCol8 = 0;
+
+                        //credit.UserDefinedCol9 = "";
+                        //credit.UserDefinedCol10 = "";
+
+                        credit = db.Credit.Add(credit);
+                        db.SaveChanges();
+
+
+                        //更新账单中的回扣金额
+                        {
+                            TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling(billingId);
+                        }
+
+                    }
+
+                    trans.Complete();
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE, billing_id = credit.IDX };
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    trans.Dispose();
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
@@ -1201,65 +1224,73 @@ namespace TugManagementSystem.Controllers
             this.Internationalization();
 
             #region Edit
+            
 
             if (Request.Form["oper"].Equals("edit"))
             {
-                try
+                using (TransactionScope trans = new TransactionScope())
                 {
-                    TugDataEntities db = new TugDataEntities();
 
-                    int idx = TugBusinessLogic.Module.Util.toint(Request.Form["IDX"].Trim());
-                    Credit aOrder = db.Credit.Where(u => u.IDX == idx).FirstOrDefault();
-
-                    if (aOrder == null)
+                    try
                     {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                    }
-                    else
-                    {
+                        TugDataEntities db = new TugDataEntities();
 
-                        aOrder.CreditContent = Request.Form["CreditContent"].Trim();
-                        aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        int idx = TugBusinessLogic.Module.Util.toint(Request.Form["IDX"].Trim());
+                        Credit aOrder = db.Credit.Where(u => u.IDX == idx).FirstOrDefault();
 
-                        aOrder.CreditAmount = TugBusinessLogic.Module.Util.tonumeric(Request.Form["CreditAmount"].Trim());
-                        aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
-                        aOrder.Remark = Request.Form["Remark"].Trim();
-
-
-                        //aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
-                        //aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
-                        //aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
-                        //aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
-
-                        //if (Request.Form["UserDefinedCol5"].Trim() != "")
-                        //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
-
-                        //if (Request.Form["UserDefinedCol6"].Trim() != "")
-                        //    aOrder.UserDefinedCol6 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol6"].Trim());
-
-                        //if (Request.Form["UserDefinedCol7"].Trim() != "")
-                        //    aOrder.UserDefinedCol7 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol7"].Trim());
-
-                        //if (Request.Form["UserDefinedCol8"].Trim() != "")
-                        //    aOrder.UserDefinedCol8 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol8"].Trim());
-
-                        //aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
-                        //aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
-
-                        db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-
-                        //更新账单的回扣金额
+                        if (aOrder == null)
                         {
-                            TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling((int)aOrder.BillingID);
+                            trans.Dispose();
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                         }
+                        else
+                        {
 
-                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                            aOrder.CreditContent = Request.Form["CreditContent"].Trim();
+                            aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            aOrder.CreditAmount = TugBusinessLogic.Module.Util.tonumeric(Request.Form["CreditAmount"].Trim());
+                            aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+                            aOrder.Remark = Request.Form["Remark"].Trim();
+
+
+                            //aOrder.UserDefinedCol1 = Request.Form["UserDefinedCol1"].Trim();
+                            //aOrder.UserDefinedCol2 = Request.Form["UserDefinedCol2"].Trim();
+                            //aOrder.UserDefinedCol3 = Request.Form["UserDefinedCol3"].Trim();
+                            //aOrder.UserDefinedCol4 = Request.Form["UserDefinedCol4"].Trim();
+
+                            //if (Request.Form["UserDefinedCol5"].Trim() != "")
+                            //    aOrder.UserDefinedCol5 = Convert.ToDouble(Request.Form["UserDefinedCol5"].Trim());
+
+                            //if (Request.Form["UserDefinedCol6"].Trim() != "")
+                            //    aOrder.UserDefinedCol6 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol6"].Trim());
+
+                            //if (Request.Form["UserDefinedCol7"].Trim() != "")
+                            //    aOrder.UserDefinedCol7 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol7"].Trim());
+
+                            //if (Request.Form["UserDefinedCol8"].Trim() != "")
+                            //    aOrder.UserDefinedCol8 = TugBusinessLogic.Module.Util.toint(Request.Form["UserDefinedCol8"].Trim());
+
+                            //aOrder.UserDefinedCol9 = Request.Form["UserDefinedCol9"].Trim();
+                            //aOrder.UserDefinedCol10 = Request.Form["UserDefinedCol10"].Trim();
+
+                            db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+
+                            //更新账单的回扣金额
+                            {
+                                TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling((int)aOrder.BillingID);
+                            }
+
+                            trans.Complete();
+                            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        }
                     }
-                }
-                catch (Exception exp)
-                {
-                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                    catch (Exception exp)
+                    {
+                        trans.Dispose();
+                        return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                    }
                 }
             }
 
@@ -1278,27 +1309,34 @@ namespace TugManagementSystem.Controllers
 
             this.Internationalization();
 
-            TugDataEntities db = new TugDataEntities();
-
-            var list = db.Credit.Where(u => u.IDX == creditId).ToList();
-            if(list != null)
+            using (TransactionScope trans = new TransactionScope())
             {
-                //保存删除的回扣单对应的billingId
-                int billingIdOfDeletedCredit = (int)list[0].BillingID;
-                
 
-                db.Credit.RemoveRange(list);
-                if(db.SaveChanges() > 0)
+                TugDataEntities db = new TugDataEntities();
+
+                var list = db.Credit.Where(u => u.IDX == creditId).ToList();
+                if (list != null)
                 {
-                    //更新账单的回扣金额
+                    //保存删除的回扣单对应的billingId
+                    int billingIdOfDeletedCredit = (int)list[0].BillingID;
+
+
+                    db.Credit.RemoveRange(list);
+                    if (db.SaveChanges() > 0)
                     {
-                        TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling(billingIdOfDeletedCredit);
+                        //更新账单的回扣金额
+                        {
+                            TugBusinessLogic.Module.FinanceLogic.UpdateTotalRebateOfBilling(billingIdOfDeletedCredit);
+                        }
+
+                        trans.Complete();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
                     }
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
-                }
-                else
-                {
-                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
+                    else
+                    {
+                        trans.Dispose();
+                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
+                    }
                 }
             }
             return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE });
@@ -1506,6 +1544,7 @@ namespace TugManagementSystem.Controllers
                         var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billing_code.Trim());
                         if (tmp != null)
                         {
+                            trans.Dispose();
                             var ret2 = new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE };
                             //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                             return Json(ret2, JsonRequestBehavior.AllowGet);
@@ -1725,38 +1764,44 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
-                //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
-
-                if (billIds != "")
+                try
                 {
-                    List<string> listBillingIds = billIds.Split(',').ToList();
+                    //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
+                    //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
 
-                    TugDataEntities db = new TugDataEntities();
 
-                    foreach (string billingId in listBillingIds)
+                    if (billIds != "")
                     {
-                        int bid = TugBusinessLogic.Module.Util.toint(billingId);
+                        List<string> listBillingIds = billIds.Split(',').ToList();
 
-                        Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
-                        if (b != null)
+                        TugDataEntities db = new TugDataEntities();
+
+                        foreach (string billingId in listBillingIds)
                         {
-                            TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
-                            TugBusinessLogic.Module.FinanceLogic.SetOrderServiceInvoiceStatus(bid, "否");
-                            db.Billing.Remove(b);
-                            db.SaveChanges();
-                            
-                        }
-                    }
+                            int bid = TugBusinessLogic.Module.Util.toint(billingId);
 
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                            Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
+                            if (b != null)
+                            {
+                                TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
+                                TugBusinessLogic.Module.FinanceLogic.SetOrderServiceInvoiceStatus(bid, "否");
+                                db.Billing.Remove(b);
+                                db.SaveChanges();
+
+                            }
+                        }
+                        trans.Complete();
+
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                catch (Exception ex)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
             }
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
@@ -1773,84 +1818,130 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                TugDataEntities db = new TugDataEntities();
+
+                try
                 {
-                    Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
-
-                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billing_code.Trim());
-                    if (tmp != null)
+                    TugDataEntities db = new TugDataEntities();
                     {
-                        if (tmp.IDX != oldBilling.IDX)
+                        Billing oldBilling = db.Billing.FirstOrDefault(u => u.IDX == billingId);
+
+                        Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billing_code.Trim());
+                        if (tmp != null)
                         {
-                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-
-                    if (oldBilling != null)
-                    {
-                        oldBilling.BillingTemplateID = billingTemplateId;
-                        oldBilling.BillingTypeID = billingTypeId;
-                        oldBilling.TimeTypeID = timeTypeId;
-                        oldBilling.Discount = discount;
-                        oldBilling.Amount = Math.Round(amount,2);
-                        oldBilling.BillingCode = billing_code.Trim();
-                        oldBilling.JobNo = jobNo;
-                        if (ratio1 != null)
-                        oldBilling.Ratio1 = (double?)Math.Round((double)ratio1, 2);
-                        if (ratio2 != null)
-                        oldBilling.Ratio2 = (double?)Math.Round((double)ratio2, 2);
-                        if (ratio3 != null)
-                        oldBilling.Ratio3 = (double?)Math.Round((double)ratio3, 2);
-                        if (ratio4 != null)
-                        oldBilling.Ratio4 = (double?)Math.Round((double)ratio4, 2);
-                        if (ratio5 != null)
-                        oldBilling.Ratio5 = (double?)Math.Round((double)ratio5, 2);
-                        if (ratio6 != null)
-                        oldBilling.Ratio6 = (double?)Math.Round((double)ratio6, 2);
-                        if (ratio7 != null)
-                        oldBilling.Ratio7 = (double?)Math.Round((double)ratio7, 2);
-                        if (minTime != null)
-                        oldBilling.MinTime = (double?)Math.Round((double)minTime, 2); 
-
-                        oldBilling.Remark = remark;
-                        oldBilling.Month = month;
-                        oldBilling.UserDefinedCol10 = date;
-                        oldBilling.IsShowShipLengthRule = isShowShipLengthRule;
-                        oldBilling.IsShowShipTEUSRule = isShowShipTEUSRule;
-                        oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
-                        int ret = db.SaveChanges();
-
-                        if (ret > 0)
-                        {
-                            #region 更新客户船长、箱量
-                            V_Billing2 vb2 = db.V_Billing2.FirstOrDefault(u => u.IDX == billingId);
-                            if (vb2 != null)
+                            if (tmp.IDX != oldBilling.IDX)
                             {
-                                //vb2.ShipID;
-                                CustomerShip cs = db.CustomerShip.FirstOrDefault(u => u.IDX == vb2.ShipID);
-                                if (cs != null)
-                                {
-                                    cs.Length = customer_ship_length;
-                                    cs.TEUS = customer_ship_teus;
-                                    db.Entry(cs).State = System.Data.Entity.EntityState.Modified;
-                                    db.SaveChanges();
-                                }
+                                trans.Dispose();
+                                return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                             }
-                            
-                            #endregion
+                        }
 
-                            #region 订单收费项
-                            //1.订单收费项
-                            List<BillingItem> invoiceItems = db.BillingItem.Where(u => u.BillingID == billingId).ToList();
-                            if (invoiceItems != null)
+                        if (oldBilling != null)
+                        {
+                            oldBilling.BillingTemplateID = billingTemplateId;
+                            oldBilling.BillingTypeID = billingTypeId;
+                            oldBilling.TimeTypeID = timeTypeId;
+                            oldBilling.Discount = discount;
+                            oldBilling.Amount = Math.Round(amount, 2);
+                            oldBilling.BillingCode = billing_code.Trim();
+                            oldBilling.JobNo = jobNo;
+                            if (ratio1 != null)
+                                oldBilling.Ratio1 = (double?)Math.Round((double)ratio1, 2);
+                            if (ratio2 != null)
+                                oldBilling.Ratio2 = (double?)Math.Round((double)ratio2, 2);
+                            if (ratio3 != null)
+                                oldBilling.Ratio3 = (double?)Math.Round((double)ratio3, 2);
+                            if (ratio4 != null)
+                                oldBilling.Ratio4 = (double?)Math.Round((double)ratio4, 2);
+                            if (ratio5 != null)
+                                oldBilling.Ratio5 = (double?)Math.Round((double)ratio5, 2);
+                            if (ratio6 != null)
+                                oldBilling.Ratio6 = (double?)Math.Round((double)ratio6, 2);
+                            if (ratio7 != null)
+                                oldBilling.Ratio7 = (double?)Math.Round((double)ratio7, 2);
+                            if (minTime != null)
+                                oldBilling.MinTime = (double?)Math.Round((double)minTime, 2);
+
+                            oldBilling.Remark = remark;
+                            oldBilling.Month = month;
+                            oldBilling.UserDefinedCol10 = date;
+                            oldBilling.IsShowShipLengthRule = isShowShipLengthRule;
+                            oldBilling.IsShowShipTEUSRule = isShowShipTEUSRule;
+                            oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            db.Entry(oldBilling).State = System.Data.Entity.EntityState.Modified;
+                            int ret = db.SaveChanges();
+
+                            if (ret > 0)
                             {
-                                db.BillingItem.RemoveRange(invoiceItems);
-                                ret = db.SaveChanges();
-                                if (ret > 0)
+                                #region 更新客户船长、箱量
+                                V_Billing2 vb2 = db.V_Billing2.FirstOrDefault(u => u.IDX == billingId);
+                                if (vb2 != null)
+                                {
+                                    //vb2.ShipID;
+                                    CustomerShip cs = db.CustomerShip.FirstOrDefault(u => u.IDX == vb2.ShipID);
+                                    if (cs != null)
+                                    {
+                                        cs.Length = customer_ship_length;
+                                        cs.TEUS = customer_ship_teus;
+                                        db.Entry(cs).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                }
+
+                                #endregion
+
+                                #region 订单收费项
+                                //1.订单收费项
+                                List<BillingItem> invoiceItems = db.BillingItem.Where(u => u.BillingID == billingId).ToList();
+                                if (invoiceItems != null)
+                                {
+                                    db.BillingItem.RemoveRange(invoiceItems);
+                                    ret = db.SaveChanges();
+                                    if (ret > 0)
+                                    {
+                                        List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
+                                        listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
+                                        if (listInVoiceItems != null)
+                                        {
+                                            foreach (InVoiceItem item in listInVoiceItems)
+                                            {
+                                                BillingItem bi = new BillingItem();
+                                                bi.BillingID = billingId;
+                                                bi.SchedulerID = item.SchedulerID;
+                                                bi.ItemID = item.ItemID;
+                                                bi.UnitPrice = item.UnitPrice;
+                                                bi.Currency = item.Currency;
+                                                bi.OwnerID = -1;
+                                                bi.UserID = Session.GetDataFromSession<int>("userid"); ;
+                                                bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                                bi.UserDefinedCol1 = "";
+                                                bi.UserDefinedCol2 = "";
+                                                bi.UserDefinedCol3 = "";
+                                                bi.UserDefinedCol4 = "";
+
+                                                bi.UserDefinedCol9 = "";
+                                                bi.UserDefinedCol10 = "";
+
+                                                bi = db.BillingItem.Add(bi);
+                                                ret = db.SaveChanges();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            trans.Dispose();
+                                            return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        trans.Dispose();
+                                        return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
+                                    }
+
+                                }
+                                else
                                 {
                                     List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
                                     listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
@@ -1881,119 +1972,85 @@ namespace TugManagementSystem.Controllers
                                     }
                                     else
                                     {
+                                        trans.Dispose();
                                         return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
-                                else
-                                {
-                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
-                                }
+                                #endregion
 
+                                #region 账单的汇总项目
+                                //2.插入账单的汇总项目
+
+                                List<AmountSum> oldAmountSumList = db.AmountSum.Where(u => u.BillingID == oldBilling.IDX).ToList();
+                                db.AmountSum.RemoveRange(oldAmountSumList);
+                                db.SaveChanges();
+
+                                List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
+                                listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
+                                if (listInVoiceSummaryItems != null)
+                                {
+                                    V_Invoice2 vi2 = db.V_Invoice2.FirstOrDefault(u => u.BillingID == oldBilling.IDX);
+
+                                    foreach (InVoiceSummaryItem item in listInVoiceSummaryItems)
+                                    {
+                                        AmountSum amtSum = new AmountSum();
+                                        amtSum.CustomerID = vi2.CustomerID;
+                                        amtSum.CustomerShipID = vi2.ShipID;
+                                        amtSum.BillingID = oldBilling.IDX;
+                                        amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(oldBilling.CreateDate);
+                                        amtSum.SchedulerID = item.SchedulerID;
+                                        amtSum.Amount = Math.Round(item.Amount, 2);
+                                        amtSum.FuelAmount = item.FuelPrice;
+                                        amtSum.Currency = item.Currency;
+                                        amtSum.Hours = item.Hours;
+                                        amtSum.Year = oldBilling.Month.Split('-')[0];//DateTime.Now.Year.ToString();
+                                        amtSum.Month = oldBilling.Month.Split('-')[1];//oldBilling.Month;
+                                        amtSum.OwnerID = -1;
+                                        amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                        amtSum.UserID = Session.GetDataFromSession<int>("userid");
+
+                                        amtSum = db.AmountSum.Add(amtSum);
+                                        db.SaveChanges();
+                                    }
+                                }
+                                #endregion
+
+                                #region 更新回扣单编号
+                                System.Linq.Expressions.Expression<Func<Credit, bool>> expCredit = u => u.BillingID == billingId;
+                                List<Credit> tmpCredit = db.Credit.Where(expCredit).Select(u => u).ToList<Credit>();
+                                //Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
+                                if (tmpCredit.Count != 0)
+                                {
+                                    foreach (var item in tmpCredit)
+                                    {
+                                        item.CreditCode = "C" + billing_code.Substring(1, billing_code.Length - 1);
+                                        db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                }
+                                #endregion
+
+                                trans.Complete();
                             }
                             else
                             {
-                                List<InVoiceItem> listInVoiceItems = new List<InVoiceItem>();
-                                listInVoiceItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceItem>(jsonArrayItems);
-                                if (listInVoiceItems != null)
-                                {
-                                    foreach (InVoiceItem item in listInVoiceItems)
-                                    {
-                                        BillingItem bi = new BillingItem();
-                                        bi.BillingID = billingId;
-                                        bi.SchedulerID = item.SchedulerID;
-                                        bi.ItemID = item.ItemID;
-                                        bi.UnitPrice = item.UnitPrice;
-                                        bi.Currency = item.Currency;
-                                        bi.OwnerID = -1;
-                                        bi.UserID = Session.GetDataFromSession<int>("userid"); ;
-                                        bi.CreateDate = bi.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                                        bi.UserDefinedCol1 = "";
-                                        bi.UserDefinedCol2 = "";
-                                        bi.UserDefinedCol3 = "";
-                                        bi.UserDefinedCol4 = "";
-
-                                        bi.UserDefinedCol9 = "";
-                                        bi.UserDefinedCol10 = "";
-
-                                        bi = db.BillingItem.Add(bi);
-                                        ret = db.SaveChanges();
-                                    }
-                                }
-                                else
-                                {
-                                    return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
-                                }
+                                trans.Dispose();
+                                return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_CODE }, JsonRequestBehavior.AllowGet);
                             }
-                            #endregion
-
-                            #region 账单的汇总项目
-                            //2.插入账单的汇总项目
-
-                            List<AmountSum> oldAmountSumList = db.AmountSum.Where(u => u.BillingID == oldBilling.IDX).ToList();
-                            db.AmountSum.RemoveRange(oldAmountSumList);
-                            db.SaveChanges();
-
-                            List<InVoiceSummaryItem> listInVoiceSummaryItems = new List<InVoiceSummaryItem>();
-                            listInVoiceSummaryItems = TugBusinessLogic.Utils.JSONStringToList<InVoiceSummaryItem>(jsonArraySummaryItems);
-                            if (listInVoiceSummaryItems != null)
-                            {
-                                V_Invoice2 vi2 = db.V_Invoice2.FirstOrDefault(u => u.BillingID == oldBilling.IDX);
-
-                                foreach (InVoiceSummaryItem item in listInVoiceSummaryItems)
-                                {
-                                    AmountSum amtSum = new AmountSum();
-                                    amtSum.CustomerID = vi2.CustomerID;
-                                    amtSum.CustomerShipID = vi2.ShipID;
-                                    amtSum.BillingID = oldBilling.IDX;
-                                    amtSum.BillingDateTime = TugBusinessLogic.Utils.CNDateTimeToDateTime(oldBilling.CreateDate);
-                                    amtSum.SchedulerID = item.SchedulerID;
-                                    amtSum.Amount = Math.Round(item.Amount,2);
-                                    amtSum.FuelAmount = item.FuelPrice;
-                                    amtSum.Currency = item.Currency;
-                                    amtSum.Hours = item.Hours;
-                                    amtSum.Year = oldBilling.Month.Split('-')[0];//DateTime.Now.Year.ToString();
-                                    amtSum.Month = oldBilling.Month.Split('-')[1];//oldBilling.Month;
-                                    amtSum.OwnerID = -1;
-                                    amtSum.CreateDate = amtSum.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                                    amtSum.UserID = Session.GetDataFromSession<int>("userid");
-
-                                    amtSum = db.AmountSum.Add(amtSum);
-                                    db.SaveChanges();
-                                }
-                            }
-                            #endregion
-
-                            #region 更新回扣单编号
-                            System.Linq.Expressions.Expression<Func<Credit, bool>> expCredit = u => u.BillingID == billingId;
-                            List<Credit> tmpCredit = db.Credit.Where(expCredit).Select(u => u).ToList<Credit>();
-                            //Credit tmpCredit = db.Credit.Where(expCredit).FirstOrDefault();
-                            if (tmpCredit.Count != 0)
-                            {
-                                foreach (var item in tmpCredit)
-                                {
-                                    item.CreditCode = "C" + billing_code.Substring(1, billing_code.Length - 1);
-                                    db.Entry(item).State = System.Data.Entity.EntityState.Modified;
-                                    db.SaveChanges();
-                                }
-                            }
-                            #endregion
                         }
                         else
                         {
-                            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_CODE }, JsonRequestBehavior.AllowGet);
+                            trans.Dispose();
+                            return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
                         }
                     }
-                    else
-                    {
-                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception ex)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
-            }
-
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE }, JsonRequestBehavior.AllowGet);
         }
 
@@ -2252,6 +2309,7 @@ namespace TugManagementSystem.Controllers
                         var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
                         if (tmp != null)
                         {
+                            trans.Dispose();
                             var ret2 = new { code = Resources.Common.FAIL_CODE, message = "帳單編號已存在!" };
                             //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
                             return Json(ret2, JsonRequestBehavior.AllowGet);
@@ -2401,63 +2459,68 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
-                //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
-
-                if (billIds != "")
+                try
                 {
-                    List<string> listBillingIds = billIds.Split(',').ToList();
+                    //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
+                    //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
 
-                    TugDataEntities db = new TugDataEntities();
-
-                    foreach (string billingId in listBillingIds)
+                    if (billIds != "")
                     {
-                        int bid = TugBusinessLogic.Module.Util.toint(billingId);
+                        List<string> listBillingIds = billIds.Split(',').ToList();
 
-                        Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
-                        if (b != null)
+                        TugDataEntities db = new TugDataEntities();
+
+                        foreach (string billingId in listBillingIds)
                         {
-                            //TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
-                            var lstOrderServices = db.SpecialBillingItem.Where(u => u.SpecialBillingID == b.IDX).ToList();
-                            if (lstOrderServices != null)
+                            int bid = TugBusinessLogic.Module.Util.toint(billingId);
+
+                            Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
+                            if (b != null)
                             {
-                                foreach (var item in lstOrderServices)
+                                //TugBusinessLogic.Module.FinanceLogic.RejectInvoice2(bid);
+                                var lstOrderServices = db.SpecialBillingItem.Where(u => u.SpecialBillingID == b.IDX).ToList();
+                                if (lstOrderServices != null)
                                 {
-                                    //更新订单服务的账单标记
+                                    foreach (var item in lstOrderServices)
                                     {
-                                        OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
-                                        os.HasBilling = "否";
-                                        os.HasBillingInFlow = "否";
-                                        os.BillingType = 0;
-                                        db.Entry(os).State = System.Data.Entity.EntityState.Modified;
-                                        db.SaveChanges();
-
-
-                                        OrderInfor ordinfor = db.OrderInfor.FirstOrDefault(u => u.IDX == os.OrderID);
-                                        if (ordinfor != null)
+                                        //更新订单服务的账单标记
                                         {
-                                            ordinfor.HasInvoice = "否";
-                                            db.Entry(ordinfor).State = System.Data.Entity.EntityState.Modified;
+                                            OrderService os = db.OrderService.First(u => u.IDX == item.OrderServiceID);
+                                            os.HasBilling = "否";
+                                            os.HasBillingInFlow = "否";
+                                            os.BillingType = 0;
+                                            db.Entry(os).State = System.Data.Entity.EntityState.Modified;
                                             db.SaveChanges();
+
+
+                                            OrderInfor ordinfor = db.OrderInfor.FirstOrDefault(u => u.IDX == os.OrderID);
+                                            if (ordinfor != null)
+                                            {
+                                                ordinfor.HasInvoice = "否";
+                                                db.Entry(ordinfor).State = System.Data.Entity.EntityState.Modified;
+                                                db.SaveChanges();
+                                            }
                                         }
                                     }
                                 }
+
+                                db.Billing.Remove(b);
+                                db.SaveChanges();
+
                             }
-
-                            db.Billing.Remove(b);
-                            db.SaveChanges();
-
                         }
-                    }
 
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        trans.Complete();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                catch (Exception ex)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
             }
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
@@ -2467,8 +2530,9 @@ namespace TugManagementSystem.Controllers
         public ActionResult EditSpecialInvoice(int billingId, double amount, string month, string date, string billingCode, string jsonArrayItems)
         {
             this.Internationalization();
-            
 
+            using (TransactionScope trans = new TransactionScope())
+            {
                 try
                 {
                     TugDataEntities db = new TugDataEntities();
@@ -2480,6 +2544,7 @@ namespace TugManagementSystem.Controllers
                         {
                             if (tmp.IDX != oldBilling.IDX)
                             {
+                                trans.Dispose();
                                 return Json(new { code = Resources.Common.FAIL_CODE, message = "帳單編號已存在!" }, JsonRequestBehavior.AllowGet);
                             }
                         }
@@ -2488,7 +2553,7 @@ namespace TugManagementSystem.Controllers
                         if (oldBilling != null)
                         {
                             oldBilling.BillingCode = billingCode.Trim();
-                            oldBilling.Amount = Math.Round(amount,2);
+                            oldBilling.Amount = Math.Round(amount, 2);
                             oldBilling.Month = month;
                             oldBilling.UserDefinedCol10 = date;
                             oldBilling.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -2532,11 +2597,13 @@ namespace TugManagementSystem.Controllers
                                         }
                                         else
                                         {
+                                            trans.Dispose();
                                             return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                                         }
                                     }
                                     else
                                     {
+                                        trans.Dispose();
                                         return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                                     }
 
@@ -2568,6 +2635,7 @@ namespace TugManagementSystem.Controllers
                                     }
                                     else
                                     {
+                                        trans.Dispose();
                                         return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                                     }
                                 }
@@ -2590,27 +2658,30 @@ namespace TugManagementSystem.Controllers
                                     }
                                 }
                                 #endregion
+
+                                trans.Complete();
                             }
                             else
                             {
-                                
+                                trans.Dispose();
                                 return Json(new { code = Resources.Common.FAIL_CODE, message = Resources.Common.FAIL_MESSAGE }, JsonRequestBehavior.AllowGet);
                             }
                         }
                         else
                         {
-                            
+                            trans.Dispose();
                             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE }, JsonRequestBehavior.AllowGet);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
+                    trans.Dispose();
                     return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE }, JsonRequestBehavior.AllowGet);
                 }
+            }
+            return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE }, JsonRequestBehavior.AllowGet);
 
-                return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE }, JsonRequestBehavior.AllowGet);
-            
         }
 
 
@@ -3146,36 +3217,41 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
-                //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
-
-                if (billIds != "")
+                try
                 {
-                    List<string> listBillingIds = billIds.Split(',').ToList();
+                    //Expression condition = Expression.Equal(Expression.Constant(1, typeof(int)), Expression.Constant(2, typeof(int)));
+                    //ParameterExpression parameter = Expression.Parameter(typeof(Billing));
 
-                    TugDataEntities db = new TugDataEntities();
-
-                    foreach (string billingId in listBillingIds)
+                    if (billIds != "")
                     {
-                        int bid = TugBusinessLogic.Module.Util.toint(billingId);
+                        List<string> listBillingIds = billIds.Split(',').ToList();
 
-                        Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
-                        if (b != null)
+                        TugDataEntities db = new TugDataEntities();
+
+                        foreach (string billingId in listBillingIds)
                         {
-                            db.Billing.Remove(b);
-                            db.SaveChanges();
+                            int bid = TugBusinessLogic.Module.Util.toint(billingId);
 
+                            Billing b = db.Billing.FirstOrDefault(u => u.IDX == bid);
+                            if (b != null)
+                            {
+                                db.Billing.Remove(b);
+                                db.SaveChanges();
+
+                            }
                         }
-                    }
 
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        trans.Complete();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                catch (Exception ex)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
             }
             return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
         }
@@ -3192,52 +3268,60 @@ namespace TugManagementSystem.Controllers
         {
 
             this.Internationalization();
-            try
+
+            using (TransactionScope trans = new TransactionScope())
             {
-                TugDataEntities db = new TugDataEntities();
+                try
                 {
-                    //0.验证账单编号是否已存在
-                    var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
-                    if (tmp != null)
+                    TugDataEntities db = new TugDataEntities();
                     {
-                        var ret2 = new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" };
-                        //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
-                        return Json(ret2, JsonRequestBehavior.AllowGet);
+                        //0.验证账单编号是否已存在
+                        var tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
+                        if (tmp != null)
+                        {
+                            trans.Dispose();
+                            var ret2 = new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" };
+                            //Response.Write(@Resources.Common.SUCCESS_MESSAGE);
+                            return Json(ret2, JsonRequestBehavior.AllowGet);
+                        }
+
+
+                        TugDataModel.Billing credit = new TugDataModel.Billing();
+
+                        credit.CustomerID = customerId;
+                        //credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
+                        credit.UserDefinedCol1 = title;
+                        credit.UserDefinedCol2 = content;
+                        credit.UserDefinedCol5 = money;
+                        credit.Amount = Math.Round(money, 2);
+                        credit.Month = month;
+                        credit.UserDefinedCol10 = date;
+                        credit.InvoiceType = "其他账单";
+                        credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        credit.OwnerID = -1;
+                        credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
+                        credit.BillingCode = billingCode.Trim();
+
+                        credit.TimesNo = 0;
+                        credit.Status = "创建";
+                        credit.Phase = 0;
+
+                        credit = db.Billing.Add(credit);
+                        db.SaveChanges();
+
                     }
 
+                    trans.Complete();
 
-                    TugDataModel.Billing credit = new TugDataModel.Billing();
-
-                    credit.CustomerID = customerId;
-                    //credit.CreditCode = "C" +  billingCode.Substring(1, billingCode.Length - 1 );
-                    credit.UserDefinedCol1 = title;
-                    credit.UserDefinedCol2 = content;
-                    credit.UserDefinedCol5 = money;
-                    credit.Amount = Math.Round(money,2);
-                    credit.Month = month;
-                    credit.UserDefinedCol10 = date;
-                    credit.InvoiceType = "其他账单";
-                    credit.CreateDate = credit.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    credit.OwnerID = -1;
-                    credit.UserID = credit.UserID = Session.GetDataFromSession<int>("userid");
-                    credit.BillingCode = billingCode.Trim();
-
-                    credit.TimesNo = 0;
-                    credit.Status = "创建";
-                    credit.Phase = 0;
-
-                    credit = db.Billing.Add(credit);
-                    db.SaveChanges();
-
+                    var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
+                    return Json(ret, JsonRequestBehavior.AllowGet);
                 }
-
-                var ret = new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE };
-                return Json(ret, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
-                return Json(ret, JsonRequestBehavior.AllowGet);
+                catch (Exception)
+                {
+                    trans.Dispose();
+                    var ret = new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE };
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
@@ -3247,52 +3331,58 @@ namespace TugManagementSystem.Controllers
         {
             this.Internationalization();
 
-            try
+            using (TransactionScope trans = new TransactionScope())
             {
-                TugDataEntities db = new TugDataEntities();
-
-
-                Billing aOrder = db.Billing.Where(u => u.IDX == billingId).FirstOrDefault();
-
-                if (aOrder == null)
+                try
                 {
-                    return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
-                }
-                else
-                {
+                    TugDataEntities db = new TugDataEntities();
 
-                    Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
-                    if (tmp != null)
+
+                    Billing aOrder = db.Billing.Where(u => u.IDX == billingId).FirstOrDefault();
+
+                    if (aOrder == null)
                     {
-                        if (tmp.IDX != aOrder.IDX)
-                        {
-                            return Json(new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" }, JsonRequestBehavior.AllowGet);
-                        }
+                        trans.Dispose();
+                        return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
                     }
+                    else
+                    {
 
-                    aOrder.CustomerID = customerId;
-                    aOrder.UserDefinedCol1 = title;
-                    aOrder.UserDefinedCol2 = content;
-                    aOrder.UserDefinedCol5 = money;
-                    aOrder.Amount = Math.Round(money,2);
-                    aOrder.Month = month;
-                    aOrder.UserDefinedCol10 = date;
-                    aOrder.BillingCode = billingCode.Trim();
+                        Billing tmp = db.Billing.FirstOrDefault(u => u.BillingCode.Trim() == billingCode.Trim());
+                        if (tmp != null)
+                        {
+                            if (tmp.IDX != aOrder.IDX)
+                            {
+                                trans.Dispose();
+                                return Json(new { code = Resources.Common.FAIL_CODE, message = "其他賬單編號已存在!" }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
 
-                    aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        aOrder.CustomerID = customerId;
+                        aOrder.UserDefinedCol1 = title;
+                        aOrder.UserDefinedCol2 = content;
+                        aOrder.UserDefinedCol5 = money;
+                        aOrder.Amount = Math.Round(money, 2);
+                        aOrder.Month = month;
+                        aOrder.UserDefinedCol10 = date;
+                        aOrder.BillingCode = billingCode.Trim();
 
-                    db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                        aOrder.LastUpDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                    return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                        db.Entry(aOrder).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        trans.Complete();
+                        return Json(new { code = Resources.Common.SUCCESS_CODE, message = Resources.Common.SUCCESS_MESSAGE });
+                    }
                 }
-            }
-            catch (Exception exp)
-            {
-                return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
-            }
+                catch (Exception exp)
+                {
+                    trans.Dispose();
+                    return Json(new { code = Resources.Common.EXCEPTION_CODE, message = Resources.Common.EXCEPTION_MESSAGE });
+                }
 
-
+            }
             return Json(new { code = Resources.Common.ERROR_CODE, message = Resources.Common.ERROR_MESSAGE });
         }
 
