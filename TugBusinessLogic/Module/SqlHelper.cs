@@ -28,6 +28,7 @@ namespace TugBusinessLogic.Module
                     DbCommand cmd = con.CreateCommand();
                     cmd.CommandText = spName;
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 180;
                     if (param != null && param.Length > 0) cmd.Parameters.AddRange(param);
                     System.Data.Common.DbDataAdapter adapter = new System.Data.SqlClient.SqlDataAdapter();
                     adapter.SelectCommand = cmd;
